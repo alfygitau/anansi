@@ -23,6 +23,7 @@ import ProfileInformation from "./pages/onboarding/PersonalInformation";
 import NextOfKin from "./pages/onboarding/NextOfKin";
 import TermsAndConditions from "./pages/onboarding/OnboardingTermsConditions";
 import OnboardingLayer from "./layouts/OnboardingLayer";
+import Statements from "./pages/statements/Statements";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           path="/onboarding/account-success"
           element={<AccountSuccess />}
         />
+        <Route path="/statements" element={<Statements />} />
 
         <Route path="/" element={<OnboardingLayer />}>
           <Route path="/onboarding/next-of-kin" element={<NextOfKin />} />
