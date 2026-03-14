@@ -1,0 +1,150 @@
+import { useState, useEffect } from "react";
+import {
+  Smartphone,
+  ArrowRight,
+  RefreshCw,
+  CheckCircle2,
+  Loader2,
+  MessageSquare,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
+const VerifyMobile = ({
+  phoneNumber = "+254 700 *** 000",
+  onResend,
+  onChangeNumber,
+}) => {
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [loading, setLoading] = useState(false);
+  const [timer, setTimer] = useState(45);
+  const navigate = useNavigate();
+
+  // Auto-focus next input logic
+  const handleChange = (e, index) => {
+    const value = e.target.value;
+    if (isNaN(value)) return;
+
+    const newOtp = [...otp];
+    newOtp[index] = value.substring(value.length - 1);
+    setOtp(newOtp);
+
+    if (value && e.target.nextSibling) {
+      e.target.nextSibling.focus();
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (timer > 0) setTimer(timer - 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [timer]);
+
+  const handleVerify = () => {
+    console.log(otp.join(""));
+    navigate("/verify-mobile");
+  };
+
+  return (
+    <div className="min-h-screen bg-white flex items-center justify-center p-6">
+      <div className="w-full max-w-[480px] relative">
+        <div className="bg-white rounded-[40px] border border-slate-100 p-10 md:p-14 shadow-2xl shadow-blue-900/5 text-center">
+          {/* Header Icon */}
+          <div className="w-20 h-20 bg-blue-50 rounded-[28px] flex items-center justify-center mx-auto mb-8 relative">
+            <Smartphone className="text-[#042159]" size={32} />
+            <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-green-500 rounded-full border-4 border-white flex items-center justify-center">
+              <MessageSquare size={12} className="text-white" />
+            </div>
+          </div>
+
+          <h1 className="text-2xl font-black text-[#042159] tracking-tight mb-3">
+            Verify Mobile Number
+          </h1>
+
+          <div className="mb-10">
+            <p className="text-slate-400 text-sm font-medium leading-relaxed">
+              We just sent a code to your phone
+            </p>
+            <div className="flex items-center justify-center gap-2 mt-1">
+              <span className="text-[#042159] font-bold">{phoneNumber}</span>
+              <button
+                onClick={onChangeNumber}
+                className="text-[10px] font-black uppercase text-[#4DB8E4] hover:underline"
+              >
+                Edit
+              </button>
+            </div>
+          </div>
+
+          {/* OTP Input Fields */}
+          <div className="flex justify-between gap-2 mb-10">
+            {otp.map((data, index) => (
+              <input
+                key={index}
+                type="text"
+                maxLength="1"
+                className="w-full h-16 text-center text-2xl font-black text-[#042159] bg-slate-50 border-2 rounded-2xl focus:border-[#4DB8E4] focus:bg-white focus:ring-4 focus:ring-[#4DB8E4]/10 transition-all outline-none"
+                value={data}
+                onChange={(e) => handleChange(e, index)}
+                onKeyDown={(e) => {
+                  if (
+                    e.key === "Backspace" &&
+                    !otp[index] &&
+                    e.target.previousSibling
+                  ) {
+                    e.target.previousSibling.focus();
+                  }
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Action Button */}
+          <button
+            onClick={handleVerify}
+            disabled={loading || otp.includes("")}
+            className="w-full h-[64px] bg-[#042159] text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#4DB8E4] transition-all disabled:opacity-20 disabled:grayscale shadow-xl shadow-blue-900/10 mb-8"
+          >
+            {loading ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              <>
+                Continue <ArrowRight size={20} />
+              </>
+            )}
+          </button>
+
+          {/* Resend Logic */}
+          <div className="pt-4">
+            {timer > 0 ? (
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-300">
+                Resend SMS in{" "}
+                <span className="text-[#4DB8E4] font-bold">{timer}s</span>
+              </p>
+            ) : (
+              <button
+                onClick={onResend}
+                className="flex items-center justify-center gap-2 text-[#4DB8E4] hover:text-[#042159] transition-all"
+              >
+                <RefreshCw size={14} />
+                <span className="text-[10px] font-black uppercase tracking-widest">
+                  Resend Code
+                </span>
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Floating Trust Badge */}
+        <div className="mt-8 flex items-center justify-center gap-2 text-slate-300">
+          <CheckCircle2 size={14} />
+          <p className="text-[9px] font-bold uppercase tracking-widest">
+            Identity Verified via Secure OTP
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default VerifyMobile;
