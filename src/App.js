@@ -24,13 +24,21 @@ import NextOfKin from "./pages/onboarding/NextOfKin";
 import TermsAndConditions from "./pages/onboarding/OnboardingTermsConditions";
 import OnboardingLayer from "./layouts/OnboardingLayer";
 import Statements from "./pages/statements/Statements";
+import Homelayer from "./layouts/Homelayer";
+import ProfilePage from "./pages/profile/Profile";
+import OtpVerification from "./pages/auth/OneTimePassword";
+import Notifications from "./pages/notifications/Notifications";
+import Guarantorship from "./pages/guarantorship/Guarantorship";
+import ForgotPassword from "./pages/forget-password/ForgetEmail";
+import ForgotOTPVerification from "./pages/forget-password/ForgotPasswordVerification";
+import CreateNewPassword from "./pages/forget-password/SetPassword";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/home" element={<Homepage />} />
         <Route path="/auth/login" element={<Login />} />
+        <Route path="/auth/one-time-password" element={<OtpVerification />} />
         <Route path="/" element={<Registration />} />
         <Route path="/onboarding/verify-email" element={<VerifyEmail />} />
         <Route path="/onboarding/verify-mobile" element={<VerifyMobile />} />
@@ -38,7 +46,13 @@ function App() {
           path="/onboarding/account-success"
           element={<AccountSuccess />}
         />
-        <Route path="/statements" element={<Statements />} />
+
+        <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+        <Route path="/auth/set-new-password" element={<CreateNewPassword />} />
+        <Route
+          path="/auth/forgot-password-verification"
+          element={<ForgotOTPVerification />}
+        />
 
         <Route path="/" element={<OnboardingLayer />}>
           <Route path="/onboarding/next-of-kin" element={<NextOfKin />} />
@@ -64,22 +78,29 @@ function App() {
           />
         </Route>
 
-        <Route path="/account-details" element={<AccountDetails />} />
-        <Route path="/loan-products" element={<LoanProducts />} />
-        <Route path="/all-loans" element={<MyLoans />} />
-        <Route path="/all-loan-applications" element={<LoanApplications />} />
-        <Route path="/loan-details" element={<LoanDetails />} />
-        <Route path="/loan-eligibility" element={<EligibilityCheck />} />
-        <Route path="/apply-loan" element={<ApplyLoan />} />
-        <Route path="/add-guarantor" element={<AddGuarantors />} />
-        <Route
-          path="/normal-loan-terms-conditions"
-          element={<NormalLoanTermsConditions />}
-        />
-        <Route
-          path="/loan-application-details"
-          element={<LoanApplicationDetails />}
-        />
+        <Route path="/" element={<Homelayer />}>
+          <Route path="/home" element={<Homepage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/account-details" element={<AccountDetails />} />
+          <Route path="/loan-products" element={<LoanProducts />} />
+          <Route path="/all-loans" element={<MyLoans />} />
+          <Route path="/all-loan-applications" element={<LoanApplications />} />
+          <Route path="/loan-details" element={<LoanDetails />} />
+          <Route path="/loan-eligibility" element={<EligibilityCheck />} />
+          <Route path="/apply-loan" element={<ApplyLoan />} />
+          <Route path="/add-guarantor" element={<AddGuarantors />} />
+          <Route path="/statements" element={<Statements />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/guarantorship" element={<Guarantorship />} />
+          <Route
+            path="/normal-loan-terms-conditions"
+            element={<NormalLoanTermsConditions />}
+          />
+          <Route
+            path="/loan-application-details"
+            element={<LoanApplicationDetails />}
+          />
+        </Route>
       </Routes>
     </>
   );

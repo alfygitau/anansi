@@ -225,16 +225,13 @@ const Homepage = () => {
 
       <div className="min-h-screen bg-slate-50 text-[#042159] pb-12">
         {/* Centered Container (approx 75% width) */}
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto">
           <header className="py-8 flex justify-between items-center">
             <div>
               <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
               <p className="text-sm text-slate-500">
                 Welcome back to your financial overview.
               </p>
-            </div>
-            <div className="w-10 h-10 rounded-full bg-[#4DB8E4] flex items-center justify-center text-white font-bold shadow-sm">
-              JD
             </div>
           </header>
 

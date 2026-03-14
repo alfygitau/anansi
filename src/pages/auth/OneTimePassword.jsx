@@ -1,0 +1,158 @@
+import React, { useState, useEffect, useRef } from "react";
+import {
+  ChevronLeft,
+  ShieldCheck,
+  RefreshCw,
+  ArrowRight,
+  Loader2,
+  Smartphone,
+} from "lucide-react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+
+const OtpVerification = () => {
+  const [otp, setOtp] = useState(new Array(6).fill(""));
+  const [loading, setLoading] = useState(false);
+  const [timer, setTimer] = useState(60);
+  const inputRefs = useRef([]);
+  const navigate = useNavigate();
+
+  // Mock registered user - replace with your actual state/store
+  const registeredUser = {
+    mobileno: "+254712345678",
+    id: "user_123",
+    email: "alex@anansi.co.ke",
+  };
+
+  // Timer logic for Resend
+  useEffect(() => {
+    let interval;
+    if (timer > 0) {
+      interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
+    }
+    return () => clearInterval(interval);
+  }, [timer]);
+
+  const maskPhoneNumber = (phone) => {
+    if (!phone) return "********000";
+    return phone.replace(/(\d{4})(\d{5})(\d{3})/, "$1*****$3");
+  };
+
+  const handleChange = (element, index) => {
+    if (isNaN(element.value)) return false;
+
+    setOtp([...otp.map((d, idx) => (idx === index ? element.value : d))]);
+
+    // Focus next input
+    if (element.value !== "" && index < 5) {
+      inputRefs.current[index + 1].focus();
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      inputRefs.current[index - 1].focus();
+    }
+  };
+
+  const handleVerify = async (e) => {
+    e.preventDefault();
+    const code = otp.join("");
+    if (code.length < 6) return;
+    navigate("/home");
+  };
+
+  const handleResend = () => {
+    if (timer > 0) return;
+    setTimer(60);
+    setOtp(new Array(6).fill(""));
+    // Add your API logic here for resending OTP
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 font-sans">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-xl bg-white rounded-[40px] shadow-2xl shadow-blue-900/5 border border-slate-100 p-8 md:p-12 relative overflow-hidden"
+      >
+        <div className="text-center space-y-4">
+          <div className="w-20 h-20 bg-blue-50 rounded-3xl flex items-center justify-center mx-auto mb-6 text-[#4DB8E4]">
+            <ShieldCheck size={40} strokeWidth={1.5} />
+          </div>
+
+          <h2 className="text-2xl font-black text-[#042159]">
+            Security Verification
+          </h2>
+          <p className="text-slate-500 text-sm leading-relaxed max-w-[280px] mx-auto">
+            For additional security we just sent a verification code to your
+            mobile <br />
+            <span className="font-bold text-[#042159] inline-flex items-center gap-1 mt-1">
+              <Smartphone size={14} />{" "}
+              {maskPhoneNumber(registeredUser.mobileno)}
+            </span>
+          </p>
+        </div>
+
+        <form onSubmit={handleVerify} className="mt-12 space-y-10">
+          {/* OTP Inputs */}
+          <div className="flex justify-between gap-2 md:gap-4">
+            {otp.map((data, index) => (
+              <input
+                key={index}
+                type="text"
+                maxLength="1"
+                ref={(el) => (inputRefs.current[index] = el)}
+                value={data}
+                onChange={(e) => handleChange(e.target, index)}
+                onKeyDown={(e) => handleKeyDown(e, index)}
+                className="w-12 h-14 md:w-16 md:h-16 text-center text-2xl font-black text-[#042159] bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#4DB8E4] focus:bg-white focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+              />
+            ))}
+          </div>
+
+          <div className="text-center">
+            <p className="text-sm text-slate-400 font-medium">
+              Didn't receive the code?
+            </p>
+            <button
+              type="button"
+              disabled={timer > 0}
+              onClick={handleResend}
+              className={`mt-2 flex items-center gap-2 mx-auto text-sm font-black uppercase tracking-widest transition-all ${
+                timer > 0
+                  ? "text-slate-300 cursor-not-allowed"
+                  : "text-[#4DB8E4] hover:text-[#042159]"
+              }`}
+            >
+              <RefreshCw size={16} className={loading ? "animate-spin" : ""} />
+              {timer > 0 ? `Resend in ${timer}s` : "Resend SMS"}
+            </button>
+          </div>
+
+          {/* Action Button */}
+          <button
+            type="submit"
+            disabled={loading || otp.join("").length < 6}
+            className="w-full h-16 bg-[#042159] text-white rounded-3xl font-black uppercase tracking-[0.2em] text-sm flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 hover:bg-[#072d7a] disabled:bg-slate-100 disabled:text-slate-400 disabled:shadow-none transition-all"
+          >
+            {loading ? (
+              <Loader2 className="animate-spin" size={20} />
+            ) : (
+              <>
+                Verify & Login
+                <ArrowRight size={20} />
+              </>
+            )}
+          </button>
+        </form>
+
+        <p className="mt-12 text-center text-[10px] text-slate-300 font-bold uppercase tracking-widest">
+          Secure Encrypted Verification by Anansi
+        </p>
+      </motion.div>
+    </div>
+  );
+};
+
+export default OtpVerification;

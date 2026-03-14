@@ -114,13 +114,7 @@ const AccountDetails = () => {
     <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
       <div className="max-w-6xl mx-auto px-6">
         {/* Navigation Header */}
-        <header className="py-8 flex items-center gap-4">
-          <button
-            onClick={() => navigate(-1)}
-            className="p-2 hover:bg-slate-100 rounded-full transition-colors"
-          >
-            <ArrowLeft size={24} />
-          </button>
+        <header className="py-4 flex items-center gap-4">
           <h1 className="text-xl font-bold">Savings Account Details</h1>
         </header>
 

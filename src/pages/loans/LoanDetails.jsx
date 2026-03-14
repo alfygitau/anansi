@@ -16,6 +16,11 @@ import {
   UserPlus,
   ShieldCheck,
   MessageCircle,
+  CreditCard,
+  FileStack,
+  ClipboardList,
+  LayoutGrid,
+  ChevronRight,
 } from "lucide-react";
 
 const LoanDetails = ({ onBack }) => {
@@ -126,6 +131,39 @@ const LoanDetails = ({ onBack }) => {
             </div>
           </div>
         </header>
+
+        <section className="mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <QuickActionButton
+              icon={<CreditCard className="text-emerald-500" />}
+              label="Pay Loan"
+              sub="Direct M-PESA"
+              onClick={() => {}}
+              variant="emerald"
+            />
+            <QuickActionButton
+              icon={<FileStack className="text-blue-500" />}
+              label="Statements"
+              sub="View Ledger"
+              onClick={() => {}}
+              variant="blue"
+            />
+            <QuickActionButton
+              icon={<ClipboardList className="text-purple-500" />}
+              label="Applications"
+              sub="Check Status"
+              onClick={() => {}}
+              variant="purple"
+            />
+            <QuickActionButton
+              icon={<LayoutGrid className="text-slate-500" />}
+              label="Other Products"
+              sub="Explore More"
+              onClick={() => {}}
+              variant="slate"
+            />
+          </div>
+        </section>
 
         {/* 1. Loan Parameters Card (High Density) */}
         <div className="bg-white rounded-[40px] p-6 border border-slate-100 shadow-xl shadow-blue-900/5 mb-6">
@@ -264,6 +302,41 @@ const LoanDetails = ({ onBack }) => {
         </div>
       </div>
     </div>
+  );
+};
+
+/* --- Sub-Component: QuickActionButton --- */
+const QuickActionButton = ({ icon, label, sub, onClick, variant }) => {
+  const themes = {
+    emerald: "hover:border-emerald-200 hover:bg-emerald-50/30",
+    blue: "hover:border-blue-200 hover:bg-blue-50/30",
+    purple: "hover:border-purple-200 hover:bg-purple-50/30",
+    slate: "hover:border-slate-200 hover:bg-slate-50/30",
+  };
+
+  return (
+    <button
+      onClick={onClick}
+      className={`group p-5 bg-white border border-slate-100 rounded-[32px] shadow-sm transition-all duration-300 flex flex-col items-start text-left relative overflow-hidden ${themes[variant]}`}
+    >
+      <div className="w-12 h-12 rounded-[20px] bg-slate-50 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+        {React.cloneElement(icon, { size: 24 })}
+      </div>
+
+      <div>
+        <h4 className="font-bold text-[#042159] text-sm group-hover:text-[#4DB8E4] transition-colors">
+          {label}
+        </h4>
+        <p className="text-[10px] font-medium text-slate-400 mt-0.5 uppercase tracking-wider">
+          {sub}
+        </p>
+      </div>
+
+      <ChevronRight
+        className="absolute right-6 bottom-6 text-slate-200 group-hover:text-[#4DB8E4] group-hover:translate-x-1 transition-all"
+        size={16}
+      />
+    </button>
   );
 };
 
