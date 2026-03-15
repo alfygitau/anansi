@@ -1,12 +1,17 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import MyProgress from "../../components/progress-bar/MyProgress";
+import useAuth from "../../hooks/useAuth";
+import { useMutation } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import { createNextOfKin, updateKinStatus } from "../../sdks/customer/customer";
 
 const NextOfKin = () => {
   const navigate = useNavigate();
   const today = new Date().toISOString().split("T")[0];
+  const { auth } = useAuth();
+  const { showToast } = useToast();
 
-  // Form State
   const [formData, setFormData] = useState({
     fullName: "",
     birthDate: "",
@@ -16,9 +21,7 @@ const NextOfKin = () => {
   });
 
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
 
-  // Validation Logic
   const isValidKenyaPhone = (phone) => {
     const cleanPhone = phone.replace(/\D/g, "");
     return /^(?:2547\d{8}|2541\d{8}|07\d{8}|01\d{8})$/.test(cleanPhone);
@@ -59,15 +62,56 @@ const NextOfKin = () => {
     setErrors((prev) => ({ ...prev, [name]: error }));
   };
 
+  const { mutate: kinMutate, isLoading } = useMutation({
+    mutationKey: ["create next of kin"],
+    mutationFn: () =>
+      createNextOfKin(
+        auth?.user?.id,
+        formData.fullName,
+        formData.birthDate,
+        formData.relationship,
+        formData.phone,
+        formData.location,
+      ),
+    onSuccess: async () => {
+      await updateCustomerMutate();
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { mutate: updateCustomerMutate } = useMutation({
+    mutationKey: ["update kin status"],
+    mutationFn: () => updateKinStatus(auth?.user?.id),
+    onSuccess: async () => {
+      showToast({
+        title: "Profile Updated",
+        type: "success",
+        position: "top-right",
+        description:
+          "Your next of kin details have been securely saved to your profile.",
+      });
+      navigate("/onboarding/terms-conditions");
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
   const handleContinue = async () => {
     if (!isFormValid) return;
-    setLoading(true);
-    try {
-      navigate("/onboarding/terms-conditions");
-    } catch (error) {
-    } finally {
-      setLoading(false);
-    }
+    await kinMutate();
   };
 
   return (
@@ -152,7 +196,7 @@ const NextOfKin = () => {
                           })
                     }
                     onBlur={(e) => validateField(field.name, e.target.value)}
-                    className={`h-12 px-4 rounded-xl border transition-all outline-none bg-gray-50 focus:ring-2 focus:ring-[#042159]/20 ${
+                    className={`h-14 px-4 rounded-xl border transition-all outline-none bg-gray-50 focus:ring-2 focus:ring-[#042159]/20 ${
                       errors[field.name]
                         ? "border-red-500 shadow-sm shadow-red-50"
                         : "border-gray-200 focus:border-[#042159] focus:bg-white"
@@ -168,15 +212,15 @@ const NextOfKin = () => {
             </div>
 
             <button
-              disabled={!isFormValid || loading}
+              disabled={!isFormValid || isLoading}
               onClick={handleContinue}
               className={`w-full h-14 rounded-xl font-bold mt-4 flex items-center justify-center gap-3 transition-all ${
-                isFormValid && !loading
+                isFormValid && !isLoading
                   ? "bg-[#042159] text-white shadow-lg shadow-blue-900/20 hover:bg-[#062d7a]"
                   : "bg-gray-200 text-gray-400 cursor-not-allowed"
               }`}
             >
-              {loading && (
+              {isLoading && (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               )}
               Continue

@@ -9,6 +9,10 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { resendOtp, verifyUser } from "../../sdks/auth/auth";
+import { useMutation } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import useAuth from "../../hooks/useAuth";
 
 const OtpVerification = () => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -16,13 +20,8 @@ const OtpVerification = () => {
   const [timer, setTimer] = useState(60);
   const inputRefs = useRef([]);
   const navigate = useNavigate();
-
-  // Mock registered user - replace with your actual state/store
-  const registeredUser = {
-    mobileno: "+254712345678",
-    id: "user_123",
-    email: "alex@anansi.co.ke",
-  };
+  const { auth, setAuth } = useAuth();
+  const { showToast } = useToast();
 
   // Timer logic for Resend
   useEffect(() => {
@@ -40,10 +39,7 @@ const OtpVerification = () => {
 
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return false;
-
     setOtp([...otp.map((d, idx) => (idx === index ? element.value : d))]);
-
-    // Focus next input
     if (element.value !== "" && index < 5) {
       inputRefs.current[index + 1].focus();
     }
@@ -55,18 +51,71 @@ const OtpVerification = () => {
     }
   };
 
+  const { mutate: verifyUserMutate, isLoading } = useMutation({
+    mutationKey: ["verify user"],
+    mutationFn: () =>
+      verifyUser(
+        auth?.user?.id,
+        otp.join(""),
+        auth?.user?.email,
+        auth?.user?.mobileno,
+      ),
+    onSuccess: (data) => {
+      setAuth(data?.data?.data);
+      showToast({
+        title: "Authentication Success",
+        type: "success",
+        position: "top-right",
+        description:
+          "Welcome back to Anansi.\nYour session is active for 24 hours.",
+      });
+      navigate("/home");
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication Error",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
   const handleVerify = async (e) => {
     e.preventDefault();
     const code = otp.join("");
     if (code.length < 6) return;
-    navigate("/home");
+    verifyUserMutate();
   };
+
+  const { mutate: resendOtpMutate } = useMutation({
+    mutationKey: ["send admin otp"],
+    mutationFn: () => resendOtp(auth?.user?.id),
+    onSuccess: () => {
+      showToast({
+        title: "OTP Synchronized",
+        type: "success",
+        position: "top-right",
+        description: `A new security code has been dispatched.
+    Check your registered device or email.
+    Code expires in 5:00 minutes.`,
+      });
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   const handleResend = () => {
     if (timer > 0) return;
     setTimer(60);
     setOtp(new Array(6).fill(""));
-    // Add your API logic here for resending OTP
+    resendOtpMutate();
   };
 
   return (
@@ -88,8 +137,7 @@ const OtpVerification = () => {
             For additional security we just sent a verification code to your
             mobile <br />
             <span className="font-bold text-[#042159] inline-flex items-center gap-1 mt-1">
-              <Smartphone size={14} />{" "}
-              {maskPhoneNumber(registeredUser.mobileno)}
+              <Smartphone size={14} /> {maskPhoneNumber(auth?.user?.mobileno)}
             </span>
           </p>
         </div>
@@ -133,10 +181,10 @@ const OtpVerification = () => {
           {/* Action Button */}
           <button
             type="submit"
-            disabled={loading || otp.join("").length < 6}
+            disabled={isLoading || otp.join("").length < 6}
             className="w-full h-16 bg-[#042159] text-white rounded-3xl font-black uppercase tracking-[0.2em] text-sm flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 hover:bg-[#072d7a] disabled:bg-slate-100 disabled:text-slate-400 disabled:shadow-none transition-all"
           >
-            {loading ? (
+            {isLoading ? (
               <Loader2 className="animate-spin" size={20} />
             ) : (
               <>

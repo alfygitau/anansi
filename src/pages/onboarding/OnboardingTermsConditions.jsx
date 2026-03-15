@@ -1,35 +1,127 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MyProgress from "../../components/progress-bar/MyProgress";
+import useAuth from "../../hooks/useAuth";
+import { useMutation, useQuery } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import {
+  getCustomer,
+  getCustomerById,
+  sendWelcomeEmail,
+  updateCustomerStatuses,
+} from "../../sdks/customer/customer";
+import {
+  createAccountSavings,
+  createAccountShares,
+} from "../../sdks/accounts/accounts";
 
 const TermsAndConditions = () => {
   const navigate = useNavigate();
-
   const [checked, setChecked] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [isAccountCreated, setIsAccountCreated] = useState(false);
   const [customer, setCustomer] = useState({});
+  const [welcomeEmail, setWelcomeEmail] = useState("");
+  const { auth, setAuth } = useAuth();
+  const { showToast } = useToast();
 
-  useEffect(() => {
-    fetchCustomerData();
-  }, []);
+  useQuery({
+    queryKey: ["get customer by id"],
+    queryFn: async () => {
+      const response = await getCustomerById(auth?.user?.id);
+      return response.data.data;
+    },
+    onSuccess: (data) => {
+      setWelcomeEmail(data?.email);
+      setCustomer(data);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
-  const fetchCustomerData = async () => {
-    try {
-    } catch (err) {}
-  };
+  const { mutate: sharesMutate } = useMutation({
+    mutationKey: ["create shares ac"],
+    mutationFn: () =>
+      createAccountShares(
+        auth?.user?.firstname,
+        auth?.user?.lastname,
+        auth?.user?.id,
+      ),
+    onSuccess: () => {
+      showToast({
+        title: "Terms Accepted",
+        type: "success",
+        position: "center",
+        description:
+          "Your agreement to the membership terms and privacy policy has been securely recorded.",
+      });
+      navigate("/home");
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { mutate: savingsMutate } = useMutation({
+    mutationKey: ["create savings ac"],
+    mutationFn: () =>
+      createAccountSavings(
+        auth?.user?.firstname,
+        auth?.user?.lastname,
+        auth?.user?.id,
+      ),
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { mutate: welcomeEmailMutate } = useMutation({
+    mutationKey: ["welcomeEmail"],
+    mutationFn: () => sendWelcomeEmail(welcomeEmail),
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { mutate: updateCustomerMutate, isLoading } = useMutation({
+    mutationKey: ["welcomeEmail"],
+    mutationFn: () => updateCustomerStatuses(auth?.user?.id),
+    onSuccess: async () => {
+      await savingsMutate();
+      await sharesMutate();
+      await welcomeEmailMutate();
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   const handleFinish = async () => {
-    setLoading(true);
-    try {
-      const payload = {
-        onboarding_stage: "completed",
-        status: "Pending Payment",
-      };
-    } catch (err) {
-    } finally {
-      setLoading(false);
-    }
+    await updateCustomerMutate();
   };
 
   return (
@@ -99,15 +191,15 @@ const TermsAndConditions = () => {
 
           {/* Submit Button */}
           <button
-            disabled={!checked || loading}
+            disabled={!checked || isLoading}
             onClick={handleFinish}
             className={`w-full h-14 rounded-xl font-bold transition-all flex items-center justify-center gap-3 ${
-              checked && !loading
+              checked && !isLoading
                 ? "bg-[#042159] text-white shadow-xl shadow-blue-900/20 hover:scale-[1.01] active:scale-[0.99]"
                 : "bg-gray-200 text-gray-400 cursor-not-allowed"
             }`}
           >
-            {loading && (
+            {isLoading && (
               <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
             )}
             Agree & Finish

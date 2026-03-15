@@ -10,13 +10,18 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import useAuth from "../../hooks/useAuth";
+import { initRegister, loginUser } from "../../sdks/auth/auth";
 
 const Registration = () => {
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const navigate = useNavigate();
+  const { showToast } = useToast();
+  const { setAuth } = useAuth();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -28,33 +33,113 @@ const Registration = () => {
 
   const [errors, setErrors] = useState({});
 
-  // --- Validation Logic ---
-  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validateField = (name, value) => {
+    let error = "";
+    switch (name) {
+      case "username":
+        if (!value.trim()) error = "Username is required";
+        break;
+      case "email":
+        if (!value.trim()) error = "Email is required";
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+          error = "Invalid email format";
+        break;
+      case "mobile":
+        const phoneRegex = /^0[71]\d{8}$|^[71]\d{8}$/;
+        if (!value.trim()) error = "Mobile number is required";
+        else if (!phoneRegex.test(value.trim()))
+          error = "Invalid format (07xxxxxxxx)";
+        break;
+      case "password":
+        if (!value) error = "Password is required";
+        else if (value.length < 8) error = "Min 8 characters required";
+        break;
+      case "confirmPassword":
+        if (value !== formData.password) error = "Passwords do not match";
+        break;
+      default:
+        break;
+    }
+    return error;
+  };
 
-  const validatePhone = (phone) => {
-    const trimmed = phone.trim();
-    return /^0[71]\d{8}$/.test(trimmed) || /^[71]\d{8}$/.test(trimmed);
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    const error = validateField(name, value);
+    setErrors((prev) => ({ ...prev, [name]: error }));
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: null }));
   };
+
+  const { mutate: loginMutate } = useMutation({
+    mutationKey: ["login"],
+    mutationFn: () => loginUser(formData.email, formData.password),
+    onSuccess: (data) => {
+      setAuth(data?.data?.data);
+      navigate("/onboarding/verify-email");
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { mutate: registerMutate, isLoading } = useMutation({
+    mutationKey: ["register"],
+    mutationFn: () =>
+      initRegister(
+        formData.username,
+        formData.email,
+        formData.mobile,
+        formData.password,
+      ),
+    onSuccess: () => {
+      showToast({
+        title: "Registration Success",
+        type: "success",
+        position: "top-right",
+        description: "Welcome to Anansi.\nYour session is active for 24 hours.",
+      });
+      loginMutate();
+    },
+    onError: (error) => {
+      showToast({
+        title: "Registration glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => setLoading(false), 2000);
+    const newErrors = {};
+    Object.keys(formData).forEach((key) => {
+      const error = validateField(key, formData[key]);
+      if (error) newErrors[key] = error;
+    });
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
+    registerMutate();
   };
 
   return (
     <div className="min-h-screen bg-white flex flex-col lg:flex-row">
-      {/* LEFT PANEL: Trust & Branding (Hidden on mobile) */}
-      <div className="hidden lg:flex lg:w-[35%] bg-[#042159] p-16 flex-col justify-between relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-[40%] bg-[#042159] p-16 flex-col justify-center relative overflow-hidden">
         {/* Abstract Background Decor */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#4DB8E4]/10 rounded-full blur-3xl -mr-32 -mt-32" />
 
-        <div className="relative z-10">
+        {/* Centering Wrapper */}
+        <div className="relative z-10 w-[85%] mx-auto">
           <div className="flex items-center gap-3 mb-12">
             <div className="w-12 h-12 bg-[#4DB8E4] rounded-2xl flex items-center justify-center shadow-lg shadow-sky-400/20">
               <ShieldCheck className="text-[#042159]" size={28} />
@@ -72,11 +157,11 @@ const Registration = () => {
           <div className="space-y-8">
             <TrustPoint
               title="Quick Onboarding"
-              desc="Create your account in just a few simple steps and start saving."
+              desc="Create your account in just a few simple steps."
             />
             <TrustPoint
               title="Secure & Reliable"
-              desc="Bank-grade encryption for all your financial information."
+              desc="Bank-grade encryption for all your data."
             />
             <TrustPoint
               title="Always Available"
@@ -85,57 +170,53 @@ const Registration = () => {
           </div>
         </div>
 
-        <div className="relative z-10 border-t border-white/10 pt-8">
+        {/* Optional: Footer text kept at the bottom if you prefer */}
+        <div className="absolute bottom-16 left-0 w-full flex justify-center">
           <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">
             Registered Financial Institution © 2026
           </p>
         </div>
       </div>
 
-      {/* RIGHT PANEL: Registration Form */}
       <div className="flex-1 flex items-center justify-center p-6 lg:p-10 bg-slate-50">
         <div className="w-full max-w-[620px] bg-white p-8 md:p-12 rounded-[40px] shadow-2xl shadow-blue-900/5">
           <header className="mb-10 text-center lg:text-left">
             <h1 className="text-3xl font-black text-[#042159] tracking-tight">
               Create Account
             </h1>
-            <p className="text-slate-400 text-sm mt-2">
-              Join the community and start your journey.
-            </p>
           </header>
 
           <form onSubmit={handleRegister} className="space-y-5">
-            {/* Username */}
-            <InputGroup label="Username">
+            <InputGroup label="Username" error={errors.username}>
               <User
                 size={18}
-                className="absolute left-6 text-slate-300 group-focus-within:text-[#4DB8E4] transition-colors"
+                className="absolute left-6 text-slate-300 group-focus-within:text-[#4DB8E4]"
               />
               <input
                 name="username"
                 type="text"
-                placeholder="Samuel Otieno"
                 className="modern-input"
                 onChange={handleInputChange}
+                onBlur={handleBlur}
+                placeholder="Samuel Otieno"
               />
             </InputGroup>
 
-            {/* Email */}
-            <InputGroup label="Email Address">
+            <InputGroup label="Email Address" error={errors.email}>
               <Mail
                 size={18}
-                className="absolute left-6 text-slate-300 group-focus-within:text-[#4DB8E4] transition-colors"
+                className="absolute left-6 text-slate-300 group-focus-within:text-[#4DB8E4]"
               />
               <input
                 name="email"
                 type="email"
-                placeholder="sam@example.com"
                 className="modern-input"
                 onChange={handleInputChange}
+                onBlur={handleBlur}
+                placeholder="sam@example.com"
               />
             </InputGroup>
 
-            {/* Mobile with +254 Prefix */}
             <div>
               <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-4 block">
                 Mobile Number
@@ -147,22 +228,28 @@ const Registration = () => {
                 <input
                   name="mobile"
                   type="text"
-                  placeholder="e.g 712 345 678"
                   className="w-full h-[60px] px-6 bg-slate-50 border-none rounded-r-[24px] focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none font-bold text-[#042159]"
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  placeholder="712 345 678"
                 />
               </div>
+              {errors.mobile && (
+                <p className="text-[10px] text-red-500 font-bold mt-1 ml-4 uppercase">
+                  {errors.mobile}
+                </p>
+              )}
             </div>
 
-            {/* Password Fields */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <InputGroup label="Password">
+              <InputGroup label="Password" error={errors.password}>
                 <input
                   name="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
                   className="modern-input pl-6 pr-12"
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  placeholder="••••••••"
                 />
                 <button
                   type="button"
@@ -173,13 +260,14 @@ const Registration = () => {
                 </button>
               </InputGroup>
 
-              <InputGroup label="Confirm">
+              <InputGroup label="Confirm" error={errors.confirmPassword}>
                 <input
                   name="confirmPassword"
                   type={showConfirmPassword ? "text" : "password"}
-                  placeholder="••••••••"
                   className="modern-input pl-6 pr-12"
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  placeholder="••••••••"
                 />
                 <button
                   type="button"
@@ -195,33 +283,31 @@ const Registration = () => {
               </InputGroup>
             </div>
 
-            {/* Privacy Checkbox */}
+            {/* Checkbox & Button (Existing Logic) */}
             <div className="flex items-center gap-3 py-2">
               <input
                 type="checkbox"
                 id="privacy"
-                className="w-5 h-5 rounded-md border-slate-200 text-[#4DB8E4] focus:ring-[#4DB8E4]/20"
+                className="w-5 h-5"
                 checked={agreedToTerms}
                 onChange={(e) => setAgreedToTerms(e.target.checked)}
               />
-              <label
-                htmlFor="privacy"
-                className="text-[11px] text-slate-500 font-medium leading-relaxed"
-              >
-                I agree to the{" "}
-                <span className="text-[#4DB8E4] underline cursor-pointer">
-                  Privacy Policy
-                </span>{" "}
-                and allow Anansi Sacco to process my data.
+              <label htmlFor="privacy" className="text-[11px] text-slate-500">
+                I agree to the Privacy Policy
               </label>
             </div>
 
-            {/* Submit */}
             <button
-              disabled={loading || !agreedToTerms}
-              className="w-full h-[64px] bg-[#042159] text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#4DB8E4] transition-all disabled:opacity-20 disabled:grayscale shadow-xl shadow-blue-900/10"
+              disabled={
+                isLoading ||
+                !agreedToTerms ||
+                Object.values(errors).some(
+                  (error) => error !== null && error !== "",
+                )
+              }
+              className="w-full h-[64px] bg-[#042159] text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#062d7a] transition-all disabled:opacity-20 disabled:grayscale shadow-xl shadow-blue-900/10"
             >
-              {loading ? (
+              {isLoading ? (
                 <Loader2 className="animate-spin" />
               ) : (
                 <>
@@ -229,16 +315,6 @@ const Registration = () => {
                 </>
               )}
             </button>
-
-            <p className="text-center text-xs font-bold text-slate-400 uppercase tracking-tighter pt-4">
-              Already a member?{" "}
-              <span
-                onClick={() => navigate("/auth/login")}
-                className="text-[#4DB8E4] cursor-pointer hover:underline"
-              >
-                Sign In
-              </span>
-            </p>
           </form>
         </div>
       </div>
@@ -246,7 +322,20 @@ const Registration = () => {
   );
 };
 
-// --- Helper Components ---
+const InputGroup = ({ label, children, error }) => (
+  <div className="w-full">
+    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-4 block">
+      {label}
+    </label>
+    <div className="relative flex items-center group">{children}</div>
+    {error && (
+      <p className="text-[10px] text-red-500 font-bold mt-1 ml-4 uppercase">
+        {error}
+      </p>
+    )}
+  </div>
+);
+
 const TrustPoint = ({ title, desc }) => (
   <div className="flex items-start gap-4">
     <div className="mt-1">
@@ -258,15 +347,6 @@ const TrustPoint = ({ title, desc }) => (
       </h4>
       <p className="text-white/40 text-sm leading-relaxed">{desc}</p>
     </div>
-  </div>
-);
-
-const InputGroup = ({ label, children }) => (
-  <div className="w-full">
-    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-4 block">
-      {label}
-    </label>
-    <div className="relative flex items-center group">{children}</div>
   </div>
 );
 

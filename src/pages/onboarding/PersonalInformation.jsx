@@ -1,19 +1,31 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MyProgress from "../../components/progress-bar/MyProgress";
+import useAuth from "../../hooks/useAuth";
+import { useMutation, useQuery } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import {
+  createCustomerAddress,
+  getCounties,
+  getCountries,
+  getStates,
+  updateCustomerFinancials,
+} from "../../sdks/customer/customer";
+import { AlertCircle } from "lucide-react";
 
 const ProfileInformation = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState({
-    loadingKra: false,
-    isKraFailed: false,
-    isKraVerified: false,
-  });
+  const { showToast } = useToast();
   const [countries, setCountries] = useState([]);
   const [counties, setCounties] = useState([]);
   const [subcounties, setSubcounties] = useState([]);
   const [states, setStates] = useState([]);
+  const [errors, setErrors] = useState({});
+  const { auth } = useAuth();
+
+  const setError = (field, message) => {
+    setErrors((prev) => ({ ...prev, [field]: message }));
+  };
 
   const [form, setForm] = useState({
     country: "",
@@ -45,56 +57,186 @@ const ProfileInformation = () => {
     setSubcounties(match ? match.sub_counties : []);
   };
 
-  const validateForm = () => {
+  const validateField = (name, value) => {
+    let error = "";
     const kraRegex = /^[AP]\d{9}[A-Z]$/;
-    if (!form.country) return "Country of residence is required.";
-    if (form.country === "Kenya") {
-      if (!form.county || !form.subcounty || !form.physicalAddress)
-        return "Complete all address fields.";
-    } else {
-      if (!form.address_1 || !form.state || !form.city)
-        return "Complete all address fields.";
+
+    switch (name) {
+      case "country":
+        if (!value) error = "Country of residence is required.";
+        break;
+      case "county":
+        if (!value) error = "County is required.";
+        break;
+      case "subcounty":
+        if (!value) error = "Sub-county is required.";
+        break;
+      case "physicalAddress":
+        if (!value) error = "Physical address is required.";
+        break;
+      case "employment_type":
+        if (!value) error = "Please select employment type.";
+        break;
+      case "jobTitle":
+        if (!value) error = "Job title is required.";
+        break;
+      case "income":
+        if (!value || value <= 0)
+          error = "Please enter a valid monthly income.";
+        break;
+      case "kra":
+        if (value && !kraRegex.test(value))
+          error = "Invalid KRA PIN format (e.g., A123456789Z).";
+        break;
+      case "address_1":
+        if (!value) error = "Address 1 is required.";
+        break;
+      case "state":
+        if (!value) error = "State is required.";
+        break;
+      case "city":
+        if (!value) error = "City is required.";
+        break;
+      default:
+        break;
     }
-    if (!form.employment_type || !form.jobTitle || !form.income)
-      return "Employment details are required.";
-    if (form.kra && !kraRegex.test(form.kra)) return "KRA PIN is invalid.";
-    return null;
+
+    setError(name, error);
+    return error;
   };
 
-  const handleContinue = async () => {
-    navigate("/onboarding/next-of-kin");
-    const error = validateForm();
-    if (error) return;
-    setLoading(true);
-    try {
-      const customerPayload = {
-        onboarding_stage: "nextOfKin",
-        country_of_residence: form.country,
-        employment_type: form.employment_type,
-        kraPin: form.kra,
-        occupation: form.jobTitle,
-        income_range: form.income,
-      };
-      const addressPayload =
-        form.country === "Kenya"
-          ? {
-              physical_address: form.physicalAddress,
-              customer_id: "",
-              county: form.county,
-              subcounty: form.subcounty,
-            }
-          : {
-              address_1: form.address_1,
-              address_2: form.address_2,
-              state: form.state,
-              city: form.city,
-              customer_id: "id",
-            };
-    } catch (err) {
-    } finally {
-      setLoading(false);
+  const isFormInvalid = () => {
+    // Check if any error messages exist
+    const hasErrors = Object.values(errors).some((error) => error !== "");
+
+    // Define mandatory fields based on country
+    const requiredFields = ["country", "employment_type", "jobTitle", "income"];
+
+    if (form.country === "KENYA") {
+      requiredFields.push("county", "subcounty", "physicalAddress");
+    } else if (form.country && form.country !== "Kenya") {
+      requiredFields.push("address_1", "state", "city");
     }
+
+    // Check if any required field is empty
+    const hasEmptyFields = requiredFields.some((field) => !form[field]);
+
+    return hasErrors || hasEmptyFields;
   };
+
+  const { mutate: addressMutate } = useMutation({
+    mutationKey: ["create address"],
+    mutationFn: () =>
+      createCustomerAddress(
+        auth?.user?.id,
+        form.physicalAddress,
+        form.county,
+        form.subcounty,
+      ),
+    onSuccess: () => {
+      showToast({
+        title: "Profile Updated",
+        type: "success",
+        position: "top-right",
+        description:
+          "Your employment and financial details have been securely saved to your profile.",
+      });
+      navigate("/onboarding/next-of-kin");
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { mutate: updateFinancialsMutate, isLoading } = useMutation({
+    mutationKey: ["update financial"],
+    mutationFn: () =>
+      updateCustomerFinancials(
+        auth?.user?.id,
+        form.employment_type,
+        form.kra,
+        form.jobTitle,
+        form.income,
+        form.country,
+      ),
+    onSuccess: async () => {
+      await addressMutate();
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const handleContinue = async () => {
+    updateFinancialsMutate();
+  };
+
+  useQuery({
+    queryKey: ["get counties"],
+    queryFn: async () => {
+      const response = await getCounties();
+      return response?.data?.data;
+    },
+    onSuccess: (data) => {
+      setCounties(data);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  useQuery({
+    queryKey: ["get countries"],
+    queryFn: async () => {
+      const response = await getCountries();
+      return response?.data?.data;
+    },
+    onSuccess: (data) => {
+      setCountries(data);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  useQuery({
+    queryKey: ["get states"],
+    queryFn: async () => {
+      const response = await getStates();
+      return response?.data?.data;
+    },
+    onSuccess: (data) => {
+      setStates(data);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   return (
     <div className="flex w-full max-w-[1300px] mx-auto min-h-screen relative">
@@ -123,6 +265,7 @@ const ProfileInformation = () => {
                 </label>
                 <select
                   value={form.country}
+                  onBlur={(e) => validateField("country", e.target.value)}
                   onChange={(e) =>
                     setForm({ ...form, country: e.target.value })
                   }
@@ -144,9 +287,14 @@ const ProfileInformation = () => {
                     </option>
                   ))}
                 </select>
+                {errors.country && (
+                  <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                    <AlertCircle size={12} /> {errors.country}
+                  </span>
+                )}
               </div>
 
-              {form.country === "Kenya" || !form.country ? (
+              {form.country === "KENYA" || !form.country ? (
                 <>
                   {/* Address Details - Vertical Stack */}
                   <div className="flex flex-col gap-[20px]">
@@ -158,6 +306,7 @@ const ProfileInformation = () => {
                       <select
                         value={form.county}
                         onChange={handleCountyChange}
+                        onBlur={(e) => validateField("county", e.target.value)}
                         className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
              hover:border-gray-300 
              focus:border-[#042159] focus:outline-none focus:ring-4 focus:ring-[#042159]/10 
@@ -176,6 +325,11 @@ const ProfileInformation = () => {
                           </option>
                         ))}
                       </select>
+                      {errors.county && (
+                        <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                          <AlertCircle size={12} /> {errors.county}
+                        </span>
+                      )}
                     </div>
 
                     {/* Sub-County Selection */}
@@ -185,6 +339,9 @@ const ProfileInformation = () => {
                       </label>
                       <select
                         value={form.subcounty}
+                        onBlur={(e) =>
+                          validateField("subcounty", e.target.value)
+                        }
                         onChange={(e) =>
                           setForm({ ...form, subcounty: e.target.value })
                         }
@@ -206,6 +363,11 @@ const ProfileInformation = () => {
                           </option>
                         ))}
                       </select>
+                      {errors.subcounty && (
+                        <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                          <AlertCircle size={12} /> {errors.subcounty}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-col gap-1.5">
@@ -215,12 +377,20 @@ const ProfileInformation = () => {
                     <input
                       type="text"
                       value={form.physicalAddress}
+                      onBlur={(e) =>
+                        validateField("physicalAddress", e.target.value)
+                      }
                       onChange={(e) =>
                         setForm({ ...form, physicalAddress: e.target.value })
                       }
                       placeholder="House/Street/Building"
                       className="h-14 px-4 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#042159]"
                     />
+                    {errors.physicalAddress && (
+                      <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                        <AlertCircle size={12} /> {errors.physicalAddress}
+                      </span>
+                    )}
                   </div>
                 </>
               ) : (
@@ -229,35 +399,66 @@ const ProfileInformation = () => {
                     type="text"
                     placeholder="Address Line 1"
                     value={form.address_1}
+                    onBlur={(e) => validateField("address_1", e.target.value)}
                     onChange={(e) =>
                       setForm({ ...form, address_1: e.target.value })
                     }
                     className="h-12 w-full px-4 rounded-xl border border-gray-200 bg-gray-50 outline-none"
                   />
-                  <div className="grid grid-cols-2 gap-4">
-                    <select
-                      value={form.state}
-                      onChange={(e) =>
-                        setForm({ ...form, state: e.target.value })
-                      }
-                      className="h-12 px-3 rounded-xl border border-gray-200 bg-gray-50 outline-none"
-                    >
-                      <option value="">State</option>
-                      {states.map((s) => (
-                        <option key={s.id} value={s.name}>
-                          {s.name}
-                        </option>
-                      ))}
-                    </select>
-                    <input
-                      type="text"
-                      placeholder="City"
-                      value={form.city}
-                      onChange={(e) =>
-                        setForm({ ...form, city: e.target.value })
-                      }
-                      className="h-12 px-4 rounded-xl border border-gray-200 bg-gray-50 outline-none"
-                    />
+                  {errors.address_1 && (
+                    <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                      <AlertCircle size={12} /> {errors.address_1}
+                    </span>
+                  )}
+                  <div className="flex flex-col gap-[20px]">
+                    <div className="w-full">
+                      <select
+                        value={form.state}
+                        onBlur={(e) => validateField("state", e.target.value)}
+                        onChange={(e) =>
+                          setForm({ ...form, state: e.target.value })
+                        }
+                        className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
+             hover:border-gray-300 
+             focus:border-[#042159] focus:outline-none focus:ring-4 focus:ring-[#042159]/10 
+             cursor-pointer"
+                        style={{
+                          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
+                          backgroundRepeat: "no-repeat",
+                          backgroundPosition: "right 1rem center",
+                          backgroundSize: "1.25rem",
+                        }}
+                      >
+                        <option value="">State</option>
+                        {states.map((s) => (
+                          <option key={s.id} value={s.name}>
+                            {s.name}
+                          </option>
+                        ))}
+                      </select>
+                      {errors.kra && (
+                        <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                          <AlertCircle size={12} /> {errors.kra}
+                        </span>
+                      )}
+                    </div>
+                    <div className="w-full">
+                      <input
+                        type="text"
+                        placeholder="City"
+                        value={form.city}
+                        onBlur={(e) => validateField("city", e.target.value)}
+                        onChange={(e) =>
+                          setForm({ ...form, city: e.target.value })
+                        }
+                        className="h-14 px-4 w-full rounded-xl border border-gray-200 bg-gray-50 outline-none"
+                      />
+                      {errors.city && (
+                        <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                          <AlertCircle size={12} /> {errors.city}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
@@ -275,6 +476,9 @@ const ProfileInformation = () => {
                 </label>
                 <select
                   value={form.employment_type}
+                  onBlur={(e) =>
+                    validateField("employment_type", e.target.value)
+                  }
                   onChange={(e) =>
                     setForm({ ...form, employment_type: e.target.value })
                   }
@@ -293,6 +497,11 @@ const ProfileInformation = () => {
                   <option value="Employed">Employed</option>
                   <option value="Self employed">Self Employed</option>
                 </select>
+                {errors.employment_type && (
+                  <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                    <AlertCircle size={12} /> {errors.employment_type}
+                  </span>
+                )}
               </div>
 
               <div className="flex flex-col gap-1.5">
@@ -305,9 +514,15 @@ const ProfileInformation = () => {
                   onChange={(e) =>
                     setForm({ ...form, jobTitle: e.target.value })
                   }
+                  onBlur={(e) => validateField("jobTitle", e.target.value)}
                   placeholder="e.g. Software Engineer"
                   className="h-14 px-4 rounded-xl border border-gray-200 bg-gray-50 outline-none"
                 />
+                {errors.jobTitle && (
+                  <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                    <AlertCircle size={12} /> {errors.jobTitle}
+                  </span>
+                )}
               </div>
 
               <div className="flex flex-col gap-1.5">
@@ -321,6 +536,7 @@ const ProfileInformation = () => {
                   <input
                     type="number"
                     value={form.income}
+                    onBlur={(e) => validateField("income", e.target.value)}
                     onChange={(e) =>
                       setForm({ ...form, income: e.target.value })
                     }
@@ -328,6 +544,11 @@ const ProfileInformation = () => {
                     placeholder="0.00"
                   />
                 </div>
+                {errors.income && (
+                  <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                    <AlertCircle size={12} /> {errors.income}
+                  </span>
+                )}
               </div>
 
               <div className="flex flex-col gap-1.5">
@@ -337,23 +558,32 @@ const ProfileInformation = () => {
                 <input
                   type="text"
                   value={form.kra}
+                  onBlur={(e) => validateField("kra", e.target.value)}
                   onChange={(e) =>
                     setForm({ ...form, kra: e.target.value.toUpperCase() })
                   }
                   placeholder="A00XXXXXXXXZ"
                   className="h-14 px-4 rounded-xl border border-gray-200 bg-gray-50 outline-none uppercase"
                 />
+                {errors.kra && (
+                  <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                    <AlertCircle size={12} /> {errors.kra}
+                  </span>
+                )}
               </div>
 
               <button
-                disabled={loading}
+                disabled={isLoading || isFormInvalid()}
                 onClick={handleContinue}
-                className="w-full h-14 bg-[#042159] text-white rounded-xl font-bold mt-4 shadow-lg shadow-blue-900/10 hover:bg-[#062d7a] transition-all flex items-center justify-center gap-3 disabled:opacity-70"
+                className="w-full h-14 bg-[#042159] text-white rounded-xl font-bold mt-4 shadow-lg shadow-blue-900/10 
+             hover:bg-[#062d7a] transition-all flex items-center justify-center gap-3 
+             disabled:opacity-50 disabled:grayscale disabled:cursor-not-allowed"
               >
-                {loading && (
+                {isLoading ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  "Save & Continue"
                 )}
-                Save & Continue
               </button>
             </div>
           </div>

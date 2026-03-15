@@ -9,13 +9,27 @@ import {
 } from "lucide-react";
 import MyProgress from "../../components/progress-bar/MyProgress";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import {
+  extractBackIdDetails,
+  extractIdDetails,
+  uploadSingleFile,
+} from "../../sdks/upload-files/upload";
+import OCRFailure from "../../components/onboarding/OcrFailure";
 
 const IdentityVerification = () => {
-  // State Management
-  const [loading, setLoading] = useState(false);
   const [documentType, setDocumentType] = useState("National Id");
   const navigate = useNavigate();
+  const { showToast } = useToast();
+  const [showOcrFailure, setShowOcrFailure] = useState(false);
   const [files, setFiles] = useState({
+    front: null,
+    back: null,
+    passport: null,
+  });
+
+  const [urls, setUrls] = useState({
     front: null,
     back: null,
     passport: null,
@@ -27,10 +41,11 @@ const IdentityVerification = () => {
     passport: useRef(null),
   };
 
-  const handleFileChange = (e, type) => {
+  const handleFileChange = async (e, type) => {
     const file = e.target.files[0];
     if (file) {
       setFiles((prev) => ({ ...prev, [type]: file }));
+      await uploadUrlMutate({ file, type });
     }
   };
 
@@ -39,171 +54,299 @@ const IdentityVerification = () => {
   };
 
   const handleContinue = () => {
-    navigate("/onboarding/review-identity");
+    extractFrontIdDetailsMutate();
   };
 
+  const handlePassportContinue = () => {
+    extractPassportDetailsMutate();
+  };
+
+  const { mutate: uploadUrlMutate } = useMutation({
+    mutationKey: ["upload-file"],
+    mutationFn: async ({ file, type }) => {
+      const response = await uploadSingleFile(file);
+      return response?.data?.data?.url;
+    },
+    onSuccess: async (data, variables) => {
+      const { type } = variables;
+      setUrls((prev) => ({
+        ...prev,
+        [type]: data,
+      }));
+    },
+    onError: (error) => {
+      showToast({
+        title: "Onboarding glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { mutate: extractFrontIdDetailsMutate } = useMutation({
+    mutationKey: ["extract-front-id-details"],
+    mutationFn: async () => {
+      const response = await extractIdDetails(files.front);
+      return response.data.data;
+    },
+    onSuccess: async (data) => {
+      localStorage.setItem("kyc_details", JSON.stringify(data));
+      await extractBackIdDetailsMutate();
+    },
+    onError: (error) => {
+      showToast({
+        title: "Onboarding glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+      setShowOcrFailure(true);
+    },
+  });
+
+  const { mutate: extractBackIdDetailsMutate, isLoading } = useMutation({
+    mutationKey: ["extract-back-id-details"],
+    mutationFn: async () => extractBackIdDetails(files.back),
+    onSuccess: async () => {
+      showToast({
+        title: "Identity Verified",
+        type: "success",
+        position: "top-right",
+        description:
+          "We've successfully read your ID details and updated your profile automatically.",
+      });
+      localStorage.setItem("id_image", JSON.stringify(urls));
+      navigate("/onboarding/review-identity");
+    },
+    onError: (error) => {
+      showToast({
+        title: "Onboarding glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+      setShowOcrFailure(true);
+    },
+  });
+
+  const { mutate: extractPassportDetailsMutate, isLoadingPassport } =
+    useMutation({
+      mutationKey: ["extract-back-id-details"],
+      mutationFn: async () => {
+        const response = await extractBackIdDetails(files.passport);
+        return response.data.data;
+      },
+      onSuccess: async (data) => {
+        showToast({
+          title: "Identity Verified",
+          type: "success",
+          position: "top-right",
+          description:
+            "We've successfully read your Passport details and updated your profile automatically.",
+        });
+        localStorage.setItem("id_image", JSON.stringify(urls));
+        localStorage.setItem("kyc_details", JSON.stringify(data));
+        navigate("/onboarding/review-identity");
+      },
+      onError: (error) => {
+        showToast({
+          title: "Onboarding glitch",
+          type: "error",
+          position: "top-right",
+          description: error?.response?.data?.message || error.message,
+        });
+        setShowOcrFailure(true);
+      },
+    });
+
   return (
-    <div className="min-h-screen bg-gray-50 flex justify-center">
-      {/* 80% Width Container */}
-      <div className="w-full max-w-[1300px] flex flex-col lg:flex-row gap-4">
-        {/* Left Section: Progress Bar (20%) */}
-        <aside className="w-full hidden lg:block md:block lg:w-1/4">
-          <MyProgress
-            currentTitle="Identity Verification"
-            currentSubtitle="Upload Government Document"
-          />
-        </aside>
+    <>
+      <OCRFailure
+        isOpen={showOcrFailure}
+        onClose={() => setShowOcrFailure(false)}
+      />
 
-        {/* Middle Section: Upload Form (45%) */}
-        <main className="flex-1 space-y-4">
-          <section className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">
-              Upload Government issued ID
-            </h1>
-            <p className="text-gray-500 text-sm mb-8">
-              Let's get started by uploading your ID or Passport. This will help
-              us automatically fill in your details and verify your citizenship.
-            </p>
+      <div className="h-full bg-gray-50 flex justify-center">
+        {/* 80% Width Container */}
+        <div className="w-full max-w-[1300px] mb-[20px] flex flex-col lg:flex-row gap-4">
+          {/* Left Section: Progress Bar (20%) */}
+          <aside className="w-full hidden lg:block md:block lg:w-[22%]">
+            <MyProgress
+              currentTitle="Identity Verification"
+              currentSubtitle="Upload Government Document"
+            />
+          </aside>
 
-            <div className="space-y-6">
-              {/* Select Country */}
-              <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Country of Citizenship
-                </label>
-                <select
-                  className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
+          {/* Middle Section: Upload Form (45%) */}
+          <main className="flex-1 space-y-4">
+            <section className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                Upload Government issued ID
+              </h1>
+              <p className="text-gray-500 text-sm mb-8">
+                Let's get started by uploading your ID or Passport. This will
+                help us automatically fill in your details and verify your
+                citizenship.
+              </p>
+
+              <div className="space-y-6">
+                {/* Select Country */}
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-medium text-gray-700">
+                    Country of Citizenship
+                  </label>
+                  <select
+                    className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
              hover:border-gray-300 
              focus:border-[#042159] focus:outline-none focus:ring-4 focus:ring-[#042159]/10 
              cursor-pointer"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "right 1rem center",
-                    backgroundSize: "1.25rem",
-                  }}
-                >
-                  <option>Kenya</option>
-                  <option>United States</option>
-                </select>
-              </div>
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "right 1rem center",
+                      backgroundSize: "1.25rem",
+                    }}
+                  >
+                    <option>Kenya</option>
+                    <option>United States</option>
+                  </select>
+                </div>
 
-              {/* Select Document Type */}
-              <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Select Document Type
-                </label>
-                <select
-                  value={documentType}
-                  onChange={(e) => setDocumentType(e.target.value)}
-                  className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
+                {/* Select Document Type */}
+                <div className="flex flex-col gap-2">
+                  <label className="text-sm font-medium text-gray-700">
+                    Select Document Type
+                  </label>
+                  <select
+                    value={documentType}
+                    onChange={(e) => setDocumentType(e.target.value)}
+                    className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
              hover:border-gray-300 
              focus:border-[#042159] focus:outline-none focus:ring-4 focus:ring-[#042159]/10 
              cursor-pointer"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "right 1rem center",
-                    backgroundSize: "1.25rem",
-                  }}
-                >
-                  <option value="National Id">National ID</option>
-                  <option value="Passport">Passport</option>
-                </select>
-              </div>
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "right 1rem center",
+                      backgroundSize: "1.25rem",
+                    }}
+                  >
+                    <option value="National Id">National ID</option>
+                    <option value="Passport">Passport</option>
+                  </select>
+                </div>
 
-              {/* Upload Areas */}
-              <div className="space-y-4">
-                {documentType === "National Id" ? (
-                  <>
+                {/* Upload Areas */}
+                <div className="space-y-4">
+                  {documentType === "National Id" ? (
+                    <>
+                      <UploadBox
+                        label="Front page of ID"
+                        file={files.front}
+                        onUpload={() => triggerUpload("front")}
+                      />
+                      <UploadBox
+                        label="Back page of ID"
+                        file={files.back}
+                        onUpload={() => triggerUpload("back")}
+                      />
+                    </>
+                  ) : (
                     <UploadBox
-                      label="Front page of ID"
-                      file={files.front}
-                      onUpload={() => triggerUpload("front")}
+                      label="Double page of passport"
+                      file={files.passport}
+                      onUpload={() => triggerUpload("passport")}
+                      large
                     />
-                    <UploadBox
-                      label="Back page of ID"
-                      file={files.back}
-                      onUpload={() => triggerUpload("back")}
-                    />
-                  </>
-                ) : (
-                  <UploadBox
-                    label="Double page of passport"
-                    file={files.passport}
-                    onUpload={() => triggerUpload("passport")}
-                    large
-                  />
+                  )}
+                </div>
+
+                {/* Hidden Inputs */}
+                <input
+                  type="file"
+                  ref={fileInputs.front}
+                  onChange={(e) => handleFileChange(e, "front")}
+                  className="hidden"
+                />
+                <input
+                  type="file"
+                  ref={fileInputs.back}
+                  onChange={(e) => handleFileChange(e, "back")}
+                  className="hidden"
+                />
+                <input
+                  type="file"
+                  ref={fileInputs.passport}
+                  onChange={(e) => handleFileChange(e, "passport")}
+                  className="hidden"
+                />
+
+                {documentType === "National Id" && (
+                  <button
+                    disabled={isLoading}
+                    onClick={handleContinue}
+                    className="w-full h-14 bg-[#042159] hover:bg-[#4DB8E4] text-white font-semibold rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-purple-100"
+                  >
+                    {isLoading && <Loader2 className="w-5 h-5 animate-spin" />}
+                    Continue
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                )}
+
+                {documentType === "Passport" && (
+                  <button
+                    disabled={isLoadingPassport}
+                    onClick={handlePassportContinue}
+                    className="w-full h-14 bg-[#042159] hover:bg-[#4DB8E4] text-white font-semibold rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-purple-100"
+                  >
+                    {isLoadingPassport && (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    )}
+                    Continue
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
                 )}
               </div>
+            </section>
+          </main>
 
-              {/* Hidden Inputs */}
-              <input
-                type="file"
-                ref={fileInputs.front}
-                onChange={(e) => handleFileChange(e, "front")}
-                className="hidden"
-              />
-              <input
-                type="file"
-                ref={fileInputs.back}
-                onChange={(e) => handleFileChange(e, "back")}
-                className="hidden"
-              />
-              <input
-                type="file"
-                ref={fileInputs.passport}
-                onChange={(e) => handleFileChange(e, "passport")}
-                className="hidden"
-              />
-
-              <button
-                onClick={handleContinue}
-                className="w-full h-14 bg-[#042159] hover:bg-[#4DB8E4] text-white font-semibold rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-purple-100"
-              >
-                {loading && <Loader2 className="w-5 h-5 animate-spin" />}
-                Continue
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-          </section>
-        </main>
-
-        {/* Right Section: Instructions (30%) */}
-        <aside className="w-full lg:w-[20%] space-y-4">
-          <div className="bg-[#F0FFFE] border border-[#d1f7f5] rounded-2xl p-6">
-            <div className="flex items-center gap-2 mb-4 text-[#008080]">
-              <Info className="w-5 h-5" />
-              <span className="font-bold text-sm uppercase tracking-wider">
-                Make Sure That
-              </span>
-            </div>
-            <ul className="space-y-3">
-              <Requirement text="Your ID or Passport is not expired" />
-              <Requirement text="All your details can be seen" />
-              <Requirement text="It’s clear and easy to read" />
-              <Requirement text="Edges of the document are visible" />
-              <Requirement text="Formats: JPEG, PNG, JPG" />
-            </ul>
-          </div>
-
-          {documentType === "Passport" && (
-            <div className="bg-orange-50 border border-orange-100 rounded-2xl p-6">
-              <p className="text-orange-800 text-xs font-bold mb-2 uppercase">
-                [Note] Uploading Passport
-              </p>
-              <p className="text-orange-700 text-sm leading-relaxed mb-4">
-                Ensure you include both the Bio Data page and the Signature page
-                in one clear frame.
-              </p>
-              <div className="aspect-video bg-white rounded-lg border border-dashed border-orange-200 flex items-center justify-center italic text-orange-400 text-xs">
-                Passport Preview Placeholder
+          {/* Right Section: Instructions (30%) */}
+          <aside className="w-full lg:w-[20%] space-y-4">
+            <div className="bg-[#F0FFFE] border border-[#d1f7f5] rounded-2xl p-6">
+              <div className="flex items-center gap-2 mb-4 text-[#008080]">
+                <Info className="w-5 h-5" />
+                <span className="font-bold text-sm uppercase tracking-wider">
+                  Make Sure That
+                </span>
               </div>
+              <ul className="space-y-3">
+                <Requirement text="Your ID or Passport is not expired" />
+                <Requirement text="All your details can be seen" />
+                <Requirement text="It’s clear and easy to read" />
+                <Requirement text="Edges of the document are visible" />
+                <Requirement text="Formats: JPEG, PNG, JPG" />
+              </ul>
             </div>
-          )}
-        </aside>
+
+            {documentType === "Passport" && (
+              <div className="bg-orange-50 border border-orange-100 rounded-2xl p-6">
+                <p className="text-orange-800 text-xs font-bold mb-2 uppercase">
+                  [Note] Uploading Passport
+                </p>
+                <p className="text-orange-700 text-sm leading-relaxed mb-4">
+                  Ensure you include both the Bio Data page and the Signature
+                  page in one clear frame.
+                </p>
+                <div className="aspect-video bg-white rounded-lg border border-dashed border-orange-200 flex items-center justify-center italic text-orange-400 text-xs">
+                  Passport Preview Placeholder
+                </div>
+              </div>
+            )}
+          </aside>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

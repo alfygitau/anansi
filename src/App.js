@@ -32,6 +32,17 @@ import Guarantorship from "./pages/guarantorship/Guarantorship";
 import ForgotPassword from "./pages/forget-password/ForgetEmail";
 import ForgotOTPVerification from "./pages/forget-password/ForgotPasswordVerification";
 import CreateNewPassword from "./pages/forget-password/SetPassword";
+import ProceedOnboarding from "./pages/continue-onboarding/ContinueOnboarding";
+import AdminOtpVerification from "./pages/admin-customer/VerifyCustomer";
+import CreateUsername from "./pages/admin-customer/CreateUsername";
+import SetNewPassword from "./pages/admin-customer/SetNewPassword";
+import HelpPage from "./pages/onboarding/OnboardingSupport";
+import ManualIdEntry from "./pages/onboarding/ManualIdEntry";
+import SelfieQRCode from "./pages/onboarding/ScanQrCode";
+import MobileSelfieLanding from "./pages/kyc-selfie/LandingSelfie";
+import SelfieCapture from "./pages/kyc-selfie/SelfieCapture";
+import FinishCapture from "./pages/kyc-selfie/FinishCapture";
+import CaptureFailed from "./pages/kyc-selfie/FailedCapture";
 
 function App() {
   return (
@@ -42,6 +53,23 @@ function App() {
         <Route path="/" element={<Registration />} />
         <Route path="/onboarding/verify-email" element={<VerifyEmail />} />
         <Route path="/onboarding/verify-mobile" element={<VerifyMobile />} />
+
+        <Route
+          path="/admin-customer/verify"
+          element={<AdminOtpVerification />}
+        />
+
+        <Route path="/" element={<Homelayer />}>
+          <Route
+            path="/admin-customer/create-username"
+            element={<CreateUsername />}
+          />
+          <Route
+            path="/admin-customer/set-password"
+            element={<SetNewPassword />}
+          />
+        </Route>
+
         <Route
           path="/onboarding/account-success"
           element={<AccountSuccess />}
@@ -76,6 +104,13 @@ function App() {
             path="/onboarding/verify-identity"
             element={<IdentityVerification />}
           />
+          <Route path="/onboarding/continue" element={<ProceedOnboarding />} />
+          <Route path="/onboarding/help" element={<HelpPage />} />
+          <Route path="/onboarding/scan-qrcode" element={<SelfieQRCode />} />
+          <Route
+            path="/onboarding/id-manual-entry"
+            element={<ManualIdEntry />}
+          />
         </Route>
 
         <Route path="/" element={<Homelayer />}>
@@ -101,6 +136,20 @@ function App() {
             element={<LoanApplicationDetails />}
           />
         </Route>
+
+        <Route
+          path="/kyc-selfie/selfie-capture"
+          element={<MobileSelfieLanding />}
+        />
+        <Route path="/kyc-selfie/take-photo" element={<SelfieCapture />} />
+        <Route
+          path="/kyc-selfie/selfie-capture-success"
+          element={<FinishCapture />}
+        />
+        <Route
+          path="/kyc-selfie/selfie-capture-fail"
+          element={<CaptureFailed />}
+        />
       </Routes>
     </>
   );

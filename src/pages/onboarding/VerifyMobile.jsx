@@ -8,18 +8,19 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import useAuth from "../../hooks/useAuth";
+import { sendMobileOtp, verifyMobile } from "../../sdks/auth/auth";
+import { updateCustomerVerification } from "../../sdks/customer/customer";
 
-const VerifyMobile = ({
-  phoneNumber = "+254 700 *** 000",
-  onResend,
-  onChangeNumber,
-}) => {
+const VerifyMobile = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(45);
   const navigate = useNavigate();
+  const { auth } = useAuth();
+  const { showToast } = useToast();
 
-  // Auto-focus next input logic
   const handleChange = (e, index) => {
     const value = e.target.value;
     if (isNaN(value)) return;
@@ -41,13 +42,85 @@ const VerifyMobile = ({
   }, [timer]);
 
   const handleVerify = () => {
-    console.log(otp.join(""));
-    navigate("/verify-mobile");
+    verifyMobileMutate();
   };
+
+  const onChangeNumber = () => {
+    navigate("/onboarding/change-mobile");
+  };
+
+  const onResend = () => {
+    if (timer > 0) return;
+    setTimer(60);
+    setOtp(new Array(6).fill(""));
+    resendMobileOtpMutate();
+  };
+
+  const { mutate: verifyMobileMutate, isLoading } = useMutation({
+    mutationKey: ["verify-mobile"],
+    mutationFn: () => verifyMobile(otp.join(""), auth?.user?.mobileno),
+    onSuccess: async () => {
+      await updateCustomerMutate();
+    },
+    onError: (error) => {
+      showToast({
+        title: "Onboarding glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { mutate: updateCustomerMutate } = useMutation({
+    mutationKey: ["update-customer-verifications"],
+    mutationFn: () => updateCustomerVerification(auth?.user?.id),
+    onSuccess: async () => {
+      showToast({
+        title: "Onboarding Success",
+        type: "success",
+        position: "top-right",
+        description:
+          "Verification complete. Welcome back to your secure Anansi portal.",
+      });
+      navigate("/onboarding/account-success");
+    },
+    onError: (error) => {
+      showToast({
+        title: "Onboarding glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { mutate: resendMobileOtpMutate } = useMutation({
+    mutationKey: ["resend-mobile-otp"],
+    mutationFn: () => sendMobileOtp(auth?.user?.id),
+    onSuccess: async () => {
+      showToast({
+        title: "OTP Synchronized",
+        type: "success",
+        position: "top-right",
+        description: `A new security code has been dispatched.
+    Check your registered device or email.
+    Code expires in 5:00 minutes.`,
+      });
+    },
+    onError: (error) => {
+      showToast({
+        title: "Onboarding glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-6">
-      <div className="w-full max-w-[480px] relative">
+      <div className="w-full max-w-[500px] relative">
         <div className="bg-white rounded-[40px] border border-slate-100 p-10 md:p-14 shadow-2xl shadow-blue-900/5 text-center">
           {/* Header Icon */}
           <div className="w-20 h-20 bg-blue-50 rounded-[28px] flex items-center justify-center mx-auto mb-8 relative">
@@ -66,7 +139,9 @@ const VerifyMobile = ({
               We just sent a code to your phone
             </p>
             <div className="flex items-center justify-center gap-2 mt-1">
-              <span className="text-[#042159] font-bold">{phoneNumber}</span>
+              <span className="text-[#042159] font-bold">
+                {auth?.user?.mobileno}
+              </span>
               <button
                 onClick={onChangeNumber}
                 className="text-[10px] font-black uppercase text-[#4DB8E4] hover:underline"
@@ -102,10 +177,10 @@ const VerifyMobile = ({
           {/* Action Button */}
           <button
             onClick={handleVerify}
-            disabled={loading || otp.includes("")}
+            disabled={isLoading || otp.includes("")}
             className="w-full h-[64px] bg-[#042159] text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#4DB8E4] transition-all disabled:opacity-20 disabled:grayscale shadow-xl shadow-blue-900/10 mb-8"
           >
-            {loading ? (
+            {isLoading ? (
               <Loader2 className="animate-spin" />
             ) : (
               <>
@@ -115,16 +190,16 @@ const VerifyMobile = ({
           </button>
 
           {/* Resend Logic */}
-          <div className="pt-4">
+          <div className="pt-4 text-center">
             {timer > 0 ? (
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-300">
+              <p className="text-[10px] text-center font-black uppercase tracking-widest text-slate-300">
                 Resend SMS in{" "}
                 <span className="text-[#4DB8E4] font-bold">{timer}s</span>
               </p>
             ) : (
               <button
                 onClick={onResend}
-                className="flex items-center justify-center gap-2 text-[#4DB8E4] hover:text-[#042159] transition-all"
+                className="flex items-center justify-center gap-2 text-[#4DB8E4] hover:text-[#042159] transition-all mx-auto"
               >
                 <RefreshCw size={14} />
                 <span className="text-[10px] font-black uppercase tracking-widest">
@@ -133,14 +208,14 @@ const VerifyMobile = ({
               </button>
             )}
           </div>
-        </div>
 
-        {/* Floating Trust Badge */}
-        <div className="mt-8 flex items-center justify-center gap-2 text-slate-300">
-          <CheckCircle2 size={14} />
-          <p className="text-[9px] font-bold uppercase tracking-widest">
-            Identity Verified via Secure OTP
-          </p>
+          {/* Floating Trust Badge */}
+          <div className="mt-8 flex items-center justify-center gap-2 text-slate-300">
+            <CheckCircle2 size={14} />
+            <p className="text-[9px] font-bold uppercase tracking-widest">
+              Identity Verified via Secure OTP
+            </p>
+          </div>
         </div>
       </div>
     </div>

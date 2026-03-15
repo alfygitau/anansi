@@ -1,14 +1,29 @@
 import { useState, useEffect } from "react";
-import { Mail, ArrowRight, RefreshCw, ShieldCheck, Edit3 } from "lucide-react";
+import {
+  Mail,
+  ArrowRight,
+  RefreshCw,
+  ShieldCheck,
+  Edit3,
+  Loader2,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import useAuth from "../../hooks/useAuth";
+import {
+  resendEmailOtp,
+  sendMobileOtp,
+  verifyEmailAddress,
+} from "../../sdks/auth/auth";
 
-const VerifyEmail = ({ email = "sam***@example.com", onResend }) => {
+const VerifyEmail = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(59);
-  const [isResending, setIsResending] = useState(false);
   const navigate = useNavigate();
+  const { auth } = useAuth();
+  const { showToast } = useToast();
 
-  // Handle OTP Input focus shift
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return false;
     setOtp([...otp.map((d, idx) => (idx === index ? element.value : d))]);
@@ -17,9 +32,84 @@ const VerifyEmail = ({ email = "sam***@example.com", onResend }) => {
     }
   };
 
+  const { mutate: verifyEmailMutate, isLoading } = useMutation({
+    mutationKey: ["verify-email"],
+    mutationFn: () => verifyEmailAddress(otp.join(""), auth?.user?.email),
+    onSuccess: async () => {
+      showToast({
+        title: "Onboarding Success",
+        type: "success",
+        position: "top-right",
+        description:
+          "Verification complete. Welcome back to your secure Anansi portal.",
+      });
+      await mobileOtpMutate();
+    },
+    onError: (error) => {
+      showToast({
+        title: "Onboarding glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { mutate: resendEmailOtpMutate, isLoading: isResending } = useMutation({
+    mutationKey: ["resend-email-otp"],
+    mutationFn: () => resendEmailOtp(auth?.user?.id),
+    onSuccess: () => {
+      showToast({
+        title: "OTP Synchronized",
+        type: "success",
+        position: "top-right",
+        description: `A new security code has been dispatched.
+    Check your registered device or email.
+    Code expires in 5:00 minutes.`,
+      });
+    },
+    onError: (error) => {
+      showToast({
+        title: "Onboarding glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { mutate: mobileOtpMutate } = useMutation({
+    mutationKey: ["resend-email-otp"],
+    mutationFn: () => sendMobileOtp(auth?.user?.id),
+    onSuccess: () => {
+      showToast({
+        title: "OTP Dispatched",
+        type: "success",
+        position: "top-right",
+        description:
+          "A 6-digit code has been sent to your mobile number. Please check your messages.",
+      });
+      navigate("/onboarding/verify-mobile");
+    },
+    onError: (error) => {
+      showToast({
+        title: "Onboarding glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
   const handleVerify = () => {
-    console.log(otp.join(""));
-    navigate("/verify-mobile");
+    verifyEmailMutate();
+  };
+
+  const onResend = () => {
+    if (timer > 0) return;
+    setTimer(60);
+    setOtp(new Array(6).fill(""));
+    resendEmailOtpMutate();
   };
 
   useEffect(() => {
@@ -46,8 +136,12 @@ const VerifyEmail = ({ email = "sam***@example.com", onResend }) => {
         <p className="text-slate-400 text-sm font-medium mb-8 leading-relaxed px-4">
           We've sent a 6-digit verification code to <br />
           <span className="text-[#042159] font-bold flex items-center justify-center gap-2 mt-1">
-            {email}{" "}
-            <Edit3 size={14} className="text-[#4DB8E4] cursor-pointer" />
+            {auth?.user?.email}{" "}
+            <Edit3
+              onClick={() => navigate("/onboarding/change-email")}
+              size={14}
+              className="text-[#4DB8E4] cursor-pointer"
+            />
           </span>
         </p>
 
@@ -68,10 +162,17 @@ const VerifyEmail = ({ email = "sam***@example.com", onResend }) => {
 
         {/* Primary Action */}
         <button
+          disabled={isLoading || otp?.join("").length < 6}
           onClick={handleVerify}
-          className="w-full h-[64px] bg-[#042159] text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#4DB8E4] transition-all shadow-xl shadow-blue-900/10 mb-8"
+          className="w-full h-[64px] bg-[#042159] text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#4DB8E4] transition-all shadow-xl shadow-blue-900/10 mb-8 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-[#042159]"
         >
-          Continue <ArrowRight size={20} />
+          {isLoading ? (
+            <Loader2 className="animate-spin" size={24} />
+          ) : (
+            <>
+              Continue <ArrowRight size={20} />
+            </>
+          )}
         </button>
 
         {/* Resend Logic */}
