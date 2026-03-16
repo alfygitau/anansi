@@ -10,9 +10,11 @@ import {
   Menu,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const Navigation = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const { auth } = useAuth();
   const navigate = useNavigate();
   // 1. Create a ref for the dropdown container
   const dropdownRef = useRef(null);
@@ -33,6 +35,14 @@ const Navigation = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isProfileOpen]);
+
+  const getInitials = (firstName = "", lastName = "") => {
+    // Extract first letter, convert to uppercase, and handle empty strings
+    const firstInitial = firstName.trim().charAt(0).toUpperCase();
+    const lastInitial = lastName.trim().charAt(0).toUpperCase();
+
+    return `${firstInitial}${lastInitial}`;
+  };
 
   return (
     <nav className="sticky top-0 z-[90] bg-slate-50 backdrop-blur-md py-6">
@@ -85,11 +95,11 @@ const Navigation = () => {
             >
               <div className="flex flex-col items-end hidden md:block">
                 <span className="text-[11px] font-black text-[#042159] leading-none uppercase tracking-wider">
-                  Alex Maina
+                  {auth?.user?.firstname} {auth?.user?.lastname}
                 </span>
               </div>
               <div className="w-9 h-9 bg-[#042159] rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-900/20">
-                AM
+                {getInitials(auth?.user?.firstname, auth?.user?.lastname)}
               </div>
               <ChevronDown
                 size={16}
