@@ -18,6 +18,7 @@ import {
 import { useQuery } from "react-query";
 import { getCustomer } from "../../sdks/customer/customer";
 import { useToast } from "../../contexts/ToastProvider";
+import ProfileLoader from "../../skeletons/ProfileLoader";
 
 const ProfilePage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -62,239 +63,257 @@ const ProfilePage = () => {
   });
 
   return (
-    <div className="min-h-screen max-w-6xl mx-auto bg-slate-50 pb-20 pt-10 font-sans">
-      <div className="w-full mx-auto space-y-6">
-        {/* TOP SECTION: SIDE-BY-SIDE */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-          {/* PROFILE SUMMARY CARD (4 Cols) */}
-          <div className="lg:col-span-4 bg-[#042159] rounded-[32px] p-8 shadow-xl shadow-blue-900/20 flex flex-col items-center justify-center text-center">
-            <div className="relative group">
-              <div className="w-28 h-28 rounded-full border-4 border-blue-400/30 overflow-hidden bg-white/10 flex items-center justify-center">
-                {selfieUrl || customer?.selfie_image ? (
-                  <img
-                    src={selfieUrl || customer?.selfie_image}
-                    alt="Profile"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <User size={50} className="text-blue-200" />
-                )}
-              </div>
-              <button
-                onClick={() => setIsOpen(true)}
-                className="absolute bottom-0 right-0 w-9 h-9 bg-[#4DB8E4] text-white rounded-xl flex items-center justify-center shadow-lg hover:scale-110 transition-all border-4 border-[#042159]"
-              >
-                <Camera size={16} />
-              </button>
-            </div>
-            <h2 className="mt-4 text-xl font-black text-white">
-              {customer?.firstname} {customer?.lastname}
-            </h2>
-            <p className="text-blue-200 text-xs font-medium opacity-80 mt-1">
-              {customer?.email}
-            </p>
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white bg-white/10 px-4 py-1.5 rounded-full mt-6">
-              ID: {customer?.public_id}
-            </span>
-          </div>
-
-          {/* MAIN PERSONAL INFO CARD (8 Cols) */}
-          <div className="lg:col-span-8">
-            <InfoCard
-              title="Personal Information"
-              icon={<User size={18} />}
-              fullHeight
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
-                <DataField label="First Name" value={customer?.firstname} />
-                <DataField label="Last Name" value={customer?.lastname} />
-                <DataField label="Phone Number" value={customer?.mobileno} />
-                <DataField
-                  label="Date of Birth"
-                  value={formatDate(customer?.dob)}
-                />
-                <DataField
-                  label="Country"
-                  value={customer?.country_of_residence}
-                />
-              </div>
-            </InfoCard>
-          </div>
-        </div>
-
-        {/* BOTTOM SECTION: SIDE-BY-SIDE GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <InfoCard title="Residential Address" icon={<MapPin size={18} />}>
-            <div className="space-y-4">
-              <DataField label="County / City" value={address?.[0]?.county} />
-              <DataField
-                label="Physical Address"
-                value={address?.[0]?.physical_address}
-              />
-            </div>
-          </InfoCard>
-
-          <InfoCard
-            title="Employment & Financials"
-            icon={<Briefcase size={18} />}
-          >
-            <div className="space-y-4">
-              <DataField label="KRA PIN" value={customer?.kraPin} />
-              <DataField
-                label="Income Range"
-                value={customer?.income_range}
-                isMonetary
-              />
-            </div>
-          </InfoCard>
-
-          <InfoCard title="Next of Kin" icon={<Heart size={18} />}>
-            <div className="space-y-4">
-              <DataField label="Full Name" value={nextOfKin?.name} />
-              <DataField label="Relationship" value={nextOfKin?.relationship} />
-              <DataField label="Phone Number" value={nextOfKin?.phoneNumber} />
-            </div>
-          </InfoCard>
-        </div>
-
-        {/* MODERNISED DISCLAIMER CONTAINER */}
-        <section className="bg-white rounded-[32px] p-8 shadow-xl shadow-blue-900/5 border border-slate-100 relative overflow-hidden">
-          {/* Subtle background graphic for depth */}
-          <div className="absolute -top-10 -right-10 text-slate-100 opacity-30">
-            <Scale size={180} strokeWidth={1} />
-          </div>
-
-          <div className="relative z-10 space-y-6">
-            <div className="flex items-center gap-4">
-              <div className="p-3.5 bg-rose-50 rounded-2xl text-rose-500">
-                <UserMinus size={28} />
-              </div>
-              <div>
-                <h3 className="text-sm font-black uppercase tracking-widest text-slate-400">
-                  SACCO Exit Policy
-                </h3>
-                <h2 className="text-xl font-black text-[#042159]">
-                  Termination of SACCO Membership
+    <>
+      {isLoading ? (
+        <ProfileLoader />
+      ) : (
+        <div className="min-h-screen max-w-6xl mx-auto bg-slate-50 pb-20 pt-10 font-sans">
+          <div className="w-full mx-auto space-y-6">
+            {/* TOP SECTION: SIDE-BY-SIDE */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+              {/* PROFILE SUMMARY CARD (4 Cols) */}
+              <div className="lg:col-span-4 bg-[#042159] rounded-[32px] p-8 shadow-xl shadow-blue-900/20 flex flex-col items-center justify-center text-center">
+                <div className="relative group">
+                  <div className="w-28 h-28 rounded-full border-4 border-blue-400/30 overflow-hidden bg-white/10 flex items-center justify-center">
+                    {selfieUrl || customer?.selfie_image ? (
+                      <img
+                        src={selfieUrl || customer?.selfie_image}
+                        alt="Profile"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <User size={50} className="text-blue-200" />
+                    )}
+                  </div>
+                  <button
+                    onClick={() => setIsOpen(true)}
+                    className="absolute bottom-0 right-0 w-9 h-9 bg-[#4DB8E4] text-white rounded-xl flex items-center justify-center shadow-lg hover:scale-110 transition-all border-4 border-[#042159]"
+                  >
+                    <Camera size={16} />
+                  </button>
+                </div>
+                <h2 className="mt-4 text-xl font-black text-white">
+                  {customer?.firstname} {customer?.lastname}
                 </h2>
+                <p className="text-blue-200 text-xs font-medium opacity-80 mt-1">
+                  {customer?.email}
+                </p>
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white bg-white/10 px-4 py-1.5 rounded-full mt-6">
+                  ID: {customer?.public_id}
+                </span>
+              </div>
+
+              {/* MAIN PERSONAL INFO CARD (8 Cols) */}
+              <div className="lg:col-span-8">
+                <InfoCard
+                  title="Personal Information"
+                  icon={<User size={18} />}
+                  fullHeight
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
+                    <DataField label="First Name" value={customer?.firstname} />
+                    <DataField label="Last Name" value={customer?.lastname} />
+                    <DataField
+                      label="Phone Number"
+                      value={customer?.mobileno}
+                    />
+                    <DataField
+                      label="Date of Birth"
+                      value={formatDate(customer?.dob)}
+                    />
+                    <DataField
+                      label="Country"
+                      value={customer?.country_of_residence}
+                    />
+                  </div>
+                </InfoCard>
               </div>
             </div>
 
-            <p className="text-sm text-slate-500 max-w-2xl leading-relaxed">
-              Membership withdrawal is a permanent action. Please review the
-              mandatory requirements below to proceed with your application.
-            </p>
-
-            {/* Modern Icon-based requirements checklist */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <RequirementCard
-                icon={<Ban size={20} />}
-                title="No Active Loans"
-                description="Your loan account balance must be zero."
-              />
-              <RequirementCard
-                icon={<Handshake size={20} />}
-                title="No Guarantorship Obligations"
-                description="You must not be guaranteeing any active loans."
-              />
-            </div>
-
-            {/* Modernized Policy Note Box */}
-            <div className="flex items-start gap-4 p-5 bg-[#F0FFFE] rounded-2xl border border-[#4DB8E4]/20 mt-8">
-              <Info className="text-[#4DB8E4] mt-0.5" size={20} />
-              <div className="flex-1 space-y-1">
-                <p className="text-sm font-bold text-[#042159]">
-                  Disbursement of Funds
-                </p>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  Savings and current shares are disbursed within 60 days of
-                  approval, following deduction of statutory fees per our
-                  policy.
-                </p>
-              </div>
-            </div>
-
-            {/* Action Section */}
-            <div className="mt-10 pt-8 border-t border-slate-100 flex items-center justify-between gap-6 flex-wrap">
-              <div className="flex items-center gap-3">
-                <AlertTriangle className="text-amber-500" size={22} />
-                <p className="text-sm font-medium text-slate-700">
-                  <span className="font-bold text-rose-600">
-                    This action cannot be reversed.
-                  </span>{" "}
-                  Ensure you have met all requirements.
-                </p>
-              </div>
-              <button className="flex items-center gap-2.5 px-8 py-4 bg-rose-600 text-white rounded-2xl font-bold text-sm shadow-xl shadow-rose-600/20 hover:bg-rose-700 hover:scale-[1.02] transition-all">
-                Submit Exit Application
-              </button>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      {/* MODAL remains the same but with slightly tightened padding */}
-      {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
-          <div
-            className="absolute inset-0 bg-[#042159]/40 backdrop-blur-sm"
-            onClick={() => setIsOpen(false)}
-          />
-          <div className="relative bg-white w-full max-w-md rounded-[32px] p-8 shadow-2xl animate-in zoom-in-95 duration-200">
-            <button
-              onClick={() => setIsOpen(false)}
-              className="absolute top-6 right-6 text-slate-400 hover:text-rose-500"
-            >
-              <X size={20} />
-            </button>
-            <div className="text-center">
-              <h3 className="text-lg font-black text-[#042159] mb-6">
-                Update Profile Photo
-              </h3>
-              <div className="w-40 h-40 rounded-full bg-slate-50 mx-auto mb-6 border-2 border-dashed border-slate-200 flex items-center justify-center overflow-hidden">
-                {selfieUrl ? (
-                  <img
-                    src={selfieUrl}
-                    className="w-full h-full object-cover"
-                    alt="Preview"
+            {/* BOTTOM SECTION: SIDE-BY-SIDE GRID */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <InfoCard title="Residential Address" icon={<MapPin size={18} />}>
+                <div className="space-y-4">
+                  <DataField
+                    label="County / City"
+                    value={address?.[0]?.county}
                   />
-                ) : (
-                  <Upload size={32} className="text-slate-300" />
-                )}
-              </div>
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  if (file) {
-                    setUploading(true);
-                    setTimeout(() => {
-                      setSelfieUrl(URL.createObjectURL(file));
-                      setUploading(false);
-                    }, 1000);
-                  }
-                }}
-                className="hidden"
-                accept="image/*"
-              />
-              <button
-                onClick={() => fileInputRef.current.click()}
-                className="text-xs font-bold text-[#4DB8E4] underline underline-offset-4"
+                  <DataField
+                    label="Physical Address"
+                    value={address?.[0]?.physical_address}
+                  />
+                </div>
+              </InfoCard>
+
+              <InfoCard
+                title="Employment & Financials"
+                icon={<Briefcase size={18} />}
               >
-                {uploading ? "Processing..." : "Choose image from device"}
-              </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                disabled={!selfieUrl}
-                className="w-full mt-8 py-3.5 rounded-xl font-bold bg-[#042159] text-white disabled:bg-slate-100 disabled:text-slate-400 transition-all"
-              >
-                Save Changes
-              </button>
+                <div className="space-y-4">
+                  <DataField label="KRA PIN" value={customer?.kraPin} />
+                  <DataField
+                    label="Income Range"
+                    value={customer?.income_range}
+                    isMonetary
+                  />
+                </div>
+              </InfoCard>
+
+              <InfoCard title="Next of Kin" icon={<Heart size={18} />}>
+                <div className="space-y-4">
+                  <DataField label="Full Name" value={nextOfKin?.name} />
+                  <DataField
+                    label="Relationship"
+                    value={nextOfKin?.relationship}
+                  />
+                  <DataField
+                    label="Phone Number"
+                    value={nextOfKin?.phoneNumber}
+                  />
+                </div>
+              </InfoCard>
             </div>
+
+            {/* MODERNISED DISCLAIMER CONTAINER */}
+            <section className="bg-white rounded-[32px] p-8 shadow-xl shadow-blue-900/5 border border-slate-100 relative overflow-hidden">
+              {/* Subtle background graphic for depth */}
+              <div className="absolute -top-10 -right-10 text-slate-100 opacity-30">
+                <Scale size={180} strokeWidth={1} />
+              </div>
+
+              <div className="relative z-10 space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3.5 bg-rose-50 rounded-2xl text-rose-500">
+                    <UserMinus size={28} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-black uppercase tracking-widest text-slate-400">
+                      SACCO Exit Policy
+                    </h3>
+                    <h2 className="text-xl font-black text-[#042159]">
+                      Termination of SACCO Membership
+                    </h2>
+                  </div>
+                </div>
+
+                <p className="text-sm text-slate-500 max-w-2xl leading-relaxed">
+                  Membership withdrawal is a permanent action. Please review the
+                  mandatory requirements below to proceed with your application.
+                </p>
+
+                {/* Modern Icon-based requirements checklist */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <RequirementCard
+                    icon={<Ban size={20} />}
+                    title="No Active Loans"
+                    description="Your loan account balance must be zero."
+                  />
+                  <RequirementCard
+                    icon={<Handshake size={20} />}
+                    title="No Guarantorship Obligations"
+                    description="You must not be guaranteeing any active loans."
+                  />
+                </div>
+
+                {/* Modernized Policy Note Box */}
+                <div className="flex items-start gap-4 p-5 bg-[#F0FFFE] rounded-2xl border border-[#4DB8E4]/20 mt-8">
+                  <Info className="text-[#4DB8E4] mt-0.5" size={20} />
+                  <div className="flex-1 space-y-1">
+                    <p className="text-sm font-bold text-[#042159]">
+                      Disbursement of Funds
+                    </p>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      Savings and current shares are disbursed within 60 days of
+                      approval, following deduction of statutory fees per our
+                      policy.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Action Section */}
+                <div className="mt-10 pt-8 border-t border-slate-100 flex items-center justify-between gap-6 flex-wrap">
+                  <div className="flex items-center gap-3">
+                    <AlertTriangle className="text-amber-500" size={22} />
+                    <p className="text-sm font-medium text-slate-700">
+                      <span className="font-bold text-rose-600">
+                        This action cannot be reversed.
+                      </span>{" "}
+                      Ensure you have met all requirements.
+                    </p>
+                  </div>
+                  <button className="flex items-center gap-2.5 px-8 py-4 bg-rose-600 text-white rounded-2xl font-bold text-sm shadow-xl shadow-rose-600/20 hover:bg-rose-700 hover:scale-[1.02] transition-all">
+                    Submit Exit Application
+                  </button>
+                </div>
+              </div>
+            </section>
           </div>
+
+          {/* MODAL remains the same but with slightly tightened padding */}
+          {isOpen && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+              <div
+                className="absolute inset-0 bg-[#042159]/40 backdrop-blur-sm"
+                onClick={() => setIsOpen(false)}
+              />
+              <div className="relative bg-white w-full max-w-md rounded-[32px] p-8 shadow-2xl animate-in zoom-in-95 duration-200">
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="absolute top-6 right-6 text-slate-400 hover:text-rose-500"
+                >
+                  <X size={20} />
+                </button>
+                <div className="text-center">
+                  <h3 className="text-lg font-black text-[#042159] mb-6">
+                    Update Profile Photo
+                  </h3>
+                  <div className="w-40 h-40 rounded-full bg-slate-50 mx-auto mb-6 border-2 border-dashed border-slate-200 flex items-center justify-center overflow-hidden">
+                    {selfieUrl ? (
+                      <img
+                        src={selfieUrl}
+                        className="w-full h-full object-cover"
+                        alt="Preview"
+                      />
+                    ) : (
+                      <Upload size={32} className="text-slate-300" />
+                    )}
+                  </div>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        setUploading(true);
+                        setTimeout(() => {
+                          setSelfieUrl(URL.createObjectURL(file));
+                          setUploading(false);
+                        }, 1000);
+                      }
+                    }}
+                    className="hidden"
+                    accept="image/*"
+                  />
+                  <button
+                    onClick={() => fileInputRef.current.click()}
+                    className="text-xs font-bold text-[#4DB8E4] underline underline-offset-4"
+                  >
+                    {uploading ? "Processing..." : "Choose image from device"}
+                  </button>
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    disabled={!selfieUrl}
+                    className="w-full mt-8 py-3.5 rounded-xl font-bold bg-[#042159] text-white disabled:bg-slate-100 disabled:text-slate-400 transition-all"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

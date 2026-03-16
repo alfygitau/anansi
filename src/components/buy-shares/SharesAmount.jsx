@@ -23,11 +23,10 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
         error = "Enter a valid M-PESA number (e.g., 0712...)";
       }
     }
-
     if (name === "shares") {
       const amt = Number(value);
-      if (!value || amt <= 0) {
-        error = "Amount must be greater than 0";
+      if (!value) {
+        error = "Amount is required";
       }
     }
     return error;
