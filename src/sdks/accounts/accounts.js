@@ -33,3 +33,12 @@ export const createAccountShares = async (firstname, lastname, id) => {
     throw error?.response?.data || error;
   }
 };
+
+export const fetchAccounts = async () => {
+  try {
+    const response = await client.get(`/account/customer`);
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};

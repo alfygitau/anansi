@@ -24,6 +24,8 @@ import {
   Grid2X2,
   FileText,
   Folder,
+  ArrowRight,
+  ShieldCheck,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import InvestAmount from "../../components/quick-invest/InvestAmount";
@@ -35,9 +37,25 @@ import AwaitSharesPayment from "../../components/buy-shares/AwaitSharesPayment";
 import DepositAmount from "../../components/deposit-savings/DepositAmount";
 import ReviewDeposit from "../../components/deposit-savings/ConfirmDeposit";
 import AwaitDepositPayment from "../../components/deposit-savings/AwaitDepositPayment";
+import { motion } from "framer-motion";
+import StartMembership from "../../components/membership/StartMembership";
+import useAuth from "../../hooks/useAuth";
+import { useMutation, useQuery } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import { fetchAccounts } from "../../sdks/accounts/accounts";
+import { getCustomer } from "../../sdks/customer/customer";
+import JoinMembership from "../../components/membership/JoinMembership";
+import SaveAndInvest from "../../components/membership/SaveInvest";
+import SetupContributions from "../../components/membership/Contribute";
+import ReviewMembership from "../../components/membership/ReviewMembership";
+import ReviewRegistrationOnly from "../../components/membership/ReviewRegistrationOnly";
+import AwaitingMembershipPayment from "../../components/membership/AwaitMembershipPayment";
+import FailedMembershipPayment from "../../components/membership/FailedPayment";
 
 const Homepage = () => {
   const navigate = useNavigate();
+  const { showToast } = useToast();
+  const { auth } = useAuth();
   const [loanProducts] = useState([
     { id: 1, label: "Development", icon: <Building2 size={20} /> },
     { id: 2, label: "Jijenge", icon: <TrendingUp size={20} /> },
@@ -166,10 +184,58 @@ const Homepage = () => {
   const [showAwaitSharesPayment, setShowAwaitSharesPayment] = useState(false);
   const [showConfirmShares, setShowConfirmShares] = useState(false);
   const [showSharesAmount, setShowSharesAmount] = useState(false);
-
+  const [accounts, setAccounts] = useState([]);
   const [showDepositAmount, setShowDepositAmount] = useState(false);
   const [showReviewDeposit, setShowReviewDeposit] = useState(false);
   const [showAwaitDepositPayment, setShowAwaitDepositPayment] = useState(false);
+  const [showStartMembership, setShowStartMembership] = useState(false);
+  const [showJoinMembership, setShowJoinMembership] = useState(false);
+  const [showSaveAndInvest, setShowSaveAndInvest] = useState(false);
+  const [showMakeContribution, setShowMakeContribution] = useState(false);
+  const [showReviewMembership, setShowReviewMembership] = useState(false);
+  const [showFailedMembershipPayment, setShowFailedMembershipPayment] =
+    useState(false);
+  const [showReviewRegistrationOnly, setShowReviewRegistrationOnly] =
+    useState(false);
+  const [showAwaitMembershipPayment, setShowAwaitMembershipPayment] =
+    useState(false);
+
+  const formatNumber = (value) => {
+    if (value === null || value === undefined || isNaN(value)) return "0";
+
+    return new Intl.NumberFormat("en-KE", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    }).format(value);
+  };
+
+  const currentShares = Number(6 ?? 0);
+  const targetShares = 10;
+  const shareValue = 1000;
+  const percentage = Math.min((currentShares / targetShares) * 100, 100);
+  const remainingShares = Math.max(targetShares - currentShares, 0);
+
+  const { refetch: refetchCustomerDetails } = useQuery({
+    queryKey: ["get accounts"],
+    queryFn: async () => {
+      const response = await getCustomer();
+      return response.data.data;
+    },
+    onSuccess: (data) => {
+      setAccounts(data?.accounts);
+      if (!data?.member) {
+        setShowStartMembership(true);
+      }
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   return (
     <>
@@ -223,10 +289,82 @@ const Homepage = () => {
         onClose={() => setShowAwaitDepositPayment(false)}
       />
 
+      <StartMembership
+        isOpen={showStartMembership}
+        onPay={() => {
+          setShowStartMembership(false);
+          setShowJoinMembership(true);
+        }}
+        onLogout={() => {}}
+      />
+
+      <JoinMembership
+        isOpen={showJoinMembership}
+        onClose={() => setShowJoinMembership(false)}
+        onNext={() => {
+          setShowJoinMembership(false);
+          setShowSaveAndInvest(true);
+        }}
+      />
+
+      <SaveAndInvest
+        isOpen={showSaveAndInvest}
+        onClose={() => setShowSaveAndInvest(false)}
+        onCombine={() => {
+          setShowSaveAndInvest(false);
+          setShowMakeContribution(true);
+        }}
+        onNext={() => {
+          setShowSaveAndInvest(false);
+          setShowReviewRegistrationOnly(true);
+        }}
+      />
+
+      <SetupContributions
+        isOpen={showMakeContribution}
+        onClose={() => setShowMakeContribution(false)}
+        onNext={() => {
+          setShowMakeContribution(false);
+          setShowReviewMembership(true);
+        }}
+      />
+
+      <ReviewMembership
+        isOpen={showReviewMembership}
+        onClose={() => setShowReviewMembership(false)}
+        onNext={() => {
+          setShowReviewMembership(false);
+          setShowAwaitMembershipPayment(true);
+        }}
+      />
+
+      <ReviewRegistrationOnly
+        isOpen={showReviewRegistrationOnly}
+        onClose={() => setShowReviewRegistrationOnly(false)}
+        onNext={() => {
+          setShowReviewRegistrationOnly(false);
+          setShowAwaitMembershipPayment(true);
+        }}
+      />
+
+      <AwaitingMembershipPayment
+        isOpen={showAwaitMembershipPayment}
+        onClose={() => setShowAwaitMembershipPayment(false)}
+        onNext={() => {
+          setShowAwaitMembershipPayment(false);
+        }}
+        refetch={refetchCustomerDetails}
+      />
+
+      <FailedMembershipPayment
+        isOpen={showFailedMembershipPayment}
+        onClose={() => setShowFailedMembershipPayment(false)}
+      />
+
       <div className="min-h-screen bg-slate-50 text-[#042159] pb-12">
         {/* Centered Container (approx 75% width) */}
         <div className="max-w-6xl mx-auto">
-          <header className="py-8 flex justify-between items-center">
+          <header className="flex justify-between mb-6 items-center">
             <div>
               <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
               <p className="text-sm text-slate-500">
@@ -234,21 +372,106 @@ const Homepage = () => {
               </p>
             </div>
           </header>
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 w-full mx-auto overflow-hidden border border-cyan-100 bg-gradient-to-br from-[#F0FFFE] to-white p-4 shadow-xl shadow-cyan-900/5 relative"
+          >
+            {/* Decorative Blur Background */}
+            <div className="absolute -right-16 -top-16 h-32 w-32 rounded-full bg-cyan-200/20 blur-3xl" />
+
+            <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+              {/* Text Content Area */}
+              <div className="flex-1 space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#042159] text-[#4DB8E4] shadow-lg shadow-blue-900/20">
+                    <ShieldCheck size={22} />
+                  </div>
+                  <h3 className="text-lg font-black uppercase tracking-tight text-[#042159]">
+                    Membership Progress
+                  </h3>
+                </div>
+
+                <p className="max-w-[550px] text-[15px] leading-relaxed text-slate-600">
+                  To unlock{" "}
+                  <span className="font-bold text-slate-900">
+                    full membership benefits
+                  </span>{" "}
+                  and access various loan products, you need a minimum of{" "}
+                  <span className="font-bold text-[#042159]">
+                    10 shares (KES 10,000)
+                  </span>
+                  .
+                </p>
+
+                {remainingShares > 0 && (
+                  <div className="inline-flex items-center gap-2 rounded-lg bg-white/60 px-3 py-1.5 border border-cyan-100">
+                    <Wallet size={14} className="text-cyan-600" />
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-800">
+                      KES {formatNumber(remainingShares * shareValue)} remaining
+                      to reach goal
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Progress and Action Area */}
+              <div className="w-full lg:w-[340px] space-y-5">
+                <div className="space-y-2">
+                  <div className="flex items-end justify-between px-1">
+                    <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">
+                      Shares Acquired
+                    </span>
+                    <span className="text-[13px] font-black text-[#042159]">
+                      {percentage.toFixed(1)}%
+                    </span>
+                  </div>
+
+                  {/* Custom Progress Bar */}
+                  <div className="relative h-4 w-full overflow-hidden rounded-full bg-slate-100 p-1 shadow-inner border border-slate-200/50">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${percentage}%` }}
+                      transition={{ duration: 1.2, ease: "circOut" }}
+                      className="h-full rounded-full bg-gradient-to-r from-[#042159] to-[#074073] relative"
+                    >
+                      {/* Shine effect on bar */}
+                      <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent" />
+                    </motion.div>
+                  </div>
+
+                  <p className="px-1 text-right text-[12px] font-bold text-slate-500">
+                    {formatNumber(currentShares)}{" "}
+                    <span className="text-slate-300">/</span> 10 Shares
+                  </p>
+                </div>
+
+                <button className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-[#042159] px-8 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-blue-900/20 transition-all hover:bg-[#062d7a] active:scale-[0.98]">
+                  Buy Shares
+                  <ArrowRight
+                    size={18}
+                    className="transition-transform group-hover:translate-x-1 text-[#4DB8E4]"
+                  />
+                </button>
+              </div>
+            </div>
+          </motion.div>
 
           {/* Account Section */}
           <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <AccountCard
-              title="Savings Account"
-              accountNumber="ACC-0098221"
-              balance="KES 450,000"
-              isPrimary
-              navigateToAccountDetails={() => navigate("/account-details")}
-            />
-            <AccountCard
-              title="Shares Capital"
-              accountNumber="ACC-1198890"
-              balance="KES 120,500"
-            />
+            {accounts?.length > 0 &&
+              accounts.map((account, index) => (
+                <AccountCard
+                  key={account.id || index}
+                  title={account?.product?.name || "Savings Account"}
+                  accountNumber={account.account_number || "ACC-XXXXX"}
+                  balance={`KES ${formatNumber(account.balance)}`}
+                  isPrimary={account?.product?.name === "Savings"}
+                  navigateToAccountDetails={() =>
+                    navigate(`/account-details/${account.id}`)
+                  }
+                />
+              ))}
           </section>
 
           <section className="mb-10">

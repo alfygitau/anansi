@@ -5,7 +5,6 @@ import useAuth from "../../hooks/useAuth";
 import { useMutation, useQuery } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
 import {
-  getCustomer,
   getCustomerById,
   sendWelcomeEmail,
   updateCustomerStatuses,
@@ -18,9 +17,8 @@ import {
 const TermsAndConditions = () => {
   const navigate = useNavigate();
   const [checked, setChecked] = useState(false);
-  const [customer, setCustomer] = useState({});
   const [welcomeEmail, setWelcomeEmail] = useState("");
-  const { auth, setAuth } = useAuth();
+  const { auth } = useAuth();
   const { showToast } = useToast();
 
   useQuery({
@@ -31,7 +29,6 @@ const TermsAndConditions = () => {
     },
     onSuccess: (data) => {
       setWelcomeEmail(data?.email);
-      setCustomer(data);
     },
     onError: (error) => {
       showToast({
@@ -55,7 +52,7 @@ const TermsAndConditions = () => {
       showToast({
         title: "Terms Accepted",
         type: "success",
-        position: "center",
+        position: "top-right",
         description:
           "Your agreement to the membership terms and privacy policy has been securely recorded.",
       });
