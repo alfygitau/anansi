@@ -1,6 +1,6 @@
 const ProfileLoader = () => {
   return (
-    <div className="min-h-screen max-w-6xl mx-auto bg-slate-50 pb-20 pt-10 px-4 animate-pulse">
+    <div className="min-h-screen max-w-6xl mx-auto bg-slate-50 pb-20 pt-10 animate-pulse">
       <div className="w-full mx-auto space-y-6">
         {/* TOP SECTION: SIDE-BY-SIDE */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
