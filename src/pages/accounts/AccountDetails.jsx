@@ -32,7 +32,7 @@ const AccountDetails = () => {
   const [transactions, setTransactions] = useState([]);
   const { showToast } = useToast();
 
-  const { isLoading } = useQuery({
+  useQuery({
     queryKey: ["get account"],
     queryFn: async () => {
       const response = await fetchAccount(accountId);
@@ -51,7 +51,7 @@ const AccountDetails = () => {
     },
   });
 
-  useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["get account transactions"],
     queryFn: async () => {
       const response = await fetchAccountTransactions(accountNumber);
