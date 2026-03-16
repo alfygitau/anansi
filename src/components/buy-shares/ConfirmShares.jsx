@@ -11,7 +11,7 @@ const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
 
   useEffect(() => {
     let shares = localStorage.getItem("shares_details")
-      ? localStorage.getItem("shares_details")
+      ? JSON.parse(localStorage.getItem("shares_details"))
       : {};
     let accounts = localStorage.getItem("accounts")
       ? JSON.parse(localStorage.getItem("accounts"))

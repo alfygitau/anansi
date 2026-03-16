@@ -64,10 +64,42 @@ export const buyShares = async (
   }
 };
 
+export const buySavings = async (
+  savingsAmount,
+  reference,
+  savingsAccountId,
+  mobile,
+) => {
+  try {
+    const response = await client.post(`/transaction/deposit`, {
+      amount: Number(savingsAmount),
+      ref_number: reference,
+      account_id: String(savingsAccountId),
+      mpesa_msisdn: mobile.startsWith("0")
+        ? mobile.replace("0", "254")
+        : mobile.replace("+", ""),
+    });
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
 export const confirmSharesPayment = async (reference, sharesAccountId) => {
   try {
     const response = await client.get(
       `/transaction/has-completed-transaction/${sharesAccountId}/${reference}`,
+    );
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
+export const confirmDepositPayment = async (reference, savingsAccountId) => {
+  try {
+    const response = await client.get(
+      `/transaction/has-completed-transaction/${savingsAccountId}/${reference}`,
     );
     return response;
   } catch (error) {

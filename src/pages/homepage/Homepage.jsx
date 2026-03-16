@@ -54,7 +54,6 @@ import FailedMembershipPayment from "../../components/membership/FailedPayment";
 const Homepage = () => {
   const navigate = useNavigate();
   const { showToast } = useToast();
-  const { auth } = useAuth();
   const [loanProducts] = useState([
     { id: 1, label: "Development", icon: <Building2 size={20} /> },
     { id: 2, label: "Jijenge", icon: <TrendingUp size={20} /> },
@@ -280,24 +279,35 @@ const Homepage = () => {
         onClose={() => setShowAwaitSharesPayment(false)}
         onPaymentSuccess={() => {
           setShowAwaitSharesPayment(false);
+          refetchCustomerDetails();
         }}
       />
 
       <DepositAmount
         isOpen={showDepositAmount}
         onClose={() => setShowDepositAmount(false)}
+        onConfirm={() => {
+          setShowDepositAmount(false);
+          setShowReviewDeposit(true);
+        }}
       />
 
       <ReviewDeposit
         isOpen={showReviewDeposit}
         onClose={() => setShowReviewDeposit(false)}
-        amount={2000}
-        initialPhone="0769404436"
+        onConfirm={() => {
+          setShowReviewDeposit(false);
+          setShowAwaitDepositPayment(true);
+        }}
       />
 
       <AwaitDepositPayment
         isOpen={showAwaitDepositPayment}
         onClose={() => setShowAwaitDepositPayment(false)}
+        onPaymentSuccess={() => {
+          refetchCustomerDetails()
+          setShowAwaitDepositPayment(false);
+        }}
       />
 
       <StartMembership
@@ -469,7 +479,10 @@ const Homepage = () => {
                   </p>
                 </div>
 
-                <button className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-[#042159] px-8 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-blue-900/20 transition-all hover:bg-[#062d7a] active:scale-[0.98]">
+                <button
+                  onClick={() => setShowSharesAmount(true)}
+                  className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-[#042159] px-8 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-blue-900/20 transition-all hover:bg-[#062d7a] active:scale-[0.98]"
+                >
                   Buy Shares
                   <ArrowRight
                     size={18}

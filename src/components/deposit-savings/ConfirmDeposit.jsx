@@ -1,29 +1,65 @@
-import React, { useState } from "react";
-import { X, ArrowLeft, Loader2, Smartphone, ShieldCheck } from "lucide-react";
+import { useEffect, useState } from "react";
+import { X, Loader2, Smartphone, ShieldCheck } from "lucide-react";
+import { buyShares } from "../../sdks/accounts/accounts";
+import { useToast } from "../../contexts/ToastProvider";
+import { useMutation } from "react-query";
 
-const ReviewDeposit = ({
-  isOpen,
-  onClose,
-  onBack,
-  amount,
-  initialPhone,
-  onConfirm,
-}) => {
-  const [phoneNumber, setPhoneNumber] = useState(initialPhone || "");
-  const [loading, setLoading] = useState(false);
+const ReviewDeposit = ({ isOpen, onClose, onConfirm }) => {
+  const [depositDetails, setDepositDetails] = useState({});
+  const { showToast } = useToast();
+  const [savingsAccountId, setSavingsAccountId] = useState("");
+  const [mobile, setMobile] = useState("");
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    let savings = localStorage.getItem("deposit_details")
+      ? JSON.parse(localStorage.getItem("deposit_details"))
+      : {};
+    let accounts = localStorage.getItem("accounts")
+      ? JSON.parse(localStorage.getItem("accounts"))
+      : [];
+    const savingsAccount = accounts.find(
+      (acc) => acc.product?.name === "Savings",
+    );
+    if (savingsAccount?.id) {
+      setSavingsAccountId(savingsAccount.id);
+    }
+    setDepositDetails(savings);
+  }, []);
 
-  const handleDeposit = async () => {
-    setLoading(true);
-    await onConfirm(phoneNumber);
-    setLoading(false);
+  const { mutate: buySavingsMutate, isLoading } = useMutation({
+    mutationKey: ["buy savings"],
+    mutationFn: () =>
+      buyShares(
+        depositDetails?.depositAmount,
+        depositDetails?.reference,
+        savingsAccountId,
+        depositDetails?.mobile,
+      ),
+    onSuccess: () => {
+      onConfirm();
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  console.log(depositDetails);
+
+  const handleContinue = async () => {
+    await buySavingsMutate();
   };
 
   const formattedAmount = new Intl.NumberFormat("en-KE", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(amount);
+  }).format(depositDetails?.depositAmount);
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#074073]/40 backdrop-blur-sm">
@@ -72,8 +108,8 @@ const ReviewDeposit = ({
               </div>
               <input
                 type="text"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                value={depositDetails?.mobile}
+                readOnly
                 className="flex-1 px-4 outline-none text-sm font-semibold tracking-wider"
                 placeholder="07XX XXX XXX"
               />
@@ -93,15 +129,15 @@ const ReviewDeposit = ({
         {/* Footer Action */}
         <div className="px-8 pb-8">
           <button
-            disabled={loading}
-            onClick={handleDeposit}
+            disabled={isLoading}
+            onClick={handleContinue}
             className={`w-full h-14 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all active:scale-[0.98] shadow-xl shadow-blue-900/10 ${
-              loading
+              isLoading
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                 : "bg-[#074073] hover:bg-[#052d52] text-white"
             }`}
           >
-            {loading ? (
+            {isLoading ? (
               <>
                 <Loader2 className="animate-spin" size={20} />
                 <span>Initiating...</span>

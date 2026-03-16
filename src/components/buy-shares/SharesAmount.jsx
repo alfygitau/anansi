@@ -8,8 +8,6 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
   const [errors, setErrors] = useState({ mobile: "", shares: "" });
   const { auth } = useAuth();
 
-  const SHARE_PRICE = 1000;
-
   useEffect(() => {
     setMobile(auth?.user?.mobileno);
   }, [auth]);
@@ -30,8 +28,6 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
       const amt = Number(value);
       if (!value || amt <= 0) {
         error = "Amount must be greater than 0";
-      } else if (amt % SHARE_PRICE !== 0) {
-        error = `Must be multiples of KES ${SHARE_PRICE}`;
       }
     }
     return error;

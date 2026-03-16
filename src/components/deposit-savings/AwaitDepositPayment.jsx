@@ -1,46 +1,66 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { X, ShieldCheck, Smartphone, CheckCircle2 } from "lucide-react";
+import { useToast } from "../../contexts/ToastProvider";
+import { useQuery } from "react-query";
+import { confirmDepositPayment } from "../../sdks/accounts/accounts";
 
-const AwaitDepositPayment = ({
-  isOpen,
-  onClose,
-  onBack,
-  reference,
-  onPaymentSuccess,
-  onPaymentFailed,
-}) => {
-  const [elapsedTime, setElapsedTime] = useState(0);
-  const pollingRef = useRef(null);
+const AwaitDepositPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
+  const [depositDetails, setDepositDetails] = useState({});
+  const { showToast } = useToast();
+  const [savingsAccountId, setSavingsAccountId] = useState("");
+
+  const handlePay = () => {
+    showToast({
+      title: "Savings Purchased Successfully",
+      description: `Your contribution of KES ${depositDetails?.savingsAmount?.toLocaleString()} has been added to your Shares Account.`,
+      type: "success",
+      position: "top-right",
+    });
+    onPaymentSuccess();
+  };
+
+  useQuery({
+    queryKey: ["poll savings payment"],
+    queryFn: async () => {
+      const response = await confirmDepositPayment(
+        depositDetails?.reference,
+        savingsAccountId,
+      );
+      return response.data.data?.exists;
+    },
+    enabled: !!isOpen,
+    onSuccess: async (data) => {
+      if (data) {
+        handlePay();
+      }
+    },
+    refetchInterval: 3000,
+    refetchIntervalInBackground: true,
+    onErrors: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   useEffect(() => {
-    if (isOpen) {
-      startPolling();
+    let savings = localStorage.getItem("deposit_details")
+      ? JSON.parse(localStorage.getItem("deposit_details"))
+      : {};
+    let accounts = localStorage.getItem("accounts")
+      ? JSON.parse(localStorage.getItem("accounts"))
+      : [];
+    const savingsAccount = accounts.find(
+      (acc) => acc.product?.name === "Savings",
+    );
+    if (savingsAccount?.id) {
+      setSavingsAccountId(savingsAccount.id);
     }
-    return () => stopPolling();
-  }, [isOpen]);
-
-  const stopPolling = () => {
-    if (pollingRef.current) clearInterval(pollingRef.current);
-  };
-
-  const startPolling = () => {
-    stopPolling();
-    setElapsedTime(0);
-
-    pollingRef.current = setInterval(async () => {
-      setElapsedTime((prev) => prev + 2);
-
-      try {
-      } catch (error) {
-        console.error("Polling error", error);
-      }
-
-      if (elapsedTime >= 25) {
-        stopPolling();
-        onPaymentFailed();
-      }
-    }, 2000);
-  };
+    setDepositDetails(savings);
+  }, []);
 
   if (!isOpen) return null;
 
@@ -124,7 +144,7 @@ const AwaitDepositPayment = ({
           </div>
 
           <p className="text-center text-[10px] text-gray-400 mt-6 italic">
-            Reference: {reference || "N/A"}
+            Reference: {"RDSBH653DR54" || "N/A"}
           </p>
         </div>
       </div>
