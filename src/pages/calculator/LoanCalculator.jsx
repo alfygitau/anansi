@@ -37,61 +37,62 @@ const LoanCalculator = () => {
   }, [amount, rate, period]);
 
   const calculateLoans = () => {
-  // Convert inputs to numbers, defaulting to 0 if empty or invalid
-  const principal = parseFloat(amount) || 0;
-  const annualRate = (parseFloat(rate) || 0) / 100;
-  const months = parseFloat(period) || 0;
+    // Convert inputs to numbers, defaulting to 0 if empty or invalid
+    const principal = parseFloat(amount) || 0;
+    const annualRate = (parseFloat(rate) || 0) / 100;
+    const months = parseFloat(period) || 0;
 
-  // --- 1. Guard Clause: Initial State / Zero principal or period ---
-  // If no money is borrowed or no time is set, everything is 0.
-  if (principal <= 0 || months <= 0) {
-    const zeroState = { emi: 0, totalInterest: 0, totalPayable: 0 };
-    setReducing(zeroState);
-    setSimple(zeroState);
-    return;
-  }
+    // --- 1. Guard Clause: Initial State / Zero principal or period ---
+    // If no money is borrowed or no time is set, everything is 0.
+    if (principal <= 0 || months <= 0) {
+      const zeroState = { emi: 0, totalInterest: 0, totalPayable: 0 };
+      setReducing(zeroState);
+      setSimple(zeroState);
+      return;
+    }
 
-  // --- 2. Interest-Free Case (0% Rate) ---
-  // Avoids division by zero in the EMI formula.
-  if (annualRate === 0) {
-    const interestFreeEmi = principal / months;
-    const interestFreeResult = {
-      emi: interestFreeEmi,
-      totalInterest: 0,
-      totalPayable: principal,
-    };
-    setReducing(interestFreeResult);
-    setSimple(interestFreeResult);
-    return;
-  }
+    // --- 2. Interest-Free Case (0% Rate) ---
+    // Avoids division by zero in the EMI formula.
+    if (annualRate === 0) {
+      const interestFreeEmi = principal / months;
+      const interestFreeResult = {
+        emi: interestFreeEmi,
+        totalInterest: 0,
+        totalPayable: principal,
+      };
+      setReducing(interestFreeResult);
+      setSimple(interestFreeResult);
+      return;
+    }
 
-  // --- 3. Reducing Balance Calculation (Amortization) ---
-  const monthlyRate = annualRate / 12;
-  const growthFactor = Math.pow(1 + monthlyRate, months);
-  
-  // EMI Formula: [P x r x (1+r)^n] / [(1+r)^n - 1]
-  const emiReducing = (principal * monthlyRate * growthFactor) / (growthFactor - 1);
-  const totalPayableRed = emiReducing * months;
-  const totalInterestRed = totalPayableRed - principal;
+    // --- 3. Reducing Balance Calculation (Amortization) ---
+    const monthlyRate = annualRate / 12;
+    const growthFactor = Math.pow(1 + monthlyRate, months);
 
-  setReducing({
-    emi: emiReducing,
-    totalInterest: totalInterestRed,
-    totalPayable: totalPayableRed,
-  });
+    // EMI Formula: [P x r x (1+r)^n] / [(1+r)^n - 1]
+    const emiReducing =
+      (principal * monthlyRate * growthFactor) / (growthFactor - 1);
+    const totalPayableRed = emiReducing * months;
+    const totalInterestRed = totalPayableRed - principal;
 
-  // --- 4. Simple Interest Calculation ---
-  // Interest = Principal x Rate x Time (in years)
-  const totalInterestSimple = principal * annualRate * (months / 12);
-  const totalPayableSimple = principal + totalInterestSimple;
-  const emiSimple = totalPayableSimple / months;
+    setReducing({
+      emi: emiReducing,
+      totalInterest: totalInterestRed,
+      totalPayable: totalPayableRed,
+    });
 
-  setSimple({
-    emi: emiSimple,
-    totalInterest: totalInterestSimple,
-    totalPayable: totalPayableSimple,
-  });
-};
+    // --- 4. Simple Interest Calculation ---
+    // Interest = Principal x Rate x Time (in years)
+    const totalInterestSimple = principal * annualRate * (months / 12);
+    const totalPayableSimple = principal + totalInterestSimple;
+    const emiSimple = totalPayableSimple / months;
+
+    setSimple({
+      emi: emiSimple,
+      totalInterest: totalInterestSimple,
+      totalPayable: totalPayableSimple,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
@@ -107,13 +108,13 @@ const LoanCalculator = () => {
           </button>
         </header>
         <p className="text-slate-500 mb-4 mt-3 text-sm leading-relaxed font-medium">
-          Evaluate your credit options by comparing
+          Evaluate your credit options by comparing &nbsp;
           <span className="text-[#042159] font-bold">
-            Amortized Reducing Balance
+            Amortized Reducing Balance &nbsp;
           </span>
-          against
+          against&nbsp;
           <span className="text-[#042159] font-bold">
-            Standard Simple Interest
+            Standard Simple Interest &nbsp;
           </span>
           models. Adjust your principal, rates, and tenure below to visualize
           total interest costs and monthly repayment obligations in real-time.

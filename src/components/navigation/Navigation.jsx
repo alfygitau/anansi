@@ -53,7 +53,10 @@ const Navigation = () => {
         {/* Right: Actions */}
         <div className="flex items-center gap-3 md:gap-6">
           {/* Help Icon */}
-          <button className="p-2.5 text-slate-400 hover:text-[#4DB8E4] hover:bg-blue-50 rounded-2xl transition-all flex items-center gap-2">
+          <button
+            onClick={() => navigate("/help-support")}
+            className="p-2.5 text-slate-400 hover:text-[#4DB8E4] hover:bg-blue-50 rounded-2xl transition-all flex items-center gap-2"
+          >
             <HelpCircle size={22} />
             <span className="hidden md:block text-xs font-bold uppercase tracking-widest">
               Need Help?

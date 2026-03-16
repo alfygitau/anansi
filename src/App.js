@@ -44,6 +44,7 @@ import SelfieCapture from "./pages/kyc-selfie/SelfieCapture";
 import FinishCapture from "./pages/kyc-selfie/FinishCapture";
 import CaptureFailed from "./pages/kyc-selfie/FailedCapture";
 import LoanCalculator from "./pages/calculator/LoanCalculator";
+import HelpSupport from "./pages/help-support/Help";
 
 function App() {
   return (
@@ -121,6 +122,7 @@ function App() {
             path="/account-details/:accountId/:accountNumber"
             element={<AccountDetails />}
           />
+          <Route path="/help-support" element={<HelpSupport />} />
           <Route path="/loan-calculator" element={<LoanCalculator />} />
           <Route path="/loan-products" element={<LoanProducts />} />
           <Route path="/all-loans" element={<MyLoans />} />
