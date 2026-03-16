@@ -60,7 +60,7 @@ const Login = () => {
     mutationKey: ["send admin otp"],
     mutationFn: (id) => resendOtp(id),
     onSuccess: () => {
-      navigate("/admin-customer/otp")
+      navigate("/admin-customer/otp");
     },
     onError: (error) => {
       showToast({
@@ -133,7 +133,7 @@ const Login = () => {
       res?.user?.onboarding_stage.toLowerCase() === "completed" &&
       res?.user?.temporary_password === true
     ) {
-      resendOtpMutate(res?.user?.id)
+      resendOtpMutate(res?.user?.id);
     } else {
       navigate(`/onboarding/continue`);
     }
@@ -297,7 +297,9 @@ const Login = () => {
         {/* Footer Links */}
         <p className="text-center mt-10 text-slate-400 text-[11px] font-bold uppercase tracking-tight">
           Not a member yet?{" "}
-          <button className="text-[#4DB8E4] ml-1">Open an account</button>
+          <button onClick={() => navigate(`/`)} className="text-[#4DB8E4] ml-1">
+            Open an account
+          </button>
         </p>
       </div>
     </div>

@@ -106,3 +106,12 @@ export const confirmDepositPayment = async (reference, savingsAccountId) => {
     throw error?.response?.data || error;
   }
 };
+
+export const getSharesSummary = async (public_id) => {
+  try {
+    const response = await client.get(`/shares/member/${public_id}/summary`);
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};

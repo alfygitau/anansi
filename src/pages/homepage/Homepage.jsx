@@ -50,6 +50,8 @@ import ReviewRegistrationOnly from "../../components/membership/ReviewRegistrati
 import AwaitingMembershipPayment from "../../components/membership/AwaitMembershipPayment";
 import FailedMembershipPayment from "../../components/membership/FailedPayment";
 import HomeLoader from "../../skeletons/HomeLoader";
+import { getSharesSummary } from "../../sdks/accounts/accounts";
+import useAuth from "../../hooks/useAuth";
 
 const Homepage = () => {
   const navigate = useNavigate();
@@ -176,6 +178,8 @@ const Homepage = () => {
     },
   ];
 
+  const { auth } = useAuth();
+  const [sharesSummary, setSharesSummary] = useState({});
   const [showInvestAmount, setShowInvestAmount] = useState(false);
   const [showConfirmInvestment, setShowConfirmInvestment] = useState(false);
   const [showAwaitPayment, setShowAwaitPayment] = useState(false);
@@ -202,12 +206,12 @@ const Homepage = () => {
     if (value === null || value === undefined || isNaN(value)) return "0";
 
     return new Intl.NumberFormat("en-KE", {
-      minimumFractionDigits: 0,
+      minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(value);
   };
 
-  const currentShares = Number(6 ?? 0);
+  const [currentShares, setCurrentShares] = useState(0);
   const targetShares = 10;
   const shareValue = 1000;
   const percentage = Math.min((currentShares / targetShares) * 100, 100);
@@ -225,6 +229,26 @@ const Homepage = () => {
       if (!data?.member) {
         setShowStartMembership(true);
       }
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { refetch: refetchSharesSummary } = useQuery({
+    queryKey: ["get shares summary"],
+    queryFn: async () => {
+      const response = await getSharesSummary(auth?.user?.public_id);
+      return response.data.data;
+    },
+    onSuccess: (data) => {
+      setSharesSummary(data);
+      setCurrentShares(data?.numberOfShares);
     },
     onError: (error) => {
       showToast({
@@ -411,7 +435,7 @@ const Homepage = () => {
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6 w-full mx-auto overflow-hidden border border-cyan-100 bg-gradient-to-br from-[#F0FFFE] to-white p-4 shadow-xl shadow-cyan-900/5 relative"
+              className="mb-6 w-full mx-auto overflow-hidden border border-cyan-100 bg-gradient-to-br from-[#F0FFFE] to-white p-4 shadow-sm shadow-cyan-900/5 relative"
             >
               {/* Decorative Blur Background */}
               <div className="absolute -right-16 -top-16 h-32 w-32 rounded-full bg-cyan-200/20 blur-3xl" />
@@ -504,7 +528,7 @@ const Homepage = () => {
                     key={account.id || index}
                     title={account?.product?.name || "Savings Account"}
                     accountNumber={account.account_number || "ACC-XXXXX"}
-                    balance={`KES ${formatNumber(account.balance)}`}
+                    balance={`KES ${formatNumber(account?.balance)}`}
                     isPrimary={account?.product?.name === "Savings"}
                     navigateToAccountDetails={() =>
                       navigate(`/account-details/${account.id}`)

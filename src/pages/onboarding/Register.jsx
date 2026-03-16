@@ -315,6 +315,19 @@ const Registration = () => {
                 </>
               )}
             </button>
+
+            <div className="mt-8 w-full text-center">
+              <p className="text-sm font-medium text-slate-500">
+                Already have an account?{" "}
+                <button
+                  type="button"
+                  onClick={() => navigate("/auth/login")}
+                  className="text-[#042159] font-black uppercase tracking-widest text-[11px] hover:text-[#4DB8E4] transition-colors ml-1"
+                >
+                  Log In
+                </button>
+              </p>
+            </div>
           </form>
         </div>
       </div>

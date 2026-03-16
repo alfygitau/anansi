@@ -125,6 +125,18 @@ const ProfilePage = () => {
                       label="Country"
                       value={customer?.country_of_residence}
                     />
+                    <DataField
+                      label="Identification Type"
+                      value={customer?.identification_type}
+                    />
+                    <DataField
+                      label="Identification"
+                      value={customer?.identification}
+                    />
+                    <DataField
+                      label="Gender"
+                      value={customer?.gender}
+                    />
                   </div>
                 </InfoCard>
               </div>
@@ -135,8 +147,16 @@ const ProfilePage = () => {
               <InfoCard title="Residential Address" icon={<MapPin size={18} />}>
                 <div className="space-y-4">
                   <DataField
+                    label="Country of Residence"
+                    value={customer?.country_of_residence}
+                  />
+                  <DataField
                     label="County / City"
                     value={address?.[0]?.county}
+                  />
+                  <DataField
+                    label="County / City"
+                    value={address?.[0]?.subcounty}
                   />
                   <DataField
                     label="Physical Address"
@@ -151,6 +171,11 @@ const ProfilePage = () => {
               >
                 <div className="space-y-4">
                   <DataField label="KRA PIN" value={customer?.kraPin} />
+                  <DataField label="Job Title" value={customer?.occupation} />
+                  <DataField
+                    label="Job Type"
+                    value={customer?.employment_type}
+                  />
                   <DataField
                     label="Income Range"
                     value={customer?.income_range}
@@ -170,6 +195,7 @@ const ProfilePage = () => {
                     label="Phone Number"
                     value={nextOfKin?.phoneNumber}
                   />
+                  <DataField label="Location" value={nextOfKin?.location} />
                 </div>
               </InfoCard>
             </div>
