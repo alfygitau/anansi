@@ -43,13 +43,13 @@ const ApplyLoan = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <header className="py-10">
+        <header className="py-6">
           <h1 className="text-3xl font-black tracking-tight">
             Loan Application
           </h1>
-          <p className="text-slate-400 text-sm leading-relaxed max-w-2xl">
+          <p className="text-slate-400 text-sm leading-relaxed">
             Adjust your requested amount and repayment structure to fit your
             cash flow. Please note that your maximum limit is determined by your
             current shares and deposit multiplier. Ensure your selection allows

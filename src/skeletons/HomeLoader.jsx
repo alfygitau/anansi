@@ -2,7 +2,7 @@ const HomeLoader = () => {
   return (
     <div className="min-h-screen bg-slate-50 pb-12 animate-pulse">
       {/* Centered Container */}
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto">
         
         {/* Header Skeleton */}
         <header className="flex justify-between mb-6 items-center pt-8">
