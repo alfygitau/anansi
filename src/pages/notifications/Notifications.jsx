@@ -121,7 +121,7 @@ const Notifications = () => {
                 ) : (
                   <div className="divide-y divide-slate-50">
                     <AnimatePresence>
-                      {notifications.map((notification, index) => {
+                      {filteredNotifications.map((notification, index) => {
                         const timeLabel = getTimeDifference(
                           notification?.createdAt,
                           notification?.updatedAt,

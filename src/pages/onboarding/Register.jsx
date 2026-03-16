@@ -198,7 +198,7 @@ const Registration = () => {
                 className="modern-input"
                 onChange={handleInputChange}
                 onBlur={handleBlur}
-                placeholder="Samuel Otieno"
+                placeholder="e.g Samuel Otieno"
               />
             </InputGroup>
 
@@ -213,7 +213,7 @@ const Registration = () => {
                 className="modern-input"
                 onChange={handleInputChange}
                 onBlur={handleBlur}
-                placeholder="sam@example.com"
+                placeholder="e.g sam@example.com"
               />
             </InputGroup>
 
@@ -231,7 +231,7 @@ const Registration = () => {
                   className="w-full h-[60px] px-6 bg-slate-50 border-none rounded-r-[24px] focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none font-bold text-[#042159]"
                   onChange={handleInputChange}
                   onBlur={handleBlur}
-                  placeholder="712 345 678"
+                  placeholder="e.g 0712 345 678"
                 />
               </div>
               {errors.mobile && (
@@ -249,7 +249,7 @@ const Registration = () => {
                   className="modern-input pl-6 pr-12"
                   onChange={handleInputChange}
                   onBlur={handleBlur}
-                  placeholder="••••••••"
+                  placeholder="e.g ••••••••"
                 />
                 <button
                   type="button"
@@ -267,7 +267,7 @@ const Registration = () => {
                   className="modern-input pl-6 pr-12"
                   onChange={handleInputChange}
                   onBlur={handleBlur}
-                  placeholder="••••••••"
+                  placeholder="e.g ••••••••"
                 />
                 <button
                   type="button"
