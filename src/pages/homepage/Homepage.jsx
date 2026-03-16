@@ -265,19 +265,29 @@ const Homepage = () => {
       <InvestAmount
         isOpen={showInvestAmount}
         onClose={() => setShowInvestAmount(false)}
-        onConfirm={() => {}}
+        onConfirm={() => {
+          setShowInvestAmount(false);
+          setShowConfirmInvestment(true);
+        }}
       />
 
       <ConfirmInvest
         isOpen={showConfirmInvestment}
         onClose={() => setShowConfirmInvestment(false)}
-        onSuccess={() => {}}
+        onConfirm={() => {
+          setShowConfirmInvestment(false);
+          setShowAwaitPayment(true);
+        }}
       />
 
       <AwaitingPayment
         isOpen={showAwaitPayment}
         onClose={() => setShowAwaitPayment(false)}
-        reference="DF675RTVF876Y"
+        onPaymentSuccess={() => {
+          setShowAwaitPayment(false);
+          refetchCustomerDetails();
+          refetchSharesSummary();
+        }}
       />
 
       <SharesAmount

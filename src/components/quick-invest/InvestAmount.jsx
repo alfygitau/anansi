@@ -1,29 +1,82 @@
-import React, { useState } from "react";
-import { X, ArrowLeft } from "lucide-react";
+import { useEffect, useState } from "react";
+import { X } from "lucide-react";
+import useAuth from "../../hooks/useAuth";
 
 const InvestAmount = ({ isOpen, onClose, onConfirm }) => {
   const [savings, setSavings] = useState("");
-  const [sharesAmount, setSharesAmount] = useState("0");
+  const [numberShares, setNumberShares] = useState("0");
   const [mobile, setMobile] = useState("");
+  const [errors, setErrors] = useState({ mobile: "", shares: "" });
+  const { auth } = useAuth();
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setMobile(auth?.user?.mobileno);
+  }, [auth]);
+
+  const validateField = (name, value) => {
+    let error = "";
+
+    if (name === "mobile") {
+      const kePhoneRegex = /^(?:254|\+254|0)?([71][0-9]{8})$/;
+      if (!value) {
+        error = "Phone number is required";
+      } else if (!kePhoneRegex.test(value.replace(/\s+/g, ""))) {
+        error = "Enter a valid M-PESA number (e.g., 0712...)";
+      }
+    }
+    if (name === "shares") {
+      const amt = Number(value);
+      if (!value) {
+        error = "Shares amount is required";
+      }
+    }
+    if (name === "savings") {
+      const amt = Number(value);
+      if (!value) {
+        error = "Savings amount is required";
+      }
+    }
+    return error;
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
+  };
+
+  const isFormValid =
+    Number(numberShares) > 0 &&
+    mobile.length >= 10 &&
+    !validateField("mobile", mobile) &&
+    !validateField("savings", mobile) &&
+    !validateField("shares", numberShares);
+
+  const generateUniqueId = () => {
+    return "id-" + Date.now() + "-" + Math.floor(Math.random() * 1000);
+  };
+
+  const handleSave = () => {
+    localStorage.setItem(
+      "invest_details",
+      JSON.stringify({
+        savings: savings,
+        sharesAmount: Number(numberShares),
+        mobile: mobile,
+        reference: generateUniqueId(),
+      }),
+    );
+    onConfirm();
+  };
 
   const calculateShares = () => {
-    const count = Number(sharesAmount) / 1000;
+    const count = Number(numberShares) / 1000;
     return new Intl.NumberFormat("en-KE", {
       minimumFractionDigits: 0,
       maximumFractionDigits: 4,
     }).format(count);
   };
 
-  const handleFinish = () => {
-    onConfirm({
-      savings,
-      sharesAmount: Number(sharesAmount),
-      mobile,
-    });
-    onClose();
-  };
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#074073]/40 backdrop-blur-sm">
@@ -61,12 +114,17 @@ const InvestAmount = ({ isOpen, onClose, onConfirm }) => {
               </div>
               <input
                 type="number"
+                name="savings"
                 value={savings}
+                onBlur={handleBlur}
                 onChange={(e) => setSavings(e.target.value)}
-                placeholder="0.00"
+                placeholder="e.g 500"
                 className="flex-1 px-4 outline-none text-sm font-medium"
               />
             </div>
+            {errors.savings && (
+              <p className="text-[10px] text-red-500 ml-1">{errors.savings}</p>
+            )}
           </div>
 
           {/* Shares Section */}
@@ -91,11 +149,19 @@ const InvestAmount = ({ isOpen, onClose, onConfirm }) => {
                   </div>
                   <input
                     type="number"
-                    value={sharesAmount}
-                    onChange={(e) => setSharesAmount(e.target.value)}
-                    className="flex-1 px-3 outline-none text-sm font-medium"
+                    name="shares"
+                    onBlur={handleBlur}
+                    value={numberShares}
+                    onChange={(e) => setNumberShares(e.target.value)}
+                    className="w-full h-full px-4 rounded-xl outline-none text-sm font-semibold"
+                    placeholder="e.g 5000"
                   />
                 </div>
+                {errors.shares && (
+                  <p className="text-[10px] text-red-500 ml-1">
+                    {errors.shares}
+                  </p>
+                )}
               </div>
               <div>
                 <label className="text-xs font-semibold text-gray-600 block mb-2 ml-1">
@@ -125,20 +191,30 @@ const InvestAmount = ({ isOpen, onClose, onConfirm }) => {
               </div>
               <input
                 type="text"
+                name="mobile"
                 placeholder="Enter mobile number"
                 value={mobile}
+                onBlur={handleBlur}
                 onChange={(e) => setMobile(e.target.value)}
                 className="flex-1 px-4 outline-none text-sm font-medium"
               />
             </div>
+            {errors.mobile && (
+              <p className="text-[10px] text-red-500 ml-1">{errors.mobile}</p>
+            )}
           </div>
         </div>
 
         {/* Footer Action */}
         <div className="p-8 bg-white">
           <button
-            onClick={handleFinish}
-            className="w-full h-14 bg-[#074073] hover:bg-[#052d52] text-white font-bold rounded-2xl shadow-lg shadow-blue-900/20 transition-all active:scale-[0.98]"
+            onClick={handleSave}
+            disabled={!isFormValid}
+            className={`w-full h-14 font-bold rounded-2xl shadow-lg transition-all ${
+              isFormValid
+                ? "bg-[#074073] hover:bg-[#052d52] text-white active:scale-[0.98]"
+                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+            }`}
           >
             Review and Finish
           </button>

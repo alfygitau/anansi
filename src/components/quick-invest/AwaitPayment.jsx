@@ -1,52 +1,53 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  X,
-  ArrowLeft,
-  ShieldCheck,
-  Smartphone,
-  CheckCircle2,
-} from "lucide-react";
+import { useState, useEffect } from "react";
+import { X, ShieldCheck, Smartphone, CheckCircle2 } from "lucide-react";
+import { useToast } from "../../contexts/ToastProvider";
+import { confirmQuickInvest } from "../../sdks/accounts/accounts";
+import { useQuery } from "react-query";
 
-const AwaitingPayment = ({
-  isOpen,
-  onClose,
-  onBack,
-  reference,
-  onPaymentSuccess,
-  onPaymentFailed,
-}) => {
-  const [elapsedTime, setElapsedTime] = useState(0);
-  const pollingRef = useRef(null);
+const AwaitingPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
+  const [investDetails, setInvestDetails] = useState({});
+  const { showToast } = useToast();
+
+  const handlePay = () => {
+    showToast({
+      title: "Shares and Savings Purchased Successfully",
+      description: `Your contribution has been added to your Shares and Savings Account.`,
+      type: "success",
+      position: "top-right",
+    });
+    onPaymentSuccess();
+  };
+
+  useQuery({
+    queryKey: ["poll quick invest"],
+    queryFn: async () => {
+      const response = await confirmQuickInvest(investDetails?.reference);
+      return response.data.data?.exists;
+    },
+    enabled: !!isOpen,
+    onSuccess: async (data) => {
+      if (data) {
+        handlePay();
+      }
+    },
+    refetchInterval: 3000,
+    refetchIntervalInBackground: true,
+    onErrors: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   useEffect(() => {
-    if (isOpen) {
-      startPolling();
-    }
-    return () => stopPolling();
-  }, [isOpen]);
-
-  const stopPolling = () => {
-    if (pollingRef.current) clearInterval(pollingRef.current);
-  };
-
-  const startPolling = () => {
-    stopPolling();
-    setElapsedTime(0);
-
-    pollingRef.current = setInterval(async () => {
-      setElapsedTime((prev) => prev + 2);
-
-      try {
-      } catch (error) {
-        console.error("Polling error", error);
-      }
-
-      if (elapsedTime >= 25) {
-        stopPolling();
-        onPaymentFailed();
-      }
-    }, 2000);
-  };
+    let invest = localStorage.getItem("invest_details")
+      ? JSON.parse(localStorage.getItem("invest_details"))
+      : {};
+    setInvestDetails(invest);
+  }, []);
 
   if (!isOpen) return null;
 
@@ -130,7 +131,7 @@ const AwaitingPayment = ({
           </div>
 
           <p className="text-center text-[10px] text-gray-400 mt-6 italic">
-            Reference: {reference || "N/A"}
+            Reference: {"DGFC654DF345" || "N/A"}
           </p>
         </div>
       </div>

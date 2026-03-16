@@ -11,12 +11,17 @@ import {
   Filter,
   Smartphone,
   Wallet,
+  ShieldCheck,
+  Info,
+  Clock,
+  ArrowRight,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AccountDetails = () => {
   const [balanceVisible, setBalanceVisible] = useState(true);
   const navigate = useNavigate();
+  const { accountId } = useParams();
 
   const accountInfo = {
     name: "Regular Savings",
@@ -68,179 +73,166 @@ const AccountDetails = () => {
       amount: "+ 1,500",
       status: "Success",
     },
-    {
-      id: 6,
-      type: "M-PESA Deposit",
-      ref: "SCA77812MM",
-      date: "Feb 20, 2026",
-      amount: "+ 25,000",
-      status: "Success",
-    },
-    {
-      id: 7,
-      type: "M-PESA Deposit",
-      ref: "SCA44102BB",
-      date: "Feb 15, 2026",
-      amount: "+ 3,400",
-      status: "Success",
-    },
-    {
-      id: 8,
-      type: "M-PESA Deposit",
-      ref: "SCX33219PP",
-      date: "Feb 10, 2026",
-      amount: "+ 10,000",
-      status: "Success",
-    },
-    {
-      id: 9,
-      type: "M-PESA Deposit",
-      ref: "SCX88901WW",
-      date: "Feb 05, 2026",
-      amount: "+ 5,500",
-      status: "Success",
-    },
-    {
-      id: 10,
-      type: "M-PESA Deposit",
-      ref: "SCR11234KK",
-      date: "Feb 01, 2026",
-      amount: "+ 1,200",
-      status: "Success",
-    },
   ];
 
   return (
     <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto">
         {/* Navigation Header */}
-        <header className="py-4 flex items-center gap-4">
-          <h1 className="text-xl font-bold">Savings Account Details</h1>
+        <header className="py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate(-1)}
+              className="p-2 hover:bg-slate-100 rounded-full transition-colors"
+            >
+              <ArrowLeft size={20} />
+            </button>
+            <h1 className="text-xl font-black tracking-tight uppercase tracking-widest text-[11px] text-slate-400">
+              Account Details
+            </h1>
+          </div>
         </header>
 
-        {/* 1. Hero Balance Card (Expanded) */}
-        <div className="bg-[#042159] rounded-[40px] p-6 text-white shadow-2xl shadow-blue-900/40 mb-6 relative overflow-hidden group">
-          {/* 1. Animated Mesh Gradient Background Elements */}
-          <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-[#4DB8E4] opacity-20 blur-[80px] rounded-full group-hover:opacity-30 transition-opacity duration-700"></div>
-          <div className="absolute bottom-[-20%] left-[-5%] w-40 h-40 bg-blue-400 opacity-10 blur-[60px] rounded-full"></div>
-
-          {/* 2. Top Section: Balance & Toggle */}
-          <div className="flex justify-between items-start relative z-10">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
+        {/* 1. Hero Balance Card & Quick Actions (Grid Layout) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+          {/* Main Balance Area (8 Cols) */}
+          <div className="lg:col-span-8 bg-[#042159] rounded-[30px] p-6 text-white shadow-xl shadow-blue-900/40 relative overflow-hidden group min-h-[300px] flex flex-col justify-between">
+            <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-[#4DB8E4] opacity-20 blur-[80px] rounded-full"></div>
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-4">
                 <div className="w-2 h-2 rounded-full bg-[#4DB8E4] animate-pulse"></div>
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-300/60">
-                  Active Savings
+                  Regular Savings
                 </span>
               </div>
-              <h2 className="text-5xl font-black tracking-tight mt-2">
-                {balanceVisible ? accountInfo.balance : "KES ********"}
-              </h2>
+              <div className="flex items-center gap-6">
+                <h2 className="text-6xl font-black tracking-tighter">
+                  {balanceVisible ? accountInfo.balance : "KES ••••••••"}
+                </h2>
+                <button
+                  onClick={() => setBalanceVisible(!balanceVisible)}
+                  className="p-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl hover:bg-white/15"
+                >
+                  {balanceVisible ? <EyeOff size={22} /> : <Eye size={22} />}
+                </button>
+              </div>
             </div>
 
-            <button
-              onClick={() => setBalanceVisible(!balanceVisible)}
-              className="p-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl hover:bg-white/15 transition-all active:scale-90"
-            >
-              {balanceVisible ? (
-                <EyeOff size={22} className="text-blue-200" />
-              ) : (
-                <Eye size={22} className="text-blue-200" />
-              )}
-            </button>
-          </div>
-          {/* 3. Bottom Section: Glassmorphism Info Row */}
-          <div className="mt-12 pt-8 border-t border-white/10 flex items-center justify-between relative z-10">
-            <div className="flex gap-12">
-              <div className="space-y-1">
-                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-300/40">
+            <div className="relative z-10 flex items-end justify-between border-t border-white/10 pt-6 mt-4">
+              <div>
+                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-300/40 mb-1">
                   Account Number
                 </p>
-                <div className="flex items-center gap-2 group/acc cursor-pointer">
-                  <p className="text-sm font-mono font-medium text-blue-100">
+                <div className="flex items-center gap-3">
+                  <p className="text-lg font-mono font-medium text-blue-100">
                     {accountInfo.accNumber}
                   </p>
                   <Copy
-                    size={12}
-                    className="text-blue-400 opacity-0 group-hover/acc:opacity-100 transition-opacity"
+                    size={14}
+                    className="text-blue-400 cursor-pointer hover:text-white"
                   />
                 </div>
               </div>
+              <div className="text-right">
+                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-300/40 mb-1">
+                  Interest Earned
+                </p>
+                <p className="text-lg font-black text-[#4DB8E4]">
+                  {accountInfo.interestEarned}
+                </p>
+              </div>
             </div>
-            {/* Decorative Brand Icon */}
-            <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
-              <Wallet size={20} className="text-blue-300/50" />
-            </div>
+          </div>
+
+          {/* Quick Actions Vertical (4 Cols) */}
+          <div className="lg:col-span-4 grid grid-cols-2 gap-4">
+            <VerticalAction
+              icon={<ArrowDownCircle />}
+              label="Deposit"
+              color="bg-[#4DB8E4]"
+            />
+            <VerticalAction
+              icon={<FileText />}
+              label="Statement"
+              color="bg-white"
+              darkText
+            />
+            <VerticalAction
+              icon={<TrendingUp />}
+              label="Invest"
+              color="bg-white"
+              darkText
+            />
+            <VerticalAction
+              icon={<Search />}
+              label="Explore"
+              color="bg-white"
+              darkText
+            />
           </div>
         </div>
 
-        {/* 2. Quick Actions Row */}
-        <section className="mb-4">
-          <h2 className="text-[14px] font-black uppercase tracking-[0.2em] text-slate-400 my-5">
-            Account Actions
-          </h2>
-          <div className="flex justify-start items-start gap-[30px] overflow-x-auto pb-4 no-scrollbar">
-            <DetailAction
-              label="Deposit savings"
-              icon={<ArrowDownCircle />}
-              color="#4DB8E4"
-            />
-            <DetailAction
-              label="View Statements"
-              icon={<FileText />}
-              color="#042159"
-            />
-            <DetailAction
-              label="Explore Products"
-              icon={<Search />}
-              color="#042159"
-            />
-            <DetailAction
-              label="Quick Invest & Save"
-              icon={<TrendingUp />}
-              color="#042159"
-            />
-          </div>
-        </section>
+        {/* 2. Main Transactions Section with Sidebar */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Left: Transaction List (8 Cols) */}
+          <div className="lg:col-span-8">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-xl font-black tracking-tight">
+                Recent Transactions
+              </h3>
+              <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-[#042159]">
+                <Filter size={16} /> Filter
+              </button>
+            </div>
 
-        {/* 3. M-PESA Deposits List */}
-        <section>
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-bold">Account Transactions</h2>
-            <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-[#042159]">
-              <Filter size={14} /> Filter
-            </button>
+            <div className="space-y-3">
+              {transactions.map((tx) => (
+                <TransactionRow key={tx.id} tx={tx} />
+              ))}
+            </div>
           </div>
 
-          <div className="space-y-3">
-            {transactions.map((tx) => (
-              <div
-                key={tx.id}
-                className="bg-white p-4 rounded-2xl border border-slate-100 flex items-center justify-between hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-green-50 text-green-600 rounded-full flex items-center justify-center">
-                    <Smartphone size={20} />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold">{tx.type}</h4>
-                    <p className="text-[10px] text-slate-400 font-mono tracking-tighter">
-                      REF: {tx.ref} • {tx.date}
-                    </p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-black text-green-600 font-mono">
-                    {tx.amount}
-                  </p>
-                  <p className="text-[9px] font-bold uppercase text-slate-300 tracking-tighter">
-                    {tx.status}
-                  </p>
-                </div>
+          {/* Right: Info & Disclaimers (4 Cols) */}
+          <aside className="lg:col-span-4 space-y-6">
+            {/* Account Status Card */}
+            <div className="bg-white rounded-[32px] p-8 border border-slate-100 shadow-xl shadow-blue-900/5">
+              <div className="flex items-center gap-3 mb-6">
+                <ShieldCheck className="text-emerald-500" size={20} />
+                <h3 className="font-black text-[11px] uppercase tracking-widest text-slate-400">
+                  Account Security
+                </h3>
               </div>
-            ))}
-          </div>
-        </section>
+              <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                This account is protected by 256-bit encryption. Always ensure
+                you log out after viewing sensitive financial data.
+              </p>
+            </div>
+
+            {/* Disclaimer / Notice */}
+            <div className="bg-blue-50/50 rounded-[32px] p-8 border border-blue-100/100">
+              <div className="flex items-center gap-3 mb-4">
+                <Info className="text-[#4DB8E4]" size={20} />
+                <h3 className="font-black text-[11px] uppercase tracking-widest text-slate-400">
+                  Important Info
+                </h3>
+              </div>
+              <ul className="space-y-4">
+                <DisclaimerItem text="M-PESA deposits reflect instantly. Third-party bank transfers may take up to 24 hours." />
+                <DisclaimerItem text="A minimum balance of KES 1,000 must be maintained to keep the account active." />
+                <DisclaimerItem text="Interest is calculated daily and credited to your account at the end of every quarter." />
+              </ul>
+            </div>
+
+            {/* Support */}
+            <div className="px-8 flex items-start gap-3 opacity-50">
+              <Clock size={14} className="mt-0.5 shrink-0" />
+              <p className="text-[9px] font-bold uppercase tracking-widest leading-relaxed">
+                Transaction history is available online for up to 2 years. Older
+                records require a branch visit.
+              </p>
+            </div>
+          </aside>
+        </div>
       </div>
     </div>
   );
@@ -248,22 +240,52 @@ const AccountDetails = () => {
 
 /* --- Sub-Components --- */
 
-const DetailAction = ({ label, icon, color }) => (
-  // Removed min-w and changed items-center to items-start for flush-left alignment
-  <div className="flex flex-col items-start group cursor-pointer">
+const VerticalAction = ({ icon, label, color, darkText = false }) => (
+  <button
+    className={`${color} ${darkText ? "text-[#042159] border border-slate-200" : "text-white"} p-6 rounded-[32px] flex flex-col items-center justify-center gap-3 shadow-xl shadow-blue-900/5 hover:scale-[1.02] transition-all group`}
+  >
     <div
-      className="w-20 h-20 rounded-[30px] flex items-center justify-center text-white shadow-lg transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-xl"
-      style={{ backgroundColor: color }}
+      className={`${darkText ? "bg-slate-50" : "bg-white/20"} p-4 rounded-2xl group-hover:scale-110 transition-transform`}
     >
-      {/* Increased icon size to 32 to match the larger container */}
-      {React.cloneElement(icon, { size: 32, strokeWidth: 1.5 })}
+      {React.cloneElement(icon, { size: 24 })}
     </div>
-
-    {/* Aligned text-left to match the icon's start point */}
-    <span className="text-[10px] font-bold text-center mt-4 uppercase tracking-tight text-slate-500 group-hover:text-[#042159] w-full line-clamp-2 leading-tight transition-colors">
+    <span className="text-[10px] font-black uppercase tracking-widest">
       {label}
     </span>
+  </button>
+);
+
+const TransactionRow = ({ tx }) => (
+  <div className="bg-white p-5 rounded-[28px] border border-slate-200 flex items-center justify-between hover:border-[#4DB8E4]/30 transition-all cursor-pointer group">
+    <div className="flex items-center gap-4">
+      <div className="w-12 h-12 bg-slate-50 text-slate-400 group-hover:bg-green-50 group-hover:text-green-600 rounded-2xl flex items-center justify-center transition-colors">
+        <Smartphone size={22} />
+      </div>
+      <div>
+        <h4 className="text-sm font-black text-[#042159]">{tx.type}</h4>
+        <p className="text-[10px] text-slate-400 font-mono tracking-tight uppercase">
+          {tx.ref} • {tx.date}
+        </p>
+      </div>
+    </div>
+    <div className="text-right">
+      <p className="text-base font-black text-green-600 font-mono">
+        {tx.amount}
+      </p>
+      <p className="text-[9px] font-bold uppercase text-slate-300 tracking-widest">
+        {tx.status}
+      </p>
+    </div>
   </div>
+);
+
+const DisclaimerItem = ({ text }) => (
+  <li className="flex gap-3 items-start">
+    <div className="w-1.5 h-1.5 rounded-full bg-[#4DB8E4] mt-1.5 shrink-0" />
+    <p className="text-[11px] text-slate-500 leading-normal font-medium">
+      {text}
+    </p>
+  </li>
 );
 
 export default AccountDetails;

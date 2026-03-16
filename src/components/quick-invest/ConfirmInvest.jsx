@@ -1,24 +1,21 @@
-import { useState, useMemo } from "react";
-import {
-  X,
-  ArrowLeft,
-  Loader2,
-  Phone,
-  ReceiptText,
-  Smartphone,
-} from "lucide-react";
+import { useState, useMemo, useEffect } from "react";
+import { X, Loader2, Phone, ReceiptText, Smartphone } from "lucide-react";
+import { useToast } from "../../contexts/ToastProvider";
+import { useMutation } from "react-query";
+import { investAndSave } from "../../sdks/accounts/accounts";
+import useAuth from "../../hooks/useAuth";
 
-const ConfirmInvest = ({ isOpen, onClose, onBack, data, onSuccess }) => {
-  const [isLoading, setIsLoading] = useState(false);
+const ConfirmInvest = ({ isOpen, onClose, onConfirm }) => {
+  const [investDetails, setInvestDetails] = useState({});
+  const { showToast } = useToast();
+  const { auth } = useAuth();
 
-  // Formatting helpers
-  const formatCurrency = (val) =>
-    new Intl.NumberFormat("en-KE", {
-      style: "decimal",
-      minimumFractionDigits: 2,
-    }).format(val);
-
-  const totalAmount = Number(0) + Number(0);
+  useEffect(() => {
+    let invest = localStorage.getItem("invest_details")
+      ? JSON.parse(localStorage.getItem("invest_details"))
+      : {};
+    setInvestDetails(invest);
+  }, []);
 
   const formattedDate = useMemo(() => {
     return new Date().toLocaleDateString("en-GB", {
@@ -28,20 +25,43 @@ const ConfirmInvest = ({ isOpen, onClose, onBack, data, onSuccess }) => {
     });
   }, []);
 
-  if (!isOpen) return null;
+  const formatCurrency = (val) =>
+    new Intl.NumberFormat("en-KE", {
+      style: "decimal",
+      minimumFractionDigits: 2,
+    }).format(val);
 
-  const handlePayment = async () => {
-    setIsLoading(true);
-    try {
-      setTimeout(() => {
-        setIsLoading(false);
-        onSuccess();
-      }, 2000);
-    } catch (error) {
-      setIsLoading(false);
-      console.error(error);
-    }
+  const { mutate: investAndSaveMutate, isLoading } = useMutation({
+    mutationKey: ["buy shares"],
+    mutationFn: () =>
+      investAndSave(
+        investDetails?.savings,
+        investDetails?.sharesAmount,
+        investDetails?.reference,
+        auth?.user?.id,
+        investDetails?.mobile,
+      ),
+    onSuccess: () => {
+      onConfirm();
+    },
+    onError: (error) => {
+      showToast({
+        title: "Investment glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const handleContinue = async () => {
+    await investAndSaveMutate();
   };
+
+  const totalAmount =
+    Number(investDetails?.savings) + Number(investDetails?.sharesAmount);
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#074073]/40 backdrop-blur-sm">
@@ -76,7 +96,7 @@ const ConfirmInvest = ({ isOpen, onClose, onBack, data, onSuccess }) => {
                   M-PESA Number
                 </p>
                 <p className="text-sm font-bold text-[#074073]">
-                  {"0723402776" || "Not Set"}
+                  {investDetails?.mobile || "Not Set"}
                 </p>
               </div>
               <img src="/mpesa.svg" alt="Mpesa" className="h-6 opacity-80" />
@@ -107,13 +127,13 @@ const ConfirmInvest = ({ isOpen, onClose, onBack, data, onSuccess }) => {
                 <div className="flex justify-between text-xs">
                   <span className="text-gray-500">Shares Purchase</span>
                   <span className="font-bold text-gray-700">
-                    KES {formatCurrency(2300)}
+                    KES {formatCurrency(investDetails?.sharesAmount)}
                   </span>
                 </div>
                 <div className="flex justify-between text-xs">
                   <span className="text-gray-500">Savings Deposit</span>
                   <span className="font-bold text-gray-700">
-                    KES {formatCurrency(2000)}
+                    KES {formatCurrency(investDetails?.savings)}
                   </span>
                 </div>
               </div>
@@ -125,7 +145,7 @@ const ConfirmInvest = ({ isOpen, onClose, onBack, data, onSuccess }) => {
             <Smartphone size={16} className="text-blue-600 mt-0.5" />
             <p className="text-[11px] leading-relaxed text-blue-700 font-medium">
               A STK push will be sent to{" "}
-              <span className="font-bold">{"0723402776"}</span>. Please enter
+              <span className="font-bold">{investDetails?.mobile}</span>. Please enter
               your M-PESA pin to authorize the transaction.
             </p>
           </div>
@@ -135,7 +155,7 @@ const ConfirmInvest = ({ isOpen, onClose, onBack, data, onSuccess }) => {
         <div className="px-8 pb-8">
           <button
             disabled={isLoading}
-            onClick={handlePayment}
+            onClick={handleContinue}
             className={`w-full h-14 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all active:scale-[0.98] shadow-xl shadow-blue-900/10 ${
               isLoading
                 ? "bg-gray-100 text-gray-400"

@@ -116,7 +116,10 @@ function App() {
         <Route path="/" element={<Homelayer />}>
           <Route path="/home" element={<Homepage />} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/account-details" element={<AccountDetails />} />
+          <Route
+            path="/account-details/:accountId"
+            element={<AccountDetails />}
+          />
           <Route path="/loan-products" element={<LoanProducts />} />
           <Route path="/all-loans" element={<MyLoans />} />
           <Route path="/all-loan-applications" element={<LoanApplications />} />
