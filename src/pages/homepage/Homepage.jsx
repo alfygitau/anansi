@@ -541,7 +541,9 @@ const Homepage = () => {
                     balance={`KES ${formatNumber(account?.balance)}`}
                     isPrimary={account?.product?.name === "Savings"}
                     navigateToAccountDetails={() =>
-                      navigate(`/account-details/${account.id}`)
+                      navigate(
+                        `/account-details/${account.id}/${account.account_number}`,
+                      )
                     }
                   />
                 ))}

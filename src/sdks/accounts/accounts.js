@@ -43,6 +43,24 @@ export const fetchAccounts = async () => {
   }
 };
 
+export const fetchAccount = async (accountId) => {
+  try {
+    const response = await client.get(`/account/${accountId}`);
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
+export const fetchAccountTransactions = async (accountNumber) => {
+  try {
+    const response = await client.get(`/transaction/account/${accountNumber}`);
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
 export const buyShares = async (
   sharesAmount,
   reference,

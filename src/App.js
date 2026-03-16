@@ -117,7 +117,7 @@ function App() {
           <Route path="/home" element={<Homepage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route
-            path="/account-details/:accountId"
+            path="/account-details/:accountId/:accountNumber"
             element={<AccountDetails />}
           />
           <Route path="/loan-products" element={<LoanProducts />} />
