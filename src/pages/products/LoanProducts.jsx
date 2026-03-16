@@ -133,9 +133,9 @@ const LoanProducts = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto">
         {/* Header Section */}
-        <header className="py-8">
+        <header className="py-4">
           <h1 className="text-3xl font-black tracking-tight">
             Loan Products
           </h1>
@@ -144,7 +144,7 @@ const LoanProducts = () => {
           </p>
 
           {/* Modern Search Bar */}
-          <div className="mt-8 flex gap-3">
+          <div className="mt-4 flex gap-3">
             <div className="relative flex-1">
               <Search
                 className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
@@ -190,7 +190,7 @@ const LoanProducts = () => {
 /* --- Sub-Component: ProductCard --- */
 
 const ProductCard = ({ product, navigate }) => (
-  <div className="bg-white p-6 rounded-[32px] border border-slate-50 shadow-sm hover:shadow-xl hover:shadow-blue-900/5 transition-all group cursor-pointer relative overflow-hidden">
+  <div className="bg-white p-6 rounded-[32px] border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-blue-900/5 transition-all group cursor-pointer relative overflow-hidden">
     {/* Decorative Background Icon */}
     <div className="absolute -right-4 -bottom-4 text-slate-50 opacity-0 group-hover:opacity-100 transition-opacity">
       {React.cloneElement(product.icon, { size: 100 })}

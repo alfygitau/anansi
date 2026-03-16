@@ -211,7 +211,6 @@ const MyStatements = () => {
                         className="w-full pl-12 pr-12 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none text-sm font-bold transition-all appearance-none cursor-pointer"
                       >
                         <option value="All">All Years</option>{" "}
-                        {/* Added this line */}
                         {["2026", "2025", "2024", "2023"].map((y) => (
                           <option key={y} value={y}>
                             {y}

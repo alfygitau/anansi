@@ -114,9 +114,9 @@ const LoanDetails = ({ onBack }) => {
 
   return (
     <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <header className="py-8">
+        <header className="py-4">
           <div className="flex justify-between items-end">
             <div>
               <h1 className="text-3xl font-black tracking-tight">
@@ -132,7 +132,7 @@ const LoanDetails = ({ onBack }) => {
           </div>
         </header>
 
-        <section className="mb-8">
+        <section className="mb-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <QuickActionButton
               icon={<CreditCard className="text-emerald-500" />}
@@ -166,7 +166,7 @@ const LoanDetails = ({ onBack }) => {
         </section>
 
         {/* 1. Loan Parameters Card (High Density) */}
-        <div className="bg-white rounded-[40px] p-6 border border-slate-100 shadow-xl shadow-blue-900/5 mb-6">
+        <div className="bg-white rounded-[40px] p-6 border border-slate-100 shadow-sm shadow-blue-900/5 mb-3">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-y-10 gap-x-6">
             <ParamItem
               icon={<Hash />}
@@ -214,8 +214,8 @@ const LoanDetails = ({ onBack }) => {
         </div>
 
         {/* 3. GUARANTORS SECTION (Full Width or 2-Column Grid) */}
-        <section className="mb-12">
-          <div className="flex items-center justify-between mb-6">
+        <section className="mb-4">
+          <div className="flex items-center justify-between mb-3">
             <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
               Guarantors & Securities
             </h3>
@@ -233,10 +233,10 @@ const LoanDetails = ({ onBack }) => {
         </section>
 
         {/* 2. Split View: Schedule & Transactions */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 py-3">
           {/* Left Side: Schedule (Stepper) */}
           <div className="md:col-span-5">
-            <h3 className="text-[13px] font-black uppercase tracking-[0.2em] text-slate-400 mb-10">
+            <h3 className="text-[13px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6">
               Repayment Progress
             </h3>
             <div className="space-y-0">
@@ -284,7 +284,7 @@ const LoanDetails = ({ onBack }) => {
 
           {/* Right Side: Transactions */}
           <div className="md:col-span-7">
-            <div className="flex justify-between items-center mb-10">
+            <div className="flex justify-between items-center mb-3">
               <h3 className="text-[13px] font-black uppercase tracking-[0.2em] text-slate-400">
                 Transaction Ledger
               </h3>
@@ -344,7 +344,7 @@ const MPesaTransactionRow = ({ tx }) => {
   const isDisbursement = tx.type.includes("Disbursement");
 
   return (
-    <div className="group p-5 bg-white border border-slate-100 rounded-[28px] hover:border-[#3EB344]/30 transition-all flex items-center justify-between">
+    <div className="group p-5 bg-white border border-slate-200 rounded-[28px] hover:border-[#3EB344]/30 transition-all flex items-center justify-between">
       <div className="flex items-center gap-4">
         {/* M-PESA Branded Icon Container */}
         <div
