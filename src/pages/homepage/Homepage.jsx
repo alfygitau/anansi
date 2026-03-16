@@ -40,9 +40,8 @@ import AwaitDepositPayment from "../../components/deposit-savings/AwaitDepositPa
 import { motion } from "framer-motion";
 import StartMembership from "../../components/membership/StartMembership";
 import useAuth from "../../hooks/useAuth";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
-import { fetchAccounts } from "../../sdks/accounts/accounts";
 import { getCustomer } from "../../sdks/customer/customer";
 import JoinMembership from "../../components/membership/JoinMembership";
 import SaveAndInvest from "../../components/membership/SaveInvest";
@@ -223,6 +222,7 @@ const Homepage = () => {
     },
     onSuccess: (data) => {
       setAccounts(data?.accounts);
+      localStorage.setItem("accounts", JSON.stringify(data?.accounts));
       if (!data?.member) {
         setShowStartMembership(true);
       }
@@ -260,16 +260,27 @@ const Homepage = () => {
       <SharesAmount
         isOpen={showSharesAmount}
         onClose={() => setShowSharesAmount(false)}
+        onConfirm={() => {
+          setShowSharesAmount(false);
+          setShowConfirmShares(true);
+        }}
       />
 
       <ConfirmShares
         isOpen={showConfirmShares}
         onClose={() => setShowConfirmShares(false)}
+        onConfirm={() => {
+          setShowConfirmShares(false);
+          setShowAwaitSharesPayment(true);
+        }}
       />
 
       <AwaitSharesPayment
         isOpen={showAwaitSharesPayment}
         onClose={() => setShowAwaitSharesPayment(false)}
+        onPaymentSuccess={() => {
+          setShowAwaitSharesPayment(false);
+        }}
       />
 
       <DepositAmount
@@ -354,11 +365,23 @@ const Homepage = () => {
           setShowAwaitMembershipPayment(false);
         }}
         refetch={refetchCustomerDetails}
+        onFail={() => {
+          setShowAwaitMembershipPayment(false);
+          setShowFailedMembershipPayment(true);
+        }}
       />
 
       <FailedMembershipPayment
         isOpen={showFailedMembershipPayment}
         onClose={() => setShowFailedMembershipPayment(false)}
+        onTryAgain={() => {
+          setShowFailedMembershipPayment(false);
+          setShowAwaitMembershipPayment(true);
+        }}
+        onConfirmManual={() => {
+          setShowFailedMembershipPayment(false);
+          setShowAwaitMembershipPayment(true);
+        }}
       />
 
       <div className="min-h-screen bg-slate-50 text-[#042159] pb-12">

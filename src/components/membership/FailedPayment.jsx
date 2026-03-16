@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  X,
-  ChevronLeft,
   AlertCircle,
   CheckCircle2,
   RotateCcw,
@@ -11,27 +9,65 @@ import {
   Loader2,
   ExternalLink,
 } from "lucide-react";
+import useAuth from "../../hooks/useAuth";
+import { useMutation } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import { payMembership } from "../../sdks/membership/membership";
 
 const FailedMembershipPayment = ({
   isOpen,
   onClose,
-  onBack,
   onTryAgain,
   onConfirmManual,
 }) => {
-  const [isRetrying, setIsRetrying] = useState(false);
-  const [isVerifying, setIsVerifying] = useState(false);
+  const [membershipDetails, setMembershipDetails] = useState({});
+  const [membershipPhone, setMembershipPhone] = useState("");
+  const { auth } = useAuth();
+  const { showToast } = useToast();
+
+  useEffect(() => {
+    let membership = localStorage.getItem("membership")
+      ? JSON.parse(localStorage.getItem("membership"))
+      : {};
+    let mobile = localStorage.getItem("membership_mobile")
+      ? JSON.parse(localStorage.getItem("membership_mobile"))
+      : "";
+    setMembershipDetails(membership);
+    setMembershipPhone(mobile);
+  }, []);
+
+  const { mutate: payMembershipMutate, isLoading } = useMutation({
+    mutationKey: ["pay membership"],
+    mutationFn: () =>
+      payMembership(
+        auth?.user?.id,
+        membershipDetails?.shares,
+        membershipDetails?.savings,
+        membershipPhone,
+      ),
+    onSuccess: () => {
+      onTryAgain();
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const handlePayment = async () => {
+    await payMembershipMutate();
+  };
 
   const handleRetry = async () => {
-    setIsRetrying(true);
-    await onTryAgain();
-    setIsRetrying(false);
+    handlePayment();
   };
 
   const handleManualConfirm = async () => {
-    setIsVerifying(true);
     await onConfirmManual();
-    setIsVerifying(false);
   };
 
   return (
@@ -107,15 +143,10 @@ const FailedMembershipPayment = ({
                   Did you receive an M-PESA SMS already?
                 </p>
                 <button
-                  disabled={isVerifying}
                   onClick={handleManualConfirm}
                   className="inline-flex items-center gap-2 text-[#042159] font-black text-xs uppercase tracking-wider hover:underline disabled:opacity-50"
                 >
-                  {isVerifying ? (
-                    <Loader2 size={14} className="animate-spin" />
-                  ) : (
-                    <ExternalLink size={14} />
-                  )}
+                  <ExternalLink size={14} />
                   Verify Payment Status
                 </button>
               </div>
@@ -123,11 +154,10 @@ const FailedMembershipPayment = ({
               {/* Action Buttons */}
               <div className="space-y-3 pt-4 border-t border-slate-50">
                 <button
-                  disabled={isRetrying}
                   onClick={handleRetry}
                   className="group w-full h-14 bg-[#042159] hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98] disabled:bg-slate-300"
                 >
-                  {isRetrying ? (
+                  {isLoading ? (
                     <Loader2 size={18} className="animate-spin" />
                   ) : (
                     <>

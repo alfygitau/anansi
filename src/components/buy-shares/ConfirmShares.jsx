@@ -1,10 +1,30 @@
-import React, { useState, useMemo } from "react";
-import { X, ArrowLeft, Loader2, Calendar, Phone, Receipt } from "lucide-react";
+import { useState, useMemo, useEffect } from "react";
+import { X, Calendar, Phone, Receipt, Loader2 } from "lucide-react";
+import { useMutation } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import { buyShares } from "../../sdks/accounts/accounts";
 
-const ConfirmShares = ({ isOpen, onClose, onBack, data, onConfirm }) => {
-  const [isLoading, setIsLoading] = useState(false);
+const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
+  const [sharesDetails, setSharesDetails] = useState({});
+  const { showToast } = useToast();
+  const [sharesAccountId, setSharesAccountId] = useState("");
 
-  // Dynamic date formatting
+  useEffect(() => {
+    let shares = localStorage.getItem("shares_details")
+      ? localStorage.getItem("shares_details")
+      : {};
+    let accounts = localStorage.getItem("accounts")
+      ? JSON.parse(localStorage.getItem("accounts"))
+      : [];
+    const sharesAccount = accounts.find(
+      (acc) => acc.product?.name === "Shares",
+    );
+    if (sharesAccount?.id) {
+      setSharesAccountId(sharesAccount.id);
+    }
+    setSharesDetails(shares);
+  }, []);
+
   const formattedDate = useMemo(() => {
     return new Date().toLocaleDateString("en-GB", {
       day: "numeric",
@@ -19,13 +39,33 @@ const ConfirmShares = ({ isOpen, onClose, onBack, data, onConfirm }) => {
       minimumFractionDigits: 2,
     }).format(val);
 
-  if (!isOpen) return null;
+  const { mutate: buySharesMutate, isLoading } = useMutation({
+    mutationKey: ["buy shares"],
+    mutationFn: () =>
+      buyShares(
+        sharesDetails?.sharesAmount,
+        sharesDetails?.reference,
+        sharesAccountId,
+        sharesDetails?.mobile,
+      ),
+    onSuccess: () => {
+      onConfirm();
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   const handleContinue = async () => {
-    setIsLoading(true);
-    await onConfirm(); // Logic for buyShares goes here
-    setIsLoading(false);
+    await buySharesMutate();
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#074073]/40 backdrop-blur-sm">
@@ -61,7 +101,7 @@ const ConfirmShares = ({ isOpen, onClose, onBack, data, onConfirm }) => {
                   M-PESA Phone No
                 </p>
                 <p className="text-sm font-bold text-gray-800">
-                  {"0769404436"}
+                  {sharesDetails?.mobile}
                 </p>
               </div>
               <img src="/mpesa.svg" alt="M-Pesa" className="h-6" />
@@ -77,7 +117,7 @@ const ConfirmShares = ({ isOpen, onClose, onBack, data, onConfirm }) => {
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-500">Total Share Cost</span>
                 <span className="text-base font-black text-[#074073]">
-                  KES {formatCurrency(2000)}
+                  KES {formatCurrency(sharesDetails?.sharesAmount ?? 0)}
                 </span>
               </div>
               <div className="flex justify-between items-center pt-3 border-t border-gray-200/50">
@@ -103,13 +143,14 @@ const ConfirmShares = ({ isOpen, onClose, onBack, data, onConfirm }) => {
         {/* Footer Action */}
         <div className="px-8 pb-8">
           <button
-            disabled={isLoading}
             onClick={handleContinue}
-            className={`w-full h-14 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all active:scale-[0.98] shadow-lg shadow-blue-900/10 ${
-              isLoading
-                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                : "bg-[#074073] hover:bg-[#052d52] text-white"
-            }`}
+            disabled={isLoading}
+            className={`w-full h-14 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-900/10 
+    ${
+      isLoading
+        ? "bg-slate-200 text-slate-400 cursor-not-allowed"
+        : "bg-[#074073] hover:bg-[#052d52] text-white active:scale-[0.98]"
+    }`}
           >
             {isLoading ? (
               <>

@@ -9,6 +9,24 @@ import {
 } from "lucide-react";
 
 const SaveAndInvest = ({ isOpen, onClose, onNext, onCombine }) => {
+  const SHARE_PRICE = 1000;
+
+  const calculateShares = (amount) => {
+    const num = parseFloat(amount) || 0;
+    return (num / SHARE_PRICE).toFixed(2);
+  };
+
+  const handleContinue = () => {
+    localStorage.setItem(
+      "membership",
+      JSON.stringify({
+        savings: "0",
+        shares: "0",
+        totalShares: calculateShares(0),
+      }),
+    );
+    onNext();
+  };
   return (
     <AnimatePresence>
       {isOpen && (
@@ -98,7 +116,7 @@ const SaveAndInvest = ({ isOpen, onClose, onNext, onCombine }) => {
                 </button>
 
                 <button
-                  onClick={onNext}
+                  onClick={handleContinue}
                   className="w-full border h-12 text-[#042159] hover:bg-slate-50 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all"
                 >
                   No, Pay Registration Only

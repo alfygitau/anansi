@@ -1,34 +1,30 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  X,
-  ChevronLeft,
   ShieldCheck,
   Smartphone,
   Calendar,
-  Loader2,
   ArrowRight,
   Lock,
 } from "lucide-react";
 
-const ReviewRegistrationOnly = ({
-  isOpen,
-  onClose,
-  onBack,
-  onPay,
-  phoneNumber,
-}) => {
-  const [isLoading, setIsLoading] = useState(false);
+const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
+  const [membershipPhone, setMembershipPhone] = useState("");
   const today = new Date().toLocaleDateString("en-KE", {
     day: "numeric",
     month: "long",
     year: "numeric",
   });
 
+  useEffect(() => {
+    let mobile = localStorage.getItem("membership_mobile")
+      ? JSON.parse(localStorage.getItem("membership_mobile"))
+      : "";
+    setMembershipPhone(mobile);
+  }, []);
+
   const handlePayment = async () => {
-    setIsLoading(true);
-    await onPay();
-    setIsLoading(false);
+    await onNext();
   };
 
   return (
@@ -85,7 +81,7 @@ const ReviewRegistrationOnly = ({
                       Phone Number
                     </p>
                     <p className="text-lg font-black text-[#042159]">
-                      {phoneNumber || "07XX XXX XXX"}
+                      {membershipPhone || "07XX XXX XXX"}
                     </p>
                   </div>
                   <div className="text-right">
@@ -141,24 +137,14 @@ const ReviewRegistrationOnly = ({
             {/* Action Footer */}
             <div className="bg-white border-t mt-5 border-slate-50">
               <button
-                disabled={isLoading}
                 onClick={handlePayment}
                 className="group w-full h-14 bg-[#042159] hover:bg-[#062d7a] disabled:bg-slate-300 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/10 active:scale-[0.98]"
               >
-                {isLoading ? (
-                  <>
-                    <Loader2 size={18} className="animate-spin" />
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    Confirm & Pay
-                    <ArrowRight
-                      size={18}
-                      className="group-hover:translate-x-1 transition-transform text-[#4DB8E4]"
-                    />
-                  </>
-                )}
+                Confirm & Pay
+                <ArrowRight
+                  size={18}
+                  className="group-hover:translate-x-1 transition-transform text-[#4DB8E4]"
+                />
               </button>
             </div>
           </motion.div>

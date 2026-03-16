@@ -14,6 +14,7 @@ const AwaitingMembershipPayment = ({
   onNext,
   reference,
   refetch,
+  onFail,
 }) => {
   const { auth } = useAuth();
   const { showToast } = useToast();
@@ -39,6 +40,7 @@ const AwaitingMembershipPayment = ({
         position: "top-right",
         description: error?.response?.data?.message || error.message,
       });
+      onFail();
     },
   });
 
