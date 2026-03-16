@@ -13,13 +13,8 @@ import {
   Sun,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import useAuth from "../../hooks/useAuth";
 import { useMutation, useQuery } from "react-query";
-import {
-  getCustomer,
-  getCustomerDetails,
-  updateSelfie,
-} from "../../sdks/customer/customer";
+import { getCustomerDetails, updateSelfie } from "../../sdks/customer/customer";
 import { useToast } from "../../contexts/ToastProvider";
 import { uploadSingleFile } from "../../sdks/upload-files/upload";
 
@@ -131,7 +126,7 @@ const SelfieCapture = () => {
 
   const { mutate: updateCustomerMutate } = useMutation({
     mutationKey: ["update-customer-selfie"],
-    mutationFn: (file) => updateSelfie(auth?.user?.id, file),
+    mutationFn: (file) => updateSelfie(customer?.id, file),
     onSuccess: async () => {
       showToast({
         title: "Selfie Verified",
@@ -154,7 +149,7 @@ const SelfieCapture = () => {
   });
 
   const handleUpload = async () => {
-    await uploadUrlMutate();
+    await uploadUrlMutate(photoBlob);
   };
 
   const tips = [

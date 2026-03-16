@@ -39,7 +39,6 @@ import ReviewDeposit from "../../components/deposit-savings/ConfirmDeposit";
 import AwaitDepositPayment from "../../components/deposit-savings/AwaitDepositPayment";
 import { motion } from "framer-motion";
 import StartMembership from "../../components/membership/StartMembership";
-import useAuth from "../../hooks/useAuth";
 import { useQuery } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
 import { getCustomer } from "../../sdks/customer/customer";
@@ -50,6 +49,7 @@ import ReviewMembership from "../../components/membership/ReviewMembership";
 import ReviewRegistrationOnly from "../../components/membership/ReviewRegistrationOnly";
 import AwaitingMembershipPayment from "../../components/membership/AwaitMembershipPayment";
 import FailedMembershipPayment from "../../components/membership/FailedPayment";
+import HomeLoader from "../../skeletons/HomeLoader";
 
 const Homepage = () => {
   const navigate = useNavigate();
@@ -213,7 +213,7 @@ const Homepage = () => {
   const percentage = Math.min((currentShares / targetShares) * 100, 100);
   const remainingShares = Math.max(targetShares - currentShares, 0);
 
-  const { refetch: refetchCustomerDetails } = useQuery({
+  const { refetch: refetchCustomerDetails, isLoading } = useQuery({
     queryKey: ["get accounts"],
     queryFn: async () => {
       const response = await getCustomer();
@@ -305,7 +305,7 @@ const Homepage = () => {
         isOpen={showAwaitDepositPayment}
         onClose={() => setShowAwaitDepositPayment(false)}
         onPaymentSuccess={() => {
-          refetchCustomerDetails()
+          refetchCustomerDetails();
           setShowAwaitDepositPayment(false);
         }}
       />
@@ -394,206 +394,218 @@ const Homepage = () => {
         }}
       />
 
-      <div className="min-h-screen bg-slate-50 text-[#042159] pb-12">
-        {/* Centered Container (approx 75% width) */}
-        <div className="max-w-6xl mx-auto">
-          <header className="flex justify-between mb-6 items-center">
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
-              <p className="text-sm text-slate-500">
-                Welcome back to your financial overview.
-              </p>
-            </div>
-          </header>
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-6 w-full mx-auto overflow-hidden border border-cyan-100 bg-gradient-to-br from-[#F0FFFE] to-white p-4 shadow-xl shadow-cyan-900/5 relative"
-          >
-            {/* Decorative Blur Background */}
-            <div className="absolute -right-16 -top-16 h-32 w-32 rounded-full bg-cyan-200/20 blur-3xl" />
+      {isLoading ? (
+        <HomeLoader />
+      ) : (
+        <div className="min-h-screen bg-slate-50 text-[#042159] pb-12">
+          {/* Centered Container (approx 75% width) */}
+          <div className="max-w-6xl mx-auto">
+            <header className="flex justify-between mb-6 items-center">
+              <div>
+                <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
+                <p className="text-sm text-slate-500">
+                  Welcome back to your financial overview.
+                </p>
+              </div>
+            </header>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6 w-full mx-auto overflow-hidden border border-cyan-100 bg-gradient-to-br from-[#F0FFFE] to-white p-4 shadow-xl shadow-cyan-900/5 relative"
+            >
+              {/* Decorative Blur Background */}
+              <div className="absolute -right-16 -top-16 h-32 w-32 rounded-full bg-cyan-200/20 blur-3xl" />
 
-            <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-              {/* Text Content Area */}
-              <div className="flex-1 space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#042159] text-[#4DB8E4] shadow-lg shadow-blue-900/20">
-                    <ShieldCheck size={22} />
+              <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                {/* Text Content Area */}
+                <div className="flex-1 space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#042159] text-[#4DB8E4] shadow-lg shadow-blue-900/20">
+                      <ShieldCheck size={22} />
+                    </div>
+                    <h3 className="text-lg font-black uppercase tracking-tight text-[#042159]">
+                      Membership Progress
+                    </h3>
                   </div>
-                  <h3 className="text-lg font-black uppercase tracking-tight text-[#042159]">
-                    Membership Progress
-                  </h3>
+
+                  <p className="max-w-[550px] text-[15px] leading-relaxed text-slate-600">
+                    To unlock{" "}
+                    <span className="font-bold text-slate-900">
+                      full membership benefits
+                    </span>{" "}
+                    and access various loan products, you need a minimum of{" "}
+                    <span className="font-bold text-[#042159]">
+                      10 shares (KES 10,000)
+                    </span>
+                    .
+                  </p>
+
+                  {remainingShares > 0 && (
+                    <div className="inline-flex items-center gap-2 rounded-lg bg-white/60 px-3 py-1.5 border border-cyan-100">
+                      <Wallet size={14} className="text-cyan-600" />
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-800">
+                        KES {formatNumber(remainingShares * shareValue)}{" "}
+                        remaining to reach goal
+                      </span>
+                    </div>
+                  )}
                 </div>
 
-                <p className="max-w-[550px] text-[15px] leading-relaxed text-slate-600">
-                  To unlock{" "}
-                  <span className="font-bold text-slate-900">
-                    full membership benefits
-                  </span>{" "}
-                  and access various loan products, you need a minimum of{" "}
-                  <span className="font-bold text-[#042159]">
-                    10 shares (KES 10,000)
-                  </span>
-                  .
-                </p>
+                {/* Progress and Action Area */}
+                <div className="w-full lg:w-[340px] space-y-5">
+                  <div className="space-y-2">
+                    <div className="flex items-end justify-between px-1">
+                      <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">
+                        Shares Acquired
+                      </span>
+                      <span className="text-[13px] font-black text-[#042159]">
+                        {percentage.toFixed(1)}%
+                      </span>
+                    </div>
 
-                {remainingShares > 0 && (
-                  <div className="inline-flex items-center gap-2 rounded-lg bg-white/60 px-3 py-1.5 border border-cyan-100">
-                    <Wallet size={14} className="text-cyan-600" />
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-800">
-                      KES {formatNumber(remainingShares * shareValue)} remaining
-                      to reach goal
+                    {/* Custom Progress Bar */}
+                    <div className="relative h-4 w-full overflow-hidden rounded-full bg-slate-100 p-1 shadow-inner border border-slate-200/50">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${percentage}%` }}
+                        transition={{ duration: 1.2, ease: "circOut" }}
+                        className="h-full rounded-full bg-gradient-to-r from-[#042159] to-[#074073] relative"
+                      >
+                        {/* Shine effect on bar */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent" />
+                      </motion.div>
+                    </div>
+
+                    <p className="px-1 text-right text-[12px] font-bold text-slate-500">
+                      {formatNumber(currentShares)}{" "}
+                      <span className="text-slate-300">/</span> 10 Shares
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => setShowSharesAmount(true)}
+                    className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-[#042159] px-8 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-blue-900/20 transition-all hover:bg-[#062d7a] active:scale-[0.98]"
+                  >
+                    Buy Shares
+                    <ArrowRight
+                      size={18}
+                      className="transition-transform group-hover:translate-x-1 text-[#4DB8E4]"
+                    />
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Account Section */}
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              {accounts?.length > 0 &&
+                accounts.map((account, index) => (
+                  <AccountCard
+                    key={account.id || index}
+                    title={account?.product?.name || "Savings Account"}
+                    accountNumber={account.account_number || "ACC-XXXXX"}
+                    balance={`KES ${formatNumber(account.balance)}`}
+                    isPrimary={account?.product?.name === "Savings"}
+                    navigateToAccountDetails={() =>
+                      navigate(`/account-details/${account.id}`)
+                    }
+                  />
+                ))}
+            </section>
+
+            <section className="mb-10">
+              <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
+                Quick Actions
+              </h2>
+              <div className="flex items-start gap-4 overflow-x-auto pb-2 no-scrollbar">
+                {quickActions.map(({ label, icon, onClick }) => (
+                  <div
+                    onClick={onClick}
+                    className="flex flex-col items-center cursor-pointer min-w-[100px] group cursor-pointer"
+                  >
+                    <div className="w-20 h-20 bg-slate-200 rounded-3xl flex items-center justify-center text-[#042159] transition-all duration-300 group-hover:bg-[#4DB8E4] group-hover:text-white group-hover:shadow-xl group-hover:shadow-blue-100 group-hover:-translate-y-1">
+                      {React.cloneElement(icon, { size: 32 })}
+                    </div>
+
+                    <span className="text-[11px] font-bold text-center mt-4 leading-tight max-w-[90px] uppercase tracking-wide text-slate-500 group-hover:text-[#042159]">
+                      {label}
                     </span>
                   </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Smaller Quick Actions */}
+            <section className="mb-10">
+              <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
+                Explore Products
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {loanProducts.length > 0 ? (
+                  loanProducts.map((product) => (
+                    <QuickAction
+                      key={product.id}
+                      label={product.label}
+                      icon={product.icon}
+                    />
+                  ))
+                ) : (
+                  <ProductsEmptyState />
                 )}
               </div>
-
-              {/* Progress and Action Area */}
-              <div className="w-full lg:w-[340px] space-y-5">
-                <div className="space-y-2">
-                  <div className="flex items-end justify-between px-1">
-                    <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">
-                      Shares Acquired
-                    </span>
-                    <span className="text-[13px] font-black text-[#042159]">
-                      {percentage.toFixed(1)}%
-                    </span>
-                  </div>
-
-                  {/* Custom Progress Bar */}
-                  <div className="relative h-4 w-full overflow-hidden rounded-full bg-slate-100 p-1 shadow-inner border border-slate-200/50">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${percentage}%` }}
-                      transition={{ duration: 1.2, ease: "circOut" }}
-                      className="h-full rounded-full bg-gradient-to-r from-[#042159] to-[#074073] relative"
-                    >
-                      {/* Shine effect on bar */}
-                      <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent" />
-                    </motion.div>
-                  </div>
-
-                  <p className="px-1 text-right text-[12px] font-bold text-slate-500">
-                    {formatNumber(currentShares)}{" "}
-                    <span className="text-slate-300">/</span> 10 Shares
-                  </p>
-                </div>
-
-                <button
-                  onClick={() => setShowSharesAmount(true)}
-                  className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-[#042159] px-8 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-blue-900/20 transition-all hover:bg-[#062d7a] active:scale-[0.98]"
-                >
-                  Buy Shares
-                  <ArrowRight
-                    size={18}
-                    className="transition-transform group-hover:translate-x-1 text-[#4DB8E4]"
-                  />
-                </button>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Account Section */}
-          <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            {accounts?.length > 0 &&
-              accounts.map((account, index) => (
-                <AccountCard
-                  key={account.id || index}
-                  title={account?.product?.name || "Savings Account"}
-                  accountNumber={account.account_number || "ACC-XXXXX"}
-                  balance={`KES ${formatNumber(account.balance)}`}
-                  isPrimary={account?.product?.name === "Savings"}
-                  navigateToAccountDetails={() =>
-                    navigate(`/account-details/${account.id}`)
-                  }
-                />
-              ))}
-          </section>
-
-          <section className="mb-10">
+            </section>
             <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
-              Quick Actions
+              Loans & Applications
             </h2>
-            <div className="flex items-start gap-4 overflow-x-auto pb-2 no-scrollbar">
-              {quickActions.map(({ label, icon, onClick }) => (
-                <div
-                  onClick={onClick}
-                  className="flex flex-col items-center cursor-pointer min-w-[100px] group cursor-pointer"
-                >
-                  <div className="w-20 h-20 bg-slate-200 rounded-3xl flex items-center justify-center text-[#042159] transition-all duration-300 group-hover:bg-[#4DB8E4] group-hover:text-white group-hover:shadow-xl group-hover:shadow-blue-100 group-hover:-translate-y-1">
-                    {React.cloneElement(icon, { size: 32 })}
-                  </div>
 
-                  <span className="text-[11px] font-bold text-center mt-4 leading-tight max-w-[90px] uppercase tracking-wide text-slate-500 group-hover:text-[#042159]">
-                    {label}
+            {/* Side-by-Side: Applications and Loans */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Left Side: Pending Applications */}
+
+              <section>
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-bold">Loan Applications</h2>
+                  <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
+                    {pendingApplications.length} Pending
                   </span>
                 </div>
-              ))}
+                {pendingApplications.length > 0 ? (
+                  pendingApplications.map((loan) => (
+                    <CompactLoanCard
+                      key={loan.id}
+                      loan={loan}
+                      accent="#F59E0B"
+                    />
+                  ))
+                ) : (
+                  <EmptyState message="No pending applications" />
+                )}
+              </section>
+
+              {/* Right Side: Active Loans */}
+              <section>
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-bold">Recent Loans</h2>
+                  <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">
+                    {activeLoans.length} Running
+                  </span>
+                </div>
+                {activeLoans.length > 0 ? (
+                  activeLoans.map((loan) => (
+                    <CompactLoanCard
+                      key={loan.id}
+                      loan={loan}
+                      accent="#4DB8E4"
+                    />
+                  ))
+                ) : (
+                  <EmptyState message="No active loans found" />
+                )}
+              </section>
             </div>
-          </section>
-
-          {/* Smaller Quick Actions */}
-          <section className="mb-10">
-            <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
-              Explore Products
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {loanProducts.length > 0 ? (
-                loanProducts.map((product) => (
-                  <QuickAction
-                    key={product.id}
-                    label={product.label}
-                    icon={product.icon}
-                  />
-                ))
-              ) : (
-                <ProductsEmptyState />
-              )}
-            </div>
-          </section>
-          <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
-            Loans & Applications
-          </h2>
-
-          {/* Side-by-Side: Applications and Loans */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Left Side: Pending Applications */}
-
-            <section>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold">Loan Applications</h2>
-                <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
-                  {pendingApplications.length} Pending
-                </span>
-              </div>
-              {pendingApplications.length > 0 ? (
-                pendingApplications.map((loan) => (
-                  <CompactLoanCard key={loan.id} loan={loan} accent="#F59E0B" />
-                ))
-              ) : (
-                <EmptyState message="No pending applications" />
-              )}
-            </section>
-
-            {/* Right Side: Active Loans */}
-            <section>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold">Recent Loans</h2>
-                <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">
-                  {activeLoans.length} Running
-                </span>
-              </div>
-              {activeLoans.length > 0 ? (
-                activeLoans.map((loan) => (
-                  <CompactLoanCard key={loan.id} loan={loan} accent="#4DB8E4" />
-                ))
-              ) : (
-                <EmptyState message="No active loans found" />
-              )}
-            </section>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

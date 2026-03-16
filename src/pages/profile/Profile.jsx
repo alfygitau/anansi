@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import {
   Camera,
   Edit3,
@@ -8,7 +8,6 @@ import {
   Heart,
   X,
   Upload,
-  Loader2,
   AlertTriangle,
   Info,
   Handshake,
@@ -16,43 +15,20 @@ import {
   UserMinus,
   Scale,
 } from "lucide-react";
-
-const MOCK_CUSTOMER = {
-  firstname: "Alex",
-  lastname: "Maina",
-  email: "a.maina@anansi.co.ke",
-  mobileno: "+254 712 345 678",
-  dob: "1994-05-20",
-  public_id: "ANS-9902-2026",
-  country_of_residence: "Kenya",
-  kraPin: "A012345678Z",
-  employment_type: "Full-time Software Developer",
-  income_range: "KES 150,000 - 250,000",
-  selfie_image: null,
-};
-
-const MOCK_ADDRESS = [
-  {
-    county: "Nairobi",
-    city: "Nairobi",
-    physical_address: "Anansi Towers, Upper Hill",
-  },
-];
-
-const MOCK_KIN = {
-  name: "Jane Wambui",
-  relationship: "Sister",
-  phoneNumber: "+254 722 000 111",
-};
+import { useQuery } from "react-query";
+import { getCustomer } from "../../sdks/customer/customer";
+import { useToast } from "../../contexts/ToastProvider";
 
 const ProfilePage = () => {
-  const [customerDetails] = useState(MOCK_CUSTOMER);
-  const [address] = useState(MOCK_ADDRESS);
-  const [nextOfKin] = useState(MOCK_KIN);
   const [isOpen, setIsOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [selfieUrl, setSelfieUrl] = useState("");
   const fileInputRef = useRef(null);
+
+  const [customer, setCustomer] = useState({});
+  const [nextOfKin, setNextOfKin] = useState({});
+  const [address, setAddress] = useState({});
+  const { showToast } = useToast();
 
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
@@ -64,6 +40,27 @@ const ProfilePage = () => {
     });
   };
 
+  const { isLoading } = useQuery({
+    queryKey: ["get customer"],
+    queryFn: async () => {
+      const response = await getCustomer();
+      return response.data.data;
+    },
+    onSuccess: (data) => {
+      setCustomer(data);
+      setNextOfKin(data?.nextOfKins?.[0]);
+      setAddress(data?.addresses);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
   return (
     <div className="min-h-screen max-w-6xl mx-auto bg-slate-50 pb-20 pt-10 font-sans">
       <div className="w-full mx-auto space-y-6">
@@ -73,9 +70,9 @@ const ProfilePage = () => {
           <div className="lg:col-span-4 bg-[#042159] rounded-[32px] p-8 shadow-xl shadow-blue-900/20 flex flex-col items-center justify-center text-center">
             <div className="relative group">
               <div className="w-28 h-28 rounded-full border-4 border-blue-400/30 overflow-hidden bg-white/10 flex items-center justify-center">
-                {selfieUrl || customerDetails?.selfie_image ? (
+                {selfieUrl || customer?.selfie_image ? (
                   <img
-                    src={selfieUrl || customerDetails.selfie_image}
+                    src={selfieUrl || customer?.selfie_image}
                     alt="Profile"
                     className="w-full h-full object-cover"
                   />
@@ -91,13 +88,13 @@ const ProfilePage = () => {
               </button>
             </div>
             <h2 className="mt-4 text-xl font-black text-white">
-              {customerDetails.firstname} {customerDetails.lastname}
+              {customer?.firstname} {customer?.lastname}
             </h2>
             <p className="text-blue-200 text-xs font-medium opacity-80 mt-1">
-              {customerDetails.email}
+              {customer?.email}
             </p>
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white bg-white/10 px-4 py-1.5 rounded-full mt-6">
-              ID: {customerDetails.public_id}
+              ID: {customer?.public_id}
             </span>
           </div>
 
@@ -109,22 +106,16 @@ const ProfilePage = () => {
               fullHeight
             >
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
-                <DataField
-                  label="First Name"
-                  value={customerDetails.firstname}
-                />
-                <DataField label="Last Name" value={customerDetails.lastname} />
-                <DataField
-                  label="Phone Number"
-                  value={customerDetails.mobileno}
-                />
+                <DataField label="First Name" value={customer?.firstname} />
+                <DataField label="Last Name" value={customer?.lastname} />
+                <DataField label="Phone Number" value={customer?.mobileno} />
                 <DataField
                   label="Date of Birth"
-                  value={formatDate(customerDetails.dob)}
+                  value={formatDate(customer?.dob)}
                 />
                 <DataField
                   label="Country"
-                  value={customerDetails.country_of_residence}
+                  value={customer?.country_of_residence}
                 />
               </div>
             </InfoCard>
@@ -135,10 +126,10 @@ const ProfilePage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <InfoCard title="Residential Address" icon={<MapPin size={18} />}>
             <div className="space-y-4">
-              <DataField label="County / City" value={address[0].county} />
+              <DataField label="County / City" value={address?.[0]?.county} />
               <DataField
                 label="Physical Address"
-                value={address[0].physical_address}
+                value={address?.[0]?.physical_address}
               />
             </div>
           </InfoCard>
@@ -148,10 +139,10 @@ const ProfilePage = () => {
             icon={<Briefcase size={18} />}
           >
             <div className="space-y-4">
-              <DataField label="KRA PIN" value={customerDetails.kraPin} />
+              <DataField label="KRA PIN" value={customer?.kraPin} />
               <DataField
                 label="Income Range"
-                value={customerDetails.income_range}
+                value={customer?.income_range}
                 isMonetary
               />
             </div>
@@ -159,9 +150,9 @@ const ProfilePage = () => {
 
           <InfoCard title="Next of Kin" icon={<Heart size={18} />}>
             <div className="space-y-4">
-              <DataField label="Full Name" value={nextOfKin.name} />
-              <DataField label="Relationship" value={nextOfKin.relationship} />
-              <DataField label="Phone Number" value={nextOfKin.phoneNumber} />
+              <DataField label="Full Name" value={nextOfKin?.name} />
+              <DataField label="Relationship" value={nextOfKin?.relationship} />
+              <DataField label="Phone Number" value={nextOfKin?.phoneNumber} />
             </div>
           </InfoCard>
         </div>
