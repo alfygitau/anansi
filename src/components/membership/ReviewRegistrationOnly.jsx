@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck,
@@ -7,21 +6,15 @@ import {
   ArrowRight,
   Lock,
 } from "lucide-react";
+import { useStore } from "../../store/useStore";
 
 const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
-  const [membershipPhone, setMembershipPhone] = useState("");
+  const membershipPhone = useStore((state) => state.membership_mobile);
   const today = new Date().toLocaleDateString("en-KE", {
     day: "numeric",
     month: "long",
     year: "numeric",
   });
-
-  useEffect(() => {
-    let mobile = localStorage.getItem("membership_mobile")
-      ? JSON.parse(localStorage.getItem("membership_mobile"))
-      : "";
-    setMembershipPhone(mobile);
-  }, []);
 
   const handlePayment = async () => {
     await onNext();

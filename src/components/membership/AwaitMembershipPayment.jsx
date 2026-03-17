@@ -1,4 +1,3 @@
-import { useState, useEffect, useRef } from "react";
 import { X, ShieldCheck, Smartphone, CheckCircle2 } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 import { useMutation, useQuery } from "react-query";

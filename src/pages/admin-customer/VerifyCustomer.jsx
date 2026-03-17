@@ -5,21 +5,16 @@ import {
   ArrowRight,
   Loader2,
   Smartphone,
-  ChevronLeft,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { useMutation } from "react-query";
-import { useToast } from "../../contexts/ToastProvider";
 import useAuth from "../../hooks/useAuth";
 
 const AdminOtpVerification = () => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [timer, setTimer] = useState(60);
   const inputRefs = useRef([]);
-  const navigate = useNavigate();
-  const { auth, setAuth } = useAuth();
-  const { showToast } = useToast();
+  const { auth } = useAuth();
 
   // Focus first input on mount
   useEffect(() => {

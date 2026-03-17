@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ShieldCheck, ArrowRight, LogOut, Info, Lock } from "lucide-react";
+import { ShieldCheck, ArrowRight, LogOut, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const StartMembership = ({ isOpen, onPay, onLogout }) => {

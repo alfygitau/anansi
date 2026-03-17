@@ -1,27 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  X,
-  Smartphone,
-  ShieldCheck,
-  Lock,
-  CheckCircle2,
-  ArrowRight,
-} from "lucide-react";
+import { X, Smartphone, ShieldCheck, Lock, ArrowRight } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
+import { useStore } from "../../store/useStore";
 
 const JoinMembership = ({ isOpen, onClose, onNext }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
   const amount = "1,000";
   const { auth } = useAuth();
+  const setMembershipMobile = useStore((state) => state.setMembershipMobile);
 
   useEffect(() => {
     setPhoneNumber(auth?.user?.mobileno);
   }, [auth]);
 
   const onContinue = () => {
-    localStorage.setItem("membership_mobile", JSON.stringify(phoneNumber));
+    setMembershipMobile(phoneNumber);
     onNext();
   };
 

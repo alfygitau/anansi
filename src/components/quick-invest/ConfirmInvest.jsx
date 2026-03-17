@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useMemo } from "react";
 import { X, Loader2, Phone, ReceiptText, Smartphone } from "lucide-react";
 import { useToast } from "../../contexts/ToastProvider";
 import { useMutation } from "react-query";

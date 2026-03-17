@@ -27,13 +27,11 @@ const InvestAmount = ({ isOpen, onClose, onConfirm }) => {
       }
     }
     if (name === "shares") {
-      const amt = Number(value);
       if (!value) {
         error = "Shares amount is required";
       }
     }
     if (name === "savings") {
-      const amt = Number(value);
       if (!value) {
         error = "Savings amount is required";
       }

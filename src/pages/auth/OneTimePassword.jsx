@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
-  ChevronLeft,
   ShieldCheck,
   RefreshCw,
   ArrowRight,
@@ -16,7 +15,7 @@ import useAuth from "../../hooks/useAuth";
 
 const OtpVerification = () => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const [timer, setTimer] = useState(60);
   const inputRefs = useRef([]);
   const navigate = useNavigate();

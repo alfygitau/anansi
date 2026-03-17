@@ -7,24 +7,22 @@ import {
   Info,
   ArrowRight,
 } from "lucide-react";
+import { useStore } from "../../store/useStore";
 
 const SaveAndInvest = ({ isOpen, onClose, onNext, onCombine }) => {
   const SHARE_PRICE = 1000;
-
+  const setMembership = useStore((state) => state.setMembership);
   const calculateShares = (amount) => {
     const num = parseFloat(amount) || 0;
     return (num / SHARE_PRICE).toFixed(2);
   };
 
   const handleContinue = () => {
-    localStorage.setItem(
-      "membership",
-      JSON.stringify({
-        savings: "0",
-        shares: "0",
-        totalShares: calculateShares(0),
-      }),
-    );
+    setMembership({
+      savings: "0",
+      shares: "0",
+      totalShares: calculateShares(0),
+    });
     onNext();
   };
   return (

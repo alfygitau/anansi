@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { X, ShieldCheck, Smartphone, CheckCircle2 } from "lucide-react";
 import { useToast } from "../../contexts/ToastProvider";
 import { confirmSharesPayment } from "../../sdks/accounts/accounts";

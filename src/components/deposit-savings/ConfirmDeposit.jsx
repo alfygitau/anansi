@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { X, Loader2, Smartphone, ShieldCheck } from "lucide-react";
 import { buyShares } from "../../sdks/accounts/accounts";
 import { useToast } from "../../contexts/ToastProvider";

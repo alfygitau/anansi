@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   AlertCircle,
@@ -13,6 +12,7 @@ import useAuth from "../../hooks/useAuth";
 import { useMutation } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
 import { payMembership } from "../../sdks/membership/membership";
+import { useStore } from "../../store/useStore";
 
 const FailedMembershipPayment = ({
   isOpen,
@@ -20,21 +20,10 @@ const FailedMembershipPayment = ({
   onTryAgain,
   onConfirmManual,
 }) => {
-  const [membershipDetails, setMembershipDetails] = useState({});
-  const [membershipPhone, setMembershipPhone] = useState("");
+  const membershipPhone = useStore((state) => state.membership_mobile);
+  const membershipDetails = useStore((state) => state.membership);
   const { auth } = useAuth();
   const { showToast } = useToast();
-
-  useEffect(() => {
-    let membership = localStorage.getItem("membership")
-      ? JSON.parse(localStorage.getItem("membership"))
-      : {};
-    let mobile = localStorage.getItem("membership_mobile")
-      ? JSON.parse(localStorage.getItem("membership_mobile"))
-      : "";
-    setMembershipDetails(membership);
-    setMembershipPhone(mobile);
-  }, []);
 
   const { mutate: payMembershipMutate, isLoading } = useMutation({
     mutationKey: ["pay membership"],

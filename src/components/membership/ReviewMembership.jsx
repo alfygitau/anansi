@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck,
@@ -12,23 +11,13 @@ import useAuth from "../../hooks/useAuth";
 import { useMutation } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
 import { payMembership } from "../../sdks/membership/membership";
+import { useStore } from "../../store/useStore";
 
 const ReviewMembership = ({ isOpen, onClose, onNext }) => {
-  const [membershipDetails, setMembershipDetails] = useState({});
-  const [membershipPhone, setMembershipPhone] = useState("");
   const { auth } = useAuth();
   const { showToast } = useToast();
-
-  useEffect(() => {
-    let membership = localStorage.getItem("membership")
-      ? JSON.parse(localStorage.getItem("membership"))
-      : {};
-    let mobile = localStorage.getItem("membership_mobile")
-      ? JSON.parse(localStorage.getItem("membership_mobile"))
-      : "";
-    setMembershipDetails(membership);
-    setMembershipPhone(mobile);
-  }, []);
+  const membershipPhone = useStore((state) => state.membership_mobile);
+  const membershipDetails = useStore((state) => state.membership);
 
   const formatKES = (val) =>
     new Intl.NumberFormat("en-KE", {

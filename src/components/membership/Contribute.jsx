@@ -7,11 +7,13 @@ import {
   ArrowRight,
   Calculator,
 } from "lucide-react";
+import { useStore } from "../../store/useStore";
 
 const SetupContributions = ({ isOpen, onClose, onNext }) => {
   const [savingsAmount, setSavingsAmount] = useState("");
   const [sharesAmount, setSharesAmount] = useState("");
   const [errors, setErrors] = useState({ savings: "", shares: "" });
+  const setMembership = useStore((state) => state.setMembership);
 
   const SHARE_PRICE = 1000;
 
@@ -21,14 +23,11 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
   };
 
   const handleReview = () => {
-    localStorage.setItem(
-      "membership",
-      JSON.stringify({
-        savings: savingsAmount || "0",
-        shares: sharesAmount || "0",
-        totalShares: calculateShares(sharesAmount),
-      }),
-    );
+    setMembership({
+      savings: savingsAmount || "0",
+      shares: sharesAmount || "0",
+      totalShares: calculateShares(sharesAmount),
+    });
     onNext();
   };
 
