@@ -585,7 +585,8 @@ const AccountCard = ({
   const [isVisible, setIsVisible] = useState(true);
 
   // Helper to mask the balance (e.g., KES 450,000 -> KES ••••••)
-  const maskedBalance = balance.replace(/\d/g, "*").replace(/,/g, "*");
+  // const maskedBalance = balance.replace(/[\d,]/g, "*");
+  const maskedBalance = isVisible ? balance : "KES *********";
   return (
     <div
       onClick={navigateToAccountDetails}
@@ -635,7 +636,10 @@ const AccountCard = ({
 
         {/* Visibility Toggle */}
         <button
-          onClick={() => setIsVisible(!isVisible)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsVisible(!isVisible);
+          }}
           className={`p-2 rounded-full transition-colors ${
             isPrimary ? "hover:bg-white/10" : "hover:bg-slate-100"
           }`}
