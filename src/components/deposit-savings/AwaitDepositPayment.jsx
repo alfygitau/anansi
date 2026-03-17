@@ -5,9 +5,17 @@ import { useQuery } from "react-query";
 import { confirmDepositPayment } from "../../sdks/accounts/accounts";
 
 const AwaitDepositPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
-  const [depositDetails, setDepositDetails] = useState({});
   const { showToast } = useToast();
-  const [savingsAccountId, setSavingsAccountId] = useState("");
+
+  const [depositDetails] = useState(() => {
+    const saved = localStorage.getItem("deposit_details");
+    return saved ? JSON.parse(saved) : {};
+  });
+
+  const [savingsAccountId] = useState(() => {
+    const accounts = JSON.parse(localStorage.getItem("accounts") || "[]");
+    return accounts.find((acc) => acc.product?.name === "Savings")?.id || null;
+  });
 
   const handlePay = () => {
     showToast({
@@ -45,22 +53,6 @@ const AwaitDepositPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
       });
     },
   });
-
-  useEffect(() => {
-    let savings = localStorage.getItem("deposit_details")
-      ? JSON.parse(localStorage.getItem("deposit_details"))
-      : {};
-    let accounts = localStorage.getItem("accounts")
-      ? JSON.parse(localStorage.getItem("accounts"))
-      : [];
-    const savingsAccount = accounts.find(
-      (acc) => acc.product?.name === "Savings",
-    );
-    if (savingsAccount?.id) {
-      setSavingsAccountId(savingsAccount.id);
-    }
-    setDepositDetails(savings);
-  }, []);
 
   if (!isOpen) return null;
 

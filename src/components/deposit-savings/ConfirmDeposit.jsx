@@ -1,30 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { X, Loader2, Smartphone, ShieldCheck } from "lucide-react";
 import { buyShares } from "../../sdks/accounts/accounts";
 import { useToast } from "../../contexts/ToastProvider";
 import { useMutation } from "react-query";
 
 const ReviewDeposit = ({ isOpen, onClose, onConfirm }) => {
-  const [depositDetails, setDepositDetails] = useState({});
   const { showToast } = useToast();
-  const [savingsAccountId, setSavingsAccountId] = useState("");
-  const [mobile, setMobile] = useState("");
+  const [depositDetails] = useState(() => {
+    const saved = localStorage.getItem("deposit_details");
+    return saved ? JSON.parse(saved) : {};
+  });
 
-  useEffect(() => {
-    let savings = localStorage.getItem("deposit_details")
-      ? JSON.parse(localStorage.getItem("deposit_details"))
-      : {};
-    let accounts = localStorage.getItem("accounts")
-      ? JSON.parse(localStorage.getItem("accounts"))
-      : [];
-    const savingsAccount = accounts.find(
-      (acc) => acc.product?.name === "Savings",
-    );
-    if (savingsAccount?.id) {
-      setSavingsAccountId(savingsAccount.id);
-    }
-    setDepositDetails(savings);
-  }, []);
+  const [savingsAccountId] = useState(() => {
+    const accounts = JSON.parse(localStorage.getItem("accounts") || "[]");
+    return accounts.find((acc) => acc.product?.name === "Savings")?.id || null;
+  });
 
   const { mutate: buySavingsMutate, isLoading } = useMutation({
     mutationKey: ["buy savings"],

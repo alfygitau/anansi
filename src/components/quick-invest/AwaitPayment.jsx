@@ -5,7 +5,10 @@ import { confirmQuickInvest } from "../../sdks/accounts/accounts";
 import { useQuery } from "react-query";
 
 const AwaitingPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
-  const [investDetails, setInvestDetails] = useState({});
+  const [investDetails] = useState(() => {
+    const saved = localStorage.getItem("invest_details");
+    return saved ? JSON.parse(saved) : {};
+  });
   const { showToast } = useToast();
 
   const handlePay = () => {
@@ -41,13 +44,6 @@ const AwaitingPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
       });
     },
   });
-
-  useEffect(() => {
-    let invest = localStorage.getItem("invest_details")
-      ? JSON.parse(localStorage.getItem("invest_details"))
-      : {};
-    setInvestDetails(invest);
-  }, []);
 
   if (!isOpen) return null;
 

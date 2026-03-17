@@ -5,25 +5,17 @@ import { useToast } from "../../contexts/ToastProvider";
 import { buyShares } from "../../sdks/accounts/accounts";
 
 const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
-  const [sharesDetails, setSharesDetails] = useState({});
   const { showToast } = useToast();
-  const [sharesAccountId, setSharesAccountId] = useState("");
 
-  useEffect(() => {
-    let shares = localStorage.getItem("shares_details")
-      ? JSON.parse(localStorage.getItem("shares_details"))
-      : {};
-    let accounts = localStorage.getItem("accounts")
-      ? JSON.parse(localStorage.getItem("accounts"))
-      : [];
-    const sharesAccount = accounts.find(
-      (acc) => acc.product?.name === "Shares",
-    );
-    if (sharesAccount?.id) {
-      setSharesAccountId(sharesAccount.id);
-    }
-    setSharesDetails(shares);
-  }, []);
+  const [sharesDetails] = useState(() => {
+    const saved = localStorage.getItem("shares_details");
+    return saved ? JSON.parse(saved) : {};
+  });
+
+  const [sharesAccountId] = useState(() => {
+    const accounts = JSON.parse(localStorage.getItem("accounts") || "[]");
+    return accounts.find((acc) => acc.product?.name === "Shares")?.id || null;
+  });
 
   const formattedDate = useMemo(() => {
     return new Date().toLocaleDateString("en-GB", {

@@ -150,7 +150,7 @@ const Homepage = () => {
       id: 4,
       label: "Calculate Loan",
       icon: <Calculator size={24} />,
-      onClick: () => {},
+      onClick: () => navigate("/loan-calculator"),
     },
     {
       id: 5,

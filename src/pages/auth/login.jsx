@@ -203,7 +203,11 @@ const Login = () => {
                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 block">
                   Security Password
                 </label>
-                <button className="text-[10px] font-black uppercase text-[#4DB8E4] hover:text-[#042159]">
+                <button
+                  type="button"
+                  onClick={() => navigate("/auth/forgot-password")}
+                  className="text-[10px] font-black uppercase text-[#4DB8E4] hover:text-[#042159]"
+                >
                   Forgot?
                 </button>
               </div>

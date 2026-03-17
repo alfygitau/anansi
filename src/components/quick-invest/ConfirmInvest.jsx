@@ -6,16 +6,13 @@ import { investAndSave } from "../../sdks/accounts/accounts";
 import useAuth from "../../hooks/useAuth";
 
 const ConfirmInvest = ({ isOpen, onClose, onConfirm }) => {
-  const [investDetails, setInvestDetails] = useState({});
   const { showToast } = useToast();
   const { auth } = useAuth();
 
-  useEffect(() => {
-    let invest = localStorage.getItem("invest_details")
-      ? JSON.parse(localStorage.getItem("invest_details"))
-      : {};
-    setInvestDetails(invest);
-  }, []);
+  const [investDetails] = useState(() => {
+    const saved = localStorage.getItem("invest_details");
+    return saved ? JSON.parse(saved) : {};
+  });
 
   const formattedDate = useMemo(() => {
     return new Date().toLocaleDateString("en-GB", {
@@ -145,8 +142,8 @@ const ConfirmInvest = ({ isOpen, onClose, onConfirm }) => {
             <Smartphone size={16} className="text-blue-600 mt-0.5" />
             <p className="text-[11px] leading-relaxed text-blue-700 font-medium">
               A STK push will be sent to{" "}
-              <span className="font-bold">{investDetails?.mobile}</span>. Please enter
-              your M-PESA pin to authorize the transaction.
+              <span className="font-bold">{investDetails?.mobile}</span>. Please
+              enter your M-PESA pin to authorize the transaction.
             </p>
           </div>
         </div>
