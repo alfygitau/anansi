@@ -4,15 +4,12 @@ import { useToast } from "../../contexts/ToastProvider";
 import { useMutation } from "react-query";
 import { investAndSave } from "../../sdks/accounts/accounts";
 import useAuth from "../../hooks/useAuth";
+import { useStore } from "../../store/useStore";
 
 const ConfirmInvest = ({ isOpen, onClose, onConfirm }) => {
   const { showToast } = useToast();
   const { auth } = useAuth();
-
-  const [investDetails] = useState(() => {
-    const saved = localStorage.getItem("invest_details");
-    return saved ? JSON.parse(saved) : {};
-  });
+  const investDetails = useStore((state) => state.investDetails);
 
   const formattedDate = useMemo(() => {
     return new Date().toLocaleDateString("en-GB", {

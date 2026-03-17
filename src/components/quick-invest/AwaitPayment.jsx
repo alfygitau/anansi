@@ -3,12 +3,10 @@ import { X, ShieldCheck, Smartphone, CheckCircle2 } from "lucide-react";
 import { useToast } from "../../contexts/ToastProvider";
 import { confirmQuickInvest } from "../../sdks/accounts/accounts";
 import { useQuery } from "react-query";
+import { useStore } from "../../store/useStore";
 
 const AwaitingPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
-  const [investDetails] = useState(() => {
-    const saved = localStorage.getItem("invest_details");
-    return saved ? JSON.parse(saved) : {};
-  });
+  const investDetails = useStore((state) => state.investDetails);
   const { showToast } = useToast();
 
   const handlePay = () => {

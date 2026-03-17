@@ -52,10 +52,12 @@ import FailedMembershipPayment from "../../components/membership/FailedPayment";
 import HomeLoader from "../../skeletons/HomeLoader";
 import { getSharesSummary } from "../../sdks/accounts/accounts";
 import useAuth from "../../hooks/useAuth";
+import { useStore } from "../../store/useStore";
 
 const Homepage = () => {
   const navigate = useNavigate();
   const { showToast } = useToast();
+  const setStoreAccounts = useStore((state) => state.setAccounts);
   const [loanProducts] = useState([
     { id: 1, label: "Development", icon: <Building2 size={20} /> },
     { id: 2, label: "Jijenge", icon: <TrendingUp size={20} /> },
@@ -225,7 +227,7 @@ const Homepage = () => {
     },
     onSuccess: (data) => {
       setAccounts(data?.accounts);
-      localStorage.setItem("accounts", JSON.stringify(data?.accounts));
+      setStoreAccounts(data?.accounts || []);
       if (!data?.member) {
         setShowStartMembership(true);
       }

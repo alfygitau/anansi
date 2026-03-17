@@ -3,18 +3,16 @@ import { X, Loader2, Smartphone, ShieldCheck } from "lucide-react";
 import { buyShares } from "../../sdks/accounts/accounts";
 import { useToast } from "../../contexts/ToastProvider";
 import { useMutation } from "react-query";
+import { useStore } from "../../store/useStore";
 
 const ReviewDeposit = ({ isOpen, onClose, onConfirm }) => {
   const { showToast } = useToast();
-  const [depositDetails] = useState(() => {
-    const saved = localStorage.getItem("deposit_details");
-    return saved ? JSON.parse(saved) : {};
-  });
+  const depositDetails = useStore((state) => state.depositDetails);
 
-  const [savingsAccountId] = useState(() => {
-    const accounts = JSON.parse(localStorage.getItem("accounts") || "[]");
-    return accounts.find((acc) => acc.product?.name === "Savings")?.id || null;
-  });
+  const savingsAccountId = useStore(
+    (state) =>
+      state.accounts.find((acc) => acc.product?.name === "Savings")?.id || null,
+  );
 
   const { mutate: buySavingsMutate, isLoading } = useMutation({
     mutationKey: ["buy savings"],
@@ -37,8 +35,6 @@ const ReviewDeposit = ({ isOpen, onClose, onConfirm }) => {
       });
     },
   });
-
-  console.log(depositDetails);
 
   const handleContinue = async () => {
     await buySavingsMutate();

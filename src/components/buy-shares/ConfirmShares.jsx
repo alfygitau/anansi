@@ -1,21 +1,17 @@
-import { useState, useMemo, useEffect } from "react";
+import { useMemo } from "react";
 import { X, Calendar, Phone, Receipt, Loader2 } from "lucide-react";
 import { useMutation } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
 import { buyShares } from "../../sdks/accounts/accounts";
+import { useStore } from "../../store/useStore";
 
 const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
   const { showToast } = useToast();
-
-  const [sharesDetails] = useState(() => {
-    const saved = localStorage.getItem("shares_details");
-    return saved ? JSON.parse(saved) : {};
-  });
-
-  const [sharesAccountId] = useState(() => {
-    const accounts = JSON.parse(localStorage.getItem("accounts") || "[]");
-    return accounts.find((acc) => acc.product?.name === "Shares")?.id || null;
-  });
+  const sharesDetails = useStore((state) => state.sharesDetails);
+  const sharesAccountId = useStore(
+    (state) =>
+      state.accounts.find((acc) => acc.product?.name === "Shares")?.id || null,
+  );
 
   const formattedDate = useMemo(() => {
     return new Date().toLocaleDateString("en-GB", {

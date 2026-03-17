@@ -3,19 +3,15 @@ import { X, ShieldCheck, Smartphone, CheckCircle2 } from "lucide-react";
 import { useToast } from "../../contexts/ToastProvider";
 import { useQuery } from "react-query";
 import { confirmDepositPayment } from "../../sdks/accounts/accounts";
+import { useStore } from "../../store/useStore";
 
 const AwaitDepositPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
   const { showToast } = useToast();
-
-  const [depositDetails] = useState(() => {
-    const saved = localStorage.getItem("deposit_details");
-    return saved ? JSON.parse(saved) : {};
-  });
-
-  const [savingsAccountId] = useState(() => {
-    const accounts = JSON.parse(localStorage.getItem("accounts") || "[]");
-    return accounts.find((acc) => acc.product?.name === "Savings")?.id || null;
-  });
+  const depositDetails = useStore((state) => state.depositDetails);
+  const savingsAccountId = useStore(
+    (state) =>
+      state.accounts.find((acc) => acc.product?.name === "Savings")?.id || null,
+  );
 
   const handlePay = () => {
     showToast({

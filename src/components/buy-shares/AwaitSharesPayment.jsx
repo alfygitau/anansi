@@ -3,18 +3,15 @@ import { X, ShieldCheck, Smartphone, CheckCircle2 } from "lucide-react";
 import { useToast } from "../../contexts/ToastProvider";
 import { confirmSharesPayment } from "../../sdks/accounts/accounts";
 import { useQuery } from "react-query";
+import { useStore } from "../../store/useStore";
 
 const AwaitSharesPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
   const { showToast } = useToast();
-  const [sharesDetails] = useState(() => {
-    const saved = localStorage.getItem("shares_details");
-    return saved ? JSON.parse(saved) : {};
-  });
-
-  const [sharesAccountId] = useState(() => {
-    const accounts = JSON.parse(localStorage.getItem("accounts") || "[]");
-    return accounts.find((acc) => acc.product?.name === "Shares")?.id || null;
-  });
+  const sharesDetails = useStore((state) => state.sharesDetails);
+  const sharesAccountId = useStore(
+    (state) =>
+      state.accounts.find((acc) => acc.product?.name === "Shares")?.id || null,
+  );
 
   const handlePay = () => {
     showToast({

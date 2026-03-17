@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { X, Info } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
+import { useStore } from "../../store/useStore";
 
 const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
   const [numberShares, setNumberShares] = useState("0");
   const [mobile, setMobile] = useState("");
   const [errors, setErrors] = useState({ mobile: "", shares: "" });
   const { auth } = useAuth();
+  const setSharesDetails = useStore((state) => state.setSharesDetails);
 
   useEffect(() => {
     setMobile(auth?.user?.mobileno);
@@ -56,14 +58,11 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
   };
 
   const handleSave = () => {
-    localStorage.setItem(
-      "shares_details",
-      JSON.stringify({
-        sharesAmount: Number(numberShares),
-        mobile: mobile,
-        reference: generateUniqueId(),
-      }),
-    );
+    setSharesDetails({
+      sharesAmount: Number(numberShares),
+      mobile: mobile,
+      reference: generateUniqueId(),
+    });
     onConfirm();
   };
 

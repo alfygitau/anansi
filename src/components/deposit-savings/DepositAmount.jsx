@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { X, Info, Wallet } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
+import { useStore } from "../../store/useStore";
 
 const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
   const [amount, setAmount] = useState("0");
   const [mobile, setMobile] = useState("");
   const [errors, setErrors] = useState({ mobile: "", shares: "" });
   const { auth } = useAuth();
+  const setDepositDetails = useStore((state) => state.setDepositDetails);
 
   useEffect(() => {
     setMobile(auth?.user?.mobileno);
@@ -49,14 +51,11 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
   };
 
   const handleSave = () => {
-    localStorage.setItem(
-      "deposit_details",
-      JSON.stringify({
-        depositAmount: Number(amount),
-        mobile: mobile,
-        reference: generateUniqueId(),
-      }),
-    );
+    setDepositDetails({
+      depositAmount: Number(amount),
+      mobile: mobile,
+      reference: generateUniqueId(),
+    });
     onConfirm();
   };
 
