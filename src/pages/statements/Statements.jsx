@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Download,
   FileText,
   Calendar,
-  Info,
   Wallet,
   ChevronDown,
   Receipt,

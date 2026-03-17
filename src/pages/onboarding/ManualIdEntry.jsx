@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
   User,
-  CreditCard,
   Hash,
   Calendar,
   ShieldCheck,
@@ -16,8 +15,6 @@ import {
 
 const ManualIdEntry = () => {
   const navigate = useNavigate();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [formData, setFormData] = useState({
     fullName: "",
     idNumber: "",

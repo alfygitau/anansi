@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { X, ShieldCheck, Smartphone, CheckCircle2 } from "lucide-react";
 import { useToast } from "../../contexts/ToastProvider";
 import { useQuery } from "react-query";

@@ -18,7 +18,6 @@ import {
 
 const HelpPage = () => {
   const navigate = useNavigate();
-  const useMyPassport = false;
 
   const tips = [
     {
