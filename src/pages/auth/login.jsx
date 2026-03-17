@@ -286,25 +286,18 @@ const Login = () => {
 
           {/* Biometric Prompt (Optional Mobile Feature) */}
           <div className="mt-8 pt-8 border-t border-slate-50 flex flex-col items-center">
-            <button className="flex items-center gap-2 text-slate-400 hover:text-[#042159] transition-colors group">
-              <Fingerprint
-                size={24}
-                className="group-hover:scale-110 transition-transform"
-              />
-              <span className="text-[10px] font-black uppercase tracking-widest">
-                Use Biometrics
-              </span>
-            </button>
+            {/* Footer Links */}
+            <p className="text-center mt-10 text-slate-400 text-[11px] font-bold uppercase tracking-tight">
+              Not a member yet?{" "}
+              <button
+                onClick={() => navigate(`/`)}
+                className="text-[#4DB8E4] ml-1"
+              >
+                Open an account
+              </button>
+            </p>
           </div>
         </div>
-
-        {/* Footer Links */}
-        <p className="text-center mt-10 text-slate-400 text-[11px] font-bold uppercase tracking-tight">
-          Not a member yet?{" "}
-          <button onClick={() => navigate(`/`)} className="text-[#4DB8E4] ml-1">
-            Open an account
-          </button>
-        </p>
       </div>
     </div>
   );
