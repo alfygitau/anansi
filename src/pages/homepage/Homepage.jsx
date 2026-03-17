@@ -1,15 +1,8 @@
 import React, { useState } from "react";
 import {
-  Building2,
   TrendingUp,
-  Zap,
-  Stethoscope,
   Wallet,
   ArrowUpRight,
-  GraduationCap,
-  Car,
-  Smartphone,
-  ShoppingBag,
   ArrowDownCircle,
   PieChart,
   Calculator,
@@ -58,77 +51,10 @@ const Homepage = () => {
   const navigate = useNavigate();
   const { showToast } = useToast();
   const setStoreAccounts = useStore((state) => state.setAccounts);
-  const [loanProducts] = useState([
-    { id: 1, label: "Development", icon: <Building2 size={20} /> },
-    { id: 2, label: "Jijenge", icon: <TrendingUp size={20} /> },
-    { id: 3, label: "Flash Loan", icon: <Zap size={20} /> },
-    { id: 4, label: "Emergency", icon: <Stethoscope size={20} /> },
-    { id: 5, label: "Education", icon: <GraduationCap size={20} /> },
-    { id: 6, label: "Asset Finance", icon: <Car size={20} /> },
-    { id: 7, label: "Mobile Loan", icon: <Smartphone size={20} /> },
-    { id: 8, label: "Biashara", icon: <ShoppingBag size={20} /> },
-  ]);
-
-  const [loans] = useState([
-    {
-      id: "ln-001",
-      productName: "Development Loan",
-      loanCode: "DEV-2024-9902",
-      balance: "KES 450,000",
-      repaymentDate: "March 30, 2026",
-      maturityDate: "March 30, 2029",
-      status: "Active",
-    },
-    {
-      id: "ln-002",
-      productName: "Flash Loan",
-      loanCode: "FLS-2026-1102",
-      balance: "KES 15,000",
-      repaymentDate: "March 25, 2026",
-      maturityDate: "April 25, 2026",
-      status: "Active",
-    },
-    {
-      id: "ln-003",
-      productName: "Jijenge Loan",
-      loanCode: "JIJ-2025-4410",
-      balance: "KES 120,000",
-      repaymentDate: "April 05, 2026",
-      maturityDate: "April 05, 2027",
-      status: "Active",
-    },
-    {
-      id: "ln-004",
-      productName: "Emergency Loan",
-      loanCode: "EMG-2026-005",
-      balance: "KES 50,000",
-      repaymentDate: "March 20, 2026",
-      maturityDate: "Sept 20, 2026",
-      status: "Pending",
-    },
-    {
-      id: "ln-005",
-      productName: "Education Loan",
-      loanCode: "EDU-2026-882",
-      balance: "KES 85,000",
-      repaymentDate: "Pending Approval",
-      maturityDate: "Dec 15, 2027",
-      status: "Pending",
-    },
-    {
-      id: "ln-006",
-      productName: "Mobile Loan",
-      loanCode: "MOB-2026-331",
-      balance: "KES 5,500",
-      repaymentDate: "March 18, 2026",
-      maturityDate: "April 18, 2026",
-      status: "Pending",
-    },
-  ]);
-
+  const [loans, setLoans] = useState([]);
+  const [loanProducts, setLoanProducts] = useState([]);
   const activeLoans = loans.filter((l) => l.status === "Active");
   const pendingApplications = loans.filter((l) => l.status === "Pending");
-
   const quickActions = [
     {
       id: 1,
@@ -179,7 +105,6 @@ const Homepage = () => {
       onClick: () => navigate("/statements"),
     },
   ];
-
   const { auth } = useAuth();
   const [sharesSummary, setSharesSummary] = useState({});
   const [showInvestAmount, setShowInvestAmount] = useState(false);
@@ -555,7 +480,7 @@ const Homepage = () => {
               <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
                 Quick Actions
               </h2>
-              <div className="flex items-start gap-4 overflow-x-auto pb-2 no-scrollbar">
+              <div className="flex items-start justify-between overflow-x-auto pb-2 no-scrollbar">
                 {quickActions.map(({ label, icon, onClick }) => (
                   <div
                     onClick={onClick}
