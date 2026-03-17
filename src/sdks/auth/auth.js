@@ -143,6 +143,30 @@ export const sendMobileOtp = async (userId) => {
   }
 };
 
+export const forgetPassword = async (email) => {
+  try {
+    const response = await publicClient.post(`/customer/forgot-password`, {
+      email: email,
+      isEmail: true,
+    });
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
+export const resetPassword = async (email, password) => {
+  try {
+    const response = await publicClient.post(`/customer/reset-password-web`, {
+      email: email,
+      password: password,
+    });
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
 export const resendEmailOtp = async (userId) => {
   try {
     const response = await publicClient.post(`/otp`, {

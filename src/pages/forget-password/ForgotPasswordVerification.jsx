@@ -1,35 +1,19 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  ArrowLeft,
-  Loader2,
-  RefreshCcw,
-  KeyRound,
-  ShieldCheck,
-} from "lucide-react";
+import { Loader2, KeyRound, ShieldAlert, Info } from "lucide-react";
 import { motion } from "framer-motion";
+import { useMutation } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import { verifyEmailAddress } from "../../sdks/auth/auth";
+import { useStore } from "../../store/useStore";
 
-const ForgotOTPVerification = ({ userEmail = "dev.alex@anansi.co.ke" }) => {
+const ForgotOTPVerification = () => {
   const navigate = useNavigate();
   const [otp, setOtp] = useState(new Array(6).fill(""));
-  const [loading, setLoading] = useState(false);
-  const [timer, setTimer] = useState(30);
   const inputRefs = useRef([]);
+  const { showToast } = useToast();
+  const forgetEmail = useStore((state) => state.forgetEmail);
 
-  // Timer logic for Resend OTP
-  useEffect(() => {
-    let interval = null;
-    if (timer > 0) {
-      interval = setInterval(() => {
-        setTimer((prev) => prev - 1);
-      }, 1000);
-    } else {
-      clearInterval(interval);
-    }
-    return () => clearInterval(interval);
-  }, [timer]);
-
-  // Masking logic: dev.alex@anansi.co.ke -> ****alex@anansi.co.ke
   const maskEmail = (email) => {
     if (!email.includes("@")) return email;
     const [local, domain] = email.split("@");
@@ -37,15 +21,11 @@ const ForgotOTPVerification = ({ userEmail = "dev.alex@anansi.co.ke" }) => {
     return "****" + local.slice(4) + "@" + domain;
   };
 
-  // Handle OTP Input Changes
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return false;
-
     const newOtp = [...otp];
     newOtp[index] = element.value;
     setOtp(newOtp);
-
-    // Focus next input
     if (element.value !== "" && index < 5) {
       inputRefs.current[index + 1].focus();
     }
@@ -61,20 +41,24 @@ const ForgotOTPVerification = ({ userEmail = "dev.alex@anansi.co.ke" }) => {
     e.preventDefault();
     const fullOtp = otp.join("");
     if (fullOtp.length < 6) return;
-
-    setLoading(true);
-    // Simulate API Call
-    setTimeout(() => {
-      setLoading(false);
-      navigate("/auth/passcode");
-    }, 1500);
+    verifyEmailMutate();
   };
 
-  const handleResend = () => {
-    if (timer > 0) return;
-    setTimer(30);
-    // Trigger resend API here
-  };
+  const { mutate: verifyEmailMutate, isLoading } = useMutation({
+    mutationKey: ["verify forgot password"],
+    mutationFn: () => verifyEmailAddress(otp.join(""), forgetEmail),
+    onSuccess: () => {
+      navigate("/auth/set-new-password");
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6 font-sans">
@@ -95,11 +79,10 @@ const ForgotOTPVerification = ({ userEmail = "dev.alex@anansi.co.ke" }) => {
             To ensure your account's security, we've sent a 6-digit verification
             code to <br />
             <span className="font-bold text-[#042159] tracking-tight">
-              {maskEmail(userEmail)}
+              {maskEmail(forgetEmail)}
             </span>
           </p>
         </div>
-
         {/* OTP INPUTS */}
         <form onSubmit={handleVerify} className="space-y-8">
           <div className="flex justify-center gap-3 sm:gap-3">
@@ -116,41 +99,47 @@ const ForgotOTPVerification = ({ userEmail = "dev.alex@anansi.co.ke" }) => {
               />
             ))}
           </div>
-
           <button
             type="submit"
-            disabled={loading || otp.join("").length < 6}
+            disabled={isLoading || otp.join("").length < 6}
             className="w-full h-14 bg-[#042159] hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-900/20 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? (
+            {isLoading ? (
               <Loader2 className="animate-spin" size={20} />
             ) : (
               "Verify & Continue"
             )}
           </button>
         </form>
-
-        {/* RESEND SECTION */}
-        <div className="mt-10 text-center">
-          <p className="text-sm text-slate-400 font-medium">
-            I didn't receive an email?
-          </p>
-          <button
-            onClick={handleResend}
-            disabled={timer > 0}
-            className={`mt-2 flex items-center gap-2 mx-auto text-sm font-black uppercase tracking-wider transition-all
-              ${timer > 0 ? "text-slate-300 cursor-not-allowed" : "text-[#4DB8E4] hover:text-[#042159]"}
-            `}
-          >
-            <RefreshCcw
-              size={16}
-              className={timer > 0 ? "" : "animate-spin-slow"}
-            />
-            {timer > 0
-              ? `Resend in 00:${timer.toString().padStart(2, "0")}`
-              : "Resend Code Now"}
-          </button>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-8 p-4 bg-slate-50 rounded-2xl border border-slate-100"
+        >
+          <div className="flex gap-3">
+            <ShieldAlert size={18} className="text-[#4DB8E4] shrink-0 mt-0.5" />
+            <div className="space-y-1">
+              <h4 className="text-[11px] font-black uppercase tracking-widest text-[#042159]">
+                Security Notice
+              </h4>
+              <p className="text-[12px] text-slate-500 leading-relaxed">
+                For your protection, this verification link will expire in{" "}
+                <span className="font-bold text-[#042159]">10 minutes</span>. If
+                you didn't request this, please ignore this email or contact
+                support if you suspect unauthorized activity.
+              </p>
+            </div>
+          </div>
+          <div className="mt-3 pt-3 border-t border-slate-200/60 flex items-center gap-2">
+            <Info size={14} className="text-slate-400" />
+            <p className="text-[10px] text-slate-400 font-medium">
+              Check your <span className="font-bold">Spam</span> or{" "}
+              <span className="font-bold">Promotions</span> folder if the email
+              doesn't arrive.
+            </p>
+          </div>
+        </motion.div>
       </motion.div>
     </div>
   );

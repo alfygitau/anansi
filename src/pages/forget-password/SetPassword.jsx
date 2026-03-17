@@ -10,19 +10,22 @@ import {
   Loader2,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { resetPassword } from "../../sdks/auth/auth";
+import { useMutation } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import { useStore } from "../../store/useStore";
 
 const CreateNewPassword = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-
+  const { showToast } = useToast();
+  const forgetEmail = useStore((state) => state.forgetEmail);
   const [formData, setFormData] = useState({
     password: "",
     confirmPassword: "",
   });
 
-  // Real-time validation criteria
   const validations = {
     length: formData.password.length >= 8,
     number: /[0-9]/.test(formData.password),
@@ -37,17 +40,31 @@ const CreateNewPassword = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     if (!Object.values(validations).every((v) => v)) return;
-
-    setLoading(true);
-    try {
-      setTimeout(() => {
-        setLoading(false);
-        navigate("/auth/login");
-      }, 2000);
-    } catch (err) {
-      setLoading(false);
-    }
+    await resetPasswordMutate();
   };
+
+  const { mutate: resetPasswordMutate, isLoading } = useMutation({
+    mutationKey: ["set new password"],
+    mutationFn: () => resetPassword(forgetEmail, formData.password),
+    onSuccess: () => {
+      showToast({
+        title: "Success!",
+        type: "success",
+        position: "top-right",
+        description:
+          "Securely updated. You're all set to log in with your new password.",
+      });
+      navigate("/auth/login");
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6 font-sans">
@@ -149,10 +166,10 @@ const CreateNewPassword = () => {
 
           <button
             type="submit"
-            disabled={loading || !Object.values(validations).every((v) => v)}
+            disabled={isLoading || !Object.values(validations).every((v) => v)}
             className="w-full h-14 bg-[#042159] hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-900/20 disabled:opacity-30 disabled:grayscale"
           >
-            {loading ? (
+            {isLoading ? (
               <Loader2 className="animate-spin" size={20} />
             ) : (
               "Update Password"
