@@ -138,7 +138,7 @@ const MyStatements = () => {
       />
 
       <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl sm:px-4 mx-auto">
           {/* Header Section */}
           <header className="py-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>

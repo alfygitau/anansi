@@ -20,6 +20,15 @@
     @apply bg-slate-100/80;
   }
 
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
   /* Autofill styling to prevent that ugly browser yellow */
   .modern-input:-webkit-autofill,
   .modern-input:-webkit-autofill:hover,

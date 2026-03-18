@@ -83,7 +83,7 @@ const Notifications = () => {
       {isLoading ? (
         <NotificationsLoader />
       ) : (
-        <div className="max-w-6xl mx-auto py-8">
+        <div className="max-w-6xl sm:px-4 mx-auto py-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* LEFT COLUMN: NOTIFICATION FEED (8/12) */}
             <div className="lg:col-span-8 space-y-6">

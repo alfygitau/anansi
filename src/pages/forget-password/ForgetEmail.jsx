@@ -64,6 +64,9 @@ const ForgotPassword = () => {
     },
   });
 
+  const isInvalid = !validateEmail(email);
+  const isButtonDisabled = isLoading || isInvalid || !email;
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6 font-sans">
       <motion.div
@@ -122,9 +125,13 @@ const ForgotPassword = () => {
 
           <button
             type="submit"
-            disabled={isLoading || !!error}
-            className={`w-full h-14 bg-[#042159] hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-900/20 
-    ${isLoading || !!error ? "opacity-50 cursor-not-allowed shadow-none" : "hover:scale-[1.02] active:scale-[0.98]"}
+            disabled={isButtonDisabled}
+            className={`w-full h-14 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-lg 
+    ${
+      isButtonDisabled
+        ? "opacity-50 cursor-not-allowed shadow-none bg-slate-400"
+        : "bg-[#042159] hover:bg-[#062d7a] hover:scale-[1.02] active:scale-[0.98] shadow-blue-900/20"
+    }
   `}
           >
             {isLoading ? (

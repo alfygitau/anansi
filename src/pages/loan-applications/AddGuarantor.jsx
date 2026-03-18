@@ -27,7 +27,7 @@ const AddGuarantors = ({ onBack, limit = 3 }) => {
 
   return (
     <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto sm:px-4">
         {/* Header */}
         <header className="py-6">
           <h1 className="text-3xl font-black tracking-tight">

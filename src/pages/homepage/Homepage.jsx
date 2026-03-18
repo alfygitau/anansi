@@ -360,7 +360,7 @@ const Homepage = () => {
       ) : (
         <div className="min-h-screen bg-slate-50 text-[#042159] pb-12">
           {/* Centered Container (approx 75% width) */}
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-6xl sm:px-4 mx-auto">
             <header className="flex justify-between mb-4 items-center">
               <div>
                 <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
@@ -480,7 +480,7 @@ const Homepage = () => {
               <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
                 Quick Actions
               </h2>
-              <div className="flex items-start justify-between overflow-x-auto pb-2 no-scrollbar">
+              <div className="flex items-start scrollbar-hide justify-between overflow-x-auto pb-2 no-scrollbar">
                 {quickActions.map(({ label, icon, onClick }) => (
                   <div
                     onClick={onClick}

@@ -70,7 +70,7 @@ const EligibilityCheck = () => {
 
   return (
     <div className="bg-slate-50 text-[#042159] pb-20">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 pt-3">
+      <div className="max-w-6xl sm:px-4 mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 pt-3">
         {/* --- MAIN CONTENT --- */}
         <main className="lg:col-span-9">
           <header className="mb-5">

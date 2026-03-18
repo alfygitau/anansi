@@ -85,7 +85,7 @@ const AccountDetails = () => {
         <AccountDetailsLoader />
       ) : (
         <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-6xl sm:px-4 mx-auto">
             {/* Navigation Header */}
             <header className="py-4 flex items-center justify-between">
               <div className="flex items-center gap-4">

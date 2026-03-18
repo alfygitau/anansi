@@ -43,7 +43,7 @@ const ApplyLoan = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl sm:px-4 mx-auto">
         {/* Header */}
         <header className="py-6">
           <h1 className="text-3xl font-black tracking-tight">
