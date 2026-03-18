@@ -78,19 +78,21 @@ const FacialIdentity = () => {
   });
 
   return (
-    <div className="flex w-full max-w-[1300px] mx-auto bg-gray-50">
-      {/* Sidebar Progress - 20% */}
-      <div className="w-[25%] hidden lg:block md:block">
+    <div className="flex flex-col lg:flex-row w-full max-w-[1300px] mb-[30px] mx-auto bg-gray-50 min-h-screen">
+      {/* Sidebar Progress - Hidden on mobile/tablet, shown on lg */}
+      <div className="hidden lg:block w-[25%] h-full">
         <MyProgress
           currentTitle="Identity Verification"
           currentSubtitle="Selfie Verification"
         />
       </div>
 
-      {/* Main Content Area (Left/Center) */}
-      <div className="flex-1 lg:pr-6">
+      {/* Main Content Area */}
+      {/* 2. Added responsive padding (px-6 on mobile, lg:pr-6 for desktop) */}
+      <div className="flex-1 px-6">
         <header className="mb-10">
-          <h1 className="text-3xl font-black text-[#042159] uppercase tracking-tight mb-4">
+          {/* 3. Adjusted text size for mobile (text-2xl -> text-3xl) */}
+          <h1 className="text-2xl lg:text-3xl font-black text-[#042159] uppercase tracking-tight mb-4">
             Selfie Verification
           </h1>
 
@@ -109,34 +111,32 @@ const FacialIdentity = () => {
             <div
               key={card.id}
               onClick={card.action}
-              className="group relative h-[100px] p-4 mb-4 border border-slate-100 cursor-pointer w-full bg-white rounded-[24px] flex items-center justify-between transition-all duration-300 hover:border-[#4DB8E4]/30 hover:shadow-2xl hover:shadow-blue-900/10 active:scale-[0.98]"
+              /* 4. Made height auto on mobile to prevent text clipping, h-[100px] on desktop */
+              className="group relative min-h-[90px] lg:h-[100px] p-4 border border-slate-100 cursor-pointer w-full bg-white rounded-[24px] flex items-center justify-between transition-all duration-300 hover:border-[#4DB8E4]/30 hover:shadow-2xl hover:shadow-blue-900/10 active:scale-[0.98]"
             >
-              {/* Modern Hover Glow Effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#4DB8E4]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[24px]" />
 
-              <div className="flex items-center gap-5 relative z-10">
-                {/* Icon Container with subtle gradient and shadow */}
-                <div className="h-[64px] w-[64px] rounded-2xl bg-slate-50 flex items-center justify-center shadow-inner group-hover:bg-[#042159] transition-all duration-300">
-                  <div className="group-hover:text-white transition-colors duration-300">
+              <div className="flex items-center gap-4 lg:gap-5 relative z-10">
+                {/* Scaled down icon slightly for mobile */}
+                <div className="h-[50px] w-[50px] lg:h-[64px] lg:w-[64px] shrink-0 rounded-2xl bg-slate-50 flex items-center justify-center shadow-inner group-hover:bg-[#042159] transition-all duration-300">
+                  <div className="group-hover:text-white transition-colors duration-300 scale-90 lg:scale-100">
                     {card.icon}
                   </div>
                 </div>
 
-                {/* Text Content */}
                 <div className="flex flex-col gap-1">
-                  <h3 className="text-[15px] font-black text-[#042159] uppercase tracking-tight leading-none">
+                  <h3 className="text-[13px] lg:text-[15px] font-black text-[#042159] uppercase tracking-tight leading-none">
                     {card.title}
                   </h3>
-                  <p className="text-[12px] text-slate-500 font-medium group-hover:text-slate-700 transition-colors">
+                  <p className="text-[11px] lg:text-[12px] text-slate-500 font-medium group-hover:text-slate-700 transition-colors">
                     {card.subtitle}
                   </p>
                 </div>
               </div>
 
-              {/* Right Arrow with background circle on hover */}
-              <div className="relative z-10 h-10 w-10 flex items-center justify-center rounded-full bg-slate-50 text-[#042159] group-hover:bg-[#4DB8E4] group-hover:text-[#042159] transition-all duration-300">
+              <div className="relative z-10 h-8 w-8 lg:h-10 lg:w-10 flex items-center justify-center rounded-full bg-slate-50 text-[#042159] group-hover:bg-[#4DB8E4] group-hover:text-[#042159] transition-all duration-300">
                 <ChevronRight
-                  size={20}
+                  size={18}
                   className="group-hover:translate-x-0.5 transition-transform"
                 />
               </div>
@@ -144,7 +144,7 @@ const FacialIdentity = () => {
           ))}
         </div>
 
-        <div className="mt-12 pt-8 border-t border-slate-100">
+        <div className="mt-12 pt-8 border-t border-slate-100 pb-10 lg:pb-0">
           <button
             onClick={openWebcam}
             className="text-[11px] font-black uppercase tracking-widest text-slate-400 hover:text-[#042159] transition-colors"
@@ -155,11 +155,11 @@ const FacialIdentity = () => {
       </div>
 
       {/* Info & Disclaimer Sidebar (Right) */}
-      <div className="lg:w-[380px] bg-slate-50/50 p-10">
-        <div className="sticky top-10 space-y-8">
-          {/* Security Box */}
+      {/* 5. Changed width to full on mobile, fixed width on desktop. Adjusted padding. */}
+      <div className="w-full lg:w-[380px] bg-slate-100/30 lg:bg-slate-50/50 sm:px-5 border-t lg:border-t-0">
+        <div className="lg:sticky lg:top-10 space-y-8">
           <div className="space-y-4">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center sm:mt-5 gap-2">
               <Lock className="text-[#042159]" size={18} />
               <h4 className="text-[12px] font-black uppercase tracking-widest text-[#042159]">
                 Privacy & Security
@@ -171,7 +171,6 @@ const FacialIdentity = () => {
             </p>
           </div>
 
-          {/* Tips Section */}
           <div className="space-y-4 pt-8 border-t border-slate-200/60">
             <div className="flex items-center gap-2">
               <ShieldCheck className="text-[#4DB8E4]" size={18} />
@@ -179,7 +178,7 @@ const FacialIdentity = () => {
                 Capture Tips
               </h4>
             </div>
-            <ul className="space-y-3">
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-3">
               {[
                 "Find a well-lit area (avoid backlighting)",
                 "Remove glasses or face coverings",
@@ -197,7 +196,6 @@ const FacialIdentity = () => {
             </ul>
           </div>
 
-          {/* Compliance Footer */}
           <div className="p-5 bg-[#042159] rounded-[24px] text-white">
             <div className="flex items-center gap-2 mb-2">
               <Info size={14} className="text-[#4DB8E4]" />

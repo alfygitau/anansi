@@ -158,7 +158,7 @@ const VerifyMobile = () => {
                 key={index}
                 type="text"
                 maxLength="1"
-                className="w-full h-16 text-center text-2xl font-black text-[#042159] bg-slate-50 border-2 rounded-2xl focus:border-[#4DB8E4] focus:bg-white focus:ring-4 focus:ring-[#4DB8E4]/10 transition-all outline-none"
+                className="w-full h-16 sm:h-12 text-center text-2xl font-black text-[#042159] bg-slate-50 border-2 rounded-2xl focus:border-[#4DB8E4] focus:bg-white focus:ring-4 focus:ring-[#4DB8E4]/10 transition-all outline-none"
                 value={data}
                 onChange={(e) => handleChange(e, index)}
                 onKeyDown={(e) => {
