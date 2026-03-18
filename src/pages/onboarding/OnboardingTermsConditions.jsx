@@ -137,7 +137,7 @@ const TermsAndConditions = () => {
             General Terms and Conditions
           </h2>
           {/* Scrollable Terms Box */}
-          <div className="h-[550px] bg-gray-50 rounded-xl border border-gray-200 overflow-y-auto p-[15px] md:p-[15px]">
+          <div className="h-[550px] sm:h-[650px] bg-gray-50 rounded-xl border border-gray-200 overflow-y-auto p-[15px] md:p-[15px]">
             <div className="prose prose-sm text-gray-700">
               <h1 className="text-lg font-bold text-[#042159] mb-4">
                 Anansi Sacco User General Terms & Conditions

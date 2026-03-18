@@ -72,7 +72,7 @@ const SelfieQRCode = () => {
       </div>
 
       {/* 2. Main Area: QR Workstation */}
-      <div className="flex-1">
+      <div className="flex-1 sm:px-3">
         <header className="mb-6">
           <h1 className="text-3xl font-black text-[#042159] uppercase tracking-tight mb-4">
             Scan to Start
@@ -177,7 +177,7 @@ const SelfieQRCode = () => {
       </div>
 
       {/* 3. Right Sidebar: Info & Disclaimers */}
-      <div className="lg:w-[350px] bg-slate-50/50">
+      <div className="lg:w-[350px] px-3 sm:mt-6 bg-slate-50/50">
         <div className="space-y-8 sticky top-10">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
