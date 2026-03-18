@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Camera,
   Edit3,
@@ -21,6 +21,15 @@ import { getCustomer, updateProfilePhoto } from "../../sdks/customer/customer";
 import { useToast } from "../../contexts/ToastProvider";
 import ProfileLoader from "../../skeletons/ProfileLoader";
 import useAuth from "../../hooks/useAuth";
+import EditAddress from "../../components/profile/EditAddress";
+import EditFinancialDetails from "../../components/profile/EditFinancials";
+import EditNextOfKin from "../../components/profile/EditKin";
+import EditProfile from "../../components/profile/EditProfile";
+import {
+  getCounties,
+  getCountries,
+  getStates,
+} from "../../sdks/customer/customer";
 
 const ProfilePage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +41,14 @@ const ProfilePage = () => {
   const [nextOfKin, setNextOfKin] = useState({});
   const [address, setAddress] = useState({});
   const { showToast } = useToast();
+  const [showEditAddress, setShowEditAddress] = useState(false);
+  const [showEditFinancials, setShowEditFinancials] = useState(false);
+  const [showEditKin, setShowEditKin] = useState(false);
+  const [showEditProfile, setShowEditProfile] = useState(false);
+  const [countries, setCountries] = useState([]);
+  const [counties, setCounties] = useState([]);
+  const [subCounties, setSubCounties] = useState([]);
+  const [states, setStates] = useState([]);
 
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
@@ -90,12 +107,104 @@ const ProfilePage = () => {
       },
     });
 
+  useQuery({
+    queryKey: ["get counties"],
+    queryFn: async () => {
+      const response = await getCounties();
+      return response?.data?.data;
+    },
+    onSuccess: (data) => {
+      setCounties(data);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  useQuery({
+    queryKey: ["get countries"],
+    queryFn: async () => {
+      const response = await getCountries();
+      return response?.data?.data;
+    },
+    onSuccess: (data) => {
+      setCountries(data);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  useQuery({
+    queryKey: ["get states"],
+    queryFn: async () => {
+      const response = await getStates();
+      return response?.data?.data;
+    },
+    onSuccess: (data) => {
+      setStates(data);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  useEffect(() => {
+    if (address?.[0]?.county) {
+      const selected = counties.find((c) => c.county === address?.[0]?.county);
+      setSubCounties(selected.sub_counties ?? subCounties);
+    }
+  }, [counties, address]);
+
   const handleUpdateProfilePhoto = () => {
     updateProfilePictureMutate();
   };
 
   return (
     <>
+      <EditProfile
+        isOpen={showEditProfile}
+        onClose={() => setShowEditProfile(false)}
+        customer={customer}
+      />
+      <EditNextOfKin
+        isOpen={showEditKin}
+        onClose={() => setShowEditKin(false)}
+        customer={customer}
+      />
+      <EditAddress
+        isOpen={showEditAddress}
+        onClose={() => setShowEditAddress(false)}
+        customer={customer}
+        counties={counties}
+        subCounties={subCounties}
+        countries={countries}
+        setCounties={setCounties}
+        setSubCounties={setSubCounties}
+        setCountries={setCountries}
+        state={states}
+        setStates={setStates}
+      />
+      <EditFinancialDetails
+        isOpen={showEditFinancials}
+        onClose={() => setShowEditFinancials(false)}
+        customer={customer}
+      />
       {isLoading ? (
         <ProfileLoader />
       ) : (
@@ -141,6 +250,7 @@ const ProfilePage = () => {
                   title="Personal Information"
                   icon={<User size={18} />}
                   fullHeight
+                  onEdit={() => setShowEditProfile(true)}
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
                     <DataField label="First Name" value={customer?.firstname} />
@@ -173,7 +283,11 @@ const ProfilePage = () => {
 
             {/* BOTTOM SECTION: SIDE-BY-SIDE GRID */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <InfoCard title="Residential Address" icon={<MapPin size={18} />}>
+              <InfoCard
+                onEdit={() => setShowEditAddress(true)}
+                title="Residential Address"
+                icon={<MapPin size={18} />}
+              >
                 <div className="space-y-4">
                   <DataField
                     label="Country of Residence"
@@ -195,6 +309,7 @@ const ProfilePage = () => {
               </InfoCard>
 
               <InfoCard
+                onEdit={() => setShowEditFinancials(true)}
                 title="Employment & Financials"
                 icon={<Briefcase size={18} />}
               >
@@ -213,7 +328,11 @@ const ProfilePage = () => {
                 </div>
               </InfoCard>
 
-              <InfoCard title="Next of Kin" icon={<Heart size={18} />}>
+              <InfoCard
+                onEdit={() => setShowEditKin(true)}
+                title="Next of Kin"
+                icon={<Heart size={18} />}
+              >
                 <div className="space-y-4">
                   <DataField label="Full Name" value={nextOfKin?.name} />
                   <DataField
@@ -398,7 +517,7 @@ const RequirementCard = ({ icon, title, description }) => (
 
 // --- SUB-COMPONENTS ---
 
-const InfoCard = ({ title, icon, children, fullHeight }) => (
+const InfoCard = ({ title, icon, children, fullHeight, onEdit }) => (
   <div
     className={`bg-white rounded-[28px] p-6 border border-slate-100 shadow-sm flex flex-col ${fullHeight ? "h-full" : ""}`}
   >
@@ -409,7 +528,10 @@ const InfoCard = ({ title, icon, children, fullHeight }) => (
           {title}
         </h3>
       </div>
-      <button className="p-1.5 hover:bg-slate-50 rounded-full text-slate-400 transition-colors">
+      <button
+        onClick={onEdit}
+        className="p-1.5 hover:bg-slate-50 rounded-full text-slate-400 transition-colors"
+      >
         <Edit3 size={16} />
       </button>
     </div>
