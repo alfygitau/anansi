@@ -60,6 +60,17 @@ export const updateSelfie = async (id, selfieUrl) => {
   }
 };
 
+export const updateProfilePhoto = async (id, url) => {
+  try {
+    const response = await client.patch(`/customer/${id}`, {
+      profile_photo: url,
+    });
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
 export const updateCustomerPersonalInformation = async (
   id,
   firstName,

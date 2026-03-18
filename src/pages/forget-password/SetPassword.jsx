@@ -98,7 +98,7 @@ const CreateNewPassword = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, password: e.target.value })
                 }
-                placeholder="••••••••"
+                placeholder="e.g ••••••••"
                 className="w-full h-14 px-5 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-[#4DB8E4] focus:bg-white transition-all font-medium"
               />
               <button
@@ -123,7 +123,7 @@ const CreateNewPassword = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, confirmPassword: e.target.value })
                 }
-                placeholder="••••••••"
+                placeholder="e.g ••••••••"
                 className={`w-full h-14 px-5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium
                   ${formData.confirmPassword && !validations.match ? "border-rose-200" : "border-slate-100 focus:border-[#4DB8E4] focus:bg-white"}
                 `}

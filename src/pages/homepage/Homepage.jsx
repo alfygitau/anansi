@@ -361,7 +361,7 @@ const Homepage = () => {
         <div className="min-h-screen bg-slate-50 text-[#042159] pb-12">
           {/* Centered Container (approx 75% width) */}
           <div className="max-w-6xl mx-auto">
-            <header className="flex justify-between mb-6 items-center">
+            <header className="flex justify-between mb-4 items-center">
               <div>
                 <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
                 <p className="text-sm text-slate-500">

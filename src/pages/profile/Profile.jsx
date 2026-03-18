@@ -14,18 +14,20 @@ import {
   Ban,
   UserMinus,
   Scale,
+  Loader2,
 } from "lucide-react";
-import { useQuery } from "react-query";
-import { getCustomer } from "../../sdks/customer/customer";
+import { useQuery, useMutation } from "react-query";
+import { getCustomer, updateProfilePhoto } from "../../sdks/customer/customer";
 import { useToast } from "../../contexts/ToastProvider";
 import ProfileLoader from "../../skeletons/ProfileLoader";
+import useAuth from "../../hooks/useAuth";
 
 const ProfilePage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [selfieUrl, setSelfieUrl] = useState("");
   const fileInputRef = useRef(null);
-
+  const { auth } = useAuth();
   const [customer, setCustomer] = useState({});
   const [nextOfKin, setNextOfKin] = useState({});
   const [address, setAddress] = useState({});
@@ -41,7 +43,7 @@ const ProfilePage = () => {
     });
   };
 
-  const { isLoading } = useQuery({
+  const { isLoading, refetch } = useQuery({
     queryKey: ["get customer"],
     queryFn: async () => {
       const response = await getCustomer();
@@ -61,6 +63,36 @@ const ProfilePage = () => {
       });
     },
   });
+
+  const { mutate: updateProfilePictureMutate, isLoading: isLoadingProfile } =
+    useMutation({
+      mutationKey: ["update profile picture"],
+      mutationFn: () => updateProfilePhoto(auth?.user?.id, selfieUrl),
+      onSuccess: () => {
+        showToast({
+          title: "Success!",
+          type: "success",
+          position: "top-right",
+          description:
+            "Securely updated. You're all set with the new profile picture.",
+        });
+        setSelfieUrl("");
+        refetch();
+        setIsOpen(false);
+      },
+      onError: (error) => {
+        showToast({
+          title: "Authentication glitch",
+          type: "error",
+          position: "top-right",
+          description: error?.response?.data?.message || error.message,
+        });
+      },
+    });
+
+  const handleUpdateProfilePhoto = () => {
+    updateProfilePictureMutate();
+  };
 
   return (
     <>
@@ -133,10 +165,7 @@ const ProfilePage = () => {
                       label="Identification"
                       value={customer?.identification}
                     />
-                    <DataField
-                      label="Gender"
-                      value={customer?.gender}
-                    />
+                    <DataField label="Gender" value={customer?.gender} />
                   </div>
                 </InfoCard>
               </div>
@@ -327,11 +356,18 @@ const ProfilePage = () => {
                     {uploading ? "Processing..." : "Choose image from device"}
                   </button>
                   <button
-                    onClick={() => setIsOpen(false)}
-                    disabled={!selfieUrl}
-                    className="w-full mt-8 py-3.5 rounded-xl font-bold bg-[#042159] text-white disabled:bg-slate-100 disabled:text-slate-400 transition-all"
+                    onClick={handleUpdateProfilePhoto}
+                    disabled={!selfieUrl || isLoadingProfile}
+                    className="w-full mt-8 h-14 rounded-xl font-bold bg-[#042159] text-white flex items-center justify-center gap-2 transition-all hover:bg-[#062d7a] active:scale-[0.98] disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed"
                   >
-                    Save Changes
+                    {isLoadingProfile ? (
+                      <>
+                        <Loader2 className="animate-spin" size={20} />
+                        <span>Updating...</span>
+                      </>
+                    ) : (
+                      "Save Changes"
+                    )}
                   </button>
                 </div>
               </div>

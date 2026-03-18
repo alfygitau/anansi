@@ -176,7 +176,7 @@ const Login = () => {
                 <input
                   name="memberId"
                   type="text"
-                  placeholder="Enter ID number"
+                  placeholder="Enter username or email"
                   className="w-full pl-14 pr-6 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none font-bold text-[#042159] transition-all"
                   value={formData.memberId}
                   onChange={handleChange}
