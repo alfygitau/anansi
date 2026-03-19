@@ -9,6 +9,8 @@ const initialState = {
   membership: {},
   membership_mobile: null,
   forgetEmail: null,
+  kyc_details: null,
+  id_images: null,
 };
 
 export const useStore = create(
@@ -24,6 +26,8 @@ export const useStore = create(
       setMembership: (data) => set({ membership: data }),
       setMembershipMobile: (mobile) => set({ membership_mobile: mobile }),
       setForgetEmail: (data) => set({ forgetEmail: data }),
+      setKycDetails: (data) => set({ kyc_details: data }),
+      setIdImages: (urls) => set({ id_images: urls }),
       setAllData: (data) => set({ ...data }),
 
       // 2. The Reset Function

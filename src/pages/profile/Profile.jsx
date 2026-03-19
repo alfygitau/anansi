@@ -169,7 +169,7 @@ const ProfilePage = () => {
       const selected = counties.find((c) => c.county === address?.[0]?.county);
       setSubCounties(selected.sub_counties ?? subCounties);
     }
-  }, [counties, address]);
+  }, [counties, address, subCounties]);
 
   const handleUpdateProfilePhoto = () => {
     updateProfilePictureMutate();

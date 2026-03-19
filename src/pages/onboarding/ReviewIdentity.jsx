@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MyProgress from "../../components/progress-bar/MyProgress";
 import { motion } from "framer-motion";
@@ -17,45 +16,14 @@ import { useMutation } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
 import useAuth from "../../hooks/useAuth";
 import { updateCustomerPersonalInformation } from "../../sdks/customer/customer";
+import { useStore } from "../../store/useStore";
 
 const ReviewIdentity = () => {
   const navigate = useNavigate();
   const { auth } = useAuth();
   const { showToast } = useToast();
-  const [kycDetails, setKycDetails] = useState({
-    idNumber: "",
-    fullNames: "",
-    dateOfBirth: "",
-    sex: "",
-    firstName: "",
-    middleName: "",
-    lastName: "",
-  });
-  const [idUrls, setIdUrls] = useState({
-    front: "",
-    back: "",
-    passport: "",
-  });
-
-  useEffect(() => {
-    const myDetails = localStorage.getItem("kyc_details")
-      ? JSON.parse(localStorage.getItem("kyc_details"))
-      : {};
-
-    const urls = localStorage.getItem("id_image")
-      ? JSON.parse(localStorage.getItem("id_image"))
-      : {};
-
-    const names = splitName(myDetails.fullNames || myDetails.fullName);
-    setKycDetails((prev) => ({
-      ...prev,
-      ...myDetails,
-      firstName: names.firstName,
-      middleName: names.middleName,
-      lastName: names.lastName,
-    }));
-    setIdUrls((prev) => ({ ...prev, ...urls }));
-  }, []);
+  const kycDetails = useStore((state) => state.kyc_details);
+  const idUrls = useStore((state) => state.id_images);
 
   const splitName = (fullName) => {
     if (!fullName) return { firstName: "", middleName: "", lastName: "" };
@@ -67,17 +35,22 @@ const ReviewIdentity = () => {
     };
   };
 
+  const names = splitName(kycDetails.fullNames || kycDetails.fullName);
+  const firstName = names.firstName;
+  const middleName = names.middleName;
+  const lastName = names.lastName;
+
   const handleUpdate = async () => {
     await updateCustomerMutate();
   };
 
   const inputFields = [
-    { label: "First Name", value: kycDetails.firstName },
-    { label: "Middle Name(s)", value: kycDetails.middleName },
-    { label: "Last Name", value: kycDetails.lastName },
-    { label: "ID / Passport Number", value: kycDetails.idNumber },
-    { label: "Gender", value: kycDetails.sex },
-    { label: "Date of Birth", value: kycDetails.dateOfBirth },
+    { label: "First Name", value: firstName },
+    { label: "Middle Name(s)", value: middleName },
+    { label: "Last Name", value: lastName },
+    { label: "ID / Passport Number", value: kycDetails?.idNumber },
+    { label: "Gender", value: kycDetails?.sex },
+    { label: "Date of Birth", value: kycDetails?.dateOfBirth },
   ];
 
   const { mutate: updateCustomerMutate, isLoading } = useMutation({

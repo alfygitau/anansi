@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import {
   Upload,
   CheckCircle2,
@@ -17,12 +17,19 @@ import {
   uploadSingleFile,
 } from "../../sdks/upload-files/upload";
 import OCRFailure from "../../components/onboarding/OcrFailure";
+import { useStore } from "../../store/useStore";
+import SuccessVerification from "../../components/onboarding/VerifySuccess";
+import DocumentError from "../../components/onboarding/DocumentError";
 
 const IdentityVerification = () => {
   const [documentType, setDocumentType] = useState("National Id");
   const navigate = useNavigate();
   const { showToast } = useToast();
   const [showOcrFailure, setShowOcrFailure] = useState(false);
+  const [showVerifySuccess, setShowVerifySuccess] = useState(false);
+  const [showDocumentError, setShowDocumentError] = useState(false);
+  const setKycDetails = useStore((state) => state.setKycDetails);
+  const setIdImages = useStore((state) => state.setIdImages);
   const [files, setFiles] = useState({
     front: null,
     back: null,
@@ -91,7 +98,21 @@ const IdentityVerification = () => {
       return response.data.data;
     },
     onSuccess: async (data) => {
-      localStorage.setItem("kyc_details", JSON.stringify(data));
+      const hasId = !!data?.idNumber;
+      const nameValue = data?.fullNames || data?.fullName;
+      const hasName = nameValue && nameValue.trim().length > 0;
+      if (!hasId || !hasName) {
+        showToast({
+          title: "Scan Unsuccessful",
+          type: "error",
+          position: "top-right",
+          description:
+            "We couldn't read your ID details. Please ensure the document is not blurry and try again.",
+        });
+        setShowOcrFailure(true);
+        return;
+      }
+      setKycDetails(data);
       await extractBackIdDetailsMutate();
     },
     onError: (error) => {
@@ -107,17 +128,30 @@ const IdentityVerification = () => {
 
   const { mutate: extractBackIdDetailsMutate, isLoading } = useMutation({
     mutationKey: ["extract-back-id-details"],
-    mutationFn: async () => extractBackIdDetails(files.back),
-    onSuccess: async () => {
-      showToast({
-        title: "Identity Verified",
-        type: "success",
-        position: "top-right",
-        description:
-          "We've successfully read your ID details and updated your profile automatically.",
-      });
-      localStorage.setItem("id_image", JSON.stringify(urls));
-      navigate("/onboarding/review-identity");
+    mutationFn: async () => {
+      const response = await extractBackIdDetails(files.back);
+      return response.data.data.foundAny;
+    },
+    onSuccess: async (data) => {
+      if (!data) {
+        showToast({
+          title: "Verification Failed",
+          type: "error",
+          position: "top-right",
+          description:
+            "The back of the ID you uploaded is invalid. Please ensure it is clear and well-lit before trying again.",
+        });
+      } else {
+        showToast({
+          title: "Identity Verified",
+          type: "success",
+          position: "top-right",
+          description:
+            "We've successfully read your ID details and updated your profile automatically.",
+        });
+        setIdImages(urls);
+        handleConfirm();
+      }
     },
     onError: (error) => {
       showToast({
@@ -145,9 +179,9 @@ const IdentityVerification = () => {
           description:
             "We've successfully read your Passport details and updated your profile automatically.",
         });
-        localStorage.setItem("id_image", JSON.stringify(urls));
-        localStorage.setItem("kyc_details", JSON.stringify(data));
-        navigate("/onboarding/review-identity");
+        setIdImages(urls);
+        setKycDetails(data);
+        handleConfirm();
       },
       onError: (error) => {
         showToast({
@@ -160,6 +194,14 @@ const IdentityVerification = () => {
       },
     });
 
+  const handleConfirm = () => {
+    setShowVerifySuccess(true);
+    setTimeout(() => {
+      setShowVerifySuccess(false);
+      navigate("/onboarding/review-identity");
+    }, 2000);
+  };
+
   return (
     <>
       <OCRFailure
@@ -167,7 +209,17 @@ const IdentityVerification = () => {
         onClose={() => setShowOcrFailure(false)}
       />
 
-      <div className="h-full bg-gray-50 flex justify-center">
+      <SuccessVerification
+        isOpen={showVerifySuccess}
+        onClose={() => setShowVerifySuccess(false)}
+      />
+
+      <DocumentError
+        isOpen={showDocumentError}
+        onClose={() => setShowDocumentError(false)}
+      />
+
+      <div className="h-full bg-gray-50 md:px-4 flex justify-center">
         {/* 80% Width Container */}
         <div className="w-full max-w-[1300px] mb-[20px] flex flex-col lg:flex-row gap-4">
           {/* Left Section: Progress Bar (20%) */}
