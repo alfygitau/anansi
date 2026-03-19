@@ -136,13 +136,11 @@ const LoanProducts = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
         <header className="py-4">
-          <h1 className="text-3xl font-black tracking-tight">
-            Loan Products
-          </h1>
+          <h1 className="text-3xl font-black tracking-tight">Loan Products</h1>
           <p className="text-slate-400 text-sm mt-2">
-            Explore our flexible credit facilities tailored for you.
+            Whether you're growing your business, funding an education, or
+            achieving personal goals, we have options tailored to your needs.
           </p>
-
           {/* Modern Search Bar */}
           <div className="mt-4 flex gap-3">
             <div className="relative flex-1">

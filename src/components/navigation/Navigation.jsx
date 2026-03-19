@@ -239,7 +239,7 @@ const Navigation = () => {
         <TabItem
           icon={<Briefcase />}
           active={isActive("/loans")}
-          onClick={() => navigate("/loans")}
+          onClick={() => navigate("/all-loans")}
         />
         <div className="relative -top-6">
           <button

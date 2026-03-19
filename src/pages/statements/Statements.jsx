@@ -150,7 +150,7 @@ const MyStatements = () => {
             </div>
             <button
               onClick={() => setShowGenerateStatement(true)}
-              className="flex items-center gap-3 px-8 py-4 bg-[#042159] text-white rounded-[24px] font-bold text-sm shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] transition-all"
+              className="flex items-center sm:justify-center gap-3 px-8 py-4 bg-[#042159] text-white rounded-[24px] font-bold text-sm shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] transition-all"
             >
               <FileText size={18} />
               Generate Custom Period

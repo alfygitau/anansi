@@ -348,7 +348,7 @@ const Homepage = () => {
       {isLoading ? (
         <HomeLoader />
       ) : (
-        <div className="bg-slate-50 text-[#042159] pb-12 z-0">
+        <div className="bg-slate-50 text-[#042159] pb-12">
           <div className="max-w-6xl sm:px-4 mx-auto">
             <header className="flex justify-between mb-4 items-center">
               <div>

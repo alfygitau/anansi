@@ -219,7 +219,7 @@ const IdentityVerification = () => {
         onClose={() => setShowDocumentError(false)}
       />
 
-      <div className="h-full bg-gray-50 md:px-4 sm:px-4 flex justify-center">
+      <div className="h-full bg-gray-50 md:px-6 sm:px-4 flex justify-center">
         {/* 80% Width Container */}
         <div className="w-full max-w-[1300px] mb-[20px] flex flex-col lg:flex-row gap-4">
           {/* Left Section: Progress Bar (20%) */}
@@ -231,8 +231,8 @@ const IdentityVerification = () => {
           </aside>
 
           {/* Middle Section: Upload Form (45%) */}
-          <main className="flex-1 space-y-4">
-            <section className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+          <main className="flex-1 px-6 space-y-4">
+            <section>
               <h1 className="text-2xl font-bold text-gray-900 mb-2">
                 Upload Government issued ID
               </h1>
@@ -407,7 +407,7 @@ const UploadBox = ({ label, file, onUpload, large }) => (
     <p className="text-sm font-medium text-gray-700">{label}</p>
     <div
       onClick={onUpload}
-      className={`${large ? "h-48" : "h-32"} cursor-pointer rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 hover:bg-gray-100 hover:border-[#042159] transition-all flex flex-col items-center justify-center group`}
+      className={`${large ? "h-48" : "h-32"} bg-white cursor-pointer rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 hover:bg-gray-100 hover:border-[#042159] transition-all flex flex-col items-center justify-center group`}
     >
       {file ? (
         <div className="text-center px-4">
