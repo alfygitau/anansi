@@ -86,8 +86,8 @@ const EligibilityCheck = () => {
 
           <LoanLimitHero loanLimit={loanLimit} checking={checking} />
 
-          <section className="bg-white rounded-[40px] p-6 md:p-10 border border-slate-100 shadow-sm shadow-blue-900/5">
-            <div className="flex items-center justify-between mb-8 border-b border-slate-50 pb-6">
+          <section className="bg-white rounded-[40px] p-6 md:p-6 border border-slate-100 shadow-sm shadow-blue-900/5">
+            <div className="flex items-center justify-between mb-4 border-b border-slate-50 pb-6">
               <h3 className="text-sm font-black uppercase tracking-widest text-slate-400">
                 Requirement Checklist
               </h3>

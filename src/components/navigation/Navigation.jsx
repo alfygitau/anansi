@@ -178,7 +178,7 @@ const Navigation = () => {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25 }}
-              className="fixed top-0 right-0 bottom-0 w-[80%] max-w-[320px] bg-white z-[110] shadow-2xl p-6 flex flex-col md:hidden"
+              className="fixed top-0 right-0 bottom-0 w-[80%] max-w-[320px] bg-white z-[100] shadow-2xl p-6 flex flex-col md:hidden"
             >
               <div className="flex justify-between items-center mb-8">
                 <span className="font-black text-[#042159]">MENU</span>

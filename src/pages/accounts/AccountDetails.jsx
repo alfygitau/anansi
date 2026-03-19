@@ -88,7 +88,7 @@ const AccountDetails = () => {
           <div className="max-w-6xl sm:px-4 mx-auto">
             {/* Navigation Header */}
             <header className="py-1 flex items-center justify-between">
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
                 <button
                   onClick={() => navigate(-1)}
                   className="p-2 hover:bg-slate-100 rounded-full transition-colors"

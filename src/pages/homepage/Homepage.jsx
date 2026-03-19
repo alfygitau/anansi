@@ -361,7 +361,7 @@ const Homepage = () => {
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6 w-full mx-auto z-0 overflow-hidden border border-cyan-100 bg-gradient-to-br from-[#F0FFFE] to-white p-4 shadow-sm shadow-cyan-900/5 relative"
+              className="mb-6 w-full mx-auto border border-cyan-100 bg-gradient-to-br from-[#F0FFFE] to-white p-4 shadow-sm shadow-cyan-900/5"
             >
               <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                 {/* Text Content Area */}
@@ -386,7 +386,6 @@ const Homepage = () => {
                     </span>
                     .
                   </p>
-
                   {remainingShares > 0 && (
                     <div className="inline-flex items-center gap-2 rounded-lg bg-white/60 px-3 py-1.5 border border-cyan-100">
                       <Wallet size={14} className="text-cyan-600" />
