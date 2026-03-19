@@ -213,7 +213,7 @@ const LoanLimitHero = ({ loanLimit, checking }) => (
           </div>
           <div className="flex items-baseline gap-3">
             <h2
-              className={`text-6xl font-black tracking-tighter transition-all duration-1000 ${checking ? "blur-xl opacity-30" : "blur-0 opacity-100"}`}
+              className={`text-6xl sm:text-4xl font-black tracking-tighter transition-all duration-1000 ${checking ? "blur-xl opacity-30" : "blur-0 opacity-100"}`}
             >
               {loanLimit}
             </h2>

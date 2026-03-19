@@ -541,7 +541,10 @@ const Homepage = () => {
                     />
                   ))
                 ) : (
-                  <EmptyState message="No pending applications" />
+                  <EmptyState
+                    message="No pending applications"
+                    onApply={() => navigate("/loan-products")}
+                  />
                 )}
               </section>
 
@@ -562,7 +565,10 @@ const Homepage = () => {
                     />
                   ))
                 ) : (
-                  <EmptyState message="No active loans found" />
+                  <EmptyState
+                    message="No active loans found"
+                    onApply={() => navigate("/loan-products")}
+                  />
                 )}
               </section>
             </div>

@@ -80,7 +80,7 @@ const FinancialStatements = () => {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] font-sans">
-      <div className="max-w-6xl md:px-3 mx-auto overflow-hidden">
+      <div className="max-w-6xl sm:px-3 mx-auto overflow-hidden">
         {/* Header Section */}
         <div className="py-4 border-b border-slate-50">
           <h1 className="text-2xl mb-2 font-black text-[#042159] uppercase tracking-tight">
