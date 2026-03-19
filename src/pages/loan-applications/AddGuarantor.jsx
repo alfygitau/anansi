@@ -105,98 +105,96 @@ const AddGuarantors = ({ onBack, limit = 3 }) => {
                 </p>
               </div>
             </div>
-
-            {/* Selection Queue */}
-            <div className="space-y-2">
-              <div className="flex justify-between items-center px-2">
-                <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                  Your Selection ({guarantors.length}/{limit})
+            {/* Educational Card */}
+            <div className="bg-[#042159] sm:hidden rounded-[40px] p-8 text-white shadow-2xl">
+              <div className="flex items-center gap-3 mb-8">
+                <Scale className="text-[#4DB8E4]" size={24} />
+                <h3 className="text-sm font-black uppercase tracking-widest text-white">
+                  Guarantor Liability
                 </h3>
               </div>
 
-              {guarantors.length === 0 ? (
-                <div className="py-12 border-2 border-dashed border-slate-200 rounded-[40px] flex flex-col items-center justify-center text-slate-300">
-                  <UserPlus size={40} strokeWidth={1} />
-                  <p className="text-[10px] font-black uppercase tracking-widest mt-4">
-                    No guarantors added yet
+              <div className="space-y-8">
+                <LiabilityPoint
+                  title="Joint & Several Liability"
+                  desc="Guarantors are legally bound to repay the loan if the borrower defaults. This is a binding commitment recognized by law."
+                />
+                <LiabilityPoint
+                  title="Pledged Security"
+                  desc="A portion of the guarantor's deposits/shares equivalent to the amount guaranteed will be frozen until the loan is fully settled."
+                />
+                <LiabilityPoint
+                  title="Credit Rating Impact"
+                  desc="Default by the borrower may negatively affect the guarantor's ability to borrow and their future credit standing with the institution."
+                />
+              </div>
+
+              <div className="mt-10 p-5 bg-white/5 rounded-3xl border border-white/10">
+                <div className="flex gap-3">
+                  <ShieldAlert className="text-amber-400 shrink-0" size={20} />
+                  <p className="text-[10px] leading-relaxed text-white/60">
+                    <strong className="text-white block mb-1 uppercase">
+                      Warning
+                    </strong>
+                    Do not add members who have not explicitly agreed to
+                    guarantee your loan. They will receive an SMS notification
+                    to accept or decline.
                   </p>
                 </div>
-              ) : (
-                guarantors.map((g) => (
-                  <div
-                    key={g.id}
-                    className="bg-white p-6 rounded-[32px] border border-slate-100 flex items-center justify-between group hover:border-[#4DB8E4]/30 transition-all"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-[#042159]">
-                        <Users size={20} />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-sm">{g.name}</h4>
-                        <p className="text-[10px] font-mono text-slate-400 uppercase">
-                          {g.mobile}
-                        </p>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() =>
-                        setGuarantors(
-                          guarantors.filter((item) => item.id !== g.id),
-                        )
-                      }
-                      className="p-3 text-slate-200 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                  </div>
-                ))
-              )}
+              </div>
             </div>
           </div>
 
           {/* Right Column: Liability & Legal Info (5/12) */}
           <div className="lg:col-span-5">
             <div className="space-y-6">
-              {/* Educational Card */}
-              <div className="bg-[#042159] rounded-[40px] p-8 text-white shadow-2xl">
-                <div className="flex items-center gap-3 mb-8">
-                  <Scale className="text-[#4DB8E4]" size={24} />
-                  <h3 className="text-sm font-black uppercase tracking-widest text-white">
-                    Guarantor Liability
+              {/* Selection Queue */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center px-2">
+                  <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    Selected Guarantors ({guarantors.length}/{limit})
                   </h3>
                 </div>
 
-                <div className="space-y-8">
-                  <LiabilityPoint
-                    title="Joint & Several Liability"
-                    desc="Guarantors are legally bound to repay the loan if the borrower defaults. This is a binding commitment recognized by law."
-                  />
-                  <LiabilityPoint
-                    title="Pledged Security"
-                    desc="A portion of the guarantor's deposits/shares equivalent to the amount guaranteed will be frozen until the loan is fully settled."
-                  />
-                  <LiabilityPoint
-                    title="Credit Rating Impact"
-                    desc="Default by the borrower may negatively affect the guarantor's ability to borrow and their future credit standing with the institution."
-                  />
-                </div>
-
-                <div className="mt-10 p-5 bg-white/5 rounded-3xl border border-white/10">
-                  <div className="flex gap-3">
-                    <ShieldAlert
-                      className="text-amber-400 shrink-0"
-                      size={20}
-                    />
-                    <p className="text-[10px] leading-relaxed text-white/60">
-                      <strong className="text-white block mb-1 uppercase">
-                        Warning
-                      </strong>
-                      Do not add members who have not explicitly agreed to
-                      guarantee your loan. They will receive an SMS notification
-                      to accept or decline.
+                {guarantors.length === 0 ? (
+                  <div className="py-12 h-[420px] border-2 border-dashed border-slate-200 rounded-[40px] flex flex-col items-center justify-center text-slate-300">
+                    <UserPlus size={40} strokeWidth={1} />
+                    <p className="text-[10px] font-black uppercase tracking-widest mt-4">
+                      No guarantors added yet
                     </p>
                   </div>
-                </div>
+                ) : (
+                  <div className="p-4 h-[420px] border-2 border-dashed border-slate-200 rounded-[40px] flex flex-col gap-2 text-slate-300">
+                    {guarantors.map((g) => (
+                      <div
+                        key={g.id}
+                        className="bg-white p-6 rounded-[32px] border border-slate-100 flex items-center justify-between group hover:border-[#4DB8E4]/30 transition-all"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-[#042159]">
+                            <Users size={20} />
+                          </div>
+                          <div>
+                            <h4 className="font-bold text-sm">{g.name}</h4>
+                            <p className="text-[10px] font-mono text-slate-400 uppercase">
+                              {g.mobile}
+                            </p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() =>
+                            setGuarantors(
+                              guarantors.filter((item) => item.id !== g.id),
+                            )
+                          }
+                          className="p-3 text-slate-200 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Status Note */}

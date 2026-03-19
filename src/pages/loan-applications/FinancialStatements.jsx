@@ -6,7 +6,6 @@ import {
   Trash2,
   ShieldCheck,
   Lock,
-  X,
   AlertCircle,
   Smartphone,
   Building2,
@@ -49,7 +48,7 @@ const FinancialStatements = () => {
       }
       showToast({
         title: "Statement Verified",
-        position:"top-right",
+        position: "top-right",
         description: `Successfully processed your ${type.toUpperCase()} file.`,
         type: "success",
       });
@@ -61,7 +60,7 @@ const FinancialStatements = () => {
         "Verification failed. Check your file and password.";
       showToast({
         title: "Upload Error",
-        position:"top-right",
+        position: "top-right",
         description: errorMessage,
         type: "error",
       });
@@ -81,10 +80,10 @@ const FinancialStatements = () => {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] font-sans">
-      <div className="max-w-6xl mx-auto overflow-hidden">
+      <div className="max-w-6xl md:px-3 mx-auto overflow-hidden">
         {/* Header Section */}
-        <div className="p-4 border-b border-slate-50">
-          <h1 className="text-2xl font-black text-[#042159] uppercase tracking-tight">
+        <div className="py-4 border-b border-slate-50">
+          <h1 className="text-2xl mb-2 font-black text-[#042159] uppercase tracking-tight">
             Financial Verification
           </h1>
           <div className="space-y-2">
@@ -106,7 +105,7 @@ const FinancialStatements = () => {
           </div>
         </div>
 
-        <div className="p-4 space-y-8">
+        <div className="py-4 space-y-8">
           {/* Disclaimer / Info Box */}
           <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-4 flex gap-4">
             <ShieldCheck className="text-[#4DB8E4] shrink-0" size={24} />
@@ -145,7 +144,7 @@ const FinancialStatements = () => {
 
           <div className="flex justify-end pt-4">
             <button
-              onClick={() => navigate("/normal-loan-terms-conditions")}
+              onClick={() => navigate("/collateral-registry")}
               className="h-14 w-full md:w-[240px] bg-[#074073] text-white rounded-2xl font-bold hover:shadow-lg hover:shadow-blue-900/20 transition-all active:scale-[0.98]"
             >
               Continue Application
@@ -170,7 +169,7 @@ const FinancialStatements = () => {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-2 bottom-2 right-2 w-full max-w-[450px] bg-white rounded-[24px] shadow-2xl z-50 flex flex-col p-8"
+              className="fixed top-0 right-0 bottom-0 w-full max-w-[450px] bg-white shadow-2xl z-50 flex flex-col p-8"
             >
               <div className="flex-1 overflow-y-auto">
                 <h3 className="text-xl font-black text-[#042159] uppercase tracking-tight mb-2">

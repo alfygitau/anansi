@@ -28,7 +28,7 @@ const NormalLoanTermsConditions = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 text-[#042159] pb-10">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto sm:px-6">
         {/* Header with Actions */}
         <header className="py-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
