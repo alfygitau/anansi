@@ -427,7 +427,6 @@ const Homepage = () => {
                       <span className="text-slate-300">/</span> 10 Shares
                     </p>
                   </div>
-
                   <button
                     onClick={() => setShowSharesAmount(true)}
                     className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-[#042159] px-8 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-blue-900/20 transition-all hover:bg-[#062d7a] active:scale-[0.98]"
