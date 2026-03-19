@@ -18,7 +18,7 @@ export const updateCustomerStatuses = async (id) => {
   try {
     const response = await client.patch(`/customer/${id}`, {
       onboarding_stage: "completed",
-      status: "Pending Payment",
+      status: "Active",
     });
     return response;
   } catch (error) {

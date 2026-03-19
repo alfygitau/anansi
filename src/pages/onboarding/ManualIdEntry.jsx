@@ -53,7 +53,7 @@ const ManualIdEntry = () => {
         <div className="lg:col-span-7">
           <header className="mb-10">
             <h1 className="text-3xl font-black text-[#042159] uppercase tracking-tight mb-2">
-              Manual Verification
+              Manual ID Entry
             </h1>
             <p className="text-slate-500">
               Please enter your details exactly as they appear on your National
@@ -63,22 +63,68 @@ const ManualIdEntry = () => {
 
           <form className="space-y-6">
             {/* Full Name Input */}
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">
-                Full Name (As per ID)
-              </label>
-              <div className="relative">
-                <User
-                  className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300"
-                  size={20}
-                />
-                <input
-                  type="text"
-                  name="fullName"
-                  placeholder="e.g. JOHN DOE OKOTH"
-                  className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[24px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
-                  onChange={handleInputChange}
-                />
+            <div className="space-y-4">
+              {/* First & Middle Name Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* First Name */}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">
+                    First Name
+                  </label>
+                  <div className="relative">
+                    <User
+                      className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300"
+                      size={20}
+                    />
+                    <input
+                      type="text"
+                      name="firstName"
+                      placeholder="e.g. JOHN"
+                      className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+
+                {/* Middle Name */}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">
+                    Middle Name (Optional)
+                  </label>
+                  <div className="relative">
+                    <User
+                      className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300"
+                      size={20}
+                    />
+                    <input
+                      type="text"
+                      name="middleName"
+                      placeholder="e.g. DOE"
+                      className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Last Name (Full Width) */}
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">
+                  Last Name / Surname
+                </label>
+                <div className="relative">
+                  <User
+                    className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300"
+                    size={20}
+                  />
+                  <input
+                    type="text"
+                    name="lastName"
+                    placeholder="e.g. OKOTH"
+                    className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
+                    onChange={handleInputChange}
+                  />
+                </div>
               </div>
             </div>
 
@@ -97,7 +143,7 @@ const ManualIdEntry = () => {
                     type="text"
                     name="idNumber"
                     placeholder="12345678"
-                    className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[24px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
+                    className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
                     onChange={handleInputChange}
                   />
                 </div>
@@ -116,7 +162,7 @@ const ManualIdEntry = () => {
                   <input
                     type="date"
                     name="dateOfBirth"
-                    className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[24px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
+                    className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
                     onChange={handleInputChange}
                   />
                 </div>
