@@ -80,7 +80,7 @@ const FacialIdentity = () => {
   return (
     <div className="flex flex-col lg:flex-row w-full max-w-[1300px] mb-[30px] mx-auto bg-gray-50 min-h-screen">
       {/* Sidebar Progress - Hidden on mobile/tablet, shown on lg */}
-      <div className="hidden lg:block w-[25%] h-full">
+      <div className="hidden lg:block w-[22%] h-full">
         <MyProgress
           currentTitle="Identity Verification"
           currentSubtitle="Selfie Verification"
@@ -89,19 +89,46 @@ const FacialIdentity = () => {
 
       {/* Main Content Area */}
       {/* 2. Added responsive padding (px-6 on mobile, lg:pr-6 for desktop) */}
-      <div className="flex-1 px-6">
+      <div className="flex-1 pr-5 pl-3">
         <header className="mb-10">
           {/* 3. Adjusted text size for mobile (text-2xl -> text-3xl) */}
-          <h1 className="text-2xl lg:text-3xl font-black text-[#042159] uppercase tracking-tight mb-4">
+          <h1 className="text-2xl lg:text-3xl font-black text-[#042159] uppercase tracking-tight mb-2">
             Selfie Verification
           </h1>
 
-          <div className="bg-blue-50/50 border-l-4 border-[#4DB8E4] p-5 rounded-r-[24px] mb-8">
+          <div className="bg-blue-50/50 border-l-4 border-[#4DB8E4] p-5 rounded-r-[24px] mb-4">
             <p className="text-[14px] text-slate-700 leading-relaxed">
               <span className="font-bold text-[#042159]">Pro Tip:</span> For the
               fastest verification, use your smartphone. Mobile cameras provide
               better focus for facial biometrics.
             </p>
+          </div>
+          {/* Detailed Instruction Description */}
+          <div className="space-y-4 px-1">
+            <p className="text-[15px] text-slate-600 leading-relaxed font-medium">
+              To protect your account and ensure the security of our community,
+              we require a quick biometric selfie check. This helps us confirm
+              that the person opening the account matches the identity document
+              provided.
+            </p>
+            <div className="flex flex-col gap-2">
+              <h4 className="text-[11px] font-black uppercase tracking-[0.1em] text-[#042159]">
+                How it works:
+              </h4>
+              <ol className="text-[13px] text-slate-500 space-y-2 list-decimal list-inside ml-1">
+                <li>
+                  Select your preferred capture method from the options below.
+                </li>
+                <li>
+                  Follow the on-screen prompts to position your face within the
+                  frame.
+                </li>
+                <li>
+                  Our secure system will instantly compare the capture with your
+                  ID photo.
+                </li>
+              </ol>
+            </div>
           </div>
         </header>
 
@@ -156,7 +183,7 @@ const FacialIdentity = () => {
 
       {/* Info & Disclaimer Sidebar (Right) */}
       {/* 5. Changed width to full on mobile, fixed width on desktop. Adjusted padding. */}
-      <div className="w-full lg:w-[380px] bg-slate-100/30 lg:bg-slate-50/50 sm:px-5 border-t lg:border-t-0">
+      <div className="w-full lg:w-[320px] px-3 bg-slate-100/30 lg:bg-slate-50/50 sm:px-5 border-t lg:border-t-0">
         <div className="lg:sticky lg:top-10 space-y-8">
           <div className="space-y-4">
             <div className="flex items-center sm:mt-5 gap-2">

@@ -84,7 +84,7 @@ const ReviewIdentity = () => {
   });
 
   return (
-    <div className="w-full max-w-[1300px] mb-[50px] mx-auto flex flex-col lg:flex-row lg:gap-3 min-h-screen font-sans">
+    <div className="w-full max-w-[1300px] mb-[50px] md:px-4 sm:px-4 mx-auto flex flex-col lg:flex-row lg:gap-3 min-h-screen font-sans">
       {/* 1. Left Sidebar: Progress (Anansi Brand Styling) */}
       <div className="hidden lg:block w-[27%] h-full">
         <MyProgress
@@ -175,29 +175,54 @@ const ReviewIdentity = () => {
         </section>
 
         {/* Data Fields: The "Anansi" Grid */}
-        <div className="bg-white border border-slate-100 p-6 mb-6">
+        <div className="bg-white border border-slate-100 p-6 mb-6 rounded-[32px]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
-            {inputFields.map((field, idx) => (
-              <div key={idx} className="group">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4 mb-2 block">
-                  {field.label}
-                </label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    readOnly
-                    value={field.value}
-                    className="h-[60px] w-full px-6 rounded-[22px] border-2 border-slate-50 bg-slate-50 text-[#042159] font-bold text-sm transition-all group-hover:bg-white group-hover:border-slate-100 outline-none"
-                  />
-                  <div className="absolute right-5 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                    <span className="text-[10px] font-bold text-green-500 uppercase tracking-tight">
-                      Verified
-                    </span>
-                    <CheckCircle2 className="text-green-500" size={18} />
+            {inputFields.map((field, idx) => {
+              // 1. Determine if the field is empty
+              const isMissing =
+                !field.value || field.value.toString().trim() === "";
+
+              return (
+                <div key={idx} className="group">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4 mb-2 block">
+                    {field.label}
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      readOnly
+                      value={isMissing ? "Not found in document" : field.value}
+                      className={`h-[60px] w-full px-6 rounded-[22px] border-2 font-bold text-sm transition-all outline-none 
+                ${
+                  isMissing
+                    ? "border-amber-100 bg-amber-50/30 text-amber-600 italic"
+                    : "border-slate-50 bg-slate-50 text-[#042159] group-hover:bg-white group-hover:border-slate-100"
+                }`}
+                    />
+
+                    <div className="absolute right-5 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                      {isMissing ? (
+                        // 2. "Not Verified" / "Missing" UI
+                        <>
+                          <span className="text-[10px] font-bold text-amber-500 uppercase tracking-tight">
+                            Action Required
+                          </span>
+                          <AlertCircle className="text-amber-500" size={18} />
+                        </>
+                      ) : (
+                        // 3. Verified UI
+                        <>
+                          <span className="text-[10px] font-bold text-green-500 uppercase tracking-tight">
+                            Verified
+                          </span>
+                          <CheckCircle2 className="text-green-500" size={18} />
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -212,20 +237,20 @@ const ReviewIdentity = () => {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-4 w-1/3 md:w-auto">
+          <div className="flex flex-col sm:w-full sm:flex-row items-center gap-4 w-1/3 md:w-auto">
             <button
               onClick={() => navigate("/onboarding/verify-identity")}
-              className="w-full border sm:w-auto px-8 h-[60px] rounded-[22px] text-xs font-black uppercase tracking-widest text-slate-400 hover:text-red-500 transition-all flex items-center justify-center gap-2"
+              className="w-full border sm:w-full px-8 h-[60px] rounded-[22px] text-xs font-black uppercase tracking-widest text-slate-400 hover:text-red-500 transition-all flex items-center justify-center gap-2"
             >
               <AlertCircle size={16} />
               Re-scan Document
             </button>
           </div>
-          <div className="w-1/3">
+          <div className="w-1/3 sm:w-full">
             <button
               onClick={handleUpdate}
               disabled={isLoading}
-              className="w-full sm:w-auto px-10 h-[64px] bg-[#042159] text-white rounded-[24px] font-black uppercase tracking-[0.15em] flex items-center justify-center gap-3 hover:bg-[#4DB8E4] hover:text-[#042159] hover:shadow-lg hover:shadow-[#4DB8E4]/20 transition-all active:scale-[0.98] disabled:opacity-50"
+              className="w-full sm:w-full px-10 h-[64px] bg-[#042159] text-white rounded-[24px] font-black uppercase tracking-[0.15em] flex items-center justify-center gap-3 hover:bg-[#4DB8E4] hover:text-[#042159] hover:shadow-lg hover:shadow-[#4DB8E4]/20 transition-all active:scale-[0.98] disabled:opacity-50"
             >
               {isLoading ? (
                 <Loader2 className="animate-spin" size={24} />

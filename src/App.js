@@ -45,6 +45,7 @@ import FinishCapture from "./pages/kyc-selfie/FinishCapture";
 import CaptureFailed from "./pages/kyc-selfie/FailedCapture";
 import LoanCalculator from "./pages/calculator/LoanCalculator";
 import HelpSupport from "./pages/help-support/Help";
+import WebCapture from "./pages/onboarding/WebCapture";
 
 function App() {
   return (
@@ -109,6 +110,7 @@ function App() {
           <Route path="/onboarding/continue" element={<ProceedOnboarding />} />
           <Route path="/onboarding/help" element={<HelpPage />} />
           <Route path="/onboarding/scan-qrcode" element={<SelfieQRCode />} />
+          <Route path="/onboarding/use-webcamera" element={<WebCapture />} />
           <Route
             path="/onboarding/id-manual-entry"
             element={<ManualIdEntry />}
