@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useSearchParams, useNavigate, data } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Camera,
   CheckCircle2,
@@ -12,25 +12,22 @@ import {
   ShieldAlert,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useMutation, useQuery } from "react-query";
-import { getCustomerDetails, updateSelfie } from "../../sdks/customer/customer";
+import { useMutation } from "react-query";
+import { updateSelfie } from "../../sdks/customer/customer";
 import { useToast } from "../../contexts/ToastProvider";
 import { uploadSingleFile } from "../../sdks/upload-files/upload";
 import MyProgress from "../../components/progress-bar/MyProgress";
+import useAuth from "../../hooks/useAuth";
 
 const WebCapture = () => {
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const token = searchParams.get("token");
   const { showToast } = useToast();
-
   const [capturedImage, setCapturedImage] = useState(null);
   const [photoBlob, setPhotoBlob] = useState(null);
   const [cameraError, setCameraError] = useState(false);
-  const [customer, setCustomer] = useState(null);
-
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const { auth } = useAuth();
 
   useEffect(() => {
     startCamera();
@@ -38,6 +35,8 @@ const WebCapture = () => {
   }, []);
 
   const startCamera = async () => {
+    if (videoRef.current?.srcObject?.active) return;
+
     setCameraError(false);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -47,8 +46,11 @@ const WebCapture = () => {
           height: { ideal: 720 },
         },
       });
-      if (videoRef.current) videoRef.current.srcObject = stream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
     } catch (err) {
+      console.error("Camera error:", err);
       setCameraError(true);
     }
   };
@@ -62,7 +64,11 @@ const WebCapture = () => {
   const takePhoto = () => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
-    if (!video || !canvas) return;
+
+    if (!video || !canvas) {
+      console.error("Camera or Canvas ref not found");
+      return;
+    }
     const context = canvas.getContext("2d");
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
@@ -70,26 +76,45 @@ const WebCapture = () => {
     context.scale(-1, 1);
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
     const dataUrl = canvas.toDataURL("image/png");
-    console.log(dataUrl);
     setCapturedImage(dataUrl);
-    fetch(dataUrl)
-      .then((res) => res.blob())
-      .then(setPhotoBlob);
-    stopCamera();
-    console.log(photoBlob);
+    canvas.toBlob((blob) => {
+      setPhotoBlob(blob);
+      stopCamera();
+    }, "image/png");
   };
 
   const { mutate: uploadUrlMutate, isLoading } = useMutation({
     mutationFn: async (file) => (await uploadSingleFile(file))?.data?.data?.url,
     onSuccess: (url) => updateCustomerMutate(url),
+    onError: (error) => {
+      showToast({
+        title: "Onboarding glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
   });
 
   const { mutate: updateCustomerMutate } = useMutation({
-    mutationFn: (file) => updateSelfie(customer?.id, file),
-    onSuccess: () => navigate("/kyc-selfie/selfie-capture-success"),
+    mutationFn: (file) => updateSelfie(auth?.user?.id, file),
+    onSuccess: () => navigate("/onboarding/personal-information"),
+    onError: (error) => {
+      showToast({
+        title: "Onboarding glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
   });
 
-  const handleUpload = () => {};
+  const handleUpload = () => {
+    if (photoBlob) {
+      const file = new File([photoBlob], "selfie.png", { type: "image/png" });
+      uploadUrlMutate(file);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
@@ -180,6 +205,7 @@ const WebCapture = () => {
                         muted
                         className="h-full w-full object-cover scale-x-[-1]"
                       />
+                      <canvas ref={canvasRef} className="hidden" />
                       <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
                         <div className="w-[80%] h-[70%] border-2 border-dashed border-white/40 rounded-[140px] shadow-[0_0_0_999px_rgba(4,33,89,0.6)]" />
                       </div>

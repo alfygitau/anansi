@@ -23,12 +23,10 @@ const SelfieCapture = () => {
   const navigate = useNavigate();
   const token = searchParams.get("token");
   const { showToast } = useToast();
-
   const [capturedImage, setCapturedImage] = useState(null);
   const [photoBlob, setPhotoBlob] = useState(null);
   const [cameraError, setCameraError] = useState(false);
   const [customer, setCustomer] = useState(null);
-
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -58,12 +56,13 @@ const SelfieCapture = () => {
   });
 
   const startCamera = async () => {
+    if (videoRef.current?.srcObject?.active) return;
     setCameraError(false);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: "user",
-          width: { ideal: 1280 },
+          width: { ideal: 720 },
           height: { ideal: 720 },
         },
       });
@@ -72,7 +71,6 @@ const SelfieCapture = () => {
       }
     } catch (err) {
       setCameraError(true);
-      console.error("Camera access denied", err);
     }
   };
 
@@ -85,24 +83,22 @@ const SelfieCapture = () => {
   const takePhoto = () => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
-    if (!video || !canvas) return;
-
+    if (!video || !canvas) {
+      console.error("Camera or Canvas ref not found");
+      return;
+    }
     const context = canvas.getContext("2d");
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
-
     context.translate(canvas.width, 0);
     context.scale(-1, 1);
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
     const dataUrl = canvas.toDataURL("image/png");
     setCapturedImage(dataUrl);
-
-    // Convert to Blob for upload
-    fetch(dataUrl)
-      .then((res) => res.blob())
-      .then(setPhotoBlob);
-    stopCamera();
+    canvas.toBlob((blob) => {
+      setPhotoBlob(blob);
+      stopCamera();
+    }, "image/png");
   };
 
   const { mutate: uploadUrlMutate, isLoading } = useMutation({
@@ -149,7 +145,10 @@ const SelfieCapture = () => {
   });
 
   const handleUpload = async () => {
-    await uploadUrlMutate(photoBlob);
+    if (photoBlob) {
+      const file = new File([photoBlob], "selfie.png", { type: "image/png" });
+      await uploadUrlMutate(file);
+    }
   };
 
   const tips = [
@@ -233,6 +232,7 @@ const SelfieCapture = () => {
                         muted
                         className="h-full w-full object-cover scale-x-[-1]"
                       />
+                      <canvas ref={canvasRef} className="hidden" />
                       <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
                         <div className="w-[85%] h-[75%] border-2 border-dashed border-white/50 rounded-[120px] shadow-[0_0_0_999px_rgba(4,33,89,0.5)]" />
                       </div>
