@@ -51,7 +51,7 @@ const Navigation = () => {
 
   return (
     <>
-      <nav className="z-[10] sm:px-3 bg-slate-50 backdrop-blur-md py-6">
+      <nav className="z-[60] sm:px-3 bg-slate-50 backdrop-blur-md py-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Left: Logo */}
           <div
@@ -115,7 +115,7 @@ const Navigation = () => {
 
               {/* Dropdown Menu */}
               {isProfileOpen && (
-                <div className="absolute right-0 mt-3 w-56 bg-white border border-slate-100 rounded-[28px] shadow-2xl shadow-blue-900/10 p-2 animate-in fade-in zoom-in-95 duration-200">
+                <div className="absolute right-0 mt-3 z-50 w-56 bg-white border border-slate-100 rounded-[28px] shadow-2xl shadow-blue-900/10 p-2 animate-in fade-in zoom-in-95 duration-200">
                   <DropdownItem
                     icon={<User size={18} />}
                     label="Manage Profile"

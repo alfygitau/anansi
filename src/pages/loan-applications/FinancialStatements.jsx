@@ -169,7 +169,7 @@ const FinancialStatements = () => {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 bottom-0 w-full max-w-[450px] bg-white shadow-2xl z-50 flex flex-col p-8"
+              className="fixed top-0 right-0 bottom-0 w-full max-w-[450px] bg-white shadow-2xl z-[90] flex flex-col p-8"
             >
               <div className="flex-1 overflow-y-auto">
                 <h3 className="text-xl font-black text-[#042159] uppercase tracking-tight mb-2">

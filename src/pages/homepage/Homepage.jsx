@@ -358,8 +358,7 @@ const Homepage = () => {
       {isLoading ? (
         <HomeLoader />
       ) : (
-        <div className="min-h-screen bg-slate-50 text-[#042159] pb-12">
-          {/* Centered Container (approx 75% width) */}
+        <div className="bg-slate-50 text-[#042159] pb-12 z-0">
           <div className="max-w-6xl sm:px-4 mx-auto">
             <header className="flex justify-between mb-4 items-center">
               <div>
@@ -372,11 +371,8 @@ const Homepage = () => {
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6 w-full mx-auto overflow-hidden border border-cyan-100 bg-gradient-to-br from-[#F0FFFE] to-white p-4 shadow-sm shadow-cyan-900/5 relative"
+              className="mb-6 w-full mx-auto z-0 overflow-hidden border border-cyan-100 bg-gradient-to-br from-[#F0FFFE] to-white p-4 shadow-sm shadow-cyan-900/5 relative"
             >
-              {/* Decorative Blur Background */}
-              <div className="absolute -right-16 -top-16 h-32 w-32 rounded-full bg-cyan-200/20 blur-3xl" />
-
               <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                 {/* Text Content Area */}
                 <div className="flex-1 space-y-4">
