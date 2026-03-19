@@ -38,8 +38,8 @@ const Navigation = () => {
 
   const getInitials = (firstName = "", lastName = "") => {
     // Extract first letter, convert to uppercase, and handle empty strings
-    const firstInitial = firstName.trim().charAt(0).toUpperCase();
-    const lastInitial = lastName.trim().charAt(0).toUpperCase();
+    const firstInitial = firstName?.trim()?.charAt(0)?.toUpperCase();
+    const lastInitial = lastName?.trim()?.charAt(0)?.toUpperCase();
 
     return `${firstInitial}${lastInitial}`;
   };

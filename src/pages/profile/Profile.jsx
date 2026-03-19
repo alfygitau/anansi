@@ -166,8 +166,8 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (address?.[0]?.county) {
-      const selected = counties.find((c) => c.county === address?.[0]?.county);
-      setSubCounties(selected.sub_counties ?? subCounties);
+      const selected = counties?.find((c) => c.county === address?.[0]?.county);
+      setSubCounties(selected?.sub_counties ?? subCounties);
     }
   }, [counties, address, subCounties]);
 

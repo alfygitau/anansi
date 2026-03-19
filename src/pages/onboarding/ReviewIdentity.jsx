@@ -58,9 +58,9 @@ const ReviewIdentity = () => {
     mutationFn: () =>
       updateCustomerPersonalInformation(
         auth?.user?.id,
-        kycDetails?.firstName,
-        kycDetails?.middleName,
-        kycDetails?.lastName,
+        firstName,
+        middleName,
+        lastName,
         kycDetails?.idNumber,
       ),
     onSuccess: async () => {

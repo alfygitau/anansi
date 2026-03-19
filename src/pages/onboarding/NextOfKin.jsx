@@ -5,6 +5,7 @@ import useAuth from "../../hooks/useAuth";
 import { useMutation } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
 import { createNextOfKin, updateKinStatus } from "../../sdks/customer/customer";
+import { ShieldAlert } from "lucide-react";
 
 const NextOfKin = () => {
   const navigate = useNavigate();
@@ -136,6 +137,27 @@ const NextOfKin = () => {
               request that you provide information about your next of kin. This
               will be kept confidential and used only in emergencies.
             </p>
+            <p className="text-slate-500 text-sm mt-2 w-full">
+              Please nominate a trusted person to act as your primary contact or
+              beneficiary. This ensures your records remain accessible and your
+              interests are protected in accordance with **Sacco bylaws**.
+            </p>
+            <div className="mt-6 p-4 bg-amber-50/50 border border-amber-100 rounded-2xl flex gap-4 items-center">
+              <div className="bg-amber-500/10 p-2 rounded-lg">
+                <ShieldAlert size={20} className="text-amber-600" />
+              </div>
+              <div className="space-y-1">
+                <h4 className="text-[11px] font-black text-[#042159] uppercase tracking-widest">
+                  Statutory Requirement
+                </h4>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Under the **Data Protection Act**, you confirm that you have
+                  obtained consent from the individual named below to share
+                  their contact details for the purpose of identity verification
+                  and benefit administration.
+                </p>
+              </div>
+            </div>
           </header>
 
           <div className="flex flex-col gap-6">
