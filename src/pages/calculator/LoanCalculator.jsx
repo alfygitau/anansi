@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 const LoanCalculator = () => {
   const navigate = useNavigate();
+  const [isMonthly, setIsMonthly] = useState(false);
 
   // Input States
   const [amount, setAmount] = useState(0);
@@ -34,16 +35,15 @@ const LoanCalculator = () => {
 
   useEffect(() => {
     calculateLoans();
-  }, [amount, rate, period]);
+  }, [amount, rate, period, isMonthly]);
 
   const calculateLoans = () => {
-    // Convert inputs to numbers, defaulting to 0 if empty or invalid
+    // 1. Parse inputs
     const principal = parseFloat(amount) || 0;
-    const annualRate = (parseFloat(rate) || 0) / 100;
+    const inputRate = parseFloat(rate) || 0;
     const months = parseFloat(period) || 0;
 
-    // --- 1. Guard Clause: Initial State / Zero principal or period ---
-    // If no money is borrowed or no time is set, everything is 0.
+    // 2. Guard Clause
     if (principal <= 0 || months <= 0) {
       const zeroState = { emi: 0, totalInterest: 0, totalPayable: 0 };
       setReducing(zeroState);
@@ -51,44 +51,51 @@ const LoanCalculator = () => {
       return;
     }
 
-    // --- 2. Interest-Free Case (0% Rate) ---
-    // Avoids division by zero in the EMI formula.
-    if (annualRate === 0) {
+    // 3. Normalize Rates based on Toggle
+    let annualRateDecimal;
+    let monthlyRateDecimal;
+
+    if (isMonthly) {
+      // If user selects 'Monthly', the input (e.g., 3) is the monthly rate
+      monthlyRateDecimal = inputRate / 100;
+      annualRateDecimal = monthlyRateDecimal * 12;
+    } else {
+      // If user selects 'Yearly', the input (e.g., 15) is the annual rate
+      annualRateDecimal = inputRate / 100;
+      monthlyRateDecimal = annualRateDecimal / 12;
+    }
+
+    // 4. Handle 0% Interest
+    if (inputRate === 0) {
       const interestFreeEmi = principal / months;
-      const interestFreeResult = {
+      const res = {
         emi: interestFreeEmi,
         totalInterest: 0,
         totalPayable: principal,
       };
-      setReducing(interestFreeResult);
-      setSimple(interestFreeResult);
+      setReducing(res);
+      setSimple(res);
       return;
     }
 
-    // --- 3. Reducing Balance Calculation (Amortization) ---
-    const monthlyRate = annualRate / 12;
-    const growthFactor = Math.pow(1 + monthlyRate, months);
-
-    // EMI Formula: [P x r x (1+r)^n] / [(1+r)^n - 1]
+    // --- 5. Reducing Balance (Amortization) ---
+    const growthFactor = Math.pow(1 + monthlyRateDecimal, months);
     const emiReducing =
-      (principal * monthlyRate * growthFactor) / (growthFactor - 1);
+      (principal * monthlyRateDecimal * growthFactor) / (growthFactor - 1);
     const totalPayableRed = emiReducing * months;
-    const totalInterestRed = totalPayableRed - principal;
 
     setReducing({
       emi: emiReducing,
-      totalInterest: totalInterestRed,
+      totalInterest: totalPayableRed - principal,
       totalPayable: totalPayableRed,
     });
 
-    // --- 4. Simple Interest Calculation ---
-    // Interest = Principal x Rate x Time (in years)
-    const totalInterestSimple = principal * annualRate * (months / 12);
+    // --- 6. Simple Interest ---
+    const totalInterestSimple = principal * annualRateDecimal * (months / 12);
     const totalPayableSimple = principal + totalInterestSimple;
-    const emiSimple = totalPayableSimple / months;
 
     setSimple({
-      emi: emiSimple,
+      emi: totalPayableSimple / months,
       totalInterest: totalInterestSimple,
       totalPayable: totalPayableSimple,
     });
@@ -120,7 +127,6 @@ const LoanCalculator = () => {
           total interest costs and monthly repayment obligations in real-time.
         </p>
 
-        {/* 1. Input Section */}
         <section className="bg-white rounded-[40px] p-6 shadow-md shadow-blue-900/5 border border-slate-100 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             <InputGroup
@@ -128,21 +134,44 @@ const LoanCalculator = () => {
               icon={<Calculator size={18} />}
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              min="1000"
             />
+
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 flex items-center gap-2">
+                  <Percent size={18} /> Interest Rate (%)
+                </label>
+
+                {/* Modern Toggle Switch */}
+                <div className="flex bg-slate-100 rounded-xl">
+                  <button
+                    onClick={() => setIsMonthly(false)}
+                    className={`px-3 py-1 text-[9px] font-black uppercase rounded-lg transition-all ${!isMonthly ? "bg-white text-[#042159] shadow-sm" : "text-slate-400"}`}
+                  >
+                    Yearly
+                  </button>
+                  <button
+                    onClick={() => setIsMonthly(true)}
+                    className={`px-3 py-1 text-[9px] font-black uppercase rounded-lg transition-all ${isMonthly ? "bg-white text-[#042159] shadow-sm" : "text-slate-400"}`}
+                  >
+                    Monthly
+                  </button>
+                </div>
+              </div>
+              <input
+                type="number"
+                value={rate}
+                onChange={(e) => setRate(e.target.value)}
+                placeholder={isMonthly ? "e.g. 3" : "e.g. 14"}
+                className="w-full bg-slate-50 border-none rounded-2xl p-4 text-lg font-bold text-[#042159] focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none transition-all"
+              />
+            </div>
+
             <InputGroup
-              label="Annual Interest Rate (%)"
-              icon={<Percent size={18} />}
-              value={rate}
-              onChange={(e) => setRate(e.target.value)}
-              step="0.1"
-            />
-            <InputGroup
-              label="Repayment Period (Months)"
+              label="Duration (Months)"
               icon={<Calendar size={18} />}
               value={period}
               onChange={(e) => setPeriod(e.target.value)}
-              min="1"
             />
           </div>
         </section>

@@ -106,7 +106,6 @@ const Homepage = () => {
     },
   ];
   const { auth } = useAuth();
-  const [sharesSummary, setSharesSummary] = useState({});
   const [showInvestAmount, setShowInvestAmount] = useState(false);
   const [showConfirmInvestment, setShowConfirmInvestment] = useState(false);
   const [showAwaitPayment, setShowAwaitPayment] = useState(false);
@@ -174,16 +173,7 @@ const Homepage = () => {
       return response.data.data;
     },
     onSuccess: (data) => {
-      setSharesSummary(data);
       setCurrentShares(data?.numberOfShares);
-    },
-    onError: (error) => {
-      showToast({
-        title: "Authentication glitch",
-        type: "error",
-        position: "top-right",
-        description: error?.response?.data?.message || error.message,
-      });
     },
   });
 
