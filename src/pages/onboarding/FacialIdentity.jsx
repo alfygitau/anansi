@@ -171,7 +171,7 @@ const FacialIdentity = () => {
           ))}
         </div>
 
-        <div className="mt-12 pt-8 border-t border-slate-100 pb-10 lg:pb-0">
+        <div className="pt-8 border-t border-slate-100 pb-10 lg:pb-0">
           <button
             onClick={openWebcam}
             className="text-[11px] font-black uppercase tracking-widest text-slate-400 hover:text-[#042159] transition-colors"

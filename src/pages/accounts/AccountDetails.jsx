@@ -85,7 +85,7 @@ const AccountDetails = () => {
         <AccountDetailsLoader />
       ) : (
         <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
-          <div className="max-w-6xl sm:px-4 md:px-4 mx-auto">
+          <div className="max-w-6xl sm:px-4 mx-auto">
             {/* Navigation Header */}
             <header className="py-1 flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -197,9 +197,52 @@ const AccountDetails = () => {
                 </div>
 
                 <div className="space-y-3">
-                  {transactions.map((tx) => (
-                    <TransactionRow key={tx.id} tx={tx} />
-                  ))}
+                  {transactions.length > 0 ? (
+                    <div className="h-[460px] w-full py-3 flex flex-col gap-3 overflow-y-auto">
+                      {transactions.map((tx) => (
+                        <TransactionRow key={tx.id} tx={tx} />
+                      ))}
+                    </div>
+                  ) : (
+                    /* --- EMPTY STATE CONTAINER --- */
+                    <div className="bg-white rounded-[40px] border-2 border-dashed border-slate-100 p-20 flex flex-col items-center justify-center text-center group transition-all hover:border-blue-100">
+                      <div className="w-20 h-20 bg-slate-50 rounded-[30px] flex items-center justify-center mb-6 relative group-hover:scale-110 transition-transform duration-500">
+                        {/* Decorative Pulse Rings */}
+                        <div className="absolute inset-0 bg-blue-100/50 rounded-[30px] animate-ping opacity-20" />
+                        <Clock
+                          size={32}
+                          className="text-slate-300 relative z-10"
+                        />
+                      </div>
+
+                      <h4 className="text-lg font-black text-[#042159] mb-2 tracking-tight">
+                        No Transactions Yet
+                      </h4>
+
+                      <p className="text-xs text-slate-400 max-w-[280px] leading-relaxed font-medium mb-8">
+                        Your financial activity will appear here once you start
+                        using this account for deposits or payments.
+                      </p>
+
+                      <button
+                        onClick={() => {
+                          /* Trigger Deposit Modal */
+                        }}
+                        className="flex items-center gap-3 px-8 py-4 bg-[#042159] text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] active:scale-95 transition-all"
+                      >
+                        <ArrowDownCircle size={18} className="text-[#4DB8E4]" />
+                        Make First Deposit
+                      </button>
+
+                      {/* Visual Hint for Mobile User */}
+                      <div className="mt-8 flex items-center gap-2 opacity-30">
+                        <Smartphone size={12} />
+                        <span className="text-[9px] font-bold uppercase tracking-widest">
+                          Secured by Anansi Ledger
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 

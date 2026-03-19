@@ -133,7 +133,7 @@ const TermsAndConditions = () => {
       {/* Main Content Area */}
       <div className="flex-1 lg:w-[75%] sm:px-5 overflow-y-auto">
         <div className="w-full">
-          <h2 className="text-[#042159] text-xl font-bold mb-3">
+          <h2 className="text-3xl font-black text-[#042159] uppercase tracking-tight mb-4">
             General Terms and Conditions
           </h2>
           {/* Scrollable Terms Box */}

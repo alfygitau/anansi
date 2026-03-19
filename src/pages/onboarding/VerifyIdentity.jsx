@@ -233,7 +233,7 @@ const IdentityVerification = () => {
           {/* Middle Section: Upload Form (45%) */}
           <main className="flex-1 px-6 space-y-4">
             <section>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-3xl font-black text-[#042159] uppercase tracking-tight mb-4">
                 Upload Government issued ID
               </h1>
               <p className="text-gray-500 text-sm mb-8">
