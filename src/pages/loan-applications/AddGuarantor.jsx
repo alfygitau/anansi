@@ -6,10 +6,15 @@ import {
   Info,
   Trash2,
   Scale,
+  AlertCircle,
+  Lock,
+  Briefcase,
+  UserCheck,
+  ShieldCheck,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const AddGuarantors = ({ onBack, limit = 3 }) => {
+const AddGuarantors = ({ limit = 4 }) => {
   const [guarantors, setGuarantors] = useState([]);
   const [guarantorName, setGuarantorName] = useState("");
   const [guarantorMobile, setGuarantorMobile] = useState("");
@@ -55,7 +60,7 @@ const AddGuarantors = ({ onBack, limit = 3 }) => {
               </div>
 
               {/* Vertical Input Stack */}
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col h-[300px] gap-6">
                 {/* Name Input Group */}
                 <div>
                   <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-4 block">
@@ -88,7 +93,7 @@ const AddGuarantors = ({ onBack, limit = 3 }) => {
                 <button
                   onClick={handleAdd}
                   disabled={!guarantorName || !guarantorMobile}
-                  className="w-full py-5 bg-[#042159] text-white rounded-[24px] text-[10px] font-black uppercase tracking-[0.15em] hover:bg-[#4DB8E4] transition-all active:scale-[0.98] disabled:opacity-20 disabled:grayscale shadow-lg shadow-blue-900/10"
+                  className="w-full py-5 mt-5 bg-[#042159] text-white rounded-[24px] text-[10px] font-black uppercase tracking-[0.15em] hover:bg-[#4DB8E4] transition-all active:scale-[0.98] disabled:opacity-20 disabled:grayscale shadow-lg shadow-blue-900/10"
                 >
                   Confirm & Add to List
                 </button>
@@ -157,14 +162,14 @@ const AddGuarantors = ({ onBack, limit = 3 }) => {
                 </div>
 
                 {guarantors.length === 0 ? (
-                  <div className="py-12 h-[420px] border-2 border-dashed border-slate-200 rounded-[40px] flex flex-col items-center justify-center text-slate-300">
+                  <div className="py-12 h-[450px] border-2 border-dashed border-slate-200 rounded-[40px] flex flex-col items-center justify-center text-slate-300">
                     <UserPlus size={40} strokeWidth={1} />
                     <p className="text-[10px] font-black uppercase tracking-widest mt-4">
                       No guarantors added yet
                     </p>
                   </div>
                 ) : (
-                  <div className="p-4 h-[420px] border-2 border-dashed border-slate-200 rounded-[40px] flex flex-col gap-2 text-slate-300">
+                  <div className="p-4 h-[450px] overflow-y-auto scrollbar-hide border-2 border-dashed border-slate-200 rounded-[40px] flex flex-col gap-2 text-slate-300">
                     {guarantors.map((g) => (
                       <div
                         key={g.id}
@@ -198,12 +203,79 @@ const AddGuarantors = ({ onBack, limit = 3 }) => {
               </div>
 
               {/* Status Note */}
-              <div className="p-6 bg-white rounded-[32px] border border-slate-100 flex items-center gap-4">
-                <Info className="text-[#4DB8E4]" size={20} />
-                <p className="text-[10px] font-bold text-slate-400 leading-tight uppercase">
-                  Each guarantor must be an active member with sufficient free
-                  shares to cover their portion.
-                </p>
+              <div className="space-y-4">
+                {/* Primary Disclaimer */}
+                <div className="p-6 bg-[#042159] rounded-[32px] shadow-xl shadow-blue-900/10 relative overflow-hidden">
+                  {/* Subtle Decorative Icon */}
+                  <ShieldCheck
+                    className="absolute -right-4 -bottom-4 text-white/5"
+                    size={120}
+                  />
+
+                  <div className="relative z-10 flex gap-5">
+                    <div className="bg-[#4DB8E4] h-12 w-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-sky-400/20">
+                      <UserCheck className="text-[#042159]" size={24} />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-black text-white uppercase tracking-[0.2em] mb-2">
+                        What is a Guarantor?
+                      </h4>
+                      <p className="text-[13px] text-blue-100 leading-relaxed font-medium">
+                        A guarantor is an active member who pledges their
+                        **uncommitted deposits** to secure your loan. By
+                        accepting this role, they enter a legally binding
+                        agreement to be held
+                        <span className="text-[#4DB8E4] font-bold">
+                          {" "}
+                          jointly and severally liable{" "}
+                        </span>
+                        for the debt should a default occur.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Technical Eligibility Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-5 bg-white border border-slate-100 rounded-[28px] flex items-start gap-3">
+                    <div className="p-2 bg-slate-50 rounded-lg text-slate-400">
+                      <Briefcase size={16} />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-black text-[#042159] uppercase tracking-widest mb-1">
+                        Membership Standing
+                      </p>
+                      <p className="text-[11px] text-slate-500 leading-tight">
+                        Guarantors must have been active members for at least 6
+                        months with no history of default.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-5 bg-white border border-slate-100 rounded-[28px] flex items-start gap-3">
+                    <div className="p-2 bg-slate-50 rounded-lg text-slate-400">
+                      <Lock size={16} />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-black text-[#042159] uppercase tracking-widest mb-1">
+                        Collateral Lien
+                      </p>
+                      <p className="text-[11px] text-slate-500 leading-tight">
+                        A 'lien' is placed on their shares. These shares cannot
+                        be withdrawn until your loan is fully settled.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Quick Tip / Alert */}
+                <div className="p-5 bg-amber-50/50 border border-amber-100 rounded-[28px] flex items-center gap-4">
+                  <AlertCircle className="text-amber-600 shrink-0" size={18} />
+                  <p className="text-[11px] font-bold text-amber-800 leading-tight">
+                    Pro-Tip: Ensure your guarantors have "Free Shares"—deposits
+                    that aren't already guaranteeing other active loans.
+                  </p>
+                </div>
               </div>
 
               {guarantors.length >= limit && (
