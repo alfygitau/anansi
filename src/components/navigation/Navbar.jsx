@@ -1,8 +1,10 @@
 import { LogOut, HelpCircle, ShieldCheck } from "lucide-react";
 import Logout from "../auth/Logout";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [showLogout, setShowLogout] = useState(false);
   return (
     <>
@@ -20,7 +22,10 @@ const Navbar = () => {
         {/* Navigation Actions */}
         <div className="flex items-center gap-6 md:gap-8">
           {/* Need Help Button */}
-          <button className="flex items-center gap-2 text-gray-600 hover:text-[#042159] transition-colors group">
+          <button
+            onClick={() => navigate("/onboarding/help")}
+            className="flex items-center gap-2 text-gray-600 hover:text-[#042159] transition-colors group"
+          >
             <HelpCircle
               size={20}
               className="group-hover:scale-110 transition-transform"

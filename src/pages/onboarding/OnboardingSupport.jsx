@@ -14,6 +14,10 @@ import {
   MessageCircle,
   Clock,
   ChevronLeft,
+  Phone,
+  MessageSquare,
+  Mail,
+  Globe,
 } from "lucide-react";
 
 const HelpPage = () => {
@@ -38,18 +42,49 @@ const HelpPage = () => {
     },
   ];
 
+  const contactMethods = [
+    {
+      icon: <Phone size={24} />,
+      title: "Call Center",
+      detail: "+254 700 000 000",
+      sub: "Available 8:00 AM - 5:00 PM",
+      color: "bg-blue-50 text-blue-600",
+    },
+    {
+      icon: <MessageSquare size={24} />,
+      title: "WhatsApp Support",
+      detail: "+254 711 111 111",
+      sub: "Average response: 15 mins",
+      color: "bg-emerald-50 text-emerald-600",
+    },
+    {
+      icon: <Mail size={24} />,
+      title: "Email Inquiry",
+      detail: "support@sacco.co.ke",
+      sub: "For formal disputes & documents",
+      color: "bg-purple-50 text-purple-600",
+    },
+    {
+      icon: <Globe size={24} />,
+      title: "Physical Branch",
+      detail: "Anansi Plaza, 4th Floor",
+      sub: "Nairobi, Kenya",
+      color: "bg-amber-50 text-amber-600",
+    },
+  ];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="max-w-[1300px] mx-auto"
+      className="max-w-[1300px] mb-[30px] mx-auto"
     >
       {/* Header */}
-      <div className="text-left mb-10">
+      <div className="text-left mb-6">
         {/* Navigation Header */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-slate-400 hover:text-[#042159] transition-colors mb-8 group"
+          className="flex items-center gap-2 text-slate-400 hover:text-[#042159] transition-colors mb-3 group"
         >
           <ChevronLeft
             size={20}
@@ -72,6 +107,29 @@ const HelpPage = () => {
           track.
         </p>
       </div>
+
+      {/* 1. Detailed Contact Grid */}
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        {contactMethods.map((method, idx) => (
+          <div
+            key={idx}
+            className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl shadow-blue-900/5 hover:border-[#4DB8E4]/40 transition-all group cursor-pointer"
+          >
+            <div
+              className={`w-12 h-12 ${method.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}
+            >
+              {method.icon}
+            </div>
+            <h3 className="font-black text-sm mb-1">{method.title}</h3>
+            <p className="text-[#042159] font-bold text-xs mb-2">
+              {method.detail}
+            </p>
+            <p className="text-slate-400 text-[10px] font-medium leading-tight">
+              {method.sub}
+            </p>
+          </div>
+        ))}
+      </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Left Column: Guidelines & Visuals */}
@@ -166,7 +224,7 @@ const HelpPage = () => {
             </div>
           </div>
 
-          <div className="p-6 border border-slate-100 rounded-[32px] bg-white">
+          <div className="p-6 border border-slate-200 rounded-[32px] bg-white">
             <div className="flex items-center justify-between mb-4">
               <p className="text-[12px] font-bold text-slate-800">
                 Direct Support

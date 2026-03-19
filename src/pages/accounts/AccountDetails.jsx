@@ -85,9 +85,9 @@ const AccountDetails = () => {
         <AccountDetailsLoader />
       ) : (
         <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
-          <div className="max-w-6xl sm:px-4 mx-auto">
+          <div className="max-w-6xl sm:px-4 md:px-4 mx-auto">
             {/* Navigation Header */}
-            <header className="py-4 flex items-center justify-between">
+            <header className="py-1 flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => navigate(-1)}
@@ -110,7 +110,7 @@ const AccountDetails = () => {
                   <div className="flex items-center gap-2 mb-4">
                     <div className="w-2 h-2 rounded-full bg-[#4DB8E4] animate-pulse"></div>
                     <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-300/60">
-                      Regular Savings
+                      {account?.product?.name}
                     </span>
                   </div>
                   <div className="flex items-center gap-6">
@@ -159,6 +159,7 @@ const AccountDetails = () => {
                   icon={<ArrowDownCircle />}
                   label="Deposit"
                   color="bg-[#4DB8E4]"
+                  onClick={() => {}}
                 />
                 <VerticalAction
                   icon={<FileText />}
@@ -177,6 +178,7 @@ const AccountDetails = () => {
                   label="Explore"
                   color="bg-white"
                   darkText
+                  onClick={() => navigate("/loan-products")}
                 />
               </div>
             </div>
@@ -251,8 +253,9 @@ const AccountDetails = () => {
 
 /* --- Sub-Components --- */
 
-const VerticalAction = ({ icon, label, color, darkText = false }) => (
+const VerticalAction = ({ icon, label, color, darkText = false, onClick }) => (
   <button
+    onClick={onClick}
     className={`${color} ${darkText ? "text-[#042159] border border-slate-200" : "text-white"} p-6 rounded-[32px] flex flex-col items-center justify-center gap-3 shadow-xl shadow-blue-900/5 hover:scale-[1.02] transition-all group`}
   >
     <div
