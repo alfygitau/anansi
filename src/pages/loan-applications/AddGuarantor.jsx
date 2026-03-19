@@ -210,7 +210,7 @@ const AddGuarantors = ({ onBack, limit = 3 }) => {
 
               {guarantors.length >= limit && (
                 <button
-                  onClick={() => navigate("/normal-loan-terms-conditions")}
+                  onClick={() => navigate("/add-statements")}
                   className="w-full py-5 bg-[#4DB8E4] text-white rounded-[24px] font-black uppercase tracking-widest shadow-xl shadow-sky-900/10 hover:scale-[1.02] transition-all"
                 >
                   Continue

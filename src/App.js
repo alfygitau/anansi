@@ -46,6 +46,7 @@ import CaptureFailed from "./pages/kyc-selfie/FailedCapture";
 import LoanCalculator from "./pages/calculator/LoanCalculator";
 import HelpSupport from "./pages/help-support/Help";
 import WebCapture from "./pages/onboarding/WebCapture";
+import FinancialStatements from "./pages/loan-applications/FinancialStatements";
 
 function App() {
   return (
@@ -133,6 +134,7 @@ function App() {
           <Route path="/loan-eligibility" element={<EligibilityCheck />} />
           <Route path="/apply-loan" element={<ApplyLoan />} />
           <Route path="/add-guarantor" element={<AddGuarantors />} />
+          <Route path="/add-statements" element={<FinancialStatements />} />
           <Route path="/statements" element={<Statements />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/guarantorship" element={<Guarantorship />} />
