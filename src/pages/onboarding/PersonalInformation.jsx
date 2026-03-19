@@ -250,6 +250,35 @@ const ProfileInformation = () => {
 
       {/* Main Content - 80% */}
       <div className="flex-1 lg:w-[75%] sm:px-5 overflow-y-auto">
+        <div className="mb-10">
+          <h1 className="text-2xl lg:text-3xl font-black text-[#042159] uppercase tracking-tight">
+            Complete Your Profile
+          </h1>
+          <p className="text-slate-500 text-sm mt-1 w-full">
+            To provide you with tailored financial services and ensure
+            compliance with **SASRA (Sacco Societies Regulatory Authority)**
+            guidelines, please provide your current residential and employment
+            details.
+          </p>
+
+          {/* --- DISCLAIMER BOX --- */}
+          <div className="mt-3 p-4 bg-blue-50/50 border border-blue-100 rounded-2xl flex gap-4 items-center">
+            <div className="bg-[#4DB8E4]/10 p-2 rounded-lg">
+              <AlertCircle size={20} className="text-[#4DB8E4]" />
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-[11px] font-black text-[#042159] uppercase tracking-widest">
+                Data Privacy & Security
+              </h4>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                The information provided, including your **KRA PIN** and
+                **Monthly Income**, is encrypted and used strictly for credit
+                scoring and identity verification. We do not share your
+                financial data with unauthorized third parties.
+              </p>
+            </div>
+          </div>
+        </div>
         <div>
           {/* Keeps form readable on large screens */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
