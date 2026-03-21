@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
-  ArrowLeft,
   Info,
   Calculator,
   TrendingDown,
@@ -9,17 +8,22 @@ import {
   ShieldCheck,
   AlertCircle,
   Download,
+  X,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useFormatAmount } from "../../hooks/useFormatAmount";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const LoanCalculator = () => {
-  const navigate = useNavigate();
   const [isMonthly, setIsMonthly] = useState(false);
-
   // Input States
   const [amount, setAmount] = useState(0);
   const [rate, setRate] = useState(0);
   const [period, setPeriod] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [activeScheduleTab, setActiveScheduleTab] = useState("reducing");
+  const [schedule, setSchedule] = useState({ reducing: [], simple: [] });
+  const formatAmount = useFormatAmount();
 
   // Calculation Results
   const [reducing, setReducing] = useState({
@@ -35,6 +39,16 @@ const LoanCalculator = () => {
 
   useEffect(() => {
     calculateLoans();
+  }, [amount, rate, period, isMonthly]);
+
+  useEffect(() => {
+    const results = calculateLoans();
+    const reducingSched = generateSchedule("reducing");
+    const simpleSched = generateSchedule("simple");
+    setSchedule({
+      reducing: reducingSched,
+      simple: simpleSched,
+    });
   }, [amount, rate, period, isMonthly]);
 
   const calculateLoans = () => {
@@ -101,8 +115,272 @@ const LoanCalculator = () => {
     });
   };
 
+  const generateSchedule = (type) => {
+    const principal = parseFloat(amount) || 0;
+    const inputRate = parseFloat(rate) || 0;
+    const months = parseInt(period) || 0;
+
+    if (principal <= 0 || months <= 0) return [];
+
+    let schedule = [];
+    let remainingBalance = principal;
+
+    if (type === "reducing") {
+      let monthlyRate = (isMonthly ? inputRate : inputRate / 12) / 100;
+      let emi = reducing.emi;
+
+      for (let i = 1; i <= months; i++) {
+        const interest = remainingBalance * monthlyRate;
+        const principalPaid = emi - interest;
+        remainingBalance -= principalPaid;
+        schedule.push({
+          month: i,
+          payment: emi,
+          principal: principalPaid,
+          interest: interest,
+          balance: Math.max(0, remainingBalance),
+        });
+      }
+    } else {
+      // Simple Interest Schedule
+      const totalInterest = simple.totalInterest;
+      const monthlyInterest = totalInterest / months;
+      const monthlyPrincipal = principal / months;
+      const emi = simple.emi;
+
+      for (let i = 1; i <= months; i++) {
+        remainingBalance -= monthlyPrincipal;
+        schedule.push({
+          month: i,
+          payment: emi,
+          principal: monthlyPrincipal,
+          interest: monthlyInterest,
+          balance: Math.max(0, remainingBalance),
+        });
+      }
+    }
+    return schedule;
+  };
+
+  const downloadPDF = (activeTab, scheduleData, totals) => {
+    const doc = new jsPDF();
+    const title =
+      activeTab === "reducing"
+        ? "Reducing Balance Schedule"
+        : "Simple Interest Schedule";
+
+    // 1. Add Branding/Header
+    doc.setFontSize(20);
+    doc.setTextColor(4, 33, 89); // Your Navy Color #042159
+    doc.text("ZIP LOAN REPORT", 14, 22);
+
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text(title.toUpperCase(), 14, 30);
+    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 35);
+
+    // 2. Add Summary Box
+    doc.setDrawColor(241, 245, 249);
+    doc.setFillColor(248, 250, 252);
+    doc.roundedRect(14, 45, 180, 25, 3, 3, "FD");
+
+    doc.setTextColor(4, 33, 89);
+    doc.setFont(undefined, "bold");
+    doc.text(
+      `Total Interest: KES ${Math.round(totals.interest).toLocaleString()}`,
+      20,
+      55,
+    );
+    doc.text(
+      `Total Payable: KES ${Math.round(totals.payable).toLocaleString()}`,
+      20,
+      62,
+    );
+
+    // 3. Generate the Table
+    const tableColumn = [
+      "Month",
+      "Installment",
+      "Principal",
+      "Interest",
+      "Balance",
+    ];
+    const tableRows = scheduleData.map((row) => [
+      `#${row.month}`,
+      Math.round(row.payment).toLocaleString(),
+      Math.round(row.principal).toLocaleString(),
+      Math.round(row.interest).toLocaleString(),
+      Math.round(row.balance).toLocaleString(),
+    ]);
+
+    autoTable(doc, {
+      startY: 80,
+      head: [["Month", "Installment", "Principal", "Interest", "Balance"]],
+      body: scheduleData.map((row) => [
+        `#${row.month}`,
+        Math.round(row.payment).toLocaleString(),
+        Math.round(row.principal).toLocaleString(),
+        Math.round(row.interest).toLocaleString(),
+        Math.round(row.balance).toLocaleString(),
+      ]),
+      theme: "grid",
+      headStyles: { fillColor: [4, 33, 89] },
+      styles: { fontSize: 9 },
+    });
+
+    doc.save(`Zip_Loan_Schedule_${activeTab}.pdf`);
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#042159]/40 backdrop-blur-xl transition-all">
+          <div className="bg-[#F8FAFC] w-full max-w-5xl max-h-[80vh] rounded-[48px] shadow-2xl overflow-hidden flex flex-col border border-white">
+            {/* 1. Ultra-Modern Header */}
+            <div className="p-6 pb-6 flex justify-between items-start">
+              <div>
+                <h2 className="text-4xl font-black text-[#042159] tracking-tighter italic">
+                  Repayment <span className="text-[#4DB8E4]">Schedule</span>
+                </h2>
+
+                {/* Strategy Switcher - Glassmorphism style */}
+                <div className="flex gap-1 mt-3 bg-slate-200/60 p-1.5 rounded-2xl w-fit backdrop-blur-md border border-slate-200">
+                  {["reducing", "simple"].map((type) => (
+                    <button
+                      key={type}
+                      onClick={() => setActiveScheduleTab(type)}
+                      className={`px-8 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
+                        activeScheduleTab === type
+                          ? "bg-white text-[#042159] shadow-xl shadow-[#042159]/10"
+                          : "text-slate-500 hover:text-[#042159]"
+                      }`}
+                    >
+                      {type === "reducing"
+                        ? "Reducing Balance"
+                        : "Simple Interest"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                onClick={() => setShowModal(false)}
+                className="p-4 bg-white hover:bg-red-50 hover:text-red-500 text-slate-400 rounded-2xl shadow-sm border border-slate-100 transition-all group"
+              >
+                <X
+                  size={24}
+                  className="group-hover:-translate-x-1 transition-transform"
+                />
+              </button>
+            </div>
+
+            {/* 2. Visual Table Header */}
+            <div className="px-10 py-2 grid grid-cols-6 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-slate-100">
+              <span className="col-span-1">Period</span>
+              <span className="col-span-1 text-center">Installment</span>
+              <span className="col-span-1 text-center">Principal</span>
+              <span className="col-span-1 text-center">Interest</span>
+              <span className="col-span-2 text-right">Remaining Balance</span>
+            </div>
+
+            {/* 3. Luxury Scroll Area */}
+            <div className="overflow-y-auto flex-1 px-6 custom-scrollbar bg-white/50">
+              {generateSchedule(activeScheduleTab).map((row, idx) => {
+                // Calculate progress percentage for visual aid
+                const progress = (row.balance / amount) * 100;
+
+                return (
+                  <div
+                    key={row.month}
+                    className="group grid grid-cols-6 py-2.5 px-4 items-center rounded-3xl hover:bg-white hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 mb-1 border border-transparent hover:border-slate-100"
+                  >
+                    {/* Month Badge */}
+                    <div className="col-span-1">
+                      <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-slate-100 text-[#042159] font-black text-xs group-hover:bg-[#042159] group-hover:text-white transition-colors">
+                        {row.month}
+                      </span>
+                    </div>
+
+                    {/* Repayment Details */}
+                    <div className="col-span-1 text-center font-bold text-slate-900">
+                      {formatAmount(row.payment)}
+                    </div>
+
+                    <div className="col-span-1 text-center">
+                      <span className="px-3 py-1 rounded-lg bg-emerald-50 text-emerald-600 font-bold text-xs border border-emerald-100">
+                        {formatAmount(row.principal)}
+                      </span>
+                    </div>
+
+                    <div className="col-span-1 text-center font-bold text-slate-400">
+                      {formatAmount(row.interest)}
+                    </div>
+
+                    {/* Visual Balance Column */}
+                    <div className="col-span-2 text-right">
+                      <div className="flex flex-col items-end gap-1.5">
+                        <span className="font-black text-[#042159]">
+                          {formatAmount(Math.max(0, Number(row.balance)))}
+                        </span>
+                        {/* Micro Progress Bar */}
+                        <div className="w-24 h-1 bg-slate-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-[#4DB8E4] rounded-full transition-all duration-1000"
+                            style={{ width: `${100 - progress}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* 4. Insight Footer */}
+            <div className="m-8 p-8 bg-[#042159] rounded-[32px] shadow-2xl shadow-blue-900/40 flex justify-between items-center relative overflow-hidden">
+              {/* Decorative background element */}
+              <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full blur-3xl" />
+
+              <div className="flex gap-12 relative z-10">
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-black text-blue-300/60 uppercase tracking-widest mb-1">
+                    Projected Interest
+                  </span>
+                  <span className="text-2xl font-black text-white italic">
+                    {activeScheduleTab === "reducing"
+                      ? formatAmount(reducing.totalInterest)
+                      : formatAmount(simple.totalInterest)}
+                  </span>
+                </div>
+
+                <div className="flex flex-col border-l border-white/10 pl-12">
+                  <span className="text-[10px] font-black text-blue-300/60 uppercase tracking-widest mb-1">
+                    Total Payable
+                  </span>
+                  <span className="text-2xl font-black text-[#4DB8E4] italic">
+                    {activeScheduleTab === "reducing"
+                      ? formatAmount(reducing.totalPayable)
+                      : formatAmount(simple.totalPayable)}
+                  </span>
+                </div>
+              </div>
+
+              <button
+                onClick={() =>
+                  downloadPDF(
+                    activeScheduleTab,
+                    generateSchedule(activeScheduleTab),
+                    activeScheduleTab === "reducing" ? reducing : simple,
+                  )
+                }
+                className="relative z-10 px-10 py-4 bg-[#4DB8E4] text-[#042159] rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] hover:bg-white transition-all active:scale-95 flex items-center gap-3"
+              >
+                <Download size={18} /> Export PDF
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="max-w-6xl sm:px-4 mx-auto">
         <header className="flex mt-2 items-center justify-between">
           <div className="flex items-center gap-4">
@@ -110,7 +388,10 @@ const LoanCalculator = () => {
               Loan Calculator
             </h1>
           </div>
-          <button className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all">
+          <button
+            onClick={() => setShowModal(true)}
+            className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all"
+          >
             <Download size={16} /> Export Schedule
           </button>
         </header>
@@ -307,7 +588,7 @@ const ResultRow = ({ label, value, highlight, dark }) => (
       className={`font-black tracking-tight ${highlight ? "text-4xl" : "text-xl"} ${dark ? "text-[#042159]" : "text-white"}`}
     >
       KES{" "}
-      {Number(value).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+      {Number(value).toLocaleString(undefined, { maximumFractionDigits: 2 })}
     </p>
   </div>
 );

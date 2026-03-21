@@ -29,7 +29,6 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
             className="absolute inset-0 bg-[#042159]/70 backdrop-blur-sm"
           />
 

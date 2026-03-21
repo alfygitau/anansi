@@ -34,7 +34,6 @@ const SaveAndInvest = ({ isOpen, onClose, onNext, onCombine }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
             className="absolute inset-0 bg-[#042159]/60 backdrop-blur-sm"
           />
 

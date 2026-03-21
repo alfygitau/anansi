@@ -11,7 +11,6 @@ import {
   TrendingUp,
   Sparkles,
   Zap,
-  Info,
   Calculator,
   FileText,
   HelpCircle,
