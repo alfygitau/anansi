@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { useStore } from "../../store/useStore";
 
-const SetupContributions = ({ isOpen, onClose, onNext }) => {
+const SetupContributions = ({ isOpen, onNext }) => {
   const [savingsAmount, setSavingsAmount] = useState("");
   const [sharesAmount, setSharesAmount] = useState("");
   const [errors, setErrors] = useState({ savings: "", shares: "" });

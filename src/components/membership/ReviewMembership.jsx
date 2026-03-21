@@ -13,7 +13,7 @@ import { useToast } from "../../contexts/ToastProvider";
 import { payMembership } from "../../sdks/membership/membership";
 import { useStore } from "../../store/useStore";
 
-const ReviewMembership = ({ isOpen, onClose, onNext }) => {
+const ReviewMembership = ({ isOpen, onNext }) => {
   const { auth } = useAuth();
   const { showToast } = useToast();
   const membershipPhone = useStore((state) => state.membership_mobile);

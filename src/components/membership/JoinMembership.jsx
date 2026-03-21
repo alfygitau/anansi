@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Smartphone, ShieldCheck, Lock, ArrowRight } from "lucide-react";
+import { Smartphone, ShieldCheck, Lock, ArrowRight } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 import { useStore } from "../../store/useStore";
 

@@ -9,7 +9,6 @@ import {
 
 const AwaitingMembershipPayment = ({
   isOpen,
-  onClose,
   onNext,
   reference,
   refetch,

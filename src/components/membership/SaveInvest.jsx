@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { useStore } from "../../store/useStore";
 
-const SaveAndInvest = ({ isOpen, onClose, onNext, onCombine }) => {
+const SaveAndInvest = ({ isOpen, onNext, onCombine }) => {
   const SHARE_PRICE = 1000;
   const setMembership = useStore((state) => state.setMembership);
   const calculateShares = (amount) => {

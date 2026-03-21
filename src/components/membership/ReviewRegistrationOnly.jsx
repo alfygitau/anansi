@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { useStore } from "../../store/useStore";
 
-const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
+const ReviewRegistrationOnly = ({ isOpen, onNext }) => {
   const membershipPhone = useStore((state) => state.membership_mobile);
   const today = new Date().toLocaleDateString("en-KE", {
     day: "numeric",
