@@ -46,7 +46,7 @@ const AddGuarantors = ({ limit = 4 }) => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Left Column: Search & List (7/12) */}
-          <div className="lg:col-span-7 space-y-8">
+          <div className="lg:col-span-6 space-y-8">
             {/* Search Input Box */}
             <div className="bg-white p-6 rounded-[40px] border border-slate-100 shadow-xl shadow-blue-900/5">
               {/* Header Section */}
@@ -151,7 +151,7 @@ const AddGuarantors = ({ limit = 4 }) => {
           </div>
 
           {/* Right Column: Liability & Legal Info (5/12) */}
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-6">
             <div className="space-y-6">
               {/* Selection Queue */}
               <div className="space-y-2">
@@ -212,13 +212,13 @@ const AddGuarantors = ({ limit = 4 }) => {
                     size={120}
                   />
 
-                  <div className="relative z-10 flex gap-5">
+                  <div className="relative z-10 flex items-center gap-5">
                     <div className="bg-[#4DB8E4] h-12 w-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-sky-400/20">
                       <UserCheck className="text-[#042159]" size={24} />
                     </div>
                     <div>
                       <h4 className="text-xs font-black text-white uppercase tracking-[0.2em] mb-2">
-                        What is a Guarantor?
+                        Who is a Guarantor?
                       </h4>
                       <p className="text-[13px] text-blue-100 leading-relaxed font-medium">
                         A guarantor is an active member who pledges their
