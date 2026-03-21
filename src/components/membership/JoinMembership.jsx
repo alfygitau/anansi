@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Smartphone, ShieldCheck, Lock, ArrowRight } from "lucide-react";
+import { Smartphone, ShieldCheck, Lock, ArrowRight } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 import { useStore } from "../../store/useStore";
 
-const JoinMembership = ({ isOpen, onClose, onNext }) => {
+const JoinMembership = ({ isOpen, onNext }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
   const amount = "1,000";
@@ -29,7 +29,6 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
             className="absolute inset-0 bg-[#042159]/60 backdrop-blur-sm"
           />
 
@@ -41,15 +40,6 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
             className="relative w-full max-w-[480px] bg-white rounded-[32px] overflow-hidden shadow-2xl flex flex-col"
           >
             {/* Header / Close button */}
-            <div className="absolute top-2 right-2 z-20">
-              <button
-                onClick={onClose}
-                className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400"
-              >
-                <X size={20} />
-              </button>
-            </div>
-
             {/* Content Container */}
             <div className="p-10 space-y-6">
               {/* Top Section / Progress */}

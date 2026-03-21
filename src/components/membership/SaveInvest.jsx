@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { useStore } from "../../store/useStore";
 
-const SaveAndInvest = ({ isOpen, onClose, onNext, onCombine }) => {
+const SaveAndInvest = ({ isOpen, onNext, onCombine }) => {
   const SHARE_PRICE = 1000;
   const setMembership = useStore((state) => state.setMembership);
   const calculateShares = (amount) => {
@@ -34,7 +34,6 @@ const SaveAndInvest = ({ isOpen, onClose, onNext, onCombine }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
             className="absolute inset-0 bg-[#042159]/60 backdrop-blur-sm"
           />
 

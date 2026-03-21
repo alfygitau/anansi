@@ -13,7 +13,7 @@ import { useToast } from "../../contexts/ToastProvider";
 import { payMembership } from "../../sdks/membership/membership";
 import { useStore } from "../../store/useStore";
 
-const ReviewMembership = ({ isOpen, onClose, onNext }) => {
+const ReviewMembership = ({ isOpen, onNext }) => {
   const { auth } = useAuth();
   const { showToast } = useToast();
   const membershipPhone = useStore((state) => state.membership_mobile);
@@ -66,7 +66,6 @@ const ReviewMembership = ({ isOpen, onClose, onNext }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
             className="absolute inset-0 bg-[#042159]/70 backdrop-blur-sm"
           />
 

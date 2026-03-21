@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { useStore } from "../../store/useStore";
 
-const SetupContributions = ({ isOpen, onClose, onNext }) => {
+const SetupContributions = ({ isOpen, onNext }) => {
   const [savingsAmount, setSavingsAmount] = useState("");
   const [sharesAmount, setSharesAmount] = useState("");
   const [errors, setErrors] = useState({ savings: "", shares: "" });
@@ -69,7 +69,6 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
             className="absolute inset-0 bg-[#042159]/60 backdrop-blur-sm"
           />
 
