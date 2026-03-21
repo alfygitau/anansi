@@ -272,7 +272,10 @@ const Homepage = () => {
 
       <JoinMembership
         isOpen={showJoinMembership}
-        onClose={() => setShowJoinMembership(false)}
+        onClose={() => {
+          refetchCustomerDetails();
+          setShowJoinMembership(false);
+        }}
         onNext={() => {
           setShowJoinMembership(false);
           setShowSaveAndInvest(true);
@@ -281,7 +284,10 @@ const Homepage = () => {
 
       <SaveAndInvest
         isOpen={showSaveAndInvest}
-        onClose={() => setShowSaveAndInvest(false)}
+        onClose={() => {
+          refetchCustomerDetails();
+          setShowSaveAndInvest(false);
+        }}
         onCombine={() => {
           setShowSaveAndInvest(false);
           setShowMakeContribution(true);
@@ -294,7 +300,10 @@ const Homepage = () => {
 
       <SetupContributions
         isOpen={showMakeContribution}
-        onClose={() => setShowMakeContribution(false)}
+        onClose={() => {
+          refetchCustomerDetails();
+          setShowMakeContribution(false);
+        }}
         onNext={() => {
           setShowMakeContribution(false);
           setShowReviewMembership(true);
@@ -303,7 +312,10 @@ const Homepage = () => {
 
       <ReviewMembership
         isOpen={showReviewMembership}
-        onClose={() => setShowReviewMembership(false)}
+        onClose={() => {
+          refetchCustomerDetails();
+          setShowReviewMembership(false);
+        }}
         onNext={() => {
           setShowReviewMembership(false);
           setShowAwaitMembershipPayment(true);
@@ -312,7 +324,10 @@ const Homepage = () => {
 
       <ReviewRegistrationOnly
         isOpen={showReviewRegistrationOnly}
-        onClose={() => setShowReviewRegistrationOnly(false)}
+        onClose={() => {
+          refetchCustomerDetails();
+          setShowReviewRegistrationOnly(false);
+        }}
         onNext={() => {
           setShowReviewRegistrationOnly(false);
           setShowAwaitMembershipPayment(true);
@@ -321,7 +336,10 @@ const Homepage = () => {
 
       <AwaitingMembershipPayment
         isOpen={showAwaitMembershipPayment}
-        onClose={() => setShowAwaitMembershipPayment(false)}
+        onClose={() => {
+          refetchCustomerDetails();
+          setShowAwaitMembershipPayment(false);
+        }}
         onNext={() => {
           setShowAwaitMembershipPayment(false);
         }}
