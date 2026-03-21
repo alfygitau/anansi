@@ -4,7 +4,7 @@ import { Smartphone, ShieldCheck, Lock, ArrowRight } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 import { useStore } from "../../store/useStore";
 
-const JoinMembership = ({ isOpen, onNext }) => {
+const JoinMembership = ({ isOpen, onClose, onNext }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
   const amount = "1,000";
@@ -29,6 +29,7 @@ const JoinMembership = ({ isOpen, onNext }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            onClick={onClose}
             className="absolute inset-0 bg-[#042159]/60 backdrop-blur-sm"
           />
 

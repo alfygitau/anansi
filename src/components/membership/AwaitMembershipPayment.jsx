@@ -1,4 +1,4 @@
-import { ShieldCheck, Smartphone, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, Smartphone, CheckCircle2, X } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 import { useMutation, useQuery } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
@@ -10,6 +10,7 @@ import {
 const AwaitingMembershipPayment = ({
   isOpen,
   onNext,
+  onClose,
   reference,
   refetch,
   onFail,
@@ -71,7 +72,12 @@ const AwaitingMembershipPayment = ({
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#074073]/40 backdrop-blur-md">
       <div className="bg-white relative w-full max-w-[480px] rounded-[32px] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
-        
+        <button
+          onClick={onClose}
+          className="text-gray-400 absolute right-5 top-5 hover:text-gray-600 transition-colors"
+        >
+          <X size={20} />
+        </button>
         {/* Header Section */}
         <div className="px-8 pt-8"></div>
 
