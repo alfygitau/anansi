@@ -7,7 +7,7 @@ const Homelayer = () => {
       <div className="max-w-6xl mx-auto">
         <Navigation />
       </div>
-      <div className="z-0">
+      <div className="z-0 pb-[80px]">
         <Outlet />
       </div>
     </div>
