@@ -20,7 +20,6 @@ const FinancialStatements = () => {
   const navigate = useNavigate();
   const { showToast } = useToast();
   const [activeModal, setActiveModal] = useState(null);
-  const [loading, setLoading] = useState(false);
   // Lists
   const [statements, setStatements] = useState([]);
   const [bankStatements, setBankStatements] = useState([]);
