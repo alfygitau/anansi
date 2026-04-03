@@ -48,6 +48,7 @@ import HelpSupport from "./pages/help-support/Help";
 import WebCapture from "./pages/onboarding/WebCapture";
 import FinancialStatements from "./pages/loan-applications/FinancialStatements";
 import CollateralRegistry from "./pages/loan-applications/CollateralRegistry";
+import EmailLink from "./pages/onboarding/EmailLink";
 
 function App() {
   return (
@@ -113,6 +114,7 @@ function App() {
           <Route path="/onboarding/help" element={<HelpPage />} />
           <Route path="/onboarding/scan-qrcode" element={<SelfieQRCode />} />
           <Route path="/onboarding/use-webcamera" element={<WebCapture />} />
+          <Route path="/onboarding/email-link" element={<EmailLink />} />
           <Route
             path="/onboarding/id-manual-entry"
             element={<ManualIdEntry />}

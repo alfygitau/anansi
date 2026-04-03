@@ -43,7 +43,7 @@ const MyProgress = ({ currentTitle, currentSubtitle }) => {
               )}
 
               {/* Icon Logic */}
-              <div className="relative z-10 pt-1">
+              <div className="relative z-10">
                 {isActive ? (
                   <div className="w-5 h-5 bg-[#042159] rounded-full flex items-center justify-center shadow-lg shadow-blue-900/20">
                     <div className="w-2 h-2 bg-white rounded-full" />
