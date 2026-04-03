@@ -51,7 +51,7 @@ const Navigation = () => {
 
   return (
     <>
-      <nav className="z-[60] sm:px-3 bg-slate-50 backdrop-blur-md py-6">
+      <nav className="sm:px-3 bg-slate-50 py-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Left: Logo */}
           <div
@@ -115,7 +115,7 @@ const Navigation = () => {
 
               {/* Dropdown Menu */}
               {isProfileOpen && (
-                <div className="absolute right-0 mt-3 z-[100] w-56 bg-white border border-slate-100 rounded-[28px] shadow-2xl shadow-blue-900/10 p-2 animate-in fade-in zoom-in-95 duration-200">
+                <div className="absolute right-0 mt-3 z-50 w-56 bg-white border border-slate-100 rounded-[28px] shadow-2xl shadow-blue-900/10 p-2 animate-in fade-in zoom-in-95 duration-200">
                   <DropdownItem
                     icon={<User size={18} />}
                     label="Manage Profile"
@@ -263,27 +263,6 @@ const Navigation = () => {
     </>
   );
 };
-
-const NavLink = ({ icon, label, active, onClick }) => (
-  <button
-    onClick={onClick}
-    className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${active ? "bg-white text-[#042159] shadow-sm" : "text-slate-400 hover:text-slate-600"}`}
-  >
-    {icon} <span>{label}</span>
-  </button>
-);
-
-const IconButton = ({ icon, onClick, hasBadge }) => (
-  <button
-    onClick={onClick}
-    className="p-2.5 text-slate-400 hover:text-[#042159] hover:bg-slate-50 rounded-2xl transition-all relative"
-  >
-    {icon}
-    {hasBadge && (
-      <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 border-2 border-white rounded-full"></span>
-    )}
-  </button>
-);
 
 const MobileLink = ({ icon, label, onClick }) => (
   <button

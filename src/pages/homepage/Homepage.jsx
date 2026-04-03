@@ -366,16 +366,16 @@ const Homepage = () => {
       {isLoading ? (
         <HomeLoader />
       ) : (
-        <div className="bg-slate-50 text-[#042159] pb-12">
-          <div className="max-w-6xl sm:px-4 mx-auto">
-            <header className="flex justify-between mb-4 items-center">
-              <div>
-                <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
-                <p className="text-sm text-slate-500">
-                  Welcome back to your financial overview.
-                </p>
-              </div>
-            </header>
+        <div className="max-w-6xl sm:px-4 mx-auto">
+          <header className="flex justify-between mb-6 items-center">
+            <div>
+              <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
+              <p className="text-sm text-slate-500">
+                Welcome back to your financial overview.
+              </p>
+            </div>
+          </header>
+          {Number(currentShares) < 10 && (
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
@@ -458,122 +458,114 @@ const Homepage = () => {
                 </div>
               </div>
             </motion.div>
+          )}
 
-            {/* Account Section */}
-            <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              {accounts?.length > 0 &&
-                accounts.map((account, index) => (
-                  <AccountCard
-                    key={account.id || index}
-                    title={account?.product?.name || "Savings Account"}
-                    accountNumber={account.account_number || "ACC-XXXXX"}
-                    balance={`KES ${formatNumber(account?.balance)}`}
-                    isPrimary={account?.product?.name === "Savings"}
-                    navigateToAccountDetails={() =>
-                      navigate(
-                        `/account-details/${account.id}/${account.account_number}`,
-                      )
-                    }
-                  />
-                ))}
-            </section>
+          {/* Account Section */}
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            {accounts?.length > 0 &&
+              accounts.map((account, index) => (
+                <AccountCard
+                  key={account.id || index}
+                  title={account?.product?.name || "Savings Account"}
+                  accountNumber={account.account_number || "ACC-XXXXX"}
+                  balance={`KES ${formatNumber(account?.balance)}`}
+                  isPrimary={account?.product?.name === "Savings"}
+                  navigateToAccountDetails={() =>
+                    navigate(
+                      `/account-details/${account.id}/${account.account_number}`,
+                    )
+                  }
+                />
+              ))}
+          </section>
 
-            <section className="mb-10">
-              <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
-                Quick Actions
-              </h2>
-              <div className="flex items-start scrollbar-hide justify-between overflow-x-auto pb-2 no-scrollbar">
-                {quickActions.map(({ label, icon, onClick }) => (
-                  <div
-                    onClick={onClick}
-                    className="flex flex-col items-center cursor-pointer min-w-[100px] group cursor-pointer"
-                  >
-                    <div className="w-20 h-20 bg-slate-200 rounded-3xl flex items-center justify-center text-[#042159] transition-all duration-300 group-hover:bg-[#4DB8E4] group-hover:text-white group-hover:shadow-xl group-hover:shadow-blue-100 group-hover:-translate-y-1">
-                      {React.cloneElement(icon, { size: 32 })}
-                    </div>
-
-                    <span className="text-[11px] font-bold text-center mt-4 leading-tight max-w-[90px] uppercase tracking-wide text-slate-500 group-hover:text-[#042159]">
-                      {label}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Smaller Quick Actions */}
-            <section className="mb-10">
-              <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
-                Explore Products
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {loanProducts.length > 0 ? (
-                  loanProducts.map((product) => (
-                    <QuickAction
-                      key={product.id}
-                      label={product.label}
-                      icon={product.icon}
-                    />
-                  ))
-                ) : (
-                  <ProductsEmptyState />
-                )}
-              </div>
-            </section>
+          <section className="mb-10">
             <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
-              Loans & Applications
+              Quick Actions
             </h2>
+            <div className="flex items-start scrollbar-hide justify-between overflow-x-auto pb-2 no-scrollbar">
+              {quickActions.map(({ label, icon, onClick }) => (
+                <div
+                  onClick={onClick}
+                  className="flex flex-col items-center cursor-pointer min-w-[100px] group cursor-pointer"
+                >
+                  <div className="w-20 h-20 bg-slate-200 rounded-3xl flex items-center justify-center text-[#042159] transition-all duration-300 group-hover:bg-[#4DB8E4] group-hover:text-white group-hover:shadow-xl group-hover:shadow-blue-100 group-hover:-translate-y-1">
+                    {React.cloneElement(icon, { size: 32 })}
+                  </div>
 
-            {/* Side-by-Side: Applications and Loans */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Left Side: Pending Applications */}
-
-              <section>
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-bold">Loan Applications</h2>
-                  <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
-                    {pendingApplications.length} Pending
+                  <span className="text-[11px] font-bold text-center mt-4 leading-tight max-w-[90px] uppercase tracking-wide text-slate-500 group-hover:text-[#042159]">
+                    {label}
                   </span>
                 </div>
-                {pendingApplications.length > 0 ? (
-                  pendingApplications.map((loan) => (
-                    <CompactLoanCard
-                      key={loan.id}
-                      loan={loan}
-                      accent="#F59E0B"
-                    />
-                  ))
-                ) : (
-                  <EmptyState
-                    message="No pending applications"
-                    onApply={() => navigate("/loan-products")}
-                  />
-                )}
-              </section>
-
-              {/* Right Side: Active Loans */}
-              <section>
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-bold">Recent Loans</h2>
-                  <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">
-                    {activeLoans.length} Running
-                  </span>
-                </div>
-                {activeLoans.length > 0 ? (
-                  activeLoans.map((loan) => (
-                    <CompactLoanCard
-                      key={loan.id}
-                      loan={loan}
-                      accent="#4DB8E4"
-                    />
-                  ))
-                ) : (
-                  <EmptyState
-                    message="No active loans found"
-                    onApply={() => navigate("/loan-products")}
-                  />
-                )}
-              </section>
+              ))}
             </div>
+          </section>
+
+          {/* Smaller Quick Actions */}
+          <section className="mb-10">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
+              Explore Products
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {loanProducts.length > 0 ? (
+                loanProducts.map((product) => (
+                  <QuickAction
+                    key={product.id}
+                    label={product.label}
+                    icon={product.icon}
+                  />
+                ))
+              ) : (
+                <ProductsEmptyState />
+              )}
+            </div>
+          </section>
+          <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
+            Loans & Applications
+          </h2>
+
+          {/* Side-by-Side: Applications and Loans */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Left Side: Pending Applications */}
+
+            <section>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-bold">Loan Applications</h2>
+                <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
+                  {pendingApplications.length} Pending
+                </span>
+              </div>
+              {pendingApplications.length > 0 ? (
+                pendingApplications.map((loan) => (
+                  <CompactLoanCard key={loan.id} loan={loan} accent="#F59E0B" />
+                ))
+              ) : (
+                <EmptyState
+                  message="No pending applications"
+                  onApply={() => navigate("/loan-products")}
+                />
+              )}
+            </section>
+
+            {/* Right Side: Active Loans */}
+            <section>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-bold">Recent Loans</h2>
+                <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">
+                  {activeLoans.length} Running
+                </span>
+              </div>
+              {activeLoans.length > 0 ? (
+                activeLoans.map((loan) => (
+                  <CompactLoanCard key={loan.id} loan={loan} accent="#4DB8E4" />
+                ))
+              ) : (
+                <EmptyState
+                  message="No active loans found"
+                  onApply={() => navigate("/loan-products")}
+                />
+              )}
+            </section>
           </div>
         </div>
       )}
@@ -591,9 +583,6 @@ const AccountCard = ({
   navigateToAccountDetails,
 }) => {
   const [isVisible, setIsVisible] = useState(true);
-
-  // Helper to mask the balance (e.g., KES 450,000 -> KES ••••••)
-  // const maskedBalance = balance.replace(/[\d,]/g, "*");
   const maskedBalance = isVisible ? balance : "KES *********";
   return (
     <div

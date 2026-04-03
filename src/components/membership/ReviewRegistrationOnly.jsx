@@ -5,10 +5,18 @@ import {
   Calendar,
   ArrowRight,
   Lock,
+  Loader2,
 } from "lucide-react";
 import { useStore } from "../../store/useStore";
+import useAuth from "../../hooks/useAuth";
+import { useMutation } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import { payMembership } from "../../sdks/membership/membership";
 
 const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
+  const { auth } = useAuth();
+  const { showToast } = useToast();
+  const membershipDetails = useStore((state) => state.membership);
   const membershipPhone = useStore((state) => state.membership_mobile);
   const today = new Date().toLocaleDateString("en-KE", {
     day: "numeric",
@@ -16,8 +24,30 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
     year: "numeric",
   });
 
+  const { mutate: payMembershipMutate, isLoading } = useMutation({
+    mutationKey: ["pay membership"],
+    mutationFn: () =>
+      payMembership(
+        auth?.user?.id,
+        membershipDetails?.shares,
+        membershipDetails?.savings,
+        membershipPhone,
+      ),
+    onSuccess: () => {
+      onNext();
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
   const handlePayment = async () => {
-    await onNext();
+    await payMembershipMutate();
   };
 
   return (
@@ -130,14 +160,24 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
             {/* Action Footer */}
             <div className="bg-white border-t mt-5 border-slate-50">
               <button
+                disabled={isLoading}
                 onClick={handlePayment}
-                className="group w-full h-14 bg-[#042159] hover:bg-[#062d7a] disabled:bg-slate-300 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/10 active:scale-[0.98]"
+                className="group w-full h-14 bg-[#042159] hover:bg-[#062d7a] disabled:bg-slate-300 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98]"
               >
-                Confirm & Pay
-                <ArrowRight
-                  size={18}
-                  className="group-hover:translate-x-1 transition-transform text-[#4DB8E4]"
-                />
+                {isLoading ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin" />
+                    Initiating Payment...
+                  </>
+                ) : (
+                  <>
+                    Confirm and Pay
+                    <ArrowRight
+                      size={18}
+                      className="group-hover:translate-x-1 transition-transform text-[#4DB8E4]"
+                    />
+                  </>
+                )}
               </button>
             </div>
           </motion.div>
