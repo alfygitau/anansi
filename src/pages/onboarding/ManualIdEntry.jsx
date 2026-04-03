@@ -12,20 +12,131 @@ import {
   Lock,
   FileCheck,
 } from "lucide-react";
+import { useStore } from "../../store/useStore";
+import { useMutation } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import useAuth from "../../hooks/useAuth";
+import { updateCustomerPersonalInformation } from "../../sdks/customer/customer";
 
 const ManualIdEntry = () => {
+  const { auth } = useAuth();
+  const { showToast } = useToast();
   const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+  const kycDetails = useStore((state) => state.kyc_details);
+  const splitName = (fullName) => {
+    if (!fullName) return { firstName: "", middleName: "", lastName: "" };
+    const parts = fullName.trim().split(/\s+/);
+    return {
+      firstName: parts[0] || "",
+      lastName: parts.length > 1 ? parts[parts.length - 1] : "",
+      middleName: parts.slice(1, -1).join(" ") || "",
+    };
+  };
+
+  const names = splitName(kycDetails?.fullNames || kycDetails?.fullName);
+  const firstName = names.firstName;
+  const middleName = names.middleName;
+  const lastName = names.lastName;
+
   const [formData, setFormData] = useState({
-    fullName: "",
-    idNumber: "",
-    dateOfBirth: "",
-    kraPin: "",
-    gender: "",
+    firstName: firstName,
+    middleName: middleName,
+    lastName: lastName,
+    idNumber: kycDetails?.idNumber || "",
+    dateOfBirth: kycDetails?.dateOfBirth || "",
+    gender: kycDetails?.gender || "",
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const validateField = (name, value) => {
+    let error = "";
+    if (!value || value.trim() === "") {
+      error = `${name.replace(/([A-Z])/g, " $1")} is required`;
+    }
+    if (name === "idNumber" && value.length < 6) {
+      error = "ID Number must be at least 6 digits";
+    }
+
+    setErrors((prev) => ({ ...prev, [name]: error }));
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    validateField(name, value);
+  };
+
+  const isInvalid =
+    !formData.firstName ||
+    !formData.lastName ||
+    !formData.idNumber ||
+    !formData.dateOfBirth ||
+    Object.values(errors).some((error) => error !== "");
+
+  const { mutate: updateCustomerMutate, isLoading } = useMutation({
+    mutationKey: ["update-customer-personal-info"],
+    mutationFn: () =>
+      updateCustomerPersonalInformation(
+        auth?.user?.id,
+        formData?.firstName,
+        formData?.middleName,
+        formData?.lastName,
+        formData?.idNumber,
+        formData?.gender,
+        formData?.dateOfBirth,
+      ),
+    onSuccess: async () => {
+      showToast({
+        title: "Identity Verified",
+        type: "success",
+        position: "top-right",
+        description:
+          "Your details have been synced. Moving you to the next step...",
+      });
+      navigate("/onboarding/facial-identity");
+    },
+    onError: (error) => {
+      showToast({
+        title: "Onboarding glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const handleManualEntry = async (e) => {
+    e.preventDefault();
+    const newErrors = {};
+    Object.keys(formData).forEach((key) => {
+      if (key !== "middleName" && !formData[key]) {
+        newErrors[key] = "Field is required";
+      }
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setTouched(
+        Object.keys(formData).reduce(
+          (acc, key) => ({ ...acc, [key]: true }),
+          {},
+        ),
+      );
+      showToast({
+        title: "Check your details",
+        type: "error",
+        position: "top-right",
+        description: "Please correct the highlighted errors before proceeding.",
+      });
+      return;
+    }
+    await updateCustomerMutate();
   };
 
   return (
@@ -61,7 +172,7 @@ const ManualIdEntry = () => {
             </p>
           </header>
 
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleManualEntry}>
             {/* Full Name Input */}
             <div className="space-y-4">
               {/* First & Middle Name Grid */}
@@ -79,11 +190,18 @@ const ManualIdEntry = () => {
                     <input
                       type="text"
                       name="firstName"
+                      value={formData?.firstName}
+                      onBlur={handleBlur}
                       placeholder="e.g. JOHN"
                       className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
                       onChange={handleInputChange}
                     />
                   </div>
+                  {errors.firstName && touched.firstName && (
+                    <p className="text-[10px] text-red-500 font-bold ml-4 uppercase tracking-tighter">
+                      {errors.firstName}
+                    </p>
+                  )}
                 </div>
 
                 {/* Middle Name */}
@@ -99,11 +217,18 @@ const ManualIdEntry = () => {
                     <input
                       type="text"
                       name="middleName"
+                      value={formData?.middleName}
+                      onBlur={handleBlur}
                       placeholder="e.g. DOE"
                       className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
                       onChange={handleInputChange}
                     />
                   </div>
+                  {errors.middleName && touched.middleName && (
+                    <p className="text-[10px] text-red-500 font-bold ml-4 uppercase tracking-tighter">
+                      {errors.middleName}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -120,11 +245,18 @@ const ManualIdEntry = () => {
                   <input
                     type="text"
                     name="lastName"
+                    value={formData?.lastName}
+                    onBlur={handleBlur}
                     placeholder="e.g. OKOTH"
                     className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
                     onChange={handleInputChange}
                   />
                 </div>
+                {errors.lastName && touched.lastName && (
+                  <p className="text-[10px] text-red-500 font-bold ml-4 uppercase tracking-tighter">
+                    {errors.lastName}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -142,11 +274,18 @@ const ManualIdEntry = () => {
                   <input
                     type="text"
                     name="idNumber"
+                    value={formData?.idNumber}
+                    onBlur={handleBlur}
                     placeholder="12345678"
                     className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
                     onChange={handleInputChange}
                   />
                 </div>
+                {errors.idNumber && touched.idNumber && (
+                  <p className="text-[10px] text-red-500 font-bold ml-4 uppercase tracking-tighter">
+                    {errors.idNumber}
+                  </p>
+                )}
               </div>
 
               {/* Date of Birth */}
@@ -162,17 +301,24 @@ const ManualIdEntry = () => {
                   <input
                     type="date"
                     name="dateOfBirth"
+                    value={formData?.dateOfBirth}
+                    onBlur={handleBlur}
                     className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
                     onChange={handleInputChange}
                   />
                 </div>
+                {errors.dateOfBirth && touched.dateOfBirth && (
+                  <p className="text-[10px] text-red-500 font-bold ml-4 uppercase tracking-tighter">
+                    {errors.dateOfBirth}
+                  </p>
+                )}
               </div>
             </div>
 
             {/* KRA PIN */}
             <div className="space-y-2">
               <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">
-                KRA PIN Number
+                Gender
               </label>
               <div className="relative">
                 <FileCheck
@@ -181,23 +327,63 @@ const ManualIdEntry = () => {
                 />
                 <input
                   type="text"
-                  name="kraPin"
-                  placeholder="A00XXXXXXXX"
-                  className="w-full h-[64px] bg-slate-100 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[24px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159] uppercase"
+                  name="gender"
+                  value={formData?.gender}
+                  onBlur={handleBlur}
+                  placeholder="e.g male"
+                  className="w-full h-[64px] bg-slate-100 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[24px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
                   onChange={handleInputChange}
                 />
               </div>
+              {errors.gender && touched.gender && (
+                <p className="text-[10px] text-red-500 font-bold ml-4 uppercase tracking-tighter">
+                  {errors.gender}
+                </p>
+              )}
             </div>
 
             <button
               type="submit"
-              className="w-full h-[72px] bg-[#042159] text-white rounded-[28px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-4 hover:bg-[#4DB8E4] hover:text-[#042159] transition-all shadow-xl shadow-blue-900/20 mt-8"
+              disabled={isLoading || isInvalid}
+              className={`w-full h-[72px] rounded-[28px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-4 transition-all shadow-xl mt-8 ${
+                isLoading || isInvalid
+                  ? "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none"
+                  : "bg-[#042159] text-white hover:bg-[#4DB8E4] hover:text-[#042159] shadow-blue-900/20 active:scale-[0.98]"
+              }`}
             >
-              Continue <ArrowRight size={20} />
+              {isLoading ? (
+                <>
+                  <svg
+                    className="animate-spin h-5 w-5 text-slate-400"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Processing...
+                </>
+              ) : (
+                <>
+                  Continue <ArrowRight size={20} />
+                </>
+              )}
             </button>
 
             {/* Compliance Disclaimer Footer */}
-            <p className="px-8 text-[11px] text-slate-400 text-center leading-relaxed">
+            <p className="text-[11px] text-slate-400 leading-relaxed">
               By proceeding, you authorize Anansi Sacco to verify these details
               against official government databases including IPRS and iTax.
             </p>

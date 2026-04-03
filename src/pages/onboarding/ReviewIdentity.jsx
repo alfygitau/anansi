@@ -62,6 +62,8 @@ const ReviewIdentity = () => {
         middleName,
         lastName,
         kycDetails?.idNumber,
+        kycDetails?.sex,
+        kycDetails?.dateOfBirth
       ),
     onSuccess: async () => {
       showToast({

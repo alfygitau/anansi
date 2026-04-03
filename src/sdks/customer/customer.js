@@ -77,15 +77,21 @@ export const updateCustomerPersonalInformation = async (
   middleName,
   lastName,
   idNumber,
+  gender,
+  dob,
 ) => {
   try {
-    const response = await client.patch(`/customer/${id}`, {
-      firstname: firstName,
-      middlename: middleName,
-      lastname: lastName,
-      identification: idNumber,
+    const payload = {
+      ...(firstName && { firstname: firstName }),
+      ...(middleName && { middlename: middleName }),
+      ...(lastName && { lastname: lastName }),
+      ...(idNumber && { identification: idNumber }),
+      ...(gender && { gender: gender }),
+      ...(dob && { dob: dob }),
       onboarding_stage: "facial-identity",
-    });
+    };
+
+    const response = await client.patch(`/customer/${id}`, payload);
     return response;
   } catch (error) {
     throw error?.response?.data || error;
