@@ -64,7 +64,7 @@ const SelfieQRCode = () => {
   return (
     <div className="w-full max-w-[1300px] mb-[40px] mx-auto flex flex-col lg:flex-row font-sans">
       {/* 1. Left Sidebar: Progress */}
-      <div className="hidden lg:block w-1/4 bg-slate-50/50">
+      <div className="hidden lg:block w-[23%] bg-slate-50/50">
         <MyProgress
           currentTitle="Identity Verification"
           currentSubtitle="Selfie Verification"
@@ -72,12 +72,12 @@ const SelfieQRCode = () => {
       </div>
 
       {/* 2. Main Area: QR Workstation */}
-      <div className="flex-1 sm:px-3">
+      <div className="flex-1 md:px-3 sm:px-3">
         <header className="mb-6">
-          <h1 className="text-2xl font-black text-[#042159] uppercase tracking-tight mb-4">
+          <h1 className="text-2xl font-black text-[#042159] uppercase tracking-tight mb-2">
             Scan to Start
           </h1>
-          <p className="text-slate-500 text-[15px] leading-relaxed max-w-xl">
+          <p className="text-slate-500 text-[15px] leading-relaxed w-full">
             To ensure the highest level of security, we use smartphone-optimized
             biometric technology.{" "}
             <span className="text-[#042159] font-semibold">
@@ -177,7 +177,7 @@ const SelfieQRCode = () => {
       </div>
 
       {/* 3. Right Sidebar: Info & Disclaimers */}
-      <div className="lg:w-[350px] px-3 sm:mt-6 bg-slate-50/50">
+      <div className="lg:w-[300px] px-5 sm:mt-6 bg-slate-50/50">
         <div className="space-y-8 sticky top-10">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
@@ -216,7 +216,7 @@ const SelfieQRCode = () => {
             </ul>
           </div>
 
-          <div className="flex items-start gap-3 p-4 bg-[#042159]/5 rounded-2xl border border-[#042159]/10">
+          <div className="flex items-center gap-3 p-4 bg-[#042159]/5 rounded-2xl border border-[#042159]/10">
             <Lock className="text-[#042159] shrink-0" size={16} />
             <p className="text-[11px] text-slate-500 leading-tight">
               Anansi uses ISO-standard biometric encryption. Your selfie is only
