@@ -50,6 +50,8 @@ import FinancialStatements from "./pages/loan-applications/FinancialStatements";
 import CollateralRegistry from "./pages/loan-applications/CollateralRegistry";
 import EmailLink from "./pages/onboarding/EmailLink";
 import TitleUpdater from "./helmet/TitleUpdater";
+import ChangeEmail from "./pages/onboarding/ChangeEmail";
+import ChangeMobile from "./pages/onboarding/ChangeMobile";
 
 function App() {
   return (
@@ -61,6 +63,8 @@ function App() {
         <Route path="/" element={<Registration />} />
         <Route path="/onboarding/verify-email" element={<VerifyEmail />} />
         <Route path="/onboarding/verify-mobile" element={<VerifyMobile />} />
+        <Route path="/onboarding/change-email" element={<ChangeEmail />} />
+        <Route path="/onboarding/change-mobile" element={<ChangeMobile />} />
 
         <Route
           path="/admin-customer/verify"

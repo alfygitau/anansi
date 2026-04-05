@@ -133,9 +133,20 @@ export const verifyMobile = async (otp, mobile) => {
 
 export const sendMobileOtp = async (userId) => {
   try {
-    const response = await publicClient.post(`/otp`, {
+    const response = await publicClient.post(`/otp/by-mobile`, {
       userId: userId,
       isEmail: false,
+    });
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
+export const newMobileOtp = async (mobileno) => {
+  try {
+    const response = await publicClient.post(`/otp`, {
+      mobileno: mobileno,
     });
     return response;
   } catch (error) {
@@ -172,6 +183,17 @@ export const resendEmailOtp = async (userId) => {
     const response = await publicClient.post(`/otp`, {
       userId: userId,
       isEmail: true,
+    });
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
+export const newEmailOtp = async (email) => {
+  try {
+    const response = await publicClient.post(`/otp/by-email`, {
+      email: email,
     });
     return response;
   } catch (error) {

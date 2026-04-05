@@ -26,6 +26,28 @@ export const updateCustomerStatuses = async (id) => {
   }
 };
 
+export const updateCustomerEmail = async (id, email) => {
+  try {
+    const response = await client.patch(`/customer/${id}`, {
+      email: email,
+    });
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
+export const updateCustomerMobile = async (id, mobileno) => {
+  try {
+    const response = await client.patch(`/customer/${id}`, {
+      mobileno: mobileno,
+    });
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
 export const updateKinStatus = async (id) => {
   try {
     const response = await client.patch(`/customer/${id}`, {

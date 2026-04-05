@@ -8,11 +8,14 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
 import useAuth from "../../hooks/useAuth";
 import { sendMobileOtp, verifyMobile } from "../../sdks/auth/auth";
-import { updateCustomerVerification } from "../../sdks/customer/customer";
+import {
+  getCustomerById,
+  updateCustomerVerification,
+} from "../../sdks/customer/customer";
 
 const VerifyMobile = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -20,6 +23,7 @@ const VerifyMobile = () => {
   const navigate = useNavigate();
   const { auth } = useAuth();
   const { showToast } = useToast();
+  const [mobile, setMobile] = useState("");
 
   const handleChange = (e, index) => {
     const value = e.target.value;
@@ -118,6 +122,25 @@ const VerifyMobile = () => {
     },
   });
 
+  useQuery({
+    queryKey: ["get customer by id"],
+    queryFn: async () => {
+      const response = await getCustomerById(auth?.user?.id);
+      return response.data.data;
+    },
+    onSuccess: (data) => {
+      setMobile(data?.mobileno);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-6">
       <div className="w-full max-w-[500px] relative">
@@ -140,7 +163,7 @@ const VerifyMobile = () => {
             </p>
             <div className="flex items-center justify-center gap-2 mt-1">
               <span className="text-[#042159] font-bold">
-                {auth?.user?.mobileno}
+                {mobile}
               </span>
               <button
                 onClick={onChangeNumber}

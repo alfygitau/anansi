@@ -8,7 +8,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
 import useAuth from "../../hooks/useAuth";
 import {
@@ -16,6 +16,7 @@ import {
   sendMobileOtp,
   verifyEmailAddress,
 } from "../../sdks/auth/auth";
+import { getCustomerById } from "../../sdks/customer/customer";
 
 const VerifyEmail = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -23,6 +24,7 @@ const VerifyEmail = () => {
   const navigate = useNavigate();
   const { auth } = useAuth();
   const { showToast } = useToast();
+  const [email, setEmail] = useState("");
 
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return false;
@@ -31,6 +33,25 @@ const VerifyEmail = () => {
       element.nextSibling.focus();
     }
   };
+
+  useQuery({
+    queryKey: ["get customer by id"],
+    queryFn: async () => {
+      const response = await getCustomerById(auth?.user?.id);
+      return response.data.data;
+    },
+    onSuccess: (data) => {
+      setEmail(data?.email);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   const { mutate: verifyEmailMutate, isLoading } = useMutation({
     mutationKey: ["verify-email"],
@@ -136,7 +157,7 @@ const VerifyEmail = () => {
         <p className="text-slate-400 text-sm font-medium mb-8 leading-relaxed px-4">
           We've sent a 6-digit verification code to <br />
           <span className="text-[#042159] font-bold flex items-center justify-center gap-2 mt-1">
-            {auth?.user?.email}{" "}
+            {email}&nbsp;
             <Edit3
               onClick={() => navigate("/onboarding/change-email")}
               size={14}
