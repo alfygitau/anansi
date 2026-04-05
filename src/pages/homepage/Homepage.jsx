@@ -486,11 +486,11 @@ const Homepage = () => {
               ))}
           </section>
 
-          <section className="mb-10">
+          <section className="mb-6">
             <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
               Quick Actions
             </h2>
-            <div className="grid grid-cols-4 lg:grid-cols-8 gap-4 lg:gap-6 pb-6">
+            <div className="grid grid-cols-4 lg:grid-cols-8 gap-4 lg:gap-6">
               {quickActions.map(({ id, label, icon, onClick }) => (
                 <div
                   key={id}

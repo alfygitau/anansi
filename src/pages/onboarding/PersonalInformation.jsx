@@ -251,7 +251,7 @@ const ProfileInformation = () => {
       {/* Main Content - 80% */}
       <div className="flex-1 lg:w-[75%] sm:px-5 overflow-y-auto">
         <div className="mb-10">
-          <h1 className="text-2xl lg:text-3xl font-black text-primary uppercase tracking-tight">
+          <h1 className="text-2xl lg:text-2xl font-black text-primary uppercase tracking-tight">
             Complete Your Profile
           </h1>
           <p className="text-slate-500 text-sm mt-1 w-full">

@@ -27,18 +27,18 @@ const ReviewIdentity = () => {
 
   const splitName = (fullName) => {
     if (!fullName) return { firstName: "", middleName: "", lastName: "" };
-    const parts = fullName.trim().split(/\s+/);
+    const parts = fullName?.trim()?.split(/\s+/);
     return {
       firstName: parts[0] || "",
-      lastName: parts.length > 1 ? parts[parts.length - 1] : "",
-      middleName: parts.slice(1, -1).join(" ") || "",
+      lastName: parts?.length > 1 ? parts[parts?.length - 1] : "",
+      middleName: parts?.slice(1, -1)?.join(" ") || "",
     };
   };
 
-  const names = splitName(kycDetails.fullNames || kycDetails.fullName);
-  const firstName = names.firstName;
-  const middleName = names.middleName;
-  const lastName = names.lastName;
+  const names = splitName(kycDetails?.fullNames || kycDetails?.fullName);
+  const firstName = names?.firstName;
+  const middleName = names?.middleName;
+  const lastName = names?.lastName;
 
   const handleUpdate = async () => {
     await updateCustomerMutate();
@@ -128,7 +128,7 @@ const ReviewIdentity = () => {
       <div className="flex-1">
         {/* Header with Modern Disclaimer */}
         <header className="mb-3 w-full">
-          <h1 className="text-3xl font-black text-primary uppercase tracking-tight mb-4">
+          <h1 className="text-2xl font-black text-primary uppercase tracking-tight mb-4">
             Review Extracted Details
           </h1>
           <div className="p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50 flex items-start gap-3">
@@ -136,7 +136,7 @@ const ReviewIdentity = () => {
             <p className="text-slate-600 text-[14px] leading-relaxed">
               Our AI has scanned your ID. Please ensure the
               <span className="text-primary font-bold">
-                Names, ID Number, and DOB
+                Names, ID Number, and DOB&nbsp;
               </span>
               exactly match your physical document to avoid SASRA compliance
               rejection.

@@ -129,9 +129,9 @@ const NextOfKin = () => {
       <div className="flex-1 lg:w-[75%] sm:px-5 overflow-y-auto">
         <div>
           <header className="mb-10">
-            <h1 className="text-xl font-bold text-gray-900 mb-4">
+            <h2 className="text-2xl font-black text-primary uppercase tracking-tight mb-4">
               Add Next of Kin
-            </h1>
+            </h2>
             <p className="text-[14px] text-gray-600 leading-relaxed">
               To ensure the safety and security of your membership, we kindly
               request that you provide information about your next of kin. This
