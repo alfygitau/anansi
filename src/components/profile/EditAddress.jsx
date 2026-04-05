@@ -8,6 +8,9 @@ import {
   Loader2,
   ChevronDown,
 } from "lucide-react";
+import { useMutation } from "react-query";
+import { updateCustomerAddress } from "../../sdks/customer/customer";
+import { useToast } from "../../contexts/ToastProvider";
 
 const EditAddress = ({
   isOpen,
@@ -17,11 +20,12 @@ const EditAddress = ({
   subCounties,
   setSubCounties,
   countries,
-  states,
+  refetch,
 }) => {
-  const [loading, setLoading] = useState(false);
+  const { showToast } = useToast();
   const [country, setCountry] = useState("");
   const [formData, setFormData] = useState({
+    id: "",
     physicalAddress: "",
     county: "",
     subcounty: "",
@@ -36,6 +40,7 @@ const EditAddress = ({
     if (customer && customer.addresses && customer.addresses.length > 0) {
       const addr = customer.addresses[0];
       setFormData({
+        id: addr?.id || "",
         physicalAddress: addr.physical_address || "",
         county: addr.county || "",
         subcounty: addr.subcounty || "",
@@ -71,12 +76,31 @@ const EditAddress = ({
   };
 
   const handleSave = async () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      onClose();
-    }, 1500);
+    updateAddress();
   };
+
+  const { mutate: updateAddress, isLoading } = useMutation({
+    mutationKey: ["update address"],
+    mutationFn: () =>
+      updateCustomerAddress(
+        formData?.id,
+        formData?.physicalAddress,
+        formData?.county,
+        formData?.subcounty,
+      ),
+    onSuccess: () => {
+      refetch();
+      onClose();
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   return (
     <AnimatePresence>
@@ -265,13 +289,15 @@ const EditAddress = ({
               </button>
               <button
                 onClick={handleSave}
-                disabled={loading}
+                disabled={isLoading}
                 className={`flex-[2] h-14 rounded-2xl font-black uppercase tracking-widest text-xs text-white shadow-xl transition-all flex items-center justify-center gap-2
-                  ${loading ? "bg-slate-300" : `bg-[${primaryColor}] hover:opacity-90 active:scale-[0.98] shadow-blue-900/20`}
+                  ${isLoading ? "bg-slate-300" : `bg-[${primaryColor}] hover:opacity-90 active:scale-[0.98] shadow-blue-900/20`}
                 `}
-                style={{ backgroundColor: loading ? "#cbd5e1" : primaryColor }}
+                style={{
+                  backgroundColor: isLoading ? "#cbd5e1" : primaryColor,
+                }}
               >
-                {loading ? (
+                {isLoading ? (
                   <Loader2 className="animate-spin" size={20} />
                 ) : (
                   "Save Changes"

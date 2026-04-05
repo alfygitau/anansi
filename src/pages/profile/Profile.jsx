@@ -186,6 +186,7 @@ const ProfilePage = () => {
         isOpen={showEditKin}
         onClose={() => setShowEditKin(false)}
         customer={customer}
+        refetch={refetch}
       />
       <EditAddress
         isOpen={showEditAddress}
@@ -198,12 +199,13 @@ const ProfilePage = () => {
         setSubCounties={setSubCounties}
         setCountries={setCountries}
         state={states}
-        setStates={setStates}
+        refetch={refetch}
       />
       <EditFinancialDetails
         isOpen={showEditFinancials}
         onClose={() => setShowEditFinancials(false)}
         customer={customer}
+        refetch={refetch}
       />
       {isLoading ? (
         <ProfileLoader />
@@ -298,7 +300,7 @@ const ProfilePage = () => {
                     value={address?.[0]?.county}
                   />
                   <DataField
-                    label="County / City"
+                    label="Sub County / Town"
                     value={address?.[0]?.subcounty}
                   />
                   <DataField

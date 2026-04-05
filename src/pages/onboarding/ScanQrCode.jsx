@@ -74,7 +74,7 @@ const SelfieQRCode = () => {
       {/* 2. Main Area: QR Workstation */}
       <div className="flex-1 sm:px-3">
         <header className="mb-6">
-          <h1 className="text-3xl font-black text-[#042159] uppercase tracking-tight mb-4">
+          <h1 className="text-2xl font-black text-[#042159] uppercase tracking-tight mb-4">
             Scan to Start
           </h1>
           <p className="text-slate-500 text-[15px] leading-relaxed max-w-xl">

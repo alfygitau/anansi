@@ -173,7 +173,8 @@ const Registration = () => {
         {/* Optional: Footer text kept at the bottom if you prefer */}
         <div className="absolute bottom-16 left-0 w-full flex justify-center">
           <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">
-            Registered Financial Institution © 2026
+            © {new Date().getFullYear()} Anansi Sacco | Registered
+            Financial Institution
           </p>
         </div>
       </div>

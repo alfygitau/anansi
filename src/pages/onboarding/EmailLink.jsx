@@ -76,7 +76,7 @@ const EmailLink = () => {
                     Link Sent Successfully
                   </span>
                 </div>
-                <h1 className="text-4xl font-black text-[#042159] uppercase tracking-tight leading-none mb-4">
+                <h1 className="text-2xl font-black text-[#042159] uppercase tracking-tight leading-none mb-4">
                   Selfie Verification
                 </h1>
                 <p className="text-slate-500 text-lg leading-relaxed">

@@ -188,6 +188,24 @@ export const createCustomerAddress = async (
   }
 };
 
+export const updateCustomerAddress = async (
+  id,
+  physicalAddress,
+  county,
+  subcounty,
+) => {
+  try {
+    const response = await client.patch(`/address/${id}`, {
+      physical_address: physicalAddress,
+      county: county,
+      subcounty: subcounty,
+    });
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
 export const updateCustomerFinancials = async (
   id,
   employment_type,
@@ -211,6 +229,26 @@ export const updateCustomerFinancials = async (
   }
 };
 
+export const updateFinancials = async (
+  id,
+  employment_type,
+  kra,
+  jobTitle,
+  income,
+) => {
+  try {
+    const response = await client.patch(`/customer/${id}`, {
+      employment_type: employment_type,
+      kraPin: kra,
+      occupation: jobTitle,
+      income_range: income,
+    });
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
 export const createNextOfKin = async (
   id,
   fullName,
@@ -221,6 +259,28 @@ export const createNextOfKin = async (
 ) => {
   try {
     const response = await client.post(`/customer/${id}/next-of-kin`, {
+      name: fullName,
+      dateOfBirth: birthDate,
+      relationship: relationship,
+      phoneNumber: phone,
+      location: location,
+    });
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
+export const updateNextOfKin = async (
+  id,
+  fullName,
+  birthDate,
+  relationship,
+  phone,
+  location,
+) => {
+  try {
+    const response = await client.patch(`/customer/next-of-kin/${id}`, {
       name: fullName,
       dateOfBirth: birthDate,
       relationship: relationship,

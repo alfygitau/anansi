@@ -10,9 +10,14 @@ import {
   ChevronDown,
   Navigation,
 } from "lucide-react";
+import { useMutation } from "react-query";
+import { updateFinancials } from "../../sdks/customer/customer";
+import { useToast } from "../../contexts/ToastProvider";
+import useAuth from "../../hooks/useAuth";
 
-const EditFinancialDetails = ({ isOpen, onClose, customer }) => {
-  const [loading, setLoading] = useState(false);
+const EditFinancialDetails = ({ isOpen, onClose, customer, refetch }) => {
+  const { showToast } = useToast();
+  const { auth } = useAuth();
   const [formData, setFormData] = useState({
     snnOrKra: "",
     employmentType: "",
@@ -40,13 +45,32 @@ const EditFinancialDetails = ({ isOpen, onClose, customer }) => {
   };
 
   const handleSave = async () => {
-    setLoading(true);
-    // API logic simulation
-    setTimeout(() => {
-      setLoading(false);
-      onClose();
-    }, 2000);
+    updateFinance();
   };
+
+  const { mutate: updateFinance, isLoading } = useMutation({
+    mutationKey: ["update finance"],
+    mutationFn: () =>
+      updateFinancials(
+        auth?.user?.id,
+        formData?.employmentType,
+        formData?.snnOrKra,
+        formData?.occupation,
+        formData?.income,
+      ),
+    onSuccess: () => {
+      refetch();
+      onClose();
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   return (
     <AnimatePresence>
@@ -187,15 +211,15 @@ const EditFinancialDetails = ({ isOpen, onClose, customer }) => {
               <div className="mt-10">
                 <button
                   onClick={handleSave}
-                  disabled={loading}
+                  disabled={isLoading}
                   className={`w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs text-white shadow-xl transition-all flex items-center justify-center gap-3
-                    ${loading ? "bg-slate-200 text-slate-400 shadow-none" : `bg-[${primaryColor}] hover:opacity-95 active:scale-[0.98] shadow-blue-900/20`}
+                    ${isLoading ? "bg-slate-200 text-slate-400 shadow-none" : `bg-[${primaryColor}] hover:opacity-95 active:scale-[0.98] shadow-blue-900/20`}
                   `}
                   style={{
-                    backgroundColor: loading ? "#e2e8f0" : primaryColor,
+                    backgroundColor: isLoading ? "#e2e8f0" : primaryColor,
                   }}
                 >
-                  {loading ? (
+                  {isLoading ? (
                     <Loader2 className="animate-spin" size={20} />
                   ) : (
                     "Save Financial Details"

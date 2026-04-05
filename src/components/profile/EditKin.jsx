@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -10,10 +10,14 @@ import {
   Loader2,
   ShieldAlert,
 } from "lucide-react";
+import { useMutation } from "react-query";
+import { updateNextOfKin } from "../../sdks/customer/customer";
+import { useToast } from "../../contexts/ToastProvider";
 
-const EditNextOfKin = ({ isOpen, onClose, customer }) => {
-  const [loading, setLoading] = useState(false);
+const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
+  const { showToast } = useToast();
   const [formData, setFormData] = useState({
+    id: "",
     name: "",
     relationship: "",
     location: "",
@@ -25,6 +29,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer }) => {
     if (customer && customer.nextOfKins && customer.nextOfKins.length > 0) {
       const kin = customer.nextOfKins[0];
       setFormData({
+        id: kin?.id || "",
         name: kin.name || "",
         relationship: kin.relationship || "",
         location: kin.location || "",
@@ -43,13 +48,33 @@ const EditNextOfKin = ({ isOpen, onClose, customer }) => {
   };
 
   const handleSave = async () => {
-    setLoading(true);
-    // Logic for PATCH (if kinId exists) or POST (if new)
-    setTimeout(() => {
-      setLoading(false);
-      onClose();
-    }, 1800);
+    updateKin();
   };
+
+  const { mutate: updateKin, isLoading } = useMutation({
+    mutationKey: ["update kin"],
+    mutationFn: () =>
+      updateNextOfKin(
+        formData?.id,
+        formData?.name,
+        formData?.dob,
+        formData?.relationship,
+        formData?.phoneNumber,
+        formData?.location,
+      ),
+    onSuccess: () => {
+      refetch();
+      onClose();
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   return (
     <AnimatePresence>
@@ -200,15 +225,15 @@ const EditNextOfKin = ({ isOpen, onClose, customer }) => {
               <div className="pt-4">
                 <button
                   onClick={handleSave}
-                  disabled={loading}
+                  disabled={isLoading}
                   className={`w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs text-white shadow-xl transition-all flex items-center justify-center gap-3
-                    ${loading ? "bg-slate-200 text-slate-400 shadow-none" : "hover:opacity-95 active:scale-[0.98] shadow-blue-900/20"}
+                    ${isLoading ? "bg-slate-200 text-slate-400 shadow-none" : "hover:opacity-95 active:scale-[0.98] shadow-blue-900/20"}
                   `}
                   style={{
-                    backgroundColor: loading ? "#e2e8f0" : primaryColor,
+                    backgroundColor: isLoading ? "#e2e8f0" : primaryColor,
                   }}
                 >
-                  {loading ? (
+                  {isLoading ? (
                     <Loader2 className="animate-spin" size={20} />
                   ) : (
                     "Update Kin Details"
