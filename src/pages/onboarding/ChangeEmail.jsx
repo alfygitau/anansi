@@ -160,7 +160,7 @@ const ChangeEmail = () => {
                 </>
               ) : (
                 <>
-                  Verify Email <ArrowRight size={20} />
+                  Change Email <ArrowRight size={20} />
                 </>
               )}
             </button>

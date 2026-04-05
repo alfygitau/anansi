@@ -161,7 +161,7 @@ const ChangeMobile = () => {
                 </>
               ) : (
                 <>
-                  Verify Number <ArrowRight size={20} />
+                  Change Number <ArrowRight size={20} />
                 </>
               )}
             </button>
