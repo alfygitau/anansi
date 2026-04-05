@@ -149,10 +149,10 @@ const Login = () => {
       <div className="relative w-full max-w-[440px]">
         {/* Logo / Brand Area */}
         <div className="flex flex-col items-center mb-10">
-          <div className="w-16 h-16 bg-[#042159] rounded-[22px] flex items-center justify-center shadow-2xl shadow-blue-900/20 mb-6">
-            <ShieldCheck className="text-[#4DB8E4]" size={32} />
+          <div className="w-16 h-16 bg-primary rounded-[22px] flex items-center justify-center shadow-2xl shadow-blue-900/20 mb-6">
+            <ShieldCheck className="text-secondary" size={32} />
           </div>
-          <h1 className="text-2xl font-black text-[#042159] tracking-tight">
+          <h1 className="text-2xl font-black text-primary tracking-tight">
             Welcome Back
           </h1>
           <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2">
@@ -169,14 +169,14 @@ const Login = () => {
                 Username or Email
               </label>
               <div className="relative group">
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#4DB8E4] transition-colors">
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-secondary transition-colors">
                   <User size={20} />
                 </div>
                 <input
                   name="memberId"
                   type="text"
                   placeholder="Enter username or email"
-                  className="w-full pl-14 pr-6 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none font-bold text-[#042159] transition-all"
+                  className="w-full pl-14 pr-6 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-secondary/20 outline-none font-bold text-primary transition-all"
                   value={formData.memberId}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -205,20 +205,20 @@ const Login = () => {
                 <button
                   type="button"
                   onClick={() => navigate("/auth/forgot-password")}
-                  className="text-[10px] font-black uppercase text-[#4DB8E4] hover:text-[#042159]"
+                  className="text-[10px] font-black uppercase text-secondary hover:text-primary"
                 >
                   Forgot?
                 </button>
               </div>
               <div className="relative group">
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#4DB8E4] transition-colors">
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-secondary transition-colors">
                   <Lock size={20} />
                 </div>
                 <input
                   name="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
-                  className="w-full pl-14 pr-14 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none font-bold text-[#042159] transition-all"
+                  className="w-full pl-14 pr-14 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-secondary/20 outline-none font-bold text-primary transition-all"
                   value={formData.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -226,7 +226,7 @@ const Login = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-[#042159] transition-colors"
+                  className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-primary transition-colors"
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -252,7 +252,7 @@ const Login = () => {
               className={`w-full py-5 rounded-[24px] font-black uppercase tracking-[0.15em] flex items-center justify-center gap-3 shadow-xl transition-all mt-4 text-white overflow-hidden relative
     ${
       isFormValid || isLoading
-        ? "bg-[#042159] hover:bg-[#062d7a] shadow-blue-900/20 cursor-pointer active:scale-[0.98]"
+        ? "bg-primary hover:bg-[#062d7a] shadow-blue-900/20 cursor-pointer active:scale-[0.98]"
         : "bg-slate-300 shadow-none cursor-not-allowed opacity-70"
     } ${isLoading ? "animate-pulse" : ""}`}
             >
@@ -290,7 +290,7 @@ const Login = () => {
               Not a member yet?{" "}
               <button
                 onClick={() => navigate(`/`)}
-                className="text-[#4DB8E4] ml-1"
+                className="text-secondary ml-1"
               >
                 Open an account
               </button>

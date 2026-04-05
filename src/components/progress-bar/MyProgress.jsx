@@ -31,7 +31,7 @@ const MyProgress = ({ currentTitle, currentSubtitle }) => {
       {/* Back Button */}
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-[#042159] hover:text-[#4DB8E4] transition-colors w-fit group"
+        className="flex items-center gap-2 text-primary hover:text-secondary transition-colors w-fit group"
       >
         <ChevronLeft
           size={20}
@@ -55,7 +55,7 @@ const MyProgress = ({ currentTitle, currentSubtitle }) => {
               {/* Icon Logic */}
               <div className="relative z-10">
                 {isActive ? (
-                  <div className="w-5 h-5 bg-[#042159] rounded-full flex items-center justify-center shadow-lg shadow-blue-900/20">
+                  <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center shadow-lg shadow-blue-900/20">
                     <div className="w-2 h-2 bg-white rounded-full" />
                   </div>
                 ) : (
@@ -67,7 +67,7 @@ const MyProgress = ({ currentTitle, currentSubtitle }) => {
               <div className="flex flex-col gap-2">
                 <h3
                   className={`text-sm font-black uppercase tracking-tight ${
-                    isActive ? "text-[#042159]" : "text-slate-400"
+                    isActive ? "text-primary" : "text-slate-400"
                   }`}
                 >
                   {step.title}
@@ -81,7 +81,7 @@ const MyProgress = ({ currentTitle, currentSubtitle }) => {
                         key={sub}
                         className={`text-sm transition-all duration-300 ${
                           isSubActive
-                            ? "text-[#4DB8E4] font-bold pl-2 border-l-2 border-[#4DB8E4]"
+                            ? "text-secondary font-bold pl-2 border-l-2 border-secondary"
                             : "text-slate-400 font-medium pl-2 border-l-2 border-transparent"
                         }`}
                       >

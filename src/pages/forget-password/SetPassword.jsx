@@ -67,9 +67,9 @@ const CreateNewPassword = () => {
       >
         <div className="flex flex-col items-center text-center mb-8">
           <div className="w-16 h-16 bg-blue-50 rounded-3xl flex items-center justify-center mb-6">
-            <LockKeyhole size={32} className="text-[#4DB8E4]" />
+            <LockKeyhole size={32} className="text-secondary" />
           </div>
-          <h1 className="text-2xl font-black text-[#042159] mb-2">
+          <h1 className="text-2xl font-black text-primary mb-2">
             Secure Account
           </h1>
           <p className="text-slate-400 text-sm leading-relaxed px-2">
@@ -91,12 +91,12 @@ const CreateNewPassword = () => {
                   setFormData({ ...formData, password: e.target.value })
                 }
                 placeholder="e.g ••••••••"
-                className="w-full h-14 px-5 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-[#4DB8E4] focus:bg-white transition-all font-medium"
+                className="w-full h-14 px-5 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-secondary focus:bg-white transition-all font-medium"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#042159]"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary"
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
@@ -117,13 +117,13 @@ const CreateNewPassword = () => {
                 }
                 placeholder="e.g ••••••••"
                 className={`w-full h-14 px-5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium
-                  ${formData.confirmPassword && !validations.match ? "border-rose-200" : "border-slate-100 focus:border-[#4DB8E4] focus:bg-white"}
+                  ${formData.confirmPassword && !validations.match ? "border-rose-200" : "border-slate-100 focus:border-secondary focus:bg-white"}
                 `}
               />
               <button
                 type="button"
                 onClick={() => setShowConfirm(!showConfirm)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#042159]"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary"
               >
                 {showConfirm ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
@@ -159,7 +159,7 @@ const CreateNewPassword = () => {
           <button
             type="submit"
             disabled={isLoading || !Object.values(validations).every((v) => v)}
-            className="w-full h-14 bg-[#042159] hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-900/20 disabled:opacity-30 disabled:grayscale"
+            className="w-full h-14 bg-primary hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-900/20 disabled:opacity-30 disabled:grayscale"
           >
             {isLoading ? (
               <Loader2 className="animate-spin" size={20} />

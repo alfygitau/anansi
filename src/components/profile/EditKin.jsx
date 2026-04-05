@@ -86,7 +86,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-[#042159]/40 backdrop-blur-md"
+            className="absolute inset-0 bg-primary/40 backdrop-blur-md"
           />
 
           {/* Modal Container */}
@@ -134,7 +134,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
                     value={formData.name}
                     onChange={handleInputChange}
                     placeholder="Enter kin name"
-                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-[#042159] transition-all"
+                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-primary transition-all"
                   />
                 </div>
               </div>
@@ -155,7 +155,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
                       value={formData.relationship}
                       onChange={handleInputChange}
                       placeholder="e.g. Spouse"
-                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-[#042159] transition-all"
+                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-primary transition-all"
                     />
                   </div>
                 </div>
@@ -175,7 +175,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
                       name="dob"
                       value={formData.dob}
                       onChange={handleInputChange}
-                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-[#042159] transition-all"
+                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-primary transition-all"
                     />
                   </div>
                 </div>
@@ -196,7 +196,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
                     value={formData.phoneNumber}
                     onChange={handleInputChange}
                     placeholder="e.g. +254 7XX XXX XXX"
-                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-[#042159] transition-all"
+                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-primary transition-all"
                   />
                 </div>
               </div>
@@ -216,7 +216,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
                     value={formData.location}
                     onChange={handleInputChange}
                     placeholder="City, Estate"
-                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-[#042159] transition-all"
+                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-primary transition-all"
                   />
                 </div>
               </div>

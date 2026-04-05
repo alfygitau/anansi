@@ -27,14 +27,14 @@ const NormalLoanTermsConditions = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-[#042159] pb-10">
+    <div className="min-h-screen bg-slate-50 text-primary pb-10">
       <div className="max-w-6xl mx-auto sm:px-6">
         {/* Header with Actions */}
         <header className="py-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <FileText className="text-[#4DB8E4]" size={20} />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#4DB8E4]">
+              <FileText className="text-secondary" size={20} />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-secondary">
                 Legal Agreement
               </span>
             </div>
@@ -44,10 +44,10 @@ const NormalLoanTermsConditions = () => {
           </div>
 
           <div className="flex gap-3">
-            <button className="p-3 bg-white rounded-2xl border border-slate-100 text-slate-400 hover:text-[#042159] transition-all">
+            <button className="p-3 bg-white rounded-2xl border border-slate-100 text-slate-400 hover:text-primary transition-all">
               <Printer size={20} />
             </button>
-            <button className="p-3 bg-white rounded-2xl border border-slate-100 text-slate-400 hover:text-[#042159] transition-all">
+            <button className="p-3 bg-white rounded-2xl border border-slate-100 text-slate-400 hover:text-primary transition-all">
               <Download size={20} />
             </button>
           </div>
@@ -63,14 +63,14 @@ const NormalLoanTermsConditions = () => {
             {/* 01. Disbursement & Financial Obligations */}
             <section className="group">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[10px] font-bold px-2 py-1 bg-[#4DB8E4]/10 text-[#4DB8E4] rounded-md tracking-tighter">
+                <span className="text-[10px] font-bold px-2 py-1 bg-secondary/10 text-secondary rounded-md tracking-tighter">
                   01
                 </span>
-                <h3 className="text-sm font-black uppercase tracking-widest text-[#042159]">
+                <h3 className="text-sm font-black uppercase tracking-widest text-primary">
                   Disbursement & Interest Framework
                 </h3>
               </div>
-              <div className="space-y-4 pl-10 border-l-2 border-gray-50 group-hover:border-[#4DB8E4]/30 transition-colors">
+              <div className="space-y-4 pl-10 border-l-2 border-gray-50 group-hover:border-secondary/30 transition-colors">
                 <p className="text-slate-500 text-sm leading-relaxed">
                   Upon execution of this agreement and successful verification
                   of guarantors, the loan amount shall be disbursed to the
@@ -109,14 +109,14 @@ const NormalLoanTermsConditions = () => {
             {/* 03. Guarantor Liabilities */}
             <section className="group">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[10px] font-bold px-2 py-1 bg-[#4DB8E4]/10 text-[#4DB8E4] rounded-md">
+                <span className="text-[10px] font-bold px-2 py-1 bg-secondary/10 text-secondary rounded-md">
                   02
                 </span>
-                <h3 className="text-sm font-black uppercase tracking-widest text-[#042159]">
+                <h3 className="text-sm font-black uppercase tracking-widest text-primary">
                   Guarantor Statutory Obligations
                 </h3>
               </div>
-              <div className="space-y-4 pl-10 border-l-2 border-gray-50 group-hover:border-[#4DB8E4]/30 transition-colors">
+              <div className="space-y-4 pl-10 border-l-2 border-gray-50 group-hover:border-secondary/30 transition-colors">
                 <p className="text-slate-500 text-sm leading-relaxed">
                   The Member understands that Guarantors are **jointly and
                   severally liable**. This means if the Member fails to pay, the
@@ -134,14 +134,14 @@ const NormalLoanTermsConditions = () => {
             {/* 04. Statutory Right of Offset */}
             <section className="group">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[10px] font-bold px-2 py-1 bg-[#4DB8E4]/10 text-[#4DB8E4] rounded-md">
+                <span className="text-[10px] font-bold px-2 py-1 bg-secondary/10 text-secondary rounded-md">
                   03
                 </span>
-                <h3 className="text-sm font-black uppercase tracking-widest text-[#042159]">
+                <h3 className="text-sm font-black uppercase tracking-widest text-primary">
                   Right of Offset & Lien
                 </h3>
               </div>
-              <div className="space-y-4 pl-10 border-l-2 border-gray-50 group-hover:border-[#4DB8E4]/30 transition-colors">
+              <div className="space-y-4 pl-10 border-l-2 border-gray-50 group-hover:border-secondary/30 transition-colors">
                 <p className="text-slate-500 text-sm leading-relaxed">
                   The SACCO maintains a **first lien** over all shares,
                   deposits, and dividends owned by the Member. In the event of
@@ -155,14 +155,14 @@ const NormalLoanTermsConditions = () => {
             {/* 05. Loan Insurance */}
             <section className="group">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[10px] font-bold px-2 py-1 bg-[#4DB8E4]/10 text-[#4DB8E4] rounded-md">
+                <span className="text-[10px] font-bold px-2 py-1 bg-secondary/10 text-secondary rounded-md">
                   04
                 </span>
-                <h3 className="text-sm font-black uppercase tracking-widest text-[#042159]">
+                <h3 className="text-sm font-black uppercase tracking-widest text-primary">
                   Credit Life Insurance
                 </h3>
               </div>
-              <div className="space-y-4 pl-10 border-l-2 border-gray-50 group-hover:border-[#4DB8E4]/30 transition-colors">
+              <div className="space-y-4 pl-10 border-l-2 border-gray-50 group-hover:border-secondary/30 transition-colors">
                 <p className="text-slate-500 text-sm leading-relaxed">
                   A mandatory insurance premium of **0.5%** of the loan amount
                   will be deducted at source to cover the loan against death or
@@ -179,7 +179,7 @@ const NormalLoanTermsConditions = () => {
                 onClick={() => setAgreed(!agreed)}
                 className={`w-6 h-6 rounded-lg flex items-center justify-center transition-all border-2 ${
                   agreed
-                    ? "bg-[#4DB8E4] border-[#4DB8E4] text-white"
+                    ? "bg-secondary border-secondary text-white"
                     : "bg-white border-slate-200"
                 }`}
               >
@@ -192,7 +192,7 @@ const NormalLoanTermsConditions = () => {
                   perform credit checks as required.
                 </p>
                 {!hasScrolledToBottom && (
-                  <p className="text-[10px] text-[#4DB8E4] font-black uppercase mt-2 animate-pulse">
+                  <p className="text-[10px] text-secondary font-black uppercase mt-2 animate-pulse">
                     Please scroll to the bottom to enable agreement
                   </p>
                 )}
@@ -209,7 +209,7 @@ const NormalLoanTermsConditions = () => {
               <button
                 disabled={!agreed || !hasScrolledToBottom}
                 onClick={onAccept}
-                className="flex-[2] py-5 bg-[#042159] text-white rounded-[24px] font-black uppercase tracking-widest shadow-xl shadow-blue-900/20 hover:bg-[#4DB8E4] transition-all disabled:opacity-20 disabled:grayscale disabled:cursor-not-allowed"
+                className="flex-[2] py-5 bg-primary text-white rounded-[24px] font-black uppercase tracking-widest shadow-xl shadow-blue-900/20 hover:bg-secondary transition-all disabled:opacity-20 disabled:grayscale disabled:cursor-not-allowed"
               >
                 Accept & Submit Application
               </button>

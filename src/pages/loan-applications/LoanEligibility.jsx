@@ -68,7 +68,7 @@ const EligibilityCheck = () => {
   }, []);
 
   return (
-    <div className="bg-slate-50 text-[#042159] pb-20">
+    <div className="bg-slate-50 text-primary pb-20">
       <div className="max-w-6xl sm:px-4 mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 pt-3">
         {/* --- MAIN CONTENT --- */}
         <main className="lg:col-span-9">
@@ -78,8 +78,7 @@ const EligibilityCheck = () => {
             </h1>
             <p className="text-slate-400 text-sm mt-2">
               Verifying your standing for the{" "}
-              <span className="text-[#042159] font-bold">Development Loan</span>
-              .
+              <span className="text-primary font-bold">Development Loan</span>.
             </p>
           </header>
 
@@ -91,7 +90,7 @@ const EligibilityCheck = () => {
                 Requirement Checklist
               </h3>
               {checking && (
-                <div className="flex items-center gap-2 text-[#4DB8E4]">
+                <div className="flex items-center gap-2 text-secondary">
                   <RefreshCw size={14} className="animate-spin" />
                   <span className="text-[10px] font-black uppercase">
                     Verifying...
@@ -116,7 +115,7 @@ const EligibilityCheck = () => {
                 className={`flex-[2] py-5 rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 transition-all ${
                   checking
                     ? "bg-slate-100 text-slate-400 cursor-not-allowed"
-                    : "bg-[#4DB8E4] text-white hover:bg-[#3ca8d4] shadow-xl shadow-sky-200 active:scale-95"
+                    : "bg-secondary text-white hover:bg-[#3ca8d4] shadow-xl shadow-sky-200 active:scale-95"
                 }`}
               >
                 Apply for Loan <ArrowRight size={20} />
@@ -150,11 +149,11 @@ const EligibilityCheck = () => {
             </div>
 
             {/* Detailed Disclaimers */}
-            <div className="bg-[#042159] rounded-[32px] p-8 text-white relative overflow-hidden">
+            <div className="bg-primary rounded-[32px] p-8 text-white relative overflow-hidden">
               <div className="absolute -right-4 -bottom-4 opacity-10">
                 <Shield size={120} />
               </div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#4DB8E4] mb-4">
+              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-secondary mb-4">
                 Important Notice
               </h3>
               <div className="space-y-4 relative z-10">
@@ -189,24 +188,24 @@ const EligibilityCheck = () => {
 
 const QuickActionButton = ({ icon, label }) => (
   <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-50 transition-all group border border-transparent hover:border-slate-100">
-    <div className="text-slate-300 group-hover:text-[#4DB8E4] transition-colors">
+    <div className="text-slate-300 group-hover:text-secondary transition-colors">
       {icon}
     </div>
-    <span className="text-xs font-bold text-[#042159]">{label}</span>
+    <span className="text-xs font-bold text-primary">{label}</span>
   </button>
 );
 
 const LoanLimitHero = ({ loanLimit, checking }) => (
-  <div className="relative overflow-hidden bg-[#042159] rounded-[40px] p-10 mb-8 text-white shadow-[0_10px_20px_rgba(4,33,89,0.3)] border border-white/5">
-    <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#4DB8E4] opacity-20 rounded-full blur-[80px]"></div>
+  <div className="relative overflow-hidden bg-primary rounded-[40px] p-10 mb-8 text-white shadow-[0_10px_20px_rgba(4,33,89,0.3)] border border-white/5">
+    <div className="absolute -top-24 -right-24 w-64 h-64 bg-secondary opacity-20 rounded-full blur-[80px]"></div>
     <div className="relative z-10">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 bg-[#4DB8E4]/20 rounded-lg">
-              <TrendingUp size={14} className="text-[#4DB8E4]" />
+            <div className="p-1.5 bg-secondary/20 rounded-lg">
+              <TrendingUp size={14} className="text-secondary" />
             </div>
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#4DB8E4]">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-secondary">
               Maximum Qualified Limit
             </p>
           </div>
@@ -226,7 +225,7 @@ const LoanLimitHero = ({ loanLimit, checking }) => (
             <Zap
               size={16}
               className={
-                checking ? "animate-pulse text-slate-400" : "text-[#4DB8E4]"
+                checking ? "animate-pulse text-slate-400" : "text-secondary"
               }
             />
             <div>
@@ -248,7 +247,7 @@ const RequirementRow = ({ req, checking }) => (
   <div className="flex items-center justify-between group">
     <div className="flex items-center gap-4">
       <div
-        className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${checking ? "bg-slate-50 text-slate-200" : "bg-slate-100 text-[#042159]"}`}
+        className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${checking ? "bg-slate-50 text-slate-200" : "bg-slate-100 text-primary"}`}
       >
         {req.id === 1 && <Calendar size={20} />}
         {req.id === 2 && <PieChart size={20} />}
@@ -257,7 +256,7 @@ const RequirementRow = ({ req, checking }) => (
         {req.id === 5 && <Shield size={20} />}
       </div>
       <div>
-        <h4 className="text-sm font-bold text-[#042159]">{req.label}</h4>
+        <h4 className="text-sm font-bold text-primary">{req.label}</h4>
         <p className="text-[10px] text-slate-400 font-medium">{req.desc}</p>
       </div>
     </div>
@@ -265,7 +264,7 @@ const RequirementRow = ({ req, checking }) => (
       <div
         className={`text-right transition-all duration-500 ${checking ? "opacity-0" : "opacity-100"}`}
       >
-        <p className="text-[11px] font-black text-[#042159]">{req.value}</p>
+        <p className="text-[11px] font-black text-primary">{req.value}</p>
         <span className="text-[9px] font-bold text-emerald-500 uppercase">
           Requirement Met
         </span>

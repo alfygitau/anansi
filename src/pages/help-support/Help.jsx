@@ -93,7 +93,7 @@ const HelpSupport = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
+    <div className="min-h-screen bg-slate-50 text-primary pb-20">
       <div className="max-w-6xl sm:px-4 mx-auto">
         {/* Header */}
         <header className="py-3 flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -105,7 +105,7 @@ const HelpSupport = () => {
               >
                 <ArrowLeft size={20} />
               </button>
-              <span className="text-[10px] font-black uppercase tracking-widest text-[#4DB8E4]">
+              <span className="text-[10px] font-black uppercase tracking-widest text-secondary">
                 Support Center
               </span>
             </div>
@@ -120,7 +120,7 @@ const HelpSupport = () => {
           {contactMethods.map((method, idx) => (
             <div
               key={idx}
-              className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl shadow-blue-900/5 hover:border-[#4DB8E4]/40 transition-all group cursor-pointer"
+              className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl shadow-blue-900/5 hover:border-secondary/40 transition-all group cursor-pointer"
             >
               <div
                 className={`w-12 h-12 ${method.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}
@@ -128,7 +128,7 @@ const HelpSupport = () => {
                 {method.icon}
               </div>
               <h3 className="font-black text-sm mb-1">{method.title}</h3>
-              <p className="text-[#042159] font-bold text-xs mb-2">
+              <p className="text-primary font-bold text-xs mb-2">
                 {method.detail}
               </p>
               <p className="text-slate-400 text-[10px] font-medium leading-tight">
@@ -142,7 +142,7 @@ const HelpSupport = () => {
           {/* 2. Simple Sacco FAQs (8 Cols) */}
           <div className="lg:col-span-8">
             <div className="flex items-center gap-3 mb-4">
-              <HelpCircle className="text-[#4DB8E4]" size={24} />
+              <HelpCircle className="text-secondary" size={24} />
               <h2 className="text-2xl font-black tracking-tight">
                 Frequently Asked Questions
               </h2>
@@ -160,7 +160,7 @@ const HelpSupport = () => {
                   >
                     <span className="font-bold text-sm pr-4">{faq.q}</span>
                     <ChevronDown
-                      className={`transition-transform text-[#4DB8E4] ${openFaq === idx ? "rotate-180" : ""}`}
+                      className={`transition-transform text-secondary ${openFaq === idx ? "rotate-180" : ""}`}
                       size={18}
                     />
                   </button>
@@ -177,7 +177,7 @@ const HelpSupport = () => {
           {/* 3. System Status & Disclaimers (4 Cols) */}
           <aside className="lg:col-span-4 space-y-6">
             {/* Logged-in Issues Notification */}
-            <div className="bg-[#042159] text-white rounded-[32px] p-8 shadow-xl shadow-blue-900/20 relative overflow-hidden">
+            <div className="bg-primary text-white rounded-[32px] p-8 shadow-xl shadow-blue-900/20 relative overflow-hidden">
               <div className="relative z-10">
                 <div className="flex items-center gap-2 mb-6">
                   <AlertTriangle className="text-amber-400" size={20} />
@@ -209,7 +209,7 @@ const HelpSupport = () => {
             {/* Legal Disclaimers */}
             <div className="bg-white rounded-[32px] p-8 border border-slate-100">
               <div className="flex items-center gap-2 mb-6">
-                <ShieldAlert className="text-[#4DB8E4]" size={18} />
+                <ShieldAlert className="text-secondary" size={18} />
                 <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400">
                   Disclaimers
                 </h3>
@@ -225,7 +225,7 @@ const HelpSupport = () => {
                   Core Banking System.
                 </li>
               </ul>
-              <button className="mt-6 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#042159] hover:underline">
+              <button className="mt-6 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary hover:underline">
                 View Full Terms <ExternalLink size={12} />
               </button>
             </div>

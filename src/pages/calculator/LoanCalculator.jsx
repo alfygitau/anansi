@@ -233,15 +233,15 @@ const LoanCalculator = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
+      <div className="min-h-screen bg-slate-50 text-primary pb-20">
         {showModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#042159]/40 backdrop-blur-xl transition-all">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/40 backdrop-blur-xl transition-all">
             <div className="bg-[#F8FAFC] w-full max-w-5xl max-h-[80vh] rounded-[48px] shadow-2xl overflow-hidden flex flex-col border border-white">
               {/* 1. Ultra-Modern Header */}
               <div className="p-6 pb-6 flex justify-between items-start">
                 <div>
-                  <h2 className="text-4xl font-black text-[#042159] tracking-tighter italic">
-                    Repayment <span className="text-[#4DB8E4]">Schedule</span>
+                  <h2 className="text-4xl font-black text-primary tracking-tighter italic">
+                    Repayment <span className="text-secondary">Schedule</span>
                   </h2>
 
                   {/* Strategy Switcher - Glassmorphism style */}
@@ -252,8 +252,8 @@ const LoanCalculator = () => {
                         onClick={() => setActiveScheduleTab(type)}
                         className={`px-8 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
                           activeScheduleTab === type
-                            ? "bg-white text-[#042159] shadow-xl shadow-[#042159]/10"
-                            : "text-slate-500 hover:text-[#042159]"
+                            ? "bg-white text-primary shadow-xl shadow-primary/10"
+                            : "text-slate-500 hover:text-primary"
                         }`}
                       >
                         {type === "reducing"
@@ -297,7 +297,7 @@ const LoanCalculator = () => {
                     >
                       {/* Month Badge */}
                       <div className="col-span-1">
-                        <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-slate-100 text-[#042159] font-black text-xs group-hover:bg-[#042159] group-hover:text-white transition-colors">
+                        <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-slate-100 text-primary font-black text-xs group-hover:bg-primary group-hover:text-white transition-colors">
                           {row.month}
                         </span>
                       </div>
@@ -320,13 +320,13 @@ const LoanCalculator = () => {
                       {/* Visual Balance Column */}
                       <div className="col-span-2 text-right">
                         <div className="flex flex-col items-end gap-1.5">
-                          <span className="font-black text-[#042159]">
+                          <span className="font-black text-primary">
                             {formatAmount(Math.max(0, Number(row.balance)))}
                           </span>
                           {/* Micro Progress Bar */}
                           <div className="w-24 h-1 bg-slate-100 rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-[#4DB8E4] rounded-full transition-all duration-1000"
+                              className="h-full bg-secondary rounded-full transition-all duration-1000"
                               style={{ width: `${100 - progress}%` }}
                             />
                           </div>
@@ -338,7 +338,7 @@ const LoanCalculator = () => {
               </div>
 
               {/* 4. Insight Footer */}
-              <div className="m-8 p-8 bg-[#042159] rounded-[32px] shadow-2xl shadow-blue-900/40 flex justify-between items-center relative overflow-hidden">
+              <div className="m-8 p-8 bg-primary rounded-[32px] shadow-2xl shadow-blue-900/40 flex justify-between items-center relative overflow-hidden">
                 {/* Decorative background element */}
                 <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full blur-3xl" />
 
@@ -358,7 +358,7 @@ const LoanCalculator = () => {
                     <span className="text-[10px] font-black text-blue-300/60 uppercase tracking-widest mb-1">
                       Total Payable
                     </span>
-                    <span className="text-2xl font-black text-[#4DB8E4] italic">
+                    <span className="text-2xl font-black text-secondary italic">
                       {activeScheduleTab === "reducing"
                         ? formatAmount(reducing.totalPayable)
                         : formatAmount(simple.totalPayable)}
@@ -374,7 +374,7 @@ const LoanCalculator = () => {
                       activeScheduleTab === "reducing" ? reducing : simple,
                     )
                   }
-                  className="relative z-10 px-10 py-4 bg-[#4DB8E4] text-[#042159] rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] hover:bg-white transition-all active:scale-95 flex items-center gap-3"
+                  className="relative z-10 px-10 py-4 bg-secondary text-primary rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] hover:bg-white transition-all active:scale-95 flex items-center gap-3"
                 >
                   <Download size={18} /> Export PDF
                 </button>
@@ -398,11 +398,11 @@ const LoanCalculator = () => {
           </header>
           <p className="text-slate-500 mb-4 mt-3 text-sm leading-relaxed font-medium">
             Evaluate your credit options by comparing &nbsp;
-            <span className="text-[#042159] font-bold">
+            <span className="text-primary font-bold">
               Amortized Reducing Balance &nbsp;
             </span>
             against&nbsp;
-            <span className="text-[#042159] font-bold">
+            <span className="text-primary font-bold">
               Standard Simple Interest &nbsp;
             </span>
             models. Adjust your principal, rates, and tenure below to visualize
@@ -428,13 +428,13 @@ const LoanCalculator = () => {
                   <div className="flex bg-slate-100 rounded-xl">
                     <button
                       onClick={() => setIsMonthly(false)}
-                      className={`px-3 py-1 text-[9px] font-black uppercase rounded-lg transition-all ${!isMonthly ? "bg-white text-[#042159] shadow-sm" : "text-slate-400"}`}
+                      className={`px-3 py-1 text-[9px] font-black uppercase rounded-lg transition-all ${!isMonthly ? "bg-white text-primary shadow-sm" : "text-slate-400"}`}
                     >
                       Yearly
                     </button>
                     <button
                       onClick={() => setIsMonthly(true)}
-                      className={`px-3 py-1 text-[9px] font-black uppercase rounded-lg transition-all ${isMonthly ? "bg-white text-[#042159] shadow-sm" : "text-slate-400"}`}
+                      className={`px-3 py-1 text-[9px] font-black uppercase rounded-lg transition-all ${isMonthly ? "bg-white text-primary shadow-sm" : "text-slate-400"}`}
                     >
                       Monthly
                     </button>
@@ -445,7 +445,7 @@ const LoanCalculator = () => {
                   value={rate}
                   onChange={(e) => setRate(e.target.value)}
                   placeholder={isMonthly ? "e.g. 3" : "e.g. 14"}
-                  className="w-full bg-slate-50 border-none rounded-2xl p-4 text-lg font-bold text-[#042159] focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none transition-all"
+                  className="w-full bg-slate-50 border-none rounded-2xl p-4 text-lg font-bold text-primary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
                 />
               </div>
 
@@ -461,15 +461,15 @@ const LoanCalculator = () => {
           {/* 2. Comparison Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* LEFT: Reducing Balance */}
-            <div className="bg-[#042159] rounded-[40px] p-10 text-white shadow-2xl shadow-blue-900/20 relative overflow-hidden">
+            <div className="bg-primary rounded-[40px] p-10 text-white shadow-2xl shadow-blue-900/20 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-10">
                 <TrendingDown size={120} />
               </div>
 
               <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-8">
-                  <div className="p-2 bg-[#4DB8E4] rounded-lg">
-                    <ShieldCheck size={20} className="text-[#042159]" />
+                  <div className="p-2 bg-secondary rounded-lg">
+                    <ShieldCheck size={20} className="text-primary" />
                   </div>
                   <h3 className="text-xl font-black uppercase tracking-widest text-[13px] text-blue-300">
                     Reducing Balance
@@ -504,7 +504,7 @@ const LoanCalculator = () => {
               <div>
                 <div className="flex items-center gap-3 mb-8">
                   <div className="p-2 bg-slate-100 rounded-lg">
-                    <Percent size={20} className="text-[#042159]" />
+                    <Percent size={20} className="text-primary" />
                   </div>
                   <h3 className="text-xl font-black uppercase tracking-widest text-[13px] text-slate-400">
                     Simple Interest
@@ -554,7 +554,7 @@ const LoanCalculator = () => {
             />
             <div className="bg-blue-600 rounded-[32px] p-8 text-white flex flex-col items-center justify-center text-center">
               <h4 className="font-black text-sm mb-2">Ready to proceed?</h4>
-              <button className="w-full py-3 bg-[#4DB8E4] text-[#042159] rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-sky-300 transition-colors">
+              <button className="w-full py-3 bg-secondary text-primary rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-sky-300 transition-colors">
                 Apply for this Loan
               </button>
             </div>
@@ -575,7 +575,7 @@ const InputGroup = ({ label, icon, ...props }) => (
     <input
       {...props}
       type="number"
-      className="w-full bg-slate-50 border-none rounded-2xl p-4 text-lg font-bold text-[#042159] focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none transition-all"
+      className="w-full bg-slate-50 border-none rounded-2xl p-4 text-lg font-bold text-primary focus:ring-2 focus:ring-secondary/20 outline-none transition-all"
     />
   </div>
 );
@@ -588,7 +588,7 @@ const ResultRow = ({ label, value, highlight, dark }) => (
       {label}
     </p>
     <p
-      className={`font-black tracking-tight ${highlight ? "text-4xl" : "text-xl"} ${dark ? "text-[#042159]" : "text-white"}`}
+      className={`font-black tracking-tight ${highlight ? "text-4xl" : "text-xl"} ${dark ? "text-primary" : "text-white"}`}
     >
       KES{" "}
       {Number(value).toLocaleString(undefined, { maximumFractionDigits: 2 })}
@@ -598,8 +598,8 @@ const ResultRow = ({ label, value, highlight, dark }) => (
 
 const InfoCard = ({ title, text }) => (
   <div className="p-8 border border-slate-200 rounded-[32px] bg-white/50">
-    <h4 className="font-black text-[11px] uppercase tracking-widest text-[#042159] mb-3 flex items-center gap-2">
-      <Info size={14} className="text-[#4DB8E4]" /> {title}
+    <h4 className="font-black text-[11px] uppercase tracking-widest text-primary mb-3 flex items-center gap-2">
+      <Info size={14} className="text-secondary" /> {title}
     </h4>
     <p className="text-xs text-slate-500 leading-relaxed font-medium">{text}</p>
   </div>

@@ -153,19 +153,19 @@ const SelfieCapture = () => {
 
   const tips = [
     {
-      icon: <CheckCircle2 size={18} className="text-[#4DB8E4]" />,
+      icon: <CheckCircle2 size={18} className="text-secondary" />,
       text: "Allow camera access on your browser",
     },
     {
-      icon: <Sun size={18} className="text-[#4DB8E4]" />,
+      icon: <Sun size={18} className="text-secondary" />,
       text: "Position yourself in a well-lit area",
     },
     {
-      icon: <User size={18} className="text-[#4DB8E4]" />,
+      icon: <User size={18} className="text-secondary" />,
       text: "Keep your selfie centered in the frame",
     },
     {
-      icon: <Glasses size={18} className="text-[#4DB8E4]" />,
+      icon: <Glasses size={18} className="text-secondary" />,
       text: "Take off any hats, glasses, or masks",
     },
   ];
@@ -176,12 +176,12 @@ const SelfieCapture = () => {
         {/* The header is constrained to 400px and uses justify-between for its internal items */}
         <header className="w-full max-w-[400px] h-[92px] flex items-center justify-between">
           {/* Logo / Shield */}
-          <div className="w-12 h-12 bg-[#042159] rounded-[10px] flex items-center justify-center shadow-lg shadow-blue-900/10">
-            <ShieldCheck className="text-[#4DB8E4]" size={32} />
+          <div className="w-12 h-12 bg-primary rounded-[10px] flex items-center justify-center shadow-lg shadow-blue-900/10">
+            <ShieldCheck className="text-secondary" size={32} />
           </div>
 
           {/* Help Section */}
-          <div className="flex items-center gap-2 text-[#042159] cursor-pointer active:opacity-60 transition-opacity">
+          <div className="flex items-center gap-2 text-primary cursor-pointer active:opacity-60 transition-opacity">
             <Headphones size={24} />
             <span className="text-[13px] font-black uppercase tracking-widest">
               Help
@@ -194,7 +194,7 @@ const SelfieCapture = () => {
         {/* Container for content - Added pb-40 to ensure space for the sticky footer */}
         <div className="flex flex-col items-center py-3 px-6 pb-10">
           <div className="text-center mb-6">
-            <h1 className="text-xl font-black text-[#042159] uppercase tracking-tight">
+            <h1 className="text-xl font-black text-primary uppercase tracking-tight">
               {capturedImage ? "Verify Identity" : "Take a Selfie"}
             </h1>
             <p className="text-slate-500 text-sm mt-1">
@@ -270,7 +270,7 @@ const SelfieCapture = () => {
 
           {/* Requirements */}
           <div className="w-full max-w-[400px] mt-6">
-            <p className="text-[11px] font-black uppercase tracking-[0.1em] text-[#042159] mb-4 opacity-60">
+            <p className="text-[11px] font-black uppercase tracking-[0.1em] text-primary mb-4 opacity-60">
               Verification Requirements
             </p>
             <div className="grid grid-cols-1 gap-3">
@@ -298,7 +298,7 @@ const SelfieCapture = () => {
             <button
               onClick={takePhoto}
               disabled={cameraError}
-              className="w-full h-16 bg-[#042159] text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 active:scale-[0.98] transition-transform disabled:bg-slate-300"
+              className="w-full h-16 bg-primary text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 active:scale-[0.98] transition-transform disabled:bg-slate-300"
             >
               <Camera size={20} /> Capture Photo
             </button>
@@ -307,7 +307,7 @@ const SelfieCapture = () => {
               <button
                 onClick={handleUpload}
                 disabled={isLoading}
-                className="w-full h-16 bg-[#042159] text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl active:scale-[0.98] transition-transform"
+                className="w-full h-16 bg-primary text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl active:scale-[0.98] transition-transform"
               >
                 {isLoading ? (
                   <Loader2 className="animate-spin" />
@@ -321,7 +321,7 @@ const SelfieCapture = () => {
                   startCamera();
                 }}
                 disabled={isLoading}
-                className="w-full h-16 rounded-[24px] text-[#042159] border font-black uppercase text-[11px] tracking-widest active:opacity-60 transition-opacity"
+                className="w-full h-16 rounded-[24px] text-primary border font-black uppercase text-[11px] tracking-widest active:opacity-60 transition-opacity"
               >
                 Retake Photo
               </button>
@@ -336,7 +336,7 @@ const SelfieCapture = () => {
 // Helper Mini-Component
 const Tip = ({ icon, text }) => (
   <div className="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-xl border border-slate-200">
-    <span className="text-[#4DB8E4]">{icon}</span>
+    <span className="text-secondary">{icon}</span>
     <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">
       {text}
     </span>

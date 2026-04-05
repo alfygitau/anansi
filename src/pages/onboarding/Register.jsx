@@ -134,15 +134,15 @@ const Registration = () => {
 
   return (
     <div className="min-h-screen bg-white flex flex-col lg:flex-row">
-      <div className="hidden lg:flex lg:w-[40%] bg-[#042159] p-16 flex-col justify-center relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-[40%] bg-primary p-16 flex-col justify-center relative overflow-hidden">
         {/* Abstract Background Decor */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#4DB8E4]/10 rounded-full blur-3xl -mr-32 -mt-32" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32" />
 
         {/* Centering Wrapper */}
         <div className="relative z-10 w-[85%] mx-auto">
           <div className="flex items-center gap-3 mb-12">
-            <div className="w-12 h-12 bg-[#4DB8E4] rounded-2xl flex items-center justify-center shadow-lg shadow-sky-400/20">
-              <ShieldCheck className="text-[#042159]" size={28} />
+            <div className="w-12 h-12 bg-secondary rounded-2xl flex items-center justify-center shadow-lg shadow-sky-400/20">
+              <ShieldCheck className="text-primary" size={28} />
             </div>
             <span className="text-xl font-black text-white tracking-tighter uppercase">
               Anansi Sacco
@@ -151,7 +151,7 @@ const Registration = () => {
 
           <h2 className="text-5xl font-black text-white leading-tight mb-8">
             Empowering your <br />
-            <span className="text-[#4DB8E4]">financial future.</span>
+            <span className="text-secondary">financial future.</span>
           </h2>
 
           <div className="space-y-8">
@@ -173,8 +173,8 @@ const Registration = () => {
         {/* Optional: Footer text kept at the bottom if you prefer */}
         <div className="absolute bottom-16 left-0 w-full flex justify-center">
           <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">
-            © {new Date().getFullYear()} Anansi Sacco | Registered
-            Financial Institution
+            © {new Date().getFullYear()} Anansi Sacco | Registered Financial
+            Institution
           </p>
         </div>
       </div>
@@ -182,7 +182,7 @@ const Registration = () => {
       <div className="flex-1 flex items-center justify-center p-6 lg:p-10 bg-slate-50">
         <div className="w-full max-w-[620px] bg-white p-8 md:p-12 rounded-[40px] shadow-2xl shadow-blue-900/5">
           <header className="mb-10 text-center lg:text-left">
-            <h1 className="text-3xl font-black text-[#042159] tracking-tight">
+            <h1 className="text-3xl font-black text-primary tracking-tight">
               Create Account
             </h1>
           </header>
@@ -191,7 +191,7 @@ const Registration = () => {
             <InputGroup label="Username" error={errors.username}>
               <User
                 size={18}
-                className="absolute left-6 text-slate-300 group-focus-within:text-[#4DB8E4]"
+                className="absolute left-6 text-slate-300 group-focus-within:text-secondary"
               />
               <input
                 name="username"
@@ -206,7 +206,7 @@ const Registration = () => {
             <InputGroup label="Email Address" error={errors.email}>
               <Mail
                 size={18}
-                className="absolute left-6 text-slate-300 group-focus-within:text-[#4DB8E4]"
+                className="absolute left-6 text-slate-300 group-focus-within:text-secondary"
               />
               <input
                 name="email"
@@ -223,13 +223,13 @@ const Registration = () => {
                 Mobile Number
               </label>
               <div className="relative flex group">
-                <div className="h-[60px] px-5 bg-slate-100 rounded-l-[24px] flex items-center justify-center font-bold text-[#042159] border-r border-white">
+                <div className="h-[60px] px-5 bg-slate-100 rounded-l-[24px] flex items-center justify-center font-bold text-primary border-r border-white">
                   +254
                 </div>
                 <input
                   name="mobile"
                   type="text"
-                  className="w-full h-[60px] px-6 bg-slate-50 border-none rounded-r-[24px] focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none font-bold text-[#042159]"
+                  className="w-full h-[60px] px-6 bg-slate-50 border-none rounded-r-[24px] focus:ring-2 focus:ring-secondary/20 outline-none font-bold text-primary"
                   onChange={handleInputChange}
                   onBlur={handleBlur}
                   placeholder="e.g 0712 345 678"
@@ -306,7 +306,7 @@ const Registration = () => {
                   (error) => error !== null && error !== "",
                 )
               }
-              className="w-full h-[64px] bg-[#042159] text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#062d7a] transition-all disabled:opacity-20 disabled:grayscale shadow-xl shadow-blue-900/10"
+              className="w-full h-[64px] bg-primary text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#062d7a] transition-all disabled:opacity-20 disabled:grayscale shadow-xl shadow-blue-900/10"
             >
               {isLoading ? (
                 <Loader2 className="animate-spin" />
@@ -323,7 +323,7 @@ const Registration = () => {
                 <button
                   type="button"
                   onClick={() => navigate("/auth/login")}
-                  className="text-[#042159] font-black uppercase tracking-widest text-[11px] hover:text-[#4DB8E4] transition-colors ml-1"
+                  className="text-primary font-black uppercase tracking-widest text-[11px] hover:text-secondary transition-colors ml-1"
                 >
                   Log In
                 </button>
@@ -353,7 +353,7 @@ const InputGroup = ({ label, children, error }) => (
 const TrustPoint = ({ title, desc }) => (
   <div className="flex items-start gap-4">
     <div className="mt-1">
-      <CheckCircle2 className="text-[#4DB8E4]" size={20} />
+      <CheckCircle2 className="text-secondary" size={20} />
     </div>
     <div>
       <h4 className="text-white font-bold text-lg leading-none mb-1">

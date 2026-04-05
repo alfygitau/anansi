@@ -132,7 +132,7 @@ const LoanProducts = () => {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
+    <div className="min-h-screen bg-slate-50 text-primary pb-20">
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
         <header className="py-4">
@@ -151,11 +151,11 @@ const LoanProducts = () => {
               <input
                 type="text"
                 placeholder="Search for a loan (e.g. Emergency)..."
-                className="w-full pl-12 pr-4 py-4 bg-white border border-slate-100 rounded-2xl shadow-sm focus:ring-2 focus:ring-[#4DB8E4]/20 focus:border-[#4DB8E4] outline-none transition-all"
+                className="w-full pl-12 pr-4 py-4 bg-white border border-slate-100 rounded-2xl shadow-sm focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none transition-all"
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <button className="p-4 bg-white border border-slate-100 rounded-2xl text-slate-400 hover:text-[#042159] transition-colors shadow-sm">
+            <button className="p-4 bg-white border border-slate-100 rounded-2xl text-slate-400 hover:text-primary transition-colors shadow-sm">
               <Filter size={20} />
             </button>
           </div>
@@ -195,10 +195,10 @@ const ProductCard = ({ product, navigate }) => (
     </div>
 
     <div className="flex justify-between items-start mb-6 relative z-10">
-      <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-[#042159] group-hover:bg-[#4DB8E4] group-hover:text-white transition-all duration-300">
+      <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-primary group-hover:bg-secondary group-hover:text-white transition-all duration-300">
         {React.cloneElement(product.icon, { size: 28, strokeWidth: 1.5 })}
       </div>
-      <span className="text-[10px] font-black uppercase tracking-widest text-[#4DB8E4] bg-[#4DB8E4]/5 px-3 py-1 rounded-full">
+      <span className="text-[10px] font-black uppercase tracking-widest text-secondary bg-secondary/5 px-3 py-1 rounded-full">
         {product.rate} P.A
       </span>
     </div>
@@ -207,18 +207,18 @@ const ProductCard = ({ product, navigate }) => (
       <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">
         {product.cat}
       </p>
-      <h3 className="text-lg font-bold group-hover:text-[#4DB8E4] transition-colors">
+      <h3 className="text-lg font-bold group-hover:text-secondary transition-colors">
         {product.label}
       </h3>
     </div>
 
     <div className="mt-6 flex items-center justify-between relative z-10">
-      <span className="text-xs font-bold text-slate-400 group-hover:text-[#042159] transition-colors flex items-center gap-1">
+      <span className="text-xs font-bold text-slate-400 group-hover:text-primary transition-colors flex items-center gap-1">
         Learn More <ArrowRight size={14} />
       </span>
       <button
         onClick={navigate}
-        className="px-4 py-2 bg-[#042159] text-white text-[10px] font-black uppercase tracking-widest rounded-[7px] shadow-lg shadow-blue-900/10 hover:bg-[#4DB8E4] transition-all active:scale-95"
+        className="px-4 py-2 bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-[7px] shadow-lg shadow-blue-900/10 hover:bg-secondary transition-all active:scale-95"
       >
         Apply Now
       </button>

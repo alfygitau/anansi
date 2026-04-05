@@ -80,7 +80,7 @@ const MyLoans = ({ onBack }) => {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
+    <div className="min-h-screen bg-slate-50 text-primary pb-20">
       <div className="max-w-6xl sm:px-4 mx-auto">
         {/* Header */}
         <header className="py-4">
@@ -96,7 +96,7 @@ const MyLoans = ({ onBack }) => {
           <StatMiniCard
             label="Active"
             count={3}
-            icon={<Clock className="text-[#4DB8E4]" />}
+            icon={<Clock className="text-secondary" />}
           />
           <StatMiniCard
             label="Overdue"
@@ -124,7 +124,7 @@ const MyLoans = ({ onBack }) => {
                   <input
                     type="text"
                     placeholder="Search loan code or type..."
-                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none text-sm transition-all font-bold"
+                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm transition-all font-bold"
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
@@ -156,9 +156,9 @@ const MyLoans = ({ onBack }) => {
           {/* RIGHT: Quick Actions & Sidebar (4 Columns) */}
           <aside className="lg:col-span-4 space-y-6">
             {/* Quick Actions Card */}
-            <div className="bg-[#042159] rounded-[22px] p-8 text-white shadow-xl shadow-blue-900/20">
+            <div className="bg-primary rounded-[22px] p-8 text-white shadow-xl shadow-blue-900/20">
               <h3 className="text-lg font-black mb-6 flex items-center gap-2">
-                <Zap className="text-[#4DB8E4]" size={20} /> Quick Actions
+                <Zap className="text-secondary" size={20} /> Quick Actions
               </h3>
               <div className="space-y-3">
                 <ActionButton
@@ -185,16 +185,15 @@ const MyLoans = ({ onBack }) => {
               </div>
               <p className="text-xs text-slate-500 leading-relaxed font-medium">
                 Your current repayment rate is{" "}
-                <span className="text-[#042159] font-bold">84%</span>.
-                Maintaining a rate above 90% qualifies you for higher loan
-                limits.
+                <span className="text-primary font-bold">84%</span>. Maintaining
+                a rate above 90% qualifies you for higher loan limits.
               </p>
             </div>
 
             {/* Legal Disclaimers */}
             <div className="bg-blue-50/50 rounded-[32px] p-8 border border-blue-100/50">
               <div className="flex items-center gap-3 mb-6">
-                <Info className="text-[#4DB8E4]" size={20} />
+                <Info className="text-secondary" size={20} />
                 <h3 className="font-black text-[11px] uppercase tracking-widest text-slate-400">
                   Important Notes
                 </h3>
@@ -210,7 +209,7 @@ const MyLoans = ({ onBack }) => {
             <div className="px-8 text-center">
               <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-loose">
                 Need specialized assistance? <br />
-                <span className="text-[#4DB8E4] cursor-pointer hover:underline">
+                <span className="text-secondary cursor-pointer hover:underline">
                   Talk to a Loan Officer
                 </span>
               </p>
@@ -229,7 +228,7 @@ const ActionButton = ({ icon, label, onClick, primary = false }) => (
     onClick={onClick}
     className={`w-full flex items-center gap-3 p-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.1em] transition-all ${
       primary
-        ? "bg-[#4DB8E4] text-[#042159] hover:bg-sky-300"
+        ? "bg-secondary text-primary hover:bg-sky-300"
         : "bg-white/10 text-white hover:bg-white/20 border border-white/5"
     }`}
   >
@@ -239,7 +238,7 @@ const ActionButton = ({ icon, label, onClick, primary = false }) => (
 
 const DisclaimerItem = ({ text }) => (
   <li className="flex gap-3 items-start">
-    <div className="w-1.5 h-1.5 rounded-full bg-[#4DB8E4] mt-1.5 shrink-0" />
+    <div className="w-1.5 h-1.5 rounded-full bg-secondary mt-1.5 shrink-0" />
     <p className="text-[11px] text-slate-500 leading-normal font-medium">
       {text}
     </p>
@@ -255,7 +254,7 @@ const StatMiniCard = ({ label, count, icon }) => (
       <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
         {label}
       </p>
-      <p className="text-3xl font-black mt-1 text-[#042159]">{count}</p>
+      <p className="text-3xl font-black mt-1 text-primary">{count}</p>
     </div>
     <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center">
       {React.cloneElement(icon, { size: 28 })}
@@ -266,7 +265,7 @@ const StatMiniCard = ({ label, count, icon }) => (
 const DetailedLoanCard = ({ loan, navigate }) => {
   const statusConfig = {
     Active: {
-      color: "bg-[#042159] text-white",
+      color: "bg-primary text-white",
       icon: <Clock size={16} />,
       bgLight: "bg-blue-50",
       iconColor: "text-blue-600",
@@ -296,7 +295,7 @@ const DetailedLoanCard = ({ loan, navigate }) => {
   return (
     <div
       onClick={navigate}
-      className="group p-6 bg-white border border-slate-200 rounded-[32px] hover:border-[#4DB8E4]/30 hover:shadow-2xl transition-all cursor-pointer relative"
+      className="group p-6 bg-white border border-slate-200 rounded-[32px] hover:border-secondary/30 hover:shadow-2xl transition-all cursor-pointer relative"
     >
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
         <div className="md:col-span-4 flex items-center gap-4">
@@ -309,7 +308,7 @@ const DetailedLoanCard = ({ loan, navigate }) => {
             })}
           </div>
           <div className="truncate">
-            <h4 className="font-black text-[#042159] text-base truncate">
+            <h4 className="font-black text-primary text-base truncate">
               {loan.productName}
             </h4>
             <p className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
@@ -319,7 +318,7 @@ const DetailedLoanCard = ({ loan, navigate }) => {
         </div>
         <div className="md:col-span-3">
           <p
-            className={`text-base font-black ${loan.status === "Paid" ? "text-slate-200 line-through" : "text-[#042159]"}`}
+            className={`text-base font-black ${loan.status === "Paid" ? "text-slate-200 line-through" : "text-primary"}`}
           >
             {loan.balance}
           </p>
@@ -347,7 +346,7 @@ const DetailedLoanCard = ({ loan, navigate }) => {
         <div className="md:col-span-1 flex justify-end">
           <ArrowUpRight
             size={20}
-            className="text-slate-200 group-hover:text-[#4DB8E4] transition-all"
+            className="text-slate-200 group-hover:text-secondary transition-all"
           />
         </div>
       </div>

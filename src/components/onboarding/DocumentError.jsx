@@ -44,7 +44,7 @@ const DocumentError = ({ isOpen, onClose }) => {
             </div>
 
             {/* Typography */}
-            <h2 className="text-2xl font-black text-[#042159] mb-4">
+            <h2 className="text-2xl font-black text-primary mb-4">
               Upload Unsuccessful
             </h2>
             <p className="text-slate-500 text-[15px] leading-relaxed mb-10 px-4">
@@ -64,7 +64,7 @@ const DocumentError = ({ isOpen, onClose }) => {
 
               <button
                 onClick={onClose}
-                className="w-full sm:flex-1 h-14 flex items-center justify-center gap-2 rounded-2xl bg-[#042159] text-white font-bold hover:bg-[#062d7a] transition-all shadow-lg shadow-blue-900/20 active:scale-[0.98]"
+                className="w-full sm:flex-1 h-14 flex items-center justify-center gap-2 rounded-2xl bg-primary text-white font-bold hover:bg-[#062d7a] transition-all shadow-lg shadow-blue-900/20 active:scale-[0.98]"
               >
                 <RefreshCcw size={18} />
                 Try Again

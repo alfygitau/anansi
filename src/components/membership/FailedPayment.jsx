@@ -133,7 +133,7 @@ const FailedMembershipPayment = ({
                 </p>
                 <button
                   onClick={handleManualConfirm}
-                  className="inline-flex items-center gap-2 text-[#042159] font-black text-xs uppercase tracking-wider hover:underline disabled:opacity-50"
+                  className="inline-flex items-center gap-2 text-primary font-black text-xs uppercase tracking-wider hover:underline disabled:opacity-50"
                 >
                   <ExternalLink size={14} />
                   Verify Payment Status
@@ -144,7 +144,7 @@ const FailedMembershipPayment = ({
               <div className="space-y-3 pt-4 border-t border-slate-50">
                 <button
                   onClick={handleRetry}
-                  className="group w-full h-14 bg-[#042159] hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98] disabled:bg-slate-300"
+                  className="group w-full h-14 bg-primary hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98] disabled:bg-slate-300"
                 >
                   {isLoading ? (
                     <Loader2 size={18} className="animate-spin" />

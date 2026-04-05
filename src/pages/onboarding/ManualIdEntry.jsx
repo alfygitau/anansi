@@ -148,7 +148,7 @@ const ManualIdEntry = () => {
       {/* Navigation Header */}
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-slate-400 hover:text-[#042159] transition-colors mb-8 group"
+        className="flex items-center gap-2 text-slate-400 hover:text-primary transition-colors mb-8 group"
       >
         <ChevronLeft
           size={20}
@@ -163,7 +163,7 @@ const ManualIdEntry = () => {
         {/* Left Column: The Form */}
         <div className="lg:col-span-7">
           <header className="mb-10">
-            <h1 className="text-3xl font-black text-[#042159] uppercase tracking-tight mb-2">
+            <h1 className="text-3xl font-black text-primary uppercase tracking-tight mb-2">
               Manual ID Entry
             </h1>
             <p className="text-slate-500">
@@ -193,7 +193,7 @@ const ManualIdEntry = () => {
                       value={formData?.firstName}
                       onBlur={handleBlur}
                       placeholder="e.g. JOHN"
-                      className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
+                      className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-secondary focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-primary"
                       onChange={handleInputChange}
                     />
                   </div>
@@ -220,7 +220,7 @@ const ManualIdEntry = () => {
                       value={formData?.middleName}
                       onBlur={handleBlur}
                       placeholder="e.g. DOE"
-                      className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
+                      className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-secondary focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-primary"
                       onChange={handleInputChange}
                     />
                   </div>
@@ -248,7 +248,7 @@ const ManualIdEntry = () => {
                     value={formData?.lastName}
                     onBlur={handleBlur}
                     placeholder="e.g. OKOTH"
-                    className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
+                    className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-secondary focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-primary"
                     onChange={handleInputChange}
                   />
                 </div>
@@ -277,7 +277,7 @@ const ManualIdEntry = () => {
                     value={formData?.idNumber}
                     onBlur={handleBlur}
                     placeholder="12345678"
-                    className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
+                    className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-secondary focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-primary"
                     onChange={handleInputChange}
                   />
                 </div>
@@ -303,7 +303,7 @@ const ManualIdEntry = () => {
                     name="dateOfBirth"
                     value={formData?.dateOfBirth}
                     onBlur={handleBlur}
-                    className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
+                    className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-secondary focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-primary"
                     onChange={handleInputChange}
                   />
                 </div>
@@ -331,7 +331,7 @@ const ManualIdEntry = () => {
                   value={formData?.gender}
                   onBlur={handleBlur}
                   placeholder="e.g male"
-                  className="w-full h-[64px] bg-slate-100 border-2 border-slate-200 focus:border-[#4DB8E4] focus:bg-white rounded-[24px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159]"
+                  className="w-full h-[64px] bg-slate-100 border-2 border-slate-200 focus:border-secondary focus:bg-white rounded-[24px] pl-14 pr-6 transition-all outline-none font-bold text-primary"
                   onChange={handleInputChange}
                 />
               </div>
@@ -348,7 +348,7 @@ const ManualIdEntry = () => {
               className={`w-full h-[72px] rounded-[28px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-4 transition-all shadow-xl mt-8 ${
                 isLoading || isInvalid
                   ? "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none"
-                  : "bg-[#042159] text-white hover:bg-[#4DB8E4] hover:text-[#042159] shadow-blue-900/20 active:scale-[0.98]"
+                  : "bg-primary text-white hover:bg-secondary hover:text-primary shadow-blue-900/20 active:scale-[0.98]"
               }`}
             >
               {isLoading ? (
@@ -392,12 +392,12 @@ const ManualIdEntry = () => {
 
         {/* Right Column: Information & Disclaimers */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="bg-[#042159] rounded-[40px] p-8 text-white relative overflow-hidden">
+          <div className="bg-primary rounded-[40px] p-8 text-white relative overflow-hidden">
             <ShieldCheck className="absolute -right-8 -bottom-8 text-white/5 w-64 h-64" />
 
             <div className="relative z-10">
               <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-6">
-                <Lock className="text-[#4DB8E4]" size={24} />
+                <Lock className="text-secondary" size={24} />
               </div>
               <h3 className="text-xl font-black uppercase tracking-tight mb-4 leading-tight">
                 Secure Data
@@ -413,13 +413,13 @@ const ManualIdEntry = () => {
 
               <div className="space-y-4">
                 <div className="flex items-center gap-3 py-3 border-t border-white/10">
-                  <div className="w-2 h-2 bg-[#4DB8E4] rounded-full" />
+                  <div className="w-2 h-2 bg-secondary rounded-full" />
                   <p className="text-xs font-bold uppercase tracking-widest">
                     End-to-End Encrypted
                   </p>
                 </div>
                 <div className="flex items-center gap-3 py-3 border-t border-white/10">
-                  <div className="w-2 h-2 bg-[#4DB8E4] rounded-full" />
+                  <div className="w-2 h-2 bg-secondary rounded-full" />
                   <p className="text-xs font-bold uppercase tracking-widest">
                     SASRA Compliant
                   </p>
@@ -430,8 +430,8 @@ const ManualIdEntry = () => {
 
           <div className="bg-slate-50 rounded-[40px] p-8 border border-slate-200">
             <div className="flex items-center gap-3 mb-4">
-              <Info className="text-[#042159]" size={20} />
-              <p className="font-black text-[#042159] uppercase text-xs tracking-widest">
+              <Info className="text-primary" size={20} />
+              <p className="font-black text-primary uppercase text-xs tracking-widest">
                 Why is this needed?
               </p>
             </div>

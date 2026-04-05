@@ -251,7 +251,7 @@ const ProfileInformation = () => {
       {/* Main Content - 80% */}
       <div className="flex-1 lg:w-[75%] sm:px-5 overflow-y-auto">
         <div className="mb-10">
-          <h1 className="text-2xl lg:text-3xl font-black text-[#042159] uppercase tracking-tight">
+          <h1 className="text-2xl lg:text-3xl font-black text-primary uppercase tracking-tight">
             Complete Your Profile
           </h1>
           <p className="text-slate-500 text-sm mt-1 w-full">
@@ -263,11 +263,11 @@ const ProfileInformation = () => {
 
           {/* --- DISCLAIMER BOX --- */}
           <div className="mt-3 p-4 bg-blue-50/50 border border-blue-100 rounded-2xl flex gap-4 items-center">
-            <div className="bg-[#4DB8E4]/10 p-2 rounded-lg">
-              <AlertCircle size={20} className="text-[#4DB8E4]" />
+            <div className="bg-secondary/10 p-2 rounded-lg">
+              <AlertCircle size={20} className="text-secondary" />
             </div>
             <div className="space-y-1">
-              <h4 className="text-[11px] font-black text-[#042159] uppercase tracking-widest">
+              <h4 className="text-[11px] font-black text-primary uppercase tracking-widest">
                 Data Privacy & Security
               </h4>
               <p className="text-xs text-slate-600 leading-relaxed">
@@ -300,7 +300,7 @@ const ProfileInformation = () => {
                   }
                   className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
              hover:border-gray-300 
-             focus:border-[#042159] focus:outline-none focus:ring-4 focus:ring-[#042159]/10 
+             focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
              cursor-pointer"
                   style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
@@ -338,7 +338,7 @@ const ProfileInformation = () => {
                         onBlur={(e) => validateField("county", e.target.value)}
                         className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
              hover:border-gray-300 
-             focus:border-[#042159] focus:outline-none focus:ring-4 focus:ring-[#042159]/10 
+             focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
              cursor-pointer"
                         style={{
                           backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
@@ -376,7 +376,7 @@ const ProfileInformation = () => {
                         }
                         className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
              hover:border-gray-300 
-             focus:border-[#042159] focus:outline-none focus:ring-4 focus:ring-[#042159]/10 
+             focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
              cursor-pointer"
                         style={{
                           backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
@@ -413,7 +413,7 @@ const ProfileInformation = () => {
                         setForm({ ...form, physicalAddress: e.target.value })
                       }
                       placeholder="House/Street/Building"
-                      className="h-14 px-4 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-[#042159]"
+                      className="h-14 px-4 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-primary"
                     />
                     {errors.physicalAddress && (
                       <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
@@ -449,7 +449,7 @@ const ProfileInformation = () => {
                         }
                         className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
              hover:border-gray-300 
-             focus:border-[#042159] focus:outline-none focus:ring-4 focus:ring-[#042159]/10 
+             focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
              cursor-pointer"
                         style={{
                           backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
@@ -513,7 +513,7 @@ const ProfileInformation = () => {
                   }
                   className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
              hover:border-gray-300 
-             focus:border-[#042159] focus:outline-none focus:ring-4 focus:ring-[#042159]/10 
+             focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
              cursor-pointer"
                   style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
@@ -569,7 +569,7 @@ const ProfileInformation = () => {
                     onChange={(e) =>
                       setForm({ ...form, income: e.target.value })
                     }
-                    className="h-14 flex-1 px-4 border border-gray-200 rounded-r-xl outline-none focus:ring-1 focus:ring-[#042159]"
+                    className="h-14 flex-1 px-4 border border-gray-200 rounded-r-xl outline-none focus:ring-1 focus:ring-primary"
                     placeholder="0.00"
                   />
                 </div>
@@ -604,7 +604,7 @@ const ProfileInformation = () => {
               <button
                 disabled={isLoading || isFormInvalid()}
                 onClick={handleContinue}
-                className="w-full h-14 bg-[#042159] text-white rounded-xl font-bold mt-4 shadow-lg shadow-blue-900/10 
+                className="w-full h-14 bg-primary text-white rounded-xl font-bold mt-4 shadow-lg shadow-blue-900/10 
              hover:bg-[#062d7a] transition-all flex items-center justify-center gap-3 
              disabled:opacity-50 disabled:grayscale disabled:cursor-not-allowed"
               >

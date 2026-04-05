@@ -24,7 +24,7 @@ const StartMembership = ({ isOpen, onPay, onLogout }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-[#042159]/80 backdrop-blur-sm"
+            className="absolute inset-0 bg-primary/80 backdrop-blur-sm"
           />
 
           {/* Modal Card */}
@@ -32,17 +32,17 @@ const StartMembership = ({ isOpen, onPay, onLogout }) => {
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-[460px] bg-[#042159] border border-white/10 rounded-[32px] overflow-hidden shadow-2xl shadow-black/50"
+            className="relative w-full max-w-[460px] bg-primary border border-white/10 rounded-[32px] overflow-hidden shadow-2xl shadow-black/50"
           >
             {/* Decorative Background Glow */}
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#4DB8E4]/20 rounded-full blur-3xl" />
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-secondary/20 rounded-full blur-3xl" />
 
             <div className="p-8 md:p-10 flex flex-col gap-8">
               {/* Header & Icon */}
               <div className="space-y-4">
                 <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center border border-white/10">
                   <ShieldCheck
-                    className="text-[#4DB8E4]"
+                    className="text-secondary"
                     size={36}
                     strokeWidth={1.5}
                   />
@@ -51,7 +51,7 @@ const StartMembership = ({ isOpen, onPay, onLogout }) => {
                   <h2 className="text-3xl font-black text-white tracking-tight">
                     Setup Membership
                   </h2>
-                  <p className="text-[#4DB8E4] text-xs font-bold uppercase tracking-[0.2em] mt-1">
+                  <p className="text-secondary text-xs font-bold uppercase tracking-[0.2em] mt-1">
                     Anansi Sacco Community
                   </p>
                 </div>
@@ -69,7 +69,7 @@ const StartMembership = ({ isOpen, onPay, onLogout }) => {
 
                 {/* Secure Disclaimer Box */}
                 <div className="flex gap-3 p-4 bg-black/20 rounded-2xl border border-white/5">
-                  <Lock className="text-[#4DB8E4] flex-shrink-0" size={18} />
+                  <Lock className="text-secondary flex-shrink-0" size={18} />
                   <p className="text-[11px] text-slate-400 leading-relaxed italic">
                     This is a one-time fee. Your transaction is encrypted and
                     secured via our licensed payment gateways.
@@ -81,7 +81,7 @@ const StartMembership = ({ isOpen, onPay, onLogout }) => {
               <div className="space-y-4 pt-2">
                 <button
                   onClick={onPay}
-                  className="group w-full h-14 bg-[#4DB8E4] hover:bg-[#3da8d4] text-[#042159] rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 transition-all active:scale-[0.98] shadow-lg shadow-[#4DB8E4]/20"
+                  className="group w-full h-14 bg-secondary hover:bg-[#3da8d4] text-primary rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 transition-all active:scale-[0.98] shadow-lg shadow-secondary/20"
                 >
                   Pay and get access
                   <ArrowRight
@@ -103,7 +103,7 @@ const StartMembership = ({ isOpen, onPay, onLogout }) => {
             </div>
 
             {/* Bottom Footer Indicator */}
-            <div className="h-2 w-full bg-gradient-to-r from-transparent via-[#4DB8E4]/30 to-transparent opacity-50" />
+            <div className="h-2 w-full bg-gradient-to-r from-transparent via-secondary/30 to-transparent opacity-50" />
           </motion.div>
         </div>
       )}

@@ -133,20 +133,20 @@ const TermsAndConditions = () => {
       {/* Main Content Area */}
       <div className="flex-1 lg:w-[75%] sm:px-5 overflow-y-auto">
         <div className="w-full">
-          <h2 className="text-3xl font-black text-[#042159] uppercase tracking-tight mb-4">
+          <h2 className="text-3xl font-black text-primary uppercase tracking-tight mb-4">
             General Terms and Conditions
           </h2>
           {/* Scrollable Terms Box */}
           <div className="h-[550px] sm:h-[650px] bg-gray-50 rounded-xl border border-gray-200 overflow-y-auto p-[15px] md:p-[15px]">
             <div className="prose prose-sm text-gray-700">
-              <h1 className="text-lg font-bold text-[#042159] mb-4">
+              <h1 className="text-lg font-bold text-primary mb-4">
                 Anansi Sacco User General Terms & Conditions
               </h1>
 
               <TermsContent />
 
               <div className="mt-10 p-6 bg-blue-50 rounded-xl border border-blue-100">
-                <h3 className="font-bold text-[#042159] mb-2">
+                <h3 className="font-bold text-primary mb-2">
                   Contact Information
                 </h3>
                 <p>Email: anansisacco@gmail.com</p>
@@ -162,7 +162,7 @@ const TermsAndConditions = () => {
             onClick={() => setChecked(!checked)}
           >
             <div
-              className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all ${checked ? "bg-[#042159] border-[#042159]" : "border-gray-300 bg-white group-hover:border-blue-400"}`}
+              className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all ${checked ? "bg-primary border-primary" : "border-gray-300 bg-white group-hover:border-blue-400"}`}
             >
               {checked && (
                 <svg
@@ -191,7 +191,7 @@ const TermsAndConditions = () => {
             onClick={handleFinish}
             className={`w-full h-14 rounded-xl font-bold transition-all flex items-center justify-center gap-3 ${
               checked && !isLoading
-                ? "bg-[#042159] text-white shadow-xl shadow-blue-900/20 hover:scale-[1.01] active:scale-[0.99]"
+                ? "bg-primary text-white shadow-xl shadow-blue-900/20 hover:scale-[1.01] active:scale-[0.99]"
                 : "bg-gray-200 text-gray-400 cursor-not-allowed"
             }`}
           >

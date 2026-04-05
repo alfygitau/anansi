@@ -147,7 +147,7 @@ const NextOfKin = () => {
                 <ShieldAlert size={20} className="text-amber-600" />
               </div>
               <div className="space-y-1">
-                <h4 className="text-[11px] font-black text-[#042159] uppercase tracking-widest">
+                <h4 className="text-[11px] font-black text-primary uppercase tracking-widest">
                   Statutory Requirement
                 </h4>
                 <p className="text-xs text-slate-600 leading-relaxed">
@@ -218,10 +218,10 @@ const NextOfKin = () => {
                           })
                     }
                     onBlur={(e) => validateField(field.name, e.target.value)}
-                    className={`h-14 px-4 rounded-xl border transition-all outline-none bg-gray-50 focus:ring-2 focus:ring-[#042159]/20 ${
+                    className={`h-14 px-4 rounded-xl border transition-all outline-none bg-gray-50 focus:ring-2 focus:ring-primary/20 ${
                       errors[field.name]
                         ? "border-red-500 shadow-sm shadow-red-50"
-                        : "border-gray-200 focus:border-[#042159] focus:bg-white"
+                        : "border-gray-200 focus:border-primary focus:bg-white"
                     }`}
                   />
                   {errors[field.name] && (
@@ -238,7 +238,7 @@ const NextOfKin = () => {
               onClick={handleContinue}
               className={`w-full h-14 rounded-xl font-bold mt-4 flex items-center justify-center gap-3 transition-all ${
                 isFormValid && !isLoading
-                  ? "bg-[#042159] text-white shadow-lg shadow-blue-900/20 hover:bg-[#062d7a]"
+                  ? "bg-primary text-white shadow-lg shadow-blue-900/20 hover:bg-[#062d7a]"
                   : "bg-gray-200 text-gray-400 cursor-not-allowed"
               }`}
             >

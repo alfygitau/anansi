@@ -125,17 +125,17 @@ const OtpVerification = () => {
         className="w-full max-w-xl bg-white rounded-[40px] shadow-2xl shadow-blue-900/5 border border-slate-100 p-8 md:p-12 relative overflow-hidden"
       >
         <div className="text-center space-y-4">
-          <div className="w-20 h-20 bg-blue-50 rounded-3xl flex items-center justify-center mx-auto mb-6 text-[#4DB8E4]">
+          <div className="w-20 h-20 bg-blue-50 rounded-3xl flex items-center justify-center mx-auto mb-6 text-secondary">
             <ShieldCheck size={40} strokeWidth={1.5} />
           </div>
 
-          <h2 className="text-2xl font-black text-[#042159]">
+          <h2 className="text-2xl font-black text-primary">
             Security Verification
           </h2>
           <p className="text-slate-500 text-sm leading-relaxed max-w-[280px] mx-auto">
             For additional security we just sent a verification code to your
             mobile <br />
-            <span className="font-bold text-[#042159] inline-flex items-center gap-1 mt-1">
+            <span className="font-bold text-primary inline-flex items-center gap-1 mt-1">
               <Smartphone size={14} /> {maskPhoneNumber(auth?.user?.mobileno)}
             </span>
           </p>
@@ -153,7 +153,7 @@ const OtpVerification = () => {
                 value={data}
                 onChange={(e) => handleChange(e.target, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
-                className="w-12 h-14 md:w-16 md:h-16 text-center text-2xl font-black text-[#042159] bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#4DB8E4] focus:bg-white focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+                className="w-12 h-14 md:w-16 md:h-16 text-center text-2xl font-black text-primary bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-secondary focus:bg-white focus:ring-4 focus:ring-blue-100 outline-none transition-all"
               />
             ))}
           </div>
@@ -169,7 +169,7 @@ const OtpVerification = () => {
               className={`mt-2 flex items-center gap-2 mx-auto text-sm font-black uppercase tracking-widest transition-all ${
                 timer > 0
                   ? "text-slate-300 cursor-not-allowed"
-                  : "text-[#4DB8E4] hover:text-[#042159]"
+                  : "text-secondary hover:text-primary"
               }`}
             >
               <RefreshCw size={16} className={loading ? "animate-spin" : ""} />
@@ -181,7 +181,7 @@ const OtpVerification = () => {
           <button
             type="submit"
             disabled={isLoading || otp.join("").length < 6}
-            className="w-full h-16 bg-[#042159] text-white rounded-3xl font-black uppercase tracking-[0.2em] text-sm flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 hover:bg-[#072d7a] disabled:bg-slate-100 disabled:text-slate-400 disabled:shadow-none transition-all"
+            className="w-full h-16 bg-primary text-white rounded-3xl font-black uppercase tracking-[0.2em] text-sm flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 hover:bg-[#072d7a] disabled:bg-slate-100 disabled:text-slate-400 disabled:shadow-none transition-all"
           >
             {isLoading ? (
               <Loader2 className="animate-spin" size={20} />

@@ -77,9 +77,9 @@ const ForgotPassword = () => {
         {/* ICON & HEADER */}
         <div className="flex flex-col items-center text-center mb-8">
           <div className="w-16 h-16 bg-blue-50 rounded-3xl flex items-center justify-center mb-6">
-            <ShieldCheck size={32} className="text-[#4DB8E4]" />
+            <ShieldCheck size={32} className="text-secondary" />
           </div>
-          <h1 className="text-2xl font-black text-[#042159] mb-2">
+          <h1 className="text-2xl font-black text-primary mb-2">
             Forgot Password?
           </h1>
           <p className="text-slate-400 text-sm leading-relaxed max-w-[320px] mx-auto">
@@ -107,7 +107,7 @@ const ForgotPassword = () => {
                 onBlur={handleBlur}
                 placeholder="name@company.com"
                 className={`w-full h-14 pl-12 pr-4 bg-slate-50 border rounded-2xl outline-none transition-all text-sm font-medium
-                      ${error ? "border-rose-200 focus:border-rose-400" : "border-slate-100 focus:border-[#4DB8E4] focus:bg-white"}
+                      ${error ? "border-rose-200 focus:border-rose-400" : "border-slate-100 focus:border-secondary focus:bg-white"}
                     `}
               />
             </div>
@@ -130,7 +130,7 @@ const ForgotPassword = () => {
     ${
       isButtonDisabled
         ? "opacity-50 cursor-not-allowed shadow-none bg-slate-400"
-        : "bg-[#042159] hover:bg-[#062d7a] hover:scale-[1.02] active:scale-[0.98] shadow-blue-900/20"
+        : "bg-primary hover:bg-[#062d7a] hover:scale-[1.02] active:scale-[0.98] shadow-blue-900/20"
     }
   `}
           >
@@ -149,14 +149,14 @@ const ForgotPassword = () => {
           className="mt-8 p-4 bg-slate-50 rounded-2xl border border-slate-100"
         >
           <div className="flex gap-3">
-            <ShieldAlert size={18} className="text-[#4DB8E4] shrink-0 mt-0.5" />
+            <ShieldAlert size={18} className="text-secondary shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-[#042159]">
+              <h4 className="text-[11px] font-black uppercase tracking-widest text-primary">
                 Security Notice
               </h4>
               <p className="text-[12px] text-slate-500 leading-relaxed">
                 For your protection, this verification link will expire in{" "}
-                <span className="font-bold text-[#042159]">10 minutes</span>. If
+                <span className="font-bold text-primary">10 minutes</span>. If
                 you didn't request this, please ignore this email or contact
                 support if you suspect unauthorized activity.
               </p>

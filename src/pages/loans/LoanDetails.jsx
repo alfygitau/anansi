@@ -113,7 +113,7 @@ const LoanDetails = ({ onBack }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
+    <div className="min-h-screen bg-slate-50 text-primary pb-20">
       <div className="max-w-6xl sm:px-4 mx-auto">
         {/* Header */}
         <header className="py-4">
@@ -126,7 +126,7 @@ const LoanDetails = ({ onBack }) => {
                 {loanData.code}
               </p>
             </div>
-            <div className="bg-[#042159] text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.1em]">
+            <div className="bg-primary text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.1em]">
               {loanData.status}
             </div>
           </div>
@@ -219,7 +219,7 @@ const LoanDetails = ({ onBack }) => {
             <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
               Guarantors & Securities
             </h3>
-            <span className="text-[10px] font-bold text-[#4DB8E4] bg-sky-50 px-3 py-1 rounded-full">
+            <span className="text-[10px] font-bold text-secondary bg-sky-50 px-3 py-1 rounded-full">
               3 Required • 2 Verified
             </span>
           </div>
@@ -270,7 +270,7 @@ const LoanDetails = ({ onBack }) => {
                     >
                       Installment {idx + 1} • {step.status}
                     </span>
-                    <p className="text-lg font-bold text-[#042159] mt-0.5">
+                    <p className="text-lg font-bold text-primary mt-0.5">
                       {step.amount}
                     </p>
                     <p className="text-xs font-medium text-slate-400">
@@ -288,7 +288,7 @@ const LoanDetails = ({ onBack }) => {
               <h3 className="text-[13px] font-black uppercase tracking-[0.2em] text-slate-400">
                 Transaction Ledger
               </h3>
-              <button className="text-[13px] font-black uppercase tracking-widest text-[#4DB8E4] hover:underline flex items-center gap-1">
+              <button className="text-[13px] font-black uppercase tracking-widest text-secondary hover:underline flex items-center gap-1">
                 Download Statement <Receipt size={14} />
               </button>
             </div>
@@ -324,7 +324,7 @@ const QuickActionButton = ({ icon, label, sub, onClick, variant }) => {
       </div>
 
       <div>
-        <h4 className="font-bold text-[#042159] text-sm group-hover:text-[#4DB8E4] transition-colors">
+        <h4 className="font-bold text-primary text-sm group-hover:text-secondary transition-colors">
           {label}
         </h4>
         <p className="text-[10px] font-medium text-slate-400 mt-0.5 uppercase tracking-wider">
@@ -333,7 +333,7 @@ const QuickActionButton = ({ icon, label, sub, onClick, variant }) => {
       </div>
 
       <ChevronRight
-        className="absolute right-6 bottom-6 text-slate-200 group-hover:text-[#4DB8E4] group-hover:translate-x-1 transition-all"
+        className="absolute right-6 bottom-6 text-slate-200 group-hover:text-secondary group-hover:translate-x-1 transition-all"
         size={16}
       />
     </button>
@@ -350,7 +350,7 @@ const MPesaTransactionRow = ({ tx }) => {
         <div
           className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${
             isDisbursement
-              ? "bg-blue-50 text-[#042159]"
+              ? "bg-blue-50 text-primary"
               : "bg-[#3EB344]/10 text-[#3EB344]"
           }`}
         >
@@ -358,7 +358,7 @@ const MPesaTransactionRow = ({ tx }) => {
         </div>
 
         <div>
-          <h4 className="text-sm font-bold text-[#042159] tracking-tight">
+          <h4 className="text-sm font-bold text-primary tracking-tight">
             {tx.type}
           </h4>
           <div className="flex items-center gap-2 mt-1">
@@ -376,7 +376,7 @@ const MPesaTransactionRow = ({ tx }) => {
       <div className="text-right">
         {/* Color polarity: Blue for money in, Green for repayments */}
         <p
-          className={`text-sm font-black ${isDisbursement ? "text-[#042159]" : "text-[#3EB344]"}`}
+          className={`text-sm font-black ${isDisbursement ? "text-primary" : "text-[#3EB344]"}`}
         >
           {isDisbursement ? "+" : "-"}
           {tx.amount}
@@ -418,14 +418,12 @@ const GuarantorCard = ({ guarantor }) => {
           <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
             Guarantee
           </p>
-          <p className="text-sm font-black text-[#042159]">
-            {guarantor.amount}
-          </p>
+          <p className="text-sm font-black text-primary">{guarantor.amount}</p>
         </div>
       </div>
 
       <div>
-        <h4 className="font-bold text-[#042159] text-sm truncate">
+        <h4 className="font-bold text-primary text-sm truncate">
           {guarantor.name}
         </h4>
         <p className="text-[10px] font-mono text-slate-400 mt-0.5">
@@ -444,7 +442,7 @@ const GuarantorCard = ({ guarantor }) => {
         </span>
 
         {isPending && (
-          <button className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-[#4DB8E4] hover:text-[#042159] transition-colors">
+          <button className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-secondary hover:text-primary transition-colors">
             <MessageCircle size={12} />
             Nudge via SMS
           </button>
@@ -464,7 +462,7 @@ const ParamItem = ({ icon, label, value, isHighlight }) => (
       </span>
     </div>
     <p
-      className={`text-base font-bold ${isHighlight ? "text-[#4DB8E4] font-black text-lg" : "text-[#042159]"}`}
+      className={`text-base font-bold ${isHighlight ? "text-secondary font-black text-lg" : "text-primary"}`}
     >
       {value}
     </p>

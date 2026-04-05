@@ -67,7 +67,7 @@ const ReviewMembership = ({ isOpen, onClose, onNext }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-[#042159]/70 backdrop-blur-sm"
+            className="absolute inset-0 bg-primary/70 backdrop-blur-sm"
           />
 
           {/* Modal Card */}
@@ -80,10 +80,10 @@ const ReviewMembership = ({ isOpen, onClose, onNext }) => {
             <div className="space-y-4 overflow-y-auto no-scrollbar max-h-[80vh]">
               {/* Summary Header */}
               <div className="text-center space-y-2">
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-50 text-[#042159] mb-2">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-50 text-primary mb-2">
                   <ShieldCheck size={28} />
                 </div>
-                <h2 className="text-2xl font-black text-[#042159] tracking-tight">
+                <h2 className="text-2xl font-black text-primary tracking-tight">
                   Confirm Details
                 </h2>
                 <p className="text-slate-500 text-sm">
@@ -105,13 +105,13 @@ const ReviewMembership = ({ isOpen, onClose, onNext }) => {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center shadow-sm">
-                    <Smartphone size={18} className="text-[#042159]" />
+                    <Smartphone size={18} className="text-primary" />
                   </div>
                   <div>
                     <p className="text-xs text-cyan-800/60 font-bold uppercase tracking-tighter">
                       Phone Number
                     </p>
-                    <p className="text-sm font-black text-[#042159]">
+                    <p className="text-sm font-black text-primary">
                       {"0769404436" || "Not Set"}
                     </p>
                   </div>
@@ -131,25 +131,25 @@ const ReviewMembership = ({ isOpen, onClose, onNext }) => {
                   <div className="p-4 space-y-3 bg-slate-50/50">
                     <div className="flex justify-between text-sm">
                       <span className="text-slate-500">Registration Fee</span>
-                      <span className="font-bold text-[#042159]">
+                      <span className="font-bold text-primary">
                         {formatKES(1000)}
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-slate-500">Shares Purchase</span>
-                      <span className="font-bold text-[#042159]">
+                      <span className="font-bold text-primary">
                         {formatKES(membershipDetails?.shares)}
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-slate-500">Initial Savings</span>
-                      <span className="font-bold text-[#042159]">
+                      <span className="font-bold text-primary">
                         {formatKES(membershipDetails?.savings)}
                       </span>
                     </div>
                   </div>
 
-                  <div className="p-4 bg-[#042159] text-white flex justify-between items-center">
+                  <div className="p-4 bg-primary text-white flex justify-between items-center">
                     <span className="text-xs font-black uppercase tracking-widest text-cyan-400">
                       Total Payable
                     </span>
@@ -191,7 +191,7 @@ const ReviewMembership = ({ isOpen, onClose, onNext }) => {
               <button
                 disabled={isLoading}
                 onClick={handlePayment}
-                className="group w-full h-14 bg-[#042159] hover:bg-[#062d7a] disabled:bg-slate-300 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98]"
+                className="group w-full h-14 bg-primary hover:bg-[#062d7a] disabled:bg-slate-300 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98]"
               >
                 {isLoading ? (
                   <>
@@ -203,7 +203,7 @@ const ReviewMembership = ({ isOpen, onClose, onNext }) => {
                     Confirm and Pay
                     <ArrowRight
                       size={18}
-                      className="group-hover:translate-x-1 transition-transform text-[#4DB8E4]"
+                      className="group-hover:translate-x-1 transition-transform text-secondary"
                     />
                   </>
                 )}

@@ -112,7 +112,7 @@ const EditAddress = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-[#042159]/40 backdrop-blur-sm"
+            className="absolute inset-0 bg-primary/40 backdrop-blur-sm"
           />
 
           {/* Modal Card */}
@@ -154,7 +154,7 @@ const EditAddress = ({
                     name="country"
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
-                    className="w-full h-14 pl-12 pr-12 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none appearance-none text-sm font-bold text-[#042159] transition-all cursor-pointer"
+                    className="w-full h-14 pl-12 pr-12 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none appearance-none text-sm font-bold text-primary transition-all cursor-pointer"
                   >
                     <option value="">Select Country</option>
                     {countries?.map((sub) => (
@@ -208,7 +208,7 @@ const EditAddress = ({
                         name="county"
                         value={formData.county}
                         onChange={handleCountyInputChange}
-                        className="w-full h-14 pl-12 pr-12 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none appearance-none text-sm font-bold text-[#042159] transition-all cursor-pointer"
+                        className="w-full h-14 pl-12 pr-12 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none appearance-none text-sm font-bold text-primary transition-all cursor-pointer"
                       >
                         <option value="">Select County</option>
                         {counties?.map((sub) => (
@@ -245,7 +245,7 @@ const EditAddress = ({
                         value={formData.subcounty}
                         onChange={handleInputChange}
                         // Added pl-12 for the icon space and pr-12 for the custom arrow
-                        className="w-full h-14 pl-12 pr-12 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none appearance-none text-sm font-bold text-[#042159] transition-all cursor-pointer disabled:opacity-50"
+                        className="w-full h-14 pl-12 pr-12 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none appearance-none text-sm font-bold text-primary transition-all cursor-pointer disabled:opacity-50"
                         disabled={!formData.county} // Disable until a county is picked
                       >
                         <option value="">Select Sub-County</option>
@@ -283,7 +283,7 @@ const EditAddress = ({
             <div className="p-8 bg-slate-50/50 flex gap-4">
               <button
                 onClick={onClose}
-                className="flex-1 h-14 bg-white border border-slate-200 text-[#042159] rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-slate-50 transition-all"
+                className="flex-1 h-14 bg-white border border-slate-200 text-primary rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-slate-50 transition-all"
               >
                 Cancel
               </button>

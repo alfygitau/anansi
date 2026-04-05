@@ -37,7 +37,7 @@ const Notifications = () => {
       case "security":
         return <ShieldAlert className="text-rose-500" size={20} />;
       default:
-        return <Info className="text-[#4DB8E4]" size={20} />;
+        return <Info className="text-secondary" size={20} />;
     }
   };
 
@@ -89,7 +89,7 @@ const Notifications = () => {
             <div className="lg:col-span-8 space-y-6">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl font-black text-[#042159] flex items-center gap-3">
+                  <h1 className="text-2xl font-black text-primary flex items-center gap-3">
                     Notifications
                     {unreadCount > 0 && (
                       <span className="bg-rose-500 text-white text-[10px] px-2 py-1 rounded-full">
@@ -146,7 +146,7 @@ const Notifications = () => {
                             <div className="flex-grow min-w-0">
                               <div className="flex justify-between items-start gap-4">
                                 <p
-                                  className={`text-sm truncate md:whitespace-normal ${!notification.is_read ? "font-bold text-[#042159]" : "text-slate-600"}`}
+                                  className={`text-sm truncate md:whitespace-normal ${!notification.is_read ? "font-bold text-primary" : "text-slate-600"}`}
                                 >
                                   {notification.message}
                                 </p>
@@ -160,7 +160,7 @@ const Notifications = () => {
                             <div className="shrink-0 transition-transform group-hover:translate-x-1">
                               <ChevronRight
                                 size={18}
-                                className="text-slate-300 group-hover:text-[#4DB8E4] transition-colors"
+                                className="text-slate-300 group-hover:text-secondary transition-colors"
                               />
                             </div>
                           </motion.div>
@@ -175,9 +175,9 @@ const Notifications = () => {
             {/* RIGHT COLUMN: QUICK ACTIONS & INFO (4/12) */}
             <aside className="lg:col-span-4 space-y-6">
               {/* QUICK ACTIONS CARD */}
-              <div className="bg-[#042159] rounded-[32px] p-6 text-white shadow-xl shadow-blue-900/20">
+              <div className="bg-primary rounded-[32px] p-6 text-white shadow-xl shadow-blue-900/20">
                 <div className="flex items-center gap-3 mb-6">
-                  <Zap size={20} className="text-[#4DB8E4]" />
+                  <Zap size={20} className="text-secondary" />
                   <h3 className="text-sm font-black uppercase tracking-widest">
                     Quick Actions
                   </h3>
@@ -207,7 +207,7 @@ const Notifications = () => {
                   <HealthItem
                     label="Loan Eligibility"
                     status="High"
-                    color="text-[#4DB8E4]"
+                    color="text-secondary"
                   />
                   <HealthItem
                     label="Active Obligations"
@@ -219,7 +219,7 @@ const Notifications = () => {
 
               {/* DISCLAIMER / POLICY CARD */}
               <div className="bg-slate-50 rounded-[32px] p-6 border border-slate-200/50">
-                <div className="flex items-center gap-2 mb-3 text-[#042159]">
+                <div className="flex items-center gap-2 mb-3 text-primary">
                   <AlertCircle size={18} />
                   <span className="text-xs font-bold uppercase tracking-wider">
                     Privacy Notice
@@ -228,7 +228,7 @@ const Notifications = () => {
                 <p className="text-[12px] text-slate-500 leading-relaxed">
                   Notifications are kept for 90 days. Anansi uses end-to-end
                   encryption for all financial alerts.
-                  <span className="block mt-2 font-bold text-[#042159] underline cursor-pointer">
+                  <span className="block mt-2 font-bold text-primary underline cursor-pointer">
                     View Data Policy
                   </span>
                 </p>
@@ -246,7 +246,7 @@ const Notifications = () => {
 const TabButton = ({ active, onClick, label }) => (
   <button
     onClick={onClick}
-    className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${active ? "bg-white text-[#042159] shadow-sm" : "text-slate-400 hover:text-slate-600"}`}
+    className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${active ? "bg-white text-primary shadow-sm" : "text-slate-400 hover:text-slate-600"}`}
   >
     {label}
   </button>
@@ -254,7 +254,7 @@ const TabButton = ({ active, onClick, label }) => (
 
 const ActionButton = ({ label, icon, primary }) => (
   <button
-    className={`w-full py-3.5 px-5 rounded-2xl text-xs font-bold flex items-center justify-between transition-all ${primary ? "bg-[#4DB8E4] text-white hover:bg-[#3ba8d3]" : "bg-white/10 text-white hover:bg-white/20"}`}
+    className={`w-full py-3.5 px-5 rounded-2xl text-xs font-bold flex items-center justify-between transition-all ${primary ? "bg-secondary text-white hover:bg-[#3ba8d3]" : "bg-white/10 text-white hover:bg-white/20"}`}
   >
     {label} {icon}
   </button>

@@ -7,7 +7,7 @@ import {
   Wallet,
   Loader2,
   CheckCircle2,
-  FileText
+  FileText,
 } from "lucide-react";
 
 const GenerateStatement = ({ isOpen, onClose, onSuccess }) => {
@@ -16,11 +16,23 @@ const GenerateStatement = ({ isOpen, onClose, onSuccess }) => {
     accountId: "",
     email: localStorage.getItem("email") || "",
   });
-  
+
   const [accounts] = useState([
-    { id: "acc-01", productName: "Savings Account", account_number: "0011223344" },
-    { id: "acc-02", productName: "Current Account", account_number: "9988776655" },
-    { id: "acc-03", productName: "Fixed Deposit", account_number: "5544332211" },
+    {
+      id: "acc-01",
+      productName: "Savings Account",
+      account_number: "0011223344",
+    },
+    {
+      id: "acc-02",
+      productName: "Current Account",
+      account_number: "9988776655",
+    },
+    {
+      id: "acc-03",
+      productName: "Fixed Deposit",
+      account_number: "5544332211",
+    },
   ]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -46,11 +58,11 @@ const GenerateStatement = ({ isOpen, onClose, onSuccess }) => {
   };
 
   return (
-    <div 
-      className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#042159]/40 backdrop-blur-sm animate-in fade-in duration-200"
-      onClick={onClose} 
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-primary/40 backdrop-blur-sm animate-in fade-in duration-200"
+      onClick={onClose}
     >
-      <div 
+      <div
         className="relative bg-white w-full max-w-lg rounded-[40px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
@@ -59,19 +71,21 @@ const GenerateStatement = ({ isOpen, onClose, onSuccess }) => {
             <div className="w-20 h-20 bg-emerald-50 rounded-[30px] flex items-center justify-center mb-6">
               <CheckCircle2 size={40} className="text-emerald-500" />
             </div>
-            <h3 className="text-2xl font-black text-[#042159] mb-2">
+            <h3 className="text-2xl font-black text-primary mb-2">
               Statement Generated
             </h3>
             <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
               Your statement has been prepared and sent to{" "}
-              <span className="text-[#042159] font-bold">{formData.email}</span>
+              <span className="text-primary font-bold">{formData.email}</span>
             </p>
           </div>
         ) : (
           <>
-            <div className="bg-[#042159] p-8 flex items-center justify-between">
+            <div className="bg-primary p-8 flex items-center justify-between">
               <div>
-                <h2 className="text-white text-xl font-bold">Custom Statement</h2>
+                <h2 className="text-white text-xl font-bold">
+                  Custom Statement
+                </h2>
                 <p className="text-blue-200/60 text-xs mt-1">
                   Select your preferences below
                 </p>
@@ -86,8 +100,8 @@ const GenerateStatement = ({ isOpen, onClose, onSuccess }) => {
 
             <form onSubmit={handleSubmit} className="p-8 space-y-5">
               <p className="text-sm text-slate-500 leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                Select your duration. Your statement will be sent to your registered
-                email once ready for download.
+                Select your duration. Your statement will be sent to your
+                registered email once ready for download.
               </p>
 
               <div className="space-y-2">
@@ -95,19 +109,27 @@ const GenerateStatement = ({ isOpen, onClose, onSuccess }) => {
                   Statement Duration
                 </label>
                 <div className="relative">
-                  <Clock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+                  <Clock
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
+                    size={18}
+                  />
                   <select
                     required
                     value={formData.duration}
-                    onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                    className="w-full pl-12 pr-12 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none text-sm font-bold transition-all appearance-none cursor-pointer"
+                    onChange={(e) =>
+                      setFormData({ ...formData, duration: e.target.value })
+                    }
+                    className="w-full pl-12 pr-12 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm font-bold transition-all appearance-none cursor-pointer"
                   >
                     <option value="">-- Select Duration --</option>
                     <option value="last_month">Last Month</option>
                     <option value="three_months">Last 3 Months</option>
                     <option value="six_months">Last 6 Months</option>
                   </select>
-                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
+                  <ChevronDown
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                    size={18}
+                  />
                 </div>
               </div>
 
@@ -116,12 +138,17 @@ const GenerateStatement = ({ isOpen, onClose, onSuccess }) => {
                   Target Account
                 </label>
                 <div className="relative">
-                  <Wallet className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+                  <Wallet
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
+                    size={18}
+                  />
                   <select
                     required
                     value={formData.accountId}
-                    onChange={(e) => setFormData({ ...formData, accountId: e.target.value })}
-                    className="w-full pl-12 pr-12 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none text-sm font-bold transition-all appearance-none cursor-pointer"
+                    onChange={(e) =>
+                      setFormData({ ...formData, accountId: e.target.value })
+                    }
+                    className="w-full pl-12 pr-12 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm font-bold transition-all appearance-none cursor-pointer"
                   >
                     <option value="">-- Select Account --</option>
                     {accounts.map((acc) => (
@@ -130,7 +157,10 @@ const GenerateStatement = ({ isOpen, onClose, onSuccess }) => {
                       </option>
                     ))}
                   </select>
-                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
+                  <ChevronDown
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                    size={18}
+                  />
                 </div>
               </div>
 
@@ -139,13 +169,18 @@ const GenerateStatement = ({ isOpen, onClose, onSuccess }) => {
                   Delivery Email
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+                  <Mail
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
+                    size={18}
+                  />
                   <input
                     type="email"
                     placeholder="email@example.com"
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none text-sm font-bold transition-all"
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm font-bold transition-all"
                     required
                   />
                 </div>
@@ -154,9 +189,13 @@ const GenerateStatement = ({ isOpen, onClose, onSuccess }) => {
               <button
                 disabled={isLoading}
                 type="submit"
-                className="w-full mt-4 bg-[#042159] text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-900/20 hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-70"
+                className="w-full mt-4 bg-primary text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-900/20 hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-70"
               >
-                {isLoading ? <Loader2 className="animate-spin" size={20} /> : <FileText size={20} />}
+                {isLoading ? (
+                  <Loader2 className="animate-spin" size={20} />
+                ) : (
+                  <FileText size={20} />
+                )}
                 {isLoading ? "Processing..." : "Generate & Send Statement"}
               </button>
             </form>

@@ -63,7 +63,7 @@ const ReviewIdentity = () => {
         lastName,
         kycDetails?.idNumber,
         kycDetails?.sex,
-        kycDetails?.dateOfBirth
+        kycDetails?.dateOfBirth,
       ),
     onSuccess: async () => {
       showToast({
@@ -98,8 +98,8 @@ const ReviewIdentity = () => {
         <div className="space-y-6 pr-[30px] w-full">
           <div className="p-5 bg-white rounded-[24px] border border-slate-100 shadow-sm">
             <div className="flex items-center gap-2 mb-3">
-              <Fingerprint className="text-[#4DB8E4]" size={18} />
-              <span className="text-[10px] font-black uppercase tracking-widest text-[#042159]">
+              <Fingerprint className="text-secondary" size={18} />
+              <span className="text-[10px] font-black uppercase tracking-widest text-primary">
                 Why Verify?
               </span>
             </div>
@@ -128,14 +128,14 @@ const ReviewIdentity = () => {
       <div className="flex-1">
         {/* Header with Modern Disclaimer */}
         <header className="mb-3 w-full">
-          <h1 className="text-3xl font-black text-[#042159] uppercase tracking-tight mb-4">
+          <h1 className="text-3xl font-black text-primary uppercase tracking-tight mb-4">
             Review Extracted Details
           </h1>
           <div className="p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50 flex items-start gap-3">
-            <ShieldCheck className="text-[#042159] shrink-0 mt-0.5" size={18} />
+            <ShieldCheck className="text-primary shrink-0 mt-0.5" size={18} />
             <p className="text-slate-600 text-[14px] leading-relaxed">
               Our AI has scanned your ID. Please ensure the
-              <span className="text-[#042159] font-bold">
+              <span className="text-primary font-bold">
                 Names, ID Number, and DOB
               </span>
               exactly match your physical document to avoid SASRA compliance
@@ -169,7 +169,7 @@ const ReviewIdentity = () => {
                   </span>
                 </div>
               )}
-              <div className="absolute top-4 left-4 px-3 py-1 bg-[#042159] text-white rounded-full text-[9px] font-black uppercase tracking-widest">
+              <div className="absolute top-4 left-4 px-3 py-1 bg-primary text-white rounded-full text-[9px] font-black uppercase tracking-widest">
                 {doc.label}
               </div>
             </motion.div>
@@ -198,7 +198,7 @@ const ReviewIdentity = () => {
                 ${
                   isMissing
                     ? "border-amber-100 bg-amber-50/30 text-amber-600 italic"
-                    : "border-slate-50 bg-slate-50 text-[#042159] group-hover:bg-white group-hover:border-slate-100"
+                    : "border-slate-50 bg-slate-50 text-primary group-hover:bg-white group-hover:border-slate-100"
                 }`}
                     />
 
@@ -252,7 +252,7 @@ const ReviewIdentity = () => {
             <button
               onClick={handleUpdate}
               disabled={isLoading}
-              className="w-full sm:w-full px-10 h-[64px] bg-[#042159] text-white rounded-[24px] font-black uppercase tracking-[0.15em] flex items-center justify-center gap-3 hover:bg-[#4DB8E4] hover:text-[#042159] hover:shadow-lg hover:shadow-[#4DB8E4]/20 transition-all active:scale-[0.98] disabled:opacity-50"
+              className="w-full sm:w-full px-10 h-[64px] bg-primary text-white rounded-[24px] font-black uppercase tracking-[0.15em] flex items-center justify-center gap-3 hover:bg-secondary hover:text-primary hover:shadow-lg hover:shadow-secondary/20 transition-all active:scale-[0.98] disabled:opacity-50"
             >
               {isLoading ? (
                 <Loader2 className="animate-spin" size={24} />

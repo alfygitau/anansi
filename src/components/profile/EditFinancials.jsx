@@ -82,7 +82,7 @@ const EditFinancialDetails = ({ isOpen, onClose, customer, refetch }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-[#042159]/40 backdrop-blur-md"
+            className="absolute inset-0 bg-primary/40 backdrop-blur-md"
           />
 
           {/* Modal Container */}
@@ -153,7 +153,7 @@ const EditFinancialDetails = ({ isOpen, onClose, customer, refetch }) => {
                       name="employmentType"
                       value={formData.employmentType}
                       onChange={handleInputChange}
-                      className="w-full h-14 pl-12 pr-12 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none appearance-none text-sm font-bold text-[#042159] transition-all cursor-pointer"
+                      className="w-full h-14 pl-12 pr-12 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none appearance-none text-sm font-bold text-primary transition-all cursor-pointer"
                     >
                       <option value="">Select type</option>
                       <option value="Employed">Employed</option>
@@ -181,7 +181,7 @@ const EditFinancialDetails = ({ isOpen, onClose, customer, refetch }) => {
                       value={formData.occupation}
                       onChange={handleInputChange}
                       placeholder="e.g. Software Engineer"
-                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none transition-all text-sm font-bold text-[#042159]"
+                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none transition-all text-sm font-bold text-primary"
                     />
                   </div>
                 </div>
@@ -201,7 +201,7 @@ const EditFinancialDetails = ({ isOpen, onClose, customer, refetch }) => {
                       value={formData.income}
                       onChange={handleInputChange}
                       placeholder="e.g. 50,000 - 100,000"
-                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none transition-all text-sm font-bold text-[#042159]"
+                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none transition-all text-sm font-bold text-primary"
                     />
                   </div>
                 </div>

@@ -37,7 +37,7 @@ const Logout = ({ isOpen, onClose }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-[#042159]/40 backdrop-blur-sm"
+            className="absolute inset-0 bg-primary/40 backdrop-blur-sm"
           />
 
           {/* Modal Container */}
@@ -67,7 +67,7 @@ const Logout = ({ isOpen, onClose }) => {
 
               {/* Text Content */}
               <div className="text-center space-y-3 mb-6">
-                <h3 className="text-[22px] font-black text-[#042159]">
+                <h3 className="text-[22px] font-black text-primary">
                   Confirm Logout
                 </h3>
                 <p className="text-[14px] text-slate-500 leading-relaxed max-w-[320px] mx-auto">
@@ -78,7 +78,7 @@ const Logout = ({ isOpen, onClose }) => {
 
               {/* Info Notice */}
               <div className="w-full flex items-center gap-3 p-4 bg-slate-50 rounded-2xl mb-6 border border-slate-100">
-                <AlertCircle size={18} className="text-[#4DB8E4] shrink-0" />
+                <AlertCircle size={18} className="text-secondary shrink-0" />
                 <p className="text-[12px] text-slate-600 font-medium">
                   Signing out will end your current active session.
                 </p>
@@ -88,13 +88,13 @@ const Logout = ({ isOpen, onClose }) => {
               <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
                 <button
                   onClick={onClose}
-                  className="w-full sm:flex-1 h-14 rounded-2xl text-[14px] font-bold text-[#042159] bg-slate-100 hover:bg-slate-200 transition-all active:scale-[0.98]"
+                  className="w-full sm:flex-1 h-14 rounded-2xl text-[14px] font-bold text-primary bg-slate-100 hover:bg-slate-200 transition-all active:scale-[0.98]"
                 >
                   No, Stay Logged In
                 </button>
                 <button
                   onClick={handleLogout}
-                  className="w-full sm:flex-1 h-14 rounded-2xl text-[14px] font-bold text-white bg-[#074073] hover:bg-[#042159] shadow-lg shadow-blue-900/20 transition-all active:scale-[0.98]"
+                  className="w-full sm:flex-1 h-14 rounded-2xl text-[14px] font-bold text-white bg-[#074073] hover:bg-primary shadow-lg shadow-blue-900/20 transition-all active:scale-[0.98]"
                 >
                   Yes, Log Out
                 </button>

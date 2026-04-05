@@ -136,9 +136,7 @@ const Guarantorship = () => {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-black text-[#042159]">
-              Guarantorship
-            </h1>
+            <h1 className="text-3xl font-black text-primary">Guarantorship</h1>
             <p className="text-slate-500 font-medium mt-1">
               Manage and track your loan guarantees.
             </p>
@@ -183,25 +181,25 @@ const Guarantorship = () => {
           <div className="flex border-b border-slate-100 px-8">
             <button
               onClick={() => setActiveTab("Requests")}
-              className={`py-4 px-4 text-sm font-black uppercase tracking-widest transition-all relative ${activeTab === "Requests" ? "text-[#042159]" : "text-slate-400"}`}
+              className={`py-4 px-4 text-sm font-black uppercase tracking-widest transition-all relative ${activeTab === "Requests" ? "text-primary" : "text-slate-400"}`}
             >
               Requests
               {activeTab === "Requests" && (
                 <motion.div
                   layoutId="tab-underline"
-                  className="absolute bottom-0 left-0 w-full h-1 bg-[#4DB8E4]"
+                  className="absolute bottom-0 left-0 w-full h-1 bg-secondary"
                 />
               )}
             </button>
             <button
               onClick={() => setActiveTab("Loans")}
-              className={`py-4 px-4 text-sm font-black uppercase tracking-widest transition-all relative ${activeTab === "Loans" ? "text-[#042159]" : "text-slate-400"}`}
+              className={`py-4 px-4 text-sm font-black uppercase tracking-widest transition-all relative ${activeTab === "Loans" ? "text-primary" : "text-slate-400"}`}
             >
               Guaranteed Loans
               {activeTab === "Loans" && (
                 <motion.div
                   layoutId="tab-underline"
-                  className="absolute bottom-0 left-0 w-full h-1 bg-[#4DB8E4]"
+                  className="absolute bottom-0 left-0 w-full h-1 bg-secondary"
                 />
               )}
             </button>
@@ -222,7 +220,7 @@ const Guarantorship = () => {
                       key={request.id}
                       className="group flex items-center gap-4 p-4 rounded-2xl bg-slate-50/50 border border-transparent hover:border-slate-200 hover:bg-white transition-all"
                     >
-                      <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-[#042159] font-bold text-sm">
+                      <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-primary font-bold text-sm">
                         {getInitials(request.borrowerName)}
                       </div>
                       <div className="flex-grow">
@@ -237,14 +235,14 @@ const Guarantorship = () => {
                             <Clock size={12} />{" "}
                             {new Date(request.createdAt).toLocaleDateString()}
                           </span>
-                          <button className="text-xs font-black text-[#4DB8E4] uppercase tracking-wider hover:text-[#042159] transition-colors">
+                          <button className="text-xs font-black text-secondary uppercase tracking-wider hover:text-primary transition-colors">
                             View Details
                           </button>
                         </div>
                       </div>
                       <ChevronRight
                         size={18}
-                        className="text-slate-300 group-hover:text-[#4DB8E4]"
+                        className="text-slate-300 group-hover:text-secondary"
                       />
                     </div>
                   ))}
@@ -267,7 +265,7 @@ const Guarantorship = () => {
                           {getInitials(loan.borrowerName)}
                         </div>
                         <div>
-                          <p className="text-sm font-bold text-[#042159]">
+                          <p className="text-sm font-bold text-primary">
                             {loan.borrowerName}
                           </p>
                           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
@@ -316,7 +314,7 @@ const StatCard = ({ icon, label, value, sub }) => (
     <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
       {label}
     </p>
-    <h3 className="text-xl font-black text-[#042159] my-1">{value}</h3>
+    <h3 className="text-xl font-black text-primary my-1">{value}</h3>
     <p className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">
       {sub}
     </p>

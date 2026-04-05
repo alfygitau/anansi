@@ -233,7 +233,7 @@ const IdentityVerification = () => {
           {/* Middle Section: Upload Form (45%) */}
           <main className="flex-1 px-6 space-y-4">
             <section>
-              <h1 className="text-3xl font-black text-[#042159] uppercase tracking-tight mb-4">
+              <h1 className="text-3xl font-black text-primary uppercase tracking-tight mb-4">
                 Upload Government issued ID
               </h1>
               <p className="text-gray-500 text-sm mb-8">
@@ -251,7 +251,7 @@ const IdentityVerification = () => {
                   <select
                     className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
              hover:border-gray-300 
-             focus:border-[#042159] focus:outline-none focus:ring-4 focus:ring-[#042159]/10 
+             focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
              cursor-pointer"
                     style={{
                       backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
@@ -275,7 +275,7 @@ const IdentityVerification = () => {
                     onChange={(e) => setDocumentType(e.target.value)}
                     className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
              hover:border-gray-300 
-             focus:border-[#042159] focus:outline-none focus:ring-4 focus:ring-[#042159]/10 
+             focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
              cursor-pointer"
                     style={{
                       backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
@@ -338,7 +338,7 @@ const IdentityVerification = () => {
                   <button
                     disabled={isLoading}
                     onClick={handleContinue}
-                    className="w-full h-14 bg-[#042159] hover:bg-[#4DB8E4] text-white font-semibold rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-purple-100"
+                    className="w-full h-14 bg-primary hover:bg-secondary text-white font-semibold rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-purple-100"
                   >
                     {isLoading && <Loader2 className="w-5 h-5 animate-spin" />}
                     Continue
@@ -350,7 +350,7 @@ const IdentityVerification = () => {
                   <button
                     disabled={isLoadingPassport}
                     onClick={handlePassportContinue}
-                    className="w-full h-14 bg-[#042159] hover:bg-[#4DB8E4] text-white font-semibold rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-purple-100"
+                    className="w-full h-14 bg-primary hover:bg-secondary text-white font-semibold rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-purple-100"
                   >
                     {isLoadingPassport && (
                       <Loader2 className="w-5 h-5 animate-spin" />
@@ -407,11 +407,11 @@ const UploadBox = ({ label, file, onUpload, large }) => (
     <p className="text-sm font-medium text-gray-700">{label}</p>
     <div
       onClick={onUpload}
-      className={`${large ? "h-48" : "h-32"} bg-white cursor-pointer rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 hover:bg-gray-100 hover:border-[#042159] transition-all flex flex-col items-center justify-center group`}
+      className={`${large ? "h-48" : "h-32"} bg-white cursor-pointer rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 hover:bg-gray-100 hover:border-primary transition-all flex flex-col items-center justify-center group`}
     >
       {file ? (
         <div className="text-center px-4">
-          <FileText className="w-8 h-8 text-[#042159] mx-auto mb-2" />
+          <FileText className="w-8 h-8 text-primary mx-auto mb-2" />
           <p className="text-xs font-medium text-gray-900 truncate max-w-[200px]">
             {file.name}
           </p>
@@ -421,10 +421,10 @@ const UploadBox = ({ label, file, onUpload, large }) => (
         </div>
       ) : (
         <>
-          <Upload className="w-8 h-8 text-gray-400 group-hover:text-[#042159] mb-2 transition-colors" />
+          <Upload className="w-8 h-8 text-gray-400 group-hover:text-primary mb-2 transition-colors" />
           <p className="text-xs text-gray-500">
             Drag & drop or{" "}
-            <span className="text-[#042159] font-semibold underline">
+            <span className="text-primary font-semibold underline">
               Choose file
             </span>
           </p>

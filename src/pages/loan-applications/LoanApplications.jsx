@@ -84,7 +84,7 @@ const LoanApplications = () => {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
+    <div className="min-h-screen bg-slate-50 text-primary pb-20">
       <div className="max-w-6xl sm:px-4 mx-auto">
         {/* Header Section */}
         <header className="py-4 flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -97,7 +97,7 @@ const LoanApplications = () => {
               pipeline.
             </p>
           </div>
-          <button className="flex items-center gap-2 bg-[#042159] text-white px-8 py-4 rounded-[24px] font-bold shadow-xl shadow-blue-900/20 hover:scale-[1.02] transition-all">
+          <button className="flex items-center gap-2 bg-primary text-white px-8 py-4 rounded-[24px] font-bold shadow-xl shadow-blue-900/20 hover:scale-[1.02] transition-all">
             <Plus size={20} /> New Application
           </button>
         </header>
@@ -116,7 +116,7 @@ const LoanApplications = () => {
                   <input
                     type="text"
                     placeholder="Search by product or application code..."
-                    className="w-full pl-12 pr-4 py-4 bg-slate-100 border-none rounded-2xl focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none text-sm font-bold transition-all"
+                    className="w-full pl-12 pr-4 py-4 bg-slate-100 border-none rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm font-bold transition-all"
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
@@ -142,15 +142,15 @@ const LoanApplications = () => {
           {/* RIGHT: Quick Actions & Sidebar (4 Columns) */}
           <aside className="lg:col-span-4 space-y-6">
             {/* Action Required Card */}
-            <div className="bg-[#042159] rounded-[32px] p-8 text-white shadow-xl shadow-blue-900/20">
+            <div className="bg-primary rounded-[32px] p-8 text-white shadow-xl shadow-blue-900/20">
               <div className="flex items-center gap-2 mb-6">
-                <Zap className="text-[#4DB8E4]" size={20} />
+                <Zap className="text-secondary" size={20} />
                 <h3 className="text-lg font-black tracking-tight">
                   Pending Action
                 </h3>
               </div>
               <div className="p-4 bg-white/5 rounded-2xl border border-white/10 mb-6">
-                <p className="text-[11px] font-bold text-[#4DB8E4] uppercase tracking-widest mb-1">
+                <p className="text-[11px] font-bold text-secondary uppercase tracking-widest mb-1">
                   Attention Required
                 </p>
                 <p className="text-xs leading-relaxed text-white/80">
@@ -161,7 +161,7 @@ const LoanApplications = () => {
                   is waiting for guarantor signatures.
                 </p>
               </div>
-              <button className="w-full bg-[#4DB8E4] text-[#042159] py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-sky-300 transition-colors flex items-center justify-center gap-2">
+              <button className="w-full bg-secondary text-primary py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-sky-300 transition-colors flex items-center justify-center gap-2">
                 Invite Guarantors <ArrowRight size={14} />
               </button>
             </div>
@@ -185,7 +185,7 @@ const LoanApplications = () => {
             {/* Disclaimers & Info */}
             <div className="bg-blue-50/50 rounded-[32px] p-8 border border-blue-100/100">
               <div className="flex items-center gap-3 mb-6">
-                <Gavel className="text-[#4DB8E4]" size={20} />
+                <Gavel className="text-secondary" size={20} />
                 <h3 className="font-black text-[11px] uppercase tracking-widest text-slate-400">
                   Legal Info
                 </h3>
@@ -228,10 +228,10 @@ const ApplicationRow = ({ app }) => {
       iconColor: "text-amber-600",
     },
     "Pending Disbursement": {
-      color: "bg-[#4DB8E4] text-white",
+      color: "bg-secondary text-white",
       icon: <Zap />,
       bgLight: "bg-sky-50",
-      iconColor: "text-[#4DB8E4]",
+      iconColor: "text-secondary",
     },
     Rejected: {
       color: "bg-red-500 text-white",
@@ -256,7 +256,7 @@ const ApplicationRow = ({ app }) => {
   const style = statusConfig[app.status] || statusConfig.Default;
 
   return (
-    <div className="group p-6 bg-white border border-slate-200 rounded-[32px] hover:border-[#4DB8E4]/30 hover:shadow-2xl transition-all cursor-pointer">
+    <div className="group p-6 bg-white border border-slate-200 rounded-[32px] hover:border-secondary/30 hover:shadow-2xl transition-all cursor-pointer">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
         <div className="md:col-span-4 flex items-center gap-4">
           <div
@@ -268,7 +268,7 @@ const ApplicationRow = ({ app }) => {
             })}
           </div>
           <div className="truncate">
-            <h4 className="font-black text-[#042159] text-base leading-tight truncate">
+            <h4 className="font-black text-primary text-base leading-tight truncate">
               {app.product}
             </h4>
             <p className="text-[10px] font-mono text-slate-400 uppercase tracking-widest mt-1">
@@ -277,7 +277,7 @@ const ApplicationRow = ({ app }) => {
           </div>
         </div>
         <div className="md:col-span-3">
-          <p className="text-base font-black text-[#042159]">{app.amount}</p>
+          <p className="text-base font-black text-primary">{app.amount}</p>
           <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
             Requested
           </p>
@@ -308,7 +308,7 @@ const ProcessStep = ({ step, label, active = false }) => (
       {step}
     </div>
     <span
-      className={`text-xs font-bold ${active ? "text-[#042159]" : "text-slate-400"}`}
+      className={`text-xs font-bold ${active ? "text-primary" : "text-slate-400"}`}
     >
       {label}
     </span>
@@ -317,7 +317,7 @@ const ProcessStep = ({ step, label, active = false }) => (
 
 const DisclaimerItem = ({ text }) => (
   <li className="flex gap-3 items-start">
-    <div className="w-1.5 h-1.5 rounded-full bg-[#4DB8E4] mt-1.5 shrink-0" />
+    <div className="w-1.5 h-1.5 rounded-full bg-secondary mt-1.5 shrink-0" />
     <p className="text-[11px] text-slate-500 leading-normal font-medium">
       {text}
     </p>

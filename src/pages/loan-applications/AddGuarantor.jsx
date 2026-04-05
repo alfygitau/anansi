@@ -31,7 +31,7 @@ const AddGuarantors = ({ limit = 4 }) => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
+    <div className="min-h-screen bg-slate-50 text-primary pb-20">
       <div className="max-w-6xl mx-auto sm:px-4">
         {/* Header */}
         <header className="py-6">
@@ -52,9 +52,9 @@ const AddGuarantors = ({ limit = 4 }) => {
               {/* Header Section */}
               <div className="flex items-center gap-3 mb-8">
                 <div className="p-2.5 bg-blue-50 rounded-xl">
-                  <UserPlus size={20} className="text-[#042159]" />
+                  <UserPlus size={20} className="text-primary" />
                 </div>
-                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#042159]">
+                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
                   Add New Guarantor
                 </h3>
               </div>
@@ -71,7 +71,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                     placeholder="e.g. Samuel Otieno"
                     value={guarantorName}
                     onChange={(e) => setGuarantorName(e.target.value)}
-                    className="w-full px-6 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none font-bold text-[#042159] placeholder:text-slate-300 transition-all"
+                    className="w-full px-6 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-secondary/20 outline-none font-bold text-primary placeholder:text-slate-300 transition-all"
                   />
                 </div>
 
@@ -85,7 +85,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                     placeholder="e.g. 0722 000 000"
                     value={guarantorMobile}
                     onChange={(e) => setGuarantorMobile(e.target.value)}
-                    className="w-full px-6 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none font-bold text-[#042159] placeholder:text-slate-300 transition-all"
+                    className="w-full px-6 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-secondary/20 outline-none font-bold text-primary placeholder:text-slate-300 transition-all"
                   />
                 </div>
 
@@ -93,7 +93,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                 <button
                   onClick={handleAdd}
                   disabled={!guarantorName || !guarantorMobile}
-                  className="w-full py-5 mt-5 bg-[#042159] text-white rounded-[24px] text-[10px] font-black uppercase tracking-[0.15em] hover:bg-[#4DB8E4] transition-all active:scale-[0.98] disabled:opacity-20 disabled:grayscale shadow-lg shadow-blue-900/10"
+                  className="w-full py-5 mt-5 bg-primary text-white rounded-[24px] text-[10px] font-black uppercase tracking-[0.15em] hover:bg-secondary transition-all active:scale-[0.98] disabled:opacity-20 disabled:grayscale shadow-lg shadow-blue-900/10"
                 >
                   Confirm & Add to List
                 </button>
@@ -102,7 +102,7 @@ const AddGuarantors = ({ limit = 4 }) => {
               {/* Helpful Tip */}
               <div className="mt-4 pt-4 border-t border-slate-50 px-2 flex items-start gap-3">
                 <div className="mt-0.5">
-                  <Info size={14} className="text-[#4DB8E4]" />
+                  <Info size={14} className="text-secondary" />
                 </div>
                 <p className="text-[9px] font-bold text-slate-400 uppercase leading-relaxed tracking-tight">
                   Verification needed: Guarantors will receive a secure link to
@@ -111,9 +111,9 @@ const AddGuarantors = ({ limit = 4 }) => {
               </div>
             </div>
             {/* Educational Card */}
-            <div className="bg-[#042159] sm:hidden rounded-[40px] p-8 text-white shadow-2xl">
+            <div className="bg-primary sm:hidden rounded-[40px] p-8 text-white shadow-2xl">
               <div className="flex items-center gap-3 mb-8">
-                <Scale className="text-[#4DB8E4]" size={24} />
+                <Scale className="text-secondary" size={24} />
                 <h3 className="text-sm font-black uppercase tracking-widest text-white">
                   Guarantor Liability
                 </h3>
@@ -173,10 +173,10 @@ const AddGuarantors = ({ limit = 4 }) => {
                     {guarantors.map((g) => (
                       <div
                         key={g.id}
-                        className="bg-white p-6 rounded-[32px] border border-slate-100 flex items-center justify-between group hover:border-[#4DB8E4]/30 transition-all"
+                        className="bg-white p-6 rounded-[32px] border border-slate-100 flex items-center justify-between group hover:border-secondary/30 transition-all"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-[#042159]">
+                          <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-primary">
                             <Users size={20} />
                           </div>
                           <div>
@@ -205,7 +205,7 @@ const AddGuarantors = ({ limit = 4 }) => {
               {/* Status Note */}
               <div className="space-y-4">
                 {/* Primary Disclaimer */}
-                <div className="p-6 bg-[#042159] rounded-[32px] shadow-xl shadow-blue-900/10 relative overflow-hidden">
+                <div className="p-6 bg-primary rounded-[32px] shadow-xl shadow-blue-900/10 relative overflow-hidden">
                   {/* Subtle Decorative Icon */}
                   <ShieldCheck
                     className="absolute -right-4 -bottom-4 text-white/5"
@@ -213,8 +213,8 @@ const AddGuarantors = ({ limit = 4 }) => {
                   />
 
                   <div className="relative z-10 flex items-center gap-5">
-                    <div className="bg-[#4DB8E4] h-12 w-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-sky-400/20">
-                      <UserCheck className="text-[#042159]" size={24} />
+                    <div className="bg-secondary h-12 w-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-sky-400/20">
+                      <UserCheck className="text-primary" size={24} />
                     </div>
                     <div>
                       <h4 className="text-xs font-black text-white uppercase tracking-[0.2em] mb-2">
@@ -225,7 +225,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                         **uncommitted deposits** to secure your loan. By
                         accepting this role, they enter a legally binding
                         agreement to be held
-                        <span className="text-[#4DB8E4] font-bold">
+                        <span className="text-secondary font-bold">
                           {" "}
                           jointly and severally liable{" "}
                         </span>
@@ -242,7 +242,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                       <Briefcase size={16} />
                     </div>
                     <div>
-                      <p className="text-[10px] font-black text-[#042159] uppercase tracking-widest mb-1">
+                      <p className="text-[10px] font-black text-primary uppercase tracking-widest mb-1">
                         Membership Standing
                       </p>
                       <p className="text-[11px] text-slate-500 leading-tight">
@@ -257,7 +257,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                       <Lock size={16} />
                     </div>
                     <div>
-                      <p className="text-[10px] font-black text-[#042159] uppercase tracking-widest mb-1">
+                      <p className="text-[10px] font-black text-primary uppercase tracking-widest mb-1">
                         Collateral Lien
                       </p>
                       <p className="text-[11px] text-slate-500 leading-tight">
@@ -281,7 +281,7 @@ const AddGuarantors = ({ limit = 4 }) => {
               {guarantors.length >= limit && (
                 <button
                   onClick={() => navigate("/add-statements")}
-                  className="w-full py-5 bg-[#4DB8E4] text-white rounded-[24px] font-black uppercase tracking-widest shadow-xl shadow-sky-900/10 hover:scale-[1.02] transition-all"
+                  className="w-full py-5 bg-secondary text-white rounded-[24px] font-black uppercase tracking-widest shadow-xl shadow-sky-900/10 hover:scale-[1.02] transition-all"
                 >
                   Continue
                 </button>
@@ -297,7 +297,7 @@ const AddGuarantors = ({ limit = 4 }) => {
 /* --- Sub-Component --- */
 const LiabilityPoint = ({ title, desc }) => (
   <div>
-    <h4 className="text-[11px] font-black uppercase tracking-widest text-[#4DB8E4] mb-2">
+    <h4 className="text-[11px] font-black uppercase tracking-widest text-secondary mb-2">
       {title}
     </h4>
     <p className="text-xs text-white/50 leading-relaxed">{desc}</p>

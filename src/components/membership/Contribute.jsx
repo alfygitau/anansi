@@ -70,7 +70,7 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-[#042159]/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-primary/60 backdrop-blur-sm"
           />
 
           {/* Centered Modal Card */}
@@ -83,7 +83,7 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
             {/* Scrollable Form Body */}
             <div className="flex-1 overflow-y-auto space-y-4 no-scrollbar">
               <div className="text-center space-y-2">
-                <h2 className="text-2xl font-black text-[#042159] tracking-tight">
+                <h2 className="text-2xl font-black text-primary tracking-tight">
                   Contributions
                 </h2>
                 <p className="text-slate-500 text-sm">
@@ -119,7 +119,7 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
                         onChange={(e) => setSavingsAmount(e.target.value)}
                         onBlur={handleBlur}
                         placeholder="0.00"
-                        className="bg-transparent font-bold text-[#042159] outline-none w-full text-sm"
+                        className="bg-transparent font-bold text-primary outline-none w-full text-sm"
                       />
                     </div>
                     {errors.savings && (
@@ -163,7 +163,7 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
                           onChange={(e) => setSharesAmount(e.target.value)}
                           onBlur={handleBlur}
                           placeholder="e.g. 5000"
-                          className="bg-transparent font-bold text-[#042159] outline-none w-full text-sm"
+                          className="bg-transparent font-bold text-primary outline-none w-full text-sm"
                         />
                       </div>
                       {errors.shares && (
@@ -209,7 +209,7 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
     flex items-center justify-center gap-3 transition-all duration-200
     ${
       isFormValid
-        ? "bg-[#042159] hover:bg-[#062d7a] text-white shadow-xl shadow-blue-900/20 active:scale-[0.98] cursor-pointer"
+        ? "bg-primary hover:bg-[#062d7a] text-white shadow-xl shadow-blue-900/20 active:scale-[0.98] cursor-pointer"
         : "bg-slate-200 text-slate-400 cursor-not-allowed opacity-70 shadow-none"
     }
   `}
@@ -219,7 +219,7 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
                   size={18}
                   className={`transition-transform ${
                     isFormValid
-                      ? "group-hover:translate-x-1 text-[#4DB8E4]"
+                      ? "group-hover:translate-x-1 text-secondary"
                       : "text-slate-300"
                   }`}
                 />

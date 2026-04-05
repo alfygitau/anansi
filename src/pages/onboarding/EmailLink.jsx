@@ -76,7 +76,7 @@ const EmailLink = () => {
                     Link Sent Successfully
                   </span>
                 </div>
-                <h1 className="text-2xl font-black text-[#042159] uppercase tracking-tight leading-none mb-4">
+                <h1 className="text-2xl font-black text-primary uppercase tracking-tight leading-none mb-4">
                   Selfie Verification
                 </h1>
                 <p className="text-slate-500 text-lg leading-relaxed">
@@ -84,7 +84,7 @@ const EmailLink = () => {
                   Because our verification system utilizes your smartphone's
                   camera to perform a high-resolution biometric scan, this
                   process{" "}
-                  <span className="text-[#042159] font-bold">
+                  <span className="text-primary font-bold">
                     must be completed on a mobile device.
                   </span>
                   &nbsp; Simply open the email on your phone, click the link,
@@ -95,20 +95,18 @@ const EmailLink = () => {
               <div className="space-y-8 mb-12">
                 {/* Step 1: Email Access */}
                 <div className="flex gap-6 group">
-                  <div className="flex-shrink-0 w-10 h-10 bg-[#042159] text-white rounded-2xl flex items-center justify-center font-black text-base shadow-lg shadow-blue-900/20 group-hover:scale-110 transition-transform">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary text-white rounded-2xl flex items-center justify-center font-black text-base shadow-lg shadow-blue-900/20 group-hover:scale-110 transition-transform">
                     1
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[#042159] font-black uppercase text-xs tracking-widest">
+                    <p className="text-primary font-black uppercase text-xs tracking-widest">
                       Access your Inbox
                     </p>
                     <p className="text-slate-600 text-sm leading-relaxed">
                       Open the verification email on your{" "}
-                      <span className="font-bold text-[#042159]">
-                        smartphone
-                      </span>
+                      <span className="font-bold text-primary">smartphone</span>
                       . If you don't see it within 2 minutes, please check your{" "}
-                      <span className="underline decoration-[#4DB8E4] decoration-2">
+                      <span className="underline decoration-secondary decoration-2">
                         Spam or Promotions
                       </span>{" "}
                       folder.
@@ -118,16 +116,16 @@ const EmailLink = () => {
 
                 {/* Step 2: Mobile Action */}
                 <div className="flex gap-6 group">
-                  <div className="flex-shrink-0 w-10 h-10 bg-[#042159] text-white rounded-2xl flex items-center justify-center font-black text-base shadow-lg shadow-blue-900/20 group-hover:scale-110 transition-transform">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary text-white rounded-2xl flex items-center justify-center font-black text-base shadow-lg shadow-blue-900/20 group-hover:scale-110 transition-transform">
                     2
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[#042159] font-black uppercase text-xs tracking-widest">
+                    <p className="text-primary font-black uppercase text-xs tracking-widest">
                       Biometric Scan
                     </p>
                     <p className="text-slate-600 text-sm leading-relaxed">
                       Tap the secure link to launch the{" "}
-                      <span className="font-bold text-[#042159]">
+                      <span className="font-bold text-primary">
                         Facial Liveness
                       </span>{" "}
                       interface. Position your face within the frame in a
@@ -139,21 +137,18 @@ const EmailLink = () => {
 
                 {/* Step 3: Confirmation */}
                 <div className="flex gap-6 group">
-                  <div className="flex-shrink-0 w-10 h-10 bg-[#042159] text-white rounded-2xl flex items-center justify-center font-black text-base shadow-lg shadow-blue-900/20 group-hover:scale-110 transition-transform">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary text-white rounded-2xl flex items-center justify-center font-black text-base shadow-lg shadow-blue-900/20 group-hover:scale-110 transition-transform">
                     3
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[#042159] font-black uppercase text-xs tracking-widest">
+                    <p className="text-primary font-black uppercase text-xs tracking-widest">
                       Sync & Finalize
                     </p>
                     <p className="text-slate-600 text-sm leading-relaxed">
                       Once the mobile app displays a "Success" message, return
                       to this screen and click
-                      <span className="font-bold text-[#042159]">
-                        {" "}
-                        Continue
-                      </span>
-                      . We will automatically sync your biometric data to your
+                      <span className="font-bold text-primary"> Continue</span>.
+                      We will automatically sync your biometric data to your
                       Anansi Sacco profile.
                     </p>
                   </div>
@@ -187,7 +182,7 @@ const EmailLink = () => {
                 className={`w-full h-[72px] rounded-[28px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-4 transition-all shadow-xl ${
                   isFetching
                     ? "bg-slate-200 text-slate-400 cursor-not-allowed"
-                    : "bg-[#042159] text-white hover:bg-[#4DB8E4] hover:text-[#042159] shadow-blue-900/20"
+                    : "bg-primary text-white hover:bg-secondary hover:text-primary shadow-blue-900/20"
                 }`}
               >
                 {isFetching ? (
@@ -224,7 +219,7 @@ const EmailLink = () => {
                 {/* Security & Regulatory Compliance */}
                 <div className="flex items-start gap-4">
                   <div className="p-2 bg-slate-50 rounded-lg">
-                    <ShieldCheck className="text-[#042159]" size={20} />
+                    <ShieldCheck className="text-primary" size={20} />
                   </div>
                   <div className="space-y-1">
                     <p className="text-[11px] font-black uppercase tracking-widest text-slate-600">
@@ -253,7 +248,7 @@ const EmailLink = () => {
                 {/* Support & Troubleshooting */}
                 <div className="flex items-start gap-4">
                   <div className="p-2 bg-slate-50 rounded-lg">
-                    <Info className="text-[#042159]" size={20} />
+                    <Info className="text-primary" size={20} />
                   </div>
                   <div className="space-y-1">
                     <p className="text-[11px] font-black uppercase tracking-widest text-slate-600">
@@ -262,14 +257,14 @@ const EmailLink = () => {
                     <p className="text-[11px] text-slate-400 leading-relaxed font-medium">
                       If you haven't received the verification email within 5
                       minutes, please inspect your{" "}
-                      <span className="text-[#042159] font-bold underline decoration-[#4DB8E4]">
+                      <span className="text-primary font-bold underline decoration-secondary">
                         Spam, Junk, or Promotions
                       </span>{" "}
                       folders. Ensure your device is connected to a stable
                       internet network. If the link remains undelivered or
                       expires, you can request a manual re-send or contact our
                       dedicated{" "}
-                      <span className="text-[#042159] font-bold underline decoration-[#4DB8E4]">
+                      <span className="text-primary font-bold underline decoration-secondary">
                         Anansi Support Team
                       </span>{" "}
                       for immediate technical assistance.

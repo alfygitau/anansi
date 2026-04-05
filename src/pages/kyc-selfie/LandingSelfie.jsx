@@ -24,11 +24,11 @@ const MobileSelfieLanding = () => {
     <div className="min-h-screen bg-slate-50 flex flex-col items-center font-sans">
       {/* 1. Header Navigation */}
       <header className="w-full max-w-[600px] h-[92px] bg-white/80 backdrop-blur-md border-b border-slate-100 flex items-center justify-between px-6 sticky top-0 z-50">
-        <div className="w-12 h-12 bg-[#042159] rounded-[10px] flex items-center justify-center shadow-2xl shadow-blue-900/20">
-          <ShieldCheck className="text-[#4DB8E4]" size={32} />
+        <div className="w-12 h-12 bg-primary rounded-[10px] flex items-center justify-center shadow-2xl shadow-blue-900/20">
+          <ShieldCheck className="text-secondary" size={32} />
         </div>
-        <button className="flex items-center gap-2 text-[#042159] group">
-          <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-[#4DB8E4]/20 transition-colors">
+        <button className="flex items-center gap-2 text-primary group">
+          <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
             <Headphones size={16} />
           </div>
           <span className="text-[11px] font-black uppercase tracking-widest">
@@ -40,13 +40,13 @@ const MobileSelfieLanding = () => {
       <main className="w-full max-w-[600px] px-6 py-8 flex flex-col items-center">
         {/* 2. Hero Section */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#4DB8E4]/10 rounded-full text-[#4DB8E4] mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-secondary/10 rounded-full text-secondary mb-4">
             <ShieldCheck size={14} />
             <span className="text-[10px] font-bold uppercase tracking-widest">
               Secure Verification
             </span>
           </div>
-          <h1 className="text-2xl font-black text-[#042159] uppercase tracking-tight mb-2">
+          <h1 className="text-2xl font-black text-primary uppercase tracking-tight mb-2">
             Selfie Verification
           </h1>
           <p className="text-slate-500 text-sm leading-relaxed px-4">
@@ -63,7 +63,7 @@ const MobileSelfieLanding = () => {
             initial={{ top: "-10%" }}
             animate={{ top: "110%" }}
             transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
-            className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#4DB8E4] to-transparent z-20 shadow-[0_0_15px_#4DB8E4]"
+            className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-secondary to-transparent z-20 shadow-[0_0_15px_#4DB8E4]"
           />
 
           {/* 2. The Facial Silhouette - Scaled up for the new height */}
@@ -71,11 +71,11 @@ const MobileSelfieLanding = () => {
             <UserRound
               size={180} // Increased size
               strokeWidth={0.5}
-              className="text-[#042159]/20"
+              className="text-primary/20"
             />
             {/* Inner focus points */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-36 h-48 border-[0.5px] border-[#4DB8E4]/30 rounded-[60px]" />
+              <div className="w-36 h-48 border-[0.5px] border-secondary/30 rounded-[60px]" />
             </div>
           </div>
 
@@ -84,21 +84,21 @@ const MobileSelfieLanding = () => {
             <Scan
               size="100%"
               strokeWidth={1}
-              className="text-[#4DB8E4] opacity-40 animate-pulse"
+              className="text-secondary opacity-40 animate-pulse"
             />
           </div>
 
           {/* 4. Background Tech Circles */}
           <div className="absolute inset-0 z-0">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] border border-[#042159]/5 rounded-full" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[100%] border border-[#042159]/5 rounded-full border-dashed" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] border border-primary/5 rounded-full" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[100%] border border-primary/5 rounded-full border-dashed" />
           </div>
         </div>
 
         {/* 4. Checklist Card */}
         <div className="w-full bg-white rounded-[32px] p-8 border border-slate-100 shadow-sm mb-6">
-          <h3 className="text-[12px] font-black text-[#042159] uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-            <Lightbulb size={16} className="text-[#4DB8E4]" />
+          <h3 className="text-[12px] font-black text-primary uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
+            <Lightbulb size={16} className="text-secondary" />
             Success Checklist
           </h3>
 
@@ -152,10 +152,10 @@ const MobileSelfieLanding = () => {
         <footer className="w-full sticky bottom-6 px-6">
           <button
             onClick={startCapture}
-            className="w-full h-[64px] bg-[#042159] text-white rounded-[24px] font-black uppercase tracking-[0.15em] flex items-center justify-center gap-3 shadow-2xl shadow-blue-900/30 active:scale-[0.98] transition-all"
+            className="w-full h-[64px] bg-primary text-white rounded-[24px] font-black uppercase tracking-[0.15em] flex items-center justify-center gap-3 shadow-2xl shadow-blue-900/30 active:scale-[0.98] transition-all"
           >
             Start Verification
-            <ArrowRight size={20} className="text-[#4DB8E4]" />
+            <ArrowRight size={20} className="text-secondary" />
           </button>
         </footer>
       </main>

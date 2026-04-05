@@ -392,10 +392,10 @@ const Homepage = () => {
                 {/* Text Content Area */}
                 <div className="flex-1 space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#042159] text-[#4DB8E4] shadow-lg shadow-blue-900/20">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-secondary shadow-lg shadow-blue-900/20">
                       <ShieldCheck size={22} />
                     </div>
-                    <h3 className="text-lg font-black uppercase tracking-tight text-[#042159]">
+                    <h3 className="text-lg font-black uppercase tracking-tight text-primary">
                       Membership Progress
                     </h3>
                   </div>
@@ -406,7 +406,7 @@ const Homepage = () => {
                       full membership benefits
                     </span>{" "}
                     and access various loan products, you need a minimum of{" "}
-                    <span className="font-bold text-[#042159]">
+                    <span className="font-bold text-primary">
                       10 shares (KES 10,000)
                     </span>
                     .
@@ -429,7 +429,7 @@ const Homepage = () => {
                       <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">
                         Shares Acquired
                       </span>
-                      <span className="text-[13px] font-black text-[#042159]">
+                      <span className="text-[13px] font-black text-primary">
                         {percentage.toFixed(1)}%
                       </span>
                     </div>
@@ -440,7 +440,7 @@ const Homepage = () => {
                         initial={{ width: 0 }}
                         animate={{ width: `${percentage}%` }}
                         transition={{ duration: 1.2, ease: "circOut" }}
-                        className="h-full rounded-full bg-gradient-to-r from-[#042159] to-[#074073] relative"
+                        className="h-full rounded-full bg-gradient-to-r from-primary to-[#074073] relative"
                       >
                         {/* Shine effect on bar */}
                         <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent" />
@@ -454,12 +454,12 @@ const Homepage = () => {
                   </div>
                   <button
                     onClick={() => setShowSharesAmount(true)}
-                    className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-[#042159] px-8 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-blue-900/20 transition-all hover:bg-[#062d7a] active:scale-[0.98]"
+                    className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-primary px-8 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-blue-900/20 transition-all hover:bg-[#062d7a] active:scale-[0.98]"
                   >
                     Buy Shares
                     <ArrowRight
                       size={18}
-                      className="transition-transform group-hover:translate-x-1 text-[#4DB8E4]"
+                      className="transition-transform group-hover:translate-x-1 text-secondary"
                     />
                   </button>
                 </div>
@@ -497,13 +497,13 @@ const Homepage = () => {
                   onClick={onClick}
                   className="flex flex-col items-center cursor-pointer group w-full"
                 >
-                  <div className="w-20 h-20 sm:w-20 sm:h-20 bg-slate-200 rounded-[24px] sm:rounded-3xl flex items-center justify-center text-[#042159] transition-all duration-300 group-hover:bg-[#4DB8E4] group-hover:text-white group-hover:shadow-xl group-hover:shadow-blue-100 group-hover:-translate-y-1">
+                  <div className="w-20 h-20 sm:w-20 sm:h-20 bg-slate-200 rounded-[24px] sm:rounded-3xl flex items-center justify-center text-primary transition-all duration-300 group-hover:bg-secondary group-hover:text-white group-hover:shadow-xl group-hover:shadow-blue-100 group-hover:-translate-y-1">
                     {React.cloneElement(icon, {
                       size: 28,
                       className: "sm:w-[32px] sm:h-[32px]",
                     })}
                   </div>
-                  <span className="text-[10px] sm:text-[11px] font-black text-center mt-3 leading-tight max-w-[80px] sm:max-w-[90px] uppercase tracking-wider text-slate-400 group-hover:text-[#042159] transition-colors">
+                  <span className="text-[10px] sm:text-[11px] font-black text-center mt-3 leading-tight max-w-[80px] sm:max-w-[90px] uppercase tracking-wider text-slate-400 group-hover:text-primary transition-colors">
                     {label}
                   </span>
                 </div>
@@ -599,7 +599,7 @@ const AccountCard = ({
       onClick={navigateToAccountDetails}
       className={`p-6 cursor-pointer rounded-[32px] transition-all relative overflow-hidden group ${
         isPrimary
-          ? "bg-[#042159] text-white shadow-xl shadow-blue-900/20"
+          ? "bg-primary text-white shadow-xl shadow-blue-900/20"
           : "bg-white border border-slate-200 shadow-sm"
       }`}
     >
@@ -679,7 +679,7 @@ const ProductsEmptyState = () => (
     </div>
 
     <div className="text-center">
-      <h3 className="text-sm font-bold text-[#042159] uppercase tracking-wider">
+      <h3 className="text-sm font-bold text-primary uppercase tracking-wider">
         Products Temporarily Unavailable
       </h3>
       <p className="text-[11px] text-slate-400 mt-2 max-w-[240px] mx-auto leading-relaxed">
@@ -690,7 +690,7 @@ const ProductsEmptyState = () => (
 
     <button
       onClick={() => window.location.reload()}
-      className="mt-6 flex items-center gap-2 px-6 py-2 border border-slate-200 text-[#042159] rounded-[7px] text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all active:scale-95"
+      className="mt-6 flex items-center gap-2 px-6 py-2 border border-slate-200 text-primary rounded-[7px] text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all active:scale-95"
     >
       <RefreshCcw size={14} />
       Refresh Catalog
@@ -699,11 +699,11 @@ const ProductsEmptyState = () => (
 );
 
 const QuickAction = ({ label, icon }) => (
-  <button className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-[7px] transition-all hover:border-[#4DB8E4] hover:shadow-md group text-left">
-    <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded bg-slate-50 text-[#042159] group-hover:bg-[#4DB8E4] group-hover:text-white transition-colors">
+  <button className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-[7px] transition-all hover:border-secondary hover:shadow-md group text-left">
+    <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded bg-slate-50 text-primary group-hover:bg-secondary group-hover:text-white transition-colors">
       {icon}
     </div>
-    <span className="text-xs font-bold text-slate-600 group-hover:text-[#042159]">
+    <span className="text-xs font-bold text-slate-600 group-hover:text-primary">
       {label}
     </span>
   </button>
@@ -722,7 +722,7 @@ const CompactLoanCard = ({ loan, accent }) => (
           {loan.loanCode}
         </p>
       </div>
-      <p className="font-bold text-sm text-[#042159]">{loan.balance}</p>
+      <p className="font-bold text-sm text-primary">{loan.balance}</p>
     </div>
     <div className="flex justify-between items-center text-[10px] text-slate-500 pt-3 border-t border-slate-50">
       <span>
@@ -735,20 +735,18 @@ const CompactLoanCard = ({ loan, accent }) => (
 );
 
 const EmptyState = ({ message, onApply }) => (
-  <div className="relative overflow-hidden py-12 px-6 border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center bg-white/50 backdrop-blur-sm group transition-all hover:border-[#4DB8E4]/30">
+  <div className="relative overflow-hidden py-12 px-6 border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center bg-white/50 backdrop-blur-sm group transition-all hover:border-secondary/30">
     {/* Decorative Background Glow */}
-    <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#4DB8E4]/5 rounded-full blur-3xl group-hover:bg-[#4DB8E4]/10 transition-colors"></div>
+    <div className="absolute -top-10 -right-10 w-32 h-32 bg-secondary/5 rounded-full blur-3xl group-hover:bg-secondary/10 transition-colors"></div>
 
     {/* Icon with Soft Background */}
-    <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300 mb-4 transition-transform group-hover:scale-110 group-hover:text-[#4DB8E4] duration-500">
+    <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300 mb-4 transition-transform group-hover:scale-110 group-hover:text-secondary duration-500">
       <FilePlus2 size={32} strokeWidth={1.5} />
     </div>
 
     {/* Text Content */}
     <div className="text-center mb-6">
-      <p className="text-sm font-bold text-[#042159] tracking-tight">
-        {message}
-      </p>
+      <p className="text-sm font-bold text-primary tracking-tight">{message}</p>
       <p className="text-[11px] text-slate-400 mt-1 max-w-[180px] mx-auto">
         Start a new application to access quick credit and growth funds.
       </p>
@@ -757,7 +755,7 @@ const EmptyState = ({ message, onApply }) => (
     {/* Modern Button CTA */}
     <button
       onClick={onApply}
-      className="flex items-center gap-2 px-5 py-2.5 bg-[#042159] text-white rounded-[7px] text-xs font-bold shadow-lg shadow-blue-900/20 hover:bg-[#4DB8E4] hover:shadow-[#4DB8E4]/20 transition-all active:scale-95"
+      className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-[7px] text-xs font-bold shadow-lg shadow-blue-900/20 hover:bg-secondary hover:shadow-secondary/20 transition-all active:scale-95"
     >
       <PlusCircle size={16} />
       Apply Now

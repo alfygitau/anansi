@@ -30,7 +30,7 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-[#042159]/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-primary/60 backdrop-blur-sm"
           />
 
           {/* Centered Modal Card */}
@@ -45,13 +45,13 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
             <div className="p-10 space-y-6">
               {/* Top Section / Progress */}
               <div className="space-y-4">
-                <div className="bg-[#042159] rounded-2xl p-5 text-white relative overflow-hidden">
+                <div className="bg-primary rounded-2xl p-5 text-white relative overflow-hidden">
                   <div className="absolute right-4 top-4 opacity-10">
                     <ShieldCheck size={50} />
                   </div>
                   <div className="relative z-10 flex items-center gap-4">
                     <div className="bg-white/20 w-10 h-10 rounded-md flex items-center justify-center">
-                      <Smartphone className="text-[#4DB8E4]" size={20} />
+                      <Smartphone className="text-secondary" size={20} />
                     </div>
                     <div>
                       <h2 className="text-xl font-black tracking-tight">
@@ -83,7 +83,7 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
                       type="text"
                       value={amount}
                       readOnly
-                      className="bg-transparent font-bold text-[#042159] outline-none w-full"
+                      className="bg-transparent font-bold text-primary outline-none w-full"
                     />
                   </div>
                 </div>
@@ -105,7 +105,7 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     placeholder="e.g. 0712345678"
-                    className="h-14 w-full rounded-2xl border border-slate-200 px-4 text-sm font-bold focus:border-[#042159] focus:ring-4 focus:ring-[#042159]/5 outline-none transition-all shadow-sm"
+                    className="h-14 w-full rounded-2xl border border-slate-200 px-4 text-sm font-bold focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all shadow-sm"
                   />
 
                   <label className="flex items-center gap-2 cursor-pointer mt-2">
@@ -113,7 +113,7 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
                       type="checkbox"
                       checked={rememberMe}
                       onChange={() => setRememberMe(!rememberMe)}
-                      className="w-4 h-4 rounded border-slate-300 text-[#042159] focus:ring-[#042159]"
+                      className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary"
                     />
                     <span className="text-[11px] text-slate-500 font-medium">
                       Save this number for future Sacco transactions
@@ -125,7 +125,7 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
               {/* Secure Footer Section */}
               <div className="space-y-4 pt-2">
                 <div className="bg-cyan-50/50 p-4 rounded-xl flex gap-3 border border-cyan-100">
-                  <Lock size={16} className="text-[#042159] shrink-0" />
+                  <Lock size={16} className="text-primary shrink-0" />
                   <p className="text-[11px] text-slate-600 leading-relaxed italic">
                     By clicking continue, an{" "}
                     <span className="font-bold">STK push</span> will be sent to
@@ -135,12 +135,12 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
 
                 <button
                   onClick={onContinue}
-                  className="group w-full h-14 bg-[#042159] hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/10 active:scale-[0.98]"
+                  className="group w-full h-14 bg-primary hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/10 active:scale-[0.98]"
                 >
                   Pay & Activate
                   <ArrowRight
                     size={18}
-                    className="group-hover:translate-x-1 transition-transform text-[#4DB8E4]"
+                    className="group-hover:translate-x-1 transition-transform text-secondary"
                   />
                 </button>
               </div>

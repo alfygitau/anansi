@@ -12,7 +12,7 @@
 
   /* Focus State: Soft Glow instead of a harsh border */
   .modern-input:focus {
-    @apply bg-white ring-2 ring-[#4DB8E4]/20 shadow-lg shadow-blue-900/5;
+    @apply bg-white ring-2 ring-secondary/20 shadow-lg shadow-blue-900/5;
   }
 
   /* Hover State: Subtle lift */

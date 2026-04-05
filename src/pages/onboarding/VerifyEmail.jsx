@@ -145,23 +145,23 @@ const VerifyEmail = () => {
       <div className="w-full max-w-[500px] bg-white rounded-[40px] p-10 md:p-14 shadow-2xl shadow-blue-900/5 text-center">
         {/* Animated Icon Header */}
         <div className="relative w-20 h-20 bg-blue-50 rounded-[28px] flex items-center justify-center mx-auto mb-8">
-          <Mail className="text-[#042159]" size={32} />
-          <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#4DB8E4] rounded-full border-4 border-white flex items-center justify-center">
+          <Mail className="text-primary" size={32} />
+          <div className="absolute -top-2 -right-2 w-8 h-8 bg-secondary rounded-full border-4 border-white flex items-center justify-center">
             <ShieldCheck size={14} className="text-white" />
           </div>
         </div>
 
-        <h1 className="text-2xl font-black text-[#042159] tracking-tight mb-3">
+        <h1 className="text-2xl font-black text-primary tracking-tight mb-3">
           Check your inbox
         </h1>
         <p className="text-slate-400 text-sm font-medium mb-8 leading-relaxed px-4">
           We've sent a 6-digit verification code to <br />
-          <span className="text-[#042159] font-bold flex items-center justify-center gap-2 mt-1">
+          <span className="text-primary font-bold flex items-center justify-center gap-2 mt-1">
             {email}&nbsp;
             <Edit3
               onClick={() => navigate("/onboarding/change-email")}
               size={14}
-              className="text-[#4DB8E4] cursor-pointer"
+              className="text-secondary cursor-pointer"
             />
           </span>
         </p>
@@ -173,7 +173,7 @@ const VerifyEmail = () => {
               key={index}
               type="text"
               maxLength="1"
-              className="w-full h-16 sm:h-12 text-center text-2xl font-black text-[#042159] bg-slate-50 border-2 rounded-2xl focus:border-[#4DB8E4] focus:bg-white focus:ring-4 focus:ring-[#4DB8E4]/10 transition-all outline-none"
+              className="w-full h-16 sm:h-12 text-center text-2xl font-black text-primary bg-slate-50 border-2 rounded-2xl focus:border-secondary focus:bg-white focus:ring-4 focus:ring-secondary/10 transition-all outline-none"
               value={data}
               onChange={(e) => handleChange(e.target, index)}
               onFocus={(e) => e.target.select()}
@@ -185,7 +185,7 @@ const VerifyEmail = () => {
         <button
           disabled={isLoading || otp?.join("").length < 6}
           onClick={handleVerify}
-          className="w-full h-[64px] bg-[#042159] text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#4DB8E4] transition-all shadow-xl shadow-blue-900/10 mb-8 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-[#042159]"
+          className="w-full h-[64px] bg-primary text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-secondary transition-all shadow-xl shadow-blue-900/10 mb-8 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-primary"
         >
           {isLoading ? (
             <Loader2 className="animate-spin" size={24} />
@@ -200,12 +200,12 @@ const VerifyEmail = () => {
         <div className="flex flex-col items-center gap-4">
           {timer > 0 ? (
             <p className="text-[10px] font-black uppercase tracking-widest text-slate-300">
-              Resend code in <span className="text-[#4DB8E4]">{timer}s</span>
+              Resend code in <span className="text-secondary">{timer}s</span>
             </p>
           ) : (
             <button
               onClick={onResend}
-              className="flex items-center gap-2 text-[#4DB8E4] hover:text-[#042159] transition-colors group"
+              className="flex items-center gap-2 text-secondary hover:text-primary transition-colors group"
             >
               <RefreshCw
                 size={16}

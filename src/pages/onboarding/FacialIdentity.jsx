@@ -92,13 +92,13 @@ const FacialIdentity = () => {
       <div className="flex-1 pr-5 pl-3">
         <header className="mb-10">
           {/* 3. Adjusted text size for mobile (text-2xl -> text-3xl) */}
-          <h1 className="text-2xl lg:text-2xl font-black text-[#042159] uppercase tracking-tight mb-2">
+          <h1 className="text-2xl lg:text-2xl font-black text-primary uppercase tracking-tight mb-2">
             Selfie Verification
           </h1>
 
-          <div className="bg-blue-50/50 border-l-4 border-[#4DB8E4] p-5 rounded-r-[24px] mb-4">
+          <div className="bg-blue-50/50 border-l-4 border-secondary p-5 rounded-r-[24px] mb-4">
             <p className="text-[14px] text-slate-700 leading-relaxed">
-              <span className="font-bold text-[#042159]">Pro Tip:</span> For the
+              <span className="font-bold text-primary">Pro Tip:</span> For the
               fastest verification, use your smartphone. Mobile cameras provide
               better focus for facial biometrics.
             </p>
@@ -112,7 +112,7 @@ const FacialIdentity = () => {
               provided.
             </p>
             <div className="flex flex-col gap-2">
-              <h4 className="text-[11px] font-black uppercase tracking-[0.1em] text-[#042159]">
+              <h4 className="text-[11px] font-black uppercase tracking-[0.1em] text-primary">
                 How it works:
               </h4>
               <ol className="text-[13px] text-slate-500 space-y-2 list-decimal list-inside ml-1">
@@ -139,20 +139,20 @@ const FacialIdentity = () => {
               key={card.id}
               onClick={card.action}
               /* 4. Made height auto on mobile to prevent text clipping, h-[100px] on desktop */
-              className="group relative min-h-[90px] lg:h-[100px] p-4 border border-slate-100 cursor-pointer w-full bg-white rounded-[24px] flex items-center justify-between transition-all duration-300 hover:border-[#4DB8E4]/30 hover:shadow-2xl hover:shadow-blue-900/10 active:scale-[0.98]"
+              className="group relative min-h-[90px] lg:h-[100px] p-4 border border-slate-100 cursor-pointer w-full bg-white rounded-[24px] flex items-center justify-between transition-all duration-300 hover:border-secondary/30 hover:shadow-2xl hover:shadow-blue-900/10 active:scale-[0.98]"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#4DB8E4]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[24px]" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[24px]" />
 
               <div className="flex items-center gap-4 lg:gap-5 relative z-10">
                 {/* Scaled down icon slightly for mobile */}
-                <div className="h-[50px] w-[50px] lg:h-[64px] lg:w-[64px] shrink-0 rounded-2xl bg-slate-50 flex items-center justify-center shadow-inner group-hover:bg-[#042159] transition-all duration-300">
+                <div className="h-[50px] w-[50px] lg:h-[64px] lg:w-[64px] shrink-0 rounded-2xl bg-slate-50 flex items-center justify-center shadow-inner group-hover:bg-primary transition-all duration-300">
                   <div className="group-hover:text-white transition-colors duration-300 scale-90 lg:scale-100">
                     {card.icon}
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <h3 className="text-[13px] lg:text-[15px] font-black text-[#042159] uppercase tracking-tight leading-none">
+                  <h3 className="text-[13px] lg:text-[15px] font-black text-primary uppercase tracking-tight leading-none">
                     {card.title}
                   </h3>
                   <p className="text-[11px] lg:text-[12px] text-slate-500 font-medium group-hover:text-slate-700 transition-colors">
@@ -161,7 +161,7 @@ const FacialIdentity = () => {
                 </div>
               </div>
 
-              <div className="relative z-10 h-8 w-8 lg:h-10 lg:w-10 flex items-center justify-center rounded-full bg-slate-50 text-[#042159] group-hover:bg-[#4DB8E4] group-hover:text-[#042159] transition-all duration-300">
+              <div className="relative z-10 h-8 w-8 lg:h-10 lg:w-10 flex items-center justify-center rounded-full bg-slate-50 text-primary group-hover:bg-secondary group-hover:text-primary transition-all duration-300">
                 <ChevronRight
                   size={18}
                   className="group-hover:translate-x-0.5 transition-transform"
@@ -174,7 +174,7 @@ const FacialIdentity = () => {
         <div className="pt-8 border-t border-slate-100 pb-10 lg:pb-0">
           <button
             onClick={openWebcam}
-            className="text-[11px] font-black uppercase tracking-widest text-slate-400 hover:text-[#042159] transition-colors"
+            className="text-[11px] font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors"
           >
             I don’t have access to a camera
           </button>
@@ -187,8 +187,8 @@ const FacialIdentity = () => {
         <div className="lg:sticky lg:top-10 space-y-8">
           <div className="space-y-4">
             <div className="flex items-center sm:mt-5 gap-2">
-              <Lock className="text-[#042159]" size={18} />
-              <h4 className="text-[12px] font-black uppercase tracking-widest text-[#042159]">
+              <Lock className="text-primary" size={18} />
+              <h4 className="text-[12px] font-black uppercase tracking-widest text-primary">
                 Privacy & Security
               </h4>
             </div>
@@ -200,8 +200,8 @@ const FacialIdentity = () => {
 
           <div className="space-y-4 pt-8 border-t border-slate-200/60">
             <div className="flex items-center gap-2">
-              <ShieldCheck className="text-[#4DB8E4]" size={18} />
-              <h4 className="text-[12px] font-black uppercase tracking-widest text-[#042159]">
+              <ShieldCheck className="text-secondary" size={18} />
+              <h4 className="text-[12px] font-black uppercase tracking-widest text-primary">
                 Capture Tips
               </h4>
             </div>
@@ -216,16 +216,16 @@ const FacialIdentity = () => {
                   key={i}
                   className="flex items-start gap-2 text-[12px] text-slate-600"
                 >
-                  <div className="h-1.5 w-1.5 rounded-full bg-[#4DB8E4] mt-1.5 shrink-0" />
+                  <div className="h-1.5 w-1.5 rounded-full bg-secondary mt-1.5 shrink-0" />
                   {tip}
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="p-5 bg-[#042159] rounded-[24px] text-white">
+          <div className="p-5 bg-primary rounded-[24px] text-white">
             <div className="flex items-center gap-2 mb-2">
-              <Info size={14} className="text-[#4DB8E4]" />
+              <Info size={14} className="text-secondary" />
               <span className="text-[10px] font-bold uppercase tracking-widest">
                 Compliance
               </span>

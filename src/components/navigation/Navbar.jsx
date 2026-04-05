@@ -12,11 +12,11 @@ const Navbar = () => {
       <nav className="w-full h-[120px] bg-gray-50 sm:px-4 flex items-center justify-between sticky top-0 z-50">
         {/* Logo Section */}
         <div className="flex items-center">
-          <div className="w-16 h-16 bg-[#042159] rounded-[22px] flex items-center justify-center shadow-2xl shadow-blue-900/20">
-            <ShieldCheck className="text-[#4DB8E4]" size={32} />
+          <div className="w-16 h-16 bg-primary rounded-[22px] flex items-center justify-center shadow-2xl shadow-blue-900/20">
+            <ShieldCheck className="text-secondary" size={32} />
           </div>
           {/* Optional: Add brand name if not in logo image */}
-          <span className="ml-3 text-xl font-bold text-[#042159]">Anansi</span>
+          <span className="ml-3 text-xl font-bold text-primary">Anansi</span>
         </div>
 
         {/* Navigation Actions */}
@@ -24,7 +24,7 @@ const Navbar = () => {
           {/* Need Help Button */}
           <button
             onClick={() => navigate("/onboarding/help")}
-            className="flex items-center gap-2 text-gray-600 hover:text-[#042159] transition-colors group"
+            className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors group"
           >
             <HelpCircle
               size={20}

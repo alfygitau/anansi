@@ -137,7 +137,7 @@ const MyStatements = () => {
         onSuccess={() => console.log("Success!")}
       />
 
-      <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
+      <div className="min-h-screen bg-slate-50 text-primary pb-20">
         <div className="max-w-6xl sm:px-4 mx-auto">
           {/* Header Section */}
           <header className="py-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -150,7 +150,7 @@ const MyStatements = () => {
             </div>
             <button
               onClick={() => setShowGenerateStatement(true)}
-              className="flex items-center sm:justify-center gap-3 px-8 py-4 bg-[#042159] text-white rounded-[24px] font-bold text-sm shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] transition-all"
+              className="flex items-center sm:justify-center gap-3 px-8 py-4 bg-primary text-white rounded-[24px] font-bold text-sm shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] transition-all"
             >
               <FileText size={18} />
               Generate Custom Period
@@ -175,7 +175,7 @@ const MyStatements = () => {
                       <select
                         value={accountType}
                         onChange={(e) => setAccountType(e.target.value)}
-                        className="w-full pl-12 pr-12 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none text-sm font-bold transition-all appearance-none cursor-pointer"
+                        className="w-full pl-12 pr-12 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm font-bold transition-all appearance-none cursor-pointer"
                       >
                         <option value="">
                           All {activeTab === "accounts" ? "Accounts" : "Loans"}
@@ -207,7 +207,7 @@ const MyStatements = () => {
                       <select
                         value={year}
                         onChange={(e) => setYear(e.target.value)}
-                        className="w-full pl-12 pr-12 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none text-sm font-bold transition-all appearance-none cursor-pointer"
+                        className="w-full pl-12 pr-12 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm font-bold transition-all appearance-none cursor-pointer"
                       >
                         <option value="All">All Years</option>{" "}
                         {["2026", "2025", "2024", "2023"].map((y) => (
@@ -274,9 +274,9 @@ const MyStatements = () => {
             {/* RIGHT COLUMN: INFO & DISCLAIMERS */}
             <aside className="lg:col-span-4 space-y-6">
               {/* Security Card */}
-              <div className="bg-[#042159] rounded-[32px] p-8 text-white shadow-xl shadow-blue-900/20 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[#4DB8E4]/10 rounded-full -mr-16 -mt-16 blur-2xl" />
-                <Lock className="text-[#4DB8E4] mb-4" size={28} />
+              <div className="bg-primary rounded-[32px] p-8 text-white shadow-xl shadow-blue-900/20 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-full -mr-16 -mt-16 blur-2xl" />
+                <Lock className="text-secondary mb-4" size={28} />
                 <h3 className="text-lg font-black mb-2 leading-tight">
                   Password Protected PDFs
                 </h3>
@@ -285,7 +285,7 @@ const MyStatements = () => {
                   credentials to view them.
                 </p>
                 <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
-                  <p className="text-[10px] uppercase font-black tracking-[0.2em] text-[#4DB8E4] mb-1">
+                  <p className="text-[10px] uppercase font-black tracking-[0.2em] text-secondary mb-1">
                     Unlocking Key
                   </p>
                   <p className="text-xs font-bold">
@@ -313,7 +313,7 @@ const MyStatements = () => {
               {/* Support Card */}
               <div className="bg-blue-50/50 rounded-[32px] p-8 border border-blue-100/50">
                 <div className="flex items-center gap-3 mb-4">
-                  <HelpCircle className="text-[#4DB8E4]" size={20} />
+                  <HelpCircle className="text-secondary" size={20} />
                   <h3 className="font-black text-[11px] uppercase tracking-[0.15em]">
                     Need Assistance?
                   </h3>
@@ -322,7 +322,7 @@ const MyStatements = () => {
                   Missing a transaction? Contact our support line or visit your
                   nearest Anansi branch.
                 </p>
-                <button className="text-[#042159] text-[10px] font-black uppercase tracking-widest hover:text-[#4DB8E4] transition-colors flex items-center gap-2">
+                <button className="text-primary text-[10px] font-black uppercase tracking-widest hover:text-secondary transition-colors flex items-center gap-2">
                   Contact Support <ArrowLeft size={12} className="rotate-180" />
                 </button>
               </div>
@@ -350,8 +350,8 @@ const TabButton = ({ active, onClick, icon, label }) => (
     onClick={onClick}
     className={`px-8 py-3 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 ${
       active
-        ? "bg-[#4DB8E4] text-white shadow-lg shadow-blue-400/20 scale-105"
-        : "bg-white text-slate-400 hover:text-[#042159] border border-transparent hover:border-slate-200"
+        ? "bg-secondary text-white shadow-lg shadow-blue-400/20 scale-105"
+        : "bg-white text-slate-400 hover:text-primary border border-transparent hover:border-slate-200"
     }`}
   >
     {icon} {label}
@@ -359,18 +359,18 @@ const TabButton = ({ active, onClick, icon, label }) => (
 );
 
 const StatementListItem = ({ stmt, onDownload }) => (
-  <div className="group p-6 bg-white border border-slate-200 rounded-[32px] hover:border-[#4DB8E4]/30 hover:shadow-2xl hover:shadow-blue-900/5 transition-all">
+  <div className="group p-6 bg-white border border-slate-200 rounded-[32px] hover:border-secondary/30 hover:shadow-2xl hover:shadow-blue-900/5 transition-all">
     <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
       <div className="md:col-span-5 flex items-center gap-4">
         <div className="w-14 h-14 shrink-0 rounded-[20px] bg-slate-50 flex items-center justify-center group-hover:bg-blue-50 transition-colors">
           {stmt.type === "loan" ? (
-            <Receipt className="text-[#042159]" size={24} />
+            <Receipt className="text-primary" size={24} />
           ) : (
-            <FileText className="text-[#042159]" size={24} />
+            <FileText className="text-primary" size={24} />
           )}
         </div>
         <div>
-          <h4 className="font-black text-[#042159] text-base leading-tight">
+          <h4 className="font-black text-primary text-base leading-tight">
             {stmt.product.name}
           </h4>
           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">
@@ -382,7 +382,7 @@ const StatementListItem = ({ stmt, onDownload }) => (
       </div>
 
       <div className="md:col-span-3">
-        <p className="text-sm font-black text-[#042159]">
+        <p className="text-sm font-black text-primary">
           {new Date(stmt.start_date).toLocaleDateString("en-GB", {
             month: "short",
             day: "numeric",
@@ -395,7 +395,7 @@ const StatementListItem = ({ stmt, onDownload }) => (
       </div>
 
       <div className="md:col-span-3">
-        <p className="text-sm font-black text-[#042159]">
+        <p className="text-sm font-black text-primary">
           {new Date(stmt.end_date).toLocaleDateString("en-GB", {
             month: "short",
             day: "numeric",
@@ -410,7 +410,7 @@ const StatementListItem = ({ stmt, onDownload }) => (
       <div className="md:col-span-1 flex justify-end">
         <button
           onClick={onDownload}
-          className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#4DB8E4] group-hover:text-white transition-all shadow-sm"
+          className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-secondary group-hover:text-white transition-all shadow-sm"
         >
           <Download size={20} />
         </button>
@@ -421,7 +421,7 @@ const StatementListItem = ({ stmt, onDownload }) => (
 
 const DisclaimerItem = ({ text }) => (
   <li className="flex gap-3 items-start">
-    <div className="w-1.5 h-1.5 rounded-full bg-[#4DB8E4] mt-1.5 shrink-0" />
+    <div className="w-1.5 h-1.5 rounded-full bg-secondary mt-1.5 shrink-0" />
     <p className="text-[11px] text-slate-500 leading-normal font-medium">
       {text}
     </p>

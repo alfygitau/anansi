@@ -82,7 +82,7 @@ const ChangeEmail = () => {
       {/* Navigation */}
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-slate-400 hover:text-[#042159] transition-colors mb-12 group"
+        className="flex items-center gap-2 text-slate-400 hover:text-primary transition-colors mb-12 group"
       >
         <ChevronLeft
           size={20}
@@ -97,7 +97,7 @@ const ChangeEmail = () => {
         {/* Left: Content */}
         <div className="lg:col-span-6">
           <header className="mb-10">
-            <h1 className="text-3xl font-black text-[#042159] uppercase tracking-tight leading-none mb-4">
+            <h1 className="text-3xl font-black text-primary uppercase tracking-tight leading-none mb-4">
               Update Your Email Address
             </h1>
             <p className="text-slate-500 text-lg leading-relaxed">
@@ -127,10 +127,10 @@ const ChangeEmail = () => {
                   }}
                   onBlur={(e) => validateEmail(e.target.value)}
                   placeholder="e.g. name@example.com"
-                  className={`w-full h-[62px] bg-slate-50 border-2 rounded-[24px] pl-14 pr-6 transition-all outline-none font-bold text-[#042159] ${
+                  className={`w-full h-[62px] bg-slate-50 border-2 rounded-[24px] pl-14 pr-6 transition-all outline-none font-bold text-primary ${
                     error
                       ? "border-red-200 focus:border-red-400 bg-red-50/30"
-                      : "border-slate-100 focus:border-[#4DB8E4] focus:bg-white"
+                      : "border-slate-100 focus:border-secondary focus:bg-white"
                   }`}
                 />
               </div>
@@ -150,7 +150,7 @@ const ChangeEmail = () => {
               className={`w-full h-[72px] rounded-[28px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-4 transition-all shadow-xl mt-8 ${
                 isLoading || !!error || !email
                   ? "bg-slate-200 text-slate-400 cursor-not-allowed"
-                  : "bg-[#042159] text-white hover:bg-[#4DB8E4] hover:text-[#042159] shadow-blue-900/20 active:scale-[0.98]"
+                  : "bg-primary text-white hover:bg-secondary hover:text-primary shadow-blue-900/20 active:scale-[0.98]"
               }`}
             >
               {isLoading ? (
@@ -169,24 +169,22 @@ const ChangeEmail = () => {
           {/* Verification Info */}
           <div className="mt-10 p-8 bg-slate-50 rounded-[32px] border border-slate-100 flex gap-5 items-start relative overflow-hidden group">
             {/* Subtle background glow for the icon */}
-            <div className="absolute -left-4 -top-4 w-20 h-20 bg-[#4DB8E4]/5 rounded-full blur-2xl group-hover:bg-[#4DB8E4]/10 transition-colors" />
+            <div className="absolute -left-4 -top-4 w-20 h-20 bg-secondary/5 rounded-full blur-2xl group-hover:bg-secondary/10 transition-colors" />
 
             <ShieldCheck
-              className="text-[#4DB8E4] flex-shrink-0 mt-1"
+              className="text-secondary flex-shrink-0 mt-1"
               size={28}
             />
 
             <div className="space-y-3 relative z-10">
-              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#042159]">
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
                 Security Protocol & Next Steps
               </h4>
 
               <div className="space-y-4">
                 <p className="text-xs text-slate-500 leading-relaxed">
                   Upon clicking{" "}
-                  <span className="text-[#042159] font-bold">
-                    "Verify Email"
-                  </span>
+                  <span className="text-primary font-bold">"Verify Email"</span>
                   , our system will generate a unique, 6-digit secure
                   authentication code. This code will be dispatched immediately
                   to the email address provided above to confirm your identity
@@ -197,7 +195,7 @@ const ChangeEmail = () => {
                 <p className="text-[11px] text-slate-400 leading-relaxed italic border-t border-slate-200 pt-4">
                   <span className="font-bold text-slate-500">Note:</span> If you
                   do not see the email within 60 seconds, please check your{" "}
-                  <span className="underline decoration-[#4DB8E4]/40">
+                  <span className="underline decoration-secondary/40">
                     Spam or Junk
                   </span>{" "}
                   folders before requesting a new code.
@@ -209,22 +207,22 @@ const ChangeEmail = () => {
 
         {/* Right: Illustration/Info Card */}
         <div className="lg:col-span-6 hidden lg:block">
-          <div className="bg-[#042159] rounded-[48px] p-12 text-white relative overflow-hidden h-[600px] flex flex-col justify-end">
+          <div className="bg-primary rounded-[48px] p-12 text-white relative overflow-hidden h-[600px] flex flex-col justify-end">
             {/* Modern Icon Badge */}
-            <div className="absolute top-6 left-12 w-10 h-10 bg-[#4DB8E4]/20 rounded-[32px] flex items-center justify-center border border-white/10 backdrop-blur-sm">
-              <Mail className="text-[#4DB8E4]" size={20} />
+            <div className="absolute top-6 left-12 w-10 h-10 bg-secondary/20 rounded-[32px] flex items-center justify-center border border-white/10 backdrop-blur-sm">
+              <Mail className="text-secondary" size={20} />
             </div>
 
             <div className="relative z-10">
               <h3 className="text-3xl font-black uppercase tracking-tight mb-6 leading-tight">
                 Secure Digital <br />
-                <span className="text-[#4DB8E4]">Verification</span>
+                <span className="text-secondary">Verification</span>
               </h3>
 
               <div className="space-y-6 mb-10 max-w-sm">
                 {/* Explanation 1: Compliance */}
                 <div className="space-y-2">
-                  <p className="text-[#4DB8E4] font-black text-[10px] uppercase tracking-[0.2em]">
+                  <p className="text-secondary font-black text-[10px] uppercase tracking-[0.2em]">
                     Compliance Standards
                   </p>
                   <p className="text-white/70 text-sm leading-relaxed">
@@ -241,7 +239,7 @@ const ChangeEmail = () => {
 
                 {/* Explanation 2: The OTP Process */}
                 <div className="space-y-2">
-                  <p className="text-[#4DB8E4] font-black text-[10px] uppercase tracking-[0.2em]">
+                  <p className="text-secondary font-black text-[10px] uppercase tracking-[0.2em]">
                     Next Step: Instant OTP
                   </p>
                   <p className="text-white/70 text-sm leading-relaxed">
@@ -256,7 +254,7 @@ const ChangeEmail = () => {
                 </div>
 
                 {/* Explanation 3: Security */}
-                <div className="space-y-2 border-l-2 border-[#4DB8E4]/30 pl-4">
+                <div className="space-y-2 border-l-2 border-secondary/30 pl-4">
                   <p className="text-white/50 text-[11px] italic leading-relaxed">
                     Forgot your password? This email will become your primary
                     recovery method to ensure you never lose access to your
@@ -277,7 +275,7 @@ const ChangeEmail = () => {
                         initial={{ x: "-100%" }}
                         animate={{ x: 0 }}
                         transition={{ duration: 1 }}
-                        className="w-full h-full bg-[#4DB8E4]"
+                        className="w-full h-full bg-secondary"
                       />
                     )}
                   </div>
@@ -287,7 +285,7 @@ const ChangeEmail = () => {
 
             {/* Refined Abstract Backgrounds */}
             <div className="absolute -right-20 -top-20 w-96 h-96 bg-white/5 rounded-full blur-[100px]" />
-            <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-[#4DB8E4]/10 rounded-full blur-[80px]" />
+            <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-secondary/10 rounded-full blur-[80px]" />
             <div className="absolute left-1/2 top-1/4 w-32 h-32 bg-white/5 rounded-full blur-3xl opacity-50" />
           </div>
         </div>

@@ -16,7 +16,7 @@ const OCRFailure = ({ isOpen, onClose }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="absolute inset-0 bg-[#042159]/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-primary/60 backdrop-blur-sm"
         />
 
         {/* Modal Card */}
@@ -27,7 +27,7 @@ const OCRFailure = ({ isOpen, onClose }) => {
           className="relative w-full max-w-[500px] bg-white rounded-[40px] shadow-2xl overflow-hidden"
         >
           {/* Close Icon (Top Right) */}
-          <button 
+          <button
             onClick={onClose}
             className="absolute top-6 right-6 text-slate-300 hover:text-slate-500 transition-colors"
           >
@@ -40,13 +40,14 @@ const OCRFailure = ({ isOpen, onClose }) => {
               <XCircle className="text-red-500" size={48} strokeWidth={1.5} />
             </div>
 
-            <h3 className="text-xl font-black text-[#042159] uppercase tracking-tight mb-3">
+            <h3 className="text-xl font-black text-primary uppercase tracking-tight mb-3">
               Document Scan Failed
             </h3>
 
             <p className="text-slate-500 text-sm leading-relaxed mb-10 px-4">
-              We couldn't read your document or it might be invalid. 
-              Please ensure the photo is <span className="font-bold text-[#042159]">clear, well-lit</span>, 
+              We couldn't read your document or it might be invalid. Please
+              ensure the photo is{" "}
+              <span className="font-bold text-primary">clear, well-lit</span>,
               and all corners are visible.
             </p>
 
@@ -59,10 +60,10 @@ const OCRFailure = ({ isOpen, onClose }) => {
                 <HelpCircle size={18} />
                 Get Help
               </button>
-              
+
               <button
                 onClick={onClose}
-                className="w-full h-[56px] flex items-center justify-center gap-2 bg-[#042159] text-white rounded-[20px] font-bold text-xs uppercase tracking-widest hover:bg-[#4DB8E4] transition-all shadow-lg shadow-blue-900/20"
+                className="w-full h-[56px] flex items-center justify-center gap-2 bg-primary text-white rounded-[20px] font-bold text-xs uppercase tracking-widest hover:bg-secondary transition-all shadow-lg shadow-blue-900/20"
               >
                 <RefreshCcw size={18} />
                 Try Again

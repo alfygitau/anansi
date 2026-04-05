@@ -45,7 +45,7 @@ const LoanApplicationDetails = ({ onBack }) => {
   ].includes("Reviewing Customer Information");
 
   return (
-    <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
+    <div className="min-h-screen bg-slate-50 text-primary pb-20">
       <div className="max-w-6xl mx-auto sm:px-4">
         {/* Navigation & Header */}
         <header className="py-8">
@@ -95,7 +95,7 @@ const LoanApplicationDetails = ({ onBack }) => {
               </p>
             </div>
             {guarantors.length < appData.requiredGuarantors && (
-              <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest bg-[#4DB8E4] text-white px-4 py-2.5 rounded-xl hover:scale-105 transition-all">
+              <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest bg-secondary text-white px-4 py-2.5 rounded-xl hover:scale-105 transition-all">
                 <Plus size={16} /> Add Guarantor
               </button>
             )}
@@ -107,7 +107,7 @@ const LoanApplicationDetails = ({ onBack }) => {
             ))}
             {/* Empty Slot for missing guarantors */}
             {guarantors.length < appData.requiredGuarantors && (
-              <div className="border-2 border-dashed border-slate-200 rounded-[32px] p-6 flex flex-col items-center justify-center text-slate-300 hover:border-[#4DB8E4] hover:text-[#4DB8E4] transition-all cursor-pointer">
+              <div className="border-2 border-dashed border-slate-200 rounded-[32px] p-6 flex flex-col items-center justify-center text-slate-300 hover:border-secondary hover:text-secondary transition-all cursor-pointer">
                 <Users size={32} strokeWidth={1.5} />
                 <span className="text-[10px] font-black uppercase tracking-widest mt-2">
                   Slot Empty
@@ -133,14 +133,14 @@ const LoanApplicationDetails = ({ onBack }) => {
           <section className="flex flex-col justify-center gap-4">
             <div className="bg-sky-50 p-6 rounded-[32px] border border-sky-100 mb-2">
               <div className="flex gap-4">
-                <Info className="text-[#4DB8E4]" size={24} />
-                <p className="text-xs text-[#042159]/70 leading-relaxed font-medium">
+                <Info className="text-secondary" size={24} />
+                <p className="text-xs text-primary/70 leading-relaxed font-medium">
                   Once all guarantors have accepted your request, you will be
                   able to sign the final contract and submit for disbursement.
                 </p>
               </div>
             </div>
-            <button className="w-full bg-[#042159] text-white py-5 rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#062d7a] transition-all shadow-xl shadow-blue-900/20">
+            <button className="w-full bg-primary text-white py-5 rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#062d7a] transition-all shadow-xl shadow-blue-900/20">
               Continue Application <ArrowRight size={20} />
             </button>
           </section>
@@ -158,7 +158,7 @@ const DetailItem = ({ label, value, isHighlight }) => (
       {label}
     </p>
     <p
-      className={`text-base font-bold ${isHighlight ? "text-[#4DB8E4] font-black" : "text-[#042159]"}`}
+      className={`text-base font-bold ${isHighlight ? "text-secondary font-black" : "text-primary"}`}
     >
       {value}
     </p>
@@ -168,10 +168,10 @@ const DetailItem = ({ label, value, isHighlight }) => (
 const DocRow = ({ label }) => (
   <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl group cursor-pointer hover:bg-white hover:shadow-sm transition-all border border-transparent hover:border-slate-100">
     <div className="flex items-center gap-3">
-      <FileText size={18} className="text-[#4DB8E4]" />
-      <span className="text-sm font-bold text-[#042159]">{label}</span>
+      <FileText size={18} className="text-secondary" />
+      <span className="text-sm font-bold text-primary">{label}</span>
     </div>
-    <Download size={16} className="text-slate-300 group-hover:text-[#042159]" />
+    <Download size={16} className="text-slate-300 group-hover:text-primary" />
   </div>
 );
 
@@ -201,14 +201,12 @@ const GuarantorCard = ({ guarantor }) => {
           <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
             Guarantee
           </p>
-          <p className="text-sm font-black text-[#042159]">
-            {guarantor.amount}
-          </p>
+          <p className="text-sm font-black text-primary">{guarantor.amount}</p>
         </div>
       </div>
 
       <div>
-        <h4 className="font-bold text-[#042159] text-sm truncate">
+        <h4 className="font-bold text-primary text-sm truncate">
           {guarantor.name}
         </h4>
         <p className="text-[10px] font-mono text-slate-400 mt-0.5">
@@ -227,7 +225,7 @@ const GuarantorCard = ({ guarantor }) => {
         </span>
 
         {isPending && (
-          <button className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-[#4DB8E4] hover:text-[#042159] transition-colors">
+          <button className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-secondary hover:text-primary transition-colors">
             <MessageCircle size={12} />
             Nudge via SMS
           </button>
@@ -259,7 +257,7 @@ const StatusInsight = ({ status }) => {
       title: "Processing M-PESA Transfer",
       description:
         "Great news! Your loan is approved. We are currently queuing the funds for transfer to your registered mobile number.",
-      icon: <Zap className="text-[#4DB8E4]" />,
+      icon: <Zap className="text-secondary" />,
       bg: "bg-sky-50",
       border: "border-sky-100",
     },
@@ -276,10 +274,10 @@ const StatusInsight = ({ status }) => {
           {React.cloneElement(active.icon, { size: 32 })}
         </div>
         <div>
-          <h3 className="text-lg font-black text-[#042159] tracking-tight">
+          <h3 className="text-lg font-black text-primary tracking-tight">
             {active.title}
           </h3>
-          <p className="text-sm text-[#042159]/70 leading-relaxed mt-1 max-w-2xl">
+          <p className="text-sm text-primary/70 leading-relaxed mt-1 max-w-2xl">
             {active.description}
           </p>
         </div>
@@ -287,10 +285,10 @@ const StatusInsight = ({ status }) => {
           <div className="md:ml-auto">
             <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl border border-sky-200">
               <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4DB8E4] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#4DB8E4]"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-secondary"></span>
               </span>
-              <span className="text-[10px] font-black uppercase text-[#4DB8E4]">
+              <span className="text-[10px] font-black uppercase text-secondary">
                 System Live
               </span>
             </div>

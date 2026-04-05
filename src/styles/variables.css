@@ -1,0 +1,22 @@
+/* src/styles/variables.css */
+:root {
+  /* REMOVE THE COMMAS HERE */
+  --color-primary-rgb: 4 33 89;     
+  --color-secondary-rgb: 77 184 228; 
+  
+  --color-success-rgb: 16 185 129;   
+  --color-error-rgb: 239 68 68;      
+  --color-warning-rgb: 245 158 11;   
+
+  /* Neutrals (Hex is fine here as we aren't using alpha-value on these) */
+  --color-bg-light: #F8FAFC;
+  --color-bg-dark: #020D23;
+  --color-text-main: #1E293B;
+  --color-text-muted: #64748B;
+
+  /* Interaction */
+  --color-hover: #074073;
+  
+  /* Box Shadow (KEEP the commas here) */
+  --shadow-brand: 0 10px 15px -3px rgba(4, 33, 89, 0.2);
+}

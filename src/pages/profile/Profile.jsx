@@ -215,7 +215,7 @@ const ProfilePage = () => {
             {/* TOP SECTION: SIDE-BY-SIDE */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
               {/* PROFILE SUMMARY CARD (4 Cols) */}
-              <div className="lg:col-span-4 bg-[#042159] rounded-[32px] p-8 shadow-xl shadow-blue-900/20 flex flex-col items-center justify-center text-center">
+              <div className="lg:col-span-4 bg-primary rounded-[32px] p-8 shadow-xl shadow-blue-900/20 flex flex-col items-center justify-center text-center">
                 <div className="relative group">
                   <div className="w-28 h-28 rounded-full border-4 border-blue-400/30 overflow-hidden bg-white/10 flex items-center justify-center">
                     {selfieUrl || customer?.selfie_image ? (
@@ -230,7 +230,7 @@ const ProfilePage = () => {
                   </div>
                   <button
                     onClick={() => setIsOpen(true)}
-                    className="absolute bottom-0 right-0 w-9 h-9 bg-[#4DB8E4] text-white rounded-xl flex items-center justify-center shadow-lg hover:scale-110 transition-all border-4 border-[#042159]"
+                    className="absolute bottom-0 right-0 w-9 h-9 bg-secondary text-white rounded-xl flex items-center justify-center shadow-lg hover:scale-110 transition-all border-4 border-primary"
                   >
                     <Camera size={16} />
                   </button>
@@ -366,7 +366,7 @@ const ProfilePage = () => {
                     <h3 className="text-sm font-black uppercase tracking-widest text-slate-400">
                       SACCO Exit Policy
                     </h3>
-                    <h2 className="text-xl font-black text-[#042159]">
+                    <h2 className="text-xl font-black text-primary">
                       Termination of SACCO Membership
                     </h2>
                   </div>
@@ -392,10 +392,10 @@ const ProfilePage = () => {
                 </div>
 
                 {/* Modernized Policy Note Box */}
-                <div className="flex items-start gap-4 p-5 bg-[#F0FFFE] rounded-2xl border border-[#4DB8E4]/20 mt-8">
-                  <Info className="text-[#4DB8E4] mt-0.5" size={20} />
+                <div className="flex items-start gap-4 p-5 bg-[#F0FFFE] rounded-2xl border border-secondary/20 mt-8">
+                  <Info className="text-secondary mt-0.5" size={20} />
                   <div className="flex-1 space-y-1">
-                    <p className="text-sm font-bold text-[#042159]">
+                    <p className="text-sm font-bold text-primary">
                       Disbursement of Funds
                     </p>
                     <p className="text-sm text-slate-600 leading-relaxed">
@@ -429,7 +429,7 @@ const ProfilePage = () => {
           {isOpen && (
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
               <div
-                className="absolute inset-0 bg-[#042159]/40 backdrop-blur-sm"
+                className="absolute inset-0 bg-primary/40 backdrop-blur-sm"
                 onClick={() => setIsOpen(false)}
               />
               <div className="relative bg-white w-full max-w-md rounded-[32px] p-8 shadow-2xl animate-in zoom-in-95 duration-200">
@@ -440,7 +440,7 @@ const ProfilePage = () => {
                   <X size={20} />
                 </button>
                 <div className="text-center">
-                  <h3 className="text-lg font-black text-[#042159] mb-6">
+                  <h3 className="text-lg font-black text-primary mb-6">
                     Update Profile Photo
                   </h3>
                   <div className="w-40 h-40 rounded-full bg-slate-50 mx-auto mb-6 border-2 border-dashed border-slate-200 flex items-center justify-center overflow-hidden">
@@ -472,14 +472,14 @@ const ProfilePage = () => {
                   />
                   <button
                     onClick={() => fileInputRef.current.click()}
-                    className="text-xs font-bold text-[#4DB8E4] underline underline-offset-4"
+                    className="text-xs font-bold text-secondary underline underline-offset-4"
                   >
                     {uploading ? "Processing..." : "Choose image from device"}
                   </button>
                   <button
                     onClick={handleUpdateProfilePhoto}
                     disabled={!selfieUrl || isLoadingProfile}
-                    className="w-full mt-8 h-14 rounded-xl font-bold bg-[#042159] text-white flex items-center justify-center gap-2 transition-all hover:bg-[#062d7a] active:scale-[0.98] disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed"
+                    className="w-full mt-8 h-14 rounded-xl font-bold bg-primary text-white flex items-center justify-center gap-2 transition-all hover:bg-[#062d7a] active:scale-[0.98] disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed"
                   >
                     {isLoadingProfile ? (
                       <>
@@ -506,9 +506,7 @@ const RequirementCard = ({ icon, title, description }) => (
       {icon}
     </div>
     <div>
-      <h4 className="font-bold text-[#042159] text-sm leading-tight">
-        {title}
-      </h4>
+      <h4 className="font-bold text-primary text-sm leading-tight">{title}</h4>
       <p className="text-xs text-slate-500 mt-1">{description}</p>
     </div>
     <div className="ml-auto flex items-center gap-1.5 px-3 py-1 bg-amber-50 border border-amber-100 rounded-full text-[10px] font-black uppercase tracking-widest text-amber-600">
@@ -525,8 +523,8 @@ const InfoCard = ({ title, icon, children, fullHeight, onEdit }) => (
   >
     <div className="flex justify-between items-center mb-6">
       <div className="flex items-center gap-2.5">
-        <div className="p-2 bg-blue-50 text-[#4DB8E4] rounded-lg">{icon}</div>
-        <h3 className="text-[12px] font-black uppercase tracking-wider text-[#042159]">
+        <div className="p-2 bg-blue-50 text-secondary rounded-lg">{icon}</div>
+        <h3 className="text-[12px] font-black uppercase tracking-wider text-primary">
           {title}
         </h3>
       </div>
@@ -543,11 +541,11 @@ const InfoCard = ({ title, icon, children, fullHeight, onEdit }) => (
 
 const DataField = ({ label, value, isMonetary }) => (
   <div className="group">
-    <p className="text-[9px] font-black uppercase tracking-[0.1em] text-slate-400 mb-0.5 group-hover:text-[#4DB8E4] transition-colors">
+    <p className="text-[9px] font-black uppercase tracking-[0.1em] text-slate-400 mb-0.5 group-hover:text-secondary transition-colors">
       {label}
     </p>
     <p
-      className={`text-[13px] font-bold text-[#042159] ${isMonetary ? "font-mono" : ""}`}
+      className={`text-[13px] font-bold text-primary ${isMonetary ? "font-mono" : ""}`}
     >
       {value || "—"}
     </p>

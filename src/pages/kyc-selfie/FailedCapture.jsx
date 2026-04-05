@@ -18,10 +18,10 @@ const CaptureFailed = () => {
       {/* Header */}
       <div className="w-full flex justify-center bg-white border-b border-slate-50 sticky top-0 z-50">
         <header className="w-full max-w-[400px] h-[92px] flex items-center justify-between">
-          <div className="w-12 h-12 bg-[#042159] rounded-[10px] flex items-center justify-center shadow-lg shadow-blue-900/10">
-            <ShieldCheck className="text-[#4DB8E4]" size={32} />
+          <div className="w-12 h-12 bg-primary rounded-[10px] flex items-center justify-center shadow-lg shadow-blue-900/10">
+            <ShieldCheck className="text-secondary" size={32} />
           </div>
-          <div className="flex items-center gap-2 text-[#042159] cursor-pointer active:opacity-60 transition-opacity">
+          <div className="flex items-center gap-2 text-primary cursor-pointer active:opacity-60 transition-opacity">
             <Headphones size={24} />
             <span className="text-[13px] font-black uppercase tracking-widest">
               Help
@@ -45,14 +45,14 @@ const CaptureFailed = () => {
 
         {/* Text Content */}
         <div className="text-center max-w-[400px] mb-10">
-          <h1 className="text-2xl font-black text-[#042159] uppercase tracking-tight mb-4">
+          <h1 className="text-2xl font-black text-primary uppercase tracking-tight mb-4">
             Upload Failed
           </h1>
           <p className="text-slate-500 text-[15px] leading-relaxed">
             Something went wrong while processing your selfie. This usually
             happens due to
-            <span className="font-bold text-[#042159]"> poor lighting</span> or
-            a<span className="font-bold text-[#042159]"> weak connection</span>.
+            <span className="font-bold text-primary"> poor lighting</span> or a
+            <span className="font-bold text-primary"> weak connection</span>.
           </p>
         </div>
 
@@ -63,7 +63,7 @@ const CaptureFailed = () => {
           transition={{ delay: 0.2 }}
           className="w-full max-w-[400px] bg-slate-50 rounded-[32px] p-8 py-8 border border-slate-100 flex flex-col items-center relative overflow-hidden"
         >
-          <p className="text-[#042159] font-black uppercase text-[12px] tracking-widest mb-8">
+          <p className="text-primary font-black uppercase text-[12px] tracking-widest mb-8">
             Let's try these fixes
           </p>
 
@@ -101,14 +101,14 @@ const CaptureFailed = () => {
         <div className="mt-12 w-full max-w-[400px] space-y-4">
           <button
             onClick={() => navigate("/kyc-selfie/take-photo")}
-            className="w-full h-16 bg-[#042159] text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 active:scale-[0.98] transition-transform"
+            className="w-full h-16 bg-primary text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 active:scale-[0.98] transition-transform"
           >
             <Camera size={20} /> Try Again
           </button>
 
           <button
             onClick={() => window.location.reload()}
-            className="w-full h-14 bg-white text-[#042159] border-2 border-[#042159]/10 rounded-[24px] font-black uppercase tracking-widest text-xs active:opacity-60 transition-opacity"
+            className="w-full h-14 bg-white text-primary border-2 border-primary/10 rounded-[24px] font-black uppercase tracking-widest text-xs active:opacity-60 transition-opacity"
           >
             Refresh Page
           </button>
@@ -117,8 +117,8 @@ const CaptureFailed = () => {
 
       {/* Footer Branding */}
       <footer className="flex justify-center pb-8 opacity-20">
-        <div className="w-12 h-12 bg-[#042159] rounded-[18px] flex items-center justify-center">
-          <ShieldCheck className="text-[#4DB8E4]" size={24} />
+        <div className="w-12 h-12 bg-primary rounded-[18px] flex items-center justify-center">
+          <ShieldCheck className="text-secondary" size={24} />
         </div>
       </footer>
     </div>

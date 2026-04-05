@@ -17,12 +17,12 @@ const FinishCapture = () => {
         {/* The header is constrained to 400px and uses justify-between for its internal items */}
         <header className="w-full max-w-[400px] h-[92px] flex items-center justify-between">
           {/* Logo / Shield */}
-          <div className="w-12 h-12 bg-[#042159] rounded-[10px] flex items-center justify-center shadow-lg shadow-blue-900/10">
-            <ShieldCheck className="text-[#4DB8E4]" size={32} />
+          <div className="w-12 h-12 bg-primary rounded-[10px] flex items-center justify-center shadow-lg shadow-blue-900/10">
+            <ShieldCheck className="text-secondary" size={32} />
           </div>
 
           {/* Help Section */}
-          <div className="flex items-center gap-2 text-[#042159] cursor-pointer active:opacity-60 transition-opacity">
+          <div className="flex items-center gap-2 text-primary cursor-pointer active:opacity-60 transition-opacity">
             <Headphones size={24} />
             <span className="text-[13px] font-black uppercase tracking-widest">
               Help
@@ -46,12 +46,12 @@ const FinishCapture = () => {
 
         {/* Text Content */}
         <div className="text-center max-w-[400px] mb-12">
-          <h1 className="text-2xl font-black text-[#042159] uppercase tracking-tight mb-4">
+          <h1 className="text-2xl font-black text-primary uppercase tracking-tight mb-4">
             Selfie Verified
           </h1>
           <p className="text-slate-500 text-[15px] leading-relaxed">
             Great job! Your identity verification is complete. Now, please
-            <span className="font-bold text-[#042159]">
+            <span className="font-bold text-primary">
               {" "}
               return to your computer
             </span>{" "}
@@ -71,16 +71,16 @@ const FinishCapture = () => {
           </div>
 
           <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-6">
-            <Monitor className="text-[#042159]" size={28} />
+            <Monitor className="text-primary" size={28} />
           </div>
-          <p className="text-[#042159] font-black uppercase text-[12px] tracking-widest mb-6 mt-6">
+          <p className="text-primary font-black uppercase text-[12px] tracking-widest mb-6 mt-6">
             What to do next?
           </p>
 
           <ul className="space-y-4 w-full">
             <li className="flex items-start gap-3">
               <div className="mt-1">
-                <ArrowRight size={14} className="text-[#4DB8E4]" />
+                <ArrowRight size={14} className="text-secondary" />
               </div>
               <p className="text-xs font-medium text-slate-600">
                 The page on your computer will update automatically.
@@ -88,7 +88,7 @@ const FinishCapture = () => {
             </li>
             <li className="flex items-start gap-3">
               <div className="mt-1">
-                <ArrowRight size={14} className="text-[#4DB8E4]" />
+                <ArrowRight size={14} className="text-secondary" />
               </div>
               <p className="text-xs font-medium text-slate-600">
                 If it doesn't, simply refresh the browser on your desktop.
@@ -121,8 +121,8 @@ const FinishCapture = () => {
 
       {/* Footer Branding */}
       <footer className="flex justify-center grayscale">
-        <div className="w-16 h-16 bg-[#042159] rounded-[22px] flex items-center justify-center shadow-2xl shadow-blue-900/20 mb-6">
-          <ShieldCheck className="text-[#4DB8E4]" size={32} />
+        <div className="w-16 h-16 bg-primary rounded-[22px] flex items-center justify-center shadow-2xl shadow-blue-900/20 mb-6">
+          <ShieldCheck className="text-secondary" size={32} />
         </div>
       </footer>
 

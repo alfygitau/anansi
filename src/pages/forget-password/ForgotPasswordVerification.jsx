@@ -70,15 +70,13 @@ const ForgotOTPVerification = () => {
         {/* HEADER */}
         <div className="flex flex-col items-center text-center mb-8">
           <div className="w-16 h-16 bg-blue-50 rounded-3xl flex items-center justify-center mb-6">
-            <KeyRound size={32} className="text-[#4DB8E4]" />
+            <KeyRound size={32} className="text-secondary" />
           </div>
-          <h1 className="text-2xl font-black text-[#042159] mb-2">
-            Verify OTP
-          </h1>
+          <h1 className="text-2xl font-black text-primary mb-2">Verify OTP</h1>
           <p className="text-slate-400 text-sm leading-relaxed px-4">
             To ensure your account's security, we've sent a 6-digit verification
             code to <br />
-            <span className="font-bold text-[#042159] tracking-tight">
+            <span className="font-bold text-primary tracking-tight">
               {maskEmail(forgetEmail)}
             </span>
           </p>
@@ -95,14 +93,14 @@ const ForgotOTPVerification = () => {
                 value={data}
                 onChange={(e) => handleChange(e.target, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
-                className="w-14 h-14 sm:w-14 sm:h-16 text-center text-xl font-black text-[#042159] bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-[#4DB8E4] focus:bg-white focus:ring-4 focus:ring-blue-100/50 transition-all"
+                className="w-14 h-14 sm:w-14 sm:h-16 text-center text-xl font-black text-primary bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-secondary focus:bg-white focus:ring-4 focus:ring-blue-100/50 transition-all"
               />
             ))}
           </div>
           <button
             type="submit"
             disabled={isLoading || otp.join("").length < 6}
-            className="w-full h-14 bg-[#042159] hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-900/20 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full h-14 bg-primary hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-900/20 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <Loader2 className="animate-spin" size={20} />
@@ -118,14 +116,14 @@ const ForgotOTPVerification = () => {
           className="mt-8 p-4 bg-slate-50 rounded-2xl border border-slate-100"
         >
           <div className="flex gap-3">
-            <ShieldAlert size={18} className="text-[#4DB8E4] shrink-0 mt-0.5" />
+            <ShieldAlert size={18} className="text-secondary shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-[#042159]">
+              <h4 className="text-[11px] font-black uppercase tracking-widest text-primary">
                 Security Notice
               </h4>
               <p className="text-[12px] text-slate-500 leading-relaxed">
                 For your protection, this verification link will expire in{" "}
-                <span className="font-bold text-[#042159]">10 minutes</span>. If
+                <span className="font-bold text-primary">10 minutes</span>. If
                 you didn't request this, please ignore this email or contact
                 support if you suspect unauthorized activity.
               </p>

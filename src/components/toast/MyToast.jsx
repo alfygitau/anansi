@@ -13,7 +13,7 @@ const CustomToast = ({
     success: <CheckCircle2 className="text-emerald-500" size={24} />,
     error: <AlertCircle className="text-rose-500" size={24} />,
     info: <Info className="text-blue-500" size={24} />,
-    brand: <ShieldCheck className="text-[#4DB8E4]" size={24} />,
+    brand: <ShieldCheck className="text-secondary" size={24} />,
   };
 
   const positionClasses = {
@@ -39,14 +39,14 @@ const CustomToast = ({
                   ? "bg-emerald-500"
                   : type === "error"
                     ? "bg-rose-500"
-                    : "bg-[#042159]"
+                    : "bg-primary"
               }`}
             />
 
             <div className="flex-shrink-0 mt-1">{icons[type]}</div>
 
             <div className="flex-grow pr-4">
-              <h3 className="text-[#042159] font-black text-sm uppercase tracking-wider mb-1">
+              <h3 className="text-primary font-black text-sm uppercase tracking-wider mb-1">
                 {title}
               </h3>
               <p className="text-slate-400 text-xs leading-relaxed font-medium whitespace-pre-line">

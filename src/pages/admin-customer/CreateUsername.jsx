@@ -56,14 +56,14 @@ const CreateUsername = () => {
         className="w-full max-w-6xl mx-auto bg-white overflow-hidden flex flex-col lg:flex-row"
       >
         {/* Left Side: Information & Branding (Reduces white space by filling the width) */}
-        <div className="lg:w-5/12 bg-[#042159] p-8 lg:p-8 text-white flex flex-col justify-between relative">
+        <div className="lg:w-5/12 bg-primary p-8 lg:p-8 text-white flex flex-col justify-between relative">
           <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
             <Zap className="absolute -bottom-10 -left-10 w-64 h-64 text-white" />
           </div>
 
           <div className="relative z-10">
-            <div className="w-20 h-20 bg-[#4DB8E4]/20 rounded-[28px] flex items-center justify-center mb-8 border border-white/10">
-              <UserCircle className="text-[#4DB8E4]" size={40} />
+            <div className="w-20 h-20 bg-secondary/20 rounded-[28px] flex items-center justify-center mb-8 border border-white/10">
+              <UserCircle className="text-secondary" size={40} />
             </div>
 
             <h1 className="text-4xl font-black tracking-tighter mb-6 leading-tight">
@@ -78,7 +78,7 @@ const CreateUsername = () => {
             {/* Disclaimers moved here to fill space effectively */}
             <div className="space-y-6">
               <div className="flex gap-4 p-4 rounded-3xl bg-white/5 border border-white/5">
-                <Info size={18} className="text-[#4DB8E4] shrink-0" />
+                <Info size={18} className="text-secondary shrink-0" />
                 <p className="text-[11px] leading-snug text-blue-100/80 font-medium">
                   <span className="font-bold text-white block mb-1 uppercase tracking-wider">
                     Permanency
@@ -88,7 +88,7 @@ const CreateUsername = () => {
                 </p>
               </div>
               <div className="flex gap-4 p-4 rounded-3xl bg-white/5 border border-white/5">
-                <Lock size={18} className="text-[#4DB8E4] shrink-0" />
+                <Lock size={18} className="text-secondary shrink-0" />
                 <p className="text-[11px] leading-snug text-blue-100/80 font-medium">
                   <span className="font-bold text-white block mb-1 uppercase tracking-wider">
                     Privacy First
@@ -115,7 +115,7 @@ const CreateUsername = () => {
             className="max-w-md mx-auto w-full space-y-10"
           >
             <div className="text-center lg:text-left mb-2">
-              <h2 className="text-2xl font-black text-[#042159] tracking-tight mb-2">
+              <h2 className="text-2xl font-black text-primary tracking-tight mb-2">
                 Create Username
               </h2>
             </div>
@@ -123,7 +123,7 @@ const CreateUsername = () => {
             <div className="space-y-6">
               {/* Input Group */}
               <div className="relative group">
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#4DB8E4] transition-colors">
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-secondary transition-colors">
                   <AtSign size={22} />
                 </div>
                 <input
@@ -134,7 +134,7 @@ const CreateUsername = () => {
                     setUsername(e.target.value.toLowerCase().trim())
                   }
                   placeholder="enter_username"
-                  className="w-full pl-14 pr-6 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none font-bold text-[#042159] transition-all"
+                  className="w-full pl-14 pr-6 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-secondary/20 outline-none font-bold text-primary transition-all"
                 />
                 <div className="absolute right-6 top-1/2 -translate-y-1/2">
                   <AnimatePresence mode="wait">
@@ -183,7 +183,7 @@ const CreateUsername = () => {
               <button
                 type="submit"
                 disabled={isLoading || !validation.isValid}
-                className="w-full h-20 bg-[#042159] text-white rounded-[30px] font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-4 shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] active:scale-[0.98] disabled:opacity-20 disabled:grayscale transition-all"
+                className="w-full h-20 bg-primary text-white rounded-[30px] font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-4 shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] active:scale-[0.98] disabled:opacity-20 disabled:grayscale transition-all"
               >
                 {isLoading ? (
                   <Loader2 className="animate-spin" size={20} />

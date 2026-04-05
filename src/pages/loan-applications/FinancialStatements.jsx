@@ -82,7 +82,7 @@ const FinancialStatements = () => {
       <div className="max-w-6xl sm:px-3 mx-auto overflow-hidden">
         {/* Header Section */}
         <div className="py-4 border-b border-slate-50">
-          <h1 className="text-2xl mb-2 font-black text-[#042159] uppercase tracking-tight">
+          <h1 className="text-2xl mb-2 font-black text-primary uppercase tracking-tight">
             Financial Verification
           </h1>
           <div className="space-y-2">
@@ -107,9 +107,9 @@ const FinancialStatements = () => {
         <div className="py-4 space-y-8">
           {/* Disclaimer / Info Box */}
           <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-4 flex gap-4">
-            <ShieldCheck className="text-[#4DB8E4] shrink-0" size={24} />
+            <ShieldCheck className="text-secondary shrink-0" size={24} />
             <div>
-              <h4 className="text-[11px] font-black text-[#042159] uppercase tracking-widest mb-1">
+              <h4 className="text-[11px] font-black text-primary uppercase tracking-widest mb-1">
                 Privacy Guarantee
               </h4>
               <p className="text-xs text-slate-600 leading-relaxed">
@@ -161,7 +161,7 @@ const FinancialStatements = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={closeModal}
-              className="fixed inset-0 bg-[#042159]/40 backdrop-blur-sm z-20"
+              className="fixed inset-0 bg-primary/40 backdrop-blur-sm z-20"
             />
             <motion.div
               initial={{ x: "100%" }}
@@ -171,7 +171,7 @@ const FinancialStatements = () => {
               className="fixed top-0 right-0 bottom-0 w-full max-w-[450px] bg-white shadow-2xl z-[90] flex flex-col p-8"
             >
               <div className="flex-1 overflow-y-auto">
-                <h3 className="text-xl font-black text-[#042159] uppercase tracking-tight mb-2">
+                <h3 className="text-xl font-black text-primary uppercase tracking-tight mb-2">
                   Upload {activeModal === "mpesa" ? "M-PESA" : "Bank"} Statement
                 </h3>
                 <p className="text-sm text-slate-500 mb-8">
@@ -182,7 +182,7 @@ const FinancialStatements = () => {
                 <div
                   onClick={() => fileInputRef.current.click()}
                   className={`border-2 border-dashed rounded-[24px] p-8 transition-all flex flex-col items-center justify-center cursor-pointer mb-6
-                    ${file ? "border-green-200 bg-green-50/30" : "border-slate-200 bg-slate-50 hover:border-[#4DB8E4]"}
+                    ${file ? "border-green-200 bg-green-50/30" : "border-slate-200 bg-slate-50 hover:border-secondary"}
                   `}
                 >
                   <input
@@ -207,8 +207,8 @@ const FinancialStatements = () => {
                 {/* Password Input */}
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
-                    <Lock size={14} className="text-[#4DB8E4]" />
-                    <label className="text-xs font-black text-[#042159] uppercase tracking-widest">
+                    <Lock size={14} className="text-secondary" />
+                    <label className="text-xs font-black text-primary uppercase tracking-widest">
                       Document Password
                     </label>
                   </div>
@@ -217,7 +217,7 @@ const FinancialStatements = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter file password if protected"
-                    className="w-full h-14 px-5 rounded-2xl bg-slate-50 border border-slate-100 focus:border-[#4DB8E4] focus:ring-4 focus:ring-[#4DB8E4]/5 transition-all outline-none"
+                    className="w-full h-14 px-5 rounded-2xl bg-slate-50 border border-slate-100 focus:border-secondary focus:ring-4 focus:ring-secondary/5 transition-all outline-none"
                   />
                   <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 flex gap-3">
                     <AlertCircle
@@ -235,7 +235,7 @@ const FinancialStatements = () => {
               <button
                 disabled={!file || isUploading}
                 onClick={handleUpload}
-                className="w-full h-16 bg-[#042159] text-white rounded-[20px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl disabled:opacity-50 mt-6"
+                className="w-full h-16 bg-primary text-white rounded-[20px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl disabled:opacity-50 mt-6"
               >
                 {isUploading ? (
                   <Loader2 className="animate-spin" />
@@ -254,7 +254,7 @@ const FinancialStatements = () => {
 const StatementSection = ({ title, icon, data, onUpload, onDelete }) => (
   <div className="flex flex-col h-full">
     <div className="flex items-center justify-between mb-4">
-      <div className="flex items-center gap-2 text-[#042159]">
+      <div className="flex items-center gap-2 text-primary">
         {icon}
         <h3 className="text-sm font-black uppercase tracking-widest">
           {title}
@@ -263,7 +263,7 @@ const StatementSection = ({ title, icon, data, onUpload, onDelete }) => (
       {data.length > 0 && (
         <button
           onClick={onUpload}
-          className="text-[11px] font-black text-[#4DB8E4] uppercase hover:underline"
+          className="text-[11px] font-black text-secondary uppercase hover:underline"
         >
           Add More
         </button>
@@ -281,7 +281,7 @@ const StatementSection = ({ title, icon, data, onUpload, onDelete }) => (
           </p>
           <button
             onClick={onUpload}
-            className="px-6 py-3 bg-white border border-slate-200 rounded-xl text-[11px] font-black uppercase text-[#042159] hover:bg-[#042159] hover:text-white transition-all shadow-sm"
+            className="px-6 py-3 bg-white border border-slate-200 rounded-xl text-[11px] font-black uppercase text-primary hover:bg-primary hover:text-white transition-all shadow-sm"
           >
             Upload Now
           </button>

@@ -35,7 +35,7 @@ const SaveAndInvest = ({ isOpen, onNext, onClose, onCombine }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-[#042159]/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-primary/60 backdrop-blur-sm"
           />
 
           {/* Centered Modal Card */}
@@ -49,17 +49,17 @@ const SaveAndInvest = ({ isOpen, onNext, onClose, onCombine }) => {
             <div className="p-8 space-y-6">
               {/* Title & Iconography */}
               <div className="text-center space-y-4">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-cyan-50 rounded-2xl text-[#042159]">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-cyan-50 rounded-2xl text-primary">
                   <TrendingUp size={32} />
                 </div>
                 <div className="space-y-2">
-                  <h2 className="text-2xl font-black text-[#042159] tracking-tight leading-tight">
+                  <h2 className="text-2xl font-black text-primary tracking-tight leading-tight">
                     Maximize Your <br />
                     Starting Investment
                   </h2>
                   <p className="text-slate-500 text-sm leading-relaxed px-4">
                     Would you like to purchase shares and deposit savings now?
-                    <span className="text-[#042159] font-bold">
+                    <span className="text-primary font-bold">
                       {" "}
                       Combine your payments{" "}
                     </span>
@@ -92,8 +92,8 @@ const SaveAndInvest = ({ isOpen, onNext, onClose, onCombine }) => {
 
               {/* Secure Disclaimer */}
               <div className="flex gap-3 p-4 bg-[#F0FFFE] rounded-2xl border border-cyan-100">
-                <Info className="text-[#042159] shrink-0" size={18} />
-                <p className="text-[11px] text-[#042159]/70 leading-relaxed">
+                <Info className="text-primary shrink-0" size={18} />
+                <p className="text-[11px] text-primary/70 leading-relaxed">
                   Adding shares and savings is{" "}
                   <span className="font-bold italic">optional</span>. You can
                   always add more funds later from your dashboard.
@@ -104,18 +104,18 @@ const SaveAndInvest = ({ isOpen, onNext, onClose, onCombine }) => {
               <div className="space-y-3">
                 <button
                   onClick={onCombine}
-                  className="group w-full h-14 bg-[#042159] hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all active:scale-[0.98]"
+                  className="group w-full h-14 bg-primary hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all active:scale-[0.98]"
                 >
                   Yes, Add Shares & Savings
                   <ArrowRight
                     size={18}
-                    className="group-hover:translate-x-1 transition-transform text-[#4DB8E4]"
+                    className="group-hover:translate-x-1 transition-transform text-secondary"
                   />
                 </button>
 
                 <button
                   onClick={handleContinue}
-                  className="w-full border h-12 text-[#042159] hover:bg-slate-50 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all"
+                  className="w-full border h-12 text-primary hover:bg-slate-50 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all"
                 >
                   No, Pay Registration Only
                 </button>

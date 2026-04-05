@@ -25,19 +25,19 @@ const HelpPage = () => {
 
   const tips = [
     {
-      icon: <ShieldCheck className="text-[#4DB8E4]" size={20} />,
+      icon: <ShieldCheck className="text-secondary" size={20} />,
       text: "Ensure your ID document hasn't expired.",
     },
     {
-      icon: <ImageIcon className="text-[#4DB8E4]" size={20} />,
+      icon: <ImageIcon className="text-secondary" size={20} />,
       text: "All personal details and photos must be clearly visible.",
     },
     {
-      icon: <Maximize className="text-[#4DB8E4]" size={20} />,
+      icon: <Maximize className="text-secondary" size={20} />,
       text: "Make sure all four edges of the document are within the frame.",
     },
     {
-      icon: <FileText className="text-[#4DB8E4]" size={20} />,
+      icon: <FileText className="text-secondary" size={20} />,
       text: "Accepted formats: High-quality JPEG, PNG, or PDF.",
     },
   ];
@@ -84,7 +84,7 @@ const HelpPage = () => {
         {/* Navigation Header */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-slate-400 hover:text-[#042159] transition-colors mb-3 group"
+          className="flex items-center gap-2 text-slate-400 hover:text-primary transition-colors mb-3 group"
         >
           <ChevronLeft
             size={20}
@@ -96,9 +96,9 @@ const HelpPage = () => {
         </button>
         <div className="flex items-center gap-2">
           <div className="inline-flex items-center justify-center w-14 h-14 bg-blue-100 rounded-full mb-3">
-            <HelpCircle className="text-[#042159]" size={28} />
+            <HelpCircle className="text-primary" size={28} />
           </div>
-          <h1 className="text-2xl font-black text-[#042159] uppercase tracking-tight">
+          <h1 className="text-2xl font-black text-primary uppercase tracking-tight">
             Support Center
           </h1>
         </div>
@@ -113,7 +113,7 @@ const HelpPage = () => {
         {contactMethods.map((method, idx) => (
           <div
             key={idx}
-            className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl shadow-blue-900/5 hover:border-[#4DB8E4]/40 transition-all group cursor-pointer"
+            className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl shadow-blue-900/5 hover:border-secondary/40 transition-all group cursor-pointer"
           >
             <div
               className={`w-12 h-12 ${method.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}
@@ -121,7 +121,7 @@ const HelpPage = () => {
               {method.icon}
             </div>
             <h3 className="font-black text-sm mb-1">{method.title}</h3>
-            <p className="text-[#042159] font-bold text-xs mb-2">
+            <p className="text-primary font-bold text-xs mb-2">
               {method.detail}
             </p>
             <p className="text-slate-400 text-[10px] font-medium leading-tight">
@@ -137,7 +137,7 @@ const HelpPage = () => {
           <div className="bg-white border border-slate-100 rounded-[32px] p-8 shadow-xl shadow-blue-900/5">
             <div className="flex items-center gap-2 mb-6">
               <Lightbulb className="text-amber-500" size={20} />
-              <p className="text-[12px] font-black uppercase tracking-[0.2em] text-[#042159]">
+              <p className="text-[12px] font-black uppercase tracking-[0.2em] text-primary">
                 Verification Tips
               </p>
             </div>
@@ -178,11 +178,11 @@ const HelpPage = () => {
 
           {/* Mini FAQ Section */}
           <div className="px-4">
-            <h4 className="text-sm font-bold text-[#042159] mb-4 uppercase tracking-widest">
+            <h4 className="text-sm font-bold text-primary mb-4 uppercase tracking-widest">
               Common Questions
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 rounded-xl border border-slate-100 hover:border-[#4DB8E4]/30 transition-colors">
+              <div className="p-4 rounded-xl border border-slate-100 hover:border-secondary/30 transition-colors">
                 <p className="text-[13px] font-bold text-slate-800 mb-1">
                   Why is my KRA PIN not scanning?
                 </p>
@@ -190,7 +190,7 @@ const HelpPage = () => {
                   Ensure it's the official iTax certificate and not a photocopy.
                 </p>
               </div>
-              <div className="p-4 rounded-xl border border-slate-100 hover:border-[#4DB8E4]/30 transition-colors">
+              <div className="p-4 rounded-xl border border-slate-100 hover:border-secondary/30 transition-colors">
                 <p className="text-[13px] font-bold text-slate-800 mb-1">
                   What if I only have a waiting card?
                 </p>
@@ -204,14 +204,14 @@ const HelpPage = () => {
 
         {/* Right Column: Actions & Contact */}
         <div className="space-y-4">
-          <div className="bg-[#042159] p-6 rounded-[32px] text-white">
-            <p className="text-[10px] font-bold text-[#4DB8E4] uppercase tracking-widest mb-4">
+          <div className="bg-primary p-6 rounded-[32px] text-white">
+            <p className="text-[10px] font-bold text-secondary uppercase tracking-widest mb-4">
               Quick Actions
             </p>
             <div className="space-y-3">
               <button
                 onClick={() => navigate("/onboarding/verify-identity")}
-                className="w-full h-[56px] bg-white text-[#042159] rounded-[20px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#4DB8E4] hover:text-[#042159] transition-all"
+                className="w-full h-[56px] bg-white text-primary rounded-[20px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-secondary hover:text-primary transition-all"
               >
                 Retake Photo <ArrowRight size={18} />
               </button>
@@ -237,7 +237,7 @@ const HelpPage = () => {
               </div>
             </div>
 
-            <button className="w-full py-3 flex items-center justify-center gap-2 text-[#042159] text-[13px] font-bold border border-[#042159]/10 rounded-xl hover:bg-slate-50 transition-all">
+            <button className="w-full py-3 flex items-center justify-center gap-2 text-primary text-[13px] font-bold border border-primary/10 rounded-xl hover:bg-slate-50 transition-all">
               <MessageCircle size={16} />
               Chat with an Agent
             </button>

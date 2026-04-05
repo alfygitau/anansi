@@ -84,7 +84,7 @@ const AccountDetails = () => {
       {isLoading ? (
         <AccountDetailsLoader />
       ) : (
-        <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
+        <div className="min-h-screen bg-slate-50 text-primary pb-20">
           <div className="max-w-6xl sm:px-4 mx-auto">
             {/* Navigation Header */}
             <header className="py-1 flex items-center justify-between">
@@ -104,11 +104,11 @@ const AccountDetails = () => {
             {/* 1. Hero Balance Card & Quick Actions (Grid Layout) */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
               {/* Main Balance Area (8 Cols) */}
-              <div className="lg:col-span-8 bg-[#042159] rounded-[30px] p-6 text-white shadow-xl shadow-blue-900/40 relative overflow-hidden group min-h-[300px] flex flex-col justify-between">
-                <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-[#4DB8E4] opacity-20 blur-[80px] rounded-full"></div>
+              <div className="lg:col-span-8 bg-primary rounded-[30px] p-6 text-white shadow-xl shadow-blue-900/40 relative overflow-hidden group min-h-[300px] flex flex-col justify-between">
+                <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-secondary opacity-20 blur-[80px] rounded-full"></div>
                 <div className="relative z-10">
                   <div className="flex items-center gap-2 mb-4">
-                    <div className="w-2 h-2 rounded-full bg-[#4DB8E4] animate-pulse"></div>
+                    <div className="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
                     <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-300/60">
                       {account?.product?.name}
                     </span>
@@ -158,7 +158,7 @@ const AccountDetails = () => {
                 <VerticalAction
                   icon={<ArrowDownCircle />}
                   label="Deposit"
-                  color="bg-[#4DB8E4]"
+                  color="bg-secondary"
                   onClick={() => {}}
                 />
                 <VerticalAction
@@ -191,7 +191,7 @@ const AccountDetails = () => {
                   <h3 className="text-xl font-black tracking-tight">
                     Recent Transactions
                   </h3>
-                  <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-[#042159]">
+                  <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-primary">
                     <Filter size={16} /> Filter
                   </button>
                 </div>
@@ -215,7 +215,7 @@ const AccountDetails = () => {
                         />
                       </div>
 
-                      <h4 className="text-lg font-black text-[#042159] mb-2 tracking-tight">
+                      <h4 className="text-lg font-black text-primary mb-2 tracking-tight">
                         No Transactions Yet
                       </h4>
 
@@ -228,9 +228,9 @@ const AccountDetails = () => {
                         onClick={() => {
                           /* Trigger Deposit Modal */
                         }}
-                        className="flex items-center gap-3 px-8 py-4 bg-[#042159] text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] active:scale-95 transition-all"
+                        className="flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] active:scale-95 transition-all"
                       >
-                        <ArrowDownCircle size={18} className="text-[#4DB8E4]" />
+                        <ArrowDownCircle size={18} className="text-secondary" />
                         Make First Deposit
                       </button>
 
@@ -265,7 +265,7 @@ const AccountDetails = () => {
                 {/* Disclaimer / Notice */}
                 <div className="bg-blue-50/50 rounded-[32px] p-8 border border-blue-100/100">
                   <div className="flex items-center gap-3 mb-4">
-                    <Info className="text-[#4DB8E4]" size={20} />
+                    <Info className="text-secondary" size={20} />
                     <h3 className="font-black text-[11px] uppercase tracking-widest text-slate-400">
                       Important Info
                     </h3>
@@ -299,7 +299,7 @@ const AccountDetails = () => {
 const VerticalAction = ({ icon, label, color, darkText = false, onClick }) => (
   <button
     onClick={onClick}
-    className={`${color} ${darkText ? "text-[#042159] border border-slate-200" : "text-white"} p-6 rounded-[32px] flex flex-col items-center justify-center gap-3 shadow-xl shadow-blue-900/5 hover:scale-[1.02] transition-all group`}
+    className={`${color} ${darkText ? "text-primary border border-slate-200" : "text-white"} p-6 rounded-[32px] flex flex-col items-center justify-center gap-3 shadow-xl shadow-blue-900/5 hover:scale-[1.02] transition-all group`}
   >
     <div
       className={`${darkText ? "bg-slate-50" : "bg-white/20"} p-4 rounded-2xl group-hover:scale-110 transition-transform`}
@@ -313,7 +313,7 @@ const VerticalAction = ({ icon, label, color, darkText = false, onClick }) => (
 );
 
 const TransactionRow = ({ tx }) => (
-  <div className="bg-white p-5 rounded-[28px] border border-slate-200 flex items-center justify-between hover:border-[#4DB8E4]/30 transition-all cursor-pointer group">
+  <div className="bg-white p-5 rounded-[28px] border border-slate-200 flex items-center justify-between hover:border-secondary/30 transition-all cursor-pointer group">
     <div className="flex items-center gap-4">
       <div className="w-12 h-12 bg-slate-50 text-slate-400 group-hover:bg-green-50 group-hover:text-green-600 rounded-2xl flex items-center justify-center transition-colors">
         <Smartphone size={22} />
@@ -322,7 +322,7 @@ const TransactionRow = ({ tx }) => (
         <p className="text-[10px] text-slate-400 font-mono tracking-tight uppercase">
           {tx.public_id}
         </p>
-        <h4 className="text-sm font-black text-[#042159]">{tx.type}</h4>
+        <h4 className="text-sm font-black text-primary">{tx.type}</h4>
         <p className="text-[10px] text-slate-400 font-mono tracking-tight uppercase">
           {tx.ref_number} • {tx.createdAt}
         </p>
@@ -341,7 +341,7 @@ const TransactionRow = ({ tx }) => (
 
 const DisclaimerItem = ({ text }) => (
   <li className="flex gap-3 items-start">
-    <div className="w-1.5 h-1.5 rounded-full bg-[#4DB8E4] mt-1.5 shrink-0" />
+    <div className="w-1.5 h-1.5 rounded-full bg-secondary mt-1.5 shrink-0" />
     <p className="text-[11px] text-slate-500 leading-normal font-medium">
       {text}
     </p>

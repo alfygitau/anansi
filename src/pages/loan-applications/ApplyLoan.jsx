@@ -42,7 +42,7 @@ const ApplyLoan = () => {
   }, [amount, duration, product.limit, product.rate]);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
+    <div className="min-h-screen bg-slate-50 text-primary pb-20">
       <div className="max-w-6xl sm:px-4 mx-auto">
         {/* Header */}
         <header className="py-6">
@@ -75,7 +75,7 @@ const ApplyLoan = () => {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-sky-50 rounded-xl flex items-center justify-center text-[#4DB8E4]">
+                <div className="w-10 h-10 bg-sky-50 rounded-xl flex items-center justify-center text-secondary">
                   <CheckCircle2 size={18} />
                 </div>
                 <div>
@@ -105,7 +105,7 @@ const ApplyLoan = () => {
                     placeholder="0.00"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
-                    className="w-full pl-16 pr-6 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none text-xl font-black text-[#042159]"
+                    className="w-full pl-16 pr-6 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-secondary/20 outline-none text-xl font-black text-primary"
                   />
                 </div>
                 {/* Limit Disclaimer / Error */}
@@ -113,7 +113,7 @@ const ApplyLoan = () => {
                   {error ? (
                     <AlertCircle size={14} className="text-red-500" />
                   ) : (
-                    <Info size={14} className="text-[#4DB8E4]" />
+                    <Info size={14} className="text-secondary" />
                   )}
                   <p
                     className={`text-[10px] font-bold uppercase tracking-tight ${error ? "text-red-500" : "text-slate-400"}`}
@@ -136,8 +136,8 @@ const ApplyLoan = () => {
                       value={duration}
                       onChange={(e) => setDuration(parseInt(e.target.value))}
                       className="w-full px-6 py-5 bg-slate-50 border-none rounded-[24px] 
-                   focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none 
-                   font-bold text-[#042159] appearance-none cursor-pointer 
+                   focus:ring-2 focus:ring-secondary/20 outline-none 
+                   font-bold text-primary appearance-none cursor-pointer 
                    transition-all hover:bg-slate-100"
                     >
                       {[6, 12, 18, 24, 36].map((m) => (
@@ -148,7 +148,7 @@ const ApplyLoan = () => {
                     </select>
 
                     {/* Custom Chevron Icon */}
-                    <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-[#4DB8E4] group-hover:text-[#042159] transition-colors">
+                    <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-secondary group-hover:text-primary transition-colors">
                       <ChevronDown size={20} strokeWidth={3} />
                     </div>
                   </div>
@@ -164,8 +164,8 @@ const ApplyLoan = () => {
                       value={interval}
                       onChange={(e) => setInterval(e.target.value)}
                       className="w-full px-6 py-5 bg-slate-50 border-none rounded-[24px] 
-                   focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none 
-                   font-bold text-[#042159] appearance-none cursor-pointer 
+                   focus:ring-2 focus:ring-secondary/20 outline-none 
+                   font-bold text-primary appearance-none cursor-pointer 
                    transition-all hover:bg-slate-100"
                     >
                       <option value="Weekly">Weekly</option>
@@ -174,7 +174,7 @@ const ApplyLoan = () => {
                     </select>
 
                     {/* Custom Chevron Icon */}
-                    <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-[#4DB8E4] group-hover:text-[#042159] transition-colors">
+                    <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-secondary group-hover:text-primary transition-colors">
                       <ChevronDown size={20} strokeWidth={3} />
                     </div>
                   </div>
@@ -185,12 +185,12 @@ const ApplyLoan = () => {
 
           {/* Right Column: Calculation Summary (5/12) */}
           <div className="lg:col-span-5">
-            <div className="sticky top-10 bg-[#042159] rounded-[40px] p-2 text-white shadow-[0_32px_64px_-16px_rgba(4,33,89,0.3)]">
+            <div className="sticky top-10 bg-primary rounded-[40px] p-2 text-white shadow-[0_32px_64px_-16px_rgba(4,33,89,0.3)]">
               {/* Inner Container to allow for the 'Pilling' effect */}
               <div className="p-8">
                 <div className="flex items-center gap-2 mb-10">
-                  <ReceiptText size={16} className="text-[#4DB8E4]" />
-                  <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#4DB8E4]">
+                  <ReceiptText size={16} className="text-secondary" />
+                  <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-secondary">
                     Repayment Summary
                   </h3>
                 </div>
@@ -201,7 +201,7 @@ const ApplyLoan = () => {
                     Expected {interval} Payment
                   </p>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-sm font-bold text-[#4DB8E4]">
+                    <span className="text-sm font-bold text-secondary">
                       KES
                     </span>
                     <h2 className="text-4xl font-black tracking-tighter">
@@ -249,7 +249,7 @@ const ApplyLoan = () => {
                 <button
                   onClick={() => navigate("/add-guarantor")}
                   disabled={!!error || !amount}
-                  className="w-full mt-10 bg-[#4DB8E4] text-[#042159] py-5 text-[14px] rounded-[24px] font-black uppercase tracking-widest shadow-xl shadow-[#4DB8E4]/20 hover:bg-white hover:text-[#042159] transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-20 disabled:grayscale"
+                  className="w-full mt-10 bg-secondary text-primary py-5 text-[14px] rounded-[24px] font-black uppercase tracking-widest shadow-xl shadow-secondary/20 hover:bg-white hover:text-primary transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-20 disabled:grayscale"
                 >
                   Proceed to Guarantors
                   <ArrowRight

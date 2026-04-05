@@ -60,7 +60,7 @@ const CollateralRegistry = () => {
         {/* Header Section */}
         <div className="border-b border-slate-50 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-black text-[#042159] uppercase tracking-tight">
+            <h1 className="text-2xl font-black text-primary uppercase tracking-tight">
               Collateral & Assets
             </h1>
             <p className="text-slate-500 text-sm mt-1">
@@ -70,7 +70,7 @@ const CollateralRegistry = () => {
           </div>
           <button
             onClick={() => setIsAdding(true)}
-            className="flex items-center gap-2 bg-[#042159] text-white px-6 py-3 rounded-2xl font-bold hover:bg-[#062d7a] transition-all shadow-lg shadow-blue-900/10"
+            className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-2xl font-bold hover:bg-[#062d7a] transition-all shadow-lg shadow-blue-900/10"
           >
             <Plus size={20} /> Add New Asset
           </button>
@@ -85,7 +85,7 @@ const CollateralRegistry = () => {
 
           <div className="flex flex-col mb-4 gap-2">
             <div className="flex items-start gap-2">
-              <div className="mt-1 bg-[#4DB8E4] w-1.5 h-1.5 rounded-full shrink-0" />
+              <div className="mt-1 bg-secondary w-1.5 h-1.5 rounded-full shrink-0" />
               <p className="text-[11px] text-slate-500 leading-tight">
                 <strong className="text-slate-700">Dynamic Limits:</strong>{" "}
                 Verified assets can increase your eligible loan ceiling by up to
@@ -94,7 +94,7 @@ const CollateralRegistry = () => {
             </div>
 
             <div className="flex items-start gap-2">
-              <div className="mt-1 bg-[#4DB8E4] w-1.5 h-1.5 rounded-full shrink-0" />
+              <div className="mt-1 bg-secondary w-1.5 h-1.5 rounded-full shrink-0" />
               <p className="text-[11px] text-slate-500 leading-tight">
                 <strong className="text-slate-700">Chattel Security:</strong>{" "}
                 Registered household or business items are treated as
@@ -104,7 +104,7 @@ const CollateralRegistry = () => {
             </div>
 
             <div className="flex items-start gap-2">
-              <div className="mt-1 bg-[#4DB8E4] w-1.5 h-1.5 rounded-full shrink-0" />
+              <div className="mt-1 bg-secondary w-1.5 h-1.5 rounded-full shrink-0" />
               <p className="text-[11px] text-slate-500 leading-tight">
                 <strong className="text-slate-700">Fast-Track Approval:</strong>{" "}
                 Applications backed by verifiable collateral often bypass manual
@@ -117,11 +117,11 @@ const CollateralRegistry = () => {
         <div>
           {/* Detailed Disclaimer */}
           <div className="my-6 p-5 bg-blue-50/50 border border-blue-100 rounded-2xl flex gap-4 items-center">
-            <div className="bg-[#4DB8E4]/10 p-2 h-fit rounded-lg text-[#4DB8E4]">
+            <div className="bg-secondary/10 p-2 h-fit rounded-lg text-secondary">
               <ShieldCheck size={24} />
             </div>
             <div className="space-y-2">
-              <h4 className="text-[11px] font-black text-[#042159] uppercase tracking-widest">
+              <h4 className="text-[11px] font-black text-primary uppercase tracking-widest">
                 Asset Valuation & Security
               </h4>
               <p className="text-xs text-slate-600 leading-relaxed">
@@ -145,7 +145,7 @@ const CollateralRegistry = () => {
                 </p>
                 <button
                   onClick={() => setIsAdding(true)}
-                  className="text-[#4DB8E4] text-sm font-bold mt-2 hover:underline"
+                  className="text-secondary text-sm font-bold mt-2 hover:underline"
                 >
                   Click here to start
                 </button>
@@ -169,7 +169,7 @@ const CollateralRegistry = () => {
                 <ShieldCheck size={20} />
               </div>
               <div>
-                <p className="text-[11px] font-black text-[#042159] uppercase tracking-widest leading-none">
+                <p className="text-[11px] font-black text-primary uppercase tracking-widest leading-none">
                   Registry Status
                 </p>
                 <p className="text-xs text-slate-500 mt-1">
@@ -182,7 +182,7 @@ const CollateralRegistry = () => {
 
             <button
               onClick={() => navigate("/normal-loan-terms-conditions")}
-              className="group w-full md:w-[280px] h-16 bg-[#042159] text-white rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] transition-all active:scale-[0.98]"
+              className="group w-full md:w-[280px] h-16 bg-primary text-white rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] transition-all active:scale-[0.98]"
             >
               Finalize & Continue
               <ChevronRight
@@ -203,7 +203,7 @@ const CollateralRegistry = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsAdding(false)}
-              className="fixed inset-0 bg-[#042159]/40 backdrop-blur-sm z-40"
+              className="fixed inset-0 bg-primary/40 backdrop-blur-sm z-40"
             />
             <motion.div
               initial={{ x: "100%" }}
@@ -212,7 +212,7 @@ const CollateralRegistry = () => {
               transition={{ type: "spring", damping: 25 }}
               className="fixed top-0 right-0 bottom-0 w-full max-w-[500px] bg-white z-50 shadow-2xl flex flex-col p-8 overflow-y-auto"
             >
-              <h2 className="text-xl font-black text-[#042159] uppercase tracking-tight mb-6">
+              <h2 className="text-xl font-black text-primary uppercase tracking-tight mb-6">
                 Register Collateral
               </h2>
 
@@ -223,7 +223,7 @@ const CollateralRegistry = () => {
                     <button
                       key={t.id}
                       onClick={() => setForm({ ...form, type: t.id })}
-                      className={`p-4 rounded-2xl border flex flex-col items-center gap-2 transition-all ${form.type === t.id ? "border-[#4DB8E4] bg-blue-50 text-[#042159]" : "border-slate-100 text-slate-400 hover:border-slate-200"}`}
+                      className={`p-4 rounded-2xl border flex flex-col items-center gap-2 transition-all ${form.type === t.id ? "border-secondary bg-blue-50 text-primary" : "border-slate-100 text-slate-400 hover:border-slate-200"}`}
                     >
                       {t.icon}
                       <span className="text-[10px] font-bold uppercase tracking-widest">
@@ -252,11 +252,11 @@ const CollateralRegistry = () => {
                       />
                     </div>
                     <div className="w-[140px]">
-                      <label className="text-[10px] font-black text-[#042159] uppercase tracking-widest block mb-2">
+                      <label className="text-[10px] font-black text-primary uppercase tracking-widest block mb-2">
                         Condition
                       </label>
                       <select
-                        className="w-full h-14 bg-slate-50 border border-slate-100 rounded-xl px-3 text-xs font-bold outline-none focus:border-[#4DB8E4]"
+                        className="w-full h-14 bg-slate-50 border border-slate-100 rounded-xl px-3 text-xs font-bold outline-none focus:border-secondary"
                         value={form.condition}
                         onChange={(e) =>
                           setForm({ ...form, condition: e.target.value })
@@ -270,12 +270,12 @@ const CollateralRegistry = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-[#042159] uppercase tracking-widest block">
+                    <label className="text-[10px] font-black text-primary uppercase tracking-widest block">
                       Description
                     </label>
                     <textarea
                       rows="3"
-                      className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm outline-none focus:border-[#4DB8E4] transition-all"
+                      className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm outline-none focus:border-secondary transition-all"
                       placeholder="Identify specific features, serial numbers, or location..."
                       value={form.description}
                       onChange={(e) =>
@@ -286,7 +286,7 @@ const CollateralRegistry = () => {
 
                   {/* Image Upload Placeholder */}
                   <div className="border-2 border-dashed border-slate-200 rounded-[24px] p-6 flex flex-col items-center justify-center bg-slate-50 hover:bg-white transition-all cursor-pointer group">
-                    <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-slate-400 group-hover:text-[#4DB8E4] transition-colors">
+                    <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-slate-400 group-hover:text-secondary transition-colors">
                       <Camera size={24} />
                     </div>
                     <p className="text-[11px] font-bold text-slate-500 mt-3 uppercase tracking-wider">
@@ -297,7 +297,7 @@ const CollateralRegistry = () => {
 
                 <button
                   onClick={handleAddAsset}
-                  className="w-full h-16 bg-[#042159] text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-blue-900/20 active:scale-[0.98] transition-all"
+                  className="w-full h-16 bg-primary text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-blue-900/20 active:scale-[0.98] transition-all"
                 >
                   Save Asset to Registry
                 </button>
@@ -330,7 +330,7 @@ const AssetCard = ({ asset, onDelete }) => (
       </button>
     </div>
     <h3 className="font-bold text-slate-800 mb-1">{asset.name}</h3>
-    <p className="text-[10px] font-black text-[#4DB8E4] uppercase tracking-widest mb-3">
+    <p className="text-[10px] font-black text-secondary uppercase tracking-widest mb-3">
       KES {Number(asset.value).toLocaleString()}
     </p>
 
@@ -356,11 +356,11 @@ const AssetCard = ({ asset, onDelete }) => (
 
 const Input = ({ label, ...props }) => (
   <div className="space-y-2">
-    <label className="text-[10px] font-black text-[#042159] uppercase tracking-widest block">
+    <label className="text-[10px] font-black text-primary uppercase tracking-widest block">
       {label}
     </label>
     <input
-      className="w-full h-14 px-5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium outline-none focus:border-[#4DB8E4] focus:ring-4 focus:ring-[#4DB8E4]/5 transition-all"
+      className="w-full h-14 px-5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium outline-none focus:border-secondary focus:ring-4 focus:ring-secondary/5 transition-all"
       {...props}
       onChange={(e) => props.onChange(e.target.value)}
     />

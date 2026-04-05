@@ -60,7 +60,7 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-[#042159]/70 backdrop-blur-sm"
+            className="absolute inset-0 bg-primary/70 backdrop-blur-sm"
           />
 
           {/* Modal Card */}
@@ -75,10 +75,10 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
             <div className="space-y-8">
               {/* Title Section */}
               <div className="text-center space-y-2">
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F0FFFE] text-[#042159] mb-2 shadow-inner">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F0FFFE] text-primary mb-2 shadow-inner">
                   <ShieldCheck size={28} />
                 </div>
-                <h2 className="text-2xl font-black text-[#042159] tracking-tight">
+                <h2 className="text-2xl font-black text-primary tracking-tight">
                   Review Registration
                 </h2>
                 <p className="text-slate-500 text-sm">
@@ -90,7 +90,7 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
               <div className="p-5 rounded-2xl bg-[#F0FFFE] border border-cyan-100 space-y-4">
                 <div className="flex items-center justify-between border-b border-cyan-200/50 pb-3">
                   <div className="flex items-center gap-2">
-                    <Smartphone size={16} className="text-[#042159]" />
+                    <Smartphone size={16} className="text-primary" />
                     <span className="text-xs font-bold text-cyan-900 uppercase tracking-wider">
                       M-PESA Checkout
                     </span>
@@ -103,7 +103,7 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
                     <p className="text-[10px] font-black text-cyan-700/60 uppercase tracking-widest">
                       Phone Number
                     </p>
-                    <p className="text-lg font-black text-[#042159]">
+                    <p className="text-lg font-black text-primary">
                       {membershipPhone || "07XX XXX XXX"}
                     </p>
                   </div>
@@ -111,7 +111,7 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
                     <p className="text-[10px] font-black text-cyan-700/60 uppercase tracking-widest">
                       Date
                     </p>
-                    <p className="text-xs font-bold text-[#042159] flex items-center gap-1">
+                    <p className="text-xs font-bold text-primary flex items-center gap-1">
                       <Calendar size={12} /> {today}
                     </p>
                   </div>
@@ -119,7 +119,7 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
               </div>
 
               {/* Total Card */}
-              <div className="bg-[#042159] p-6 rounded-2xl text-white shadow-xl shadow-blue-900/20 relative overflow-hidden">
+              <div className="bg-primary p-6 rounded-2xl text-white shadow-xl shadow-blue-900/20 relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-4 opacity-10">
                   <Lock size={60} />
                 </div>
@@ -150,7 +150,7 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
                   <div className="h-2 w-2 rounded-full bg-blue-500 mt-1" />
                 </motion.div>
                 <p className="text-[11px] text-slate-500 leading-relaxed italic">
-                  An <span className="font-bold text-[#042159]">STK Push</span>{" "}
+                  An <span className="font-bold text-primary">STK Push</span>{" "}
                   prompt will appear on your phone shortly. Ensure your phone is
                   unlocked and enter your M-PESA PIN to complete registration.
                 </p>
@@ -162,7 +162,7 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
               <button
                 disabled={isLoading}
                 onClick={handlePayment}
-                className="group w-full h-14 bg-[#042159] hover:bg-[#062d7a] disabled:bg-slate-300 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98]"
+                className="group w-full h-14 bg-primary hover:bg-[#062d7a] disabled:bg-slate-300 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98]"
               >
                 {isLoading ? (
                   <>
@@ -174,7 +174,7 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
                     Confirm and Pay
                     <ArrowRight
                       size={18}
-                      className="group-hover:translate-x-1 transition-transform text-[#4DB8E4]"
+                      className="group-hover:translate-x-1 transition-transform text-secondary"
                     />
                   </>
                 )}
