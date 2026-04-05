@@ -13,6 +13,9 @@ import {
   X,
   PlusCircle,
   CreditCard,
+  LayoutGrid,
+  Wallet,
+  Users,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
@@ -122,7 +125,38 @@ const Navigation = () => {
                       navigate("/profile");
                     }}
                   />
-
+                  <DropdownItem
+                    icon={<FileText size={18} className="text-primary" />}
+                    label="Statements"
+                    onClick={() => {
+                      setIsProfileOpen(false);
+                      navigate("/statements");
+                    }}
+                  />
+                  <DropdownItem
+                    icon={<Users size={18} className="text-primary" />}
+                    label="Guarantorship"
+                    onClick={() => {
+                      setIsProfileOpen(false);
+                      navigate("/guarantorship");
+                    }}
+                  />
+                  <DropdownItem
+                    icon={<Wallet size={18} className="text-primary" />}
+                    label="Loans"
+                    onClick={() => {
+                      setIsProfileOpen(false);
+                      navigate("/all-loans");
+                    }}
+                  />
+                  <DropdownItem
+                    icon={<LayoutGrid size={18} className="text-primary" />}
+                    label="Explore Products"
+                    onClick={() => {
+                      setIsProfileOpen(false);
+                      navigate("/loan-products");
+                    }}
+                  />
                   <div className="my-2 border-t border-slate-50"></div>
 
                   <button
