@@ -30,11 +30,13 @@ import {
   getCountries,
   getStates,
 } from "../../sdks/customer/customer";
+import { uploadSingleFile } from "../../sdks/upload-files/upload";
 
 const ProfilePage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [selfieUrl, setSelfieUrl] = useState("");
+  const [selfieFile, setSelfieFile] = useState("");
   const fileInputRef = useRef(null);
   const { auth } = useAuth();
   const [customer, setCustomer] = useState({});
@@ -81,10 +83,29 @@ const ProfilePage = () => {
     },
   });
 
+  const { mutate: uploadUrlMutate } = useMutation({
+    mutationKey: ["upload-file"],
+    mutationFn: async (file) => {
+      const response = await uploadSingleFile(file);
+      return response?.data?.data?.url;
+    },
+    onSuccess: async (data) => {
+      setSelfieFile(data);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Onboarding glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
   const { mutate: updateProfilePictureMutate, isLoading: isLoadingProfile } =
     useMutation({
       mutationKey: ["update profile picture"],
-      mutationFn: () => updateProfilePhoto(auth?.user?.id, selfieUrl),
+      mutationFn: () => updateProfilePhoto(auth?.user?.id, selfieFile),
       onSuccess: () => {
         showToast({
           title: "Success!",
@@ -218,9 +239,9 @@ const ProfilePage = () => {
               <div className="lg:col-span-4 bg-primary rounded-[32px] p-8 shadow-xl shadow-blue-900/20 flex flex-col items-center justify-center text-center">
                 <div className="relative group">
                   <div className="w-28 h-28 rounded-full border-4 border-blue-400/30 overflow-hidden bg-white/10 flex items-center justify-center">
-                    {selfieUrl || customer?.selfie_image ? (
+                    {customer?.profile_photo ? (
                       <img
-                        src={selfieUrl || customer?.selfie_image}
+                        src={customer?.profile_photo}
                         alt="Profile"
                         className="w-full h-full object-cover"
                       />
@@ -463,6 +484,8 @@ const ProfilePage = () => {
                         setUploading(true);
                         setTimeout(() => {
                           setSelfieUrl(URL.createObjectURL(file));
+                          uploadUrlMutate(file);
+                          setSelfieFile(file);
                           setUploading(false);
                         }, 1000);
                       }
