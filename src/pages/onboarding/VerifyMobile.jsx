@@ -62,7 +62,7 @@ const VerifyMobile = () => {
 
   const { mutate: verifyMobileMutate, isLoading } = useMutation({
     mutationKey: ["verify-mobile"],
-    mutationFn: () => verifyMobile(otp.join(""), auth?.user?.mobileno),
+    mutationFn: () => verifyMobile(otp.join(""), mobile),
     onSuccess: async () => {
       await updateCustomerMutate();
     },

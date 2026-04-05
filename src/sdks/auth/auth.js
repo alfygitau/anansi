@@ -133,7 +133,7 @@ export const verifyMobile = async (otp, mobile) => {
 
 export const sendMobileOtp = async (userId) => {
   try {
-    const response = await publicClient.post(`/otp/by-mobile`, {
+    const response = await publicClient.post(`/otp`, {
       userId: userId,
       isEmail: false,
     });
@@ -145,7 +145,7 @@ export const sendMobileOtp = async (userId) => {
 
 export const newMobileOtp = async (mobileno) => {
   try {
-    const response = await publicClient.post(`/otp`, {
+    const response = await publicClient.post(`/otp/by-mobile`, {
       mobileno: mobileno,
     });
     return response;

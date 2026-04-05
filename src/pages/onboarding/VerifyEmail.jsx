@@ -55,7 +55,7 @@ const VerifyEmail = () => {
 
   const { mutate: verifyEmailMutate, isLoading } = useMutation({
     mutationKey: ["verify-email"],
-    mutationFn: () => verifyEmailAddress(otp.join(""), auth?.user?.email),
+    mutationFn: () => verifyEmailAddress(otp.join(""), email),
     onSuccess: async () => {
       showToast({
         title: "Onboarding Success",
