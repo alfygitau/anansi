@@ -1,6 +1,6 @@
-import React from 'react';
-import { ChevronLeft, Circle} from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { ChevronLeft, Circle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const MyProgress = ({ currentTitle, currentSubtitle }) => {
   const navigate = useNavigate();
@@ -8,25 +8,35 @@ const MyProgress = ({ currentTitle, currentSubtitle }) => {
     {
       title: "Identity Verification",
       substeps: ["Upload Government Document", "Selfie Verification"],
+      path: "/onboarding/verify-identity",
     },
     {
       title: "Profile Information",
-      substeps: ["Enter Address", "Employment & KRA Verification", "Add Next of Kin"],
+      substeps: [
+        "Enter Address",
+        "Employment & KRA Verification",
+        "Add Next of Kin",
+      ],
+      path: "/onboarding/personal-information",
     },
     {
       title: "Terms and conditions",
       substeps: ["Review and Accept"],
+      path: "/onboarding/terms-conditions",
     },
   ];
 
   return (
     <div className="flex flex-col gap-8 select-none">
       {/* Back Button */}
-      <button 
+      <button
         onClick={() => navigate(-1)}
         className="flex items-center gap-2 text-[#042159] hover:text-[#4DB8E4] transition-colors w-fit group"
       >
-        <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
+        <ChevronLeft
+          size={20}
+          className="group-hover:-translate-x-1 transition-transform"
+        />
         <span className="text-sm font-bold uppercase tracking-wider">Back</span>
       </button>
 
@@ -55,22 +65,24 @@ const MyProgress = ({ currentTitle, currentSubtitle }) => {
 
               {/* Text Content */}
               <div className="flex flex-col gap-2">
-                <h3 className={`text-sm font-black uppercase tracking-tight ${
-                  isActive ? 'text-[#042159]' : 'text-slate-400'
-                }`}>
+                <h3
+                  className={`text-sm font-black uppercase tracking-tight ${
+                    isActive ? "text-[#042159]" : "text-slate-400"
+                  }`}
+                >
                   {step.title}
                 </h3>
-                
+
                 <div className="flex flex-col gap-2">
                   {step.substeps.map((sub) => {
                     const isSubActive = currentSubtitle === sub;
                     return (
-                      <p 
+                      <p
                         key={sub}
                         className={`text-sm transition-all duration-300 ${
-                          isSubActive 
-                            ? 'text-[#4DB8E4] font-bold pl-2 border-l-2 border-[#4DB8E4]' 
-                            : 'text-slate-400 font-medium pl-2 border-l-2 border-transparent'
+                          isSubActive
+                            ? "text-[#4DB8E4] font-bold pl-2 border-l-2 border-[#4DB8E4]"
+                            : "text-slate-400 font-medium pl-2 border-l-2 border-transparent"
                         }`}
                       >
                         {sub}

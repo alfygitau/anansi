@@ -19,6 +19,7 @@ import {
   Folder,
   ArrowRight,
   ShieldCheck,
+  Users,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import InvestAmount from "../../components/quick-invest/InvestAmount";
@@ -99,10 +100,16 @@ const Homepage = () => {
       onClick: () => navigate("/all-loan-applications"),
     },
     {
-      id: 7,
+      id: 8,
       label: "View Statements",
       icon: <Folder size={24} />,
       onClick: () => navigate("/statements"),
+    },
+    {
+      id: 9,
+      label: "Guarantorship",
+      icon: <Users size={24} />,
+      onClick: () => navigate("/guarantorship"),
     },
   ];
   const { auth } = useAuth();
@@ -483,17 +490,20 @@ const Homepage = () => {
             <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
               Quick Actions
             </h2>
-            <div className="flex items-start scrollbar-hide justify-between overflow-x-auto pb-2 no-scrollbar">
-              {quickActions.map(({ label, icon, onClick }) => (
+            <div className="grid grid-cols-4 lg:grid-cols-8 gap-4 lg:gap-6 pb-6">
+              {quickActions.map(({ id, label, icon, onClick }) => (
                 <div
+                  key={id}
                   onClick={onClick}
-                  className="flex flex-col items-center cursor-pointer min-w-[100px] group cursor-pointer"
+                  className="flex flex-col items-center cursor-pointer group w-full"
                 >
-                  <div className="w-20 h-20 bg-slate-200 rounded-3xl flex items-center justify-center text-[#042159] transition-all duration-300 group-hover:bg-[#4DB8E4] group-hover:text-white group-hover:shadow-xl group-hover:shadow-blue-100 group-hover:-translate-y-1">
-                    {React.cloneElement(icon, { size: 32 })}
+                  <div className="w-20 h-20 sm:w-20 sm:h-20 bg-slate-200 rounded-[24px] sm:rounded-3xl flex items-center justify-center text-[#042159] transition-all duration-300 group-hover:bg-[#4DB8E4] group-hover:text-white group-hover:shadow-xl group-hover:shadow-blue-100 group-hover:-translate-y-1">
+                    {React.cloneElement(icon, {
+                      size: 28,
+                      className: "sm:w-[32px] sm:h-[32px]",
+                    })}
                   </div>
-
-                  <span className="text-[11px] font-bold text-center mt-4 leading-tight max-w-[90px] uppercase tracking-wide text-slate-500 group-hover:text-[#042159]">
+                  <span className="text-[10px] sm:text-[11px] font-black text-center mt-3 leading-tight max-w-[80px] sm:max-w-[90px] uppercase tracking-wider text-slate-400 group-hover:text-[#042159] transition-colors">
                     {label}
                   </span>
                 </div>

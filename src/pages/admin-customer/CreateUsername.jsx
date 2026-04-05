@@ -15,12 +15,10 @@ import {
 } from "lucide-react";
 import { useMutation } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
-import useAuth from "../../hooks/useAuth";
 
 const CreateUsername = () => {
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
-  const { auth } = useAuth();
   const { showToast } = useToast();
 
   const validation = useMemo(() => {
@@ -32,7 +30,7 @@ const CreateUsername = () => {
   }, [username]);
 
   const { mutate: handleUpdate, isLoading } = useMutation({
-    mutationFn: async (payload) => {
+    mutationFn: async () => {
       return new Promise((resolve) => setTimeout(resolve, 1500));
     },
     onSuccess: () => {

@@ -2,11 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   Bell,
   User,
-  Settings,
   LogOut,
   HelpCircle,
   ChevronDown,
-  ShieldCheck,
   Menu,
   Home,
   FileText,
@@ -123,14 +121,6 @@ const Navigation = () => {
                       setIsProfileOpen(false);
                       navigate("/profile");
                     }}
-                  />
-                  <DropdownItem
-                    icon={<Settings size={18} />}
-                    label="Account Settings"
-                  />
-                  <DropdownItem
-                    icon={<ShieldCheck size={18} />}
-                    label="Security"
                   />
 
                   <div className="my-2 border-t border-slate-50"></div>

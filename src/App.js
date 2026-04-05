@@ -49,10 +49,12 @@ import WebCapture from "./pages/onboarding/WebCapture";
 import FinancialStatements from "./pages/loan-applications/FinancialStatements";
 import CollateralRegistry from "./pages/loan-applications/CollateralRegistry";
 import EmailLink from "./pages/onboarding/EmailLink";
+import TitleUpdater from "./helmet/TitleUpdater";
 
 function App() {
   return (
     <>
+      <TitleUpdater />
       <Routes>
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/one-time-password" element={<OtpVerification />} />

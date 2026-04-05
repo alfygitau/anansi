@@ -232,333 +232,336 @@ const LoanCalculator = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#042159]/40 backdrop-blur-xl transition-all">
-          <div className="bg-[#F8FAFC] w-full max-w-5xl max-h-[80vh] rounded-[48px] shadow-2xl overflow-hidden flex flex-col border border-white">
-            {/* 1. Ultra-Modern Header */}
-            <div className="p-6 pb-6 flex justify-between items-start">
-              <div>
-                <h2 className="text-4xl font-black text-[#042159] tracking-tighter italic">
-                  Repayment <span className="text-[#4DB8E4]">Schedule</span>
-                </h2>
+    <>
+      <div className="min-h-screen bg-slate-50 text-[#042159] pb-20">
+        {showModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#042159]/40 backdrop-blur-xl transition-all">
+            <div className="bg-[#F8FAFC] w-full max-w-5xl max-h-[80vh] rounded-[48px] shadow-2xl overflow-hidden flex flex-col border border-white">
+              {/* 1. Ultra-Modern Header */}
+              <div className="p-6 pb-6 flex justify-between items-start">
+                <div>
+                  <h2 className="text-4xl font-black text-[#042159] tracking-tighter italic">
+                    Repayment <span className="text-[#4DB8E4]">Schedule</span>
+                  </h2>
 
-                {/* Strategy Switcher - Glassmorphism style */}
-                <div className="flex gap-1 mt-3 bg-slate-200/60 p-1.5 rounded-2xl w-fit backdrop-blur-md border border-slate-200">
-                  {["reducing", "simple"].map((type) => (
-                    <button
-                      key={type}
-                      onClick={() => setActiveScheduleTab(type)}
-                      className={`px-8 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
-                        activeScheduleTab === type
-                          ? "bg-white text-[#042159] shadow-xl shadow-[#042159]/10"
-                          : "text-slate-500 hover:text-[#042159]"
-                      }`}
-                    >
-                      {type === "reducing"
-                        ? "Reducing Balance"
-                        : "Simple Interest"}
-                    </button>
-                  ))}
+                  {/* Strategy Switcher - Glassmorphism style */}
+                  <div className="flex gap-1 mt-3 bg-slate-200/60 p-1.5 rounded-2xl w-fit backdrop-blur-md border border-slate-200">
+                    {["reducing", "simple"].map((type) => (
+                      <button
+                        key={type}
+                        onClick={() => setActiveScheduleTab(type)}
+                        className={`px-8 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
+                          activeScheduleTab === type
+                            ? "bg-white text-[#042159] shadow-xl shadow-[#042159]/10"
+                            : "text-slate-500 hover:text-[#042159]"
+                        }`}
+                      >
+                        {type === "reducing"
+                          ? "Reducing Balance"
+                          : "Simple Interest"}
+                      </button>
+                    ))}
+                  </div>
                 </div>
+
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="p-4 bg-white hover:bg-red-50 hover:text-red-500 text-slate-400 rounded-2xl shadow-sm border border-slate-100 transition-all group"
+                >
+                  <X
+                    size={24}
+                    className="group-hover:-translate-x-1 transition-transform"
+                  />
+                </button>
               </div>
 
-              <button
-                onClick={() => setShowModal(false)}
-                className="p-4 bg-white hover:bg-red-50 hover:text-red-500 text-slate-400 rounded-2xl shadow-sm border border-slate-100 transition-all group"
-              >
-                <X
-                  size={24}
-                  className="group-hover:-translate-x-1 transition-transform"
-                />
-              </button>
-            </div>
+              {/* 2. Visual Table Header */}
+              <div className="px-10 py-2 grid grid-cols-6 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-slate-100">
+                <span className="col-span-1">Period</span>
+                <span className="col-span-1 text-center">Installment</span>
+                <span className="col-span-1 text-center">Principal</span>
+                <span className="col-span-1 text-center">Interest</span>
+                <span className="col-span-2 text-right">Remaining Balance</span>
+              </div>
 
-            {/* 2. Visual Table Header */}
-            <div className="px-10 py-2 grid grid-cols-6 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-slate-100">
-              <span className="col-span-1">Period</span>
-              <span className="col-span-1 text-center">Installment</span>
-              <span className="col-span-1 text-center">Principal</span>
-              <span className="col-span-1 text-center">Interest</span>
-              <span className="col-span-2 text-right">Remaining Balance</span>
-            </div>
+              {/* 3. Luxury Scroll Area */}
+              <div className="overflow-y-auto flex-1 px-6 custom-scrollbar bg-white/50">
+                {generateSchedule(activeScheduleTab).map((row, idx) => {
+                  // Calculate progress percentage for visual aid
+                  const progress = (row.balance / amount) * 100;
 
-            {/* 3. Luxury Scroll Area */}
-            <div className="overflow-y-auto flex-1 px-6 custom-scrollbar bg-white/50">
-              {generateSchedule(activeScheduleTab).map((row, idx) => {
-                // Calculate progress percentage for visual aid
-                const progress = (row.balance / amount) * 100;
-
-                return (
-                  <div
-                    key={row.month}
-                    className="group grid grid-cols-6 py-2.5 px-4 items-center rounded-3xl hover:bg-white hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 mb-1 border border-transparent hover:border-slate-100"
-                  >
-                    {/* Month Badge */}
-                    <div className="col-span-1">
-                      <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-slate-100 text-[#042159] font-black text-xs group-hover:bg-[#042159] group-hover:text-white transition-colors">
-                        {row.month}
-                      </span>
-                    </div>
-
-                    {/* Repayment Details */}
-                    <div className="col-span-1 text-center font-bold text-slate-900">
-                      {formatAmount(row.payment)}
-                    </div>
-
-                    <div className="col-span-1 text-center">
-                      <span className="px-3 py-1 rounded-lg bg-emerald-50 text-emerald-600 font-bold text-xs border border-emerald-100">
-                        {formatAmount(row.principal)}
-                      </span>
-                    </div>
-
-                    <div className="col-span-1 text-center font-bold text-slate-400">
-                      {formatAmount(row.interest)}
-                    </div>
-
-                    {/* Visual Balance Column */}
-                    <div className="col-span-2 text-right">
-                      <div className="flex flex-col items-end gap-1.5">
-                        <span className="font-black text-[#042159]">
-                          {formatAmount(Math.max(0, Number(row.balance)))}
+                  return (
+                    <div
+                      key={row.month}
+                      className="group grid grid-cols-6 py-2.5 px-4 items-center rounded-3xl hover:bg-white hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 mb-1 border border-transparent hover:border-slate-100"
+                    >
+                      {/* Month Badge */}
+                      <div className="col-span-1">
+                        <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-slate-100 text-[#042159] font-black text-xs group-hover:bg-[#042159] group-hover:text-white transition-colors">
+                          {row.month}
                         </span>
-                        {/* Micro Progress Bar */}
-                        <div className="w-24 h-1 bg-slate-100 rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-[#4DB8E4] rounded-full transition-all duration-1000"
-                            style={{ width: `${100 - progress}%` }}
-                          />
+                      </div>
+
+                      {/* Repayment Details */}
+                      <div className="col-span-1 text-center font-bold text-slate-900">
+                        {formatAmount(row.payment)}
+                      </div>
+
+                      <div className="col-span-1 text-center">
+                        <span className="px-3 py-1 rounded-lg bg-emerald-50 text-emerald-600 font-bold text-xs border border-emerald-100">
+                          {formatAmount(row.principal)}
+                        </span>
+                      </div>
+
+                      <div className="col-span-1 text-center font-bold text-slate-400">
+                        {formatAmount(row.interest)}
+                      </div>
+
+                      {/* Visual Balance Column */}
+                      <div className="col-span-2 text-right">
+                        <div className="flex flex-col items-end gap-1.5">
+                          <span className="font-black text-[#042159]">
+                            {formatAmount(Math.max(0, Number(row.balance)))}
+                          </span>
+                          {/* Micro Progress Bar */}
+                          <div className="w-24 h-1 bg-slate-100 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-[#4DB8E4] rounded-full transition-all duration-1000"
+                              style={{ width: `${100 - progress}%` }}
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
+                  );
+                })}
+              </div>
+
+              {/* 4. Insight Footer */}
+              <div className="m-8 p-8 bg-[#042159] rounded-[32px] shadow-2xl shadow-blue-900/40 flex justify-between items-center relative overflow-hidden">
+                {/* Decorative background element */}
+                <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full blur-3xl" />
+
+                <div className="flex gap-12 relative z-10">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-black text-blue-300/60 uppercase tracking-widest mb-1">
+                      Projected Interest
+                    </span>
+                    <span className="text-2xl font-black text-white italic">
+                      {activeScheduleTab === "reducing"
+                        ? formatAmount(reducing.totalInterest)
+                        : formatAmount(simple.totalInterest)}
+                    </span>
                   </div>
-                );
-              })}
-            </div>
 
-            {/* 4. Insight Footer */}
-            <div className="m-8 p-8 bg-[#042159] rounded-[32px] shadow-2xl shadow-blue-900/40 flex justify-between items-center relative overflow-hidden">
-              {/* Decorative background element */}
-              <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full blur-3xl" />
-
-              <div className="flex gap-12 relative z-10">
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-black text-blue-300/60 uppercase tracking-widest mb-1">
-                    Projected Interest
-                  </span>
-                  <span className="text-2xl font-black text-white italic">
-                    {activeScheduleTab === "reducing"
-                      ? formatAmount(reducing.totalInterest)
-                      : formatAmount(simple.totalInterest)}
-                  </span>
+                  <div className="flex flex-col border-l border-white/10 pl-12">
+                    <span className="text-[10px] font-black text-blue-300/60 uppercase tracking-widest mb-1">
+                      Total Payable
+                    </span>
+                    <span className="text-2xl font-black text-[#4DB8E4] italic">
+                      {activeScheduleTab === "reducing"
+                        ? formatAmount(reducing.totalPayable)
+                        : formatAmount(simple.totalPayable)}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="flex flex-col border-l border-white/10 pl-12">
-                  <span className="text-[10px] font-black text-blue-300/60 uppercase tracking-widest mb-1">
-                    Total Payable
-                  </span>
-                  <span className="text-2xl font-black text-[#4DB8E4] italic">
-                    {activeScheduleTab === "reducing"
-                      ? formatAmount(reducing.totalPayable)
-                      : formatAmount(simple.totalPayable)}
-                  </span>
+                <button
+                  onClick={() =>
+                    downloadPDF(
+                      activeScheduleTab,
+                      generateSchedule(activeScheduleTab),
+                      activeScheduleTab === "reducing" ? reducing : simple,
+                    )
+                  }
+                  className="relative z-10 px-10 py-4 bg-[#4DB8E4] text-[#042159] rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] hover:bg-white transition-all active:scale-95 flex items-center gap-3"
+                >
+                  <Download size={18} /> Export PDF
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        <div className="max-w-6xl sm:px-4 mx-auto">
+          <header className="flex mt-2 items-center justify-between">
+            <div className="flex items-center gap-4">
+              <h1 className="text-3xl font-black tracking-tight">
+                Loan Calculator
+              </h1>
+            </div>
+            <button
+              onClick={() => setShowModal(true)}
+              className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all"
+            >
+              <Download size={16} /> Export Schedule
+            </button>
+          </header>
+          <p className="text-slate-500 mb-4 mt-3 text-sm leading-relaxed font-medium">
+            Evaluate your credit options by comparing &nbsp;
+            <span className="text-[#042159] font-bold">
+              Amortized Reducing Balance &nbsp;
+            </span>
+            against&nbsp;
+            <span className="text-[#042159] font-bold">
+              Standard Simple Interest &nbsp;
+            </span>
+            models. Adjust your principal, rates, and tenure below to visualize
+            total interest costs and monthly repayment obligations in real-time.
+          </p>
+
+          <section className="bg-white rounded-[40px] p-6 shadow-md shadow-blue-900/5 border border-slate-100 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              <InputGroup
+                label="Loan Amount (KES)"
+                icon={<Calculator size={18} />}
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
+
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 flex items-center gap-2">
+                    <Percent size={18} /> Interest Rate (%)
+                  </label>
+
+                  {/* Modern Toggle Switch */}
+                  <div className="flex bg-slate-100 rounded-xl">
+                    <button
+                      onClick={() => setIsMonthly(false)}
+                      className={`px-3 py-1 text-[9px] font-black uppercase rounded-lg transition-all ${!isMonthly ? "bg-white text-[#042159] shadow-sm" : "text-slate-400"}`}
+                    >
+                      Yearly
+                    </button>
+                    <button
+                      onClick={() => setIsMonthly(true)}
+                      className={`px-3 py-1 text-[9px] font-black uppercase rounded-lg transition-all ${isMonthly ? "bg-white text-[#042159] shadow-sm" : "text-slate-400"}`}
+                    >
+                      Monthly
+                    </button>
+                  </div>
+                </div>
+                <input
+                  type="number"
+                  value={rate}
+                  onChange={(e) => setRate(e.target.value)}
+                  placeholder={isMonthly ? "e.g. 3" : "e.g. 14"}
+                  className="w-full bg-slate-50 border-none rounded-2xl p-4 text-lg font-bold text-[#042159] focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none transition-all"
+                />
+              </div>
+
+              <InputGroup
+                label="Duration (Months)"
+                icon={<Calendar size={18} />}
+                value={period}
+                onChange={(e) => setPeriod(e.target.value)}
+              />
+            </div>
+          </section>
+
+          {/* 2. Comparison Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* LEFT: Reducing Balance */}
+            <div className="bg-[#042159] rounded-[40px] p-10 text-white shadow-2xl shadow-blue-900/20 relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-8 opacity-10">
+                <TrendingDown size={120} />
+              </div>
+
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="p-2 bg-[#4DB8E4] rounded-lg">
+                    <ShieldCheck size={20} className="text-[#042159]" />
+                  </div>
+                  <h3 className="text-xl font-black uppercase tracking-widest text-[13px] text-blue-300">
+                    Reducing Balance
+                  </h3>
+                </div>
+
+                <ResultRow
+                  label="Monthly Installment (EMI)"
+                  value={reducing.emi}
+                  highlight
+                />
+                <div className="grid grid-cols-2 gap-6 mt-10 pt-8 border-t border-white/10">
+                  <ResultRow
+                    label="Total Interest"
+                    value={reducing.totalInterest}
+                  />
+                  <ResultRow
+                    label="Total Payable"
+                    value={reducing.totalPayable}
+                  />
+                </div>
+
+                <p className="mt-8 text-[11px] text-blue-300/60 leading-relaxed italic">
+                  *Interest is calculated on the remaining principal each month.
+                  This is the most cost-effective method for long-term loans.
+                </p>
+              </div>
+            </div>
+
+            {/* RIGHT: Simple Interest */}
+            <div className="bg-white rounded-[40px] p-10 border border-slate-200 shadow-xl shadow-blue-900/5 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="p-2 bg-slate-100 rounded-lg">
+                    <Percent size={20} className="text-[#042159]" />
+                  </div>
+                  <h3 className="text-xl font-black uppercase tracking-widest text-[13px] text-slate-400">
+                    Simple Interest
+                  </h3>
+                </div>
+
+                <ResultRow
+                  label="Monthly Installment"
+                  value={simple.emi}
+                  highlight
+                  dark
+                />
+                <div className="grid grid-cols-2 gap-6 mt-10 pt-8 border-t border-slate-100">
+                  <ResultRow
+                    label="Total Interest"
+                    value={simple.totalInterest}
+                    dark
+                  />
+                  <ResultRow
+                    label="Total Payable"
+                    value={simple.totalPayable}
+                    dark
+                  />
                 </div>
               </div>
 
-              <button
-                onClick={() =>
-                  downloadPDF(
-                    activeScheduleTab,
-                    generateSchedule(activeScheduleTab),
-                    activeScheduleTab === "reducing" ? reducing : simple,
-                  )
-                }
-                className="relative z-10 px-10 py-4 bg-[#4DB8E4] text-[#042159] rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] hover:bg-white transition-all active:scale-95 flex items-center gap-3"
-              >
-                <Download size={18} /> Export PDF
+              <div className="mt-8 flex gap-3 p-4 bg-amber-50 rounded-2xl border border-amber-100">
+                <AlertCircle size={18} className="text-amber-600 shrink-0" />
+                <p className="text-[11px] text-amber-700 leading-tight font-medium">
+                  Note: Simple interest charges are fixed based on the original
+                  principal. Total interest remains the same throughout the
+                  term.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* 3. Footer Info */}
+          <footer className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <InfoCard
+              title="What is Reducing Balance?"
+              text="As you pay off your loan, the interest is only charged on the outstanding amount, meaning you pay less interest over time."
+            />
+            <InfoCard
+              title="Financial Advice"
+              text="Compare both methods carefully. Reducing balance typically results in a lower total cost than simple interest for the same rate."
+            />
+            <div className="bg-blue-600 rounded-[32px] p-8 text-white flex flex-col items-center justify-center text-center">
+              <h4 className="font-black text-sm mb-2">Ready to proceed?</h4>
+              <button className="w-full py-3 bg-[#4DB8E4] text-[#042159] rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-sky-300 transition-colors">
+                Apply for this Loan
               </button>
             </div>
-          </div>
+          </footer>
         </div>
-      )}
-      <div className="max-w-6xl sm:px-4 mx-auto">
-        <header className="flex mt-2 items-center justify-between">
-          <div className="flex items-center gap-4">
-            <h1 className="text-3xl font-black tracking-tight">
-              Loan Calculator
-            </h1>
-          </div>
-          <button
-            onClick={() => setShowModal(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all"
-          >
-            <Download size={16} /> Export Schedule
-          </button>
-        </header>
-        <p className="text-slate-500 mb-4 mt-3 text-sm leading-relaxed font-medium">
-          Evaluate your credit options by comparing &nbsp;
-          <span className="text-[#042159] font-bold">
-            Amortized Reducing Balance &nbsp;
-          </span>
-          against&nbsp;
-          <span className="text-[#042159] font-bold">
-            Standard Simple Interest &nbsp;
-          </span>
-          models. Adjust your principal, rates, and tenure below to visualize
-          total interest costs and monthly repayment obligations in real-time.
-        </p>
-
-        <section className="bg-white rounded-[40px] p-6 shadow-md shadow-blue-900/5 border border-slate-100 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <InputGroup
-              label="Loan Amount (KES)"
-              icon={<Calculator size={18} />}
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />
-
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 flex items-center gap-2">
-                  <Percent size={18} /> Interest Rate (%)
-                </label>
-
-                {/* Modern Toggle Switch */}
-                <div className="flex bg-slate-100 rounded-xl">
-                  <button
-                    onClick={() => setIsMonthly(false)}
-                    className={`px-3 py-1 text-[9px] font-black uppercase rounded-lg transition-all ${!isMonthly ? "bg-white text-[#042159] shadow-sm" : "text-slate-400"}`}
-                  >
-                    Yearly
-                  </button>
-                  <button
-                    onClick={() => setIsMonthly(true)}
-                    className={`px-3 py-1 text-[9px] font-black uppercase rounded-lg transition-all ${isMonthly ? "bg-white text-[#042159] shadow-sm" : "text-slate-400"}`}
-                  >
-                    Monthly
-                  </button>
-                </div>
-              </div>
-              <input
-                type="number"
-                value={rate}
-                onChange={(e) => setRate(e.target.value)}
-                placeholder={isMonthly ? "e.g. 3" : "e.g. 14"}
-                className="w-full bg-slate-50 border-none rounded-2xl p-4 text-lg font-bold text-[#042159] focus:ring-2 focus:ring-[#4DB8E4]/20 outline-none transition-all"
-              />
-            </div>
-
-            <InputGroup
-              label="Duration (Months)"
-              icon={<Calendar size={18} />}
-              value={period}
-              onChange={(e) => setPeriod(e.target.value)}
-            />
-          </div>
-        </section>
-
-        {/* 2. Comparison Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* LEFT: Reducing Balance */}
-          <div className="bg-[#042159] rounded-[40px] p-10 text-white shadow-2xl shadow-blue-900/20 relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-8 opacity-10">
-              <TrendingDown size={120} />
-            </div>
-
-            <div className="relative z-10">
-              <div className="flex items-center gap-3 mb-8">
-                <div className="p-2 bg-[#4DB8E4] rounded-lg">
-                  <ShieldCheck size={20} className="text-[#042159]" />
-                </div>
-                <h3 className="text-xl font-black uppercase tracking-widest text-[13px] text-blue-300">
-                  Reducing Balance
-                </h3>
-              </div>
-
-              <ResultRow
-                label="Monthly Installment (EMI)"
-                value={reducing.emi}
-                highlight
-              />
-              <div className="grid grid-cols-2 gap-6 mt-10 pt-8 border-t border-white/10">
-                <ResultRow
-                  label="Total Interest"
-                  value={reducing.totalInterest}
-                />
-                <ResultRow
-                  label="Total Payable"
-                  value={reducing.totalPayable}
-                />
-              </div>
-
-              <p className="mt-8 text-[11px] text-blue-300/60 leading-relaxed italic">
-                *Interest is calculated on the remaining principal each month.
-                This is the most cost-effective method for long-term loans.
-              </p>
-            </div>
-          </div>
-
-          {/* RIGHT: Simple Interest */}
-          <div className="bg-white rounded-[40px] p-10 border border-slate-200 shadow-xl shadow-blue-900/5 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center gap-3 mb-8">
-                <div className="p-2 bg-slate-100 rounded-lg">
-                  <Percent size={20} className="text-[#042159]" />
-                </div>
-                <h3 className="text-xl font-black uppercase tracking-widest text-[13px] text-slate-400">
-                  Simple Interest
-                </h3>
-              </div>
-
-              <ResultRow
-                label="Monthly Installment"
-                value={simple.emi}
-                highlight
-                dark
-              />
-              <div className="grid grid-cols-2 gap-6 mt-10 pt-8 border-t border-slate-100">
-                <ResultRow
-                  label="Total Interest"
-                  value={simple.totalInterest}
-                  dark
-                />
-                <ResultRow
-                  label="Total Payable"
-                  value={simple.totalPayable}
-                  dark
-                />
-              </div>
-            </div>
-
-            <div className="mt-8 flex gap-3 p-4 bg-amber-50 rounded-2xl border border-amber-100">
-              <AlertCircle size={18} className="text-amber-600 shrink-0" />
-              <p className="text-[11px] text-amber-700 leading-tight font-medium">
-                Note: Simple interest charges are fixed based on the original
-                principal. Total interest remains the same throughout the term.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* 3. Footer Info */}
-        <footer className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <InfoCard
-            title="What is Reducing Balance?"
-            text="As you pay off your loan, the interest is only charged on the outstanding amount, meaning you pay less interest over time."
-          />
-          <InfoCard
-            title="Financial Advice"
-            text="Compare both methods carefully. Reducing balance typically results in a lower total cost than simple interest for the same rate."
-          />
-          <div className="bg-blue-600 rounded-[32px] p-8 text-white flex flex-col items-center justify-center text-center">
-            <h4 className="font-black text-sm mb-2">Ready to proceed?</h4>
-            <button className="w-full py-3 bg-[#4DB8E4] text-[#042159] rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-sky-300 transition-colors">
-              Apply for this Loan
-            </button>
-          </div>
-        </footer>
       </div>
-    </div>
+    </>
   );
 };
 

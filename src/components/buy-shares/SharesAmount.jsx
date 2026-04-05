@@ -26,7 +26,6 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
       }
     }
     if (name === "shares") {
-      const amt = Number(value);
       if (!value) {
         error = "Amount is required";
       }

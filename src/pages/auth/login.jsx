@@ -6,7 +6,6 @@ import {
   EyeOff,
   ArrowRight,
   ShieldCheck,
-  Fingerprint,
   AlertCircle,
   Loader2,
 } from "lucide-react";

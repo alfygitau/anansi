@@ -92,7 +92,7 @@ const FacialIdentity = () => {
       <div className="flex-1 pr-5 pl-3">
         <header className="mb-10">
           {/* 3. Adjusted text size for mobile (text-2xl -> text-3xl) */}
-          <h1 className="text-2xl lg:text-3xl font-black text-[#042159] uppercase tracking-tight mb-2">
+          <h1 className="text-2xl lg:text-2xl font-black text-[#042159] uppercase tracking-tight mb-2">
             Selfie Verification
           </h1>
 

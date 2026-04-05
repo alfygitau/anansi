@@ -1,14 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  ArrowLeft,
-  LockKeyhole,
-  Eye,
-  EyeOff,
-  Check,
-  X,
-  Loader2,
-} from "lucide-react";
+import { LockKeyhole, Eye, EyeOff, Check, X, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { resetPassword } from "../../sdks/auth/auth";
 import { useMutation } from "react-query";
