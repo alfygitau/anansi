@@ -442,7 +442,7 @@ const LoanCalculator = () => {
                 </p>
               </div>
               {/* Right Column: Fee Breakdown */}
-              <div className="bg-white/60 backdrop-blur-sm p-4 mt-3 rounded-2xl border border-slate-100 space-y-3">
+              <div className="bg-white/60 bg-slate-900/40 p-4 mt-3 rounded-2xl border border-slate-100 space-y-3">
                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                   Excluded Charges
                 </p>

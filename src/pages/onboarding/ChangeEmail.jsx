@@ -209,7 +209,7 @@ const ChangeEmail = () => {
         <div className="lg:col-span-6 hidden lg:block">
           <div className="bg-primary rounded-[48px] p-12 text-white relative overflow-hidden h-[600px] flex flex-col justify-end">
             {/* Modern Icon Badge */}
-            <div className="absolute top-6 left-12 w-10 h-10 bg-secondary/20 rounded-[32px] flex items-center justify-center border border-white/10 backdrop-blur-sm">
+            <div className="absolute top-6 left-12 w-10 h-10 bg-secondary/20 rounded-[32px] flex items-center justify-center border border-white/10 bg-slate-900/40">
               <Mail className="text-secondary" size={20} />
             </div>
 

@@ -59,7 +59,7 @@ const GenerateStatement = ({ isOpen, onClose, onSuccess }) => {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-primary/40 backdrop-blur-sm animate-in fade-in duration-200"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-primary/40 bg-slate-900/40 animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div

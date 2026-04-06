@@ -735,7 +735,7 @@ const CompactLoanCard = ({ loan, accent }) => (
 );
 
 const EmptyState = ({ message, onApply }) => (
-  <div className="relative overflow-hidden py-12 px-6 border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center bg-white/50 backdrop-blur-sm group transition-all hover:border-secondary/30">
+  <div className="relative overflow-hidden py-12 px-6 border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center bg-white/50 bg-slate-900/40 group transition-all hover:border-secondary/30">
     {/* Decorative Background Glow */}
     <div className="absolute -top-10 -right-10 w-32 h-32 bg-secondary/5 rounded-full blur-3xl group-hover:bg-secondary/10 transition-colors"></div>
 

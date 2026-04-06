@@ -35,7 +35,7 @@ const SaveAndInvest = ({ isOpen, onNext, onClose, onCombine }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-primary/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-primary/60 bg-slate-900/40"
           />
 
           {/* Centered Modal Card */}

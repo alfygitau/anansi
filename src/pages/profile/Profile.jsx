@@ -450,7 +450,7 @@ const ProfilePage = () => {
           {isOpen && (
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
               <div
-                className="absolute inset-0 bg-primary/40 backdrop-blur-sm"
+                className="absolute inset-0 bg-primary/40 bg-slate-900/40"
                 onClick={() => setIsOpen(false)}
               />
               <div className="relative bg-white w-full max-w-md rounded-[32px] p-8 shadow-2xl animate-in zoom-in-95 duration-200">

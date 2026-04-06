@@ -90,7 +90,7 @@ const SetNewPassword = () => {
             </p>
 
             {/* Live Strength Checklist */}
-            <div className="space-y-3 bg-white/5 p-6 rounded-[32px] border border-white/5 backdrop-blur-sm">
+            <div className="space-y-3 bg-white/5 p-6 rounded-[32px] border border-white/5 bg-slate-900/40">
               <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-secondary mb-4">
                 Strength Guard
               </h4>

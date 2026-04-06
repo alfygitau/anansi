@@ -161,7 +161,7 @@ const FinancialStatements = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={closeModal}
-              className="fixed inset-0 bg-primary/40 backdrop-blur-sm z-20"
+              className="fixed inset-0 bg-primary/40 bg-slate-900/40 z-20"
             />
             <motion.div
               initial={{ x: "100%" }}

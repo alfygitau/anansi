@@ -203,7 +203,7 @@ const CollateralRegistry = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsAdding(false)}
-              className="fixed inset-0 bg-primary/40 backdrop-blur-sm z-40"
+              className="fixed inset-0 bg-primary/40 bg-slate-900/40 z-40"
             />
             <motion.div
               initial={{ x: "100%" }}
