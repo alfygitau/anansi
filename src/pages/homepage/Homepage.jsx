@@ -173,7 +173,7 @@ const Homepage = () => {
     },
   });
 
-  const { refetch: refetchSharesSummary } = useQuery({
+  const { refetch: refetchSharesSummary, isLoading: loadingShares } = useQuery({
     queryKey: ["get shares summary"],
     queryFn: async () => {
       const response = await getSharesSummary(auth?.user?.public_id);
@@ -382,11 +382,43 @@ const Homepage = () => {
               </p>
             </div>
           </header>
-          {Number(currentShares) < 10 && (
+          {/*  */}
+          {loadingShares || Number(currentShares) === 0 ? (
+            <div className="mb-6 w-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm animate-pulse">
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                {/* Left Content Skeleton */}
+                <div className="flex-1 space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 bg-slate-200 rounded-xl" />
+                    <div className="h-6 w-40 bg-slate-200 rounded-md" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-4 w-full max-w-[400px] bg-slate-100 rounded" />
+                    <div className="h-4 w-full max-w-[350px] bg-slate-100 rounded" />
+                  </div>
+                  <div className="h-8 w-56 bg-slate-100 rounded-lg" />
+                </div>
+
+                {/* Right Progress Skeleton */}
+                <div className="w-full lg:w-[340px] space-y-5">
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <div className="h-3 w-20 bg-slate-200 rounded" />
+                      <div className="h-3 w-10 bg-slate-200 rounded" />
+                    </div>
+                    <div className="h-4 w-full bg-slate-100 rounded-full" />
+                    <div className="h-3 w-24 bg-slate-100 rounded ml-auto" />
+                  </div>
+                  <div className="h-14 w-full bg-slate-200 rounded-2xl" />
+                </div>
+              </div>
+            </div>
+          ) : Number(currentShares) < 10 ? (
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6 w-full mx-auto border border-cyan-100 bg-gradient-to-br from-[#F0FFFE] to-white p-4 shadow-sm shadow-cyan-900/5"
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="mb-6 w-full mx-auto border border-cyan-100 bg-gradient-to-br from-[#F0FFFE] to-white p-4 shadow-sm shadow-cyan-900/5 rounded-2xl"
             >
               <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                 {/* Text Content Area */}
@@ -411,6 +443,7 @@ const Homepage = () => {
                     </span>
                     .
                   </p>
+
                   {remainingShares > 0 && (
                     <div className="inline-flex items-center gap-2 rounded-lg bg-white/60 px-3 py-1.5 border border-cyan-100">
                       <Wallet size={14} className="text-cyan-600" />
@@ -434,7 +467,6 @@ const Homepage = () => {
                       </span>
                     </div>
 
-                    {/* Custom Progress Bar */}
                     <div className="relative h-4 w-full overflow-hidden rounded-full bg-slate-100 p-1 shadow-inner border border-slate-200/50">
                       <motion.div
                         initial={{ width: 0 }}
@@ -442,7 +474,6 @@ const Homepage = () => {
                         transition={{ duration: 1.2, ease: "circOut" }}
                         className="h-full rounded-full bg-gradient-to-r from-primary to-[#074073] relative"
                       >
-                        {/* Shine effect on bar */}
                         <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent" />
                       </motion.div>
                     </div>
@@ -452,6 +483,7 @@ const Homepage = () => {
                       <span className="text-slate-300">/</span> 10 Shares
                     </p>
                   </div>
+
                   <button
                     onClick={() => setShowSharesAmount(true)}
                     className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-primary px-8 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-blue-900/20 transition-all hover:bg-[#062d7a] active:scale-[0.98]"
@@ -465,7 +497,7 @@ const Homepage = () => {
                 </div>
               </div>
             </motion.div>
-          )}
+          ) : null}
 
           {/* Account Section */}
           <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
