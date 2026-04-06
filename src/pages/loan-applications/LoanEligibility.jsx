@@ -220,7 +220,7 @@ const LoanLimitHero = ({ loanLimit, checking }) => (
             )}
           </div>
         </div>
-        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-5 md:max-w-[240px]">
+        <div className="bg-white/5 bg-slate-900/40 border border-white/10 rounded-3xl p-5 md:max-w-[240px]">
           <div className="flex items-start gap-3">
             <Zap
               size={16}

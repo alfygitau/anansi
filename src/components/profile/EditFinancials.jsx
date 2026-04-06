@@ -82,7 +82,7 @@ const EditFinancialDetails = ({ isOpen, onClose, customer, refetch }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-primary/40 backdrop-blur-md"
+            className="absolute inset-0 bg-primary/40 bg-slate-900/40"
           />
 
           {/* Modal Container */}

@@ -121,7 +121,7 @@ const AccountDetails = () => {
                     </h2>
                     <button
                       onClick={() => setBalanceVisible(!balanceVisible)}
-                      className="p-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl hover:bg-white/15"
+                      className="p-3 bg-white/5 bg-slate-900/40 border border-white/10 rounded-2xl hover:bg-white/15"
                     >
                       {balanceVisible ? (
                         <EyeOff size={22} />

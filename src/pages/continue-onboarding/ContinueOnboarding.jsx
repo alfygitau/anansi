@@ -9,10 +9,14 @@ import {
   ExternalLink,
 } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
+import { useMutation } from "react-query";
+import { newEmailOtp } from "../../sdks/auth/auth";
+import { useToast } from "../../contexts/ToastProvider";
 
 const ProceedOnboarding = () => {
   const navigate = useNavigate();
   const { auth } = useAuth();
+  const { showToast } = useToast();
 
   const stageRoutes = {
     "facial-identity": "/onboarding/facial-identity",
@@ -28,8 +32,27 @@ const ProceedOnboarding = () => {
 
   const handleContinue = () => {
     const stage = auth?.user?.onboarding_stage;
+    if (stage === "registration") {
+      resendEmailOtpMutate();
+    }
     navigate(stageRoutes[stage] || "/");
   };
+
+  const { mutate: resendEmailOtpMutate } = useMutation({
+    mutationKey: ["resend-email-otp"],
+    mutationFn: () => newEmailOtp(auth?.user?.email),
+    onSuccess: () => {
+      navigate("/onboarding/verify-email");
+    },
+    onError: (error) => {
+      showToast({
+        title: "Onboarding glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   return (
     <div className="w-full flex items-center justify-center font-sans">

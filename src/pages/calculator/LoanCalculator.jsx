@@ -247,7 +247,7 @@ const LoanCalculator = () => {
                   </h2>
 
                   {/* Strategy Switcher - Glassmorphism style */}
-                  <div className="flex gap-1 mt-3 bg-slate-200/60 p-1.5 rounded-2xl w-fit backdrop-blur-md border border-slate-200">
+                  <div className="flex gap-1 mt-3 bg-slate-200/60 p-1.5 rounded-2xl w-fit bg-slate-900/40 border border-slate-200">
                     {["reducing", "simple"].map((type) => (
                       <button
                         key={type}

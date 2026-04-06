@@ -196,7 +196,7 @@ const ApplyLoan = () => {
                 </div>
 
                 {/* Main Payment Display - "The Hero Figure" */}
-                <div className="bg-white/5 backdrop-blur-md rounded-[32px] p-6 border border-white/10 mb-8">
+                <div className="bg-white/5 bg-slate-900/40 rounded-[32px] p-6 border border-white/10 mb-8">
                   <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">
                     Expected {interval} Payment
                   </p>

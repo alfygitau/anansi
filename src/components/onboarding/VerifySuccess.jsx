@@ -11,7 +11,7 @@ const SuccessVerification = ({ isOpen, onClose }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-primary/30 backdrop-blur-md"
+            className="absolute inset-0 bg-primary/30 bg-slate-900/40"
             onClick={onClose}
           />
 

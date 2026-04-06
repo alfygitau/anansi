@@ -23,7 +23,7 @@ const MobileSelfieLanding = () => {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center font-sans">
       {/* 1. Header Navigation */}
-      <header className="w-full max-w-[600px] h-[92px] bg-white/80 backdrop-blur-md border-b border-slate-100 flex items-center justify-between px-6 sticky top-0 z-50">
+      <header className="w-full max-w-[600px] h-[92px] bg-white/80 bg-slate-900/40 border-b border-slate-100 flex items-center justify-between px-6 sticky top-0 z-50">
         <div className="w-12 h-12 bg-primary rounded-[10px] flex items-center justify-center shadow-2xl shadow-blue-900/20">
           <ShieldCheck className="text-secondary" size={32} />
         </div>

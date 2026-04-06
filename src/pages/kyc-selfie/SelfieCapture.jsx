@@ -292,7 +292,7 @@ const SelfieCapture = () => {
         </div>
       </main>
       {/* STICKY FOOTER - Fixed at the very bottom of the screen */}
-      <footer className="flex-none p-6 bg-white/90 backdrop-blur-md border-t border-slate-100 z-[100]">
+      <footer className="flex-none p-6 bg-white/90 bg-slate-900/40 border-t border-slate-100 z-[100]">
         <div className="max-w-[400px] mx-auto">
           {!capturedImage ? (
             <button
