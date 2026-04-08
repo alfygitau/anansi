@@ -81,7 +81,7 @@ const Login = () => {
         type: "success",
         position: "top-right",
         description:
-          "Welcome back to Anansi.\nYour session is active for 24 hours.",
+          "Welcome back to Anansi.\nYour session is active from this moment.",
       });
       handleLoginLogic(data?.data?.data);
     },

@@ -23,6 +23,12 @@ import {
 } from "../../sdks/accounts/accounts";
 import { useToast } from "../../contexts/ToastProvider";
 import AccountDetailsLoader from "../../skeletons/AccountDetailsLoader";
+import InvestAmount from "../../components/quick-invest/InvestAmount";
+import ConfirmInvest from "../../components/quick-invest/ConfirmInvest";
+import AwaitingPayment from "../../components/quick-invest/AwaitPayment";
+import DepositAmount from "../../components/deposit-savings/DepositAmount";
+import ReviewDeposit from "../../components/deposit-savings/ConfirmDeposit";
+import AwaitDepositPayment from "../../components/deposit-savings/AwaitDepositPayment";
 
 const AccountDetails = () => {
   const [balanceVisible, setBalanceVisible] = useState(true);
@@ -31,8 +37,15 @@ const AccountDetails = () => {
   const [account, setAccount] = useState({});
   const [transactions, setTransactions] = useState([]);
   const { showToast } = useToast();
+  const [showInvestAmount, setShowInvestAmount] = useState(false);
+  const [showConfirmInvestment, setShowConfirmInvestment] = useState(false);
+  const [showAwaitPayment, setShowAwaitPayment] = useState(false);
 
-  useQuery({
+  const [showDepositAmount, setShowDepositAmount] = useState(false);
+  const [showReviewDeposit, setShowReviewDeposit] = useState(false);
+  const [showAwaitDepositPayment, setShowAwaitDepositPayment] = useState(false);
+
+  const { refetch: refetchAccounts } = useQuery({
     queryKey: ["get account"],
     queryFn: async () => {
       const response = await fetchAccount(accountId);
@@ -51,7 +64,7 @@ const AccountDetails = () => {
     },
   });
 
-  const { isLoading } = useQuery({
+  const { isLoading, refetch: refetchTransactions } = useQuery({
     queryKey: ["get account transactions"],
     queryFn: async () => {
       const response = await fetchAccountTransactions(accountNumber);
@@ -81,6 +94,61 @@ const AccountDetails = () => {
 
   return (
     <>
+      <InvestAmount
+        isOpen={showInvestAmount}
+        onClose={() => setShowInvestAmount(false)}
+        onConfirm={() => {
+          setShowInvestAmount(false);
+          setShowConfirmInvestment(true);
+        }}
+      />
+
+      <ConfirmInvest
+        isOpen={showConfirmInvestment}
+        onClose={() => setShowConfirmInvestment(false)}
+        onConfirm={() => {
+          setShowConfirmInvestment(false);
+          setShowAwaitPayment(true);
+        }}
+      />
+
+      <AwaitingPayment
+        isOpen={showAwaitPayment}
+        onClose={() => setShowAwaitPayment(false)}
+        onPaymentSuccess={() => {
+          setShowAwaitPayment(false);
+          refetchAccounts();
+          refetchTransactions();
+        }}
+      />
+
+      <DepositAmount
+        isOpen={showDepositAmount}
+        onClose={() => setShowDepositAmount(false)}
+        onConfirm={() => {
+          setShowDepositAmount(false);
+          setShowReviewDeposit(true);
+        }}
+      />
+
+      <ReviewDeposit
+        isOpen={showReviewDeposit}
+        onClose={() => setShowReviewDeposit(false)}
+        onConfirm={() => {
+          setShowReviewDeposit(false);
+          setShowAwaitDepositPayment(true);
+        }}
+      />
+
+      <AwaitDepositPayment
+        isOpen={showAwaitDepositPayment}
+        onClose={() => setShowAwaitDepositPayment(false)}
+        onPaymentSuccess={() => {
+          refetchAccounts();
+          refetchTransactions();
+          setShowAwaitDepositPayment(false);
+        }}
+      />
       {isLoading ? (
         <AccountDetailsLoader />
       ) : (
@@ -159,19 +227,21 @@ const AccountDetails = () => {
                   icon={<ArrowDownCircle />}
                   label="Deposit"
                   color="bg-secondary"
-                  onClick={() => {}}
+                  onClick={() => setShowDepositAmount(true)}
                 />
                 <VerticalAction
                   icon={<FileText />}
-                  label="Statement"
+                  label="Statements"
                   color="bg-white"
                   darkText
+                  onClick={() => navigate("/statements")}
                 />
                 <VerticalAction
                   icon={<TrendingUp />}
                   label="Invest"
                   color="bg-white"
                   darkText
+                  onClick={() => setShowInvestAmount(true)}
                 />
                 <VerticalAction
                   icon={<Search />}

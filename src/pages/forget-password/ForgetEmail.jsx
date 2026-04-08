@@ -155,7 +155,7 @@ const ForgotPassword = () => {
                 Security Notice
               </h4>
               <p className="text-[12px] text-slate-500 leading-relaxed">
-                For your protection, this verification link will expire in{" "}
+                For your protection, this verification code will expire in{" "}
                 <span className="font-bold text-primary">10 minutes</span>. If
                 you didn't request this, please ignore this email or contact
                 support if you suspect unauthorized activity.
