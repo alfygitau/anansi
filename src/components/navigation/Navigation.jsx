@@ -208,7 +208,7 @@ const Navigation = () => {
                 <span className="font-black text-primary">MENU</span>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 bg-slate-50 rounded-full"
+                  className="p-2 bg-slate-100 rounded-full"
                 >
                   <X size={20} />
                 </button>
@@ -216,7 +216,12 @@ const Navigation = () => {
 
               <div className="space-y-2 flex-1">
                 <MobileLink
-                  icon={<LayoutDashboard />}
+                  icon={<Home />}
+                  label="Homepage"
+                  onClick={() => navigate("/home")}
+                />
+                <MobileLink
+                  icon={<LayoutGrid />}
                   label="Loan Applications"
                   onClick={() => navigate("/all-loan-applications")}
                 />
@@ -234,6 +239,11 @@ const Navigation = () => {
                   icon={<FileText />}
                   label="Statements"
                   onClick={() => navigate("/statements")}
+                />
+                <MobileLink
+                  icon={<Users />}
+                  label="Guarantorship"
+                  onClick={() => navigate("/guarantorship")}
                 />
               </div>
 

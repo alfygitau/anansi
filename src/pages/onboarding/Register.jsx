@@ -142,7 +142,7 @@ const Registration = () => {
         <div className="relative z-10 w-[85%] mx-auto">
           <div className="flex items-center gap-3 mb-12">
             <div className="w-12 h-12 bg-secondary rounded-2xl flex items-center justify-center shadow-lg shadow-sky-400/20">
-              <ShieldCheck className="text-primary" size={28} />
+              <span className="text-primary text-3xl font-black">A</span>
             </div>
             <span className="text-xl font-black text-white tracking-tighter uppercase">
               Anansi Sacco

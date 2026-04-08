@@ -237,7 +237,7 @@ const LoanCalculator = () => {
       <div className="min-h-screen bg-slate-50 text-primary pb-20">
         {showModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/40 backdrop-blur-xl transition-all">
-            <div className="bg-[#F8FAFC] w-full max-w-5xl max-h-[80vh] rounded-[48px] shadow-2xl overflow-hidden flex flex-col border border-white">
+            <div className="bg-[#F8FAFC] w-full max-w-5xl max-h-[80vh] rounded-[28px] shadow-2xl overflow-hidden flex flex-col border border-white">
               {/* 1. Ultra-Modern Header */}
               <div className="p-6 pb-6 flex justify-between items-start">
                 <div>

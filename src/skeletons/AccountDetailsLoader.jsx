@@ -1,7 +1,7 @@
 const AccountDetailsLoader = () => {
   return (
     <div className="min-h-screen bg-slate-50 pb-20">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Header Skeleton */}
         <header className="py-8 flex items-center gap-4">
           <div className="w-8 h-8 bg-slate-200 rounded-full animate-pulse" />

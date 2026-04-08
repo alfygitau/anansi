@@ -84,7 +84,7 @@ const ForgotPassword = () => {
           </h1>
           <p className="text-slate-400 text-sm leading-relaxed max-w-[320px] mx-auto">
             No worries, it happens to the best of us. Enter the email address
-            associated with your account and we'll send you a secure link with
+            associated with your account and we'll send you a secure code with
             instructions to get you back in.
           </p>
         </div>

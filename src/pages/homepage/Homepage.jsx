@@ -714,7 +714,7 @@ const ProductsEmptyState = () => (
   <div className="col-span-full py-12 px-6 bg-white border border-slate-100 rounded-2xl flex flex-col items-center justify-center shadow-sm relative overflow-hidden">
     {/* Subtle Background Decoration */}
     <div className="absolute top-0 right-0 p-4 opacity-[0.03] rotate-12">
-      <ShieldAlert size={120} />
+      <ShieldAlert size={80} />
     </div>
 
     <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300 mb-4">
