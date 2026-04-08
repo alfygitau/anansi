@@ -383,7 +383,7 @@ const Homepage = () => {
             </div>
           </header>
           {/*  */}
-          {loadingShares || Number(currentShares) === 0 ? (
+          {loadingShares ? (
             <div className="mb-6 w-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm animate-pulse">
               <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                 {/* Left Content Skeleton */}
