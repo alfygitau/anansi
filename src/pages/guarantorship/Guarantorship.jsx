@@ -7,128 +7,68 @@ import {
   Clock,
   ChevronRight,
   Info,
+  BellDot,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useQuery } from "react-query";
+import {
+  getGuarantorRequests,
+  getGuarantorshipSummary,
+} from "../../sdks/guarantorship/guarantorship";
+import { useToast } from "../../contexts/ToastProvider";
 
 const Guarantorship = () => {
   const [activeTab, setActiveTab] = useState("Requests");
-  const [loading, setLoading] = useState(false);
+  const [summary, setSummary] = useState({});
+  const [requests, setRequests] = useState([]);
+  const { showToast } = useToast();
 
-  // Static Mock Data
-  const limitSummary = {
-    ifEligible: true,
-    availableBalance: 450000.5,
-    totalAmountAlreadyGuaranteed: 120000.0,
-    guaranteedLoans: [
-      {
-        borrowerName: "Kevin Omolo",
-        borrowerPhone: "+254 712 345 678",
-        loanInfo: { loancode: "LN-8821" },
-        amountGuaranteed: 50000.0,
-      },
-      {
-        borrowerName: "Sarah Wanjiku",
-        borrowerPhone: "+254 722 000 111",
-        loanInfo: { loancode: "LN-4432" },
-        amountGuaranteed: 70000.0,
-      },
-      {
-        borrowerName: "David Kiprono",
-        borrowerPhone: "+254 701 998 877",
-        loanInfo: { loancode: "LN-9012" },
-        amountGuaranteed: 120000.0,
-      },
-      {
-        borrowerName: "Mercy Atieno",
-        borrowerPhone: "+254 733 445 566",
-        loanInfo: { loancode: "LN-2219" },
-        amountGuaranteed: 15000.0,
-      },
-      {
-        borrowerName: "Brian Mutua",
-        borrowerPhone: "+254 755 112 233",
-        loanInfo: { loancode: "LN-5567" },
-        amountGuaranteed: 45000.0,
-      },
-      {
-        borrowerName: "Faith Nyambura",
-        borrowerPhone: "+254 788 667 788",
-        loanInfo: { loancode: "LN-3341" },
-        amountGuaranteed: 85000.0,
-      },
-      {
-        borrowerName: "Samuel Hassan",
-        borrowerPhone: "+254 710 554 433",
-        loanInfo: { loancode: "LN-1108" },
-        amountGuaranteed: 30000.0,
-      },
-    ],
-  };
+  useQuery({
+    queryKey: ["guarantorship summary"],
+    queryFn: async () => {
+      const response = await getGuarantorshipSummary();
+      return response.data;
+    },
+    onSuccess: (data) => {
+      setSummary(data);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
-  const myRequests = [
-    {
-      id: 1,
-      borrowerName: "Alice Mwangi",
-      message:
-        "Alice Mwangi is requesting you to guarantee a Development Loan of KES 150,000",
-      status: "pending",
-      createdAt: "2026-03-14T10:30:00Z",
+  useQuery({
+    queryKey: ["guarantor requests"],
+    queryFn: async () => {
+      const response = await getGuarantorRequests();
+      return response.data.data;
     },
-    {
-      id: 2,
-      borrowerName: "John Doe",
-      message: "John Doe's request for an Emergency Loan has been accepted.",
-      status: "accepted",
-      createdAt: "2026-03-12T14:20:00Z",
+    onSuccess: (data) => {
+      setRequests(data);
     },
-    {
-      id: 3,
-      borrowerName: "Peter Kamau",
-      message:
-        "Peter Kamau has sent a request for a School Fees Loan of KES 45,000",
-      status: "pending",
-      createdAt: "2026-03-14T08:15:00Z",
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
     },
-    {
-      id: 4,
-      borrowerName: "Esther Nekesa",
-      message: "Your guarantee for Esther Nekesa's Business Loan was declined.",
-      status: "rejected",
-      createdAt: "2026-03-11T09:45:00Z",
-    },
-    {
-      id: 5,
-      borrowerName: "Michael Otieno",
-      message:
-        "Michael Otieno is requesting you to guarantee a Flash Loan of KES 10,000",
-      status: "pending",
-      createdAt: "2026-03-14T13:00:00Z",
-    },
-    {
-      id: 6,
-      borrowerName: "Zainab Juma",
-      message:
-        "Zainab Juma's request for an Asset Financing Loan has been accepted.",
-      status: "accepted",
-      createdAt: "2026-03-10T16:50:00Z",
-    },
-    {
-      id: 7,
-      borrowerName: "Robert Kariuki",
-      message:
-        "Robert Kariuki is requesting you to guarantee a Personal Loan of KES 200,000",
-      status: "pending",
-      createdAt: "2026-03-14T15:20:00Z",
-    },
-  ];
+  });
 
   const getInitials = (name) => {
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase();
-  };
+  if (!name) return "??";
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) {
+    return parts[0].substring(0, 2).toUpperCase();
+  }
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+};
 
   return (
     <div className="min-h-screen bg-slate-50 p-4 md:p-8 font-sans text-slate-900">
@@ -142,13 +82,11 @@ const Guarantorship = () => {
             </p>
           </div>
           <div
-            className={`flex items-center gap-2 px-4 py-2 rounded-full border-2 ${limitSummary.ifEligible ? "bg-emerald-50 border-emerald-100 text-emerald-700" : "bg-rose-50 border-rose-100 text-rose-700"}`}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full border-2 ${summary?.ifEligible ? "bg-emerald-50 border-emerald-100 text-emerald-700" : "bg-rose-50 border-rose-100 text-rose-700"}`}
           >
             <ShieldCheck size={18} />
             <span className="text-sm font-bold">
-              {limitSummary.ifEligible
-                ? "Eligible to Guarantee"
-                : "Not Eligible"}
+              {summary?.ifEligible ? "Eligible to Guarantee" : "Not Eligible"}
             </span>
           </div>
         </div>
@@ -158,19 +96,19 @@ const Guarantorship = () => {
           <StatCard
             icon={<History className="text-blue-500" />}
             label="Active Guarantees"
-            value={limitSummary.guaranteedLoans.length}
+            value={summary?.guaranteedLoans?.length}
             sub="Current Loans"
           />
           <StatCard
             icon={<Wallet className="text-emerald-500" />}
             label="Available Balance"
-            value={`KES ${limitSummary.availableBalance.toLocaleString()}`}
+            value={`KES ${summary?.availableBalance?.toLocaleString()}`}
             sub="To guarantee"
           />
           <StatCard
             icon={<Users className="text-amber-500" />}
             label="Total Guaranteed"
-            value={`KES ${limitSummary.totalAmountAlreadyGuaranteed.toLocaleString()}`}
+            value={`KES ${summary?.totalAmountAlreadyGuaranteed?.toLocaleString()}`}
             sub="Cumulative amount"
           />
         </div>
@@ -215,37 +153,47 @@ const Guarantorship = () => {
                   exit={{ opacity: 0, x: 10 }}
                   className="space-y-4"
                 >
-                  {myRequests.map((request) => (
-                    <div
-                      key={request.id}
-                      className="group flex items-center gap-4 p-4 rounded-2xl bg-slate-50/50 border border-transparent hover:border-slate-200 hover:bg-white transition-all"
-                    >
-                      <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-primary font-bold text-sm">
-                        {getInitials(request.borrowerName)}
-                      </div>
-                      <div className="flex-grow">
-                        <div className="flex justify-between items-center mb-1">
-                          <p className="text-sm font-bold text-slate-800 pr-4">
-                            {request.message}
-                          </p>
-                          <StatusBadge status={request.status} />
+                  {requests?.length > 0 ? (
+                    requests?.map((request) => (
+                      <div
+                        key={request.id}
+                        className="group flex items-center gap-4 p-4 rounded-2xl bg-slate-50/50 border border-transparent hover:border-slate-200 hover:bg-white transition-all"
+                      >
+                        <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-primary font-bold text-sm">
+                          {getInitials(request?.borrowerName)}
                         </div>
-                        <div className="flex items-center gap-4">
-                          <span className="text-xs text-slate-400 flex items-center gap-1">
-                            <Clock size={12} />{" "}
-                            {new Date(request.createdAt).toLocaleDateString()}
-                          </span>
-                          <button className="text-xs font-black text-secondary uppercase tracking-wider hover:text-primary transition-colors">
-                            View Details
-                          </button>
+                        <div className="flex-grow">
+                          <div className="flex justify-between items-center mb-1">
+                            <p className="text-sm font-bold text-slate-800 pr-4">
+                              {request?.message}
+                            </p>
+                            <StatusBadge status={request?.status} />
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <span className="text-xs text-slate-400 flex items-center gap-1">
+                              <Clock size={12} />{" "}
+                              {new Date(
+                                request?.createdAt,
+                              ).toLocaleDateString()}
+                            </span>
+                            <button className="text-xs font-black text-secondary uppercase tracking-wider hover:text-primary transition-colors">
+                              View Details
+                            </button>
+                          </div>
                         </div>
+                        <ChevronRight
+                          size={18}
+                          className="text-slate-300 group-hover:text-secondary"
+                        />
                       </div>
-                      <ChevronRight
-                        size={18}
-                        className="text-slate-300 group-hover:text-secondary"
-                      />
-                    </div>
-                  ))}
+                    ))
+                  ) : (
+                    <EmptyState
+                      icon={BellDot}
+                      title="No Pending Requests"
+                      description="You're all caught up! New guarantee requests will appear here."
+                    />
+                  )}
                 </motion.div>
               ) : (
                 <motion.div
@@ -255,34 +203,44 @@ const Guarantorship = () => {
                   exit={{ opacity: 0, x: 10 }}
                   className="grid grid-cols-1 md:grid-cols-2 gap-4"
                 >
-                  {limitSummary.guaranteedLoans.map((loan, idx) => (
-                    <div
-                      key={idx}
-                      className="p-6 rounded-2xl border border-slate-100 bg-slate-50/30 flex justify-between items-center"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold text-xs">
-                          {getInitials(loan.borrowerName)}
+                  {summary?.guaranteedLoans?.length > 0 ? (
+                    summary?.guaranteedLoans.map((loan, idx) => (
+                      <div
+                        key={idx}
+                        className="p-6 rounded-2xl border border-slate-100 bg-slate-50/30 flex justify-between items-center"
+                      >
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold text-xs">
+                            {getInitials(loan?.borrowerName)}
+                          </div>
+                          <div>
+                            <p className="text-sm font-bold text-primary">
+                              {loan?.borrowerName}
+                            </p>
+                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                              {loan?.loanInfo.loancode}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="text-sm font-bold text-primary">
-                            {loan.borrowerName}
+                        <div className="text-right">
+                          <p className="text-xs font-medium text-slate-400">
+                            Guaranteed
                           </p>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                            {loan.loanInfo.loancode}
+                          <p className="text-sm font-black text-emerald-600">
+                            KES {loan?.amountGuaranteed.toLocaleString()}
                           </p>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <p className="text-xs font-medium text-slate-400">
-                          Guaranteed
-                        </p>
-                        <p className="text-sm font-black text-emerald-600">
-                          KES {loan.amountGuaranteed.toLocaleString()}
-                        </p>
-                      </div>
+                    ))
+                  ) : (
+                    <div className="col-span-full">
+                      <EmptyState
+                        icon={ShieldCheck}
+                        title="No Active Guarantees"
+                        description="You haven't guaranteed any loans yet. Active guarantees will show up here."
+                      />
                     </div>
-                  ))}
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -335,5 +293,27 @@ const StatusBadge = ({ status }) => {
     </span>
   );
 };
+
+const EmptyState = ({ icon: Icon, title, description }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="flex flex-col items-center justify-center py-16 px-4 text-center"
+  >
+    <div className="relative mb-6">
+      {/* Decorative background pulse */}
+      <div className="absolute inset-0 scale-150 bg-slate-100/50 rounded-full blur-2xl" />
+      <div className="relative w-20 h-20 bg-white rounded-3xl shadow-xl shadow-slate-200/50 flex items-center justify-center border border-slate-50">
+        <Icon size={40} className="text-secondary" />
+      </div>
+    </div>
+    <h3 className="text-lg font-black text-primary mb-2 tracking-tight">
+      {title}
+    </h3>
+    <p className="text-sm text-slate-400 max-w-[240px] leading-relaxed">
+      {description}
+    </p>
+  </motion.div>
+);
 
 export default Guarantorship;
