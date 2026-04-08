@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   TrendingUp,
   Wallet,
@@ -183,6 +183,15 @@ const Homepage = () => {
       setCurrentShares(data?.numberOfShares);
     },
   });
+
+  const sortedAccounts = useMemo(() => {
+    if (!accounts) return [];
+    return [...accounts].sort((a, b) => {
+      const isASavings = a?.product?.name === "Savings";
+      const isBSavings = b?.product?.name === "Savings";
+      return isASavings === isBSavings ? 0 : isASavings ? -1 : 1;
+    });
+  }, [accounts]);
 
   return (
     <>
@@ -501,8 +510,8 @@ const Homepage = () => {
 
           {/* Account Section */}
           <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            {accounts?.length > 0 &&
-              accounts.map((account, index) => (
+            {sortedAccounts?.length > 0 &&
+              sortedAccounts.map((account, index) => (
                 <AccountCard
                   key={account.id || index}
                   title={account?.product?.name || "Savings Account"}
