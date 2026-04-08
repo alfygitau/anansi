@@ -385,7 +385,7 @@ const VerticalAction = ({ icon, label, color, darkText = false, onClick }) => (
 const TransactionRow = ({ tx }) => (
   <div className="bg-white p-5 rounded-[28px] border border-slate-200 flex items-center justify-between hover:border-secondary/30 transition-all cursor-pointer group">
     <div className="flex items-center gap-4">
-      <div className="w-12 h-12 bg-slate-50 text-slate-400 group-hover:bg-green-50 group-hover:text-green-600 rounded-2xl flex items-center justify-center transition-colors">
+      <div className="w-12 h-12 bg-slate-100 text-slate-400 group-hover:bg-green-50 group-hover:text-green-600 rounded-2xl flex items-center justify-center transition-colors">
         <Smartphone size={22} />
       </div>
       <div>

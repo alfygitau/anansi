@@ -13,7 +13,7 @@ const Navbar = () => {
         {/* Logo Section */}
         <div className="flex items-center">
           <div className="w-16 h-16 bg-primary rounded-[22px] flex items-center justify-center shadow-2xl shadow-blue-900/20">
-            <ShieldCheck className="text-secondary" size={32} />
+            <span className="text-white text-3xl font-black">A</span>
           </div>
           {/* Optional: Add brand name if not in logo image */}
           <span className="ml-3 text-xl font-bold text-primary">Anansi</span>

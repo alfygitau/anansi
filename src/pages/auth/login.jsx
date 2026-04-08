@@ -150,7 +150,7 @@ const Login = () => {
         {/* Logo / Brand Area */}
         <div className="flex flex-col items-center mb-10">
           <div className="w-16 h-16 bg-primary rounded-[22px] flex items-center justify-center shadow-2xl shadow-blue-900/20 mb-6">
-            <ShieldCheck className="text-secondary" size={32} />
+            <span className="text-white text-3xl font-black">A</span>
           </div>
           <h1 className="text-2xl font-black text-primary tracking-tight">
             Welcome Back

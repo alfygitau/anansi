@@ -659,10 +659,12 @@ const AccountCard = ({
             </button>
           </div>
         </div>
-        <Wallet
-          size={20}
-          className={isPrimary ? "text-blue-300" : "text-slate-300"}
-        />
+        <div className="p-2">
+          <Wallet
+            size={20}
+            className={isPrimary ? "text-blue-300" : "text-slate-300"}
+          />
+        </div>
       </div>
 
       {/* Balance Row */}
