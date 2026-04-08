@@ -62,7 +62,7 @@ const SelfieQRCode = () => {
   });
 
   return (
-    <div className="w-full max-w-[1300px] mb-[40px] mx-auto flex flex-col lg:flex-row font-sans">
+    <div className="w-full md:px-6 max-w-[1300px] mb-[40px] mx-auto flex flex-col lg:flex-row font-sans">
       {/* 1. Left Sidebar: Progress */}
       <div className="hidden lg:block w-[23%] bg-slate-50/50">
         <MyProgress
@@ -175,7 +175,7 @@ const SelfieQRCode = () => {
       </div>
 
       {/* 3. Right Sidebar: Info & Disclaimers */}
-      <div className="lg:w-[300px] px-5 sm:mt-6 bg-slate-50/50">
+      <div className="lg:w-[300px] pl-5 sm:mt-6 bg-slate-50/50">
         <div className="space-y-8 sticky top-10">
           <div className="space-y-4">
             <div className="flex items-center gap-2">

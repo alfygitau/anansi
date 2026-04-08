@@ -77,7 +77,7 @@ const HelpPage = () => {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="max-w-[1300px] mb-[30px] mx-auto"
+      className="max-w-[1300px] mb-[30px] md:px-6 mx-auto"
     >
       {/* Header */}
       <div className="text-left mb-6">

@@ -121,7 +121,7 @@ const TermsAndConditions = () => {
   };
 
   return (
-    <div className="flex w-full max-w-[1300px] mx-auto min-h-screen relative">
+    <div className="flex w-full max-w-[1300px] md:px-6 mx-auto min-h-screen relative">
       {/* Sidebar - 20% of 85% layout */}
       <div className="w-[25%] hidden lg:block md:block">
         <MyProgress

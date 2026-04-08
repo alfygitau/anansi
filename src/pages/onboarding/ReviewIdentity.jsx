@@ -86,7 +86,7 @@ const ReviewIdentity = () => {
   });
 
   return (
-    <div className="w-full max-w-[1300px] mb-[50px] md:px-4 sm:px-4 mx-auto flex flex-col lg:flex-row lg:gap-3 min-h-screen font-sans">
+    <div className="w-full max-w-[1300px] mb-[50px] md:px-6 sm:px-4 mx-auto flex flex-col lg:flex-row lg:gap-3 min-h-screen font-sans">
       {/* 1. Left Sidebar: Progress (Anansi Brand Styling) */}
       <div className="hidden lg:block w-[27%] h-full">
         <MyProgress

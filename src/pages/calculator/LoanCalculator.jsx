@@ -44,7 +44,6 @@ const LoanCalculator = () => {
   }, [amount, rate, period, isMonthly]);
 
   useEffect(() => {
-    const results = calculateLoans();
     const reducingSched = generateSchedule("reducing");
     const simpleSched = generateSchedule("simple");
     setSchedule({

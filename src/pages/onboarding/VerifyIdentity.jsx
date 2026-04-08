@@ -219,9 +219,9 @@ const IdentityVerification = () => {
         onClose={() => setShowDocumentError(false)}
       />
 
-      <div className="h-full bg-gray-50 md:px-6 sm:px-4 flex justify-center">
+      <div className="h-full bg-gray-50 sm:px-4 flex justify-center">
         {/* 80% Width Container */}
-        <div className="w-full max-w-[1300px] mb-[20px] flex flex-col lg:flex-row gap-4">
+        <div className="w-full max-w-[1300px] md:px-6 mb-[20px] flex flex-col lg:flex-row gap-4">
           {/* Left Section: Progress Bar (20%) */}
           <aside className="w-full hidden lg:block md:block lg:w-[22%]">
             <MyProgress

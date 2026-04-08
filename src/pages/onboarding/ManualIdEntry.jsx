@@ -143,7 +143,7 @@ const ManualIdEntry = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="max-w-[1300px] sm:px-4 mx-auto"
+      className="max-w-[1300px] sm:px-4 md:px-6 mx-auto"
     >
       {/* Navigation Header */}
       <button

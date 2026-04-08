@@ -54,7 +54,7 @@ const EmailLink = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row w-full max-w-[1300px] mb-[30px] mx-auto bg-gray-50 min-h-screen">
+    <div className="flex flex-col lg:flex-row w-full max-w-[1300px] md:px-6 mb-[30px] mx-auto bg-gray-50 min-h-screen">
       <div className="hidden lg:block w-[25%] h-full">
         <MyProgress
           currentTitle="Identity Verification"

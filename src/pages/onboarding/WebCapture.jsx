@@ -118,7 +118,7 @@ const WebCapture = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
-      <main className="flex-1 w-full max-w-[1300px] mx-auto py-4 grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <main className="flex-1 w-full max-w-[1300px] md:px-6 mx-auto py-4 grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* LEFT COLUMN: Instructions (Visible lg+) */}
         <div className="hidden lg:flex lg:col-span-3 flex-col gap-6">
           <MyProgress

@@ -116,7 +116,7 @@ const NextOfKin = () => {
   };
 
   return (
-    <div className="flex w-full max-w-[1300px] mx-auto min-h-screen">
+    <div className="flex w-full max-w-[1300px] md:px-6 mx-auto min-h-screen">
       {/* Sidebar - 20% of the 85% layout */}
       <div className="w-[25%] hidden lg:block md:block">
         <MyProgress

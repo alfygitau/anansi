@@ -59,7 +59,7 @@ const ProceedOnboarding = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-[1300px] bg-white shadow-blue-900/5 overflow-hidden flex flex-col lg:flex-row"
+        className="w-full max-w-[1300px] md:px-6 sm:px-4 bg-white shadow-blue-900/5 overflow-hidden flex flex-col lg:flex-row"
       >
         {/* Left Side: Visual & Progress */}
         <div className="lg:w-5/12 bg-primary p-10 lg:p-16 flex flex-col justify-between text-white relative overflow-hidden">
