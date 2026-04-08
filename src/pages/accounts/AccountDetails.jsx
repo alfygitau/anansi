@@ -29,6 +29,7 @@ import AwaitingPayment from "../../components/quick-invest/AwaitPayment";
 import DepositAmount from "../../components/deposit-savings/DepositAmount";
 import ReviewDeposit from "../../components/deposit-savings/ConfirmDeposit";
 import AwaitDepositPayment from "../../components/deposit-savings/AwaitDepositPayment";
+import TransactionDetails from "../../components/transactions/TransactionDetails";
 
 const AccountDetails = () => {
   const [balanceVisible, setBalanceVisible] = useState(true);
@@ -44,6 +45,8 @@ const AccountDetails = () => {
   const [showDepositAmount, setShowDepositAmount] = useState(false);
   const [showReviewDeposit, setShowReviewDeposit] = useState(false);
   const [showAwaitDepositPayment, setShowAwaitDepositPayment] = useState(false);
+  const [showTransactionDetails, setShowTransactionDetails] = useState(false);
+  const [transaction, setTransaction] = useState({});
 
   const { refetch: refetchAccounts } = useQuery({
     queryKey: ["get account"],
@@ -148,6 +151,12 @@ const AccountDetails = () => {
           refetchTransactions();
           setShowAwaitDepositPayment(false);
         }}
+      />
+
+      <TransactionDetails
+        isOpen={showTransactionDetails}
+        onClose={() => setShowTransactionDetails(false)}
+        transaction={transaction}
       />
       {isLoading ? (
         <AccountDetailsLoader />
@@ -270,7 +279,12 @@ const AccountDetails = () => {
                   {transactions.length > 0 ? (
                     <div className="h-[460px] w-full py-3 flex flex-col gap-3 overflow-y-auto">
                       {transactions.map((tx) => (
-                        <TransactionRow key={tx.id} tx={tx} />
+                        <TransactionRow
+                          key={tx.id}
+                          tx={tx}
+                          setTransaction={setTransaction}
+                          setShowTransactionDetails={setShowTransactionDetails}
+                        />
                       ))}
                     </div>
                   ) : (
@@ -382,8 +396,14 @@ const VerticalAction = ({ icon, label, color, darkText = false, onClick }) => (
   </button>
 );
 
-const TransactionRow = ({ tx }) => (
-  <div className="bg-white p-5 rounded-[28px] border border-slate-200 flex items-center justify-between hover:border-secondary/30 transition-all cursor-pointer group">
+const TransactionRow = ({ tx, setTransaction, setShowTransactionDetails }) => (
+  <div
+    onClick={() => {
+      setTransaction(tx);
+      setShowTransactionDetails(true);
+    }}
+    className="bg-white p-5 cursor-pointer rounded-[28px] border border-slate-200 flex items-center justify-between hover:border-secondary/30 transition-all cursor-pointer group"
+  >
     <div className="flex items-center gap-4">
       <div className="w-12 h-12 bg-slate-100 text-slate-400 group-hover:bg-green-50 group-hover:text-green-600 rounded-2xl flex items-center justify-center transition-colors">
         <Smartphone size={22} />

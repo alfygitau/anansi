@@ -137,7 +137,7 @@ const Notifications = () => {
                           >
                             {/* Icon Container */}
                             <div
-                              className={`shrink-0 p-3 rounded-2xl shadow-sm ${!notification.is_read ? "bg-white" : "bg-slate-50"}`}
+                              className={`shrink-0 p-3 rounded-2xl shadow-sm ${!notification.is_read ? "bg-white" : "bg-slate-100"}`}
                             >
                               {getNotificationIcon(notification.module)}
                             </div>
@@ -188,8 +188,8 @@ const Notifications = () => {
                     icon={<ArrowUpRight size={16} />}
                     primary
                   />
-                  <ActionButton label="Deposit Shares" />
-                  <ActionButton label="Manage Guarantors" />
+                  <ActionButton label="View my loans" />
+                  <ActionButton label="Check guarantorship status" />
                 </div>
               </div>
 
