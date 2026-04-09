@@ -14,9 +14,11 @@ import {
   Calculator,
   FileText,
   HelpCircle,
-  AlertTriangle,
+  ChevronRight,
+  Info,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 const EligibilityCheck = () => {
   const [checking, setChecking] = useState(true);
@@ -28,9 +30,10 @@ const EligibilityCheck = () => {
     {
       id: 1,
       label: "Membership Duration",
-      desc: "Must be a member for 6+ months",
+      desc: "6+ months standing",
       status: "pass",
       value: "14 Months",
+      icon: <Calendar size={20} />,
     },
     {
       id: 2,
@@ -38,6 +41,7 @@ const EligibilityCheck = () => {
       desc: "Required: KES 50,000",
       status: "pass",
       value: "KES 55,000",
+      icon: <PieChart size={20} />,
     },
     {
       id: 3,
@@ -45,196 +49,292 @@ const EligibilityCheck = () => {
       desc: "Required: KES 20,000",
       status: "pass",
       value: "KES 22,500",
+      icon: <Wallet size={20} />,
     },
     {
       id: 4,
-      label: "Existing Loan Check",
-      desc: "No active Development loans",
+      label: "Credit History",
+      desc: "No active defaults",
       status: "pass",
-      value: "Clear",
-    },
-    {
-      id: 5,
-      label: "Loan Limit Availability",
-      desc: "Must have a qualified limit > 0",
-      status: loanLimitAmount > 0 ? "pass" : "fail",
-      value: loanLimit,
+      value: "Perfect",
+      icon: <Shield size={20} />,
     },
   ];
 
   useEffect(() => {
-    const timer = setTimeout(() => setChecking(false), 2500);
+    const timer = setTimeout(() => setChecking(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="bg-slate-50 text-primary pb-20">
-      <div className="max-w-6xl sm:px-4 mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 pt-3">
-        {/* --- MAIN CONTENT --- */}
-        <main className="lg:col-span-9">
-          <header className="mb-5">
-            <h1 className="text-4xl font-black tracking-tight">
-              Loan Eligibility
+    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] font-sans selection:bg-blue-100">
+      <div className="max-w-6xl sm:px-4 mx-auto mx-auto">
+        {/* Header Section */}
+        <header className="flex flex-col md:flex-row md:items-end justify-between mb-4 gap-6">
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-wider border border-blue-100">
+              <Zap size={12} fill="currentColor" />
+              Instant Evaluation
+            </div>
+            <h1 className="text-5xl font-bold tracking-tight text-slate-900">
+              Loan <span className="text-blue-600">Eligibility</span>
             </h1>
-            <p className="text-slate-400 text-sm mt-2">
-              Verifying your standing for the{" "}
-              <span className="text-primary font-bold">Development Loan</span>.
+            <p className="text-slate-500 text-lg font-medium">
+              Real-time analysis for your{" "}
+              <span className="text-slate-900 font-semibold underline decoration-blue-200 underline-offset-4">
+                Development Loan
+              </span>{" "}
+              standing.
             </p>
-          </header>
-
-          <LoanLimitHero loanLimit={loanLimit} checking={checking} />
-
-          <section className="bg-white rounded-[40px] p-6 md:p-6 border border-slate-100 shadow-sm shadow-blue-900/5">
-            <div className="flex items-center justify-between mb-4 border-b border-slate-50 pb-6">
-              <h3 className="text-sm font-black uppercase tracking-widest text-slate-400">
-                Requirement Checklist
-              </h3>
-              {checking && (
-                <div className="flex items-center gap-2 text-secondary">
-                  <RefreshCw size={14} className="animate-spin" />
-                  <span className="text-[10px] font-black uppercase">
-                    Verifying...
-                  </span>
-                </div>
-              )}
-            </div>
-
-            <div className="space-y-8">
-              {requirements.map((req) => (
-                <RequirementRow key={req.id} req={req} checking={checking} />
-              ))}
-            </div>
-
-            <div className="mt-12 flex flex-col md:flex-row gap-4">
-              <button className="flex-1 border py-5 rounded-[24px] font-black uppercase tracking-widest text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all hover:border-red-100">
-                Cancel
-              </button>
-              <button
-                onClick={() => navigate("/apply-loan")}
-                disabled={checking}
-                className={`flex-[2] py-5 rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 transition-all ${
-                  checking
-                    ? "bg-slate-100 text-slate-400 cursor-not-allowed"
-                    : "bg-secondary text-white hover:bg-[#3ca8d4] shadow-xl shadow-sky-200 active:scale-95"
-                }`}
-              >
-                Apply for Loan <ArrowRight size={20} />
-              </button>
-            </div>
-          </section>
-        </main>
-
-        {/* --- LEFT SIDEBAR: QUICK ACTIONS & DISCLAIMERS --- */}
-        <aside className="lg:col-span-3 space-y-6">
-          <div className="space-y-6">
-            {/* Quick Actions */}
-            <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6">
-                Quick Actions
-              </h3>
-              <div className="space-y-2">
-                <QuickActionButton
-                  icon={<Calculator size={18} />}
-                  label="Loan Calculator"
-                />
-                <QuickActionButton
-                  icon={<FileText size={18} />}
-                  label="My Statements"
-                />
-                <QuickActionButton
-                  icon={<HelpCircle size={18} />}
-                  label="Get Support"
-                />
-              </div>
-            </div>
-
-            {/* Detailed Disclaimers */}
-            <div className="bg-primary rounded-[32px] p-8 text-white relative overflow-hidden">
-              <div className="absolute -right-4 -bottom-4 opacity-10">
-                <Shield size={120} />
-              </div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-secondary mb-4">
-                Important Notice
-              </h3>
-              <div className="space-y-4 relative z-10">
-                <div className="flex gap-3">
-                  <AlertTriangle
-                    size={14}
-                    className="text-amber-400 shrink-0"
-                  />
-                  <p className="text-[10px] leading-relaxed text-slate-300">
-                    The displayed limit is a{" "}
-                    <span className="text-white font-bold">pre-evaluation</span>
-                    . Final disbursement depends on credit scoring.
-                  </p>
-                </div>
-                <div className="flex gap-3 border-t border-white/10 pt-4">
-                  <Lock size={14} className="text-emerald-400 shrink-0" />
-                  <p className="text-[10px] leading-relaxed text-slate-300">
-                    Calculations are based on Sacco Rule 4.2 regarding
-                    deposit-to-loan ratios.
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
-        </aside>
+          <button className="flex items-center gap-2 text-slate-400 hover:text-slate-600 font-semibold text-sm transition-colors group">
+            <HelpCircle
+              size={18}
+              className="group-hover:rotate-12 transition-transform"
+            />
+            Policy Documents
+          </button>
+        </header>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          {/* Main Content */}
+          <main className="lg:col-span-8 space-y-8">
+            <LoanLimitCard loanLimit={loanLimit} checking={checking} />
+
+            {/* Requirements Grid */}
+            <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-[0_20px_50px_rgba(0,0,0,0.02)]">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900">
+                    Verification Checklist
+                  </h3>
+                  <p className="text-sm text-slate-400">
+                    Automated background standing check
+                  </p>
+                </div>
+                {checking && (
+                  <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-2xl border border-slate-100">
+                    <RefreshCw
+                      size={16}
+                      className="animate-spin text-blue-500"
+                    />
+                    <span className="text-xs font-bold text-slate-500 uppercase tracking-tighter">
+                      Syncing Data
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {requirements.map((req) => (
+                  <RequirementBox key={req.id} req={req} checking={checking} />
+                ))}
+              </div>
+
+              {/* Action Area */}
+              <div className="mt-12 pt-8 border-t border-slate-50 flex items-center justify-between gap-6">
+                <button className="px-8 border rounded-2xl py-4 text-slate-400 font-bold hover:text-slate-600 transition-colors">
+                  Cancel Application
+                </button>
+                <button
+                  disabled={checking}
+                  onClick={() => navigate("/apply-loan")}
+                  className={`relative group px-10 py-4 rounded-2xl font-bold text-white overflow-hidden transition-all shadow-lg hover:shadow-blue-200 active:scale-95 ${
+                    checking
+                      ? "bg-slate-200 cursor-not-allowed"
+                      : "bg-blue-600 hover:bg-blue-700"
+                  }`}
+                >
+                  <span className="relative z-10 flex items-center gap-3 uppercase tracking-wider text-sm">
+                    Start Application <ArrowRight size={18} />
+                  </span>
+                </button>
+              </div>
+            </div>
+          </main>
+
+          {/* Sidebar */}
+          <aside className="lg:col-span-4 space-y-6">
+            <PremiumSidebar
+              actions={[
+                {
+                  icon: <Calculator />,
+                  label: "Loan Calculator",
+                  desc: "Estimate monthly repayments",
+                },
+                {
+                  icon: <FileText />,
+                  label: "Account Statements",
+                  desc: "Download transaction history",
+                },
+                {
+                  icon: <HelpCircle />,
+                  label: "Talk to an Agent",
+                  desc: "24/7 dedicated support",
+                },
+              ]}
+            />
+
+            {/* Notice Card */}
+            <div className="bg-[#0F172A] rounded-[32px] p-8 text-white relative overflow-hidden shadow-2xl">
+              <div className="absolute top-0 right-0 p-8 opacity-10">
+                <Shield size={100} />
+              </div>
+              <div className="relative z-10 space-y-6">
+                <div className="p-3 bg-white/10 w-fit rounded-2xl backdrop-blur-md">
+                  <Info size={20} className="text-blue-400" />
+                </div>
+                <h4 className="text-xl font-bold">Important Notice</h4>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  This pre-qualification is based on your current data. Final
+                  approval is subject to manual credit review and Sacco Rule 4.2
+                  compliance.
+                </p>
+                <div className="pt-4 flex items-center gap-3 text-emerald-400 font-bold text-[10px] uppercase tracking-[0.2em]">
+                  <Lock size={12} /> Encrypted Session
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
       </div>
     </div>
   );
 };
 
-/* --- SUB-COMPONENTS --- */
+/* --- PREMIUM SUB-COMPONENTS --- */
 
-const QuickActionButton = ({ icon, label }) => (
-  <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-50 transition-all group border border-transparent hover:border-slate-100">
-    <div className="text-slate-300 group-hover:text-secondary transition-colors">
-      {icon}
+const LoanLimitCard = ({ loanLimit, checking }) => (
+  <div className="relative group overflow-hidden bg-white rounded-[40px] p-10 border border-slate-100 shadow-[0_30px_60px_rgba(0,0,0,0.04)]">
+    <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-blue-50/50 to-transparent pointer-events-none" />
+    <div className="flex flex-col md:flex-row justify-between items-center gap-10">
+      <div className="space-y-4 text-center md:text-left">
+        <div className="flex items-center justify-center md:justify-start gap-3">
+          <div className="p-2 bg-blue-600 rounded-xl text-white shadow-lg shadow-blue-200">
+            <TrendingUp size={16} />
+          </div>
+          <span className="text-[11px] font-black uppercase tracking-[0.2em] text-blue-600">
+            Pre-Qualified Limit
+          </span>
+        </div>
+        <div className="relative">
+          <AnimatePresence mode="wait">
+            {checking ? (
+              <motion.div
+                key="loader"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="h-16 flex items-center gap-2"
+              >
+                {[...Array(3)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    animate={{ height: [15, 40, 15] }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 1,
+                      delay: i * 0.1,
+                    }}
+                    className="w-2 bg-slate-100 rounded-full"
+                  />
+                ))}
+              </motion.div>
+            ) : (
+              <motion.h2
+                key="limit"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                className="text-6xl font-bold tracking-tighter text-slate-900"
+              >
+                {loanLimit}
+              </motion.h2>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+
+      <div className="w-full md:w-auto px-8 py-6 bg-slate-50 rounded-[32px] border border-slate-100 flex flex-col items-center">
+        <Sparkles size={24} className="text-amber-400 mb-2" />
+        <span className="text-[10px] font-bold text-slate-400 uppercase mb-1">
+          Status
+        </span>
+        <span
+          className={`text-sm font-bold ${checking ? "text-slate-300" : "text-emerald-500"}`}
+        >
+          {checking ? "Analyzing..." : "Excellent"}
+        </span>
+      </div>
     </div>
-    <span className="text-xs font-bold text-primary">{label}</span>
-  </button>
+  </div>
 );
 
-const LoanLimitHero = ({ loanLimit, checking }) => (
-  <div className="relative overflow-hidden bg-primary rounded-[40px] p-10 mb-8 text-white shadow-[0_10px_20px_rgba(4,33,89,0.3)] border border-white/5">
-    <div className="absolute -top-24 -right-24 w-64 h-64 bg-secondary opacity-20 rounded-full blur-[80px]"></div>
-    <div className="relative z-10">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 bg-secondary/20 rounded-lg">
-              <TrendingUp size={14} className="text-secondary" />
-            </div>
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-secondary">
-              Maximum Qualified Limit
-            </p>
-          </div>
-          <div className="flex items-baseline gap-3">
-            <h2
-              className={`text-6xl sm:text-4xl font-black tracking-tighter transition-all duration-1000 ${checking ? "blur-xl opacity-30" : "blur-0 opacity-100"}`}
-            >
-              {loanLimit}
-            </h2>
-            {!checking && (
-              <Sparkles size={20} className="text-amber-400 animate-pulse" />
-            )}
+const RequirementBox = ({ req, checking }) => (
+  <div className="relative group perspective-1000">
+    <div className="relative flex flex-col h-full p-6 bg-white rounded-[30px] border border-slate-200 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] transition-all duration-500 group-hover:translate-y-[-4px]">
+      {/* Top Section: Icon & Badge */}
+      <div className="flex items-center justify-between mb-8">
+        <div
+          className={`relative flex items-center justify-center size-14 rounded-2xl transition-all duration-700 ${
+            checking
+              ? "bg-slate-50 text-slate-300"
+              : "bg-gradient-to-br from-slate-50 to-blue-50/50 text-blue-600 shadow-sm"
+          }`}
+        >
+          {req.icon}
+          {/* Subtle pulse for active checking */}
+          {checking && (
+            <span className="absolute inset-0 rounded-2xl border-2 border-blue-400/20 animate-ping" />
+          )}
+        </div>
+
+        <div
+          className={`flex flex-col items-end transition-all duration-700 ${checking ? "opacity-30" : "opacity-100"}`}
+        >
+          <div className="flex items-center gap-1.5 text-emerald-500 bg-emerald-50/50 px-2.5 py-1 rounded-full border border-emerald-100/50">
+            <div className="size-1.5 bg-emerald-500 rounded-full animate-pulse" />
+            <span className="text-[10px] font-black uppercase tracking-wider">
+              Valid
+            </span>
           </div>
         </div>
-        <div className="bg-white/5 bg-slate-900/40 border border-white/10 rounded-3xl p-5 md:max-w-[240px]">
-          <div className="flex items-start gap-3">
-            <Zap
-              size={16}
-              className={
-                checking ? "animate-pulse text-slate-400" : "text-secondary"
-              }
-            />
-            <div>
-              <p className="text-[10px] font-bold text-slate-300 uppercase">
-                {checking ? "Analyzing..." : "Real-time Limit"}
-              </p>
-              <p className="text-[9px] text-white/40 mt-1">
-                Based on shares and 6-month transaction velocity.
-              </p>
+      </div>
+
+      {/* Middle Section: Typography */}
+      <div className="flex-grow space-y-1.5">
+        <h4 className="text-[17px] font-bold text-slate-900 tracking-tight leading-tight">
+          {req.label}
+        </h4>
+        <p className="text-xs text-slate-500 font-medium leading-relaxed italic opacity-80">
+          "{req.desc}"
+        </p>
+      </div>
+
+      {/* Bottom Section: The "Spec" Look */}
+      <div className="mt-8">
+        <div className="relative p-4 rounded-2xl bg-slate-50/50 border border-slate-100/50 overflow-hidden">
+          {/* Subtle Glass Highlight */}
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-50" />
+
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.15em]">
+              Verified Value
+            </span>
+            <div className="flex items-center justify-between">
+              <span
+                className={`text-lg font-black tracking-tight transition-all duration-1000 ${
+                  checking ? "blur-md text-slate-300" : "text-slate-900"
+                }`}
+              >
+                {req.value}
+              </span>
+              {!checking && (
+                <CheckCircle2
+                  size={18}
+                  className="text-emerald-500"
+                  strokeWidth={3}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -243,36 +343,32 @@ const LoanLimitHero = ({ loanLimit, checking }) => (
   </div>
 );
 
-const RequirementRow = ({ req, checking }) => (
-  <div className="flex items-center justify-between group">
-    <div className="flex items-center gap-4">
-      <div
-        className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${checking ? "bg-slate-50 text-slate-200" : "bg-slate-100 text-primary"}`}
-      >
-        {req.id === 1 && <Calendar size={20} />}
-        {req.id === 2 && <PieChart size={20} />}
-        {req.id === 3 && <Wallet size={20} />}
-        {req.id === 4 && <Lock size={20} />}
-        {req.id === 5 && <Shield size={20} />}
-      </div>
-      <div>
-        <h4 className="text-sm font-bold text-primary">{req.label}</h4>
-        <p className="text-[10px] text-slate-400 font-medium">{req.desc}</p>
-      </div>
-    </div>
-    <div className="flex items-center gap-4">
-      <div
-        className={`text-right transition-all duration-500 ${checking ? "opacity-0" : "opacity-100"}`}
-      >
-        <p className="text-[11px] font-black text-primary">{req.value}</p>
-        <span className="text-[9px] font-bold text-emerald-500 uppercase">
-          Requirement Met
-        </span>
-      </div>
-      <CheckCircle2
-        className={`transition-all duration-700 ${checking ? "scale-0" : "scale-100 text-emerald-500"}`}
-        size={24}
-      />
+const PremiumSidebar = ({ actions }) => (
+  <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm">
+    <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">
+      Resources
+    </h3>
+    <div className="space-y-4">
+      {actions.map((action, i) => (
+        <button
+          key={i}
+          className="w-full flex items-center gap-4 rounded-2xl hover:bg-blue-50/50 transition-all group"
+        >
+          <div className="p-3 bg-slate-100 rounded-xl text-slate-400 group-hover:bg-white group-hover:text-blue-600 group-hover:shadow-sm transition-all">
+            {action.icon}
+          </div>
+          <div className="text-left">
+            <p className="text-sm font-bold text-slate-900">{action.label}</p>
+            <p className="text-[10px] text-slate-400 font-medium">
+              {action.desc}
+            </p>
+          </div>
+          <ChevronRight
+            size={14}
+            className="ml-auto text-slate-300 group-hover:text-blue-600 transition-colors"
+          />
+        </button>
+      ))}
     </div>
   </div>
 );

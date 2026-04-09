@@ -11,15 +11,21 @@ import {
   ShieldAlert,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { getNotifications } from "../../sdks/notifications/Notifications";
+import {
+  getNotifications,
+  readNotifications,
+} from "../../sdks/notifications/Notifications";
 import { useToast } from "../../contexts/ToastProvider";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import NotificationsLoader from "../../skeletons/NotificationsLoader";
+import Notification from "../../components/notifications/Notification";
 
 const Notifications = () => {
   const [filter, setFilter] = useState("all");
   const { showToast } = useToast();
   const [notifications, setNotifications] = useState([]);
+  const [notification, setNotification] = useState({});
+  const [showNotification, setShowNotification] = useState(false);
 
   const filteredNotifications = notifications.filter((n) => {
     if (filter === "unread") return !n.is_read;
@@ -41,7 +47,23 @@ const Notifications = () => {
     }
   };
 
-  const { isLoading } = useQuery({
+  const { mutate: readMyNotification } = useMutation({
+    mutationKey: ["read notification"],
+    mutationFn: (id) => readNotifications(id),
+    onSuccess: () => {
+      refetchNotifications();
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { isLoading, refetch: refetchNotifications } = useQuery({
     queryKey: ["get notifications"],
     queryFn: async () => {
       const response = await getNotifications();
@@ -80,6 +102,11 @@ const Notifications = () => {
 
   return (
     <>
+      <Notification
+        isOpen={showNotification}
+        onClose={() => setShowNotification(false)}
+        notification={notification}
+      />
       {isLoading ? (
         <NotificationsLoader />
       ) : (
@@ -92,7 +119,7 @@ const Notifications = () => {
                   <h1 className="text-2xl font-black text-primary flex items-center gap-3">
                     Notifications
                     {unreadCount > 0 && (
-                      <span className="bg-rose-500 text-white text-[10px] px-2 py-1 rounded-full">
+                      <span className="bg-rose-500 text-white text-[10px] px-4 rounded-full">
                         {unreadCount} NEW
                       </span>
                     )}
@@ -115,7 +142,7 @@ const Notifications = () => {
                 </div>
               </div>
 
-              <div className="bg-white rounded-[32px] border border-slate-100 shadow-sm shadow-blue-900/5 overflow-hidden">
+              <div className="bg-white h-[650px] overflow-y-auto rounded-[32px] border border-slate-200 shadow-sm shadow-blue-900/5 overflow-hidden">
                 {filteredNotifications.length === 0 ? (
                   <EmptyState />
                 ) : (
@@ -129,38 +156,63 @@ const Notifications = () => {
                         return (
                           <motion.div
                             key={notification.id}
-                            initial={{ opacity: 0, y: 10 }}
+                            initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className={`group flex items-center gap-4 p-6 cursor-pointer transition-all hover:bg-slate-50/80 ${
-                              !notification.is_read ? "bg-blue-50/30" : ""
+                            onClick={() => {
+                              setNotification(notification);
+                              if (!notification.is_read) {
+                                readMyNotification(notification?.id);
+                              }
+                              setShowNotification(true);
+                            }}
+                            className={`group flex items-center gap-5 p-7 cursor-pointer rounded-2xl transition-all duration-300 ${
+                              !notification.is_read
+                                ? "bg-slate-50 hover:bg-slate-100/70"
+                                : "bg-white hover:bg-slate-50/50"
                             }`}
                           >
-                            {/* Icon Container */}
-                            <div
-                              className={`shrink-0 p-3 rounded-2xl shadow-sm ${!notification.is_read ? "bg-white" : "bg-slate-100"}`}
-                            >
-                              {getNotificationIcon(notification.module)}
-                            </div>
+                            {/* Modern Icon Presentation */}
+                            <div className="relative shrink-0">
+                              <div
+                                className={`flex items-center justify-center size-14 rounded-full transition-colors duration-300 ${
+                                  !notification.is_read
+                                    ? "bg-blue-100/60 text-primary shadow-inner"
+                                    : "bg-slate-100/70 text-slate-500"
+                                }`}
+                              >
+                                {/* Ensure getNotificationIcon returns an icon with adequate size (e.g., size={24}) */}
+                                {getNotificationIcon(notification.module)}
+                              </div>
 
-                            {/* Content Container - Added min-w-0 to prevent pushing the chevron out */}
-                            <div className="flex-grow min-w-0">
-                              <div className="flex justify-between items-start gap-4">
+                              {/* Minimalist Unread Indicator */}
+                              {!notification.is_read && (
+                                <span className="absolute top-0 right-0 block size-3.5 rounded-full bg-blue-600 ring-2 ring-white" />
+                              )}
+                            </div>
+                            {/* Content Area with refined hierarchy */}
+                            <div className="flex-grow min-w-0 pr-4">
+                              <div className="flex flex-col gap-1.5">
                                 <p
-                                  className={`text-sm truncate md:whitespace-normal ${!notification.is_read ? "font-bold text-primary" : "text-slate-600"}`}
+                                  className={`text-[15px] leading-relaxed transition-colors duration-300 ${
+                                    !notification.is_read
+                                      ? "font-semibold text-slate-900"
+                                      : "font-medium text-slate-700"
+                                  } line-clamp-3`}
                                 >
                                   {notification.message}
                                 </p>
-                                <span className="shrink-0 text-[10px] font-black text-slate-300 uppercase whitespace-nowrap pt-1">
+
+                                {/* Modern, elegant time label */}
+                                <span className="text-xs font-medium text-slate-400/90 tracking-wide">
                                   {timeLabel}
                                 </span>
                               </div>
                             </div>
-
-                            {/* Chevron - Added shrink-0 to ensure it stays visible */}
-                            <div className="shrink-0 transition-transform group-hover:translate-x-1">
+                            {/* Interaction Arrow */}
+                            <div className="shrink-0">
                               <ChevronRight
-                                size={18}
-                                className="text-slate-300 group-hover:text-secondary transition-colors"
+                                size={20}
+                                className="text-slate-300 transition-all duration-300 transform group-hover:text-primary group-hover:translate-x-1.5"
                               />
                             </div>
                           </motion.div>

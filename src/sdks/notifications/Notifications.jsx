@@ -8,3 +8,14 @@ export const getNotifications = async () => {
     throw error?.response?.data || error;
   }
 };
+
+export const readNotifications = async (id) => {
+  try {
+    const response = await client.patch(`/notification/${id}`, {
+      is_read: true,
+    });
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
