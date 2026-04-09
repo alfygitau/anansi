@@ -14,7 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   getNotifications,
   readNotifications,
-} from "../../sdks/notifications/Notifications";
+} from "../../sdks/notifications/notification";
 import { useToast } from "../../contexts/ToastProvider";
 import { useQuery, useMutation } from "react-query";
 import NotificationsLoader from "../../skeletons/NotificationsLoader";
