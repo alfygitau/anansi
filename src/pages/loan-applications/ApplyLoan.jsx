@@ -240,7 +240,16 @@ const ApplyLoan = () => {
                       Method
                     </p>
                     <p className="text-xs font-bold text-blue-600 lowercase first-letter:uppercase">
-                      {product.interestType}
+                      {interestType}
+                    </p>
+                  </div>
+                  <div className="w-[1px] h-6 bg-slate-200 hidden sm:block" />
+                  <div>
+                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">
+                      Total Repayment Amount
+                    </p>
+                    <p className="text-xs font-bold text-blue-600 lowercase first-letter:uppercase">
+                      KES {(repayment * duration).toLocaleString()}
                     </p>
                   </div>
                 </div>
