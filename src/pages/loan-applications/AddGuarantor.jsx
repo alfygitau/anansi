@@ -96,7 +96,7 @@ const AddGuarantors = ({ limit = 4 }) => {
             </div>
           </div>
         </header>
-        <div className="my-4 w-full">
+        <div className="my-6 w-full">
           <p className="text-[13px] leading-relaxed font-medium">
             A guarantor is an active member who pledges their **uncommitted
             deposits** to secure your loan. By accepting this role, they enter a
@@ -114,9 +114,6 @@ const AddGuarantors = ({ limit = 4 }) => {
           <div className="lg:col-span-7 space-y-4">
             {/* Search Card */}
             <div className="bg-white rounded-[40px] p-5 md:p-5 border border-slate-100 shadow-2xl shadow-slate-200/50 relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-10 opacity-[0.03] pointer-events-none">
-                <UserPlus size={180} />
-              </div>
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-8">
                   <h3 className="text-xs font-black uppercase tracking-[0.2em] text-blue-600 flex items-center gap-2">
@@ -135,9 +132,9 @@ const AddGuarantors = ({ limit = 4 }) => {
                       placeholder="Enter Member Name"
                       value={memberName}
                       onChange={(e) => setMemberName(e.target.value)}
-                      className="w-full pl-16 pr-8 py-4 bg-slate-100 border-2 border-transparent rounded-[32px] text-lg font-bold transition-all outline-none focus:border-blue-100 focus:bg-white focus:shadow-xl focus:shadow-blue-900/5 placeholder:text-slate-300"
+                      className="w-full pl-12 pr-8 py-4 bg-slate-100 border-2 border-transparent rounded-[12px] text-lg font-bold transition-all outline-none focus:border-blue-100 focus:bg-white focus:shadow-xl focus:shadow-blue-900/5 placeholder:text-slate-300"
                     />
-                    <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">
                       <User size={24} />
                     </div>
                   </div>
@@ -147,16 +144,19 @@ const AddGuarantors = ({ limit = 4 }) => {
                       placeholder="Enter ID Number"
                       value={idNumber}
                       onChange={(e) => setIdNumber(e.target.value)}
-                      className="w-full pl-16 pr-8 py-4 bg-slate-100 border-2 border-transparent rounded-[32px] text-lg font-bold transition-all outline-none focus:border-blue-100 focus:bg-white focus:shadow-xl focus:shadow-blue-900/5 placeholder:text-slate-300"
+                      className="w-full pl-12 pr-8 py-4 bg-slate-100 border-2 border-transparent rounded-[12px] text-lg font-bold transition-all outline-none focus:border-blue-100 focus:bg-white focus:shadow-xl focus:shadow-blue-900/5 placeholder:text-slate-300"
                     />
-                    <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">
                       <Pin size={24} />
                     </div>
                   </div>
                   <button
                     type="submit"
                     disabled={
-                      !memberName || !idNumber || isSearching || guarantors.length >= limit
+                      !memberName ||
+                      !idNumber ||
+                      isSearching ||
+                      guarantors.length >= limit
                     }
                     className="w-full py-6 bg-blue-600 text-white rounded-[32px] font-bold flex items-center justify-center gap-3 shadow-xl shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                   >
@@ -249,7 +249,7 @@ const AddGuarantors = ({ limit = 4 }) => {
           {/* --- RIGHT: LIABILITY & EDUCATION --- */}
           <div className="lg:col-span-5 space-y-4">
             {/* The Responsibility Card */}
-            <div className="bg-[#0F172A] rounded-[48px] p-10 text-white relative overflow-hidden shadow-2xl shadow-blue-900/20">
+            <div className="bg-[#0F172A] mb-10 rounded-[48px] p-10 text-white relative overflow-hidden shadow-2xl shadow-blue-900/20">
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600 rounded-full blur-[80px] opacity-20" />
 
               <div className="relative z-10">
