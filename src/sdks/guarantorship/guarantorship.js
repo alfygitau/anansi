@@ -17,3 +17,26 @@ export const getGuarantorshipSummary = async () => {
     throw error?.response?.data || error;
   }
 };
+
+export const acceptGuarantorRequest = async (
+  guarantor,
+  requestor,
+  amount,
+  reason,
+  status
+) => {
+  try {
+    const response = await client.post(
+      `/guarantors/${guarantor}/respond/${requestor}`,
+      {
+        isAccepted: true,
+        status: status,
+        amountGuaranteed: amount,
+        responseReason: reason,
+      },
+    );
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};

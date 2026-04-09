@@ -10,20 +10,38 @@ import {
   BellDot,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import {
+  acceptGuarantorRequest,
   getGuarantorRequests,
   getGuarantorshipSummary,
 } from "../../sdks/guarantorship/guarantorship";
 import { useToast } from "../../contexts/ToastProvider";
+import ReviewRequest from "../../components/guarantorship/ReviewRequest";
+import GuaranteeAmount from "../../components/guarantorship/Guarantee";
+import DeclineRequest from "../../components/guarantorship/DeclineRequest";
+import FinalConfirmation from "../../components/guarantorship/FinalConfirmation";
+import AcceptRequestSuccess from "../../components/guarantorship/AcceptRequestSuccess";
+import DeclineRequestSuccess from "../../components/guarantorship/DeclineRequestSuccess";
 
 const Guarantorship = () => {
   const [activeTab, setActiveTab] = useState("Requests");
   const [summary, setSummary] = useState({});
   const [requests, setRequests] = useState([]);
+  const [showReviewRequest, setShowReviewRequest] = useState(false);
+  const [showGuaranteeAmount, setShowGuaranteeAmount] = useState(false);
+  const [showDeclineRequest, setShowDeclineRequest] = useState(false);
+  const [showFinalConfirmation, setShowFinalConfirmation] = useState(false);
+  const [showAcceptRequestSuccess, setShowAcceptRequestSuccess] =
+    useState(false);
+  const [showDeclineRequestSuccess, setShowDeclineRequestSuccess] =
+    useState(false);
   const { showToast } = useToast();
+  const [borrowerDetails, setBorrowerDetails] = useState({});
+  const [amount, setAmount] = useState("");
+  const [reason, setReason] = useState("");
 
-  const { isFetching } = useQuery({
+  const { isFetching, refetch: refetchSummary } = useQuery({
     queryKey: ["guarantorship summary"],
     queryFn: async () => {
       const response = await getGuarantorshipSummary();
@@ -42,7 +60,7 @@ const Guarantorship = () => {
     },
   });
 
-  useQuery({
+  const { refetch: refetchRequests } = useQuery({
     queryKey: ["guarantor requests"],
     queryFn: async () => {
       const response = await getGuarantorRequests();
@@ -61,6 +79,59 @@ const Guarantorship = () => {
     },
   });
 
+  const { mutate: acceptGuarantorMutate, isLoading: confirmingRequest } =
+    useMutation({
+      mutationKey: ["accept guarantor request"],
+      mutationFn: () =>
+        acceptGuarantorRequest(
+          borrowerDetails?.guarantorId,
+          borrowerDetails?.id,
+          amount,
+          "I have a strong faith in the borrower ability to repay a loan",
+          "accepted",
+        ),
+      onSuccess: () => {
+        handeRefetch();
+        setShowFinalConfirmation(false);
+        setShowAcceptRequestSuccess(true);
+      },
+      onError: (error) => {
+        showToast({
+          title: "Authentication glitch",
+          type: "error",
+          position: "top-right",
+          description: error?.response?.data?.message || error.message,
+        });
+      },
+    });
+
+  const { mutate: declineGuarantorMutate, isLoading: declingRequest } =
+    useMutation({
+      mutationKey: ["decline guarantor request"],
+      mutationFn: () =>
+        acceptGuarantorRequest(
+          borrowerDetails?.guarantorId,
+          borrowerDetails?.id,
+          0,
+          reason,
+          "rejected",
+        ),
+      onSuccess: () => {
+        setReason("");
+        handeRefetch();
+        setShowDeclineRequest(false);
+        setShowDeclineRequestSuccess(true);
+      },
+      onError: (error) => {
+        showToast({
+          title: "Authentication glitch",
+          type: "error",
+          position: "top-right",
+          description: error?.response?.data?.message || error.message,
+        });
+      },
+    });
+
   const getInitials = (name) => {
     if (!name) return "??";
     const parts = name.trim().split(/\s+/);
@@ -70,8 +141,65 @@ const Guarantorship = () => {
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
   };
 
+  const handeRefetch = async () => {
+    await refetchRequests();
+    await refetchSummary();
+  };
+
   return (
     <>
+      <ReviewRequest
+        isOpen={showReviewRequest}
+        onClose={() => setShowReviewRequest(false)}
+        borrowerDetails={borrowerDetails}
+        onContinue={() => {
+          setShowReviewRequest(false);
+          setShowGuaranteeAmount(true);
+        }}
+        onDecline={() => {
+          setShowReviewRequest(false);
+          setShowDeclineRequest(true);
+        }}
+      />
+      <GuaranteeAmount
+        isOpen={showGuaranteeAmount}
+        onClose={() => setShowGuaranteeAmount(false)}
+        onContinue={() => {
+          setShowGuaranteeAmount(false);
+          setShowFinalConfirmation(true);
+        }}
+        amount={amount}
+        setAmount={setAmount}
+      />
+
+      <DeclineRequest
+        isOpen={showDeclineRequest}
+        onClose={() => setShowDeclineRequest(false)}
+        reason={reason}
+        setReason={setReason}
+        isLoading={declingRequest}
+        onFinalize={declineGuarantorMutate}
+      />
+
+      <FinalConfirmation
+        isOpen={showFinalConfirmation}
+        onClose={() => setShowFinalConfirmation(false)}
+        borrowerDetails={borrowerDetails}
+        guaranteeAmount={amount}
+        isLoading={confirmingRequest}
+        onFinalize={acceptGuarantorMutate}
+      />
+
+      <AcceptRequestSuccess
+        isOpen={showAcceptRequestSuccess}
+        onClose={() => setShowAcceptRequestSuccess(false)}
+        loanCode={borrowerDetails?.loanInfo?.loancode}
+      />
+
+      <DeclineRequestSuccess
+        isOpen={showDeclineRequestSuccess}
+        onClose={() => setShowDeclineRequestSuccess(false)}
+      />
       {isFetching ? (
         <div className="min-h-screen bg-slate-50 p-4 md:p-8 animate-pulse">
           <div className="max-w-6xl mx-auto space-y-6">
@@ -239,7 +367,13 @@ const Guarantorship = () => {
                                     request?.createdAt,
                                   ).toLocaleDateString()}
                                 </span>
-                                <button className="text-xs font-black text-secondary uppercase tracking-wider hover:text-primary transition-colors">
+                                <button
+                                  onClick={() => {
+                                    setBorrowerDetails(request);
+                                    setShowReviewRequest(true);
+                                  }}
+                                  className="text-xs font-black text-secondary uppercase tracking-wider hover:text-primary transition-colors"
+                                >
                                   View Details
                                 </button>
                               </div>
