@@ -277,7 +277,7 @@ const RequirementBox = ({ req, checking }) => (
         <div
           className={`relative flex items-center justify-center size-14 rounded-2xl transition-all duration-700 ${
             checking
-              ? "bg-slate-50 text-slate-300"
+              ? "bg-slate-100 text-slate-300"
               : "bg-gradient-to-br from-slate-50 to-blue-50/50 text-blue-600 shadow-sm"
           }`}
         >
