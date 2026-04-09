@@ -20,6 +20,7 @@ import {
   Download,
   Calendar,
   X,
+  Eye,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -535,10 +536,10 @@ const ApplyLoan = () => {
                         onClick={() => {
                           setShowSchedule(!showSchedule);
                         }}
-                        className="p-2 hover:bg-white/10 rounded-lg transition-colors text-white/60 hover:text-blue-400"
+                        className="p-2 hover:bg-white/10 bg-white/10 rounded-lg transition-colors text-white/60 hover:text-blue-400"
                         title="View Schedule"
                       >
-                        <Clock size={18} />
+                        <Eye size={18} />
                       </button>
                       <button
                         className="p-2 bg-blue-500 hover:bg-blue-400 rounded-lg transition-all shadow-lg shadow-blue-500/20 text-white"

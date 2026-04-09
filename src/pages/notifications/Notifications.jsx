@@ -19,6 +19,7 @@ import { useToast } from "../../contexts/ToastProvider";
 import { useQuery, useMutation } from "react-query";
 import NotificationsLoader from "../../skeletons/NotificationsLoader";
 import Notification from "../../components/notifications/Notification";
+import { useNavigate } from "react-router-dom";
 
 const Notifications = () => {
   const [filter, setFilter] = useState("all");
@@ -26,6 +27,7 @@ const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
   const [notification, setNotification] = useState({});
   const [showNotification, setShowNotification] = useState(false);
+  const navigate = useNavigate();
 
   const filteredNotifications = notifications.filter((n) => {
     if (filter === "unread") return !n.is_read;
@@ -239,9 +241,16 @@ const Notifications = () => {
                     label="Apply for Loan"
                     icon={<ArrowUpRight size={16} />}
                     primary
+                    onNavigate={() => navigate("/loan-products")}
                   />
-                  <ActionButton label="View my loans" />
-                  <ActionButton label="Check guarantorship status" />
+                  <ActionButton
+                    label="View my loans"
+                    onNavigate={() => navigate("/all-loans")}
+                  />
+                  <ActionButton
+                    label="Check guarantorship status"
+                    onNavigate={() => navigate("/guarantorship")}
+                  />
                 </div>
               </div>
 
@@ -304,8 +313,9 @@ const TabButton = ({ active, onClick, label }) => (
   </button>
 );
 
-const ActionButton = ({ label, icon, primary }) => (
+const ActionButton = ({ label, icon, primary, onNavigate }) => (
   <button
+    onClick={onNavigate}
     className={`w-full py-3.5 px-5 rounded-2xl text-xs font-bold flex items-center justify-between transition-all ${primary ? "bg-secondary text-white hover:bg-[#3ba8d3]" : "bg-white/10 text-white hover:bg-white/20"}`}
   >
     {label} {icon}

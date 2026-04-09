@@ -1,188 +1,230 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Users,
   UserPlus,
-  ShieldAlert,
-  Info,
   Trash2,
   Scale,
   AlertCircle,
   Lock,
-  Briefcase,
   UserCheck,
   ShieldCheck,
+  Search,
+  ArrowRight,
+  Sparkles,
+  User,
+  Pin,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 const AddGuarantors = ({ limit = 4 }) => {
   const [guarantors, setGuarantors] = useState([]);
-  const [guarantorName, setGuarantorName] = useState("");
-  const [guarantorMobile, setGuarantorMobile] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
+  const [memberName, setMemberName] = useState("");
+  const [idNumber, setIdNumber] = useState("");
   const navigate = useNavigate();
 
-  const handleAdd = () => {
-    // Logic to simulate finding a member
+  // Simulated search & add logic
+  const handleSearchAndAdd = (e) => {
+    e.preventDefault();
     if (guarantors.length < limit) {
-      setGuarantors([
-        ...guarantors,
-        { id: Date.now(), name: "Samuel Otieno", mobile: "0722***901" },
-      ]);
+      setIsSearching(true);
+      setTimeout(() => {
+        setGuarantors([
+          ...guarantors,
+          {
+            id: Date.now(),
+            name: "Samuel Otieno",
+            mobile: "0722***901",
+            shares: "KES 450,000",
+            status: "Eligible",
+          },
+        ]);
+        setIsSearching(false);
+        setMemberName("");
+        setIdNumber("");
+      }, 800);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-primary pb-20">
-      <div className="max-w-6xl mx-auto sm:px-4">
-        {/* Header */}
-        <header className="py-6">
-          <h1 className="text-3xl font-black tracking-tight">
-            Assign Guarantors
-          </h1>
-          <p className="text-slate-400 text-sm mt-2">
-            Secure your loan by adding qualified members to guarantee your
-            request.
-          </p>
-        </header>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* Left Column: Search & List (7/12) */}
-          <div className="lg:col-span-6 space-y-8">
-            {/* Search Input Box */}
-            <div className="bg-white p-6 rounded-[40px] border border-slate-100 shadow-xl shadow-blue-900/5">
-              {/* Header Section */}
-              <div className="flex items-center gap-3 mb-8">
-                <div className="p-2.5 bg-blue-50 rounded-xl">
-                  <UserPlus size={20} className="text-primary" />
-                </div>
-                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
-                  Add New Guarantor
-                </h3>
-              </div>
-
-              {/* Vertical Input Stack */}
-              <div className="flex flex-col h-[300px] gap-6">
-                {/* Name Input Group */}
-                <div>
-                  <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-4 block">
-                    Guarantor Full Name
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Samuel Otieno"
-                    value={guarantorName}
-                    onChange={(e) => setGuarantorName(e.target.value)}
-                    className="w-full px-6 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-secondary/20 outline-none font-bold text-primary placeholder:text-slate-300 transition-all"
-                  />
-                </div>
-
-                {/* Mobile Input Group */}
-                <div>
-                  <label className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-4 block">
-                    Mobile Number
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. 0722 000 000"
-                    value={guarantorMobile}
-                    onChange={(e) => setGuarantorMobile(e.target.value)}
-                    className="w-full px-6 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-secondary/20 outline-none font-bold text-primary placeholder:text-slate-300 transition-all"
-                  />
-                </div>
-
-                {/* Vertical Action Button */}
-                <button
-                  onClick={handleAdd}
-                  disabled={!guarantorName || !guarantorMobile}
-                  className="w-full py-5 mt-5 bg-primary text-white rounded-[24px] text-[10px] font-black uppercase tracking-[0.15em] hover:bg-secondary transition-all active:scale-[0.98] disabled:opacity-20 disabled:grayscale shadow-lg shadow-blue-900/10"
+    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] pb-24 font-sans">
+      <div className="max-w-6xl mx-auto">
+        {/* --- PREMIUM HEADER --- */}
+        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-wider border border-blue-100">
+              <ShieldCheck size={12} />
+              Secured Guarantee Protocol
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">
+              Assign <span className="text-blue-600">Guarantors</span>
+            </h1>
+            <p className="text-slate-500 max-w-xl font-medium">
+              To finalize your application, you require
+              <span className="text-slate-900 font-semibold">
+                {" "}
+                {limit} qualified members{" "}
+              </span>
+              to back your request with their uncommitted deposits.
+            </p>
+          </div>
+          <div className="hidden lg:flex items-center gap-4 bg-white p-4 rounded-3xl border border-slate-100 shadow-sm">
+            <div className="flex -space-x-3">
+              {[1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className="size-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden"
                 >
-                  Confirm & Add to List
-                </button>
-              </div>
-
-              {/* Helpful Tip */}
-              <div className="mt-4 pt-4 border-t border-slate-50 px-2 flex items-start gap-3">
-                <div className="mt-0.5">
-                  <Info size={14} className="text-secondary" />
+                  <img
+                    src={`https://i.pravatar.cc/100?img=${i + 10}`}
+                    alt="avatar"
+                  />
                 </div>
-                <p className="text-[9px] font-bold text-slate-400 uppercase leading-relaxed tracking-tight">
-                  Verification needed: Guarantors will receive a secure link to
-                  authorize this guarantee via the member portal.
-                </p>
+              ))}
+              <div className="size-10 rounded-full border-2 border-white bg-blue-600 flex items-center justify-center text-[10px] font-bold text-white">
+                +{limit}
               </div>
             </div>
-            {/* Educational Card */}
-            <div className="bg-primary sm:hidden rounded-[40px] p-8 text-white shadow-2xl">
-              <div className="flex items-center gap-3 mb-8">
-                <Scale className="text-secondary" size={24} />
-                <h3 className="text-sm font-black uppercase tracking-widest text-white">
-                  Guarantor Liability
-                </h3>
-              </div>
-
-              <div className="space-y-8">
-                <LiabilityPoint
-                  title="Joint & Several Liability"
-                  desc="Guarantors are legally bound to repay the loan if the borrower defaults. This is a binding commitment recognized by law."
-                />
-                <LiabilityPoint
-                  title="Pledged Security"
-                  desc="A portion of the guarantor's deposits/shares equivalent to the amount guaranteed will be frozen until the loan is fully settled."
-                />
-                <LiabilityPoint
-                  title="Credit Rating Impact"
-                  desc="Default by the borrower may negatively affect the guarantor's ability to borrow and their future credit standing with the institution."
-                />
-              </div>
-
-              <div className="mt-10 p-5 bg-white/5 rounded-3xl border border-white/10">
-                <div className="flex gap-3">
-                  <ShieldAlert className="text-amber-400 shrink-0" size={20} />
-                  <p className="text-[10px] leading-relaxed text-white/60">
-                    <strong className="text-white block mb-1 uppercase">
-                      Warning
-                    </strong>
-                    Do not add members who have not explicitly agreed to
-                    guarantee your loan. They will receive an SMS notification
-                    to accept or decline.
-                  </p>
-                </div>
-              </div>
+            <div className="pr-2">
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                Network Strength
+              </p>
+              <p className="text-sm font-bold text-slate-900">
+                High Reliability
+              </p>
             </div>
           </div>
+        </header>
+        <div className="my-4 w-full">
+          <p className="text-[13px] leading-relaxed font-medium">
+            A guarantor is an active member who pledges their **uncommitted
+            deposits** to secure your loan. By accepting this role, they enter a
+            legally binding agreement to be held
+            <span className="text-secondary font-bold">
+              {" "}
+              jointly and severally liable{" "}
+            </span>
+            for the debt should a default occur.
+          </p>
+        </div>
 
-          {/* Right Column: Liability & Legal Info (5/12) */}
-          <div className="lg:col-span-6">
-            <div className="space-y-6">
-              {/* Selection Queue */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center px-2">
-                  <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                    Selected Guarantors ({guarantors.length}/{limit})
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          {/* --- LEFT: SEARCH & QUEUE --- */}
+          <div className="lg:col-span-7 space-y-4">
+            {/* Search Card */}
+            <div className="bg-white rounded-[40px] p-5 md:p-5 border border-slate-100 shadow-2xl shadow-slate-200/50 relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-10 opacity-[0.03] pointer-events-none">
+                <UserPlus size={180} />
+              </div>
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-8">
+                  <h3 className="text-xs font-black uppercase tracking-[0.2em] text-blue-600 flex items-center gap-2">
+                    <Search size={16} strokeWidth={3} />
+                    Member Lookup
                   </h3>
+                  <span className="text-[10px] font-bold text-slate-400 bg-slate-50 px-3 py-1 rounded-full border border-slate-100">
+                    Sacco Registry
+                  </span>
                 </div>
 
-                {guarantors.length === 0 ? (
-                  <div className="py-12 h-[450px] border-2 border-dashed border-slate-200 rounded-[40px] flex flex-col items-center justify-center text-slate-300">
-                    <UserPlus size={40} strokeWidth={1} />
-                    <p className="text-[10px] font-black uppercase tracking-widest mt-4">
-                      No guarantors added yet
-                    </p>
+                <form onSubmit={handleSearchAndAdd} className="space-y-6">
+                  <div className="relative group">
+                    <input
+                      type="text"
+                      placeholder="Enter Member Name"
+                      value={memberName}
+                      onChange={(e) => setMemberName(e.target.value)}
+                      className="w-full pl-16 pr-8 py-4 bg-slate-100 border-2 border-transparent rounded-[32px] text-lg font-bold transition-all outline-none focus:border-blue-100 focus:bg-white focus:shadow-xl focus:shadow-blue-900/5 placeholder:text-slate-300"
+                    />
+                    <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">
+                      <User size={24} />
+                    </div>
                   </div>
+                  <div className="relative group">
+                    <input
+                      type="text"
+                      placeholder="Enter ID Number"
+                      value={idNumber}
+                      onChange={(e) => setIdNumber(e.target.value)}
+                      className="w-full pl-16 pr-8 py-4 bg-slate-100 border-2 border-transparent rounded-[32px] text-lg font-bold transition-all outline-none focus:border-blue-100 focus:bg-white focus:shadow-xl focus:shadow-blue-900/5 placeholder:text-slate-300"
+                    />
+                    <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">
+                      <Pin size={24} />
+                    </div>
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={
+                      !memberName || !idNumber || isSearching || guarantors.length >= limit
+                    }
+                    className="w-full py-6 bg-blue-600 text-white rounded-[32px] font-bold flex items-center justify-center gap-3 shadow-xl shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    {isSearching ? (
+                      <div className="size-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : (
+                      <>
+                        Verify & Add Guarantor
+                        <ArrowRight size={20} />
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            {/* Selection Queue */}
+            <div className="space-y-4">
+              <div className="flex justify-between items-center px-4">
+                <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">
+                  Guarantors Queue ({guarantors.length}/{limit})
+                </h3>
+              </div>
+
+              <AnimatePresence mode="popLayout">
+                {guarantors.length === 0 ? (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="py-32 border-2 border-dashed border-slate-200 rounded-[40px] flex flex-col items-center justify-center text-slate-300 bg-white/50"
+                  >
+                    <Users
+                      size={48}
+                      strokeWidth={1}
+                      className="mb-4 opacity-20"
+                    />
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em]">
+                      Queue is currently empty
+                    </p>
+                  </motion.div>
                 ) : (
-                  <div className="p-4 h-[450px] overflow-y-auto scrollbar-hide border-2 border-dashed border-slate-200 rounded-[40px] flex flex-col gap-2 text-slate-300">
-                    {guarantors.map((g) => (
-                      <div
+                  <div className="grid grid-cols-1 gap-4">
+                    {guarantors.map((g, idx) => (
+                      <motion.div
                         key={g.id}
-                        className="bg-white p-6 rounded-[32px] border border-slate-100 flex items-center justify-between group hover:border-secondary/30 transition-all"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ delay: idx * 0.1 }}
+                        className="bg-white p-6 rounded-[32px] border border-slate-100 flex items-center justify-between group hover:border-blue-200 transition-all shadow-sm"
                       >
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-primary">
-                            <Users size={20} />
+                        <div className="flex items-center gap-4">
+                          <div className="size-14 bg-slate-50 rounded-2xl flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-inner">
+                            <UserCheck size={24} />
                           </div>
                           <div>
-                            <h4 className="font-bold text-sm">{g.name}</h4>
-                            <p className="text-[10px] font-mono text-slate-400 uppercase">
-                              {g.mobile}
+                            <div className="flex items-center gap-2">
+                              <h4 className="font-bold text-slate-900">
+                                {g.name}
+                              </h4>
+                              <span className="text-[8px] font-black bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-md uppercase tracking-tighter">
+                                Verified
+                              </span>
+                            </div>
+                            <p className="text-[10px] font-bold text-slate-400 mt-0.5">
+                              {g.mobile} •{" "}
+                              <span className="text-blue-500">{g.shares}</span>{" "}
+                              available
                             </p>
                           </div>
                         </div>
@@ -192,100 +234,108 @@ const AddGuarantors = ({ limit = 4 }) => {
                               guarantors.filter((item) => item.id !== g.id),
                             )
                           }
-                          className="p-3 text-slate-200 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                          className="size-11 rounded-xl flex items-center justify-center text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"
                         >
                           <Trash2 size={18} />
                         </button>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
                 )}
-              </div>
+              </AnimatePresence>
+            </div>
+          </div>
 
-              {/* Status Note */}
-              <div className="space-y-4">
-                {/* Primary Disclaimer */}
-                <div className="p-6 bg-primary rounded-[32px] shadow-xl shadow-blue-900/10 relative overflow-hidden">
-                  {/* Subtle Decorative Icon */}
-                  <ShieldCheck
-                    className="absolute -right-4 -bottom-4 text-white/5"
-                    size={120}
+          {/* --- RIGHT: LIABILITY & EDUCATION --- */}
+          <div className="lg:col-span-5 space-y-4">
+            {/* The Responsibility Card */}
+            <div className="bg-[#0F172A] rounded-[48px] p-10 text-white relative overflow-hidden shadow-2xl shadow-blue-900/20">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600 rounded-full blur-[80px] opacity-20" />
+
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="size-10 rounded-xl bg-blue-500/20 flex items-center justify-center border border-blue-500/30">
+                    <Scale size={20} className="text-blue-400" />
+                  </div>
+                  <h3 className="text-xs font-black uppercase tracking-[0.2em] text-blue-400">
+                    Legal Framework
+                  </h3>
+                </div>
+
+                <div className="space-y-6">
+                  <LiabilityDetail
+                    title="Joint & Several Liability"
+                    desc="Guarantors are legally bound to repay the loan if the borrower defaults. This is a binding commitment."
                   />
+                  <LiabilityDetail
+                    title="The Lien Clause"
+                    desc="A portion of the guarantor's deposits equivalent to the guaranteed amount will be frozen."
+                  />
+                </div>
 
-                  <div className="relative z-10 flex items-center gap-5">
-                    <div className="bg-secondary h-12 w-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-sky-400/20">
-                      <UserCheck className="text-primary" size={24} />
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-black text-white uppercase tracking-[0.2em] mb-2">
-                        Who is a Guarantor?
-                      </h4>
-                      <p className="text-[13px] text-blue-100 leading-relaxed font-medium">
-                        A guarantor is an active member who pledges their
-                        **uncommitted deposits** to secure your loan. By
-                        accepting this role, they enter a legally binding
-                        agreement to be held
-                        <span className="text-secondary font-bold">
-                          {" "}
-                          jointly and severally liable{" "}
-                        </span>
-                        for the debt should a default occur.
-                      </p>
-                    </div>
+                <div className="mt-10 p-6 bg-white/5 rounded-3xl border border-white/5 space-y-4">
+                  <div className="flex gap-4">
+                    <AlertCircle
+                      className="text-amber-400 shrink-0"
+                      size={20}
+                    />
+                    <p className="text-[11px] leading-relaxed text-slate-400">
+                      <strong className="text-white block mb-1 uppercase tracking-widest text-[10px]">
+                        Warning
+                      </strong>
+                      All guarantors will receive an encrypted SMS and Email
+                      link. They must digitally sign the guarantee within{" "}
+                      <span className="text-white font-bold">48 hours</span>.
+                    </p>
                   </div>
                 </div>
 
-                {/* Technical Eligibility Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-5 bg-white border border-slate-100 rounded-[28px] flex items-start gap-3">
-                    <div className="p-2 bg-slate-50 rounded-lg text-slate-400">
-                      <Briefcase size={16} />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-black text-primary uppercase tracking-widest mb-1">
-                        Membership Standing
-                      </p>
-                      <p className="text-[11px] text-slate-500 leading-tight">
-                        Guarantors must have been active members for at least 6
-                        months with no history of default.
-                      </p>
-                    </div>
-                  </div>
+                {guarantors.length >= limit && (
+                  <button
+                    onClick={() => navigate("/add-statements")}
+                    className="w-full mt-10 group bg-blue-600 hover:bg-blue-500 text-white py-6 rounded-[32px] font-bold transition-all shadow-xl shadow-blue-900/40 flex items-center justify-center gap-3"
+                  >
+                    Proceed to Statements
+                    <ArrowRight
+                      size={20}
+                      className="group-hover:translate-x-1 transition-transform"
+                    />
+                  </button>
+                )}
+              </div>
+            </div>
 
-                  <div className="p-5 bg-white border border-slate-100 rounded-[28px] flex items-start gap-3">
-                    <div className="p-2 bg-slate-50 rounded-lg text-slate-400">
-                      <Lock size={16} />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-black text-primary uppercase tracking-widest mb-1">
-                        Collateral Lien
-                      </p>
-                      <p className="text-[11px] text-slate-500 leading-tight">
-                        A 'lien' is placed on their shares. These shares cannot
-                        be withdrawn until your loan is fully settled.
-                      </p>
-                    </div>
-                  </div>
+            {/* Quick Check Grid */}
+            <div className="grid grid-cols-1 gap-4 px-2">
+              <div className="flex items-start gap-4 p-5 bg-white border border-slate-100 rounded-[32px]">
+                <div className="p-2 bg-blue-50 rounded-xl text-blue-600">
+                  <Lock size={18} />
                 </div>
-
-                {/* Quick Tip / Alert */}
-                <div className="p-5 bg-amber-50/50 border border-amber-100 rounded-[28px] flex items-center gap-4">
-                  <AlertCircle className="text-amber-600 shrink-0" size={18} />
-                  <p className="text-[11px] font-bold text-amber-800 leading-tight">
-                    Pro-Tip: Ensure your guarantors have "Free Shares"—deposits
-                    that aren't already guaranteeing other active loans.
+                <div>
+                  <h5 className="text-[11px] font-black uppercase tracking-widest text-slate-900">
+                    Encrypted Pledging
+                  </h5>
+                  <p className="text-[11px] text-slate-500 leading-relaxed mt-1">
+                    Guarantor data is obfuscated until they authorize the
+                    request via their secure portal.
                   </p>
                 </div>
               </div>
 
-              {guarantors.length >= limit && (
-                <button
-                  onClick={() => navigate("/add-statements")}
-                  className="w-full py-5 bg-secondary text-white rounded-[24px] font-black uppercase tracking-widest shadow-xl shadow-sky-900/10 hover:scale-[1.02] transition-all"
-                >
-                  Continue
-                </button>
-              )}
+              <div className="flex items-start gap-4 p-5 bg-white border border-slate-100 rounded-[32px]">
+                <div className="p-2 bg-emerald-50 rounded-xl text-emerald-600">
+                  <Sparkles size={18} />
+                </div>
+                <div>
+                  <h5 className="text-[11px] font-black uppercase tracking-widest text-slate-900">
+                    Auto-Check
+                  </h5>
+                  <p className="text-[11px] text-slate-500 leading-relaxed mt-1">
+                    Our system automatically verifies the guarantor's 'Free
+                    Shares' ratio before allowing them to be added.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -294,13 +344,18 @@ const AddGuarantors = ({ limit = 4 }) => {
   );
 };
 
-/* --- Sub-Component --- */
-const LiabilityPoint = ({ title, desc }) => (
-  <div>
-    <h4 className="text-[11px] font-black uppercase tracking-widest text-secondary mb-2">
-      {title}
-    </h4>
-    <p className="text-xs text-white/50 leading-relaxed">{desc}</p>
+/* --- SUB-COMPONENTS --- */
+const LiabilityDetail = ({ title, desc }) => (
+  <div className="group">
+    <div className="flex items-center gap-3 mb-2">
+      <div className="size-1.5 rounded-full bg-blue-500" />
+      <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-200 group-hover:text-blue-400 transition-colors">
+        {title}
+      </h4>
+    </div>
+    <p className="text-xs text-slate-500 leading-relaxed pl-4 border-l border-white/10 ml-0.5">
+      {desc}
+    </p>
   </div>
 );
 
