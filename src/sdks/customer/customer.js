@@ -93,6 +93,17 @@ export const updateProfilePhoto = async (id, url) => {
   }
 };
 
+const convertToISO = (dob) => {
+    if (!dob) return "";
+    const parts = dob.split(/\D+/);
+    if (parts.length !== 3) {
+      console.error("Invalid date format");
+      return dob;
+    }
+    const [day, month, year] = parts;
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  };
+
 export const updateCustomerPersonalInformation = async (
   id,
   firstName,
@@ -103,13 +114,14 @@ export const updateCustomerPersonalInformation = async (
   dob,
 ) => {
   try {
+    const formattedDob = convertToISO(dob);
     const payload = {
       ...(firstName && { firstname: firstName }),
       ...(middleName && { middlename: middleName }),
       ...(lastName && { lastname: lastName }),
       ...(idNumber && { identification: idNumber }),
       ...(gender && { gender: gender }),
-      ...(dob && { dob: dob }),
+      ...(formattedDob && { dob: formattedDob }),
       onboarding_stage: "facial-identity",
     };
 

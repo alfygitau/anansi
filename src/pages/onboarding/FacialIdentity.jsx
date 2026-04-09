@@ -183,7 +183,7 @@ const FacialIdentity = () => {
 
       {/* Info & Disclaimer Sidebar (Right) */}
       {/* 5. Changed width to full on mobile, fixed width on desktop. Adjusted padding. */}
-      <div className="w-full lg:w-[320px] px-3 bg-slate-100/30 lg:bg-slate-50/50 sm:px-5 border-t lg:border-t-0">
+      <div className="w-full lg:w-[320px] pl-3 bg-slate-100/30 lg:bg-slate-50/50 sm:px-5 border-t lg:border-t-0">
         <div className="lg:sticky lg:top-10 space-y-8">
           <div className="space-y-4">
             <div className="flex items-center sm:mt-5 gap-2">

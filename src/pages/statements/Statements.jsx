@@ -153,7 +153,7 @@ const MyStatements = () => {
               className="flex items-center sm:justify-center gap-3 px-8 py-4 bg-primary text-white rounded-[24px] font-bold text-sm shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] transition-all"
             >
               <FileText size={18} />
-              Generate Custom Period
+              Generate Custom Statement
             </button>
           </header>
 
