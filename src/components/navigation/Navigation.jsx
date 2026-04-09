@@ -9,7 +9,6 @@ import {
   Home,
   FileText,
   Briefcase,
-  LayoutDashboard,
   X,
   PlusCircle,
   CreditCard,

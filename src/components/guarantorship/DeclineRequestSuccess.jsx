@@ -1,13 +1,12 @@
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { XCircle, X, Info } from 'lucide-react';
+import { motion, AnimatePresence } from "framer-motion";
+import { XCircle, Info } from "lucide-react";
 
 const DeclineRequestSuccess = ({ isOpen, onClose }) => {
   return (
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -27,9 +26,12 @@ const DeclineRequestSuccess = ({ isOpen, onClose }) => {
                 <XCircle size={40} strokeWidth={2.5} className="-rotate-12" />
               </div>
 
-              <h3 className="text-2xl font-black text-slate-900 mb-3">Request Declined</h3>
+              <h3 className="text-2xl font-black text-slate-900 mb-3">
+                Request Declined
+              </h3>
               <p className="text-sm font-medium text-slate-500 leading-relaxed px-2">
-                The guarantorship request has been cancelled. The borrower will be notified of your decision.
+                The guarantorship request has been cancelled. The borrower will
+                be notified of your decision.
               </p>
             </div>
 
@@ -37,7 +39,8 @@ const DeclineRequestSuccess = ({ isOpen, onClose }) => {
             <div className="mt-8 flex items-center gap-3 text-left p-4 bg-slate-50 rounded-2xl">
               <Info className="text-slate-400 shrink-0" size={18} />
               <p className="text-[11px] font-semibold text-slate-400 leading-tight">
-                This action is final. You can no longer view or accept this specific request.
+                This action is final. You can no longer view or accept this
+                specific request.
               </p>
             </div>
 

@@ -1,4 +1,4 @@
-import { LogOut, HelpCircle, ShieldCheck } from "lucide-react";
+import { LogOut, HelpCircle } from "lucide-react";
 import Logout from "../auth/Logout";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";

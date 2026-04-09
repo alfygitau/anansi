@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  ShieldCheck,
   User,
   Mail,
   Eye,

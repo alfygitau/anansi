@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   ShieldCheck,
   Wallet,
@@ -348,40 +348,72 @@ const Guarantorship = () => {
                         requests?.map((request) => (
                           <div
                             key={request.id}
-                            className="group flex items-center gap-4 p-4 rounded-2xl bg-slate-50/50 border border-transparent hover:border-slate-200 hover:bg-white transition-all"
+                            className="group flex flex-col md:flex-row items-start md:items-center gap-6 p-6 rounded-3xl bg-white border border-slate-100 md:bg-slate-50/50 md:border-transparent hover:border-slate-200 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300"
                           >
-                            <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-primary font-bold text-sm">
+                            {/* Avatar Section - Scaled slightly for larger card */}
+                            <div className="w-14 h-14 rounded-full bg-blue-100 shrink-0 flex items-center justify-center text-primary font-bold text-base">
                               {getInitials(request?.borrowerName)}
                             </div>
-                            <div className="flex-grow">
+
+                            <div className="flex-grow items-center">
                               <div className="flex justify-between items-center mb-1">
-                                <p className="text-sm font-bold text-slate-800 pr-4">
-                                  {request?.message}
-                                </p>
-                                <StatusBadge status={request?.status} />
+                                <div className="flex flex-col gap-1">
+                                  {/* Borrower Name as a premium subtitle */}
+                                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                    Request from {request?.borrowerName}
+                                  </span>
+                                  {/* Large Message Body - Guaranteed 2 lines */}
+                                  <p className="text-base font-bold text-slate-800 pr-8 leading-snug line-clamp-4 italic">
+                                    "
+                                    {request?.message ||
+                                      "I am requesting you to be my guarantor for my upcoming development loan."}
+                                    "
+                                  </p>
+                                </div>
                               </div>
-                              <div className="flex items-center gap-4">
-                                <span className="text-xs text-slate-400 flex items-center gap-1">
-                                  <Clock size={12} />{" "}
-                                  {new Date(
-                                    request?.createdAt,
-                                  ).toLocaleDateString()}
-                                </span>
-                                <button
-                                  onClick={() => {
-                                    setBorrowerDetails(request);
-                                    setShowReviewRequest(true);
-                                  }}
-                                  className="text-xs font-black text-secondary uppercase tracking-wider hover:text-primary transition-colors"
-                                >
-                                  View Details
-                                </button>
+
+                              {/* Metadata & Actions */}
+                              <div className="flex sm:mt-3 items-center justify-between">
+                                <div className="flex-col items-start md:flex gap-3">
+                                  <span className="text-xs text-slate-400 sm:mb-2 flex items-center gap-1.5 font-medium">
+                                    <Clock
+                                      size={14}
+                                      className="text-slate-300"
+                                    />{" "}
+                                    {new Date(
+                                      request?.createdAt,
+                                    ).toLocaleDateString(undefined, {
+                                      month: "long",
+                                      day: "numeric",
+                                      year: "numeric",
+                                    })}
+                                  </span>
+
+                                  <button
+                                    onClick={() => {
+                                      setBorrowerDetails(request);
+                                      setShowReviewRequest(true);
+                                    }}
+                                    className="text-xs font-black text-secondary uppercase tracking-wider hover:text-primary transition-colors flex items-center gap-1"
+                                  >
+                                    View Full Request Details
+                                  </button>
+                                </div>
                               </div>
                             </div>
-                            <ChevronRight
-                              size={18}
-                              className="text-slate-300 group-hover:text-secondary"
-                            />
+
+                            {/* Chevron - Centered to the header height */}
+                            <div className="sm:w-full h-14 flex md:gap-3 justify-between items-center">
+                              <StatusBadge status={request?.status} />
+                              <ChevronRight
+                                size={20}
+                                onClick={() => {
+                                  setBorrowerDetails(request);
+                                  setShowReviewRequest(true);
+                                }}
+                                className="text-slate-300 cursor-pointer group-hover:text-secondary transition-transform group-hover:translate-x-1"
+                              />
+                            </div>
                           </div>
                         ))
                       ) : (
