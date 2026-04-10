@@ -130,7 +130,7 @@ const ReviewRequest = ({
 
               {/* Loan Parameters */}
               <section>
-                <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center gap-3 mb-4">
                   <div className="size-8 rounded-lg bg-blue-600 flex items-center justify-center text-white">
                     <ShieldCheck size={16} />
                   </div>
@@ -139,8 +139,8 @@ const ReviewRequest = ({
                   </span>
                 </div>
 
-                <div className="bg-slate-50 rounded-[32px] p-6 border border-slate-100 shadow-inner">
-                  <div className="mb-6">
+                <div className="bg-slate-50 rounded-[12px] p-4 border border-slate-100 shadow-inner">
+                  <div className="mb-4">
                     <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">
                       Requested Amount
                     </p>
@@ -153,7 +153,6 @@ const ReviewRequest = ({
                       </span>
                     </div>
                   </div>
-
                   <div className="grid grid-cols-2 gap-6 pt-6 border-t border-slate-200/60">
                     <div className="space-y-1">
                       <div className="flex items-center gap-1.5 text-slate-400">
@@ -178,8 +177,7 @@ const ReviewRequest = ({
                       </p>
                     </div>
                   </div>
-
-                  <div className="mt-8 p-4 bg-white rounded-2xl border border-slate-100">
+                  <div className="mt-4 p-4 bg-white rounded-2xl border border-slate-100">
                     <div className="flex justify-between items-center">
                       <span className="text-[10px] font-black text-slate-400 uppercase">
                         Repayment

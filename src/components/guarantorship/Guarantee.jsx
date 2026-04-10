@@ -67,7 +67,7 @@ const GuaranteeAmount = ({
                 </h4>
                 <p className="text-sm font-medium text-slate-500 leading-relaxed">
                   Enter the specific amount you are willing to guarantee. This
-                  amount will be held as a lien against your shares.
+                  amount will be held as a lien against your deposits.
                 </p>
               </div>
 

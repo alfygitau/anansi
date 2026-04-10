@@ -150,7 +150,7 @@ const Homepage = () => {
   const percentage = Math.min((currentShares / targetShares) * 100, 100);
   const remainingShares = Math.max(targetShares - currentShares, 0);
 
-  const { refetch: refetchCustomerDetails, isLoading } = useQuery({
+  const { refetch: refetchCustomerDetails, isFetching } = useQuery({
     queryKey: ["get accounts"],
     queryFn: async () => {
       const response = await getCustomer();
@@ -173,7 +173,7 @@ const Homepage = () => {
     },
   });
 
-  const { refetch: refetchSharesSummary, isLoading: loadingShares } = useQuery({
+  const { refetch: refetchSharesSummary, isFetching: loadingShares } = useQuery({
     queryKey: ["get shares summary"],
     queryFn: async () => {
       const response = await getSharesSummary(auth?.user?.public_id);
@@ -379,7 +379,7 @@ const Homepage = () => {
         }}
       />
 
-      {isLoading ? (
+      {isFetching ? (
         <HomeLoader />
       ) : (
         <div className="max-w-6xl sm:px-4 mx-auto">

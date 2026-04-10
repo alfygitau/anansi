@@ -62,7 +62,7 @@ const ProfilePage = () => {
     });
   };
 
-  const { isLoading, refetch } = useQuery({
+  const { isFetching, refetch } = useQuery({
     queryKey: ["get customer"],
     queryFn: async () => {
       const response = await getCustomer();
@@ -228,7 +228,7 @@ const ProfilePage = () => {
         customer={customer}
         refetch={refetch}
       />
-      {isLoading ? (
+      {isFetching ? (
         <ProfileLoader />
       ) : (
         <div className="max-w-6xl sm:px-4 mx-auto bg-slate-50 pb-20 pt-2 font-sans">
