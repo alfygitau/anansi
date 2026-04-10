@@ -82,7 +82,7 @@ const FinalConfirmation = ({
               <div className="bg-slate-900 rounded-[32px] p-6 text-white relative overflow-hidden shadow-xl shadow-blue-900/10">
                 <Lock
                   className="absolute -right-4 -bottom-4 opacity-10"
-                  size={120}
+                  size={70}
                 />
                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">
                   My Pledged Amount
@@ -172,14 +172,14 @@ const FinalConfirmation = ({
               {/* Legal Checkbox */}
               <div
                 onClick={() => setAgreed(!agreed)}
-                className={`p-5 rounded-2xl border-2 transition-all cursor-pointer flex gap-4 items-start ${
+                className={`p-5 rounded-2xl border-2 transition-all cursor-pointer flex gap-4 items-center ${
                   agreed
                     ? "bg-blue-50/50 border-blue-500"
                     : "bg-white border-slate-100 hover:border-slate-200"
                 }`}
               >
                 <div
-                  className={`mt-0.5 size-5 rounded-md border flex items-center justify-center transition-all ${
+                  className={`mt-0.5 border flex items-center justify-center transition-all ${
                     agreed
                       ? "bg-blue-600 border-blue-600 text-white"
                       : "bg-white border-slate-300 text-transparent"
