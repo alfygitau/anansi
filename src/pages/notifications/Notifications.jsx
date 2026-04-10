@@ -65,7 +65,7 @@ const Notifications = () => {
     },
   });
 
-  const { isLoading, refetch: refetchNotifications } = useQuery({
+  const { isFetching, refetch: refetchNotifications } = useQuery({
     queryKey: ["get notifications"],
     queryFn: async () => {
       const response = await getNotifications();
@@ -109,7 +109,7 @@ const Notifications = () => {
         onClose={() => setShowNotification(false)}
         notification={notification}
       />
-      {isLoading ? (
+      {isFetching ? (
         <NotificationsLoader />
       ) : (
         <div className="max-w-6xl sm:px-4 mx-auto py-8">
@@ -144,11 +144,11 @@ const Notifications = () => {
                 </div>
               </div>
 
-              <div className="bg-white h-[650px] overflow-y-auto rounded-[32px] border border-slate-200 shadow-sm shadow-blue-900/5 overflow-hidden">
+              <div className="bg-white h-[650px] overflow-y-auto rounded-[12px] border border-slate-200 shadow-sm shadow-blue-900/5 overflow-hidden">
                 {filteredNotifications.length === 0 ? (
                   <EmptyState />
                 ) : (
-                  <div className="divide-y divide-slate-50">
+                  <div className="divide-y divide-slate-100">
                     <AnimatePresence>
                       {filteredNotifications.map((notification, index) => {
                         const timeLabel = getTimeDifference(
@@ -167,7 +167,7 @@ const Notifications = () => {
                               }
                               setShowNotification(true);
                             }}
-                            className={`group flex items-center gap-5 p-7 cursor-pointer rounded-2xl transition-all duration-300 ${
+                            className={`group flex items-center gap-5 p-4 cursor-pointer rounded-2xl transition-all duration-300 ${
                               !notification.is_read
                                 ? "bg-slate-50 hover:bg-slate-100/70"
                                 : "bg-white hover:bg-slate-50/50"
