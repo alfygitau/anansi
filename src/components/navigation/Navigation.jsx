@@ -156,6 +156,15 @@ const Navigation = () => {
                       navigate("/loan-products");
                     }}
                   />
+
+                  <DropdownItem
+                    icon={<Bell size={18} className="text-primary" />}
+                    label="Notifications"
+                    onClick={() => {
+                      setIsProfileOpen(false);
+                      navigate("/notifications");
+                    }}
+                  />
                   <div className="my-2 border-t border-slate-50"></div>
 
                   <button

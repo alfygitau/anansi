@@ -91,6 +91,7 @@ const Guarantorship = () => {
           "accepted",
         ),
       onSuccess: () => {
+        setAmount("");
         handeRefetch();
         setShowFinalConfirmation(false);
         setShowAcceptRequestSuccess(true);
