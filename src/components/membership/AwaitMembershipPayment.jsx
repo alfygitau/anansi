@@ -6,6 +6,7 @@ import {
   confirmMembership,
   updateMembership,
 } from "../../sdks/membership/membership";
+import { useStore } from "../../store/useStore";
 
 const AwaitingMembershipPayment = ({
   isOpen,
@@ -17,6 +18,7 @@ const AwaitingMembershipPayment = ({
 }) => {
   const { auth } = useAuth();
   const { showToast } = useToast();
+  const clearMembershipDetails = useStore((state) => state.clearMembership);
 
   useQuery({
     queryKey: ["poll membership"],
@@ -55,6 +57,7 @@ const AwaitingMembershipPayment = ({
         duration: 5000,
       });
       refetch();
+      clearMembershipDetails();
       onNext();
     },
     onError: (error) => {

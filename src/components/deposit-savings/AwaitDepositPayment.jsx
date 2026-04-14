@@ -7,6 +7,7 @@ import { useStore } from "../../store/useStore";
 const AwaitDepositPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
   const { showToast } = useToast();
   const depositDetails = useStore((state) => state.depositDetails);
+  const clearDeposit = useStore((state) => state.clearDepositDetails);
   const savingsAccountId = useStore(
     (state) =>
       state.accounts.find((acc) => acc.product?.name === "Savings")?.id || null,
@@ -19,6 +20,7 @@ const AwaitDepositPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
       type: "success",
       position: "top-right",
     });
+    clearDeposit();
     onPaymentSuccess();
   };
 

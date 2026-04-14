@@ -20,10 +20,19 @@ export const useStore = create(
 
       // Actions
       setInvestDetails: (details) => set({ investDetails: details }),
+      clearInvestDetails: () => set({ investDetails: {} }),
+
       setDepositDetails: (details) => set({ depositDetails: details }),
+      clearDepositDetails: () => set({ depositDetails: {} }),
+
       setAccounts: (accounts) => set({ accounts: accounts }),
+
       setSharesDetails: (details) => set({ sharesDetails: details }),
+      clearSharesDetails: () => set({ sharesDetails: {} }),
+
       setMembership: (data) => set({ membership: data }),
+      clearMembership: () => set({ membership: {} }),
+
       setMembershipMobile: (mobile) => set({ membership_mobile: mobile }),
       setForgetEmail: (data) => set({ forgetEmail: data }),
       setKycDetails: (data) => set({ kyc_details: data }),

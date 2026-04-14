@@ -6,6 +6,7 @@ import { useStore } from "../../store/useStore";
 
 const AwaitingPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
   const investDetails = useStore((state) => state.investDetails);
+  const clearInvestDetails = useStore((state) => state.clearInvestDetails);
   const { showToast } = useToast();
 
   const handlePay = () => {
@@ -15,6 +16,7 @@ const AwaitingPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
       type: "success",
       position: "top-right",
     });
+    clearInvestDetails();
     onPaymentSuccess();
   };
 

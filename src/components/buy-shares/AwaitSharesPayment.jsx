@@ -7,6 +7,7 @@ import { useStore } from "../../store/useStore";
 const AwaitSharesPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
   const { showToast } = useToast();
   const sharesDetails = useStore((state) => state.sharesDetails);
+  const clearShares = useStore((state) => state.clearSharesDetails);
   const sharesAccountId = useStore(
     (state) =>
       state.accounts.find((acc) => acc.product?.name === "Shares")?.id || null,
@@ -19,6 +20,7 @@ const AwaitSharesPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
       type: "success",
       position: "top-right",
     });
+    clearShares();
     onPaymentSuccess();
   };
 
