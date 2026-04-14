@@ -16,7 +16,7 @@ const AwaitSharesPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
   const handlePay = () => {
     showToast({
       title: "Shares Purchased Successfully",
-      description: `Your contribution of KES ${sharesDetails?.sharesAmount?.toLocaleString()} has been added to your Shares Account.`,
+      description: `Your contribution has been added to your Shares Account.`,
       type: "success",
       position: "top-right",
     });

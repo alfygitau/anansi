@@ -16,7 +16,7 @@ const AwaitDepositPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
   const handlePay = () => {
     showToast({
       title: "Savings Purchased Successfully",
-      description: `Your contribution of KES ${depositDetails?.savingsAmount?.toLocaleString()} has been added to your Shares Account.`,
+      description: `Your contribution has been added to your Shares Account.`,
       type: "success",
       position: "top-right",
     });
