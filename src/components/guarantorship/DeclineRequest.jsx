@@ -39,7 +39,7 @@ const DeclineRequest = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[120] flex justify-end overflow-hidden bg-slate-900/60">
+        <div className="fixed inset-0 z-[80] flex justify-end overflow-hidden bg-slate-900/60">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}

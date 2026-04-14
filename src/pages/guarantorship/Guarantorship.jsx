@@ -98,7 +98,7 @@ const Guarantorship = () => {
       },
       onError: (error) => {
         showToast({
-          title: "Authentication glitch",
+          title: "Error!",
           type: "error",
           position: "top-right",
           description: error?.response?.data?.message || error.message,

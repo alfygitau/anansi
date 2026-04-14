@@ -112,7 +112,7 @@ const AddGuarantors = ({ limit = 4 }) => {
           {/* --- LEFT: SEARCH & QUEUE --- */}
           <div className="lg:col-span-7 space-y-4">
             {/* Search Card */}
-            <div className="bg-white rounded-[40px] p-5 md:p-5 border border-slate-100 shadow-2xl shadow-slate-200/50 relative overflow-hidden">
+            <div className="bg-white rounded-[40px] p-5 md:p-6 border border-slate-100 shadow-2xl shadow-slate-200/50 relative overflow-hidden">
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-8">
                   <h3 className="text-xs font-black uppercase tracking-[0.2em] text-blue-600 flex items-center gap-2">
@@ -131,7 +131,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                       placeholder="Enter Member Name"
                       value={memberName}
                       onChange={(e) => setMemberName(e.target.value)}
-                      className="w-full pl-12 pr-8 py-4 bg-slate-100 border-2 border-transparent rounded-[12px] text-lg font-bold transition-all outline-none focus:border-blue-100 focus:bg-white focus:shadow-xl focus:shadow-blue-900/5 placeholder:text-slate-300"
+                      className="w-full pl-12 pr-8 py-3.5 bg-slate-100 border-2 border-transparent rounded-[12px] text-md font-bold transition-all outline-none focus:border-blue-100 focus:bg-white focus:shadow-xl focus:shadow-blue-900/5 placeholder:text-slate-300"
                     />
                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">
                       <User size={24} />
@@ -143,7 +143,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                       placeholder="Enter ID Number"
                       value={idNumber}
                       onChange={(e) => setIdNumber(e.target.value)}
-                      className="w-full pl-12 pr-8 py-4 bg-slate-100 border-2 border-transparent rounded-[12px] text-lg font-bold transition-all outline-none focus:border-blue-100 focus:bg-white focus:shadow-xl focus:shadow-blue-900/5 placeholder:text-slate-300"
+                      className="w-full pl-12 pr-8 py-3.5 bg-slate-100 border-2 border-transparent rounded-[12px] text-md font-bold transition-all outline-none focus:border-blue-100 focus:bg-white focus:shadow-xl focus:shadow-blue-900/5 placeholder:text-slate-300"
                     />
                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">
                       <Pin size={24} />
@@ -157,7 +157,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                       isSearching ||
                       guarantors.length >= limit
                     }
-                    className="w-full py-6 bg-blue-600 text-white rounded-[32px] font-bold flex items-center justify-center gap-3 shadow-xl shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                    className="w-full py-4 bg-blue-600 text-white rounded-[12px] font-bold flex items-center justify-center gap-3 shadow-xl shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     {isSearching ? (
                       <div className="size-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

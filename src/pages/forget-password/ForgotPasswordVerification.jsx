@@ -93,7 +93,7 @@ const ForgotOTPVerification = () => {
                 value={data}
                 onChange={(e) => handleChange(e.target, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
-                className="w-14 h-14 sm:w-14 sm:h-16 text-center text-xl font-black text-primary bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-secondary focus:bg-white focus:ring-4 focus:ring-blue-100/50 transition-all"
+                className="w-14 h-14 sm:w-12 sm:h-14 text-center text-xl font-black text-primary bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-secondary focus:bg-white focus:ring-4 focus:ring-blue-100/50 transition-all"
               />
             ))}
           </div>

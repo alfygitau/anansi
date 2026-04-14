@@ -29,7 +29,7 @@ const CustomToast = ({
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className={`fixed z-[100] ${positionClasses[position]} w-full max-w-sm`}
+          className={`fixed z-[200] ${positionClasses[position]} w-full max-w-sm`}
         >
           <div className="bg-white rounded-[32px] shadow-2xl shadow-blue-900/10 border border-slate-100 p-6 flex items-center gap-4 overflow-hidden relative">
             {/* Side Accent Line */}

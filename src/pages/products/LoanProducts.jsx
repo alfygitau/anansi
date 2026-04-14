@@ -133,7 +133,7 @@ const LoanProducts = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 text-primary pb-20">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl sm:px-4 mx-auto">
         {/* Header Section */}
         <header className="py-4">
           <h1 className="text-3xl font-black tracking-tight">Loan Products</h1>

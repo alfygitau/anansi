@@ -21,6 +21,7 @@ import {
   Calendar,
   X,
   Eye,
+  BadgePercent,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -268,7 +269,7 @@ const ApplyLoan = () => {
       </AnimatePresence>
 
       <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] pb-24 font-sans">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl sm:px-4 mx-auto">
           {/* --- PREMIUM HEADER --- */}
           <header className="flex flex-col md:flex-row md:items-center mb-8 justify-between gap-6">
             <div className="space-y-2">
@@ -300,49 +301,57 @@ const ApplyLoan = () => {
             {/* --- LEFT COLUMN: CONFIGURATION --- */}
             <div className="lg:col-span-7 space-y-8">
               {/* 1. APPLICANT CONTEXT */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white p-5 rounded-[28px] border border-slate-100 shadow-sm flex items-center gap-4">
-                  <div className="size-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white">
-                    <User size={20} />
-                  </div>
-                  <div>
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">
-                      Applicant
-                    </p>
-                    <p className="text-sm font-bold text-slate-900">
-                      {member.name}
-                    </p>
-                  </div>
-                </div>
-                <div className="bg-white p-5 rounded-[28px] border border-slate-100 shadow-sm flex items-center gap-4 hover:border-emerald-100 transition-all duration-300">
-                  {/* Icon Container */}
-                  <div className="size-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-emerald-100/50 shrink-0">
-                    <LayoutGrid size={20} />
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex flex-col min-w-0">
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.15em]">
-                        Loan Product
-                      </p>
-                      <span className="text-[8px] font-bold bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full border border-emerald-100 uppercase tracking-tighter">
-                        Verified
-                      </span>
+              <div className="flex flex-col gap-4">
+                {/* Unified Info Card */}
+                <div className="bg-white p-5 rounded-[32px] border border-slate-100 shadow-sm transition-all duration-300">
+                  <div className="flex flex-col md:flex-row md:items-center gap-5 md:gap-8">
+                    {/* Section 1: Applicant Info */}
+                    <div className="flex items-center gap-4 md:flex-1">
+                      <div className="size-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shrink-0">
+                        <User size={20} />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                          Applicant
+                        </p>
+                        <p className="text-base font-bold text-slate-900 truncate">
+                          {member.name}
+                        </p>
+                      </div>
                     </div>
+                    <div className="h-px w-full bg-slate-50 md:h-12 md:w-px md:bg-slate-100" />
+                    {/* Section 2: Loan Product Details */}
+                    <div className="flex items-start md:items-center gap-4 md:flex-[1.5]">
+                      <div className="size-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-emerald-100/50 shrink-0">
+                        <LayoutGrid size={20} />
+                      </div>
 
-                    <p className="text-sm font-bold text-slate-900 leading-tight truncate">
-                      Development Loan
-                    </p>
+                      <div className="flex flex-col min-w-0 flex-1">
+                        <div className="flex items-center justify-between md:justify-start gap-3 mb-1">
+                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.15em]">
+                            Loan Product
+                          </p>
+                          <span className="text-[8px] font-bold bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full border border-emerald-100 uppercase">
+                            Verified
+                          </span>
+                        </div>
 
-                    <div className="flex items-center gap-1.5 mt-1">
-                      <Percent size={10} className="text-emerald-500" />
-                      <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-tight">
-                        12% p.a{" "}
-                        <span className="text-[8px] opacity-60 ml-0.5">
-                          Reducing Balance
-                        </span>
-                      </p>
+                        <p className="text-base font-bold text-slate-900 leading-tight">
+                          Development Loan
+                        </p>
+
+                        <div className="flex items-center gap-1.5 mt-2">
+                          <div className="flex items-center gap-1 bg-slate-100 px-2 py-1 rounded-lg">
+                            <BadgePercent size={10} className="text-emerald-500" />
+                            <p className="text-[10px] font-bold text-slate-600 uppercase">
+                              12% p.a
+                              <span className="text-[8px] font-medium text-slate-400 ml-1">
+                                Reducing Balance
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -369,7 +378,7 @@ const ApplyLoan = () => {
                       value={amount}
                       onChange={(e) => setAmount(e.target.value)}
                       placeholder="0.00"
-                      className={`w-full pl-20 pr-8 py-3 bg-slate-50 border-2 rounded-[32px] text-3xl font-bold transition-all outline-none 
+                      className={`w-full pl-20 pr-8 py-3 bg-slate-50 border-2 rounded-[12px] text-3xl font-bold transition-all outline-none 
                       ${error ? "border-red-100 text-red-600 bg-red-50/30" : "border-transparent focus:border-blue-100 focus:bg-white text-slate-900"}`}
                     />
                     {error && (
