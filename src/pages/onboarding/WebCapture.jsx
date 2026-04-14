@@ -85,7 +85,10 @@ const WebCapture = () => {
 
   const { mutate: uploadUrlMutate, isLoading } = useMutation({
     mutationFn: async (file) => (await uploadSingleFile(file))?.data?.data?.url,
-    onSuccess: (url) => updateCustomerMutate(url),
+    onSuccess: (url) => {
+      console.log(url);
+      updateCustomerMutate(url);
+    },
     onError: (error) => {
       showToast({
         title: "Onboarding glitch",
