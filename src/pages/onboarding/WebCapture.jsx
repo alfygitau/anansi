@@ -86,7 +86,6 @@ const WebCapture = () => {
   const { mutate: uploadUrlMutate, isLoading } = useMutation({
     mutationFn: async (file) => (await uploadSingleFile(file))?.data?.data?.url,
     onSuccess: (url) => {
-      console.log(url);
       updateCustomerMutate(url);
     },
     onError: (error) => {

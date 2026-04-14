@@ -102,13 +102,9 @@ const SelfieCapture = () => {
   };
 
   const { mutate: uploadUrlMutate, isLoading } = useMutation({
-    mutationKey: ["upload-file"],
-    mutationFn: async ({ file }) => {
-      const response = await uploadSingleFile(file);
-      return response?.data?.data?.url;
-    },
-    onSuccess: async (data) => {
-      await updateCustomerMutate(data);
+    mutationFn: async (file) => (await uploadSingleFile(file))?.data?.data?.url,
+    onSuccess: (url) => {
+      updateCustomerMutate(url);
     },
     onError: (error) => {
       showToast({
