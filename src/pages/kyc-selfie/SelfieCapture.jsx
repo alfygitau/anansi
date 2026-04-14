@@ -119,12 +119,11 @@ const SelfieCapture = () => {
   const { mutate: updateCustomerMutate } = useMutation({
     mutationKey: ["update-customer-selfie"],
     mutationFn: (file) => updateSelfie(customer?.id, file, token),
-    onSuccess: async (data) => {
-      window.alert(JSON.stringify(data));
+    onSuccess: async () => {
       showToast({
         title: "Selfie Verified",
         type: "success",
-        position: "center",
+        position: "top-right",
         description:
           "Your identity has been successfully captured and synced with your profile.",
       });
