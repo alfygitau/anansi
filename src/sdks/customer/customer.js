@@ -70,12 +70,20 @@ export const sendWelcomeEmail = async (email) => {
   }
 };
 
-export const updateSelfie = async (id, selfieUrl) => {
+export const updateSelfie = async (id, selfieUrl, token) => {
   try {
-    const response = await client.patch(`/customer/${id}`, {
-      selfie_image: selfieUrl,
-      onboarding_stage: "personal-information",
-    });
+    const response = await client.patch(
+      `/customer/${id}`,
+      {
+        selfie_image: selfieUrl,
+        onboarding_stage: "personal-information",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
     return response;
   } catch (error) {
     throw error?.response?.data || error;
@@ -94,15 +102,15 @@ export const updateProfilePhoto = async (id, url) => {
 };
 
 const convertToISO = (dob) => {
-    if (!dob) return "";
-    const parts = dob.split(/\D+/);
-    if (parts.length !== 3) {
-      console.error("Invalid date format");
-      return dob;
-    }
-    const [day, month, year] = parts;
-    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-  };
+  if (!dob) return "";
+  const parts = dob.split(/\D+/);
+  if (parts.length !== 3) {
+    console.error("Invalid date format");
+    return dob;
+  }
+  const [day, month, year] = parts;
+  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+};
 
 export const updateCustomerPersonalInformation = async (
   id,

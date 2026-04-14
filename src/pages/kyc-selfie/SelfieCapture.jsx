@@ -118,7 +118,7 @@ const SelfieCapture = () => {
 
   const { mutate: updateCustomerMutate } = useMutation({
     mutationKey: ["update-customer-selfie"],
-    mutationFn: (file) => updateSelfie(customer?.id, file),
+    mutationFn: (file) => updateSelfie(customer?.id, file, token),
     onSuccess: async (data) => {
       window.alert(JSON.stringify(data));
       showToast({
