@@ -104,7 +104,6 @@ const SelfieCapture = () => {
   const { mutate: uploadUrlMutate, isLoading } = useMutation({
     mutationFn: async (file) => (await uploadSingleFile(file))?.data?.data?.url,
     onSuccess: (url) => {
-      window.alert(url);
       updateCustomerMutate(url);
     },
     onError: (error) => {
@@ -120,7 +119,8 @@ const SelfieCapture = () => {
   const { mutate: updateCustomerMutate } = useMutation({
     mutationKey: ["update-customer-selfie"],
     mutationFn: (file) => updateSelfie(customer?.id, file),
-    onSuccess: async () => {
+    onSuccess: async (data) => {
+      window.alert(JSON.stringify(data));
       showToast({
         title: "Selfie Verified",
         type: "success",
