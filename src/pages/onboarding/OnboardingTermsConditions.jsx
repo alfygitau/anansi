@@ -104,7 +104,7 @@ const TermsAndConditions = () => {
     mutationFn: () => updateCustomerStatuses(auth?.user?.id),
     onSuccess: async () => {
       await Promise.all([savingsMutate(), sharesMutate()]);
-      await welcomeEmailMutate();
+      // await welcomeEmailMutate();
     },
     onError: (error) => {
       showToast({
