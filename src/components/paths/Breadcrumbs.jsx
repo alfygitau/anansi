@@ -24,7 +24,7 @@ const routeLabels = {
   // Dashboard & Treasury
   home: "Dashboard",
   "account-details": "Treasury",
-  statements: "Ledger",
+  statements: "Statements",
   notifications: "Activity",
   profile: "Member Profile",
   // Loans & Credit Build-up
