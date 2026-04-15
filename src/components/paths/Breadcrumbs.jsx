@@ -124,7 +124,7 @@ const Breadcrumbs = () => {
 
   return (
     <nav className="w-full bg-gray-50 py-1 z-40 transition-all">
-      <div className="max-w-6xl mx-auto flex items-center gap-4">
+      <div className="max-w-6xl mx-auto py-1 flex items-center gap-4">
         {/* Modern "Live System" Badge */}
         <div className="hidden sm:flex items-center justify-center w-9 h-9 rounded-xl bg-primary/5 text-primary border border-primary/10 shadow-inner">
           <Zap size={16} fill="currentColor" className="opacity-70" />
@@ -146,7 +146,7 @@ const Breadcrumbs = () => {
                   {index > 0 && (
                     <ChevronRight
                       size={12}
-                      className="mx-2 text-slate-300 flex-shrink-0"
+                      className="mx-2 text-slate-400 flex-shrink-0"
                       strokeWidth={3}
                     />
                   )}
@@ -159,14 +159,14 @@ const Breadcrumbs = () => {
                       <span className="text-slate-400 group-hover:text-primary transition-colors">
                         {item.icon}
                       </span>
-                      <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest group-hover:text-primary">
+                      <span className="text-[13px] font-bold text-slate-500 uppercase tracking-widest group-hover:text-primary">
                         {item.label}
                       </span>
                     </Link>
                   ) : (
-                    <div className="flex items-center gap-2 bg-primary px-4 py-2 rounded-xl shadow-lg shadow-blue-900/20">
-                      <span className="text-white/80">{item.icon}</span>
-                      <span className="text-[10px] font-black text-white uppercase tracking-[0.15em]">
+                    <div className="flex items-center gap-2">
+                      <span className="text-primary">{item.icon}</span>
+                      <span className="text-[13px] font-black text-primary uppercase tracking-[0.15em]">
                         {item.label}
                       </span>
                     </div>
