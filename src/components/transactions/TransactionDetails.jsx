@@ -9,8 +9,10 @@ import {
   Phone,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useFormatAmount } from "../../hooks/useFormatAmount";
 
 const TransactionDetails = ({ isOpen, onClose, transaction }) => {
+  const formatAmount = useFormatAmount();
   if (!transaction) return null;
 
   const statusColors = {
@@ -43,21 +45,20 @@ const TransactionDetails = ({ isOpen, onClose, transaction }) => {
                 <X size={20} />
               </button>
               <h2 className="text-3xl font-black text-slate-900">
-                {transaction.currency_id.includes("993") ? "KES" : "$"}{" "}
-                {parseFloat(transaction.amount).toLocaleString()}
+                {formatAmount(transaction?.amount)}
               </h2>
               <p className="text-slate-500 font-medium mt-1">
-                {transaction.type}
+                {transaction?.type}
               </p>
               <div
                 className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-wider mt-4 ${statusColors[transaction.status]}`}
               >
-                {transaction.status === "pending" ? (
+                {transaction?.status === "pending" ? (
                   <Clock size={12} />
                 ) : (
                   <CheckCircle2 size={12} />
                 )}
-                {transaction.status}
+                {transaction?.status}
               </div>
             </div>
 

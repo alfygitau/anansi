@@ -30,6 +30,7 @@ import DepositAmount from "../../components/deposit-savings/DepositAmount";
 import ReviewDeposit from "../../components/deposit-savings/ConfirmDeposit";
 import AwaitDepositPayment from "../../components/deposit-savings/AwaitDepositPayment";
 import TransactionDetails from "../../components/transactions/TransactionDetails";
+import { useFormatAmount } from "../../hooks/useFormatAmount";
 
 const AccountDetails = () => {
   const [balanceVisible, setBalanceVisible] = useState(true);
@@ -41,7 +42,7 @@ const AccountDetails = () => {
   const [showInvestAmount, setShowInvestAmount] = useState(false);
   const [showConfirmInvestment, setShowConfirmInvestment] = useState(false);
   const [showAwaitPayment, setShowAwaitPayment] = useState(false);
-
+  const formatAmount = useFormatAmount();
   const [showDepositAmount, setShowDepositAmount] = useState(false);
   const [showReviewDeposit, setShowReviewDeposit] = useState(false);
   const [showAwaitDepositPayment, setShowAwaitDepositPayment] = useState(false);
@@ -193,7 +194,7 @@ const AccountDetails = () => {
                   <div className="flex items-center gap-6">
                     <h2 className="text-4xl font-black tracking-tighter">
                       {balanceVisible
-                        ? `KES ${formatNumber(account?.balance)}`
+                        ? `${formatAmount(account?.balance)}`
                         : "KES ••••••••"}
                     </h2>
                     <button
@@ -396,38 +397,41 @@ const VerticalAction = ({ icon, label, color, darkText = false, onClick }) => (
   </button>
 );
 
-const TransactionRow = ({ tx, setTransaction, setShowTransactionDetails }) => (
-  <div
-    onClick={() => {
-      setTransaction(tx);
-      setShowTransactionDetails(true);
-    }}
-    className="bg-white p-5 cursor-pointer rounded-[28px] border border-slate-200 flex items-center justify-between hover:border-secondary/30 transition-all cursor-pointer group"
-  >
-    <div className="flex items-center gap-4">
-      <div className="w-12 h-12 bg-slate-100 text-slate-400 group-hover:bg-green-50 group-hover:text-green-600 rounded-2xl flex items-center justify-center transition-colors">
-        <Smartphone size={22} />
+const TransactionRow = ({ tx, setTransaction, setShowTransactionDetails }) => {
+  const formatAmount = useFormatAmount();
+  return (
+    <div
+      onClick={() => {
+        setTransaction(tx);
+        setShowTransactionDetails(true);
+      }}
+      className="bg-white p-5 cursor-pointer rounded-[28px] border border-slate-200 flex items-center justify-between hover:border-secondary/30 transition-all cursor-pointer group"
+    >
+      <div className="flex items-center gap-4">
+        <div className="w-12 h-12 bg-slate-100 text-slate-400 group-hover:bg-green-50 group-hover:text-green-600 rounded-2xl flex items-center justify-center transition-colors">
+          <Smartphone size={22} />
+        </div>
+        <div>
+          <p className="text-[10px] text-slate-400 font-mono tracking-tight uppercase">
+            {tx.public_id}
+          </p>
+          <h4 className="text-sm font-black text-primary">{tx.type}</h4>
+          <p className="text-[10px] text-slate-400 font-mono tracking-tight uppercase">
+            {tx.ref_number} • {tx.createdAt}
+          </p>
+        </div>
       </div>
-      <div>
-        <p className="text-[10px] text-slate-400 font-mono tracking-tight uppercase">
-          {tx.public_id}
+      <div className="text-right">
+        <p className="text-base font-black text-green-600 font-mono">
+          {formatAmount(tx?.amount)}
         </p>
-        <h4 className="text-sm font-black text-primary">{tx.type}</h4>
-        <p className="text-[10px] text-slate-400 font-mono tracking-tight uppercase">
-          {tx.ref_number} • {tx.createdAt}
+        <p className="text-[9px] font-bold uppercase text-slate-300 tracking-widest">
+          {tx.status}
         </p>
       </div>
     </div>
-    <div className="text-right">
-      <p className="text-base font-black text-green-600 font-mono">
-        {tx.amount}
-      </p>
-      <p className="text-[9px] font-bold uppercase text-slate-300 tracking-widest">
-        {tx.status}
-      </p>
-    </div>
-  </div>
-);
+  );
+};
 
 const DisclaimerItem = ({ text }) => (
   <li className="flex gap-3 items-start">
