@@ -173,16 +173,18 @@ const Homepage = () => {
     },
   });
 
-  const { refetch: refetchSharesSummary, isFetching: loadingShares } = useQuery({
-    queryKey: ["get shares summary"],
-    queryFn: async () => {
-      const response = await getSharesSummary(auth?.user?.public_id);
-      return response.data.data;
+  const { refetch: refetchSharesSummary, isFetching: loadingShares } = useQuery(
+    {
+      queryKey: ["get shares summary"],
+      queryFn: async () => {
+        const response = await getSharesSummary(auth?.user?.public_id);
+        return response.data.data;
+      },
+      onSuccess: (data) => {
+        setCurrentShares(data?.numberOfShares);
+      },
     },
-    onSuccess: (data) => {
-      setCurrentShares(data?.numberOfShares);
-    },
-  });
+  );
 
   const sortedAccounts = useMemo(() => {
     if (!accounts) return [];
@@ -552,26 +554,7 @@ const Homepage = () => {
             </div>
           </section>
 
-          {/* Smaller Quick Actions */}
-          <section className="mb-10">
-            <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
-              Explore Products
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {loanProducts.length > 0 ? (
-                loanProducts.map((product) => (
-                  <QuickAction
-                    key={product.id}
-                    label={product.label}
-                    icon={product.icon}
-                  />
-                ))
-              ) : (
-                <ProductsEmptyState />
-              )}
-            </div>
-          </section>
-          <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-2">
             Loans & Applications
           </h2>
 
@@ -618,6 +601,26 @@ const Homepage = () => {
               )}
             </section>
           </div>
+
+           {/* Smaller Quick Actions */}
+          <section className="mb-10">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
+              Explore Products
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {loanProducts.length > 0 ? (
+                loanProducts.map((product) => (
+                  <QuickAction
+                    key={product.id}
+                    label={product.label}
+                    icon={product.icon}
+                  />
+                ))
+              ) : (
+                <ProductsEmptyState />
+              )}
+            </div>
+          </section>
         </div>
       )}
     </>

@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Navigation from "../components/navigation/Navigation";
+import Breadcrumbs from "../components/paths/Breadcrumbs";
 
 const Homelayer = () => {
   return (
@@ -8,6 +9,7 @@ const Homelayer = () => {
         <Navigation />
       </div>
       <div className="pb-[120px]">
+        <Breadcrumbs />
         <Outlet />
       </div>
     </div>
