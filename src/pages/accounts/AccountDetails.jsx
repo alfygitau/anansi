@@ -164,21 +164,6 @@ const AccountDetails = () => {
       ) : (
         <div className="min-h-screen bg-slate-50 text-primary pb-20">
           <div className="max-w-6xl sm:px-4 mx-auto">
-            {/* Navigation Header */}
-            <header className="py-1 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => navigate(-1)}
-                  className="p-2 hover:bg-slate-100 rounded-full transition-colors"
-                >
-                  <ArrowLeft size={20} />
-                </button>
-                <h1 className="text-xl font-black tracking-tight uppercase tracking-widest text-[11px] text-slate-400">
-                  Account Details
-                </h1>
-              </div>
-            </header>
-
             {/* 1. Hero Balance Card & Quick Actions (Grid Layout) */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
               {/* Main Balance Area (8 Cols) */}
