@@ -49,6 +49,7 @@ const TermsAndConditions = () => {
         auth?.user?.id,
       ),
     onSuccess: () => {
+      // welcomeEmailMutate()
       showToast({
         title: "Terms Accepted",
         type: "success",
@@ -76,6 +77,9 @@ const TermsAndConditions = () => {
         auth?.user?.lastname,
         auth?.user?.id,
       ),
+    onSuccess: async () => {
+      await sharesMutate();
+    },
     onError: (error) => {
       showToast({
         title: "Authentication glitch",
@@ -104,7 +108,6 @@ const TermsAndConditions = () => {
     mutationFn: () => updateCustomerStatuses(auth?.user?.id),
     onSuccess: async () => {
       await savingsMutate();
-      await sharesMutate();
     },
     onError: (error) => {
       showToast({
