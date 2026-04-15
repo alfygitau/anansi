@@ -47,6 +47,7 @@ import HomeLoader from "../../skeletons/HomeLoader";
 import { getSharesSummary } from "../../sdks/accounts/accounts";
 import useAuth from "../../hooks/useAuth";
 import { useStore } from "../../store/useStore";
+import { useFormatAmount } from "../../hooks/useFormatAmount";
 
 const Homepage = () => {
   const navigate = useNavigate();
@@ -134,6 +135,7 @@ const Homepage = () => {
     useState(false);
   const [showAwaitMembershipPayment, setShowAwaitMembershipPayment] =
     useState(false);
+  const formatAmount = useFormatAmount();
 
   const formatNumber = (value) => {
     if (value === null || value === undefined || isNaN(value)) return "0";
@@ -459,7 +461,7 @@ const Homepage = () => {
                     <div className="inline-flex items-center gap-2 rounded-lg bg-white/60 px-3 py-1.5 border border-cyan-100">
                       <Wallet size={14} className="text-cyan-600" />
                       <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-800">
-                        KES {formatNumber(remainingShares * shareValue)}{" "}
+                        {formatAmount(remainingShares * shareValue)}&nbsp;
                         remaining to reach goal
                       </span>
                     </div>
@@ -490,7 +492,7 @@ const Homepage = () => {
                     </div>
 
                     <p className="px-1 text-right text-[12px] font-bold text-slate-500">
-                      {formatNumber(currentShares)}{" "}
+                      {formatNumber(currentShares)}&nbsp;
                       <span className="text-slate-300">/</span> 10 Shares
                     </p>
                   </div>
@@ -518,7 +520,7 @@ const Homepage = () => {
                   key={account.id || index}
                   title={account?.product?.name || "Savings Account"}
                   accountNumber={account.account_number || "ACC-XXXXX"}
-                  balance={`KES ${formatNumber(account?.balance)}`}
+                  balance={formatAmount(account?.balance)}
                   isPrimary={account?.product?.name === "Savings"}
                   navigateToAccountDetails={() =>
                     navigate(
@@ -602,7 +604,7 @@ const Homepage = () => {
             </section>
           </div>
 
-           {/* Smaller Quick Actions */}
+          {/* Smaller Quick Actions */}
           <section className="mb-10">
             <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
               Explore Products

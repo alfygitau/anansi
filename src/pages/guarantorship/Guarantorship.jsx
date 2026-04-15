@@ -147,6 +147,23 @@ const Guarantorship = () => {
     await refetchSummary();
   };
 
+  /**
+   * Converts a number or string into a formatted KES string.
+   * Example: 3000 -> KES 3,000.00
+   */
+  const formatKES = (amount) => {
+    // Handle cases where amount might be 0 or null
+    const numericAmount = Number(amount) || 0;
+
+    return new Intl.NumberFormat("en-KE", {
+      style: "currency",
+      currency: "KES",
+      currencyDisplay: "code",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(numericAmount);
+  };
+
   return (
     <>
       <ReviewRequest
@@ -294,13 +311,13 @@ const Guarantorship = () => {
               <StatCard
                 icon={<Wallet className="text-emerald-500" />}
                 label="Available Balance"
-                value={`KES ${summary?.availableBalance?.toLocaleString()}`}
+                value={formatKES(summary?.availableBalance)}
                 sub="To guarantee"
               />
               <StatCard
                 icon={<Users className="text-amber-500" />}
                 label="Total Guaranteed"
-                value={`KES ${summary?.totalAmountAlreadyGuaranteed?.toLocaleString()}`}
+                value={formatKES(summary?.totalAmountAlreadyGuaranteed)}
                 sub="Cumulative amount"
               />
             </div>
@@ -457,7 +474,7 @@ const Guarantorship = () => {
                                 Guaranteed
                               </p>
                               <p className="text-sm font-black text-emerald-600">
-                                KES {loan?.amountGuaranteed.toLocaleString()}
+                                {formatKES(loan?.amountGuaranteed)}
                               </p>
                             </div>
                           </div>
