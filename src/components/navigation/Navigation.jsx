@@ -17,16 +17,19 @@ import {
   Users,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
 import { motion, AnimatePresence } from "framer-motion";
+import { useStore } from "../../store/useStore";
+import useAuth from "../../hooks/useAuth";
 
 const Navigation = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { auth } = useAuth();
+  const registeredUser = useStore((state) => state.registeredUser);
   const navigate = useNavigate();
   const location = useLocation();
   const dropdownRef = useRef(null);
+  const resetStore = useStore((state) => state.resetStore);
+  const { setAuth } = useAuth();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -101,11 +104,14 @@ const Navigation = () => {
               >
                 <div className="flex flex-col items-end hidden md:block">
                   <span className="text-[11px] font-black text-primary leading-none uppercase tracking-wider">
-                    {auth?.user?.firstname} {auth?.user?.lastname}
+                    {registeredUser?.firstname} {registeredUser?.lastname}
                   </span>
                 </div>
                 <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-900/20">
-                  {getInitials(auth?.user?.firstname, auth?.user?.lastname)}
+                  {getInitials(
+                    registeredUser?.firstname,
+                    registeredUser?.lastname,
+                  )}
                 </div>
                 <ChevronDown
                   size={16}
@@ -171,6 +177,8 @@ const Navigation = () => {
                     onClick={() => {
                       setIsProfileOpen(false);
                       navigate("/auth/login");
+                      resetStore();
+                      setAuth({});
                     }}
                     className="w-full flex items-center gap-3 px-4 py-3 text-rose-500 hover:bg-rose-50 rounded-2xl transition-all group"
                   >

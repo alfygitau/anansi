@@ -14,6 +14,7 @@ import { loginUser, resendOtp } from "../../sdks/auth/auth";
 import { useMutation } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
 import useAuth from "../../hooks/useAuth";
+import { useStore } from "../../store/useStore";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,6 +23,7 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const { showToast } = useToast();
   const { setAuth } = useAuth();
+  const setRegisteredUser = useStore((state) => state.setRegisteredUser);
 
   const validateField = (name, value) => {
     let error = "";
@@ -75,6 +77,7 @@ const Login = () => {
     mutationFn: () => loginUser(formData.memberId, formData.password),
     onSuccess: (data) => {
       setAuth(data?.data?.data);
+      setRegisteredUser(data?.data?.data?.user);
       showToast({
         title: "Authentication Success",
         type: "success",

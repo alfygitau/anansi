@@ -1,16 +1,18 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ShieldCheck, ArrowRight, LogOut, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useStore } from "../../store/useStore";
 
 const StartMembership = ({ isOpen, onPay, onLogout }) => {
   const navigate = useNavigate();
+  const resetStore = useStore((state) => state.resetStore);
 
   const handleLogout = () => {
     const deviceId = localStorage.getItem("anansi_device_id");
     localStorage.clear();
     sessionStorage.clear();
     if (deviceId) localStorage.setItem("anansi_device_id", deviceId);
-
+    resetStore();
     if (onLogout) onLogout();
     navigate("/auth/login");
   };

@@ -13,6 +13,7 @@ import {
   createAccountSavings,
   createAccountShares,
 } from "../../sdks/accounts/accounts";
+import { useStore } from "../../store/useStore";
 
 const TermsAndConditions = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const TermsAndConditions = () => {
   const [welcomeEmail, setWelcomeEmail] = useState("");
   const { auth } = useAuth();
   const { showToast } = useToast();
+  const setRegisteredUser = useStore((state) => state.setRegisteredUser);
 
   useQuery({
     queryKey: ["get customer by id"],
@@ -28,6 +30,7 @@ const TermsAndConditions = () => {
       return response.data.data;
     },
     onSuccess: (data) => {
+      setRegisteredUser(data);
       setWelcomeEmail(data?.email);
     },
     onError: (error) => {

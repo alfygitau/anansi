@@ -11,6 +11,7 @@ const initialState = {
   forgetEmail: null,
   kyc_details: null,
   id_images: null,
+  registeredUser: {},
 };
 
 export const useStore = create(
@@ -32,6 +33,9 @@ export const useStore = create(
 
       setMembership: (data) => set({ membership: data }),
       clearMembership: () => set({ membership: {} }),
+
+      setRegisteredUser: (data) => set({ registeredUser: data }),
+      clearRegisteredUser: () => set({ registeredUser: {} }),
 
       setMembershipMobile: (mobile) => set({ membership_mobile: mobile }),
       setForgetEmail: (data) => set({ forgetEmail: data }),
