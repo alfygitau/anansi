@@ -87,15 +87,6 @@ const AccountDetails = () => {
     },
   });
 
-  const formatNumber = (value) => {
-    if (value === null || value === undefined || isNaN(value)) return "0";
-
-    return new Intl.NumberFormat("en-KE", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(value);
-  };
-
   return (
     <>
       <InvestAmount

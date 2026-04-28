@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   CheckCircle,
   Fingerprint,
@@ -11,10 +11,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const AccountSuccess = ({
-  user = { username: "Member" },
-  onStartVerification,
-}) => {
+const AccountSuccess = ({ user = { username: "Member" } }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
