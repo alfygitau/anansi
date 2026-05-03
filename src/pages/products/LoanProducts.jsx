@@ -1,23 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
-  Building2,
-  TrendingUp,
   Zap,
-  Stethoscope,
   GraduationCap,
   Car,
   Smartphone,
-  ShoppingBag,
   Home,
   Plane,
   HeartPulse,
   Briefcase,
-  Rocket,
-  Landmark,
-  Users,
   Search,
   Filter,
-  ArrowRight,
+  Info,
+  Leaf,
+  ShieldCheck,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -27,108 +22,129 @@ const LoanProducts = () => {
 
   const allProducts = [
     {
-      id: 1,
-      label: "Development",
-      icon: <Building2 />,
+      id: "prod_01",
+      name: "Flash Emergency",
+      cat: "Instant Loan",
+      description:
+        "Get instant funds for urgent bills and unexpected expenses within minutes.",
+      icon: Zap,
+      rate: "1.5%",
+      maxAmount: "50,000",
+      period: "1 Month",
+      color: "#F59E0B",
+    },
+    {
+      id: "prod_02",
+      name: "Mortgage Plus",
+      cat: "Housing",
+      description:
+        "Flexible financing options to help you own your dream home with ease.",
+      icon: Home,
+      rate: "9.0%",
+      maxAmount: "15,000,000",
+      period: "240 Months",
+      color: "#042159",
+    },
+    {
+      id: "prod_03",
+      name: "Asset Financing",
+      cat: "Vehicle",
+      description:
+        "Drive your ambition with low-interest loans for new and used vehicles.",
+      icon: Car,
+      rate: "11.5%",
+      maxAmount: "3,500,000",
+      period: "60 Months",
+      color: "#3B82F6",
+    },
+    {
+      id: "prod_04",
+      name: "Edu-Advance",
+      cat: "Education",
+      description:
+        "Invest in your future with specialized loans covering tuition and supplies.",
+      icon: GraduationCap,
+      rate: "8.5%",
+      maxAmount: "500,000",
+      period: "12 Months",
+      color: "#8B5CF6",
+    },
+    {
+      id: "prod_05",
+      name: "SME Growth",
       cat: "Business",
-      rate: "12%",
+      description:
+        "Scale your business operations with working capital and equipment loans.",
+      icon: Briefcase,
+      rate: "13.0%",
+      maxAmount: "10,000,000",
+      period: "48 Months",
+      color: "#10B981",
     },
     {
-      id: 2,
-      label: "Jijenge",
-      icon: <TrendingUp />,
-      cat: "Investment",
-      rate: "10%",
-    },
-    { id: 3, label: "Flash Loan", icon: <Zap />, cat: "Emergency", rate: "5%" },
-    {
-      id: 4,
-      label: "Emergency",
-      icon: <Stethoscope />,
-      cat: "Emergency",
-      rate: "8%",
+      id: "prod_06",
+      name: "Medi-Shield",
+      cat: "Medical",
+      description:
+        "Comprehensive medical loans to ensure health emergencies never catch you off guard.",
+      icon: HeartPulse,
+      rate: "7.0%",
+      maxAmount: "1,200,000",
+      period: "24 Months",
+      color: "#EF4444",
     },
     {
-      id: 5,
-      label: "Education",
-      icon: <GraduationCap />,
-      cat: "Personal",
-      rate: "7%",
+      id: "prod_07",
+      name: "Global Explorer",
+      cat: "Travel",
+      description:
+        "Finance your vacations or business trips with competitive travel rates.",
+      icon: Plane,
+      rate: "10.0%",
+      maxAmount: "800,000",
+      period: "18 Months",
+      color: "#06B6D4",
     },
     {
-      id: 6,
-      label: "Asset Finance",
-      icon: <Car />,
-      cat: "Business",
-      rate: "11%",
+      id: "prod_08",
+      name: "Gadget Loan",
+      cat: "Electronics",
+      description:
+        "Upgrade your tech today and pay in easy monthly installments.",
+      icon: Smartphone,
+      rate: "15.0%",
+      maxAmount: "150,000",
+      period: "6 Months",
+      color: "#6366F1",
     },
     {
-      id: 7,
-      label: "Mobile Loan",
-      icon: <Smartphone />,
-      cat: "Personal",
-      rate: "6%",
+      id: "prod_09",
+      name: "Agri-Green",
+      cat: "Agriculture",
+      description:
+        "Specially designed loans for farmers to purchase seeds, tools, and equipment.",
+      icon: Leaf,
+      rate: "6.5%",
+      maxAmount: "2,000,000",
+      period: "36 Months",
+      color: "#15803D",
     },
     {
-      id: 8,
-      label: "Biashara",
-      icon: <ShoppingBag />,
-      cat: "Business",
-      rate: "13%",
-    },
-    {
-      id: 9,
-      label: "Home Refurb",
-      icon: <Home />,
-      cat: "Personal",
-      rate: "9%",
-    },
-    {
-      id: 10,
-      label: "Travel Loan",
-      icon: <Plane />,
-      cat: "Personal",
-      rate: "10%",
-    },
-    {
-      id: 11,
-      label: "Health Cover",
-      icon: <HeartPulse />,
-      cat: "Emergency",
-      rate: "4%",
-    },
-    {
-      id: 12,
-      label: "Start-up Cap",
-      icon: <Rocket />,
-      cat: "Business",
-      rate: "14%",
-    },
-    {
-      id: 13,
-      label: "Salary Advance",
-      icon: <Briefcase />,
-      cat: "Personal",
-      rate: "5%",
-    },
-    {
-      id: 14,
-      label: "Land Purchase",
-      icon: <Landmark />,
-      cat: "Investment",
-      rate: "11%",
-    },
-    {
-      id: 15,
-      label: "Chama Loan",
-      icon: <Users />,
-      cat: "Investment",
-      rate: "9%",
+      id: "prod_10",
+      name: "Credit Protector",
+      cat: "Insurance",
+      description:
+        "Refinance existing high-interest debts into one manageable monthly payment.",
+      icon: ShieldCheck,
+      rate: "12.0%",
+      maxAmount: "5,000,000",
+      period: "72 Months",
+      color: "#475569",
     },
   ];
 
   const filteredProducts = allProducts.filter((p) =>
-    p.label.toLowerCase().includes(searchQuery.toLowerCase()),
+    p.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
@@ -164,10 +180,10 @@ const LoanProducts = () => {
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProducts.map((product) => (
-            <ProductCard
+            <DetailedProductCard
               key={product.id}
               product={product}
-              navigate={() => navigate("/loan-eligibility")}
+              onApply={() => navigate("/loan-eligibility")}
             />
           ))}
         </div>
@@ -187,42 +203,81 @@ const LoanProducts = () => {
 
 /* --- Sub-Component: ProductCard --- */
 
-const ProductCard = ({ product, navigate }) => (
-  <div className="bg-white p-6 rounded-[32px] border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-blue-900/5 transition-all group cursor-pointer relative overflow-hidden">
-    {/* Decorative Background Icon */}
-    <div className="absolute -right-4 -bottom-4 text-slate-50 opacity-0 group-hover:opacity-100 transition-opacity">
-      {React.cloneElement(product.icon, { size: 100 })}
-    </div>
+const DetailedProductCard = ({ product, onApply }) => {
+  const {
+    name,
+    description,
+    icon: Icon,
+    rate,
+    maxAmount,
+    period,
+    color = "#042159",
+  } = product;
 
-    <div className="flex justify-between items-start mb-6 relative z-10">
-      <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-primary group-hover:bg-secondary group-hover:text-white transition-all duration-300">
-        {React.cloneElement(product.icon, { size: 28, strokeWidth: 1.5 })}
+  return (
+    <div className="group bg-white rounded-[32px] border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-blue-900/5 transition-all overflow-hidden mb-6">
+      {/* Top Section: Icon, Rate, and Content */}
+      <div className="p-6">
+        <div className="flex justify-between items-start mb-5">
+          {/* Main Icon Box */}
+          <div
+            className="w-14 h-14 rounded-2xl flex items-center justify-center transition-colors duration-300"
+            style={{ backgroundColor: `${color}1A`, color: color }} // 1A = 10% opacity
+          >
+            <Icon size={28} strokeWidth={1.5} />
+          </div>
+
+          {/* Rate Badge */}
+          <span className="text-[11px] font-black uppercase tracking-widest text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
+            {rate} P.A
+          </span>
+        </div>
+
+        {/* Title and Description */}
+        <div className="mb-6">
+          <h3 className="text-xl font-black text-slate-900 tracking-tight mb-2 group-hover:text-secondary transition-colors">
+            {name}
+          </h3>
+          <p className="text-sm text-slate-500 leading-relaxed max-w-md">
+            {description}
+          </p>
+        </div>
+
+        {/* Info Grid (Mimicking the Flutter _buildInfoColumn) */}
+        <div className="flex items-center justify-between py-4 border-t border-slate-50">
+          <InfoColumn label="MAX AMOUNT" value={`KES ${maxAmount}`} />
+          <div className="h-8 w-px bg-slate-100" /> {/* Vertical Divider */}
+          <InfoColumn label="TENURE" value={period} />
+          <div className="h-8 w-px bg-slate-100" /> {/* Vertical Divider */}
+          <InfoColumn label="REPAYMENT" value="Monthly" />
+        </div>
       </div>
-      <span className="text-[10px] font-black uppercase tracking-widest text-secondary bg-secondary/5 px-3 py-1 rounded-full">
-        {product.rate} P.A
-      </span>
-    </div>
 
-    <div className="relative z-10">
-      <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">
-        {product.cat}
-      </p>
-      <h3 className="text-lg font-bold group-hover:text-secondary transition-colors">
-        {product.label}
-      </h3>
-    </div>
+      {/* Bottom Action Bar */}
+      <div className="bg-slate-50 px-6 py-4 flex items-center justify-between border-t border-slate-100">
+        <div className="flex items-center gap-1 text-[10px] font-semibold text-slate-400">
+          <Info size={12} />
+          <span>Terms & Conditions apply</span>
+        </div>
 
-    <div className="mt-6 flex items-center justify-between relative z-10">
-      <span className="text-xs font-bold text-slate-400 group-hover:text-primary transition-colors flex items-center gap-1">
-        Learn More <ArrowRight size={14} />
-      </span>
-      <button
-        onClick={navigate}
-        className="px-4 py-2 bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-[7px] shadow-lg shadow-blue-900/10 hover:bg-secondary transition-all active:scale-95"
-      >
-        Apply Now
-      </button>
+        <button
+          onClick={onApply}
+          className="px-6 py-2.5 bg-[#042159] text-white text-[11px] font-black uppercase tracking-widest rounded-xl shadow-lg shadow-blue-900/10 hover:bg-slate-800 transition-all active:scale-95"
+        >
+          Apply Now
+        </button>
+      </div>
     </div>
+  );
+};
+
+// Helper Sub-component for the Info Grid
+const InfoColumn = ({ label, value }) => (
+  <div className="flex flex-col gap-1">
+    <span className="text-[9px] font-black text-slate-400 tracking-wider uppercase">
+      {label}
+    </span>
+    <span className="text-xs font-bold text-slate-700">{value}</span>
   </div>
 );
 
