@@ -6,6 +6,7 @@ import {
   ExternalLink,
   Scale,
   ShieldCheck,
+  Info,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -77,28 +78,68 @@ const ApplyLoan = () => {
               {/* Tenure Selection */}
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
-                  <label className="text-[11px] font-bold uppercase tracking-widest text-slate-500">
-                    Repayment Period
-                  </label>
-                  <span className="text-sm font-bold text-blue-600">
-                    {tenure} Months
-                  </span>
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-[900] uppercase tracking-[0.15em] text-slate-400">
+                      Repayment Period
+                    </label>
+                    <p className="text-[10px] text-slate-400 font-medium">
+                      Monthly increments up to 4 years
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-2xl font-black text-blue-600">
+                      {tenure}
+                    </span>
+                    <span className="text-xs font-bold text-slate-400 ml-1 uppercase">
+                      Months
+                    </span>
+                  </div>
                 </div>
-                <input
-                  type="range"
-                  min="6"
-                  max="48"
-                  step="6"
-                  value={tenure}
-                  onChange={(e) => setTenure(parseInt(e.target.value))}
-                  className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600"
-                />
-                <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
-                  <span>6 Months</span>
-                  <span>12</span>
-                  <span>24</span>
-                  <span>36</span>
-                  <span>Max: 48 Months</span>
+
+                <div className="relative pt-2">
+                  <input
+                    type="range"
+                    min="1"
+                    max="48"
+                    step="1" // Changed from 6 to 1 for monthly sliding
+                    value={tenure}
+                    onChange={(e) => setTenure(parseInt(e.target.value))}
+                    className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600 hover:accent-blue-700 transition-all"
+                  />
+
+                  {/* Dynamic Progress Track (Optional Visual Polish) */}
+                  <div className="flex justify-between mt-4 px-1">
+                    {[1, 12, 24, 36, 48].map((marker) => (
+                      <div
+                        key={marker}
+                        className="flex flex-col items-center gap-1"
+                      >
+                        <div
+                          className={`h-1 w-px ${tenure >= marker ? "bg-blue-600" : "bg-slate-200"}`}
+                        />
+                        <span
+                          className={`text-[9px] font-black tracking-tighter uppercase transition-colors ${tenure >= marker ? "text-blue-600" : "text-slate-300"}`}
+                        >
+                          {marker === 1
+                            ? "1 Mo"
+                            : marker === 48
+                              ? "48 Mo"
+                              : marker}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Disclosure for granular selection */}
+                <div className="p-4 bg-blue-50/50 rounded-xl border border-blue-100/50 flex gap-3">
+                  <Info size={14} className="text-blue-600 shrink-0 mt-0.5" />
+                  <p className="text-[10px] leading-relaxed text-blue-800 font-medium">
+                    Selecting a custom tenure affects the reducing balance
+                    interest calculation. Total interest for{" "}
+                    <span className="font-bold">{tenure} months</span> is
+                    amortized across each installment.
+                  </p>
                 </div>
               </div>
 
@@ -168,12 +209,12 @@ const ApplyLoan = () => {
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                       Monthly Installment
                     </p>
-                    <p className="text-4xl font-bold tracking-tight">
-                      <span className="text-xl mr-2 text-slate-300 font-medium tracking-normal">
+                    <p className="text-xl font-bold tracking-tight">
+                      <span className="text-xl mr-2 font-medium tracking-normal">
                         KES
                       </span>
                       {installment.toLocaleString(undefined, {
-                        maximumFractionDigits: 0,
+                        maximumFractionDigits: 2,
                       })}
                     </p>
                   </div>
@@ -184,7 +225,7 @@ const ApplyLoan = () => {
                     <p className="text-xl font-bold">
                       KES{" "}
                       {totalRepayable.toLocaleString(undefined, {
-                        maximumFractionDigits: 0,
+                        maximumFractionDigits: 2,
                       })}
                     </p>
                   </div>

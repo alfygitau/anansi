@@ -235,7 +235,7 @@ const DetailedProductCard = ({ product, onApply }) => {
 
         {/* Title and Description */}
         <div className="mb-6">
-          <h3 className="text-xl font-black text-slate-900 tracking-tight mb-2 group-hover:text-secondary transition-colors">
+          <h3 className="text-xl font-medium text-slate-900 tracking-tight mb-2 group-hover:text-secondary transition-colors">
             {name}
           </h3>
           <p className="text-sm text-slate-500 leading-relaxed max-w-md">
