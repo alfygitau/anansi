@@ -9,7 +9,7 @@ const Homelayer = () => {
         <Navigation />
       </div>
       <div className="pb-[120px]">
-        <Breadcrumbs />
+        {/* <Breadcrumbs /> */}
         <Outlet />
       </div>
     </div>
