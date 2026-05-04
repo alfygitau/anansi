@@ -108,7 +108,7 @@ const Homepage = () => {
     },
     {
       id: 9,
-      label: "Guarantorship",
+      label: "My Guarantorship",
       icon: <Users size={24} />,
       onClick: () => navigate("/guarantorship"),
     },
@@ -535,12 +535,12 @@ const Homepage = () => {
             <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
               Quick Actions
             </h2>
-            <div className="grid grid-cols-4 lg:grid-cols-8 gap-4 lg:gap-6">
+            <div className="grid grid-cols-4 lg:grid-cols-9 gap-4 lg:gap-6">
               {quickActions.map(({ id, label, icon, onClick }) => (
                 <div
                   key={id}
                   onClick={onClick}
-                  className="flex flex-col items-center cursor-pointer group w-full"
+                  className="flex flex-col items-start cursor-pointer group w-full"
                 >
                   <div className="w-20 h-20 sm:w-20 sm:h-20 bg-slate-200 rounded-[24px] sm:rounded-3xl flex items-center justify-center text-primary transition-all duration-300 group-hover:bg-secondary group-hover:text-white group-hover:shadow-xl group-hover:shadow-blue-100 group-hover:-translate-y-1">
                     {React.cloneElement(icon, {
@@ -561,7 +561,7 @@ const Homepage = () => {
           </h2>
 
           {/* Side-by-Side: Applications and Loans */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 mb-6 lg:grid-cols-2 gap-8">
             {/* Left Side: Pending Applications */}
 
             <section>
@@ -605,8 +605,8 @@ const Homepage = () => {
           </div>
 
           {/* Smaller Quick Actions */}
-          <section className="mb-10">
-            <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
+          <section>
+            <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-2">
               Explore Products
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
