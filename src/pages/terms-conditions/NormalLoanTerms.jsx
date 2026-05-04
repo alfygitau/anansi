@@ -27,18 +27,12 @@ const NormalLoanTermsConditions = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-primary pb-10">
+    <div className="bg-slate-50 text-primary pb-10">
       <div className="max-w-6xl mx-auto sm:px-6">
         {/* Header with Actions */}
-        <header className="py-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <header className="mb-3 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <div className="flex items-center gap-3 mb-2">
-              <FileText className="text-secondary" size={20} />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-secondary">
-                Legal Agreement
-              </span>
-            </div>
-            <h1 className="text-3xl font-black tracking-tight">
+            <h1 className="text-2xl tracking-tight">
               Terms & Conditions
             </h1>
           </div>
@@ -54,7 +48,7 @@ const NormalLoanTermsConditions = () => {
         </header>
 
         {/* Terms Container */}
-        <div className="bg-white rounded-[20px] border border-slate-100 shadow-xl shadow-blue-900/5 overflow-hidden">
+        <div className="bg-white border border-slate-100 shadow-xl shadow-blue-900/5 overflow-hidden">
           {/* Scrollable Content Area */}
           <div
             onScroll={handleScroll}
