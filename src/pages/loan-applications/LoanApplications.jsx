@@ -13,6 +13,7 @@ import {
   ArrowRight,
   Gavel,
   History,
+  Check,
 } from "lucide-react";
 
 const LoanApplications = () => {
@@ -41,7 +42,7 @@ const LoanApplications = () => {
       appCode: "APP-BIA-112",
       amount: "KES 300,000",
       date: "Mar 08, 2026",
-      status: "Pending Guarantors",
+      status: "Approved",
     },
     {
       id: "ap-993",
@@ -57,7 +58,7 @@ const LoanApplications = () => {
       appCode: "APP-AST-099",
       amount: "KES 2,500,000",
       date: "Mar 02, 2026",
-      status: "Pending Approval",
+      status: "Approved",
     },
     {
       id: "ap-995",
@@ -65,7 +66,7 @@ const LoanApplications = () => {
       appCode: "APP-FLS-661",
       amount: "KES 10,000",
       date: "Feb 28, 2026",
-      status: "Pending Disbursement",
+      status: "Approved",
     },
     {
       id: "ap-996",
@@ -73,7 +74,7 @@ const LoanApplications = () => {
       appCode: "APP-JIJ-445",
       amount: "KES 250,000",
       date: "Feb 25, 2026",
-      status: "Cancelled",
+      status: "Approved",
     },
   ];
 
@@ -89,7 +90,7 @@ const LoanApplications = () => {
         {/* Header Section */}
         <header className="py-4 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <h1 className="text-4xl font-black tracking-tight">
+            <h1 className="text-2xl font-black tracking-tight">
               Loan Applications
             </h1>
             <p className="text-slate-400 text-sm mt-2 font-medium">
@@ -244,6 +245,12 @@ const ApplicationRow = ({ app }) => {
       icon: <Ban />,
       bgLight: "bg-slate-50",
       iconColor: "text-slate-500",
+    },
+    Approved: {
+      color: "bg-emerald-500 text-white",
+      icon: <Check />,
+      bgLight: "bg-emerald-500",
+      iconColor: "text-white",
     },
     Default: {
       color: "bg-slate-600 text-white",

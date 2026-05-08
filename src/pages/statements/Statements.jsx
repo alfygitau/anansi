@@ -142,7 +142,7 @@ const MyStatements = () => {
           {/* Header Section */}
           <header className="py-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h1 className="text-4xl font-black tracking-tight">Statements</h1>
+              <h1 className="text-2xl font-black tracking-tight">Statements</h1>
               <p className="text-slate-400 text-sm mt-2 max-w-md font-medium">
                 Official financial records for Anansi Sacco members. All
                 documents are legally encrypted.

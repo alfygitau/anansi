@@ -45,7 +45,7 @@ const MyLoans = ({ onBack }) => {
       loanCode: "JIJ-2025-4410",
       balance: "KES 120,000",
       repaymentDate: "Apr 05, 2026",
-      status: "Active",
+      status: "Paid",
     },
     {
       id: "ln-004",
@@ -61,7 +61,7 @@ const MyLoans = ({ onBack }) => {
       loanCode: "EDU-2026-882",
       balance: "KES 85,000",
       repaymentDate: "Mar 01, 2026",
-      status: "Overdue",
+      status: "Paid",
     },
     {
       id: "ln-006",
@@ -69,7 +69,7 @@ const MyLoans = ({ onBack }) => {
       loanCode: "MOB-2026-331",
       balance: "KES 5,500",
       repaymentDate: "Mar 18, 2026",
-      status: "Active",
+      status: "Paid",
     },
   ];
 
@@ -84,7 +84,7 @@ const MyLoans = ({ onBack }) => {
       <div className="max-w-6xl sm:px-4 mx-auto">
         {/* Header */}
         <header className="py-4">
-          <h1 className="text-4xl font-black tracking-tight">My Loans</h1>
+          <h1 className="text-2xl font-black tracking-tight">My Loans</h1>
           <p className="text-slate-400 text-sm mt-2 font-medium">
             Manage your active credit lines and track your path to financial
             freedom.
