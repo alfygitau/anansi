@@ -381,11 +381,9 @@ const Guarantorship = () => {
                                     Request from {request?.borrowerName}
                                   </span>
                                   {/* Large Message Body - Guaranteed 2 lines */}
-                                  <p className="text-base font-bold text-slate-800 pr-8 leading-snug line-clamp-4 italic">
-                                    "
+                                  <p className="text-base font-medium text-slate-800 pr-8 leading-snug line-clamp-4">
                                     {request?.message ||
                                       "I am requesting you to be my guarantor for my upcoming development loan."}
-                                    "
                                   </p>
                                 </div>
                               </div>

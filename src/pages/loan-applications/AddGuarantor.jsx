@@ -56,7 +56,7 @@ const AddGuarantors = ({ limit = 4 }) => {
           <div className="space-y-10">
             <header className="space-y-4">
               <h2 className="text-4xl font-bold tracking-tight text-slate-900">
-                Nominate <span className="text-blue-600">Guarantors</span>
+                Nominate <span>Guarantors</span>
               </h2>
               <p className="text-slate-500 text-base leading-relaxed">
                 Enter the details of the members you wish to have back your loan
