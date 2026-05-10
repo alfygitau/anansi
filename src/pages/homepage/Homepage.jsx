@@ -22,6 +22,7 @@ import {
   Users,
   Hourglass,
   ChevronRight,
+  Zap,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import InvestAmount from "../../components/quick-invest/InvestAmount";
@@ -50,14 +51,18 @@ import { getSharesSummary } from "../../sdks/accounts/accounts";
 import useAuth from "../../hooks/useAuth";
 import { useStore } from "../../store/useStore";
 import { useFormatAmount } from "../../hooks/useFormatAmount";
-import { allLoans, myLoanApplications } from "../../static/loans";
+import {
+  allLoans,
+  myLoanApplications,
+  myLoanProducts,
+} from "../../static/loans";
 
 const Homepage = () => {
   const navigate = useNavigate();
   const { showToast } = useToast();
   const setStoreAccounts = useStore((state) => state.setAccounts);
   const [loans, setLoans] = useState(allLoans);
-  const [loanProducts, setLoanProducts] = useState([]);
+  const [loanProducts, setLoanProducts] = useState(myLoanProducts);
   const [loanApplications, setLoanApplications] = useState(myLoanApplications);
   const quickActions = [
     {
@@ -630,10 +635,10 @@ const Homepage = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {loanProducts.length > 0 ? (
                 loanProducts.map((product) => (
-                  <QuickAction
+                  <MediumProductCard
                     key={product.id}
-                    label={product.label}
-                    icon={product.icon}
+                    product={product}
+                    onApply={() => handleApply(product.id)}
                   />
                 ))
               ) : (
@@ -648,6 +653,87 @@ const Homepage = () => {
 };
 
 /* --- Sub-Components --- */
+const MediumProductCard = ({ product, onApply }) => {
+  const {
+    name,
+    icon: Icon,
+    rate,
+    maxAmount,
+    period,
+    color = "#042159",
+  } = product;
+
+  return (
+    <div
+      onClick={onApply}
+      className="group w-full max-w-[340px] bg-white rounded-[28px] p-5 border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-blue-900/5 transition-all cursor-pointer active:scale-[0.98]"
+    >
+      {/* Top Row: Icon & Rate Badge */}
+      <div className="flex justify-between items-start mb-4">
+        <div
+          className="w-14 h-14 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110 duration-300"
+          style={{ backgroundColor: `${color}1A`, color: color }}
+        >
+          <Icon size={28} strokeWidth={1.8} />
+        </div>
+
+        <div className="flex flex-col items-end">
+          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
+            Interest
+          </span>
+          <span className="text-[14px] font-black text-slate-900">
+            {rate} <span className="text-[10px] text-slate-400">P.A</span>
+          </span>
+        </div>
+      </div>
+
+      {/* Product Title */}
+      <div className="mb-5">
+        <h3 className="text-[17px] font-bold text-slate-900 tracking-tight leading-tight group-hover:text-teal-500 transition-colors">
+          {name}
+        </h3>
+        <div className="flex items-center gap-1.5 mt-1">
+          <Zap size={12} className="text-#042159 fill-#042159" />
+          <span className="text-[11px] font-bold text-primary uppercase tracking-tighter">
+            Instant Disbursement
+          </span>
+        </div>
+      </div>
+
+      {/* Stats Row - Borrowed from Detailed Card */}
+      <div className="flex items-center justify-between pt-4 border-t border-slate-50">
+        <div className="flex flex-col">
+          <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">
+            Limit
+          </span>
+          <span className="text-[13px] font-extrabold text-[#042159]">
+            KES {maxAmount}
+          </span>
+        </div>
+
+        <div className="h-6 w-px bg-slate-100" />
+
+        <div className="flex flex-col items-end text-right">
+          <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">
+            Tenure
+          </span>
+          <span className="text-[13px] font-extrabold text-slate-700">
+            {period}
+          </span>
+        </div>
+      </div>
+
+      {/* Footer Action */}
+      <div className="mt-4 flex items-center justify-end text-[#042159] gap-1">
+        <span className="text-[11px] font-black uppercase tracking-widest">
+          Apply
+        </span>
+        <ArrowRight size={14} strokeWidth={3} />
+      </div>
+    </div>
+  );
+};
+
 const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
   return (
     <div
