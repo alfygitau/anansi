@@ -20,6 +20,8 @@ import {
   ArrowRight,
   ShieldCheck,
   Users,
+  Hourglass,
+  ChevronRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import InvestAmount from "../../components/quick-invest/InvestAmount";
@@ -48,15 +50,15 @@ import { getSharesSummary } from "../../sdks/accounts/accounts";
 import useAuth from "../../hooks/useAuth";
 import { useStore } from "../../store/useStore";
 import { useFormatAmount } from "../../hooks/useFormatAmount";
+import { allLoans, myLoanApplications } from "../../static/loans";
 
 const Homepage = () => {
   const navigate = useNavigate();
   const { showToast } = useToast();
   const setStoreAccounts = useStore((state) => state.setAccounts);
-  const [loans, setLoans] = useState([]);
+  const [loans, setLoans] = useState(allLoans);
   const [loanProducts, setLoanProducts] = useState([]);
-  const activeLoans = loans.filter((l) => l.status === "Active");
-  const pendingApplications = loans.filter((l) => l.status === "Pending");
+  const [loanApplications, setLoanApplications] = useState(myLoanApplications);
   const quickActions = [
     {
       id: 1,
@@ -562,42 +564,58 @@ const Homepage = () => {
 
           {/* Side-by-Side: Applications and Loans */}
           <div className="grid grid-cols-1 mb-6 lg:grid-cols-2 gap-8">
-            {/* Left Side: Pending Applications */}
-
-            <section>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold">Loan Applications</h2>
-                <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
-                  {pendingApplications.length} Pending
-                </span>
-              </div>
-              {pendingApplications.length > 0 ? (
-                pendingApplications.map((loan) => (
-                  <CompactLoanCard key={loan.id} loan={loan} accent="#F59E0B" />
-                ))
-              ) : (
-                <EmptyState
-                  message="No pending applications"
-                  onApply={() => navigate("/loan-products")}
-                />
-              )}
-            </section>
-
             {/* Right Side: Active Loans */}
             <section>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-bold">Recent Loans</h2>
                 <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">
-                  {activeLoans.length} Running
+                  {loans.length} Running
                 </span>
               </div>
-              {activeLoans.length > 0 ? (
-                activeLoans.map((loan) => (
-                  <CompactLoanCard key={loan.id} loan={loan} accent="#4DB8E4" />
+              {loans.length > 0 ? (
+                loans.map((loan) => (
+                  <LoanItem
+                    key={loan.id}
+                    title={loan.title}
+                    id={loan.id}
+                    amount={loan.amount}
+                    balance={loan.balance}
+                    status={loan.status}
+                    statusColor={loan.statusColor}
+                    maturityDate={loan.maturityDate}
+                    onTap={() => {}}
+                  />
                 ))
               ) : (
                 <EmptyState
                   message="No active loans found"
+                  onApply={() => navigate("/loan-products")}
+                />
+              )}
+            </section>
+            {/* Left Side: Pending Applications */}
+            <section>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-bold">Loan Applications</h2>
+                <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
+                  {loanApplications.length} Pending
+                </span>
+              </div>
+              {loanApplications.length > 0 ? (
+                loanApplications.map((app, index) => (
+                  <ApplicationItem
+                    key={app.reference || index}
+                    reference={app.reference}
+                    title={app.title}
+                    date={app.date}
+                    amount={app.amount}
+                    status={app.status}
+                    onTap={() => console.log(`Selected ${app.reference}`)}
+                  />
+                ))
+              ) : (
+                <EmptyState
+                  message="No pending applications"
                   onApply={() => navigate("/loan-products")}
                 />
               )}
@@ -630,6 +648,38 @@ const Homepage = () => {
 };
 
 /* --- Sub-Components --- */
+const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
+  return (
+    <div
+      onClick={onTap}
+      className="group relative cursor-pointer overflow-hidden rounded-[20px] mb-[20px] border border-gray-100 bg-white p-4 transition-all hover:bg-[#17C6C6]/5 active:scale-[0.98]"
+    >
+      <div className="flex items-center gap-3">
+        {/* Lucide Hourglass Icon */}
+        <div className="text-amber-500">
+          <Hourglass size={20} strokeWidth={2.5} />
+        </div>
+
+        <div className="flex-1 flex flex-col">
+          <span className="text-[11px] uppercase tracking-wider text-gray-400 font-bold">
+            {reference}
+          </span>
+          <h3 className="text-[13px] font-bold text-[#0A2351]">{title}</h3>
+          <span className="text-[11px] text-gray-400">{date}</span>
+        </div>
+
+        <div className="flex flex-col items-end">
+          <span className="text-[13px] font-black text-[#0A2351] font-outfit">
+            {amount}
+          </span>
+          <span className="text-[9px] font-black uppercase text-amber-500 tracking-tighter">
+            {status}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const AccountCard = ({
   title,
@@ -757,30 +807,92 @@ const QuickAction = ({ label, icon }) => (
   </button>
 );
 
-const CompactLoanCard = ({ loan, accent }) => (
-  <div className="bg-white rounded-xl p-4 mb-3 border border-slate-100 shadow-sm relative overflow-hidden">
+const LoanItem = ({
+  title,
+  id,
+  amount,
+  balance,
+  status,
+  statusColor,
+  maturityDate,
+  onTap,
+}) => {
+  return (
     <div
-      className="absolute left-0 top-0 bottom-0 w-1"
-      style={{ backgroundColor: accent }}
-    ></div>
-    <div className="flex justify-between items-start mb-3">
-      <div>
-        <h4 className="font-bold text-sm">{loan.productName}</h4>
-        <p className="text-[10px] text-slate-400 font-mono tracking-tighter">
-          {loan.loanCode}
-        </p>
+      onClick={onTap}
+      className="mb-4 cursor-pointer rounded-[30px] bg-white shadow-[0_12px_24px_rgba(10,35,81,0.04)] transition-all active:scale-[0.99] hover:shadow-[0_12px_32px_rgba(10,35,81,0.07)]"
+    >
+      <div className="flex flex-col">
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 pt-5 pb-3.5">
+          <div className="flex flex-col">
+            <h3 className="text-[16px] font-black text-[#0A2351] tracking-tight">
+              {title}
+            </h3>
+            <span className="text-[13px] font-bold text-gray-500">{id}</span>
+          </div>
+          <div className="flex flex-col items-end">
+            <span className="text-[9px] font-extrabold text-gray-400">
+              MATURITY
+            </span>
+            <span className="text-[12px] font-bold text-[#0A2351]">
+              {maturityDate}
+            </span>
+          </div>
+        </div>
+
+        {/* Stats Box */}
+        <div className="mx-4 flex items-center justify-between rounded-[22px] bg-[#F8FAFC] px-5 py-4 border border-gray-100/50">
+          <div>
+            <span className="text-[9px] font-extrabold text-gray-400 tracking-widest">
+              PRINCIPAL
+            </span>
+            <div className="text-[15px] font-black font-outfit text-black">
+              {amount}
+            </div>
+          </div>
+          <div className="h-8 w-[1px] bg-gray-200" />
+          <div className="text-right">
+            <span className="text-[9px] font-extrabold text-gray-400 tracking-widest">
+              CURRENT BALANCE
+            </span>
+            <div className="text-[15px] font-black font-outfit text-[#0A2351]">
+              {balance}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="flex items-center justify-between px-6 pt-4 pb-5">
+          <div
+            className="flex items-center gap-2 rounded-full px-3 py-1.5"
+            style={{ backgroundColor: `${statusColor}15` }}
+          >
+            <div
+              className="h-1.5 w-1.5 rounded-full"
+              style={{ backgroundColor: statusColor }}
+            />
+            <span
+              className="text-[10px] font-black uppercase"
+              style={{ color: statusColor }}
+            >
+              {status}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-0.5 text-[#0A2351] group">
+            <span className="text-[11px] font-bold">View Details</span>
+            <ChevronRight
+              size={14}
+              strokeWidth={3}
+              className="transition-transform group-hover:translate-x-0.5"
+            />
+          </div>
+        </div>
       </div>
-      <p className="font-bold text-sm text-primary">{loan.balance}</p>
     </div>
-    <div className="flex justify-between items-center text-[10px] text-slate-500 pt-3 border-t border-slate-50">
-      <span>
-        Due:{" "}
-        <span className="text-slate-900 font-medium">{loan.repaymentDate}</span>
-      </span>
-      <ArrowUpRight size={12} className="text-slate-300" />
-    </div>
-  </div>
-);
+  );
+};
 
 const EmptyState = ({ message, onApply }) => (
   <div className="relative overflow-hidden py-12 px-6 border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center bg-white/50 bg-slate-900/40 group transition-all hover:border-secondary/30">
