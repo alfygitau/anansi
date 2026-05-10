@@ -638,7 +638,7 @@ const Homepage = () => {
                   <MediumProductCard
                     key={product.id}
                     product={product}
-                    onApply={() => handleApply(product.id)}
+                    onApply={() => {}}
                   />
                 ))
               ) : (
