@@ -632,7 +632,7 @@ const Homepage = () => {
             <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-2">
               Explore Products
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {loanProducts.length > 0 ? (
                 loanProducts.map((product) => (
                   <MediumProductCard
