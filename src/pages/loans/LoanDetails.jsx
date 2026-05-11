@@ -1,16 +1,7 @@
 import React from "react";
 import {
-  Calendar,
-  Percent,
-  Hash,
-  Coins,
-  Timer,
-  CheckCircle,
-  Info,
-  ArrowUpRight,
   Smartphone,
   Clock,
-  Check,
   Receipt,
   CheckCircle2,
   UserPlus,
@@ -21,12 +12,15 @@ import {
   ClipboardList,
   LayoutGrid,
   ChevronRight,
+  CalendarX,
+  CircleCheck,
+  AlertCircle,
 } from "lucide-react";
 
-const LoanDetails = ({ onBack }) => {
+const LoanDetails = () => {
   const loanData = {
     code: "DEV-2024-9902",
-    product: "Development Loan",
+    product: "Emergency Fund Loan",
     balance: "KES 450,000",
     period: "12 Months",
     rateType: "Reducing Balance",
@@ -36,13 +30,13 @@ const LoanDetails = ({ onBack }) => {
     status: "Active",
   };
 
-  const schedule = [
-    { date: "Oct 30, 2025", amount: "KES 42,500", status: "Paid" },
-    { date: "Nov 30, 2025", amount: "KES 42,500", status: "Paid" },
-    { date: "Dec 30, 2025", amount: "KES 42,500", status: "Upcoming" },
-    { date: "Jan 30, 2026", amount: "KES 42,500", status: "Upcoming" },
-    { date: "Feb 28, 2026", amount: "KES 42,500", status: "Upcoming" },
-    { date: "Mar 30, 2026", amount: "KES 42,500", status: "Upcoming" },
+  const scheduleData = [
+    { dueDate: "15 May 2026", amount: "KES 24,500", status: "PAID" },
+    { dueDate: "15 Jun 2026", amount: "KES 24,500", status: "PAID" },
+    { dueDate: "15 Jul 2026", amount: "KES 24,500", status: "UPCOMING" },
+    { dueDate: "15 Aug 2026", amount: "KES 24,500", status: "UPCOMING" },
+    { dueDate: "15 Sep 2026", amount: "KES 24,500", status: "UPCOMING" },
+    { dueDate: "15 Oct 2026", amount: "KES 24,500", status: "UPCOMING" },
   ];
 
   // Expanded Data: 6 Transactions
@@ -82,13 +76,6 @@ const LoanDetails = ({ onBack }) => {
       amount: "KES 42,500",
       ref: "SBH55621QQ",
     },
-    {
-      id: 6,
-      type: "M-PESA Disbursement",
-      date: "Oct 15, 2025",
-      amount: "KES 500,000",
-      ref: "SBE00122ZZ",
-    },
   ];
 
   const guarantors = [
@@ -115,8 +102,7 @@ const LoanDetails = ({ onBack }) => {
   return (
     <div className="min-h-screen bg-slate-50 text-primary pb-20">
       <div className="max-w-6xl sm:px-4 mx-auto">
-        {/* Header */}
-        <header className="py-4">
+        <header>
           <div className="flex justify-between items-end">
             <div>
               <h1 className="text-3xl font-black tracking-tight">
@@ -131,6 +117,78 @@ const LoanDetails = ({ onBack }) => {
             </div>
           </div>
         </header>
+        <div className="flex flex-col lg:flex-row gap-6 py-5 w-full">
+          <div className="flex-1 min-w-[320px] bg-gradient-to-br from-[#0A2351] to-[#152E5F] rounded-[35px] p-7 shadow-[0_15px_30px_rgba(10,35,81,0.15)] text-white">
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-[#17C6C6] text-[10px] font-black tracking-[1.8px] uppercase">
+                Emergency Fund Loan
+              </span>
+              <div className="bg-white/10 px-2 py-1 rounded-lg flex items-center justify-center">
+                <span className="text-[8px] font-bold uppercase tracking-tighter">
+                  Active
+                </span>
+              </div>
+            </div>
+            <div className="flex justify-between items-center mb-6">
+              <div className="flex flex-col">
+                <span className="text-white/50 text-[10px] font-extrabold tracking-[1.2px] uppercase">
+                  Current Balance
+                </span>
+                <h2 className="text-[28px] font-black mt-1 leading-none">
+                  KES 142,500.00
+                </h2>
+              </div>
+              <div className="p-2.5 bg-white/10 rounded-full">
+                <LayoutGrid size={20} className="text-white" />
+              </div>
+            </div>
+
+            {/* Progress */}
+            <div className="mb-4">
+              <div className="flex justify-between items-center mb-3">
+                <span className="text-white/70 text-[13px] font-semibold">
+                  Repayment Progress
+                </span>
+                <span className="text-[#17C6C6] text-[13px] font-black">
+                  35%
+                </span>
+              </div>
+              <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                <div
+                  className="bg-[#17C6C6] h-full rounded-full"
+                  style={{ width: "35%" }}
+                />
+              </div>
+            </div>
+            <hr className="border-white/10 my-4" />
+            <div className="flex justify-between items-center">
+              <MiniDetail label="Loan ID" value="#L-9902" />
+              <MiniDetail label="Interest" value="1.5%" />
+              <MiniDetail label="Period" value="6 Months" />
+            </div>
+          </div>
+          <div className="flex-1 min-w-[320px] bg-[#17C6C6]/5 border border-[#17C6C6]/10 rounded-[24px] p-6 flex flex-col justify-center">
+            <div className="space-y-4">
+              <PaymentRow label="Principal Amount" value="KES 20,000.00" />
+              <PaymentRow label="Interest Charged" value="KES 3,500.00" />
+              <PaymentRow label="Service Fee" value="KES 0.00" />
+
+              <hr className="border-black/10 my-3" />
+
+              <div className="flex justify-between items-center">
+                <span className="text-[14px] font-black text-slate-900">
+                  Total Due (15 May)
+                </span>
+                <span className="text-[16px] font-black text-teal-900">
+                  KES 24,500.00
+                </span>
+              </div>
+            </div>
+            <button className="mt-6 w-full py-3 bg-[#17C6C6] text-white rounded-xl font-black text-[12px] uppercase tracking-widest shadow-lg shadow-teal-500/20 active:scale-[0.98] transition-transform">
+              Pay Installment
+            </button>
+          </div>
+        </div>
 
         <section className="mb-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -165,125 +223,18 @@ const LoanDetails = ({ onBack }) => {
           </div>
         </section>
 
-        {/* 1. Loan Parameters Card (High Density) */}
-        <div className="bg-white rounded-[40px] p-6 border border-slate-100 shadow-sm shadow-blue-900/5 mb-3">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-y-10 gap-x-6">
-            <ParamItem
-              icon={<Hash />}
-              label="Loan Code"
-              value={loanData.code}
-            />
-            <ParamItem
-              icon={<Coins />}
-              label="Outstanding Balance"
-              value={loanData.balance}
-              isHighlight
-            />
-            <ParamItem
-              icon={<Timer />}
-              label="Loan Period"
-              value={loanData.period}
-            />
-            <ParamItem
-              icon={<Info />}
-              label="Rate Type"
-              value={loanData.rateType}
-            />
-            <ParamItem
-              icon={<Percent />}
-              label="Interest Rate"
-              value={loanData.rate}
-            />
-            <ParamItem
-              icon={<Calendar />}
-              label="Maturity Date"
-              value={loanData.maturityDate}
-            />
-            <ParamItem
-              icon={<ArrowUpRight />}
-              label="Repayment Amount"
-              value={loanData.repaymentAmount}
-              isHighlight
-            />
-            <ParamItem
-              icon={<CheckCircle />}
-              label="Loan Status"
-              value={loanData.status}
-            />
-          </div>
-        </div>
-
-        {/* 3. GUARANTORS SECTION (Full Width or 2-Column Grid) */}
-        <section className="mb-4">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
-              Guarantors & Securities
-            </h3>
-            <span className="text-[10px] font-bold text-secondary bg-sky-50 px-3 py-1 rounded-full">
-              3 Required • 2 Verified
-            </span>
-          </div>
-
-          {/* Grid of 2 or 3 to keep them compact */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {guarantors.map((g) => (
-              <GuarantorCard key={g.id} guarantor={g} />
-            ))}
-          </div>
-        </section>
-
         {/* 2. Split View: Schedule & Transactions */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 py-3">
           {/* Left Side: Schedule (Stepper) */}
-          <div className="md:col-span-5">
-            <h3 className="text-[13px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6">
+          <div className="md:col-span-6">
+            <h3 className="text-[13px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">
               Repayment Progress
             </h3>
-            <div className="space-y-0">
-              {schedule.map((step, idx) => (
-                <div key={idx} className="flex gap-6 relative pb-12 group">
-                  {/* Stepper Line */}
-                  {idx !== schedule.length - 1 && (
-                    <div
-                      className={`absolute left-[15px] top-8 w-[2px] h-full ${step.status === "Paid" ? "bg-emerald-200" : "bg-slate-100"}`}
-                    ></div>
-                  )}
-
-                  {/* Stepper Icon/Circle */}
-                  <div
-                    className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500 shadow-sm ${
-                      step.status === "Paid"
-                        ? "bg-emerald-500 text-white scale-110"
-                        : "bg-white border-4 border-slate-100 text-slate-300"
-                    }`}
-                  >
-                    {step.status === "Paid" ? (
-                      <Check size={16} strokeWidth={3} />
-                    ) : (
-                      <Clock size={12} />
-                    )}
-                  </div>
-
-                  <div className="flex flex-col">
-                    <span
-                      className={`text-[10px] font-black uppercase tracking-widest ${step.status === "Paid" ? "text-emerald-500" : "text-slate-400"}`}
-                    >
-                      Installment {idx + 1} • {step.status}
-                    </span>
-                    <p className="text-lg font-bold text-primary mt-0.5">
-                      {step.amount}
-                    </p>
-                    <p className="text-xs font-medium text-slate-400">
-                      {step.date}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <LoanScheduleList installments={scheduleData} />
           </div>
 
           {/* Right Side: Transactions */}
-          <div className="md:col-span-7">
+          <div className="md:col-span-6">
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-[13px] font-black uppercase tracking-[0.2em] text-slate-400">
                 Transaction Ledger
@@ -339,6 +290,22 @@ const QuickActionButton = ({ icon, label, sub, onClick, variant }) => {
     </button>
   );
 };
+
+const MiniDetail = ({ label, value }) => (
+  <div className="flex flex-col">
+    <span className="text-white/50 text-[9px] font-bold uppercase tracking-wider">
+      {label}
+    </span>
+    <span className="text-[12px] font-black text-white">{value}</span>
+  </div>
+);
+
+const PaymentRow = ({ label, value }) => (
+  <div className="flex justify-between items-center">
+    <span className="text-[13px] font-medium text-slate-500">{label}</span>
+    <span className="text-[13px] font-bold text-slate-900">{value}</span>
+  </div>
+);
 
 const MPesaTransactionRow = ({ tx }) => {
   const isDisbursement = tx.type.includes("Disbursement");
@@ -468,5 +435,93 @@ const ParamItem = ({ icon, label, value, isHighlight }) => (
     </p>
   </div>
 );
+
+const LoanScheduleList = ({ installments = [], onSelectInstallment }) => {
+  const ordinals = ["1st", "2nd", "3rd", "4th", "5th", "6th"];
+
+  // 1. Empty State Component
+  if (installments.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 px-6 text-center bg-slate-50/50 rounded-[32px] border-2 border-dashed border-slate-100">
+        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-4">
+          <CalendarX size={32} strokeWidth={1.5} className="text-slate-300" />
+        </div>
+        <h3 className="text-[16px] font-bold text-slate-900 mb-1">
+          No Schedule Found
+        </h3>
+        <p className="text-[13px] text-slate-500 max-w-[200px] leading-relaxed">
+          Your repayment schedule will appear here once the loan is approved.
+        </p>
+      </div>
+    );
+  }
+  return (
+    <div className="flex flex-col gap-3">
+      {installments.map((item, index) => {
+        const isPaid = item.status === "PAID";
+        const label = `${ordinals[index] || index + 1 + "th"} Installment`;
+        const isOverdue = item.status === "OVERDUE";
+        return (
+          <div
+            key={index}
+            onClick={() => !isPaid && onSelectInstallment?.(item)}
+            className={`
+              group flex items-center p-[18px] rounded-[24px] bg-white border transition-all
+              ${isPaid ? "opacity-60 border" : "opacity-100 border-[#F1F4F8] hover:border-[#17C6C6] cursor-pointer active:scale-[0.98] shadow-[0_4px_10px_rgba(0,0,0,0.02)]"}
+            `}
+          >
+            {/* Status Marker */}
+            <div className="z-10 mr-4 flex items-center justify-center w-8 h-8 rounded-full bg-white border border-slate-100 shadow-sm">
+              {isPaid ? (
+                <CircleCheck
+                  size={18}
+                  className="text-[#17C6C6]"
+                  strokeWidth={2.5}
+                />
+              ) : isOverdue ? (
+                <AlertCircle size={18} className="text-red-500 animate-pulse" />
+              ) : (
+                <Clock size={16} className="text-slate-400" />
+              )}
+            </div>
+
+            {/* Details */}
+            <div className="flex-1 flex flex-col min-w-0">
+              <span
+                className={`
+                text-[14px] font-black truncate
+                ${isPaid ? "line-through text-slate-400" : "text-[#0A2351]"}
+              `}
+              >
+                {label}
+              </span>
+              <span className="text-[11px] font-semibold text-slate-400">
+                Due: {item.dueDate}
+              </span>
+            </div>
+
+            {/* Amount & Status Badge */}
+            <div className="flex flex-col items-end shrink-0 ml-4">
+              <span
+                className={`text-[14px] font-black ${isPaid ? "text-slate-400" : "text-slate-900"}`}
+              >
+                {item.amount}
+              </span>
+              {isPaid ? (
+                <span className="text-[9px] font-black text-[#17C6C6] tracking-wider uppercase">
+                  SUCCESS
+                </span>
+              ) : (
+                <span className="text-[9px] flex items-center">
+                  PENDING <ChevronRight size={14} className="text-slate-300" />
+                </span>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 export default LoanDetails;
