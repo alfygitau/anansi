@@ -2,15 +2,26 @@ import React from "react";
 import {
   FileText,
   Users,
-  Plus,
   Info,
   ShieldCheck,
-  ArrowRight,
   Download,
   MessageCircle,
   UserPlus,
   Zap,
   FileSearch,
+  Shield,
+  Percent,
+  Calendar,
+  Repeat,
+  Lock,
+  Briefcase,
+  CheckCircle2,
+  UserCircle,
+  Gauge,
+  Box,
+  PenTool,
+  ChevronRight,
+  Clock,
 } from "lucide-react";
 
 const LoanApplicationDetails = ({ onBack }) => {
@@ -19,22 +30,60 @@ const LoanApplicationDetails = ({ onBack }) => {
     product: "Development Loan",
     requestedAmount: "KES 1,200,000",
     submissionDate: "Mar 12, 2026",
-    status: "Pending Guarantors",
+    status: "Under Review",
     requiredGuarantors: 3,
   };
 
-  const guarantors = [
+  const requirements = [
     {
-      name: "John Kamau",
-      phone: "0712***456",
-      amount: "KES 100,000",
-      status: "Accepted",
+      title: "Identity Verification",
+      subtitle: "National ID & Selfie",
+      status: "Verified",
+      isDone: true,
+      icon: UserCircle,
     },
     {
-      name: "Sarah Wanjiku",
-      phone: "0722***890",
-      amount: "KES 100,000",
-      status: "Pending",
+      title: "Eligibility Check",
+      subtitle: "Credit score & history",
+      status: "Cleared",
+      isDone: true,
+      icon: Gauge,
+    },
+    {
+      title: "Loan Details",
+      subtitle: "Loan amount and loan period",
+      status: "Cleared",
+      isDone: true,
+      icon: FileText,
+    },
+    {
+      title: "Bank Statements",
+      subtitle: "Last 3 months (PDF)",
+      status: "Under Review",
+      isDone: false,
+      isPending: true,
+      icon: FileSearch,
+    },
+    {
+      title: "Guarantor Approval",
+      subtitle: "2 guarantors required",
+      status: "1/2 Approved",
+      isDone: false,
+      icon: Users,
+    },
+    {
+      title: "Assets & Chattels",
+      subtitle: "Logbook or Household items",
+      status: "Action Required",
+      isDone: false,
+      icon: Box,
+    },
+    {
+      title: "Legal Agreement",
+      subtitle: "Sign loan contract",
+      status: "Locked",
+      isDone: false,
+      icon: PenTool,
     },
   ];
 
@@ -44,11 +93,19 @@ const LoanApplicationDetails = ({ onBack }) => {
     "Reviewing Customer Information",
   ].includes("Reviewing Customer Information");
 
+  const getStatusTheme = (isDone, isPending, status) => {
+    if (isDone) return { color: "#10B981", bg: "bg-emerald-500/10" }; // Success Green
+    if (isPending) return { color: "#F59E0B", bg: "bg-amber-500/10" }; // Pending Amber
+    if (status === "Action Required")
+      return { color: "#EF4444", bg: "bg-red-500/10" }; // Alert Red
+    return { color: "#94A3B8", bg: "bg-slate-500/10" }; // Default Grey
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-primary pb-20">
       <div className="max-w-6xl mx-auto sm:px-4">
         {/* Navigation & Header */}
-        <header className="py-8">
+        <header className="py-2">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <h1 className="text-3xl font-black tracking-tight">
@@ -65,85 +122,190 @@ const LoanApplicationDetails = ({ onBack }) => {
           </div>
         </header>
 
-        {/* 1. Application Summary Card */}
-        <div className="bg-white rounded-[40px] p-10 border border-slate-100 shadow-xl shadow-blue-900/5 mb-10 grid grid-cols-2 md:grid-cols-4 gap-8">
-          <DetailItem
-            label="Amount Requested"
-            value={appData.requestedAmount}
-            isHighlight
-          />
-          <DetailItem label="Submission Date" value={appData.submissionDate} />
-          <DetailItem label="Interest Rate" value="12% P.A (Projected)" />
-          <DetailItem label="Est. Period" value="24 Months" />
+        <div className="flex flex-col lg:flex-row gap-6 py-4 w-full items-stretch">
+          {/* 1. Application Status Header (Left Side) */}
+          <div className="flex-1 relative overflow-hidden rounded-[35px] bg-gradient-to-br from-[#0A2351] to-[#1A3A7A] shadow-xl">
+            {/* Decorative Circle (Flutter's CircleAvatar radius: 60) */}
+            <div className="absolute -right-5 -top-5 w-32 h-32 rounded-full bg-white/5 pointer-events-none" />
+
+            <div className="p-7 flex flex-col h-full">
+              {/* Top Bar */}
+              <div className="flex justify-between items-start mb-8">
+                <div>
+                  <p className="text-white/40 text-[9px] font-extrabold tracking-[1.2px] uppercase">
+                    Application ID
+                  </p>
+                  <p className="text-white text-[12px] font-bold">
+                    AN-8821-026
+                  </p>
+                </div>
+                {/* Premium Status Badge */}
+                <div className="bg-[#FFB300] px-3 py-1.5 rounded-full shadow-lg shadow-amber-900/20">
+                  <span className="text-white text-[9px] font-black uppercase tracking-wider">
+                    Under Review
+                  </span>
+                </div>
+              </div>
+
+              {/* Amount Section */}
+              <div className="text-center mb-8">
+                <p className="text-white/50 text-[10px] font-extrabold tracking-[1.5px] uppercase mb-1.5">
+                  Loan Amount
+                </p>
+                <h1 className="text-white text-4xl font-black tracking-tighter">
+                  KES 45,000.00
+                </h1>
+              </div>
+
+              <hr className="border-white/10 mb-5" />
+
+              {/* Info Footer */}
+              <div className="flex items-start gap-3 mt-auto">
+                <Info size={16} className="text-[#17C6C6] shrink-0 mt-0.5" />
+                <p className="text-white/70 text-[11px] font-medium leading-relaxed">
+                  Verification in progress. Expect a response within 24 hours.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* 2. Potential Parameters (Right Side) */}
+          <div className="flex-1 bg-white rounded-[28px] border-1.5 border-[#F1F4F8] p-6 shadow-[0_10px_20px_rgba(0,0,0,0.02)]">
+            {/* Product Branding */}
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-10 h-10 rounded-full bg-[#0A2351] flex items-center justify-center text-white">
+                <Shield size={18} fill="currentColor" />
+              </div>
+              <div>
+                <p className="text-slate-400 text-[9px] font-extrabold tracking-wider uppercase">
+                  Loan Product
+                </p>
+                <p className="text-[#0A2351] text-[15px] font-black">
+                  Emergency Fund Plus
+                </p>
+              </div>
+            </div>
+
+            <hr className="border-[#F1F4F8] mb-5" />
+
+            {/* Data Grid (Replicating Flutter Table 2x3) */}
+            <div className="grid grid-cols-2 gap-y-6 gap-x-4">
+              <DetailCell
+                icon={Percent}
+                label="Interest Rate"
+                value="1.5% / Mo"
+              />
+              <DetailCell
+                icon={Calendar}
+                label="Loan Period"
+                value="6 Months"
+              />
+              <DetailCell icon={Repeat} label="Frequency" value="Monthly" />
+              <DetailCell
+                icon={FileText}
+                label="Processing Fee"
+                value="KES 500"
+              />
+              <DetailCell icon={Lock} label="Insurance Fee" value="KES 150" />
+              <DetailCell
+                icon={Briefcase}
+                label="Excise Duty"
+                value="KES 100"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Conditionally show the insight section */}
         {isProcessing && (
           <StatusInsight status="Reviewing Customer Information" />
         )}
+        <div className="mb-2 mt-6 flex items-baseline justify-between">
+          <h2 className="text-[11px] font-black uppercase tracking-[2px] text-slate-400">
+            Application Milestones
+          </h2>
+          <span className="text-[10px] font-bold text-[#17C6C6]">
+            3/7 COMPLETED
+          </span>
+        </div>
 
-        {/* 2. Guarantors Management */}
-        <section className="mb-12">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h3 className="text-lg font-black tracking-tight">
-                Guarantors Required
-              </h3>
-              <p className="text-slate-400 text-xs mt-1">
-                You need {appData.requiredGuarantors} guarantors.{" "}
-                {guarantors.length} added so far.
-              </p>
-            </div>
-            {guarantors.length < appData.requiredGuarantors && (
-              <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest bg-secondary text-white px-4 py-2.5 rounded-xl hover:scale-105 transition-all">
-                <Plus size={16} /> Add Guarantor
-              </button>
-            )}
-          </div>
+        {/* Container: Grid setup with responsive columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {requirements.map((req, index) => {
+            const {
+              isDone,
+              isPending,
+              status,
+              title,
+              subtitle,
+              icon: Icon,
+            } = req;
+            const theme = getStatusTheme(isDone, isPending, status);
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {guarantors.map((g) => (
-              <GuarantorCard key={g.id} guarantor={g} />
-            ))}
-            {/* Empty Slot for missing guarantors */}
-            {guarantors.length < appData.requiredGuarantors && (
-              <div className="border-2 border-dashed border-slate-200 rounded-[32px] p-6 flex flex-col items-center justify-center text-slate-300 hover:border-secondary hover:text-secondary transition-all cursor-pointer">
-                <Users size={32} strokeWidth={1.5} />
-                <span className="text-[10px] font-black uppercase tracking-widest mt-2">
-                  Slot Empty
-                </span>
+            return (
+              <div
+                key={index}
+                className={`
+          flex items-center p-5 rounded-[24px] border-1.5 transition-all duration-300
+          ${
+            isDone
+              ? "bg-white/50 border opacity-70"
+              : "bg-white border-[#F1F4F8] shadow-[0_8px_15px_rgba(0,0,0,0.02)]"
+          }
+        `}
+              >
+                {/* 1. Dynamic Icon Housing */}
+                <div
+                  className={`shrink-0 p-2.5 rounded-full ${theme.bg} flex items-center justify-center`}
+                  style={{ color: theme.color }}
+                >
+                  {isDone ? (
+                    <CheckCircle2 size={20} strokeWidth={3} />
+                  ) : isPending ? (
+                    <Clock size={20} strokeWidth={2.5} />
+                  ) : (
+                    <Icon size={20} strokeWidth={2.5} />
+                  )}
+                </div>
+
+                {/* 2. Text Content */}
+                <div className="flex-1 ml-4 flex flex-col min-w-0">
+                  <h4
+                    className={`
+            text-[13px] font-black leading-tight truncate
+            ${isDone ? "line-through text-slate-400" : "text-[#0A2351]"}
+          `}
+                  >
+                    {title}
+                  </h4>
+                  <p className="text-[10px] font-semibold text-slate-400 mt-0.5 truncate uppercase tracking-tight">
+                    {subtitle}
+                  </p>
+                </div>
+
+                {/* 3. Status Badge - Compressed for Grid Layout */}
+                <div className="flex items-center gap-2 ml-2">
+                  <div
+                    className={`
+            px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-wider whitespace-nowrap
+            ${theme.bg}
+          `}
+                    style={{ color: theme.color }}
+                  >
+                    {status}
+                  </div>
+
+                  {!isDone && !isPending && (
+                    <ChevronRight
+                      size={12}
+                      className="text-slate-300"
+                      strokeWidth={3}
+                    />
+                  )}
+                </div>
               </div>
-            )}
-          </div>
-        </section>
-
-        {/* 3. Document & Terms Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <section className="bg-white p-8 rounded-[40px] border border-slate-100">
-            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6">
-              Application Documents
-            </h3>
-            <div className="space-y-4">
-              <DocRow label="Loan Terms & Conditions" />
-              <DocRow label="Repayment Agreement (Draft)" />
-            </div>
-          </section>
-
-          {/* Final Action Block */}
-          <section className="flex flex-col justify-center gap-4">
-            <div className="bg-sky-50 p-6 rounded-[32px] border border-sky-100 mb-2">
-              <div className="flex gap-4">
-                <Info className="text-secondary" size={24} />
-                <p className="text-xs text-primary/70 leading-relaxed font-medium">
-                  Once all guarantors have accepted your request, you will be
-                  able to sign the final contract and submit for disbursement.
-                </p>
-              </div>
-            </div>
-            <button className="w-full bg-primary text-white py-5 rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#062d7a] transition-all shadow-xl shadow-blue-900/20">
-              Continue Application <ArrowRight size={20} />
-            </button>
-          </section>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -151,6 +313,21 @@ const LoanApplicationDetails = ({ onBack }) => {
 };
 
 /* --- UI Sub-Components --- */
+const DetailCell = ({ icon: Icon, label, value }) => (
+  <div className="flex items-start gap-3">
+    <div className="mt-0.5">
+      <Icon size={16} className="text-slate-300" />
+    </div>
+    <div className="flex flex-col min-w-0">
+      <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tight truncate">
+        {label}
+      </span>
+      <span className="text-[13px] font-black text-[#0A2351] truncate">
+        {value}
+      </span>
+    </div>
+  </div>
+);
 
 const DetailItem = ({ label, value, isHighlight }) => (
   <div>
@@ -267,7 +444,7 @@ const StatusInsight = ({ status }) => {
 
   return (
     <div
-      className={`p-6 rounded-[40px] border ${active.border} ${active.bg} mb-10`}
+      className={`p-6 rounded-[40px] mt-4 border ${active.border} ${active.bg} mb-4`}
     >
       <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
         <div className="w-16 h-16 bg-white rounded-3xl flex items-center justify-center shadow-sm shrink-0">
