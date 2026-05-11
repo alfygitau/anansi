@@ -109,8 +109,8 @@ const MyLoans = ({ onBack }) => {
           <aside className="lg:col-span-5 space-y-6">
             <ApplyLoanAction />
             {/* Quick Actions Card */}
-            <div className="bg-primary rounded-[22px] p-8 text-white shadow-xl shadow-blue-900/20">
-              <h3 className="text-lg font-black mb-6 flex items-center gap-2">
+            <div className="bg-primary rounded-[22px] p-4 text-white">
+              <h3 className="text-lg font-black mb-4 flex items-center gap-2">
                 <Zap className="text-secondary" size={20} /> Quick Actions
               </h3>
               <div className="space-y-3">
@@ -129,7 +129,7 @@ const MyLoans = ({ onBack }) => {
             </div>
 
             {/* Credit Score / Info Card */}
-            <div className="bg-white rounded-[22px] p-8 border border-slate-100 shadow-xl shadow-blue-900/5">
+            <div className="bg-white rounded-[22px] p-4 border border-slate-100 shadow-xl shadow-blue-900/5">
               <div className="flex items-center gap-3 mb-4">
                 <ShieldCheck className="text-emerald-500" size={20} />
                 <h3 className="font-black text-[11px] uppercase tracking-widest text-slate-400">
@@ -144,7 +144,7 @@ const MyLoans = ({ onBack }) => {
             </div>
 
             {/* Legal Disclaimers */}
-            <div className="bg-blue-50/50 rounded-[32px] p-8 border border-blue-100/50">
+            <div className="bg-blue-50/50 rounded-[32px] p-4 border border-blue-100/50">
               <div className="flex items-center gap-3 mb-6">
                 <Info className="text-secondary" size={20} />
                 <h3 className="font-black text-[11px] uppercase tracking-widest text-slate-400">
@@ -159,7 +159,7 @@ const MyLoans = ({ onBack }) => {
             </div>
 
             {/* Footer Support */}
-            <div className="px-8 text-center">
+            <div className="text-left">
               <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-loose">
                 Need specialized assistance? <br />
                 <span className="text-secondary cursor-pointer hover:underline">

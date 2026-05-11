@@ -151,9 +151,9 @@ const LoanProducts = () => {
     <div className="min-h-screen bg-slate-50 text-primary pb-20">
       <div className="max-w-6xl sm:px-4 mx-auto">
         {/* Header Section */}
-        <header className="py-4">
+        <header className="py-2">
           <h1 className="text-2xl font-medium tracking-tight">Loan Products</h1>
-          <p className="text-slate-400 text-sm mt-2">
+          <p className="text-slate-400 text-sm">
             Whether you're growing your business, funding an education, or
             achieving personal goals, we have options tailored to your needs.
           </p>

@@ -8,7 +8,6 @@ import {
   ShieldCheck,
   ArrowRight,
   Gavel,
-  History,
   Calendar,
   ChevronRight,
   Clock,
@@ -115,7 +114,7 @@ const LoanApplications = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
-                <button className="flex items-center gap-2 px-6 py-4 border border-slate-100 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-slate-50 transition-all">
+                <button className="flex items-center gap-2 px-6 py-4 border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-slate-50 transition-all">
                   <Filter size={18} /> Filter
                 </button>
               </div>
@@ -141,8 +140,8 @@ const LoanApplications = () => {
           {/* RIGHT: Quick Actions & Sidebar (4 Columns) */}
           <aside className="lg:col-span-5 space-y-6">
             {/* Action Required Card */}
-            <div className="bg-primary rounded-[32px] p-8 text-white shadow-xl shadow-blue-900/20">
-              <div className="flex items-center gap-2 mb-6">
+            <div className="bg-primary rounded-[32px] p-4 text-white">
+              <div className="flex items-center gap-2 mb-4">
                 <Zap className="text-secondary" size={20} />
                 <h3 className="text-lg font-black tracking-tight">
                   Pending Action
@@ -166,7 +165,7 @@ const LoanApplications = () => {
             </div>
 
             {/* Vetting Process Card */}
-            <div className="bg-white rounded-[32px] p-8 border border-slate-100 shadow-xl shadow-blue-900/5">
+            <div className="bg-white rounded-[32px] p-4 border border-slate-100 shadow-xl shadow-blue-900/5">
               <div className="flex items-center gap-3 mb-6">
                 <ShieldCheck className="text-emerald-500" size={20} />
                 <h3 className="font-black text-[11px] uppercase tracking-widest text-slate-400">
@@ -182,7 +181,7 @@ const LoanApplications = () => {
             </div>
 
             {/* Disclaimers & Info */}
-            <div className="bg-blue-50/50 rounded-[32px] p-8 border border-blue-100/100">
+            <div className="bg-blue-50/50 rounded-[32px] p-4 border border-blue-100/100">
               <div className="flex items-center gap-3 mb-6">
                 <Gavel className="text-secondary" size={20} />
                 <h3 className="font-black text-[11px] uppercase tracking-widest text-slate-400">
@@ -194,14 +193,6 @@ const LoanApplications = () => {
                 <DisclaimerItem text="Processing Fees: A statutory 1% processing fee is deducted from the principal amount upon disbursement." />
                 <DisclaimerItem text="Rejected Status: If an application is rejected, you may appeal or re-apply after 30 days of the decision date." />
               </ul>
-            </div>
-
-            {/* History Link */}
-            <div className="px-8 flex items-center gap-3 opacity-60 hover:opacity-100 cursor-pointer transition-opacity">
-              <History size={16} className="text-slate-400" />
-              <span className="text-[10px] font-black uppercase tracking-widest">
-                Archive (2025 & Older)
-              </span>
             </div>
           </aside>
         </div>
