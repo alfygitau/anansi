@@ -2,7 +2,6 @@ import React, { useMemo, useState } from "react";
 import {
   TrendingUp,
   Wallet,
-  ArrowUpRight,
   ArrowDownCircle,
   PieChart,
   Calculator,

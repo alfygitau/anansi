@@ -15,9 +15,11 @@ import {
   ShieldCheck,
   Zap,
   ChevronRight,
+  Plus,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { allMyLoans } from "../../static/loans";
+import { motion } from 'framer-motion';
 
 const MyLoans = ({ onBack }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -105,6 +107,7 @@ const MyLoans = ({ onBack }) => {
 
           {/* RIGHT: Quick Actions & Sidebar (4 Columns) */}
           <aside className="lg:col-span-5 space-y-6">
+            <ApplyLoanAction />
             {/* Quick Actions Card */}
             <div className="bg-primary rounded-[22px] p-8 text-white shadow-xl shadow-blue-900/20">
               <h3 className="text-lg font-black mb-6 flex items-center gap-2">
@@ -172,6 +175,41 @@ const MyLoans = ({ onBack }) => {
 };
 
 /* --- Sub-Components --- */
+const ApplyLoanAction = ({ onClick }) => {
+  return (
+    <div className="py-2.5">
+      <motion.button
+        whileTap={{ scale: 0.97 }}
+        whileHover={{ y: -2 }}
+        onClick={onClick}
+        className="w-full text-left bg-white p-4 rounded-[24px] border border-[#0A2351]/10 flex items-center shadow-sm hover:shadow-md transition-all group"
+      >
+        {/* 1. Circle Icon (Matching darkBlue color) */}
+        <div className="p-3 bg-[#0A2351] rounded-full text-white shrink-0 group-hover:scale-110 transition-transform duration-300">
+          <Plus size={20} strokeWidth={3} />
+        </div>
+
+        {/* 2. Text Content */}
+        <div className="flex-1 ml-4 flex flex-col justify-center">
+          <span className="text-[#0A2351] font-black text-[15px] leading-tight">
+            Apply for a new Loan
+          </span>
+          <span className="text-slate-400 text-[11px] font-medium mt-0.5">
+            Instant processing for eligible members
+          </span>
+        </div>
+
+        {/* 3. Right Chevron */}
+        <ChevronRight
+          size={16}
+          className="text-slate-300 ml-6 group-hover:translate-x-1 transition-transform"
+          strokeWidth={2.5}
+        />
+      </motion.button>
+    </div>
+  );
+};
+
 const LoanItem = ({
   title,
   id,

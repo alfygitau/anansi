@@ -39,7 +39,6 @@ const LoanDetails = () => {
     { dueDate: "15 Oct 2026", amount: "KES 24,500", status: "UPCOMING" },
   ];
 
-  // Expanded Data: 6 Transactions
   const transactions = [
     {
       id: 1,
@@ -75,27 +74,6 @@ const LoanDetails = () => {
       date: "Oct 30, 2025",
       amount: "KES 42,500",
       ref: "SBH55621QQ",
-    },
-  ];
-
-  const guarantors = [
-    {
-      name: "John Kamau",
-      phone: "0712***456",
-      amount: "KES 100,000",
-      status: "Accepted",
-    },
-    {
-      name: "Sarah Wanjiku",
-      phone: "0722***890",
-      amount: "KES 100,000",
-      status: "Pending",
-    },
-    {
-      name: "Michael Omondi",
-      phone: "0733***112",
-      amount: "KES 100,000",
-      status: "Accepted",
     },
   ];
 
@@ -358,83 +336,6 @@ const MPesaTransactionRow = ({ tx }) => {
     </div>
   );
 };
-
-const GuarantorCard = ({ guarantor }) => {
-  const isPending = guarantor.status === "Pending";
-
-  return (
-    <div className="bg-white p-5 rounded-[28px] border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
-      <div className="flex items-start justify-between mb-4">
-        {/* Avatar/Status Icon */}
-        <div
-          className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${
-            isPending
-              ? "bg-amber-50 text-amber-500"
-              : "bg-emerald-50 text-emerald-600"
-          }`}
-        >
-          {isPending ? (
-            <UserPlus size={22} className="animate-pulse" />
-          ) : (
-            <ShieldCheck size={22} />
-          )}
-        </div>
-
-        {/* Amount Badge */}
-        <div className="text-right">
-          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-            Guarantee
-          </p>
-          <p className="text-sm font-black text-primary">{guarantor.amount}</p>
-        </div>
-      </div>
-
-      <div>
-        <h4 className="font-bold text-primary text-sm truncate">
-          {guarantor.name}
-        </h4>
-        <p className="text-[10px] font-mono text-slate-400 mt-0.5">
-          {guarantor.phone}
-        </p>
-      </div>
-
-      {/* Action Footer */}
-      <div className="mt-4 pt-4 border-t border-slate-50 flex items-center justify-between">
-        <span
-          className={`text-[9px] font-black uppercase tracking-widest ${
-            isPending ? "text-amber-500" : "text-emerald-500"
-          }`}
-        >
-          {guarantor.status}
-        </span>
-
-        {isPending && (
-          <button className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-secondary hover:text-primary transition-colors">
-            <MessageCircle size={12} />
-            Nudge via SMS
-          </button>
-        )}
-      </div>
-    </div>
-  );
-};
-
-/* --- Sub-Component: ParamItem --- */
-const ParamItem = ({ icon, label, value, isHighlight }) => (
-  <div className="space-y-2">
-    <div className="flex items-center gap-2 text-slate-300">
-      {React.cloneElement(icon, { size: 14 })}
-      <span className="text-[9px] font-black uppercase tracking-widest">
-        {label}
-      </span>
-    </div>
-    <p
-      className={`text-base font-bold ${isHighlight ? "text-secondary font-black text-lg" : "text-primary"}`}
-    >
-      {value}
-    </p>
-  </div>
-);
 
 const LoanScheduleList = ({ installments = [], onSelectInstallment }) => {
   const ordinals = ["1st", "2nd", "3rd", "4th", "5th", "6th"];

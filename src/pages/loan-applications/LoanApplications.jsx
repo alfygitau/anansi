@@ -1,88 +1,82 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   XCircle,
   Search,
   Plus,
   Filter,
-  FileSearch,
-  Users,
   Zap,
-  Ban,
-  Hourglass,
   ShieldCheck,
   ArrowRight,
   Gavel,
   History,
-  Check,
+  Calendar,
+  ChevronRight,
+  Clock,
+  CheckCircle2,
 } from "lucide-react";
+import { motion } from "framer-motion";
 
 const LoanApplications = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const applications = [
+  const loanApplications = [
     {
-      id: "ap-990",
-      product: "Development Loan",
-      appCode: "APP-DEV-001",
+      reference: "AN-8821-026",
+      title: "Emergency Fund Loan",
+      date: "May 11, 2026",
+      amount: "KES 45,000",
+      status: "Approved",
+    },
+    {
+      reference: "AN-8822-027",
+      title: "Asset Finance (Logbook)",
+      date: "May 10, 2026",
       amount: "KES 1,200,000",
-      date: "Mar 12, 2026",
-      status: "Pending Approval",
+      status: "Pending",
     },
     {
-      id: "ap-991",
-      product: "Education Loan",
-      appCode: "APP-EDU-045",
+      reference: "AN-8823-028",
+      title: "School Fees Loan",
+      date: "May 08, 2026",
       amount: "KES 85,000",
-      date: "Mar 10, 2026",
-      status: "Pending Disbursement",
-    },
-    {
-      id: "ap-992",
-      product: "Biashara Loan",
-      appCode: "APP-BIA-112",
-      amount: "KES 300,000",
-      date: "Mar 08, 2026",
       status: "Approved",
     },
     {
-      id: "ap-993",
-      product: "Mobile Loan",
-      appCode: "APP-MOB-772",
-      amount: "KES 15,000",
-      date: "Mar 05, 2026",
-      status: "Rejected",
-    },
-    {
-      id: "ap-994",
-      product: "Asset Finance",
-      appCode: "APP-AST-099",
-      amount: "KES 2,500,000",
-      date: "Mar 02, 2026",
-      status: "Approved",
-    },
-    {
-      id: "ap-995",
-      product: "Flash Loan",
-      appCode: "APP-FLS-661",
-      amount: "KES 10,000",
-      date: "Feb 28, 2026",
-      status: "Approved",
-    },
-    {
-      id: "ap-996",
-      product: "Jijenge Loan",
-      appCode: "APP-JIJ-445",
+      reference: "AN-8824-029",
+      title: "Business Biashara Loan",
+      date: "May 05, 2026",
       amount: "KES 250,000",
-      date: "Feb 25, 2026",
+      status: "Declined",
+    },
+    {
+      reference: "AN-8825-030",
+      title: "Agri-Input Credit",
+      date: "May 02, 2026",
+      amount: "KES 30,000",
+      status: "Pending",
+    },
+    {
+      reference: "AN-8826-031",
+      title: "Home Improvement Loan",
+      date: "Apr 28, 2026",
+      amount: "KES 500,000",
+      status: "Approved",
+    },
+    {
+      reference: "AN-8825-032",
+      title: "Agri-Input Credit",
+      date: "May 02, 2026",
+      amount: "KES 30,000",
+      status: "Pending",
+    },
+    {
+      reference: "AN-8826-033",
+      title: "Home Improvement Loan",
+      date: "Apr 28, 2026",
+      amount: "KES 500,000",
       status: "Approved",
     },
   ];
-
-  const filteredApps = applications.filter(
-    (app) =>
-      app.product.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      app.appCode.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
 
   return (
     <div className="min-h-screen bg-slate-50 text-primary pb-20">
@@ -98,17 +92,15 @@ const LoanApplications = () => {
               pipeline.
             </p>
           </div>
-          <button className="flex items-center gap-2 bg-primary text-white px-8 py-4 rounded-[24px] font-bold shadow-xl shadow-blue-900/20 hover:scale-[1.02] transition-all">
-            <Plus size={20} /> New Application
-          </button>
+          <ApplyLoanAction />
         </header>
 
         {/* Layout Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* LEFT: Search & List (8 Columns) */}
-          <div className="lg:col-span-8 space-y-6">
-            <section className="bg-white rounded-[20px] p-8 shadow-xl shadow-blue-900/5 border border-slate-100">
-              <div className="flex gap-4 mb-8">
+          <div className="lg:col-span-7 space-y-6">
+            <section>
+              <div className="flex gap-4 mb-4">
                 <div className="relative flex-1">
                   <Search
                     className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
@@ -117,7 +109,7 @@ const LoanApplications = () => {
                   <input
                     type="text"
                     placeholder="Search by product or application code..."
-                    className="w-full pl-12 pr-4 py-4 bg-slate-100 border-none rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm font-bold transition-all"
+                    className="w-full pl-12 pr-4 py-4 bg-white border rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm font-bold transition-all"
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
@@ -127,9 +119,13 @@ const LoanApplications = () => {
               </div>
 
               <div className="space-y-4">
-                {filteredApps.length > 0 ? (
-                  filteredApps.map((app) => (
-                    <ApplicationRow key={app.id} app={app} />
+                {loanApplications.length > 0 ? (
+                  loanApplications.map((app) => (
+                    <ApplicationItem
+                      key={app.reference}
+                      {...app}
+                      onTap={() => console.log("Tapped", app.reference)}
+                    />
                   ))
                 ) : (
                   <div className="py-20 text-center text-slate-300 font-bold italic">
@@ -141,7 +137,7 @@ const LoanApplications = () => {
           </div>
 
           {/* RIGHT: Quick Actions & Sidebar (4 Columns) */}
-          <aside className="lg:col-span-4 space-y-6">
+          <aside className="lg:col-span-5 space-y-6">
             {/* Action Required Card */}
             <div className="bg-primary rounded-[32px] p-8 text-white shadow-xl shadow-blue-900/20">
               <div className="flex items-center gap-2 mb-6">
@@ -213,97 +209,127 @@ const LoanApplications = () => {
 };
 
 /* --- Sub-Components --- */
+const ApplyLoanAction = ({ onClick }) => {
+  return (
+    <div className="py-2.5">
+      <motion.button
+        whileTap={{ scale: 0.97 }}
+        whileHover={{ y: -2 }}
+        onClick={onClick}
+        className="w-full text-left bg-white p-4 rounded-[24px] border border-[#0A2351]/10 flex items-center shadow-sm hover:shadow-md transition-all group"
+      >
+        {/* 1. Circle Icon (Matching darkBlue color) */}
+        <div className="p-3 bg-[#0A2351] rounded-full text-white shrink-0 group-hover:scale-110 transition-transform duration-300">
+          <Plus size={20} strokeWidth={3} />
+        </div>
 
-const ApplicationRow = ({ app }) => {
-  const statusConfig = {
-    "Pending Approval": {
-      color: "bg-blue-600 text-white",
-      icon: <FileSearch />,
-      bgLight: "bg-blue-50",
-      iconColor: "text-blue-600",
-    },
-    "Pending Guarantors": {
-      color: "bg-amber-500 text-white",
-      icon: <Users />,
-      bgLight: "bg-amber-50",
-      iconColor: "text-amber-600",
-    },
-    "Pending Disbursement": {
-      color: "bg-secondary text-white",
-      icon: <Zap />,
-      bgLight: "bg-sky-50",
-      iconColor: "text-secondary",
-    },
-    Rejected: {
-      color: "bg-red-500 text-white",
-      icon: <XCircle />,
-      bgLight: "bg-red-50",
-      iconColor: "text-red-600",
-    },
-    Cancelled: {
-      color: "bg-slate-400 text-white",
-      icon: <Ban />,
-      bgLight: "bg-slate-50",
-      iconColor: "text-slate-500",
-    },
-    Approved: {
-      color: "bg-emerald-500 text-white",
-      icon: <Check />,
-      bgLight: "bg-emerald-500",
-      iconColor: "text-white",
-    },
-    Default: {
-      color: "bg-slate-600 text-white",
-      icon: <Hourglass />,
-      bgLight: "bg-slate-50",
-      iconColor: "text-slate-600",
-    },
+        {/* 2. Text Content */}
+        <div className="flex-1 ml-4 flex flex-col justify-center">
+          <span className="text-[#0A2351] font-black text-[15px] leading-tight">
+            Apply for a new Loan
+          </span>
+          <span className="text-slate-400 text-[11px] font-medium mt-0.5">
+            Instant processing for eligible members
+          </span>
+        </div>
+
+        {/* 3. Right Chevron */}
+        <ChevronRight
+          size={16}
+          className="text-slate-300 ml-6 group-hover:translate-x-1 transition-transform"
+          strokeWidth={2.5}
+        />
+      </motion.button>
+    </div>
+  );
+};
+
+const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
+  // Logic to determine color and icon based on status
+  const getStatusConfig = (status) => {
+    switch (status.toLowerCase()) {
+      case "approved":
+        return {
+          color: "#10B981", // Emerald
+          bg: "bg-emerald-500/10",
+          icon: CheckCircle2,
+        };
+      case "declined":
+        return {
+          color: "#EF4444", // Rose
+          bg: "bg-red-500/10",
+          icon: XCircle,
+        };
+      case "pending":
+      default:
+        return {
+          color: "#F59E0B", // Amber
+          bg: "bg-amber-500/10",
+          icon: Clock,
+        };
+    }
   };
 
-  const style = statusConfig[app.status] || statusConfig.Default;
+  const config = getStatusConfig(status);
+  const StatusIcon = config.icon;
 
   return (
-    <div className="group p-6 bg-white border border-slate-200 rounded-[32px] hover:border-secondary/30 hover:shadow-2xl transition-all cursor-pointer">
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-        <div className="md:col-span-4 flex items-center gap-4">
+    <motion.div
+      whileTap={{ scale: 0.98 }}
+      onClick={onTap}
+      className="group cursor-pointer select-none mb-4"
+    >
+      <div className="relative overflow-hidden bg-white rounded-[24px] p-4 border border-[#F1F5F9] border-b-2 shadow-sm hover:shadow-md transition-all">
+        {/* Subtle Anansi Teal Splash Overlay on Hover */}
+        <div className="absolute inset-0 bg-[#17C6C6]/0 group-hover:bg-[#17C6C6]/[0.02] transition-colors pointer-events-none" />
+
+        <div className="relative flex items-center gap-4">
+          {/* 1. Status Indicator Icon */}
           <div
-            className={`w-14 h-14 shrink-0 rounded-[20px] flex items-center justify-center ${style.bgLight}`}
+            className={`shrink-0 w-10 h-10 rounded-full ${config.bg} flex items-center justify-center`}
+            style={{ color: config.color }}
           >
-            {React.cloneElement(style.icon, {
-              size: 26,
-              className: style.iconColor,
-            })}
+            <StatusIcon size={20} strokeWidth={2.5} />
           </div>
-          <div className="truncate">
-            <h4 className="font-black text-primary text-base leading-tight truncate">
-              {app.product}
-            </h4>
-            <p className="text-[10px] font-mono text-slate-400 uppercase tracking-widest mt-1">
-              {app.appCode}
-            </p>
+
+          {/* 2. Main Details */}
+          <div className="flex-1 min-w-0">
+            <span className="block font-mono text-slate-400 text-[10px] font-bold tracking-wider uppercase leading-none mb-1">
+              {reference}
+            </span>
+            <h3 className="font-black text-[14px] text-[#0A2351] leading-tight truncate">
+              {title}
+            </h3>
+            <div className="flex items-center gap-1.5 mt-1">
+              <Calendar size={11} className="text-slate-400" />
+              <span className="text-slate-400 text-[11px] font-medium">
+                {date}
+              </span>
+            </div>
           </div>
-        </div>
-        <div className="md:col-span-3">
-          <p className="text-base font-black text-primary">{app.amount}</p>
-          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-            Requested
-          </p>
-        </div>
-        <div className="md:col-span-2">
-          <p className="text-[11px] font-black text-slate-500">{app.date}</p>
-          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-            Submitted
-          </p>
-        </div>
-        <div className="md:col-span-3 flex md:justify-end">
-          <div
-            className={`flex items-center gap-2 px-4 py-2 truncate rounded-xl text-[9px] font-black uppercase tracking-widest shadow-lg shadow-current/10 ${style.color}`}
-          >
-            {app.status}
+
+          {/* 3. Amount and Status Badge */}
+          <div className="flex flex-col items-end shrink-0">
+            <span className="font-mono font-black text-[14px] text-[#0A2351] tracking-tighter">
+              {amount}
+            </span>
+            <div
+              className={`mt-2 px-2.5 py-1 rounded-lg ${config.bg}`}
+              style={{ color: config.color }}
+            >
+              <span className="text-[9px] font-black uppercase tracking-widest leading-none">
+                {status}
+              </span>
+            </div>
+          </div>
+
+          {/* Subtle Chevron indicator for desktop */}
+          <div className="hidden md:block opacity-0 group-hover:opacity-100 transition-opacity translate-x-1">
+            <ChevronRight size={16} className="text-slate-300" />
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
