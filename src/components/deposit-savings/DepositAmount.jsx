@@ -63,7 +63,6 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
     <div className="fixed inset-0 z-[100] flex justify-end bg-[#042159]/40 transition-opacity">
       {/* Side Drawer - Full Height */}
       <div className="bg-white relative w-full max-w-[480px] h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
-        
         {/* Circled Grey Close Button */}
         <button
           onClick={onClose}
@@ -75,7 +74,7 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto">
           {/* Header Section */}
-          <div className="px-8 pt-8 pb-6 border-b border-slate-50">
+          <div className="px-8 pt-8 pb-6">
             <h2 className="text-2xl font-bold text-[#074073]">
               Deposit Savings
             </h2>
@@ -83,7 +82,7 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
               Securely add funds to your savings account.
             </p>
           </div>
-
+          <div className="border-b mx-8 border-slate-100"></div>
           <div className="p-8 space-y-10">
             {/* Payment Method Display */}
             <div className="flex items-center justify-between bg-gray-50 p-5 rounded-2xl border border-gray-100">
@@ -92,8 +91,12 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
                   <Wallet className="text-[#074073]" size={20} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Method</span>
-                  <span className="text-sm font-bold text-gray-700">Pay via M-PESA</span>
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                    Method
+                  </span>
+                  <span className="text-sm font-bold text-gray-700">
+                    Pay via M-PESA
+                  </span>
                 </div>
               </div>
               <img src="/mpesa.svg" alt="M-Pesa" className="h-6" />
@@ -118,7 +121,9 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
                   />
                 </div>
                 {errors.mobile && (
-                  <p className="text-[10px] text-red-500 ml-1 font-medium">{errors.mobile}</p>
+                  <p className="text-[10px] text-red-500 ml-1 font-medium">
+                    {errors.mobile}
+                  </p>
                 )}
               </div>
 
@@ -142,7 +147,9 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
                   />
                 </div>
                 {errors.amount && (
-                  <p className="text-[10px] text-red-500 ml-1 font-medium">{errors.amount}</p>
+                  <p className="text-[10px] text-red-500 ml-1 font-medium">
+                    {errors.amount}
+                  </p>
                 )}
                 <div className="flex items-center gap-1.5 text-[11px] text-gray-400 ml-1 font-medium">
                   <Info size={14} className="text-[#074073]/50" />
@@ -152,13 +159,13 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
             </div>
           </div>
         </div>
-
+        <div className="border-b mx-8 border-slate-100"></div>
         {/* Footer Action - Pinned to Bottom */}
-        <div className="p-8 border-t border-slate-50 bg-white">
+        <div className="p-8 bg-white">
           <button
             onClick={handleSave}
             disabled={!isFormValid}
-            className={`w-full h-14 font-bold rounded-2xl shadow-lg transition-all ${
+            className={`w-full h-14 font-bold rounded-2xl transition-all ${
               isFormValid
                 ? "bg-[#074073] hover:bg-[#052d52] text-white active:scale-[0.98]"
                 : "bg-gray-200 text-gray-400 cursor-not-allowed"
@@ -166,7 +173,7 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
           >
             Continue
           </button>
-          <p className="text-[10px] text-center text-slate-400 mt-4 uppercase tracking-[0.15em] font-bold">
+          <p className="text-[10px] text-center text-slate-400 mt-2 uppercase tracking-[0.15em] font-bold">
             Secure M-PESA Payment
           </p>
         </div>

@@ -76,7 +76,7 @@ const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
         </button>
 
         {/* Header */}
-        <div className="px-8 pt-8 pb-6 border-b border-slate-50">
+        <div className="px-8 pt-8 pb-6">
           <h2 className="text-2xl font-black tracking-tighter text-[#042159]">
             Verify Payment
           </h2>
@@ -84,7 +84,7 @@ const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
             Review your purchase summary
           </p>
         </div>
-
+        <div className="border-b mx-8 border-slate-100"></div>
         {/* Scrollable Body */}
         <div className="flex-1 overflow-y-auto p-8 space-y-8">
           {/* M-PESA Card - Professional Styling */}
@@ -147,9 +147,9 @@ const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
             </p>
           </div>
         </div>
-
+        <div className="border-b mx-8 border-slate-100"></div>
         {/* Footer Action - Pinned to Bottom */}
-        <div className="p-8 bg-white border-t border-slate-50 shadow-[0_-10px_40px_rgba(0,0,0,0.02)]">
+        <div className="p-8 bg-white">
           <button
             onClick={handleContinue}
             disabled={isLoading}
@@ -171,7 +171,7 @@ const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
               </>
             )}
           </button>
-          <p className="text-center text-[9px] text-slate-400 uppercase tracking-widest mt-5 font-black opacity-60">
+          <p className="text-center text-[9px] text-slate-400 uppercase tracking-widest mt-2 font-black opacity-60">
             Powered by Secure M-PESA Integration
           </p>
         </div>
