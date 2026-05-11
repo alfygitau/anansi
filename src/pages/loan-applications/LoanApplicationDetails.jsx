@@ -22,6 +22,7 @@ import {
   PenTool,
   ChevronRight,
   Clock,
+  ArrowRight,
 } from "lucide-react";
 
 const LoanApplicationDetails = ({ onBack }) => {
@@ -108,7 +109,7 @@ const LoanApplicationDetails = ({ onBack }) => {
         <header className="py-2">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h1 className="text-3xl font-black tracking-tight">
+              <h1 className="text-2xl font-black tracking-tight">
                 {appData.product}
               </h1>
               <p className="text-slate-400 font-mono text-xs mt-1 uppercase tracking-widest">
@@ -412,8 +413,18 @@ const GuarantorCard = ({ guarantor }) => {
   );
 };
 
-const StatusInsight = ({ status }) => {
+const StatusInsight = ({ status, onContinue }) => {
   const insights = {
+    Draft: {
+      title: "Continue Application",
+      description:
+        "You have an unfinished application. Complete the remaining steps to submit your request for review.",
+      icon: <FileSearch className="text-amber-600" />,
+      bg: "bg-amber-50",
+      border: "border-amber-100",
+      actionLabel: "Resume Now",
+      showButton: true,
+    },
     "Pending Approval": {
       title: "Under Credit Review",
       description:
@@ -421,22 +432,26 @@ const StatusInsight = ({ status }) => {
       icon: <ShieldCheck className="text-blue-600" />,
       bg: "bg-blue-50",
       border: "border-blue-100",
+      actionLabel: "View Details",
+      showButton: true,
     },
     "Reviewing Customer Information": {
       title: "Verification in Progress",
       description:
-        "We are performing standard KYC (Know Your Customer) checks on your provided identification and documents to ensure your security.",
+        "We are performing standard KYC checks on your provided identification and documents to ensure your security.",
       icon: <FileSearch className="text-indigo-600" />,
       bg: "bg-indigo-50",
       border: "border-indigo-100",
+      showButton: true,
     },
     "Pending Disbursement": {
       title: "Processing M-PESA Transfer",
       description:
         "Great news! Your loan is approved. We are currently queuing the funds for transfer to your registered mobile number.",
-      icon: <Zap className="text-secondary" />,
+      icon: <Zap className="text-[#17C6C6]" />,
       bg: "bg-sky-50",
       border: "border-sky-100",
+      showButton: false,
     },
   };
 
@@ -444,33 +459,49 @@ const StatusInsight = ({ status }) => {
 
   return (
     <div
-      className={`p-6 rounded-[40px] mt-4 border ${active.border} ${active.bg} mb-4`}
+      className={`p-6 rounded-[40px] mt-4 border ${active.border} ${active.bg} mb-4 transition-all`}
     >
       <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
+        {/* Icon Housing */}
         <div className="w-16 h-16 bg-white rounded-3xl flex items-center justify-center shadow-sm shrink-0">
-          {React.cloneElement(active.icon, { size: 32 })}
+          {React.cloneElement(active.icon, { size: 32, strokeWidth: 2.5 })}
         </div>
-        <div>
-          <h3 className="text-lg font-black text-primary tracking-tight">
+
+        {/* Text Content */}
+        <div className="flex-1">
+          <h3 className="text-lg font-black text-[#0A2351] tracking-tight">
             {active.title}
           </h3>
-          <p className="text-sm text-primary/70 leading-relaxed mt-1 max-w-2xl">
+          <p className="text-sm text-[#0A2351]/70 leading-relaxed mt-1 max-w-2xl">
             {active.description}
           </p>
         </div>
-        {status === "Pending Disbursement" && (
-          <div className="md:ml-auto">
+
+        {/* Conditional Button or Live Indicator */}
+        <div className="md:ml-auto shrink-0 w-full md:w-auto">
+          {active.showButton ? (
+            <button
+              onClick={onContinue}
+              className="group flex items-center justify-center gap-2 w-full md:w-auto px-6 py-3 bg-[#0A2351] text-white rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-lg shadow-blue-900/20 hover:bg-[#152E5F] active:scale-95 transition-all"
+            >
+              {active.actionLabel}
+              <ArrowRight
+                size={16}
+                className="group-hover:translate-x-1 transition-transform"
+              />
+            </button>
+          ) : status === "Pending Disbursement" ? (
             <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl border border-sky-200">
               <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-secondary"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#17C6C6] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#17C6C6]"></span>
               </span>
-              <span className="text-[10px] font-black uppercase text-secondary">
+              <span className="text-[10px] font-black uppercase text-[#17C6C6]">
                 System Live
               </span>
             </div>
-          </div>
-        )}
+          ) : null}
+        </div>
       </div>
     </div>
   );
