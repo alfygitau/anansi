@@ -93,7 +93,6 @@ const LoanApplications = () => {
               pipeline.
             </p>
           </div>
-          <ApplyLoanAction />
         </header>
 
         {/* Layout Grid */}
@@ -139,6 +138,7 @@ const LoanApplications = () => {
 
           {/* RIGHT: Quick Actions & Sidebar (4 Columns) */}
           <aside className="lg:col-span-5 space-y-6">
+            <ApplyLoanAction />
             {/* Action Required Card */}
             <div className="bg-primary rounded-[32px] p-4 text-white">
               <div className="flex items-center gap-2 mb-4">
@@ -204,7 +204,7 @@ const LoanApplications = () => {
 /* --- Sub-Components --- */
 const ApplyLoanAction = ({ onClick }) => {
   return (
-    <div className="py-2.5">
+    <div>
       <motion.button
         whileTap={{ scale: 0.97 }}
         whileHover={{ y: -2 }}
