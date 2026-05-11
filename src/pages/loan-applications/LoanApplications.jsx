@@ -84,7 +84,7 @@ const LoanApplications = () => {
     <div className="min-h-screen bg-slate-50 text-primary pb-20">
       <div className="max-w-6xl sm:px-4 mx-auto">
         {/* Header Section */}
-        <header className="py-4 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <header className="py-4 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <h1 className="text-2xl font-black tracking-tight">
               Loan Applications

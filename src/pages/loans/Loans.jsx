@@ -9,13 +9,13 @@ import {
   CheckCircle,
   AlertTriangle,
   ShieldX,
-  PlusCircle,
   CreditCard,
   Info,
   ShieldCheck,
   Zap,
   ChevronRight,
   Plus,
+  FileText,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { allMyLoans } from "../../static/loans";
@@ -115,9 +115,9 @@ const MyLoans = ({ onBack }) => {
               </h3>
               <div className="space-y-3">
                 <ActionButton
-                  icon={<PlusCircle size={18} />}
-                  label="Apply for New Loan"
-                  onClick={() => navigate("/apply")}
+                  icon={<FileText size={18} />}
+                  label="View loan statements"
+                  onClick={() => navigate("/statements")}
                   primary
                 />
                 <ActionButton
