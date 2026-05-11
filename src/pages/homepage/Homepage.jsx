@@ -22,6 +22,12 @@ import {
   Hourglass,
   ChevronRight,
   Zap,
+  HeartPulse,
+  Briefcase,
+  GraduationCap,
+  Car,
+  Home,
+  Info,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import InvestAmount from "../../components/quick-invest/InvestAmount";
@@ -50,18 +56,89 @@ import { getSharesSummary } from "../../sdks/accounts/accounts";
 import useAuth from "../../hooks/useAuth";
 import { useStore } from "../../store/useStore";
 import { useFormatAmount } from "../../hooks/useFormatAmount";
-import {
-  allLoans,
-  myLoanApplications,
-  myLoanProducts,
-} from "../../static/loans";
+import { allLoans, myLoanApplications } from "../../static/loans";
+
+const allProducts = [
+  {
+    id: "prod_01",
+    name: "Flash Emergency",
+    cat: "Instant Loan",
+    description:
+      "Get instant funds for urgent bills and unexpected expenses within minutes.",
+    icon: Zap,
+    rate: "1.5%",
+    maxAmount: "50,000",
+    period: "1 Month",
+    color: "#F59E0B",
+  },
+  {
+    id: "prod_02",
+    name: "Mortgage Plus",
+    cat: "Housing",
+    description:
+      "Flexible financing options to help you own your dream home with ease.",
+    icon: Home,
+    rate: "9.0%",
+    maxAmount: "15,000,000",
+    period: "240 Months",
+    color: "#042159",
+  },
+  {
+    id: "prod_03",
+    name: "Asset Financing",
+    cat: "Vehicle",
+    description:
+      "Drive your ambition with low-interest loans for new and used vehicles.",
+    icon: Car,
+    rate: "11.5%",
+    maxAmount: "3,500,000",
+    period: "60 Months",
+    color: "#3B82F6",
+  },
+  {
+    id: "prod_04",
+    name: "Edu-Advance",
+    cat: "Education",
+    description:
+      "Invest in your future with specialized loans covering tuition and supplies.",
+    icon: GraduationCap,
+    rate: "8.5%",
+    maxAmount: "500,000",
+    period: "12 Months",
+    color: "#8B5CF6",
+  },
+  {
+    id: "prod_05",
+    name: "SME Growth",
+    cat: "Business",
+    description:
+      "Scale your business operations with working capital and equipment loans.",
+    icon: Briefcase,
+    rate: "13.0%",
+    maxAmount: "10,000,000",
+    period: "48 Months",
+    color: "#10B981",
+  },
+  {
+    id: "prod_06",
+    name: "Medi-Shield",
+    cat: "Medical",
+    description:
+      "Comprehensive medical loans to ensure health emergencies never catch you off guard.",
+    icon: HeartPulse,
+    rate: "7.0%",
+    maxAmount: "1,200,000",
+    period: "24 Months",
+    color: "#EF4444",
+  },
+];
 
 const Homepage = () => {
   const navigate = useNavigate();
   const { showToast } = useToast();
   const setStoreAccounts = useStore((state) => state.setAccounts);
   const [loans, setLoans] = useState(allLoans);
-  const [loanProducts, setLoanProducts] = useState(myLoanProducts);
+  const [loanProducts, setLoanProducts] = useState(allProducts);
   const [loanApplications, setLoanApplications] = useState(myLoanApplications);
   const quickActions = [
     {
@@ -631,10 +708,10 @@ const Homepage = () => {
             <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-2">
               Explore Products
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {loanProducts.length > 0 ? (
                 loanProducts.map((product) => (
-                  <MediumProductCard
+                  <DetailedProductCard
                     key={product.id}
                     product={product}
                     onApply={() => {}}
@@ -652,9 +729,10 @@ const Homepage = () => {
 };
 
 /* --- Sub-Components --- */
-const MediumProductCard = ({ product, onApply }) => {
+const DetailedProductCard = ({ product, onApply }) => {
   const {
     name,
+    description,
     icon: Icon,
     rate,
     maxAmount,
@@ -663,75 +741,70 @@ const MediumProductCard = ({ product, onApply }) => {
   } = product;
 
   return (
-    <div
-      onClick={onApply}
-      className="group w-full max-w-[340px] bg-white rounded-[28px] p-5 border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-blue-900/5 transition-all cursor-pointer active:scale-[0.98]"
-    >
-      {/* Top Row: Icon & Rate Badge */}
-      <div className="flex justify-between items-start mb-4">
-        <div
-          className="w-14 h-14 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110 duration-300"
-          style={{ backgroundColor: `${color}1A`, color: color }}
+    <div className="group bg-white rounded-[32px] border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-blue-900/5 transition-all overflow-hidden mb-6">
+      {/* Top Section: Icon, Rate, and Content */}
+      <div className="p-6">
+        <div className="flex justify-between items-start mb-5">
+          {/* Main Icon Box */}
+          <div
+            className="w-14 h-14 rounded-2xl flex items-center justify-center transition-colors duration-300"
+            style={{ backgroundColor: `${color}1A`, color: color }} // 1A = 10% opacity
+          >
+            <Icon size={28} strokeWidth={1.5} />
+          </div>
+
+          {/* Rate Badge */}
+          <span className="text-[11px] font-black uppercase tracking-widest text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
+            {rate} P.A
+          </span>
+        </div>
+
+        {/* Title and Description */}
+        <div className="mb-6">
+          <h3 className="text-xl font-medium text-slate-900 tracking-tight mb-2 group-hover:text-secondary transition-colors">
+            {name}
+          </h3>
+          <p className="text-sm text-slate-500 leading-relaxed max-w-md">
+            {description}
+          </p>
+        </div>
+
+        {/* Info Grid (Mimicking the Flutter _buildInfoColumn) */}
+        <div className="flex items-center justify-between py-4 border-t border-slate-50">
+          <InfoColumn label="MAX AMOUNT" value={`KES ${maxAmount}`} />
+          <div className="h-8 w-px bg-slate-100" /> {/* Vertical Divider */}
+          <InfoColumn label="TENURE" value={period} />
+          <div className="h-8 w-px bg-slate-100" /> {/* Vertical Divider */}
+          <InfoColumn label="REPAYMENT" value="Monthly" />
+        </div>
+      </div>
+
+      {/* Bottom Action Bar */}
+      <div className="bg-slate-50 px-6 py-4 flex items-center justify-between border-t border-slate-100">
+        <div className="flex items-center gap-1 text-[10px] font-semibold text-slate-400">
+          <Info size={12} />
+          <span>Terms & Conditions apply</span>
+        </div>
+
+        <button
+          onClick={onApply}
+          className="px-6 py-2.5 bg-[#042159] text-white text-[11px] font-black uppercase tracking-widest rounded-xl shadow-lg shadow-blue-900/10 hover:bg-slate-800 transition-all active:scale-95"
         >
-          <Icon size={28} strokeWidth={1.8} />
-        </div>
-
-        <div className="flex flex-col items-end">
-          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
-            Interest
-          </span>
-          <span className="text-[14px] font-black text-slate-900">
-            {rate} <span className="text-[10px] text-slate-400">P.A</span>
-          </span>
-        </div>
-      </div>
-
-      {/* Product Title */}
-      <div className="mb-5">
-        <h3 className="text-[17px] font-bold text-slate-900 tracking-tight leading-tight group-hover:text-teal-500 transition-colors">
-          {name}
-        </h3>
-        <div className="flex items-center gap-1.5 mt-1">
-          <Zap size={12} className="text-#042159 fill-#042159" />
-          <span className="text-[11px] font-bold text-primary uppercase tracking-tighter">
-            Instant Disbursement
-          </span>
-        </div>
-      </div>
-
-      {/* Stats Row - Borrowed from Detailed Card */}
-      <div className="flex items-center justify-between pt-4 border-t border-slate-50">
-        <div className="flex flex-col">
-          <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">
-            Limit
-          </span>
-          <span className="text-[13px] font-extrabold text-[#042159]">
-            KES {maxAmount}
-          </span>
-        </div>
-
-        <div className="h-6 w-px bg-slate-100" />
-
-        <div className="flex flex-col items-end text-right">
-          <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">
-            Tenure
-          </span>
-          <span className="text-[13px] font-extrabold text-slate-700">
-            {period}
-          </span>
-        </div>
-      </div>
-
-      {/* Footer Action */}
-      <div className="mt-4 flex items-center justify-end text-[#042159] gap-1">
-        <span className="text-[11px] font-black uppercase tracking-widest">
-          Apply
-        </span>
-        <ArrowRight size={14} strokeWidth={3} />
+          Apply Now
+        </button>
       </div>
     </div>
   );
 };
+
+const InfoColumn = ({ label, value }) => (
+  <div className="flex flex-col gap-1">
+    <span className="text-[9px] font-black text-slate-400 tracking-wider uppercase">
+      {label}
+    </span>
+    <span className="text-xs font-bold text-slate-700">{value}</span>
+  </div>
+);
 
 const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
   return (
