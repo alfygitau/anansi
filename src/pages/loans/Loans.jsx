@@ -55,7 +55,7 @@ const MyLoans = ({ onBack }) => {
             icon={<CheckCircle2 className="text-emerald-500" />}
           />
         </div>
-
+        <h1 className="text-xl mt-6 mb-1 font-medium tracking-tight">All Loans</h1>
         {/* 2. Main Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* LEFT: Search & List (8 Columns) */}
@@ -177,7 +177,7 @@ const MyLoans = ({ onBack }) => {
 /* --- Sub-Components --- */
 const ApplyLoanAction = ({ onClick }) => {
   return (
-    <div className="py-2.5">
+    <div>
       <motion.button
         whileTap={{ scale: 0.97 }}
         whileHover={{ y: -2 }}

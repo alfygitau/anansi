@@ -21,7 +21,7 @@ const HomeLoader = () => {
         <section className="mb-10">
           <div className="h-4 w-32 bg-slate-200 rounded mb-4"></div>
           <div className="flex gap-4 overflow-hidden">
-            {[1, 2, 3, 4, 5].map((i) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
               <div
                 key={i}
                 className="flex flex-col items-center min-w-[100px] space-y-3"

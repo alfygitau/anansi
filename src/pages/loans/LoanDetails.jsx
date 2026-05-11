@@ -4,9 +4,6 @@ import {
   Clock,
   Receipt,
   CheckCircle2,
-  UserPlus,
-  ShieldCheck,
-  MessageCircle,
   CreditCard,
   FileStack,
   ClipboardList,
@@ -200,7 +197,6 @@ const LoanDetails = () => {
             />
           </div>
         </section>
-
         {/* 2. Split View: Schedule & Transactions */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 py-3">
           {/* Left Side: Schedule (Stepper) */}
