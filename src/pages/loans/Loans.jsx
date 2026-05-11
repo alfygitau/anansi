@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { allMyLoans } from "../../static/loans";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 const MyLoans = ({ onBack }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -91,7 +91,7 @@ const MyLoans = ({ onBack }) => {
                       status={loan.status}
                       statusColor={loan.statusColor}
                       maturityDate={loan.maturityDate}
-                      onTap={() => {}}
+                      onTap={() => navigate("/loan-details")}
                     />
                   ))
                 ) : (

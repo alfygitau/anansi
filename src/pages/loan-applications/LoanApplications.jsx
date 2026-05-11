@@ -15,9 +15,11 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const LoanApplications = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   const loanApplications = [
     {
@@ -124,7 +126,7 @@ const LoanApplications = () => {
                     <ApplicationItem
                       key={app.reference}
                       {...app}
-                      onTap={() => console.log("Tapped", app.reference)}
+                      onTap={() => navigate("/loan-application-details")}
                     />
                   ))
                 ) : (
