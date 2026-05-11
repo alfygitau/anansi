@@ -14,78 +14,22 @@ import {
   Info,
   ShieldCheck,
   Zap,
+  ChevronRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { allMyLoans } from "../../static/loans";
 
 const MyLoans = ({ onBack }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
-  // Your existing loan data...
-  const loans = [
-    {
-      id: "ln-001",
-      productName: "Development Loan",
-      loanCode: "DEV-2024-9902",
-      balance: "KES 450,000",
-      repaymentDate: "Mar 30, 2026",
-      status: "Active",
-    },
-    {
-      id: "ln-002",
-      productName: "Flash Loan",
-      loanCode: "FLS-2026-1102",
-      balance: "KES 0",
-      repaymentDate: "Feb 10, 2026",
-      status: "Paid",
-    },
-    {
-      id: "ln-003",
-      productName: "Jijenge Loan",
-      loanCode: "JIJ-2025-4410",
-      balance: "KES 120,000",
-      repaymentDate: "Apr 05, 2026",
-      status: "Paid",
-    },
-    {
-      id: "ln-004",
-      productName: "Emergency Loan",
-      loanCode: "EMG-2026-005",
-      balance: "KES 50,000",
-      repaymentDate: "Jan 15, 2026",
-      status: "Defaulted",
-    },
-    {
-      id: "ln-005",
-      productName: "Education Loan",
-      loanCode: "EDU-2026-882",
-      balance: "KES 85,000",
-      repaymentDate: "Mar 01, 2026",
-      status: "Paid",
-    },
-    {
-      id: "ln-006",
-      productName: "Mobile Loan",
-      loanCode: "MOB-2026-331",
-      balance: "KES 5,500",
-      repaymentDate: "Mar 18, 2026",
-      status: "Paid",
-    },
-  ];
-
-  const filteredLoans = loans.filter(
-    (l) =>
-      l.productName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      l.loanCode.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
-
   return (
     <div className="min-h-screen bg-slate-50 text-primary pb-20">
       <div className="max-w-6xl sm:px-4 mx-auto">
         {/* Header */}
-        <header className="py-4">
+        <header className="py-2">
           <h1 className="text-2xl font-black tracking-tight">My Loans</h1>
-          <p className="text-slate-400 text-sm mt-2 font-medium">
+          <p className="text-slate-400 text-sm font-medium">
             Manage your active credit lines and track your path to financial
             freedom.
           </p>
@@ -113,9 +57,9 @@ const MyLoans = ({ onBack }) => {
         {/* 2. Main Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* LEFT: Search & List (8 Columns) */}
-          <div className="lg:col-span-8 space-y-4">
-            <section className="bg-white rounded-[40px] p-8 shadow-xl shadow-blue-900/5 border border-slate-100">
-              <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+          <div className="lg:col-span-7 space-y-4">
+            <section>
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
                 <div className="relative w-full md:w-96">
                   <Search
                     className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
@@ -124,22 +68,28 @@ const MyLoans = ({ onBack }) => {
                   <input
                     type="text"
                     placeholder="Search loan code or type..."
-                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm transition-all font-bold"
+                    className="w-full pl-12 pr-4 py-3 bg-white border rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm transition-all font-bold"
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
-                <button className="flex items-center gap-2 px-6 py-3 border border-slate-100 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-slate-50 transition-all">
+                <button className="flex items-center gap-2 px-6 py-3 border border rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-slate-50 transition-all">
                   <Filter size={16} /> Filter Status
                 </button>
               </div>
 
               <div className="space-y-4">
-                {filteredLoans.length > 0 ? (
-                  filteredLoans.map((loan) => (
-                    <DetailedLoanCard
+                {allMyLoans.length > 0 ? (
+                  allMyLoans.map((loan) => (
+                    <LoanItem
                       key={loan.id}
-                      loan={loan}
-                      navigate={() => navigate("/loan-details")}
+                      title={loan.title}
+                      id={loan.id}
+                      amount={loan.amount}
+                      balance={loan.balance}
+                      status={loan.status}
+                      statusColor={loan.statusColor}
+                      maturityDate={loan.maturityDate}
+                      onTap={() => {}}
                     />
                   ))
                 ) : (
@@ -154,7 +104,7 @@ const MyLoans = ({ onBack }) => {
           </div>
 
           {/* RIGHT: Quick Actions & Sidebar (4 Columns) */}
-          <aside className="lg:col-span-4 space-y-6">
+          <aside className="lg:col-span-5 space-y-6">
             {/* Quick Actions Card */}
             <div className="bg-primary rounded-[22px] p-8 text-white shadow-xl shadow-blue-900/20">
               <h3 className="text-lg font-black mb-6 flex items-center gap-2">
@@ -222,6 +172,92 @@ const MyLoans = ({ onBack }) => {
 };
 
 /* --- Sub-Components --- */
+const LoanItem = ({
+  title,
+  id,
+  amount,
+  balance,
+  status,
+  statusColor,
+  maturityDate,
+  onTap,
+}) => {
+  return (
+    <div
+      onClick={onTap}
+      className="mb-4 cursor-pointer rounded-[30px] bg-white shadow-[0_12px_24px_rgba(10,35,81,0.04)] transition-all active:scale-[0.99] hover:shadow-[0_12px_32px_rgba(10,35,81,0.07)]"
+    >
+      <div className="flex flex-col">
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 pt-5 pb-3.5">
+          <div className="flex flex-col">
+            <h3 className="text-[16px] font-black text-[#0A2351] tracking-tight">
+              {title}
+            </h3>
+            <span className="text-[13px] font-bold text-gray-500">{id}</span>
+          </div>
+          <div className="flex flex-col items-end">
+            <span className="text-[9px] font-extrabold text-gray-400">
+              MATURITY
+            </span>
+            <span className="text-[12px] font-bold text-[#0A2351]">
+              {maturityDate}
+            </span>
+          </div>
+        </div>
+
+        {/* Stats Box */}
+        <div className="mx-4 flex items-center justify-between rounded-[22px] bg-[#F8FAFC] px-5 py-4 border border-gray-100/50">
+          <div>
+            <span className="text-[9px] font-extrabold text-gray-400 tracking-widest">
+              PRINCIPAL
+            </span>
+            <div className="text-[15px] font-black font-outfit text-black">
+              {amount}
+            </div>
+          </div>
+          <div className="h-8 w-[1px] bg-gray-200" />
+          <div className="text-right">
+            <span className="text-[9px] font-extrabold text-gray-400 tracking-widest">
+              CURRENT BALANCE
+            </span>
+            <div className="text-[15px] font-black font-outfit text-[#0A2351]">
+              {balance}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="flex items-center justify-between px-6 pt-4 pb-5">
+          <div
+            className="flex items-center gap-2 rounded-full px-3 py-1.5"
+            style={{ backgroundColor: `${statusColor}15` }}
+          >
+            <div
+              className="h-1.5 w-1.5 rounded-full"
+              style={{ backgroundColor: statusColor }}
+            />
+            <span
+              className="text-[10px] font-black uppercase"
+              style={{ color: statusColor }}
+            >
+              {status}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-0.5 text-[#0A2351] group">
+            <span className="text-[11px] font-bold">View Details</span>
+            <ChevronRight
+              size={14}
+              strokeWidth={3}
+              className="transition-transform group-hover:translate-x-0.5"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const ActionButton = ({ icon, label, onClick, primary = false }) => (
   <button

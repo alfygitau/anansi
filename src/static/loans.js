@@ -120,3 +120,42 @@ export const allLoans = [
     maturityDate: "10 Jun 2026",
   },
 ];
+
+export const allMyLoans = [
+  {
+    title: "Asset Finance (Vehicle)",
+    id: "LN-V-2024-08",
+    amount: "KES 1,200,000",
+    balance: "KES 840,250",
+    status: "Active",
+    statusColor: "#17C6C6", // Anansi Teal
+    maturityDate: "15 Dec 2028",
+  },
+  {
+    title: "Business Growth Loan",
+    id: "LN-B-2025-11",
+    amount: "KES 500,000",
+    balance: "KES 12,400",
+    status: "Arrears",
+    statusColor: "#EF4444", // Red
+    maturityDate: "10 Jun 2026",
+  },
+  {
+    title: "Emergency Salary Advance",
+    id: "LN-S-2026-04",
+    amount: "KES 45,000",
+    balance: "KES 45,000",
+    status: "Pending",
+    statusColor: "#F59E0B", // Amber
+    maturityDate: "01 May 2026",
+  },
+  {
+    title: "Elimu (Education) Loan",
+    id: "LN-E-2023-01",
+    amount: "KES 150,000",
+    balance: "KES 0",
+    status: "Fully Paid",
+    statusColor: "#10B981", // Emerald
+    maturityDate: "15 Jan 2024",
+  },
+];
