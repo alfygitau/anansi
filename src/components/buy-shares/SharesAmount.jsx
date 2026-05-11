@@ -11,12 +11,11 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
   const setSharesDetails = useStore((state) => state.setSharesDetails);
 
   useEffect(() => {
-    setMobile(auth?.user?.mobileno);
+    setMobile(auth?.user?.mobileno || "");
   }, [auth]);
 
   const validateField = (name, value) => {
     let error = "";
-
     if (name === "mobile") {
       const kePhoneRegex = /^(?:254|\+254|0)?([71][0-9]{8})$/;
       if (!value) {
@@ -26,7 +25,7 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
       }
     }
     if (name === "shares") {
-      if (!value) {
+      if (!value || Number(value) <= 0) {
         error = "Amount is required";
       }
     }
@@ -68,29 +67,29 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#074073]/40 bg-slate-900/40">
-      {/* Centered Modal */}
-      <div className="bg-white relative w-full max-w-[500px] rounded-[32px] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
-        <button
-          onClick={onClose}
-          className="text-gray-400 absolute top-5 right-5 hover:text-gray-900"
-        >
-          <X size={20} />
-        </button>
-        {/* Header */}
-        <div className="px-8 pt-8 pb-2">
-          <h2 className="text-center text-xl font-bold text-[#074073]">
-            Buy Shares
-          </h2>
-          <p className="text-sm text-center text-slate-500 mt-1">
-            Invest in your future by increasing your stake in the SACCO.
-          </p>
+    <div className="fixed inset-0 z-[100] flex justify-end bg-[#042159]/40 transition-opacity">
+      {/* Side Drawer Container */}
+      <div className="bg-white relative w-full max-w-[500px] h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+        {/* Header - Fixed at top */}
+        <div className="relative">
+          <button
+            onClick={onClose}
+            className="absolute top-5 right-5 z-10 flex items-center justify-center w-10 h-10 bg-slate-100 hover:bg-slate-200 text-gray-500 hover:text-gray-900 rounded-full transition-all active:scale-95 shadow-sm"
+          >
+            <X size={20} />
+          </button>
+          <div className="px-8 pt-8 pb-4 border-b border-slate-50">
+            <h2 className="text-2xl font-bold text-[#074073]">Buy Shares</h2>
+            <p className="text-sm text-slate-500 mt-1">
+              Invest in your future by increasing your stake in the SACCO.
+            </p>
+          </div>
         </div>
 
-        {/* Body */}
-        <div className="p-8 space-y-10">
+        {/* Scrollable Body - Takes up remaining space */}
+        <div className="flex-1 overflow-y-auto p-8 space-y-10">
           {/* Share Calculation Section */}
-          <div className="flex flex-col md:flex-row gap-2">
+          <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 space-y-2">
               <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider ml-1">
                 Purchase Cost (KES)
@@ -107,7 +106,9 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
                 />
               </div>
               {errors.shares && (
-                <p className="text-[10px] text-red-500 ml-1">{errors.shares}</p>
+                <p className="text-[10px] text-red-500 ml-1 font-medium">
+                  {errors.shares}
+                </p>
               )}
             </div>
 
@@ -124,18 +125,18 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
           </div>
 
           {/* Pricing Tooltip */}
-          <div className="flex items-center gap-2 text-[11px] text-blue-600 bg-blue-50 p-3 rounded-lg border border-blue-100">
-            <Info size={14} />
+          <div className="flex items-center gap-3 text-[11px] text-blue-600 bg-blue-50 p-4 rounded-xl border border-blue-100">
+            <Info size={16} />
             <span>
               Currently, <strong>1 Share = KES 1,000</strong>
             </span>
           </div>
 
           {/* Payment Method */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
+          <div className="space-y-6 pt-4">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
               <h4 className="text-xs font-bold text-gray-900 uppercase tracking-widest">
-                Pay with
+                Payment Details
               </h4>
               <img src="/mpesa.svg" className="h-6" alt="M-PESA" />
             </div>
@@ -159,14 +160,16 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
                 />
               </div>
               {errors.mobile && (
-                <p className="text-[10px] text-red-500 ml-1">{errors.mobile}</p>
+                <p className="text-[10px] text-red-500 ml-1 font-medium">
+                  {errors.mobile}
+                </p>
               )}
             </div>
           </div>
         </div>
 
-        {/* Action Button */}
-        <div className="p-8 pt-0">
+        {/* Action Button - Pinned to bottom */}
+        <div className="p-8 bg-white border-t border-slate-50">
           <button
             onClick={handleSave}
             disabled={!isFormValid}
@@ -178,6 +181,9 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
           >
             Review and Finish
           </button>
+          <p className="text-[10px] text-center text-slate-400 mt-4 uppercase tracking-widest font-bold">
+            Secure Payment Gateway
+          </p>
         </div>
       </div>
     </div>

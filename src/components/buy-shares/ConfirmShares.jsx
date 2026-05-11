@@ -1,5 +1,13 @@
 import { useMemo } from "react";
-import { X, Calendar, Phone, Receipt, Loader2 } from "lucide-react";
+import {
+  X,
+  Calendar,
+  Phone,
+  Receipt,
+  Loader2,
+  ShieldCheck,
+  ArrowRight,
+} from "lucide-react";
 import { useMutation } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
 import { buyShares } from "../../sdks/accounts/accounts";
@@ -41,7 +49,7 @@ const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
     },
     onError: (error) => {
       showToast({
-        title: "Authentication glitch",
+        title: "Transaction failed",
         type: "error",
         position: "top-right",
         description: error?.response?.data?.message || error.message,
@@ -56,63 +64,72 @@ const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#074073]/40 bg-slate-900/40">
-      <div className="bg-white relative w-full max-w-[480px] rounded-[32px] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+    <div className="fixed inset-0 z-[100] flex justify-end bg-[#042159]/40 transition-opacity">
+      {/* Side Drawer Container */}
+      <div className="bg-white relative w-full max-w-[500px] h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+        {/* Circled Grey Close Button */}
         <button
           onClick={onClose}
-          className="text-gray-400 absolute top-5 right-5 hover:text-gray-900"
+          className="absolute top-6 right-6 z-10 flex items-center justify-center w-10 h-10 bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900 rounded-full transition-all active:scale-95 shadow-sm"
         >
           <X size={20} />
         </button>
+
         {/* Header */}
-        <div className="px-8 pt-8">
-          <div className="text-center">
-            <h2 className="text-[#074073] font-bold text-lg">
-              Confirm Purchase
-            </h2>
-            <p className="text-gray-500 text-xs mt-1">
-              Please verify your transaction details
-            </p>
-          </div>
+        <div className="px-8 pt-8 pb-6 border-b border-slate-50">
+          <h2 className="text-2xl font-black tracking-tighter text-[#042159]">
+            Verify Payment
+          </h2>
+          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-1">
+            Review your purchase summary
+          </p>
         </div>
 
-        {/* Body */}
-        <div className="p-8 space-y-5">
-          {/* M-PESA Card */}
-          <div className="space-y-2">
-            <label className="flex items-center gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
-              <Phone size={12} /> Account Details
+        {/* Scrollable Body */}
+        <div className="flex-1 overflow-y-auto p-8 space-y-8">
+          {/* M-PESA Card - Professional Styling */}
+          <div className="space-y-3">
+            <label className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">
+              <Phone size={12} className="text-emerald-500" /> Account Details
             </label>
-            <div className="bg-[#F0FFFE] border border-[#B2EBE8] rounded-2xl p-4 flex items-center justify-between">
-              <div>
-                <p className="text-[10px] text-[#0C722F] font-bold uppercase">
-                  M-PESA Phone No
+            <div className="bg-emerald-50/50 border border-emerald-100 rounded-[24px] p-5 flex items-center justify-between">
+              <div className="space-y-1">
+                <p className="text-[9px] text-emerald-600 font-black uppercase tracking-tighter">
+                  M-PESA Recipient
                 </p>
-                <p className="text-sm font-bold text-gray-800">
+                <p className="text-lg font-black text-[#042159]">
                   {sharesDetails?.mobile}
                 </p>
               </div>
-              <img src="/mpesa.svg" alt="M-Pesa" className="h-6" />
+              <div className="bg-white p-2 rounded-xl border border-emerald-100 shadow-sm">
+                <img src="/mpesa.svg" alt="M-Pesa" className="h-6" />
+              </div>
             </div>
           </div>
 
           {/* Transaction Details Card */}
-          <div className="space-y-2">
-            <label className="flex items-center gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">
-              <Receipt size={12} /> Summary
+          <div className="space-y-3">
+            <label className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">
+              <Receipt size={12} className="text-sky-500" /> Summary
             </label>
-            <div className="bg-gray-50 border border-gray-100 rounded-2xl p-5 space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-500">Total Share Cost</span>
-                <span className="text-base font-black text-[#074073]">
-                  KES {formatCurrency(sharesDetails?.sharesAmount ?? 0)}
+            <div className="bg-slate-50 border border-slate-100 rounded-[24px] p-6 space-y-5">
+              <div className="flex justify-between items-end">
+                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                  Investment Cost
+                </span>
+                <span className="text-2xl font-black text-[#042159]">
+                  <span className="text-xs not-italic font-bold opacity-40">
+                    KES
+                  </span>{" "}
+                  {formatCurrency(sharesDetails?.sharesAmount ?? 0)}
                 </span>
               </div>
-              <div className="flex justify-between items-center pt-3 border-t border-gray-200/50">
-                <span className="text-sm text-gray-500 flex items-center gap-2">
-                  <Calendar size={14} /> Date
+
+              <div className="pt-4 border-t border-slate-200/60 flex justify-between items-center">
+                <span className="text-[11px] font-bold text-slate-400 uppercase flex items-center gap-2">
+                  <Calendar size={14} className="text-slate-400" /> Date
                 </span>
-                <span className="text-xs font-bold text-gray-700">
+                <span className="text-xs font-black text-slate-600">
                   {formattedDate}
                 </span>
               </div>
@@ -120,35 +137,43 @@ const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
           </div>
 
           {/* Instruction Note */}
-          <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100/50">
-            <p className="text-[11px] leading-relaxed text-blue-700 text-center font-medium">
-              A push notification will be sent to your phone. Enter your PIN to
-              complete the purchase.
+          <div className="bg-[#042159]/5 p-5 rounded-[20px] border border-[#042159]/10 flex gap-4 items-start">
+            <div className="mt-1 p-1 bg-[#042159] rounded-md">
+              <ShieldCheck size={14} className="text-sky-400" />
+            </div>
+            <p className="text-[11px] leading-relaxed text-[#042159] font-semibold">
+              An STK Push notification will be sent to your mobile device.
+              Please enter your PIN to authorize the transaction safely.
             </p>
           </div>
         </div>
 
-        {/* Footer Action */}
-        <div className="px-8 pb-8">
+        {/* Footer Action - Pinned to Bottom */}
+        <div className="p-8 bg-white border-t border-slate-50 shadow-[0_-10px_40px_rgba(0,0,0,0.02)]">
           <button
             onClick={handleContinue}
             disabled={isLoading}
-            className={`w-full h-14 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-900/10 
+            className={`w-full h-16 rounded-[22px] font-black text-[11px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 transition-all duration-300 shadow-xl
     ${
       isLoading
-        ? "bg-slate-200 text-slate-400 cursor-not-allowed"
-        : "bg-[#074073] hover:bg-[#052d52] text-white active:scale-[0.98]"
+        ? "bg-slate-100 text-slate-400 cursor-not-allowed"
+        : "bg-[#042159] hover:bg-[#052d52] text-white active:scale-[0.98] shadow-[#042159]/20"
     }`}
           >
             {isLoading ? (
               <>
-                <Loader2 className="animate-spin" size={20} />
+                <Loader2 className="animate-spin text-sky-500" size={20} />
                 <span>Processing...</span>
               </>
             ) : (
-              "Confirm & Pay"
+              <>
+                Confirm & Pay <ArrowRight size={18} className="text-sky-500" />
+              </>
             )}
           </button>
+          <p className="text-center text-[9px] text-slate-400 uppercase tracking-widest mt-5 font-black opacity-60">
+            Powered by Secure M-PESA Integration
+          </p>
         </div>
       </div>
     </div>

@@ -47,90 +47,105 @@ const ReviewDeposit = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#074073]/40 bg-slate-900/40">
-      {/* Modern Centered Modal */}
-      <div className="bg-white relative w-full max-w-[480px] rounded-[32px] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+    <div className="fixed inset-0 z-[100] flex justify-end bg-[#042159]/40 transition-opacity">
+      {/* Side Drawer - Full Height */}
+      <div className="bg-white relative w-full max-w-[480px] h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+        {/* Circled Grey Close Button */}
         <button
           onClick={onClose}
-          className="text-gray-400 absolute top-5 right-5 hover:text-gray-600 transition-colors"
+          className="absolute top-5 right-5 z-10 flex items-center justify-center w-10 h-10 bg-slate-100 hover:bg-slate-200 text-gray-500 hover:text-gray-900 rounded-full transition-all active:scale-95 shadow-sm"
         >
           <X size={20} />
         </button>
-        {/* Header Section */}
-        <div className="px-8 pt-8">
-          <div className="text-left space-y-1">
-            <h2 className="text-lg font-bold text-gray-900">Review Transfer</h2>
-            <p className="text-xs text-gray-500">
+
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto">
+          {/* Header Section */}
+          <div className="px-8 pt-8 pb-6">
+            <h2 className="text-2xl font-bold text-[#074073]">
+              Review Transfer
+            </h2>
+            <p className="text-sm text-slate-500 mt-1 font-medium">
               Double check your details before confirming
             </p>
           </div>
-        </div>
+          <div className="border-b mx-8 border-slate-100"></div>
+          <div className="p-8 space-y-6">
+            {/* Large Amount Display */}
+            <div className="text-center py-8 bg-slate-50 rounded-[28px] border border-slate-100 shadow-sm">
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2">
+                Deposit Amount
+              </p>
+              <h2 className="text-4xl font-black text-[#074073] flex items-center justify-center">
+                <span className="text-lg font-bold mr-2 text-[#074073]/60 uppercase">
+                  KES
+                </span>
+                {formattedAmount}
+              </h2>
+            </div>
 
-        {/* Body Section */}
-        <div className="p-8 space-y-8">
-          {/* Large Amount Display */}
-          <div className="text-center py-6 bg-gray-50 rounded-2xl border border-gray-100">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1">
-              Deposit Amount
-            </p>
-            <h2 className="text-4xl font-black text-[#074073]">
-              <span className="text-lg font-bold mr-1">KES</span>
-              {formattedAmount}
-            </h2>
-          </div>
-
-          {/* Phone Input Section */}
-          <div className="space-y-3">
-            <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">
-              Verify M-PESA Number
-            </label>
-            <div className="group flex h-14 border border-gray-200 rounded-2xl overflow-hidden focus-within:border-[#074073] focus-within:ring-1 focus-within:ring-[#074073] transition-all">
-              <div className="bg-gray-50 px-4 flex items-center border-r border-gray-100">
-                <Smartphone
-                  size={18}
-                  className="text-gray-400 group-focus-within:text-[#074073] transition-colors"
+            {/* Phone Input Section (Read Only) */}
+            <div className="space-y-3">
+              <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">
+                Recipient M-PESA Number
+              </label>
+              <div className="group flex h-14 border border-gray-200 rounded-2xl overflow-hidden bg-slate-50/50 transition-all">
+                <div className="bg-slate-100 px-4 flex items-center border-r border-gray-100">
+                  <Smartphone size={18} className="text-[#074073]" />
+                </div>
+                <input
+                  type="text"
+                  value={depositDetails?.mobile}
+                  readOnly
+                  className="flex-1 px-4 outline-none text-sm font-bold tracking-wider text-[#074073] bg-transparent"
+                  placeholder="07XX XXX XXX"
                 />
               </div>
-              <input
-                type="text"
-                value={depositDetails?.mobile}
-                readOnly
-                className="flex-1 px-4 outline-none text-sm font-semibold tracking-wider"
-                placeholder="07XX XXX XXX"
-              />
             </div>
-          </div>
 
-          {/* Security Note */}
-          <div className="flex items-start gap-3 bg-blue-50/50 p-4 rounded-xl border border-blue-100/50">
-            <ShieldCheck size={18} className="text-blue-600 mt-0.5" />
-            <p className="text-[11px] leading-relaxed text-blue-700 font-medium">
-              By clicking deposit, you will receive an M-PESA STK prompt to
-              authorize this transaction. Keep your phone nearby.
-            </p>
+            {/* Security Note */}
+            <div className="flex items-center gap-4 bg-emerald-50/50 p-5 rounded-2xl border border-emerald-100/50">
+              <div className="bg-emerald-500 p-1.5 rounded-lg shadow-sm">
+                <ShieldCheck size={18} className="text-white" />
+              </div>
+              <p className="text-xs leading-relaxed text-emerald-800 font-semibold">
+                By clicking deposit, you will receive an M-PESA STK prompt to
+                authorize this transaction. Keep your phone nearby.
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Footer Action */}
-        <div className="px-8 pb-8">
+        {/* Footer Action - Pinned to Bottom */}
+        <div className="p-8 border-t border-slate-50 bg-white">
           <button
             disabled={isLoading}
             onClick={handleContinue}
-            className={`w-full h-14 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all active:scale-[0.98] shadow-xl shadow-blue-900/10 ${
+            className={`w-full h-14 rounded-2xl font-black flex items-center justify-center gap-3 transition-all active:scale-[0.98] shadow-xl shadow-[#074073]/10 ${
               isLoading
-                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                ? "bg-slate-100 text-slate-400 cursor-not-allowed"
                 : "bg-[#074073] hover:bg-[#052d52] text-white"
             }`}
           >
             {isLoading ? (
               <>
                 <Loader2 className="animate-spin" size={20} />
-                <span>Initiating...</span>
+                <span className="uppercase tracking-widest text-xs">
+                  Initiating Push...
+                </span>
               </>
             ) : (
-              "Confirm Deposit"
+              <span className="uppercase tracking-widest text-xs text-white">
+                Confirm & Deposit
+              </span>
             )}
           </button>
+
+          <div className="flex items-center justify-center gap-2 mt-2">
+            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">
+              Secure Transaction Layer Active
+            </p>
+          </div>
         </div>
       </div>
     </div>
