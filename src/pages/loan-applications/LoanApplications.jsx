@@ -89,7 +89,7 @@ const LoanApplications = () => {
             <h1 className="text-2xl font-black tracking-tight">
               Loan Applications
             </h1>
-            <p className="text-slate-400 text-sm mt-2 font-medium">
+            <p className="text-slate-400 text-sm font-medium">
               Monitor your credit requests through the vetting and disbursement
               pipeline.
             </p>
