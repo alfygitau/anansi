@@ -587,7 +587,7 @@ const Homepage = () => {
                     status={loan.status}
                     statusColor={loan.statusColor}
                     maturityDate={loan.maturityDate}
-                    onTap={() => {}}
+                    onTap={() => navigate("/loan-details")}
                   />
                 ))
               ) : (
@@ -614,7 +614,7 @@ const Homepage = () => {
                     date={app.date}
                     amount={app.amount}
                     status={app.status}
-                    onTap={() => console.log(`Selected ${app.reference}`)}
+                    onTap={() => navigate("/loan-application-details")}
                   />
                 ))
               ) : (
