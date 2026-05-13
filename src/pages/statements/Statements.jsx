@@ -11,8 +11,11 @@ import {
   Clock,
   Lock,
   ArrowLeft,
+  Plus,
+  ChevronRight,
 } from "lucide-react";
 import GenerateStatement from "../../components/statements/GenerateStatement";
+import { motion } from "framer-motion";
 
 const MyStatements = () => {
   // --- State ---
@@ -101,29 +104,7 @@ const MyStatements = () => {
       year: "2025",
       url: "#",
     },
-    {
-      id: 7,
-      type: "loan",
-      start_date: "2026-02-01",
-      end_date: "2026-02-28",
-      product: { name: "Personal Loan" },
-      accountId: "loan-01",
-      year: "2026",
-      url: "#",
-    },
   ];
-
-  // --- Logic ---
-  const filteredStatements = allStatements.filter((stmt) => {
-    const matchTab =
-      activeTab === "accounts" ? stmt.type === "account" : stmt.type === "loan";
-
-    // Update this line to allow an 'All' option
-    const matchYear = year === "All" || stmt.year === year;
-
-    const matchAccount = accountType === "" || stmt.accountId === accountType;
-    return matchTab && matchYear && matchAccount;
-  });
 
   const handleDownload = (url) => {
     console.log("Initiating secure download for:", url);
@@ -143,25 +124,18 @@ const MyStatements = () => {
           <header className="py-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <h1 className="text-2xl font-black tracking-tight">Statements</h1>
-              <p className="text-slate-400 text-sm mt-2 max-w-md font-medium">
+              <p className="text-slate-400 text-sm mt-2 font-medium">
                 Official financial records for Anansi Sacco members. All
                 documents are legally encrypted.
               </p>
             </div>
-            <button
-              onClick={() => setShowGenerateStatement(true)}
-              className="flex items-center sm:justify-center gap-3 px-8 py-4 bg-primary text-white rounded-[24px] font-bold text-sm shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] transition-all"
-            >
-              <FileText size={18} />
-              Generate Custom Statement
-            </button>
           </header>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* LEFT COLUMN: FILTERS & LIST */}
             <div className="lg:col-span-8 space-y-6">
               {/* Filter Card */}
-              <section className="bg-white rounded-[40px] p-8 shadow-xl shadow-blue-900/5 border border-slate-100">
+              <section className="bg-white rounded-[40px] p-8 border border-slate-200">
                 <div className="flex flex-col md:flex-row items-center gap-6">
                   <div className="flex-1 w-full">
                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-2">
@@ -249,8 +223,8 @@ const MyStatements = () => {
 
               {/* List */}
               <div className="space-y-4">
-                {filteredStatements.length > 0 ? (
-                  filteredStatements.map((stmt) => (
+                {allStatements.length > 0 ? (
+                  allStatements.map((stmt) => (
                     <StatementListItem
                       key={stmt.id}
                       stmt={stmt}
@@ -273,8 +247,9 @@ const MyStatements = () => {
 
             {/* RIGHT COLUMN: INFO & DISCLAIMERS */}
             <aside className="lg:col-span-4 space-y-6">
+              <ApplyLoanAction />
               {/* Security Card */}
-              <div className="bg-primary rounded-[32px] p-8 text-white shadow-xl shadow-blue-900/20 relative overflow-hidden">
+              <div className="bg-primary rounded-[32px] p-8 text-white relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-full -mr-16 -mt-16 blur-2xl" />
                 <Lock className="text-secondary mb-4" size={28} />
                 <h3 className="text-lg font-black mb-2 leading-tight">
@@ -295,7 +270,7 @@ const MyStatements = () => {
               </div>
 
               {/* Disclaimer Card */}
-              <div className="bg-white rounded-[32px] p-8 border border-slate-100 shadow-xl shadow-blue-900/5">
+              <div className="bg-white rounded-[32px] p-8 border border-slate-100">
                 <div className="flex items-center gap-3 mb-6">
                   <ShieldAlert className="text-amber-500" size={20} />
                   <h3 className="font-black text-[11px] uppercase tracking-[0.15em] text-slate-400">
@@ -344,14 +319,48 @@ const MyStatements = () => {
 };
 
 /* --- SUB-COMPONENTS --- */
+const ApplyLoanAction = ({ onClick }) => {
+  return (
+    <div>
+      <motion.button
+        whileTap={{ scale: 0.97 }}
+        whileHover={{ y: -2 }}
+        onClick={onClick}
+        className="w-full text-left bg-white p-4 rounded-[24px] border border-[#0A2351]/10 flex items-center shadow-sm hover:shadow-md transition-all group"
+      >
+        {/* 1. Circle Icon (Matching darkBlue color) */}
+        <div className="p-3 bg-[#0A2351] rounded-full text-white shrink-0 group-hover:scale-110 transition-transform duration-300">
+          <Plus size={20} strokeWidth={3} />
+        </div>
+
+        {/* 2. Text Content */}
+        <div className="flex-1 ml-4 flex flex-col justify-center">
+          <span className="text-[#0A2351] font-black text-[15px] leading-tight">
+            Generate a statement
+          </span>
+          <span className="text-slate-400 text-[11px] font-medium mt-0.5">
+            Instant processing of statements
+          </span>
+        </div>
+
+        {/* 3. Right Chevron */}
+        <ChevronRight
+          size={16}
+          className="text-slate-300 ml-6 group-hover:translate-x-1 transition-transform"
+          strokeWidth={2.5}
+        />
+      </motion.button>
+    </div>
+  );
+};
 
 const TabButton = ({ active, onClick, icon, label }) => (
   <button
     onClick={onClick}
-    className={`px-8 py-3 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 ${
+    className={`px-8 py-3 rounded-2xl border border-slate-200 font-bold text-sm transition-all flex items-center gap-2 ${
       active
         ? "bg-secondary text-white shadow-lg shadow-blue-400/20 scale-105"
-        : "bg-white text-slate-400 hover:text-primary border border-transparent hover:border-slate-200"
+        : "bg-white text-slate-400 hover:text-primary border border-slate-200 hover:border-slate-200"
     }`}
   >
     {icon} {label}

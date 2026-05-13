@@ -236,7 +236,7 @@ const ProfilePage = () => {
             {/* TOP SECTION: SIDE-BY-SIDE */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
               {/* PROFILE SUMMARY CARD (4 Cols) */}
-              <div className="lg:col-span-4 bg-primary rounded-[32px] p-8 shadow-xl shadow-blue-900/20 flex flex-col items-center justify-center text-center">
+              <div className="lg:col-span-4 bg-primary rounded-[32px] p-8 flex flex-col items-center justify-center text-center">
                 <div className="relative group">
                   <div className="w-28 h-28 rounded-full border-4 border-blue-400/30 overflow-hidden bg-white/10 flex items-center justify-center">
                     {customer?.profile_photo ? (
