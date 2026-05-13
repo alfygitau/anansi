@@ -144,7 +144,7 @@ const Notifications = () => {
                 </div>
               </div>
 
-              <div className="bg-white h-[650px] overflow-y-auto rounded-[12px] border border-slate-200 shadow-sm shadow-blue-900/5 overflow-hidden">
+              <div className="h-[700px] overflow-y-auto shadow-sm shadow-blue-900/5 overflow-hidden">
                 {filteredNotifications.length === 0 ? (
                   <EmptyState />
                 ) : (
@@ -167,13 +167,12 @@ const Notifications = () => {
                               }
                               setShowNotification(true);
                             }}
-                            className={`group flex items-center gap-5 p-4 cursor-pointer rounded-2xl transition-all duration-300 ${
+                            className={`group flex items-center gap-5 p-4 mb-3 cursor-pointer transition-all duration-300 ${
                               !notification.is_read
                                 ? "bg-slate-50 hover:bg-slate-100/70"
                                 : "bg-white hover:bg-slate-50/50"
                             }`}
                           >
-                            {/* Modern Icon Presentation */}
                             <div className="relative shrink-0">
                               <div
                                 className={`flex items-center justify-center size-14 rounded-full transition-colors duration-300 ${
@@ -182,16 +181,12 @@ const Notifications = () => {
                                     : "bg-slate-100/70 text-slate-500"
                                 }`}
                               >
-                                {/* Ensure getNotificationIcon returns an icon with adequate size (e.g., size={24}) */}
                                 {getNotificationIcon(notification.module)}
                               </div>
-
-                              {/* Minimalist Unread Indicator */}
                               {!notification.is_read && (
                                 <span className="absolute top-0 right-0 block size-3.5 rounded-full bg-blue-600 ring-2 ring-white" />
                               )}
                             </div>
-                            {/* Content Area with refined hierarchy */}
                             <div className="flex-grow min-w-0 pr-4">
                               <div className="flex flex-col gap-1.5">
                                 <p
@@ -229,7 +224,7 @@ const Notifications = () => {
             {/* RIGHT COLUMN: QUICK ACTIONS & INFO (4/12) */}
             <aside className="lg:col-span-4 space-y-6">
               {/* QUICK ACTIONS CARD */}
-              <div className="bg-primary rounded-[32px] p-6 text-white shadow-xl shadow-blue-900/20">
+              <div className="bg-primary rounded-[32px] p-6 text-white">
                 <div className="flex items-center gap-3 mb-6">
                   <Zap size={20} className="text-secondary" />
                   <h3 className="text-sm font-black uppercase tracking-widest">
