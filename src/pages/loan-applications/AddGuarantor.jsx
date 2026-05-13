@@ -86,7 +86,7 @@ const AddGuarantors = ({ limit = 4 }) => {
             </div>
           </div>
         </header>
-        <div className="grid grid-cols-1 mb-4 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 mb-2 lg:grid-cols-12 gap-8">
           {/* --- LEFT SIDE: CONFIGURATION (7 Cols) --- */}
           <div className="lg:col-span-6 space-y-12">
             <div className="bg-white h-[400px] border border-slate-200 rounded-[32px] p-8 space-y-8">
@@ -188,7 +188,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="h-[400px] border-2 border-dashed border-slate-200 rounded-[32px] flex flex-col text-center p-3 overflow-y-auto"
+                    className="h-[400px] border-2 border-dashed border-slate-200 rounded-[32px] flex flex-col gap-2 text-center p-3 overflow-y-auto"
                   >
                     {guarantors.map((g) => (
                       <motion.div
@@ -255,7 +255,7 @@ const AddGuarantors = ({ limit = 4 }) => {
             </span>
           </div>
           {/* Bottom Actions */}
-          <div className="pt-6 mb-8 space-y-6">
+          <div className="pt-3 mb-8 space-y-6">
             <div className="flex gap-4 p-5 bg-amber-50/40 border border-amber-100 rounded-2xl items-center">
               <AlertCircle size={20} className="text-amber-500 shrink-0" />
               <div className="space-y-1">
