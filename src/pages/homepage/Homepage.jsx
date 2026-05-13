@@ -741,7 +741,7 @@ const DetailedProductCard = ({ product, onApply }) => {
   } = product;
 
   return (
-    <div className="group bg-white rounded-[32px] border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-blue-900/5 transition-all overflow-hidden mb-6">
+    <div className="group bg-white rounded-[32px] border border-slate-200 hover:shadow-xl hover:shadow-blue-900/5 transition-all overflow-hidden mb-6">
       {/* Top Section: Icon, Rate, and Content */}
       <div className="p-6">
         <div className="flex justify-between items-start mb-5">
@@ -950,17 +950,6 @@ const ProductsEmptyState = () => (
       Refresh Catalog
     </button>
   </div>
-);
-
-const QuickAction = ({ label, icon }) => (
-  <button className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-[7px] transition-all hover:border-secondary hover:shadow-md group text-left">
-    <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded bg-slate-50 text-primary group-hover:bg-secondary group-hover:text-white transition-colors">
-      {icon}
-    </div>
-    <span className="text-xs font-bold text-slate-600 group-hover:text-primary">
-      {label}
-    </span>
-  </button>
 );
 
 const LoanItem = ({
