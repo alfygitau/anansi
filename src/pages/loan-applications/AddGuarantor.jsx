@@ -52,14 +52,39 @@ const AddGuarantors = ({ limit = 4 }) => {
           <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
             Nominate <span className="text-primary">Guarantors</span>
           </h1>
-          <p className="text-slate-500 text-base leading-relaxed">
-            Identify members to back your facility. They will receive a
-            <span className="text-slate-900 font-semibold">
-              {" "}
-              secure digital invitation{" "}
-            </span>
-            to review and authorize your request.
-          </p>
+          <div className="space-y-4">
+            <p className="text-slate-500 text-base leading-relaxed">
+              Nominate eligible members to act as guarantors for your credit
+              facility. Once submitted, your nominees will receive a
+              <span className="text-slate-900 font-semibold">
+                {" "}
+                secure digital invitation{" "}
+              </span>
+              via the Anansi portal to review your application details, verify
+              their available shares, and provide legal authorization for the
+              request.
+            </p>
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
+              <div className="flex items-center gap-2">
+                <div className="size-1.5 rounded-full bg-emerald-500" />
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  Real-time Validation
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="size-1.5 rounded-full bg-emerald-500" />
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  Digital Consent
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="size-1.5 rounded-full bg-emerald-500" />
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  Instant Notification
+                </span>
+              </div>
+            </div>
+          </div>
         </header>
         <div className="grid grid-cols-1 mb-4 lg:grid-cols-12 gap-8">
           {/* --- LEFT SIDE: CONFIGURATION (7 Cols) --- */}
@@ -165,50 +190,52 @@ const AddGuarantors = ({ limit = 4 }) => {
                     animate={{ opacity: 1, y: 0 }}
                     className="h-[400px] border-2 border-dashed border-slate-200 rounded-[32px] flex flex-col text-center p-3 overflow-y-auto"
                   >
-                  {guarantors.map((g) => (
-                    <motion.div
-                      key={g.id}
-                      layout
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{
-                        opacity: 0,
-                        scale: 0.9,
-                        transition: { duration: 0.2 },
-                      }}
-                      className="group bg-white border border-slate-200 p-5 rounded-2xl flex items-center justify-between hover:border-primary/20 hover:shadow-lg hover:shadow-slate-100 transition-all"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="size-12 bg-slate-50 rounded-xl flex items-center justify-center text-primary font-bold group-hover:bg-primary group-hover:text-white transition-all text-lg">
-                          {g.name.charAt(0)}
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h4 className="font-bold text-slate-900 text-sm tracking-tight">
-                              {g.name}
-                            </h4>
-                            <CheckCircle2
-                              size={14}
-                              className="text-emerald-500"
-                            />
-                          </div>
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
-                            ID: {g.idNo} •{" "}
-                            <span className="text-primary">{g.shares}</span>
-                          </p>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() =>
-                          setGuarantors(guarantors.filter((x) => x.id !== g.id))
-                        }
-                        className="p-2.5 text-slate-200 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                    {guarantors.map((g) => (
+                      <motion.div
+                        key={g.id}
+                        layout
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{
+                          opacity: 0,
+                          scale: 0.9,
+                          transition: { duration: 0.2 },
+                        }}
+                        className="group bg-white border border-slate-200 p-5 rounded-2xl flex items-center justify-between hover:border-primary/20 hover:shadow-lg hover:shadow-slate-100 transition-all"
                       >
-                        <Trash2 size={18} />
-                      </button>
-                    </motion.div>
-                  ))}
-                </motion.div>
+                        <div className="flex items-center gap-4">
+                          <div className="size-12 bg-slate-50 rounded-xl flex items-center justify-center text-primary font-bold group-hover:bg-primary group-hover:text-white transition-all text-lg">
+                            {g.name.charAt(0)}
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h4 className="font-bold text-slate-900 text-sm tracking-tight">
+                                {g.name}
+                              </h4>
+                              <CheckCircle2
+                                size={14}
+                                className="text-emerald-500"
+                              />
+                            </div>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
+                              ID: {g.idNo} •{" "}
+                              <span className="text-primary">{g.shares}</span>
+                            </p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() =>
+                            setGuarantors(
+                              guarantors.filter((x) => x.id !== g.id),
+                            )
+                          }
+                          className="p-2.5 text-slate-200 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </motion.div>
+                    ))}
+                  </motion.div>
                 )}
               </AnimatePresence>
             </div>
