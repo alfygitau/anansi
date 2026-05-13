@@ -14,7 +14,7 @@ import PremiumSlider from "../../shared/slider/Slider";
 const ApplyLoan = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState(50000);
-  const [tenure, setTenure] = useState(12);
+  const [tenure, setTenure] = useState(48);
   const [frequency, setFrequency] = useState("Monthly");
 
   // Constants for Anansi Financial Logic
@@ -91,7 +91,7 @@ const ApplyLoan = () => {
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(Number(e.target.value))}
-                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl h-16 pl-24 pr-6 text-2xl font-bold text-slate-900 focus:bg-white focus:border-primary focus:ring-0 transition-all outline-none placeholder:text-slate-200"
+                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl h-16 pl-24 pr-6 text-xl font-medium text-slate-900 focus:bg-white focus:border-primary focus:ring-0 transition-all outline-none placeholder:text-slate-200"
                     placeholder="0"
                   />
                 </div>
