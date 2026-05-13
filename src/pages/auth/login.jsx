@@ -224,7 +224,7 @@ const Login = () => {
                   )}
                 </AnimatePresence>
               </div>
-              <p class="text-[11px] font-medium text-slate-500 uppercase tracking-widest leading-relaxed">
+              <p class="text-[12px] font-medium text-slate-500 tracking-widest">
                 If you have forgotten your credentials, please use the{" "}
                 <span
                   onClick={() => navigate("/auth/forgot-password")}

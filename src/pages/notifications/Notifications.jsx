@@ -148,7 +148,7 @@ const Notifications = () => {
                 {filteredNotifications.length === 0 ? (
                   <EmptyState />
                 ) : (
-                  <div className="divide-y divide-slate-100">
+                  <div className="divide-y divide-slate-100 flex flex-col gap-3">
                     <AnimatePresence>
                       {filteredNotifications.map((notification, index) => {
                         const timeLabel = getTimeDifference(
@@ -167,7 +167,7 @@ const Notifications = () => {
                               }
                               setShowNotification(true);
                             }}
-                            className={`group flex items-center gap-5 p-4 mb-3 cursor-pointer transition-all duration-300 ${
+                            className={`group flex items-center gap-5 p-4 cursor-pointer transition-all duration-300 ${
                               !notification.is_read
                                 ? "bg-slate-50 hover:bg-slate-100/70"
                                 : "bg-white hover:bg-slate-50/50"
