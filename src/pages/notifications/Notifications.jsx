@@ -144,11 +144,11 @@ const Notifications = () => {
                 </div>
               </div>
 
-              <div className="h-[700px] overflow-y-auto shadow-sm shadow-blue-900/5 overflow-hidden">
+              <div className="h-[700px] overflow-y-auto shadow-sm shadow-blue-900/5 px-1">
                 {filteredNotifications.length === 0 ? (
                   <EmptyState />
                 ) : (
-                  <div className="divide-y divide-slate-100 flex flex-col gap-3">
+                  <div className="flex flex-col gap-3 p-1">
                     <AnimatePresence>
                       {filteredNotifications.map((notification, index) => {
                         const timeLabel = getTimeDifference(
@@ -167,10 +167,11 @@ const Notifications = () => {
                               }
                               setShowNotification(true);
                             }}
-                            className={`group flex items-center gap-5 p-4 cursor-pointer transition-all duration-300 ${
+                            /* Added rounded-2xl and a subtle border to create the "card" feel with gaps */
+                            className={`group flex items-center gap-5 p-5 cursor-pointer transition-all duration-300 rounded-2xl border ${
                               !notification.is_read
-                                ? "bg-slate-50 hover:bg-slate-100/70"
-                                : "bg-white hover:bg-slate-50/50"
+                                ? "bg-slate-50 border-blue-100 hover:bg-slate-100/70 shadow-sm"
+                                : "bg-white border-slate-100 hover:bg-slate-50/50"
                             }`}
                           >
                             <div className="relative shrink-0">
@@ -192,20 +193,19 @@ const Notifications = () => {
                                 <p
                                   className={`text-[15px] leading-relaxed transition-colors duration-300 ${
                                     !notification.is_read
-                                      ? "font-semibold text-slate-900"
+                                      ? "font-bold text-slate-900"
                                       : "font-medium text-slate-700"
                                   } line-clamp-3`}
                                 >
                                   {notification.message}
                                 </p>
 
-                                {/* Modern, elegant time label */}
-                                <span className="text-xs font-medium text-slate-400/90 tracking-wide">
+                                <span className="text-[11px] font-black text-slate-400 uppercase tracking-widest">
                                   {timeLabel}
                                 </span>
                               </div>
                             </div>
-                            {/* Interaction Arrow */}
+
                             <div className="shrink-0">
                               <ChevronRight
                                 size={20}
@@ -220,8 +220,6 @@ const Notifications = () => {
                 )}
               </div>
             </div>
-
-            {/* RIGHT COLUMN: QUICK ACTIONS & INFO (4/12) */}
             <aside className="lg:col-span-4 space-y-6">
               {/* QUICK ACTIONS CARD */}
               <div className="bg-primary rounded-[32px] p-6 text-white">

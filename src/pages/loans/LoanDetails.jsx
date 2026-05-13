@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Smartphone,
   Clock,
@@ -13,6 +13,10 @@ import {
   CircleCheck,
   AlertCircle,
 } from "lucide-react";
+import RepayAmount from "../../components/loans/RepayAmount";
+import AddRepayAmount from "../../components/loans/AddRepayAmount";
+import ConfirmRepayDetails from "../../components/loans/ConfirmRepayDetails";
+import AwaitLoanPayment from "../../components/loans/AwaitLoanPayment";
 
 const LoanDetails = () => {
   const loanData = {
@@ -74,159 +78,227 @@ const LoanDetails = () => {
     },
   ];
 
+  const [showRepayAmount, setShowRepayAmount] = useState(false);
+  const [showAddRepayAmount, setShowAddRepayAmount] = useState(false);
+  const [showConfirmRepayDetails, setShowConfirmRepayDetails] = useState(false);
+  const [showAwaitLoanPayment, setShowAwaitLoanPayment] = useState(false);
+  const loanInfo = {
+    minimumPayable: 4500.0,
+    paymentInFull: 125000.0,
+    loanId: "LN-2026-X882",
+    currency: "KES",
+    dueDate: "2026-06-15",
+    interestRate: 12.5,
+    breakdown: {
+      principal: 110000.0,
+      accruedInterest: 14500.0,
+      lateFees: 500.0,
+    },
+    isOverdue: false,
+    daysToNextPayment: 32,
+  };
+  const [formData, setFormData] = useState({
+    phone: "",
+    amount: "",
+    accountType: "loan",
+  });
+
   return (
-    <div className="min-h-screen bg-slate-50 text-primary pb-20">
-      <div className="max-w-6xl sm:px-4 mx-auto">
-        <header>
-          <div className="flex justify-between items-end">
-            <div>
-              <h1 className="text-3xl font-black tracking-tight">
-                {loanData.product}
-              </h1>
-              <p className="text-slate-400 font-mono text-xs mt-1 uppercase tracking-widest">
-                {loanData.code}
-              </p>
-            </div>
-            <div className="bg-primary text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.1em]">
-              {loanData.status}
-            </div>
-          </div>
-        </header>
-        <div className="flex flex-col lg:flex-row gap-6 py-5 w-full">
-          <div className="flex-1 min-w-[320px] bg-gradient-to-br from-[#0A2351] to-[#152E5F] rounded-[35px] p-7 shadow-[0_15px_30px_rgba(10,35,81,0.15)] text-white">
-            <div className="flex justify-between items-center mb-4">
-              <span className="text-[#17C6C6] text-[10px] font-black tracking-[1.8px] uppercase">
-                Emergency Fund Loan
-              </span>
-              <div className="bg-white/10 px-2 py-1 rounded-lg flex items-center justify-center">
-                <span className="text-[8px] font-bold uppercase tracking-tighter">
-                  Active
-                </span>
-              </div>
-            </div>
-            <div className="flex justify-between items-center mb-6">
-              <div className="flex flex-col">
-                <span className="text-white/50 text-[10px] font-extrabold tracking-[1.2px] uppercase">
-                  Current Balance
-                </span>
-                <h2 className="text-[28px] font-black mt-1 leading-none">
-                  KES 142,500.00
-                </h2>
-              </div>
-              <div className="p-2.5 bg-white/10 rounded-full">
-                <LayoutGrid size={20} className="text-white" />
-              </div>
-            </div>
+    <>
+      <RepayAmount
+        isOpen={showRepayAmount}
+        onClose={() => setShowRepayAmount(false)}
+        loanData={loanInfo}
+        onProceed={() => {
+          setShowRepayAmount(false);
+          setShowAddRepayAmount(true);
+        }}
+      />
+      <AddRepayAmount
+        isOpen={showAddRepayAmount}
+        onClose={() => setShowAddRepayAmount(false)}
+        minimumPayable={2000}
+        formData={formData}
+        setFormData={setFormData}
+        onContinue={() => {
+          setShowAddRepayAmount(false);
+          setShowConfirmRepayDetails(true);
+        }}
+      />
+      <ConfirmRepayDetails
+        isOpen={showConfirmRepayDetails}
+        onClose={() => setShowConfirmRepayDetails(false)}
+        amount={2000}
+        phoneNumber="0769400300"
+        onConfirm={() => {
+          setShowConfirmRepayDetails(false);
+          setShowAwaitLoanPayment(true);
+        }}
+      />
 
-            {/* Progress */}
-            <div className="mb-4">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-white/70 text-[13px] font-semibold">
-                  Repayment Progress
-                </span>
-                <span className="text-[#17C6C6] text-[13px] font-black">
-                  35%
-                </span>
+      <AwaitLoanPayment
+        isOpen={showAwaitLoanPayment}
+        onClose={() => setShowAwaitLoanPayment(false)}
+        onPaymentSuccess={() => {
+          setShowAwaitLoanPayment(false);
+        }}
+      />
+      <div className="min-h-screen bg-slate-50 text-primary pb-20">
+        <div className="max-w-6xl sm:px-4 mx-auto">
+          <header>
+            <div className="flex justify-between items-end">
+              <div>
+                <h1 className="text-3xl font-black tracking-tight">
+                  {loanData.product}
+                </h1>
+                <p className="text-slate-400 font-mono text-xs mt-1 uppercase tracking-widest">
+                  {loanData.code}
+                </p>
               </div>
-              <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
-                <div
-                  className="bg-[#17C6C6] h-full rounded-full"
-                  style={{ width: "35%" }}
-                />
+              <div className="bg-primary text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.1em]">
+                {loanData.status}
               </div>
             </div>
-            <hr className="border-white/10 my-4" />
-            <div className="flex justify-between items-center">
-              <MiniDetail label="Loan ID" value="#L-9902" />
-              <MiniDetail label="Interest" value="1.5%" />
-              <MiniDetail label="Period" value="6 Months" />
-            </div>
-          </div>
-          <div className="flex-1 min-w-[320px] bg-[#17C6C6]/5 border border-[#17C6C6]/10 rounded-[24px] p-6 flex flex-col justify-center">
-            <div className="space-y-4">
-              <PaymentRow label="Principal Amount" value="KES 20,000.00" />
-              <PaymentRow label="Interest Charged" value="KES 3,500.00" />
-              <PaymentRow label="Service Fee" value="KES 0.00" />
+          </header>
+          <div className="flex flex-col lg:flex-row gap-6 py-5 w-full">
+            <div className="flex-1 min-w-[320px] bg-gradient-to-br from-[#0A2351] to-[#152E5F] rounded-[35px] p-7 shadow-[0_15px_30px_rgba(10,35,81,0.15)] text-white">
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-[#17C6C6] text-[10px] font-black tracking-[1.8px] uppercase">
+                  Emergency Fund Loan
+                </span>
+                <div className="bg-white/10 px-2 py-1 rounded-lg flex items-center justify-center">
+                  <span className="text-[8px] font-bold uppercase tracking-tighter">
+                    Active
+                  </span>
+                </div>
+              </div>
+              <div className="flex justify-between items-center mb-6">
+                <div className="flex flex-col">
+                  <span className="text-white/50 text-[10px] font-extrabold tracking-[1.2px] uppercase">
+                    Current Balance
+                  </span>
+                  <h2 className="text-[28px] font-black mt-1 leading-none">
+                    KES 142,500.00
+                  </h2>
+                </div>
+                <div className="p-2.5 bg-white/10 rounded-full">
+                  <LayoutGrid size={20} className="text-white" />
+                </div>
+              </div>
 
-              <hr className="border-black/10 my-3" />
-
+              {/* Progress */}
+              <div className="mb-4">
+                <div className="flex justify-between items-center mb-3">
+                  <span className="text-white/70 text-[13px] font-semibold">
+                    Repayment Progress
+                  </span>
+                  <span className="text-[#17C6C6] text-[13px] font-black">
+                    35%
+                  </span>
+                </div>
+                <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                  <div
+                    className="bg-[#17C6C6] h-full rounded-full"
+                    style={{ width: "35%" }}
+                  />
+                </div>
+              </div>
+              <hr className="border-white/10 my-4" />
               <div className="flex justify-between items-center">
-                <span className="text-[14px] font-black text-slate-900">
-                  Total Due (15 May)
-                </span>
-                <span className="text-[16px] font-black text-teal-900">
-                  KES 24,500.00
-                </span>
+                <MiniDetail label="Loan ID" value="#L-9902" />
+                <MiniDetail label="Interest" value="1.5%" />
+                <MiniDetail label="Period" value="6 Months" />
               </div>
             </div>
-            <button className="mt-6 w-full py-3 bg-[#17C6C6] text-white rounded-xl font-black text-[12px] uppercase tracking-widest shadow-lg shadow-teal-500/20 active:scale-[0.98] transition-transform">
-              Pay Installment
-            </button>
-          </div>
-        </div>
+            <div className="flex-1 min-w-[320px] bg-[#17C6C6]/5 border border-[#17C6C6]/10 rounded-[24px] p-6 flex flex-col justify-center">
+              <div className="space-y-4">
+                <PaymentRow label="Principal Amount" value="KES 20,000.00" />
+                <PaymentRow label="Interest Charged" value="KES 3,500.00" />
+                <PaymentRow label="Service Fee" value="KES 0.00" />
 
-        <section className="mb-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <QuickActionButton
-              icon={<CreditCard className="text-emerald-500" />}
-              label="Pay Loan"
-              sub="Direct M-PESA"
-              onClick={() => {}}
-              variant="emerald"
-            />
-            <QuickActionButton
-              icon={<FileStack className="text-blue-500" />}
-              label="Statements"
-              sub="View Ledger"
-              onClick={() => {}}
-              variant="blue"
-            />
-            <QuickActionButton
-              icon={<ClipboardList className="text-purple-500" />}
-              label="Applications"
-              sub="Check Status"
-              onClick={() => {}}
-              variant="purple"
-            />
-            <QuickActionButton
-              icon={<LayoutGrid className="text-slate-500" />}
-              label="Other Products"
-              sub="Explore More"
-              onClick={() => {}}
-              variant="slate"
-            />
-          </div>
-        </section>
-        {/* 2. Split View: Schedule & Transactions */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 py-3">
-          {/* Left Side: Schedule (Stepper) */}
-          <div className="md:col-span-6">
-            <h3 className="text-[13px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">
-              Repayment Progress
-            </h3>
-            <LoanScheduleList installments={scheduleData} />
-          </div>
+                <hr className="border-black/10 my-3" />
 
-          {/* Right Side: Transactions */}
-          <div className="md:col-span-6">
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-[13px] font-black uppercase tracking-[0.2em] text-slate-400">
-                Transaction Ledger
-              </h3>
-              <button className="text-[13px] font-black uppercase tracking-widest text-secondary hover:underline flex items-center gap-1">
-                Download Statement <Receipt size={14} />
+                <div className="flex justify-between items-center">
+                  <span className="text-[14px] font-black text-slate-900">
+                    Total Due (15 May)
+                  </span>
+                  <span className="text-[16px] font-black text-teal-900">
+                    KES 24,500.00
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowRepayAmount(true)}
+                className="mt-6 w-full py-3 bg-[#17C6C6] text-white rounded-xl font-black text-[12px] uppercase tracking-widest shadow-lg shadow-teal-500/20 active:scale-[0.98] transition-transform"
+              >
+                Pay Installment
               </button>
             </div>
+          </div>
 
-            <div className="space-y-3">
-              {transactions.map((tx) => (
-                <MPesaTransactionRow tx={tx} />
-              ))}
+          <section className="mb-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <QuickActionButton
+                icon={<CreditCard className="text-emerald-500" />}
+                label="Pay Loan"
+                sub="Direct M-PESA"
+                onClick={() => {}}
+                variant="emerald"
+              />
+              <QuickActionButton
+                icon={<FileStack className="text-blue-500" />}
+                label="Statements"
+                sub="View Ledger"
+                onClick={() => {}}
+                variant="blue"
+              />
+              <QuickActionButton
+                icon={<ClipboardList className="text-purple-500" />}
+                label="Applications"
+                sub="Check Status"
+                onClick={() => {}}
+                variant="purple"
+              />
+              <QuickActionButton
+                icon={<LayoutGrid className="text-slate-500" />}
+                label="Other Products"
+                sub="Explore More"
+                onClick={() => {}}
+                variant="slate"
+              />
+            </div>
+          </section>
+          {/* 2. Split View: Schedule & Transactions */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 py-3">
+            {/* Left Side: Schedule (Stepper) */}
+            <div className="md:col-span-6">
+              <h3 className="text-[13px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">
+                Repayment Progress
+              </h3>
+              <LoanScheduleList installments={scheduleData} />
+            </div>
+
+            {/* Right Side: Transactions */}
+            <div className="md:col-span-6">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-[13px] font-black uppercase tracking-[0.2em] text-slate-400">
+                  Transaction Ledger
+                </h3>
+                <button className="text-[13px] font-black uppercase tracking-widest text-secondary hover:underline flex items-center gap-1">
+                  Download Statement <Receipt size={14} />
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                {transactions.map((tx) => (
+                  <MPesaTransactionRow tx={tx} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
