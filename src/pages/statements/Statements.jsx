@@ -118,7 +118,7 @@ const MyStatements = () => {
         onSuccess={() => console.log("Success!")}
       />
 
-      <div className="min-h-screen bg-slate-50 text-primary pb-20">
+      <div className="bg-slate-50 text-primary pb-20">
         <div className="max-w-6xl sm:px-4 mx-auto">
           {/* Header Section */}
           <header className="py-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -135,7 +135,7 @@ const MyStatements = () => {
             {/* LEFT COLUMN: FILTERS & LIST */}
             <div className="lg:col-span-8 space-y-6">
               {/* Filter Card */}
-              <section className="bg-white rounded-[40px] p-8 border border-slate-200">
+              <section className="bg-white rounded-[20px] p-5 border border-slate-200">
                 <div className="flex flex-col md:flex-row items-center gap-6">
                   <div className="flex-1 w-full">
                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-2">

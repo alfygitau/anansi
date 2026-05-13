@@ -215,7 +215,7 @@ const DetailedProductCard = ({ product, onApply }) => {
   } = product;
 
   return (
-    <div className="group bg-white rounded-[32px] border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-blue-900/5 transition-all overflow-hidden mb-6">
+    <div className="group bg-white rounded-[32px] border border-slate-200 hover:shadow-xl hover:shadow-blue-900/5 transition-all overflow-hidden mb-6">
       {/* Top Section: Icon, Rate, and Content */}
       <div className="p-6">
         <div className="flex justify-between items-start mb-5">
