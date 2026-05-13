@@ -7,6 +7,10 @@ import {
   ArrowRight,
   AlertCircle,
   Loader2,
+  ShieldCheck,
+  Zap,
+  TrendingUp,
+  Shield,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -45,9 +49,7 @@ const Login = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: null }));
-    }
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: null }));
   };
 
   const isFormValid =
@@ -56,22 +58,6 @@ const Login = () => {
     !errors.memberId &&
     !errors.password;
 
-  const { mutate: resendOtpMutate } = useMutation({
-    mutationKey: ["send admin otp"],
-    mutationFn: (id) => resendOtp(id),
-    onSuccess: () => {
-      navigate("/admin-customer/otp");
-    },
-    onError: (error) => {
-      showToast({
-        title: "Authentication glitch",
-        type: "error",
-        position: "top-right",
-        description: error?.response?.data?.message || error.message,
-      });
-    },
-  });
-
   const { mutate: loginMutate, isLoading } = useMutation({
     mutationKey: ["login"],
     mutationFn: () => loginUser(formData.memberId, formData.password),
@@ -79,17 +65,17 @@ const Login = () => {
       setAuth(data?.data?.data);
       setRegisteredUser(data?.data?.data?.user);
       showToast({
-        title: "Authentication Success",
+        title: "Welcome back",
         type: "success",
         position: "top-right",
         description:
-          "Welcome back to Anansi.\nYour session is active from this moment.",
+          "Identity verified. You have been securely authenticated, and your encrypted session is now active.",
       });
       handleLoginLogic(data?.data?.data);
     },
     onError: (error) => {
       showToast({
-        title: "Authentication glitch",
+        title: "Login failed",
         type: "error",
         position: "top-right",
         description: error?.response?.data?.message || error.message,
@@ -109,194 +95,231 @@ const Login = () => {
       res?.user?.onboarding_stage.toLowerCase() === "completed" &&
       res?.user?.temporary_password === false
     ) {
-      if (res?.tokens && Object.keys(res.tokens).length > 0) {
-        navigate("/home");
-      } else {
-        navigate("/auth/one-time-password");
-      }
-    } else if (
-      res?.user?.status === "Pending Payment" &&
-      res?.user?.onboarding_stage.toLowerCase() === "completed" &&
-      res?.user?.temporary_password === false
-    ) {
-      if (res?.tokens && Object.keys(res.tokens).length > 0) {
-        navigate("/home");
-      } else {
-        navigate("/auth/one-time-password");
-      }
-    } else if (
-      res?.user?.status === "Pending Verification" &&
-      res?.user?.onboarding_stage.toLowerCase() === "completed" &&
-      res?.user?.temporary_password === false
-    ) {
-      navigate(`/onboarding/pending-account`);
-    } else if (
-      res?.user?.onboarding_stage.toLowerCase() === "completed" &&
-      res?.user?.temporary_password === true
-    ) {
-      resendOtpMutate(res?.user?.id);
+      res?.tokens && Object.keys(res.tokens).length > 0
+        ? navigate("/home")
+        : navigate("/auth/one-time-password");
     } else {
       navigate(`/onboarding/continue`);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
-      {/* Background Decorative Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-blue-100/50 rounded-full blur-[120px]" />
-        <div className="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-sky-100/50 rounded-full blur-[120px]" />
-      </div>
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 md:p-8 antialiased">
+      <div className="w-full max-w-6xl grid lg:grid-cols-2 bg-white overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-slate-100">
+        {/* LEFT PANEL: Branding & Disclaimers */}
+        <div className="relative bg-primary sm:hidden p-6 lg:p-6 flex flex-col justify-between overflow-hidden">
+          {/* Subtle abstract glow instead of a grid */}
+          <div className="absolute top-[-20%] right-[-10%] w-[80%] h-[80%] bg-blue-400/20 rounded-full blur-[100px]" />
+          <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] bg-indigo-500/20 rounded-full blur-[80px]" />
 
-      <div className="relative w-full max-w-[440px]">
-        {/* Logo / Brand Area */}
-        <div className="flex flex-col items-center mb-10">
-          <div className="w-16 h-16 bg-primary rounded-[22px] flex items-center justify-center shadow-2xl shadow-blue-900/20 mb-6">
-            <span className="text-white text-3xl font-black">A</span>
+          <div className="relative z-10">
+            <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/10 rounded-full border border-white/20 mb-12">
+              <ShieldCheck className="text-blue-200" size={18} />
+              <span className="text-white text-xs font-bold tracking-widest uppercase">
+                Verified Portal
+              </span>
+            </div>
+
+            <h2 className="text-white text-2xl xl:text-3xl font-bold leading-[1.1] mb-8">
+              A faster, reliable way to manage{" "}
+              <span className="text-blue-300">your money.</span>
+            </h2>
+
+            <div className="space-y-8">
+              <div className="flex gap-5 group">
+                <div className="flex-shrink-0 w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center group-hover:bg-blue-400 transition-colors">
+                  <Zap className="text-white" size={22} />
+                </div>
+                <div>
+                  <h4 className="text-white font-bold text-lg">
+                    Instant Access
+                  </h4>
+                  <p className="text-blue-100/70 text-sm leading-relaxed mt-1">
+                    Submit loan applications and receive funds within minutes,
+                    not days.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-5 group">
+                <div className="flex-shrink-0 w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center group-hover:bg-blue-400 transition-colors">
+                  <TrendingUp className="text-white" size={22} />
+                </div>
+                <div>
+                  <h4 className="text-white font-bold text-lg">
+                    Smart Dividends
+                  </h4>
+                  <p className="text-blue-100/70 text-sm leading-relaxed mt-1">
+                    Track your shares and watch your wealth grow with automated
+                    dividend tracking.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-5 group">
+                <div className="flex-shrink-0 w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center group-hover:bg-blue-400 transition-colors">
+                  <Shield className="text-white" size={22} />
+                </div>
+                <div>
+                  <h4 className="text-white font-bold text-lg">
+                    Bank-Grade Security
+                  </h4>
+                  <p className="text-blue-100/70 text-sm leading-relaxed mt-1">
+                    Your data and savings are protected by military-grade
+                    encryption and SASRA compliance.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-          <h1 className="text-2xl font-black text-primary tracking-tight">
-            Welcome Back
-          </h1>
-          <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2">
-            Secure Member Portal
-          </p>
+
+          <div className="relative z-10 mt-12 pt-8 border-t border-white/10 flex items-center justify-between">
+            <span className="text-blue-200/50 text-[10px] uppercase font-bold tracking-tighter">
+              Anansi Financial Services © 2026
+            </span>
+            <div className="flex gap-3">
+              <span className="text-white/40 text-[10px] uppercase font-bold tracking-widest">
+                System Operational
+              </span>
+            </div>
+          </div>
         </div>
 
-        {/* Login Card */}
-        <div className="bg-white rounded-[40px] p-10 border border-slate-100 shadow-xl shadow-blue-900/5">
-          <form className="space-y-6" onSubmit={handleLogin}>
-            {/* Member ID Input */}
-            <div>
-              <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 ml-2 block">
-                Username or Email
-              </label>
-              <div className="relative group">
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-secondary transition-colors">
-                  <User size={20} />
-                </div>
-                <input
-                  name="memberId"
-                  type="text"
-                  placeholder="Enter username or email"
-                  className="w-full pl-14 pr-6 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-secondary/20 outline-none font-bold text-primary transition-all"
-                  value={formData.memberId}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              </div>
-              <AnimatePresence>
-                {errors.memberId && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="text-rose-500 text-[11px] font-bold mt-2 ml-4 flex items-center gap-1"
-                  >
-                    <AlertCircle size={12} /> {errors.memberId}
-                  </motion.p>
-                )}
-              </AnimatePresence>
+        {/* RIGHT PANEL: Form Area */}
+        <div className="p-6 lg:p-6 flex items-center justify-center bg-white">
+          <div className="px-4 w-full">
+            <div className="mb-10">
+              <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+                Member Sign In
+              </h1>
+              <p className="text-slate-400 font-medium mt-2">
+                Welcome back! Please enter your details.
+              </p>
             </div>
-
-            {/* Password Input */}
-            <div>
-              <div className="flex justify-between items-center mb-3 ml-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 block">
-                  Security Password
+            <form onSubmit={handleLogin} className="space-y-6">
+              {/* Member ID Field */}
+              <div className="space-y-2">
+                <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">
+                  Username / Email
                 </label>
-                <button
-                  type="button"
-                  onClick={() => navigate("/auth/forgot-password")}
-                  className="text-[10px] font-black uppercase text-secondary hover:text-primary"
-                >
-                  Forgot?
-                </button>
-              </div>
-              <div className="relative group">
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-secondary transition-colors">
-                  <Lock size={20} />
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none">
+                    <User
+                      size={18}
+                      className="text-slate-300 group-focus-within:text-blue-600 transition-colors"
+                    />
+                    <div className="w-[1.5px] h-5 bg-slate-200 ml-4 group-focus-within:bg-blue-200 transition-colors" />
+                  </div>
+                  <input
+                    name="memberId"
+                    type="text"
+                    placeholder="Enter username or email"
+                    value={formData.memberId}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="w-full pl-[74px] pr-6 py-5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 transition-all font-semibold text-slate-800"
+                  />
                 </div>
-                <input
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
-                  className="w-full pl-14 pr-14 py-5 bg-slate-50 border-none rounded-[24px] focus:ring-2 focus:ring-secondary/20 outline-none font-bold text-primary transition-all"
-                  value={formData.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-primary transition-colors"
-                >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
+                <AnimatePresence>
+                  {errors.memberId && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-rose-500 text-[11px] font-bold flex items-center gap-1 ml-1"
+                    >
+                      <AlertCircle size={12} /> {errors.memberId}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
               </div>
-              <AnimatePresence>
-                {errors.password && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="text-rose-500 text-[11px] font-bold mt-2 ml-4 flex items-center gap-1"
+              <p class="text-[11px] font-medium text-slate-500 uppercase tracking-widest leading-relaxed">
+                If you have forgotten your credentials, please use the{" "}
+                <span
+                  onClick={() => navigate("/auth/forgot-password")}
+                  class="text-blue-600 font-black cursor-pointer hover:text-blue-800 underline underline-offset-2"
+                >
+                  Account Recovery
+                </span>{" "}
+                portal to reset your access.
+              </p>
+              {/* Password Field */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center px-1">
+                  <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest">
+                    Password
+                  </label>
+                </div>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none">
+                    <Lock
+                      size={18}
+                      className="text-slate-300 group-focus-within:text-blue-600 transition-colors"
+                    />
+                    <div className="w-[1.5px] h-5 bg-slate-200 ml-4 group-focus-within:bg-blue-200 transition-colors" />
+                  </div>
+                  <input
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    value={formData.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="w-full pl-[74px] pr-14 py-5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 transition-all font-semibold text-slate-800"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 flex items-center pr-6 text-slate-300 hover:text-slate-600 transition-colors"
                   >
-                    <AlertCircle size={12} /> {errors.password}
-                  </motion.p>
-                )}
-              </AnimatePresence>
-            </div>
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+                <AnimatePresence>
+                  {errors.password && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-rose-500 text-[11px] font-bold flex items-center gap-1 ml-1"
+                    >
+                      <AlertCircle size={12} /> {errors.password}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </div>
+              <div className="h-5"></div>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={!isFormValid || isLoading}
-              className={`w-full py-5 rounded-[24px] font-black uppercase tracking-[0.15em] flex items-center justify-center gap-3 shadow-xl transition-all mt-4 text-white overflow-hidden relative
-    ${
-      isFormValid || isLoading
-        ? "bg-primary hover:bg-[#062d7a] shadow-blue-900/20 cursor-pointer active:scale-[0.98]"
-        : "bg-slate-300 shadow-none cursor-not-allowed opacity-70"
-    } ${isLoading ? "animate-pulse" : ""}`}
-            >
-              <AnimatePresence mode="wait">
-                {isLoading ? (
-                  <motion.div
-                    key="loading"
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -20, opacity: 0 }}
-                    className="flex items-center gap-3"
-                  >
-                    <Loader2 className="animate-spin" size={20} />
-                    <span>Authenticating...</span>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="static"
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -20, opacity: 0 }}
-                    className="flex items-center gap-3"
-                  >
-                    Sign In <ArrowRight size={20} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </button>
-          </form>
-
-          {/* Biometric Prompt (Optional Mobile Feature) */}
-          <div className="mt-8 pt-8 border-t border-slate-50 flex flex-col items-center">
-            {/* Footer Links */}
-            <p className="text-center mt-10 text-slate-400 text-[11px] font-bold uppercase tracking-tight">
-              Not a member yet?{" "}
-              <button
-                onClick={() => navigate(`/`)}
-                className="text-secondary ml-1"
+              {/* Action Button */}
+              <motion.button
+                whileTap={{ scale: 0.98 }}
+                type="submit"
+                disabled={!isFormValid || isLoading}
+                className={`w-full py-6 rounded-2xl font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-3 transition-all
+                  ${
+                    isFormValid && !isLoading
+                      ? "bg-primary text-white shadow-xl shadow-slate-900/10 hover:bg-secondary active:shadow-none"
+                      : "bg-slate-100 text-slate-400 cursor-not-allowed"
+                  }`}
               >
-                Open an account
-              </button>
-            </p>
+                {isLoading ? (
+                  <Loader2 className="animate-spin" size={18} />
+                ) : (
+                  <>
+                    Sign In <ArrowRight size={18} />
+                  </>
+                )}
+              </motion.button>
+            </form>
+            <div className="mt-12 text-center">
+              <p className="text-slate-400 text-[12px] font-medium">
+                Not registered yet?{" "}
+                <button
+                  onClick={() => navigate("/")}
+                  className="text-blue-600 font-bold hover:underline underline-offset-4"
+                >
+                  Create Account
+                </button>
+              </p>
+            </div>
           </div>
         </div>
       </div>
