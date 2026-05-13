@@ -155,10 +155,13 @@ const AccountDetails = () => {
       ) : (
         <div className="min-h-screen bg-slate-50 text-primary pb-20">
           <div className="max-w-6xl sm:px-4 mx-auto">
+            <h3 className="text-xl font-black mb-3 tracking-tight">
+              Account Details
+            </h3>
             {/* 1. Hero Balance Card & Quick Actions (Grid Layout) */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
               {/* Main Balance Area (8 Cols) */}
-              <div className="lg:col-span-8 bg-primary rounded-[30px] p-6 text-white shadow-xl shadow-blue-900/40 relative overflow-hidden group min-h-[300px] flex flex-col justify-between">
+              <div className="lg:col-span-8 bg-primary rounded-[30px] p-6 text-white relative overflow-hidden group h-[250px] flex flex-col justify-between">
                 <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-secondary opacity-20 blur-[80px] rounded-full"></div>
                 <div className="relative z-10">
                   <div className="flex items-center gap-2 mb-4">
@@ -243,7 +246,7 @@ const AccountDetails = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Left: Transaction List (8 Cols) */}
               <div className="lg:col-span-8">
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between">
                   <h3 className="text-xl font-black tracking-tight">
                     Recent Transactions
                   </h3>
@@ -254,7 +257,7 @@ const AccountDetails = () => {
 
                 <div className="space-y-3">
                   {transactions.length > 0 ? (
-                    <div className="h-[460px] w-full py-3 flex flex-col gap-3 overflow-y-auto">
+                    <div className="h-[550px] w-full py-3 flex flex-col gap-3 overflow-y-auto">
                       {transactions.map((tx) => (
                         <TransactionRow
                           key={tx.id}
@@ -265,37 +268,28 @@ const AccountDetails = () => {
                       ))}
                     </div>
                   ) : (
-                    /* --- EMPTY STATE CONTAINER --- */
                     <div className="bg-white rounded-[40px] border-2 border-dashed border-slate-100 p-20 flex flex-col items-center justify-center text-center group transition-all hover:border-blue-100">
                       <div className="w-20 h-20 bg-slate-50 rounded-[30px] flex items-center justify-center mb-6 relative group-hover:scale-110 transition-transform duration-500">
-                        {/* Decorative Pulse Rings */}
                         <div className="absolute inset-0 bg-blue-100/50 rounded-[30px] animate-ping opacity-20" />
                         <Clock
                           size={32}
                           className="text-slate-300 relative z-10"
                         />
                       </div>
-
                       <h4 className="text-lg font-black text-primary mb-2 tracking-tight">
                         No Transactions Yet
                       </h4>
-
                       <p className="text-xs text-slate-400 max-w-[280px] leading-relaxed font-medium mb-8">
                         Your financial activity will appear here once you start
                         using this account for deposits or payments.
                       </p>
-
                       <button
-                        onClick={() => {
-                          /* Trigger Deposit Modal */
-                        }}
+                        onClick={() => {}}
                         className="flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] active:scale-95 transition-all"
                       >
                         <ArrowDownCircle size={18} className="text-secondary" />
                         Make First Deposit
                       </button>
-
-                      {/* Visual Hint for Mobile User */}
                       <div className="mt-8 flex items-center gap-2 opacity-30">
                         <Smartphone size={12} />
                         <span className="text-[9px] font-bold uppercase tracking-widest">
@@ -310,7 +304,7 @@ const AccountDetails = () => {
               {/* Right: Info & Disclaimers (4 Cols) */}
               <aside className="lg:col-span-4 space-y-6">
                 {/* Account Status Card */}
-                <div className="bg-white rounded-[32px] p-8 border border-slate-100 shadow-xl shadow-blue-900/5">
+                <div className="bg-white rounded-[32px] p-8 border border-slate-100">
                   <div className="flex items-center gap-3 mb-6">
                     <ShieldCheck className="text-emerald-500" size={20} />
                     <h3 className="font-black text-[11px] uppercase tracking-widest text-slate-400">
@@ -360,7 +354,7 @@ const AccountDetails = () => {
 const VerticalAction = ({ icon, label, color, darkText = false, onClick }) => (
   <button
     onClick={onClick}
-    className={`${color} ${darkText ? "text-primary border border-slate-200" : "text-white"} p-6 rounded-[32px] flex flex-col items-center justify-center gap-3 shadow-xl shadow-blue-900/5 hover:scale-[1.02] transition-all group`}
+    className={`${color} ${darkText ? "text-primary border border-slate-200" : "text-white"} p-4 rounded-[32px] flex flex-col items-center justify-center gap-3 hover:scale-[1.02] transition-all group`}
   >
     <div
       className={`${darkText ? "bg-slate-50" : "bg-white/20"} p-4 rounded-2xl group-hover:scale-110 transition-transform`}
