@@ -134,6 +134,11 @@ const Registration = () => {
     registerMutate();
   };
 
+  const isFormValid =
+    Object.values(formData).every((value) => value.trim() !== "") &&
+    Object.values(errors).every((error) => !error) &&
+    agreedToTerms;
+
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 antialiased">
       <div className="w-full max-w-5xl grid lg:grid-cols-2 bg-white py-5 overflow-hidden">
@@ -310,7 +315,7 @@ const Registration = () => {
               </div>
 
               <button
-                disabled={isLoading || !agreedToTerms}
+                disabled={isLoading || !isFormValid}
                 className="w-full h-[58px] bg-primary text-white rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-secondary transition-all disabled:opacity-30 shadow-lg shadow-blue-900/10 mt-2"
               >
                 {isLoading ? (
