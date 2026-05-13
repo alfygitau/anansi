@@ -852,9 +852,7 @@ const AccountCard = ({
     <div
       onClick={navigateToAccountDetails}
       className={`p-6 cursor-pointer rounded-[32px] transition-all relative overflow-hidden group ${
-        isPrimary
-          ? "bg-primary text-white shadow-xl shadow-blue-900/20"
-          : "bg-white border border-slate-200 shadow-sm"
+        isPrimary ? "bg-primary text-white" : "bg-white border border-slate-200"
       }`}
     >
       {/* Header Row */}
