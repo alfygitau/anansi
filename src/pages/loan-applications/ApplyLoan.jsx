@@ -36,7 +36,7 @@ const ApplyLoan = () => {
   const totalInterest = totalRepayable - amount;
 
   return (
-    <div className="min-h-screen text-primary">
+    <div className="w-full text-primary">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Left Column: Configuration (7 Cols) */}
@@ -145,7 +145,7 @@ const ApplyLoan = () => {
             </div>
 
             {/* Regulatory Footer */}
-            <footer className="pt-10 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <footer className="pt-6 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="flex gap-4">
                 <Scale size={18} className="text-primary shrink-0" />
                 <p className="text-[11px] text-slate-500 leading-normal">
@@ -165,7 +165,7 @@ const ApplyLoan = () => {
 
           {/* Right Column: Financial Summary (5 Cols) */}
           <div className="lg:col-span-5">
-            <div className="sticky top-12 bg-slate-50 border border-slate-200 rounded-[32px] p-8 space-y-8">
+            <div className="sticky top-12 bg-slate-50 border border-slate-200 rounded-[32px] p-4 space-y-8">
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="text-xl font-bold">Financial Summary</h3>

@@ -46,7 +46,7 @@ const AddGuarantors = ({ limit = 4 }) => {
   };
 
   return (
-    <div className="min-h-screen text-primary antialiased">
+    <div className="w-full text-primary antialiased">
       <main className="max-w-6xl mx-auto">
         <header className="space-y-4 mb-4">
           <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
