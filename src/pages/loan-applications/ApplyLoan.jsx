@@ -1,93 +1,110 @@
 import { useState } from "react";
 import {
-  HelpCircle,
   ArrowRight,
   Lock,
   ExternalLink,
   Scale,
   ShieldCheck,
   Info,
+  ChevronRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import PremiumSlider from "../../shared/slider/Slider";
 
 const ApplyLoan = () => {
-  const [amount, setAmount] = useState("50000");
+  const navigate = useNavigate();
+  const [amount, setAmount] = useState(50000);
   const [tenure, setTenure] = useState(12);
   const [frequency, setFrequency] = useState("Monthly");
-  const navigate = useNavigate();
 
-  // Calculations
-  const annualRate = 0.144;
-  const monthlyRate = annualRate / 12;
-  const calculatePMT = () => {
-    const p = parseFloat(amount) || 0;
+  // Constants for Anansi Financial Logic
+  const annualRate = 0.144; // 14.4%
+  const processingFeeRate = 0.015; // 1.5%
+  const insurancePremium = 1200;
+
+  // Financial Calculations
+  const calculateInstallment = () => {
+    const p = amount || 0;
+    const r = annualRate / 12;
     const n = tenure;
-    const i = monthlyRate;
-    return p > 0 ? (p * i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1) : 0;
+    if (p === 0 || n === 0) return 0;
+    return (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
   };
 
-  const installment = calculatePMT();
+  const installment = calculateInstallment();
   const totalRepayable = installment * tenure;
+  const totalInterest = totalRepayable - amount;
 
   return (
-    <div className="min-h-screen text-[#1A1C1E] font-sans antialiased">
-      <main className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
-          {/* --- LEFT: CONFIGURATION --- */}
-          <div className="space-y-12">
-            <section className="space-y-4">
-              <h2 className="text-3xl font-bold tracking-tight">
+    <div className="min-h-screen text-primary">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+          {/* Left Column: Configuration (7 Cols) */}
+          <div className="lg:col-span-7 space-y-6">
+            <header className="space-y-4">
+              <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
                 Loan Configuration
-              </h2>
-              <p className="text-slate-500 leading-relaxed max-w-md">
-                Please specify the amount and duration for your facility. Your
-                interest rate is locked at{" "}
-                <span className="text-black font-semibold">
-                  14.4% per annum
-                </span>{" "}
-                on a reducing balance basis.
-              </p>
-            </section>
+              </h1>
+              <div className="space-y-4">
+                <p className="text-slate-500 leading-relaxed text-sm">
+                  Configure your facility by adjusting the principal and
+                  preferred repayment window. Your interest is calculated using
+                  the{" "}
+                  <span className="text-slate-900 font-semibold">
+                    Reducing Balance Method
+                  </span>
+                  , meaning you only pay interest on the remaining principal
+                  each month, not the original loan amount.
+                </p>
+                <p className="text-slate-400 leading-relaxed text-xs">
+                  This approach ensures that as you pay down your debt, your
+                  interest burden decreases accordingly. Final approval and
+                  exact disbursement values are subject to a standard credit
+                  assessment and verification of your current monthly net
+                  income.
+                </p>
+              </div>
+            </header>
 
-            {/* Input Groups */}
             <div className="space-y-10">
-              {/* Amount Input */}
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <label className="text-[11px] font-bold uppercase tracking-widest text-slate-500">
-                    Principal Amount (KES)
+              {/* Principal Amount Input */}
+              <div className="group">
+                <div className="flex justify-between items-end mb-4">
+                  <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
+                    Desired Principal (KES)
                   </label>
-                  <span className="text-[11px] font-bold text-slate-400">
-                    Limit: 2,500,000
+                  <span className="text-xs font-bold text-slate-300">
+                    Max: 2.5M
                   </span>
                 </div>
-                <div className="relative group">
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium">
-                    KES
+                <div className="group relative flex items-center">
+                  {/* Prefix Container */}
+                  <div className="absolute left-0 h-full flex items-center px-5 pointer-events-none">
+                    <span className="text-lg font-bold text-slate-400 tracking-tight">
+                      KES
+                    </span>
+                    {/* Vertical Separator */}
+                    <div className="ml-4 h-6 w-[1.5px] bg-slate-200 group-focus-within:bg-primary/30 transition-colors" />
                   </div>
+
                   <input
                     type="number"
                     value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    className="w-full h-[50px] pl-14 pr-4 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-50 transition-all outline-none font-semibold text-lg"
-                    placeholder="0.00"
+                    onChange={(e) => setAmount(Number(e.target.value))}
+                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl h-16 pl-24 pr-6 text-2xl font-bold text-slate-900 focus:bg-white focus:border-primary focus:ring-0 transition-all outline-none placeholder:text-slate-200"
+                    placeholder="0"
                   />
                 </div>
               </div>
 
-              {/* Tenure Selection */}
-              <div className="space-y-6">
+              {/* Tenure Slider */}
+              <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <div className="space-y-1">
-                    <label className="text-[11px] font-[900] uppercase tracking-[0.15em] text-slate-400">
-                      Repayment Period
-                    </label>
-                    <p className="text-[10px] text-slate-400 font-medium">
-                      Monthly increments up to 4 years
-                    </p>
-                  </div>
+                  <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
+                    Repayment Tenure
+                  </label>
                   <div className="text-right">
-                    <span className="text-2xl font-black text-blue-600">
+                    <span className="text-xl font-black text-primary leading-none">
                       {tenure}
                     </span>
                     <span className="text-xs font-bold text-slate-400 ml-1 uppercase">
@@ -95,65 +112,30 @@ const ApplyLoan = () => {
                     </span>
                   </div>
                 </div>
-
-                <div className="relative pt-2">
-                  <input
-                    type="range"
-                    min="1"
-                    max="48"
-                    step="1" // Changed from 6 to 1 for monthly sliding
-                    value={tenure}
-                    onChange={(e) => setTenure(parseInt(e.target.value))}
-                    className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600 hover:accent-blue-700 transition-all"
-                  />
-
-                  {/* Dynamic Progress Track (Optional Visual Polish) */}
-                  <div className="flex justify-between mt-4 px-1">
-                    {[1, 12, 24, 36, 48].map((marker) => (
-                      <div
-                        key={marker}
-                        className="flex flex-col items-center gap-1"
-                      >
-                        <div
-                          className={`h-1 w-px ${tenure >= marker ? "bg-blue-600" : "bg-slate-200"}`}
-                        />
-                        <span
-                          className={`text-[9px] font-black tracking-tighter uppercase transition-colors ${tenure >= marker ? "text-blue-600" : "text-slate-300"}`}
-                        >
-                          {marker === 1
-                            ? "1 Mo"
-                            : marker === 48
-                              ? "48 Mo"
-                              : marker}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Disclosure for granular selection */}
-                <div className="p-4 bg-blue-50/50 rounded-xl border border-blue-100/50 flex gap-3">
-                  <Info size={14} className="text-blue-600 shrink-0 mt-0.5" />
-                  <p className="text-[10px] leading-relaxed text-blue-800 font-medium">
-                    Selecting a custom tenure affects the reducing balance
-                    interest calculation. Total interest for{" "}
-                    <span className="font-bold">{tenure} months</span> is
-                    amortized across each installment.
-                  </p>
-                </div>
+                <PremiumSlider
+                  min={1}
+                  max={48}
+                  initialValue={6}
+                  value={tenure}
+                  onChange={setTenure}
+                />
               </div>
 
               {/* Frequency Selection */}
-              <div className="space-y-3">
-                <label className="text-[11px] font-bold uppercase tracking-widest text-slate-500">
+              <div className="space-y-4">
+                <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
                   Payment Frequency
                 </label>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-3 gap-4">
                   {["Weekly", "Monthly", "Quarterly"].map((opt) => (
                     <button
                       key={opt}
                       onClick={() => setFrequency(opt)}
-                      className={`h-[50px] rounded-lg font-bold text-xs uppercase tracking-widest transition-all border ${frequency === opt ? "border-blue-600 bg-blue-50/20 text-blue-600" : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"}`}
+                      className={`h-14 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all border-2 ${
+                        frequency === opt
+                          ? "border-primary bg-primary/5 text-primary"
+                          : "border-slate-100 text-slate-400 hover:border-slate-200"
+                      }`}
                     >
                       {opt}
                     </button>
@@ -162,153 +144,130 @@ const ApplyLoan = () => {
               </div>
             </div>
 
-            {/* Regulatory Disclaimers */}
-            <div className="pt-8 border-t border-slate-100 space-y-6">
+            {/* Regulatory Footer */}
+            <footer className="pt-10 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="flex gap-4">
-                <Scale size={20} className="text-slate-400 shrink-0" />
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  <span className="font-bold text-slate-800">
-                    Legal Compliance:
-                  </span>{" "}
-                  All loans are subject to the Credit Policy and Section 44 of
-                  the Sacco Societies Act. Default on payments may lead to
-                  negative listing with the Credit Reference Bureau (CRB).
+                <Scale size={18} className="text-primary shrink-0" />
+                <p className="text-[11px] text-slate-500 leading-normal">
+                  <span className="font-bold text-slate-800">Compliance:</span>{" "}
+                  All facilities are regulated under the Sacco Societies Act.
                 </p>
               </div>
               <div className="flex gap-4">
-                <ShieldCheck size={20} className="text-slate-400 shrink-0" />
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  <span className="font-bold text-slate-800">Insurance:</span> A
-                  mandatory Loan Guard insurance premium of 0.75% p.a is
-                  included in your total repayable amount to cover against death
-                  or permanent disability.
+                <ShieldCheck size={18} className="text-primary shrink-0" />
+                <p className="text-[11px] text-slate-500 leading-normal">
+                  <span className="font-bold text-slate-800">Security:</span>{" "}
+                  256-bit SSL encryption protects your financial data.
                 </p>
               </div>
-            </div>
+            </footer>
           </div>
 
-          {/* --- RIGHT: BREAKDOWN (No colored container) --- */}
-          <div className="lg:pl-12">
-            <div className="border border-slate-200 rounded-2xl p-6 space-y-12">
-              <header className="flex justify-between items-start">
+          {/* Right Column: Financial Summary (5 Cols) */}
+          <div className="lg:col-span-5">
+            <div className="sticky top-12 bg-slate-50 border border-slate-200 rounded-[32px] p-8 space-y-8">
+              <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="text-lg font-bold">Financial Summary</h3>
-                  <p className="text-xs text-slate-400 mt-1">
-                    Estimates based on current interest rates
+                  <h3 className="text-xl font-bold">Financial Summary</h3>
+                  <p className="text-xs text-slate-400 mt-1 font-medium">
+                    Verified Amortization Schedule
                   </p>
                 </div>
-                <button className="text-blue-600 text-xs font-bold uppercase tracking-widest flex items-center gap-1 hover:underline">
-                  Download PDF <ExternalLink size={12} />
-                </button>
-              </header>
-
-              {/* Main Numbers */}
-              <div className="space-y-10">
-                <div className="flex justify-between items-end pb-8 border-b border-slate-50">
-                  <div className="space-y-1">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                      Monthly Installment
-                    </p>
-                    <p className="text-xl font-bold tracking-tight">
-                      <span className="text-xl mr-2 font-medium tracking-normal">
-                        KES
-                      </span>
-                      {installment.toLocaleString(undefined, {
-                        maximumFractionDigits: 2,
-                      })}
-                    </p>
-                  </div>
-                  <div className="text-right space-y-1">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                      Total Repayable
-                    </p>
-                    <p className="text-xl font-bold">
-                      KES{" "}
-                      {totalRepayable.toLocaleString(undefined, {
-                        maximumFractionDigits: 2,
-                      })}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Technical Breakdown */}
-                <div className="space-y-4">
-                  <BreakdownRow
-                    label="Principal Amount"
-                    value={`KES ${Number(amount).toLocaleString()}`}
-                  />
-                  <BreakdownRow
-                    label="Total Interest (Reducing Balance)"
-                    value={`KES ${(totalRepayable - amount).toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
-                  />
-                  <BreakdownRow
-                    label="Processing Fees (1.5%)"
-                    value={`KES ${(amount * 0.015).toLocaleString()}`}
-                  />
-                  <BreakdownRow
-                    label="Life Insurance Premium"
-                    value="KES 1,200.00"
-                  />
-                  <BreakdownRow label="Excise Duty" value="KES 200.00" isLast />
-                </div>
+                <ExternalLink
+                  size={18}
+                  className="text-slate-300 cursor-pointer hover:text-primary"
+                />
               </div>
 
-              {/* Action */}
-              <div className="space-y-4 pt-4">
-                <button
-                  onClick={() => navigate("/add-guarantor")}
-                  className="w-full h-[56px] bg-[#1A1C1E] text-white rounded-lg font-bold text-sm uppercase tracking-widest hover:bg-black transition-colors flex items-center justify-center gap-3 shadow-lg shadow-slate-200"
-                >
-                  Continue to Guarantors
-                  <ArrowRight size={18} />
-                </button>
-                <div className="flex items-center justify-center gap-2 text-slate-400">
-                  <Lock size={14} />
-                  <span className="text-[10px] font-bold uppercase tracking-widest">
-                    256-bit Secure Encryption
+              {/* Installment Highlight */}
+              <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm text-center">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">
+                  Monthly Installment
+                </p>
+                <h4 className="text-4xl font-black text-slate-900 tracking-tighter">
+                  <span className="text-lg font-medium mr-1">KES</span>
+                  {installment.toLocaleString(undefined, {
+                    maximumFractionDigits: 0,
+                  })}
+                </h4>
+              </div>
+
+              {/* Detailed Breakdown */}
+              <div className="space-y-4 px-2">
+                <SummaryRow
+                  label="Principal Amount"
+                  value={`KES ${amount.toLocaleString()}`}
+                />
+                <SummaryRow
+                  label="Est. Total Interest"
+                  value={`KES ${totalInterest.toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
+                />
+                <SummaryRow
+                  label="Processing Fee (1.5%)"
+                  value={`KES ${(amount * processingFeeRate).toLocaleString()}`}
+                />
+                <SummaryRow label="Insurance & Duty" value="KES 1,400" />
+                <div className="pt-4 mt-4 border-t border-slate-200 flex justify-between items-center">
+                  <span className="text-sm font-bold text-slate-900">
+                    Total Repayable
+                  </span>
+                  <span className="text-sm font-black text-primary">
+                    KES{" "}
+                    {totalRepayable.toLocaleString(undefined, {
+                      maximumFractionDigits: 0,
+                    })}
                   </span>
                 </div>
               </div>
-            </div>
 
-            {/* Helper Help Link */}
-            <div className="mt-12 bg-slate-50 rounded-xl flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-white rounded-lg border border-slate-200 flex items-center justify-center shadow-sm">
-                  <HelpCircle size={16} className="text-blue-600" />
+              {/* Payment Health Indicator */}
+              <div className="p-4 bg-white rounded-2xl border border-slate-100 flex items-center gap-4">
+                {/* Add 'shrink-0' to lock the dimensions */}
+                <div className="w-10 h-10 shrink-0 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                  <Info size={20} />
                 </div>
-                <div className="text-xs">
-                  <p className="font-bold">Need assistance structureing?</p>
-                  <p className="text-slate-500">Chat with a loan officer now</p>
+                <div className="text-[10px] leading-relaxed text-slate-500">
+                  <span className="font-bold text-slate-800">
+                    Anansi Insight:
+                  </span>{" "}
+                  Keeping your tenure under 24 months reduces total interest
+                  costs by <span className="text-primary font-bold">12%</span>.
                 </div>
               </div>
-              <button className="text-[10px] font-bold text-blue-600 uppercase border-b border-blue-600">
-                Contact Support
+
+              {/* Primary Action */}
+              <button
+                onClick={() => navigate("/add-guarantor")}
+                className="w-full h-16 bg-[#1A1C1E] hover:bg-black text-white rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-slate-200 group"
+              >
+                Continue to Add Guarantors
+                <ArrowRight
+                  size={18}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
               </button>
+
+              <div className="flex items-center justify-center gap-2 opacity-30">
+                <Lock size={12} />
+                <span className="text-[9px] font-black uppercase tracking-widest">
+                  End-to-End Encrypted
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 };
 
-/* --- Minimal Helper Components --- */
-
-const BreakdownRow = ({ label, value, isLast }) => (
-  <div
-    className={`flex justify-between items-center py-1 ${isLast ? "mt-4 pt-4 border-t border-slate-100" : ""}`}
-  >
-    <span
-      className={`text-xs ${isLast ? "font-bold text-slate-800" : "text-slate-500 font-medium"}`}
-    >
-      {label}
-    </span>
-    <span
-      className={`text-xs font-bold ${isLast ? "text-slate-800" : "text-slate-700"}`}
-    >
-      {value}
-    </span>
+/**
+ * HELPER: SUMMARY ROW
+ */
+const SummaryRow = ({ label, value }) => (
+  <div className="flex justify-between items-center text-xs font-medium">
+    <span className="text-slate-400">{label}</span>
+    <span className="text-slate-700 font-bold">{value}</span>
   </div>
 );
 
