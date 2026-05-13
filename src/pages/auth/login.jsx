@@ -104,67 +104,67 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 md:p-8 antialiased">
-      <div className="w-full max-w-6xl grid lg:grid-cols-2 bg-white overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-slate-100">
-        {/* LEFT PANEL: Branding & Disclaimers */}
-        <div className="relative bg-primary sm:hidden p-6 lg:p-6 flex flex-col justify-between overflow-hidden">
-          {/* Subtle abstract glow instead of a grid */}
-          <div className="absolute top-[-20%] right-[-10%] w-[80%] h-[80%] bg-blue-400/20 rounded-full blur-[100px]" />
-          <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] bg-indigo-500/20 rounded-full blur-[80px]" />
-
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 md:p-8 sm:p-2 antialiased">
+      <div className="w-full max-w-6xl grid lg:grid-cols-2 py-3 bg-white overflow-hidden">
+        <div className="relative bg-white sm:hidden p-6 lg:p-6 flex flex-col justify-between overflow-hidden border-r border-slate-200">
           <div className="relative z-10">
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/10 rounded-full border border-white/20 mb-12">
-              <ShieldCheck className="text-blue-200" size={18} />
-              <span className="text-white text-xs font-bold tracking-widest uppercase">
-                Verified Portal
+            <div className="inline-flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-full border border-slate-100 mb-12">
+              <ShieldCheck className="text-primary" size={18} />
+              <span className="text-primary text-xs font-black tracking-widest uppercase">
+                ANANSI SACCO
               </span>
             </div>
-
-            <h2 className="text-white text-2xl xl:text-3xl font-bold leading-[1.1] mb-8">
+            <h2 className="text-slate-900 text-2xl xl:text-3xl font-black leading-[1.1] mb-8">
               A faster, reliable way to manage{" "}
-              <span className="text-blue-300">your money.</span>
+              <span className="text-primary">your money.</span>
             </h2>
-
             <div className="space-y-8">
               <div className="flex gap-5 group">
-                <div className="flex-shrink-0 w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center group-hover:bg-blue-400 transition-colors">
-                  <Zap className="text-white" size={22} />
+                <div className="flex-shrink-0 w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center group-hover:bg-primary transition-colors">
+                  <Zap
+                    className="text-primary group-hover:text-white transition-colors"
+                    size={22}
+                  />
                 </div>
                 <div>
-                  <h4 className="text-white font-bold text-lg">
+                  <h4 className="text-slate-900 font-black text-lg">
                     Instant Access
                   </h4>
-                  <p className="text-blue-100/70 text-sm leading-relaxed mt-1">
+                  <p className="text-slate-500 text-sm font-medium leading-relaxed mt-1">
                     Submit loan applications and receive funds within minutes,
                     not days.
                   </p>
                 </div>
               </div>
-
               <div className="flex gap-5 group">
-                <div className="flex-shrink-0 w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center group-hover:bg-blue-400 transition-colors">
-                  <TrendingUp className="text-white" size={22} />
+                <div className="flex-shrink-0 w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center group-hover:bg-primary transition-colors">
+                  <TrendingUp
+                    className="text-primary group-hover:text-white transition-colors"
+                    size={22}
+                  />
                 </div>
                 <div>
-                  <h4 className="text-white font-bold text-lg">
-                    Smart Dividends
+                  <h4 className="text-slate-900 font-black text-lg">
+                    Shares Management
                   </h4>
-                  <p className="text-blue-100/70 text-sm leading-relaxed mt-1">
+                  <p className="text-slate-500 text-sm font-medium leading-relaxed mt-1">
                     Track your shares and watch your wealth grow with automated
-                    dividend tracking.
+                    deposits.
                   </p>
                 </div>
               </div>
-
               <div className="flex gap-5 group">
-                <div className="flex-shrink-0 w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center group-hover:bg-blue-400 transition-colors">
-                  <Shield className="text-white" size={22} />
+                <div className="flex-shrink-0 w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center group-hover:bg-primary transition-colors">
+                  <Shield
+                    className="text-primary group-hover:text-white transition-colors"
+                    size={22}
+                  />
                 </div>
                 <div>
-                  <h4 className="text-white font-bold text-lg">
+                  <h4 className="text-slate-900 font-black text-lg">
                     Bank-Grade Security
                   </h4>
-                  <p className="text-blue-100/70 text-sm leading-relaxed mt-1">
+                  <p className="text-slate-500 text-sm font-medium leading-relaxed mt-1">
                     Your data and savings are protected by military-grade
                     encryption and SASRA compliance.
                   </p>
@@ -172,21 +172,13 @@ const Login = () => {
               </div>
             </div>
           </div>
-
-          <div className="relative z-10 mt-12 pt-8 border-t border-white/10 flex items-center justify-between">
-            <span className="text-blue-200/50 text-[10px] uppercase font-bold tracking-tighter">
-              Anansi Financial Services © 2026
+          <div className="relative z-10 pt-8 flex items-center justify-between">
+            <span className="text-slate-400 text-[10px] uppercase font-black tracking-tighter">
+              Anansi Sacco © 2026
             </span>
-            <div className="flex gap-3">
-              <span className="text-white/40 text-[10px] uppercase font-bold tracking-widest">
-                System Operational
-              </span>
-            </div>
           </div>
         </div>
-
-        {/* RIGHT PANEL: Form Area */}
-        <div className="p-6 lg:p-6 flex items-center justify-center bg-white">
+        <div className="p-6 lg:p-6 sm:p-2 flex items-center justify-center bg-white">
           <div className="px-4 w-full">
             <div className="mb-10">
               <h1 className="text-3xl font-black text-slate-900 tracking-tight">
@@ -309,7 +301,7 @@ const Login = () => {
                 )}
               </motion.button>
             </form>
-            <div className="mt-12 text-center">
+            <div className="mt-4 text-center">
               <p className="text-slate-400 text-[12px] font-medium">
                 Not registered yet?{" "}
                 <button

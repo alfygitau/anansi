@@ -7,6 +7,9 @@ import {
   CheckCircle2,
   Loader2,
   ArrowRight,
+  Phone,
+  Lock,
+  ShieldCheck,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
@@ -132,233 +135,257 @@ const Registration = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col lg:flex-row">
-      <div className="hidden lg:flex lg:w-[40%] bg-primary p-16 flex-col justify-center relative overflow-hidden">
-        {/* Abstract Background Decor */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32" />
-
-        {/* Centering Wrapper */}
-        <div className="relative z-10 w-[85%] mx-auto">
-          <div className="flex items-center gap-3 mb-12">
-            <div className="w-12 h-12 bg-secondary rounded-2xl flex items-center justify-center shadow-lg shadow-sky-400/20">
-              <span className="text-primary text-3xl font-black">A</span>
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 antialiased">
+      <div className="w-full max-w-5xl grid lg:grid-cols-2 bg-white py-5 overflow-hidden">
+        {/* LEFT PANEL: Branding (Condensed Height) */}
+        <div className="hidden lg:flex bg-white flex-col justify-between p-6 relative overflow-hidden border-r border-slate-100">
+          <div className="relative z-10">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/10">
+                <span className="text-white text-2xl font-black">A</span>
+              </div>
+              <span className="text-lg font-black text-primary tracking-tighter uppercase">
+                Anansi Sacco
+              </span>
             </div>
-            <span className="text-xl font-black text-white tracking-tighter uppercase">
-              Anansi Sacco
-            </span>
-          </div>
 
-          <h2 className="text-5xl font-black text-white leading-tight mb-8">
-            Empowering your <br />
-            <span className="text-secondary">financial future.</span>
-          </h2>
+            <h2 className="text-slate-900 text-4xl font-black leading-tight mb-8">
+              Empowering your <br />
+              <span className="text-primary">financial future.</span>
+            </h2>
 
-          <div className="space-y-8">
-            <TrustPoint
-              title="Quick Onboarding"
-              desc="Create your account in just a few simple steps."
-            />
-            <TrustPoint
-              title="Secure & Reliable"
-              desc="Bank-grade encryption for all your data."
-            />
-            <TrustPoint
-              title="Always Available"
-              desc="Our support team is here to help you 24/7."
-            />
-          </div>
-        </div>
-
-        {/* Optional: Footer text kept at the bottom if you prefer */}
-        <div className="absolute bottom-16 left-0 w-full flex justify-center">
-          <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">
-            © {new Date().getFullYear()} Anansi Sacco | Registered Financial
-            Institution
-          </p>
-        </div>
-      </div>
-
-      <div className="flex-1 flex items-center justify-center p-6 lg:p-10 bg-slate-50">
-        <div className="w-full max-w-[620px] bg-white p-8 md:p-12 rounded-[40px] shadow-2xl shadow-blue-900/5">
-          <header className="mb-10 text-center lg:text-left">
-            <h1 className="text-3xl font-black text-primary tracking-tight">
-              Create Account
-            </h1>
-          </header>
-
-          <form onSubmit={handleRegister} className="space-y-5">
-            <InputGroup label="Username" error={errors.username}>
-              <User
-                size={18}
-                className="absolute left-6 text-slate-300 group-focus-within:text-secondary"
+            <div className="space-y-6">
+              <TrustPoint
+                title="Seamless Onboarding"
+                desc="Join in under 2 minutes with automated identity verification and instant profile activation."
+                isDark={false}
               />
-              <input
+              <TrustPoint
+                title="Bank-Grade Security"
+                desc="Your data is shielded by AES-256 encryption and full SASRA compliance for total peace of mind."
+                isDark={false}
+              />
+              <TrustPoint
+                title="Omnichannel Support"
+                desc="Access dedicated financial assistance 24/7 via in-app chat, email, or our priority help line."
+                isDark={false}
+              />
+            </div>
+          </div>
+
+          <div className="relative z-10 pt-6 border-t border-slate-100">
+            <p className="text-slate-400 text-[9px] font-black uppercase tracking-[0.2em]">
+              © {new Date().getFullYear()} Anansi Sacco | Registered Financial
+              Institution
+            </p>
+          </div>
+        </div>
+
+        {/* RIGHT PANEL: Form Area */}
+        <div className="flex-1 w-full flex items-center justify-center p-6 lg:p-6 bg-white">
+          <div className="w-full max-w-[420px]">
+            <header className="mb-8 text-center lg:text-left">
+              <h1 className="text-2xl font-black text-primary tracking-tight">
+                Create Profile
+              </h1>
+            </header>
+            <form onSubmit={handleRegister} className="space-y-4">
+              <InputGroup
+                label="Username"
+                icon={User}
                 name="username"
-                type="text"
-                className="modern-input"
+                placeholder="e.g. Samuel Otieno"
+                value={formData.username}
                 onChange={handleInputChange}
                 onBlur={handleBlur}
-                placeholder="e.g Samuel Otieno"
+                error={errors.username}
               />
-            </InputGroup>
 
-            <InputGroup label="Email Address" error={errors.email}>
-              <Mail
-                size={18}
-                className="absolute left-6 text-slate-300 group-focus-within:text-secondary"
-              />
-              <input
+              <InputGroup
+                label="Email Address"
+                icon={Mail}
                 name="email"
                 type="email"
-                className="modern-input"
+                placeholder="e.g. sam@example.com"
+                value={formData.email}
                 onChange={handleInputChange}
                 onBlur={handleBlur}
-                placeholder="e.g sam@example.com"
+                error={errors.email}
               />
-            </InputGroup>
 
-            <div>
-              <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-4 block">
-                Mobile Number
-              </label>
-              <div className="relative flex group">
-                <div className="h-[60px] px-5 bg-slate-100 rounded-l-[24px] flex items-center justify-center font-bold text-primary border-r border-white">
-                  +254
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4 block">
+                  Mobile Number
+                </label>
+                <div className="relative flex group h-16">
+                  {/* Prefix Icon, Country Code & Separator */}
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
+                    <Phone
+                      size={18}
+                      className="text-slate-300 group-focus-within:text-primary transition-colors"
+                    />
+                    <span className="ml-3 text-sm font-bold text-slate-400 group-focus-within:text-primary transition-colors">
+                      +254
+                    </span>
+                    <div className="w-[1px] h-6 bg-slate-200 ml-4 group-focus-within:bg-primary/20 transition-colors" />
+                  </div>
+
+                  <input
+                    name="mobile"
+                    type="text"
+                    className="w-full h-full pl-28 pr-6 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all font-bold text-primary placeholder:text-slate-300 placeholder:font-medium"
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    placeholder="0712 345 678"
+                  />
                 </div>
-                <input
-                  name="mobile"
-                  type="text"
-                  className="w-full h-[60px] px-6 bg-slate-50 border-none rounded-r-[24px] focus:ring-2 focus:ring-secondary/20 outline-none font-bold text-primary"
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  placeholder="e.g 0712 345 678"
-                />
+                {errors.mobile && (
+                  <p className="text-[10px] text-rose-500 font-bold mt-1 ml-4 uppercase tracking-tighter">
+                    {errors.mobile}
+                  </p>
+                )}
               </div>
-              {errors.mobile && (
-                <p className="text-[10px] text-red-500 font-bold mt-1 ml-4 uppercase">
-                  {errors.mobile}
-                </p>
-              )}
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <InputGroup label="Password" error={errors.password}>
-                <input
+              <div className="grid grid-cols-2 gap-3">
+                <InputGroup
+                  label="Create Password"
+                  icon={Lock}
                   name="password"
                   type={showPassword ? "text" : "password"}
-                  className="modern-input pl-6 pr-12"
+                  placeholder="••••••••"
+                  value={formData.password}
                   onChange={handleInputChange}
                   onBlur={handleBlur}
-                  placeholder="e.g ••••••••"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-5 text-slate-300"
+                  error={errors.password}
                 >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
-              </InputGroup>
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-5 text-slate-300 hover:text-primary transition-colors"
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </InputGroup>
 
-              <InputGroup label="Confirm" error={errors.confirmPassword}>
-                <input
+                <InputGroup
+                  label="Confirm"
+                  icon={ShieldCheck} // Changed icon to ShieldCheck for visual variety/confirmation feel
                   name="confirmPassword"
                   type={showConfirmPassword ? "text" : "password"}
-                  className="modern-input pl-6 pr-12"
+                  placeholder="••••••••"
+                  value={formData.confirmPassword}
                   onChange={handleInputChange}
                   onBlur={handleBlur}
-                  placeholder="e.g ••••••••"
+                  error={errors.confirmPassword}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-5 text-slate-300 hover:text-primary transition-colors"
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff size={18} />
+                    ) : (
+                      <Eye size={18} />
+                    )}
+                  </button>
+                </InputGroup>
+              </div>
+
+              <div className="flex items-center gap-3 py-2 px-1">
+                <input
+                  type="checkbox"
+                  id="privacy"
+                  className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-secondary"
+                  checked={agreedToTerms}
+                  onChange={(e) => setAgreedToTerms(e.target.checked)}
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-5 text-slate-300"
+                <label
+                  htmlFor="privacy"
+                  className="text-[11px] font-medium text-slate-500 cursor-pointer"
                 >
-                  {showConfirmPassword ? (
-                    <EyeOff size={16} />
-                  ) : (
-                    <Eye size={16} />
-                  )}
-                </button>
-              </InputGroup>
-            </div>
+                  I agree to the{" "}
+                  <span className="text-primary font-bold">Privacy Policy</span>
+                </label>
+              </div>
 
-            {/* Checkbox & Button (Existing Logic) */}
-            <div className="flex items-center gap-3 py-2">
-              <input
-                type="checkbox"
-                id="privacy"
-                className="w-5 h-5"
-                checked={agreedToTerms}
-                onChange={(e) => setAgreedToTerms(e.target.checked)}
-              />
-              <label htmlFor="privacy" className="text-[11px] text-slate-500">
-                I agree to the Privacy Policy
-              </label>
-            </div>
+              <button
+                disabled={isLoading || !agreedToTerms}
+                className="w-full h-[58px] bg-primary text-white rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-secondary transition-all disabled:opacity-30 shadow-lg shadow-blue-900/10 mt-2"
+              >
+                {isLoading ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  <>
+                    Create Account <ArrowRight size={18} />
+                  </>
+                )}
+              </button>
 
-            <button
-              disabled={
-                isLoading ||
-                !agreedToTerms ||
-                Object.values(errors).some(
-                  (error) => error !== null && error !== "",
-                )
-              }
-              className="w-full h-[64px] bg-primary text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#062d7a] transition-all disabled:opacity-20 disabled:grayscale shadow-xl shadow-blue-900/10"
-            >
-              {isLoading ? (
-                <Loader2 className="animate-spin" />
-              ) : (
-                <>
-                  Create Account <ArrowRight size={18} />
-                </>
-              )}
-            </button>
-
-            <div className="mt-8 w-full text-center">
-              <p className="text-sm font-medium text-slate-500">
-                Already have an account?{" "}
-                <button
-                  type="button"
-                  onClick={() => navigate("/auth/login")}
-                  className="text-primary font-black uppercase tracking-widest text-[11px] hover:text-secondary transition-colors ml-1"
-                >
-                  Log In
-                </button>
-              </p>
-            </div>
-          </form>
+              <div className="mt-6 w-full text-center">
+                <p className="text-xs font-medium text-slate-500">
+                  Already have an account?{" "}
+                  <button
+                    type="button"
+                    onClick={() => navigate("/auth/login")}
+                    className="text-primary font-black uppercase tracking-widest text-[10px] hover:underline ml-1"
+                  >
+                    Log In
+                  </button>
+                </p>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-const InputGroup = ({ label, children, error }) => (
-  <div className="w-full">
-    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-4 block">
+const InputGroup = ({ label, icon: Icon, error, children, ...props }) => (
+  <div className="w-full space-y-1.5">
+    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4 block">
       {label}
     </label>
-    <div className="relative flex items-center group">{children}</div>
+    <div className="relative flex items-center group">
+      {/* Prefix Icon & Separator */}
+      <div className="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
+        <Icon
+          size={18}
+          className="text-slate-300 group-focus-within:text-primary transition-colors duration-200"
+        />
+        <div className="w-[1px] h-6 bg-slate-200 ml-4 group-focus-within:bg-primary/20 transition-colors duration-200" />
+      </div>
+      <input
+        className="w-full h-16 pl-16 pr-6 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all font-bold text-primary placeholder:text-slate-300 placeholder:font-medium"
+        {...props}
+      />
+      {children} {/* For Password Toggle Buttons */}
+    </div>
     {error && (
-      <p className="text-[10px] text-red-500 font-bold mt-1 ml-4 uppercase">
+      <p className="text-[10px] text-rose-500 font-bold mt-1 ml-4 uppercase tracking-tighter">
         {error}
       </p>
     )}
   </div>
 );
 
-const TrustPoint = ({ title, desc }) => (
+const TrustPoint = ({ title, desc, isDark = true }) => (
   <div className="flex items-start gap-4">
     <div className="mt-1">
-      <CheckCircle2 className="text-secondary" size={20} />
+      <CheckCircle2 className="text-primary" size={18} />
     </div>
     <div>
-      <h4 className="text-white font-bold text-lg leading-none mb-1">
+      <h4
+        className={`${isDark ? "text-white" : "text-slate-900"} font-bold text-base leading-none mb-1`}
+      >
         {title}
       </h4>
-      <p className="text-white/40 text-sm leading-relaxed">{desc}</p>
+      <p
+        className={`${isDark ? "text-white/40" : "text-slate-500"} text-xs leading-relaxed`}
+      >
+        {desc}
+      </p>
     </div>
   </div>
 );
