@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --color-primary-rgb: 4 33 89;
   --color-secondary-rgb: 77 184 228;
 
@@ -14,9 +14,9 @@
   --color-hover: #074073;
 
   --shadow-brand: 0 10px 15px -3px rgba(4, 33, 89, 0.2);
-}
+} */
 
-/* :root {
+:root {
   --color-primary-rgb: 0 92 83;
   --color-secondary-rgb: 219 242 39;
 
@@ -32,4 +32,4 @@
   --color-hover: #004d45;
 
   --shadow-brand: 0 10px 15px -3px rgba(219, 242, 39, 0.3);
-} */
+}
