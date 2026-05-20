@@ -52,6 +52,7 @@ import EmailLink from "./pages/onboarding/EmailLink";
 import TitleUpdater from "./helmet/TitleUpdater";
 import ChangeEmail from "./pages/onboarding/ChangeEmail";
 import ChangeMobile from "./pages/onboarding/ChangeMobile";
+import ProtectedRoute from "./routes/Protect";
 
 function App() {
   return (
@@ -127,7 +128,14 @@ function App() {
           />
         </Route>
 
-        <Route path="/" element={<Homelayer />}>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Homelayer />
+            </ProtectedRoute>
+          }
+        >
           <Route path="/home" element={<Homepage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route
