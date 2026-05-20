@@ -6,6 +6,8 @@ import {
   Info,
   Loader2,
   FileText,
+  ShieldAlert,
+  ShieldCheck,
 } from "lucide-react";
 import MyProgress from "../../components/progress-bar/MyProgress";
 import { useNavigate } from "react-router-dom";
@@ -219,40 +221,43 @@ const IdentityVerification = () => {
         onClose={() => setShowDocumentError(false)}
       />
 
-      <div className="h-full bg-gray-50 sm:px-4 flex justify-center">
-        {/* 80% Width Container */}
-        <div className="w-full max-w-[1300px] md:px-6 mb-[20px] flex flex-col lg:flex-row gap-4">
-          {/* Left Section: Progress Bar (20%) */}
-          <aside className="w-full hidden lg:block md:block lg:w-[22%]">
+      <div className="sm:px-4 flex justify-center items-start">
+        <div className="w-full max-w-[1300px] md:px-6 flex flex-col lg:flex-row gap-6">
+          {/* Left Progress Sidebar */}
+          <aside className="w-full hidden lg:block lg:w-[22%] shrink-0">
             <MyProgress
               currentTitle="Identity Verification"
               currentSubtitle="Upload Government Document"
             />
           </aside>
 
-          {/* Middle Section: Upload Form (45%) */}
-          <main className="flex-1 px-6 space-y-4">
-            <section>
-              <h1 className="text-3xl font-black text-primary uppercase tracking-tight mb-4">
-                Upload Government issued ID
-              </h1>
-              <p className="text-gray-500 text-sm mb-8">
-                Let's get started by uploading your ID or Passport. This will
-                help us automatically fill in your details and verify your
-                citizenship.
-              </p>
+          {/* Main Full-Width Form Workspace */}
+          <main className="flex-1 shadow-sm flex flex-col justify-between">
+            <div className="space-y-8">
+              <header>
+                <h1 className="text-xl font-black text-primary uppercase tracking-tight mb-2">
+                  Upload Government issued ID
+                </h1>
+                <p className="text-gray-500 text-sm max-w-3xl">
+                  Let's get started by uploading your ID or Passport. This will
+                  help us automatically fill in your details and verify your
+                  citizenship.
+                </p>
+              </header>
 
-              <div className="space-y-6">
+              {/* 1. INPUTS ROW: Config Selectors Side-By-Side */}
+              {/* 💡 Changed 'grid-cols-1 sm:grid-cols-2' to 'grid-cols-2' to force them side-by-side everywhere */}
+              <div className="grid grid-cols-2 gap-4">
                 {/* Select Country */}
                 <div className="flex flex-col gap-2">
                   <label className="text-sm font-medium text-gray-700">
                     Country of Citizenship
                   </label>
                   <select
-                    className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
-             hover:border-gray-300 
-             focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
-             cursor-pointer"
+                    className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
+ hover:border-gray-300 
+ focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
+ cursor-pointer"
                     style={{
                       backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
                       backgroundRepeat: "no-repeat",
@@ -273,10 +278,10 @@ const IdentityVerification = () => {
                   <select
                     value={documentType}
                     onChange={(e) => setDocumentType(e.target.value)}
-                    className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
-             hover:border-gray-300 
-             focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
-             cursor-pointer"
+                    className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
+ hover:border-gray-300 
+ focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
+ cursor-pointer"
                     style={{
                       backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
                       backgroundRepeat: "no-repeat",
@@ -288,114 +293,149 @@ const IdentityVerification = () => {
                     <option value="Passport">Passport</option>
                   </select>
                 </div>
+              </div>
 
-                {/* Upload Areas */}
-                <div className="space-y-4">
-                  {documentType === "National Id" ? (
-                    <>
-                      <UploadBox
-                        label="Front page of ID"
-                        file={files.front}
-                        onUpload={() => triggerUpload("front")}
-                      />
-                      <UploadBox
-                        label="Back page of ID"
-                        file={files.back}
-                        onUpload={() => triggerUpload("back")}
-                      />
-                    </>
-                  ) : (
+              {/* 2. UPLOADERS ROW: Document Fields Side-By-Side */}
+              <div>
+                {documentType === "National Id" ? (
+                  <div className="grid grid-cols-2 gap-4">
+                    <UploadBox
+                      label="Front page of ID"
+                      file={files.front}
+                      onUpload={() => triggerUpload("front")}
+                    />
+                    <UploadBox
+                      label="Back page of ID"
+                      file={files.back}
+                      onUpload={() => triggerUpload("back")}
+                    />
+                  </div>
+                ) : (
+                  <div className="w-full">
                     <UploadBox
                       label="Double page of passport"
                       file={files.passport}
                       onUpload={() => triggerUpload("passport")}
                       large
                     />
-                  )}
+                  </div>
+                )}
+              </div>
+
+              {/* 3. GUIDELINES & DISCLAIMERS ROW: Nested Beneath Upload Blocks */}
+              <div className="space-y-4">
+                <div className="relative overflow-hidden bg-white border border-slate-200/80 rounded-3xl p-4 shadow-sm transition-all duration-300 hover:shadow-md hover:border-slate-300/80">
+                  {/* Header Block */}
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-2.5 text-slate-800">
+                      <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
+                        <ShieldCheck className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">
+                          Compliance Guard
+                        </h3>
+                        <h4 className="text-sm font-bold text-slate-800 mt-0.5">
+                          Verification Checklist
+                        </h4>
+                      </div>
+                    </div>
+
+                    {/* Micro Metric Tag */}
+                    <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-lg border border-emerald-100">
+                      OCR Ready
+                    </span>
+                  </div>
+
+                  {/* Checklist Grid Matrix */}
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <PremiumRequirement
+                      title="Validity Check"
+                      desc="Your ID or Passport must not be expired"
+                    />
+                    <PremiumRequirement
+                      title="Full Visibility"
+                      desc="All personal details must be completely uncovered"
+                    />
+                    <PremiumRequirement
+                      title="Scan Resolution"
+                      desc="Image must be perfectly clear and easy to read"
+                    />
+                    <PremiumRequirement
+                      title="Accepted Formats"
+                      desc="Standard image extensions: JPEG, PNG, or JPG"
+                      isMeta
+                    />
+                  </ul>
                 </div>
 
-                {/* Hidden Inputs */}
-                <input
-                  type="file"
-                  ref={fileInputs.front}
-                  onChange={(e) => handleFileChange(e, "front")}
-                  className="hidden"
-                />
-                <input
-                  type="file"
-                  ref={fileInputs.back}
-                  onChange={(e) => handleFileChange(e, "back")}
-                  className="hidden"
-                />
-                <input
-                  type="file"
-                  ref={fileInputs.passport}
-                  onChange={(e) => handleFileChange(e, "passport")}
-                  className="hidden"
-                />
-
-                {documentType === "National Id" && (
-                  <button
-                    disabled={isLoading}
-                    onClick={handleContinue}
-                    className="w-full h-14 bg-primary hover:bg-secondary text-white font-semibold rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-purple-100"
-                  >
-                    {isLoading && <Loader2 className="w-5 h-5 animate-spin" />}
-                    Continue
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                )}
-
+                {/* Passport Specific Warning Block */}
                 {documentType === "Passport" && (
-                  <button
-                    disabled={isLoadingPassport}
-                    onClick={handlePassportContinue}
-                    className="w-full h-14 bg-primary hover:bg-secondary text-white font-semibold rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-purple-100"
-                  >
-                    {isLoadingPassport && (
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                    )}
-                    Continue
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
+                  <div className="bg-orange-50 border border-orange-100 rounded-[24px] p-5 animate-in fade-in duration-200">
+                    <p className="text-orange-800 text-[10px] font-black mb-1.5 uppercase tracking-wider">
+                      [Important Note] Uploading Passport
+                    </p>
+                    <p className="text-orange-700 text-xs leading-relaxed font-medium">
+                      Ensure you include both the Bio Data page and the
+                      Signature page in one single frame layout.
+                    </p>
+                  </div>
                 )}
               </div>
-            </section>
-          </main>
 
-          {/* Right Section: Instructions (30%) */}
-          <aside className="w-full lg:w-[20%] space-y-4">
-            <div className="bg-[#F0FFFE] border border-[#d1f7f5] rounded-2xl p-6">
-              <div className="flex items-center gap-2 mb-4 text-[#008080]">
-                <Info className="w-5 h-5" />
-                <span className="font-bold text-sm uppercase tracking-wider">
-                  Make Sure That
-                </span>
-              </div>
-              <ul className="space-y-3">
-                <Requirement text="Your ID or Passport is not expired" />
-                <Requirement text="All your details can be seen" />
-                <Requirement text="It’s clear and easy to read" />
-                <Requirement text="Edges of the document are visible" />
-                <Requirement text="Formats: JPEG, PNG, JPG" />
-              </ul>
+              {/* Hidden Structural System Inputs */}
+              <input
+                type="file"
+                ref={fileInputs.front}
+                onChange={(e) => handleFileChange(e, "front")}
+                className="hidden"
+                accept="image/*"
+              />
+              <input
+                type="file"
+                ref={fileInputs.back}
+                onChange={(e) => handleFileChange(e, "back")}
+                className="hidden"
+                accept="image/*"
+              />
+              <input
+                type="file"
+                ref={fileInputs.passport}
+                onChange={(e) => handleFileChange(e, "passport")}
+                className="hidden"
+                accept="image/*"
+              />
             </div>
 
-            {documentType === "Passport" && (
-              <div className="bg-orange-50 border border-orange-100 rounded-2xl p-6">
-                <p className="text-orange-800 text-xs font-bold mb-2 uppercase">
-                  [Note] Uploading Passport
-                </p>
-                <p className="text-orange-700 text-sm leading-relaxed mb-4">
-                  Ensure you include both the Bio Data page and the Signature
-                  page in one clear frame.
-                </p>
-                <div className="aspect-video bg-white rounded-lg border border-dashed border-orange-200 flex items-center justify-center italic text-orange-400 text-xs">
-                  Passport Preview Placeholder
-                </div>
-              </div>
-            )}
-          </aside>
+            {/* Bottom Form Actions Execution Line */}
+            <div className="mt-4 pt-4 border-t border-slate-100">
+              {documentType === "National Id" && (
+                <button
+                  disabled={isLoading}
+                  onClick={handleContinue}
+                  className="w-full md:w-auto md:float-right px-8 h-14 bg-primary hover:bg-secondary text-white font-semibold rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-900/10"
+                >
+                  {isLoading && <Loader2 className="w-5 h-5 animate-spin" />}
+                  Continue
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              )}
+
+              {documentType === "Passport" && (
+                <button
+                  disabled={isLoadingPassport}
+                  onClick={handlePassportContinue}
+                  className="w-full md:w-auto md:float-right px-8 h-14 bg-primary hover:bg-secondary text-white font-semibold rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-900/10"
+                >
+                  {isLoadingPassport && (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  )}
+                  Continue
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              )}
+            </div>
+          </main>
         </div>
       </div>
     </>
@@ -403,11 +443,11 @@ const IdentityVerification = () => {
 };
 
 const UploadBox = ({ label, file, onUpload, large }) => (
-  <div className="space-y-2">
+  <div className="space-y-2 w-full">
     <p className="text-sm font-medium text-gray-700">{label}</p>
     <div
       onClick={onUpload}
-      className={`${large ? "h-48" : "h-32"} bg-white cursor-pointer rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 hover:bg-gray-100 hover:border-primary transition-all flex flex-col items-center justify-center group`}
+      className={`${large ? "h-48" : "h-32"} cursor-pointer rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 hover:bg-gray-100 hover:border-primary transition-all flex flex-col items-center justify-center group`}
     >
       {file ? (
         <div className="text-center px-4">
@@ -434,10 +474,17 @@ const UploadBox = ({ label, file, onUpload, large }) => (
   </div>
 );
 
-const Requirement = ({ text }) => (
-  <li className="flex gap-3 text-[12px] text-gray-700">
-    <CheckCircle2 className="w-4 h-4 text-[#008080] mt-0.5" />
-    {text}
+const PremiumRequirement = ({ title, desc, isMeta }) => (
+  <li className="flex items-start gap-3 p-3 bg-slate-50/50 rounded-xl border border-slate-100 transition-colors hover:bg-slate-50">
+    <div className="mt-0.5 shrink-0">
+      <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+    </div>
+    <div className="space-y-0.5">
+      <p className="text-xs font-bold text-slate-800 leading-tight">{title}</p>
+      <p className="text-[11px] font-medium text-slate-400 leading-relaxed">
+        {desc}
+      </p>
+    </div>
   </li>
 );
 
