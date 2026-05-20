@@ -105,7 +105,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 md:p-8 sm:p-2 antialiased">
-      <div className="w-full max-w-6xl grid lg:grid-cols-2 py-3 bg-white overflow-hidden">
+      <div className="w-full max-w-6xl grid lg:grid-cols-2 py-3 px-6 bg-white overflow-hidden">
         <div className="relative bg-white sm:hidden p-6 lg:p-6 flex flex-col justify-between overflow-hidden border-r border-slate-200">
           <div className="relative z-10">
             <div className="inline-flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-full border border-slate-100 mb-12">
@@ -179,7 +179,7 @@ const Login = () => {
           </div>
         </div>
         <div className="p-6 lg:p-6 sm:p-2 flex items-center justify-center bg-white">
-          <div className="px-4 w-full">
+          <div className="w-full">
             <div className="mb-10">
               <h1 className="text-3xl font-black text-slate-900 tracking-tight">
                 Member Sign In

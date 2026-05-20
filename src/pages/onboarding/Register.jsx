@@ -141,7 +141,7 @@ const Registration = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 antialiased">
-      <div className="w-full max-w-5xl grid lg:grid-cols-2 bg-white py-5 overflow-hidden">
+      <div className="w-full max-w-6xl grid lg:grid-cols-2 bg-white px-3 overflow-hidden">
         {/* LEFT PANEL: Branding (Condensed Height) */}
         <div className="hidden lg:flex bg-white flex-col justify-between p-6 relative overflow-hidden border-r border-slate-100">
           <div className="relative z-10">
@@ -188,9 +188,9 @@ const Registration = () => {
 
         {/* RIGHT PANEL: Form Area */}
         <div className="flex-1 w-full flex items-center justify-center p-6 lg:p-6 bg-white">
-          <div className="w-full max-w-[420px]">
-            <header className="mb-8 text-center lg:text-left">
-              <h1 className="text-2xl font-black text-primary tracking-tight">
+          <div className="w-full">
+            <header className="mb-4 text-center lg:text-left">
+              <h1 className="text-3xl font-black text-slate-900 tracking-tight">
                 Create Profile
               </h1>
             </header>
@@ -377,8 +377,8 @@ const InputGroup = ({ label, icon: Icon, error, children, ...props }) => (
 
 const TrustPoint = ({ title, desc, isDark = true }) => (
   <div className="flex items-start gap-4">
-    <div className="mt-1">
-      <CheckCircle2 className="text-primary" size={18} />
+    <div>
+      <ShieldCheck className="text-primary" size={18} />
     </div>
     <div>
       <h4
