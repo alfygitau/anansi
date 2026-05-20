@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import {
   X,
   TrendingUp,
-  PiggyBank,
   AlertCircle,
   ShieldAlert,
   Phone,
+  Coins,
 } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 import { useStore } from "../../store/useStore";
@@ -101,9 +101,9 @@ const InvestAmount = ({ isOpen, onClose, onConfirm }) => {
         <div className="flex-1 overflow-y-auto p-8 space-y-8">
           {/* Savings Section */}
           <div className="p-4 rounded-[24px] border border-emerald-100 bg-emerald-50/30">
-            <div className="flex items-center gap-2 mb-4">
-              <PiggyBank className="text-emerald-600" size={18} />
-              <p className="text-emerald-700 text-[10px] font-black uppercase tracking-widest">
+            <div className="flex items-center gap-2 mb-2">
+              <Coins className="text-primary" size={18} />
+              <p className="text-primary text-[10px] font-black uppercase tracking-widest">
                 Deposit Savings
               </p>
             </div>
@@ -227,7 +227,7 @@ const InvestAmount = ({ isOpen, onClose, onConfirm }) => {
               {/* Absolute Prefix Block with MOBILE Badge */}
               <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none">
                 <span className="text-[10px] font-black tracking-wider text-slate-400 group-focus-within:text-[#074073] transition-colors">
-                  <Phone size={20}/>
+                  <Phone size={20} />
                 </span>
                 <div className="w-[1.5px] h-5 bg-slate-200 ml-3 group-focus-within:bg-[#074073]/20 transition-colors" />
               </div>
