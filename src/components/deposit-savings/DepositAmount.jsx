@@ -1,7 +1,16 @@
 import { useEffect, useState } from "react";
-import { X, Info, Wallet } from "lucide-react";
+import {
+  X,
+  Info,
+  Wallet,
+  Phone,
+  AlertCircle,
+  CheckCircle2,
+  ShieldAlert,
+} from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 import { useStore } from "../../store/useStore";
+import { motion, AnimatePresence } from "framer-motion";
 
 const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
   const [amount, setAmount] = useState("0");
@@ -104,12 +113,20 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
 
             {/* Inputs Grid */}
             <div className="space-y-8">
-              {/* Phone Number Input */}
               <div className="space-y-2">
-                <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">
+                <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">
                   M-PESA Phone Number
                 </label>
-                <div className="h-12 border border-gray-200 rounded-xl flex items-center overflow-hidden focus-within:border-[#074073] focus-within:ring-1 focus-within:ring-[#074073] transition-all">
+                <div className="relative group">
+                  {/* Absolute Prefix Block */}
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none">
+                    <Phone
+                      size={18}
+                      className="text-slate-300 group-focus-within:text-[#074073] transition-colors"
+                    />
+                    <div className="w-[1.5px] h-5 bg-slate-200 ml-4 group-focus-within:bg-[#074073]/20 transition-colors" />
+                  </div>
+
                   <input
                     type="text"
                     name="mobile"
@@ -117,25 +134,38 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
                     onBlur={handleBlur}
                     onChange={(e) => setMobile(e.target.value)}
                     placeholder="e.g. 0712345678"
-                    className="w-full h-full px-4 outline-none text-sm font-medium"
+                    className="w-full pl-[74px] pr-6 py-5 h-14 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:bg-white focus:border-[#074073] focus:ring-4 focus:ring-[#074073]/5 transition-all placeholder:text-xs font-medium text-slate-800"
                   />
                 </div>
-                {errors.mobile && (
-                  <p className="text-[10px] text-red-500 ml-1 font-medium">
-                    {errors.mobile}
-                  </p>
-                )}
+
+                <AnimatePresence>
+                  {errors.mobile && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      className="text-rose-500 text-[11px] font-bold flex items-center gap-1 ml-1"
+                    >
+                      <AlertCircle size={12} /> {errors.mobile}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
               </div>
 
-              {/* Amount Input */}
               <div className="space-y-2">
-                <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">
+                <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">
                   Amount to Deposit
                 </label>
-                <div className="flex h-12 border border-gray-200 rounded-xl overflow-hidden focus-within:border-[#074073] transition-all">
-                  <div className="bg-gray-50 px-4 flex items-center justify-center border-r border-gray-200 text-xs font-black text-[#074073]">
-                    KES
+                <div className="relative group">
+                  {/* Absolute Prefix Block with Custom KES Badge */}
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none">
+                    <span className="text-[11px] font-black tracking-wider text-slate-400 group-focus-within:text-[#074073] transition-colors">
+                      KES
+                    </span>
+                    {/* Shifted ml-3 here to cleanly space from the letters instead of the icon layout */}
+                    <div className="w-[1.5px] h-5 bg-slate-200 ml-3 group-focus-within:bg-[#074073]/20 transition-colors" />
                   </div>
+
                   <input
                     type="number"
                     name="amount"
@@ -143,17 +173,33 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
                     onBlur={handleBlur}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="Min. 500"
-                    className="flex-1 px-4 outline-none text-sm font-semibold"
+                    className="w-full pl-[74px] pr-6 py-5 h-14 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:bg-white focus:border-[#074073] focus:ring-4 focus:ring-[#074073]/5 transition-all placeholder:text-xs font-semibold text-slate-800"
                   />
                 </div>
-                {errors.amount && (
-                  <p className="text-[10px] text-red-500 ml-1 font-medium">
-                    {errors.amount}
+
+                <AnimatePresence>
+                  {errors.amount && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      className="text-rose-500 text-[11px] font-bold flex items-center gap-1 ml-1"
+                    >
+                      <AlertCircle size={12} /> {errors.amount}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+
+                <div className="mt-3 p-3 bg-slate-50 border flex items-center border-slate-200/60 rounded-xl space-y-1">
+                  <ShieldAlert size={20} className="shrink-0" />
+                  <p className="text-[10px] text-slate-500 leading-relaxed font-medium pl-5">
+                    Minimum deposit is{" "}
+                    <strong className="text-[#074073] font-bold">
+                      KES 100.00
+                    </strong>
+                    . Ensure the M-PESA account name matches your profile.
+                    Processing may take up to 15 minutes during network delays.
                   </p>
-                )}
-                <div className="flex items-center gap-1.5 text-[11px] text-gray-400 ml-1 font-medium">
-                  <Info size={14} className="text-[#074073]/50" />
-                  <span>Minimum deposit amount KES 500.00</span>
                 </div>
               </div>
             </div>

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { X, Info } from "lucide-react";
+import { X, Info, AlertCircle } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 import { useStore } from "../../store/useStore";
+import { motion, AnimatePresence } from "framer-motion";
 
 const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
   const [numberShares, setNumberShares] = useState("0");
@@ -90,35 +91,52 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
         <div className="flex-1 overflow-y-auto p-8 space-y-8">
           {/* Share Calculation Section */}
           <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1 space-y-2">
-              <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider ml-1">
+            <div className="flex-1 space-y-1">
+              <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">
                 Purchase Cost (KES)
               </label>
-              <div className="h-14 flex items-center bg-white border border-gray-200 rounded-xl focus-within:border-[#074073] transition-all">
+              <div className="relative group">
+                {/* Absolute Prefix Block with Custom KES Badge */}
+                <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none">
+                  <span className="text-[11px] font-black tracking-wider text-slate-400 group-focus-within:text-[#074073] transition-colors">
+                    KES
+                  </span>
+                  <div className="w-[1.5px] h-5 bg-slate-200 ml-3 group-focus-within:bg-[#074073]/20 transition-colors" />
+                </div>
+
                 <input
                   type="number"
                   name="shares"
                   value={numberShares}
                   onBlur={handleBlur}
                   onChange={(e) => setNumberShares(e.target.value)}
-                  className="w-full h-full px-4 rounded-xl outline-none text-sm font-semibold"
                   placeholder="e.g. 5000"
+                  className="w-full pl-[74px] pr-6 py-5 h-14 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:bg-white focus:border-[#074073] focus:ring-4 focus:ring-[#074073]/5 transition-all placeholder:text-xs font-semibold text-slate-800"
                 />
               </div>
-              {errors.shares && (
-                <p className="text-[10px] text-red-500 ml-1 font-medium">
-                  {errors.shares}
-                </p>
-              )}
+
+              {/* Framer Motion Error State */}
+              <AnimatePresence>
+                {errors.shares && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    className="text-rose-500 text-[11px] font-bold flex items-center gap-1 ml-1"
+                  >
+                    <AlertCircle size={12} /> {errors.shares}
+                  </motion.p>
+                )}
+              </AnimatePresence>
             </div>
 
-            <div className="flex-1 space-y-2">
+            <div className="flex-1 space-y-1">
               <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider ml-1">
                 Units to Receive
               </label>
               <div className="h-14 flex items-center justify-center bg-[#F0F7FF] border border-[#D1E9FF] rounded-xl">
                 <p className="text-sm font-bold text-[#074073]">
-                  {calculateUnits()}
+                  {calculateUnits()} units
                 </p>
               </div>
             </div>
@@ -141,29 +159,43 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
               <img src="/mpesa.svg" className="h-6" alt="M-PESA" />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider ml-1">
+            <div className="space-y-1">
+              <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">
                 M-PESA Phone Number
               </label>
-              <div className="flex h-14 border border-gray-200 rounded-xl overflow-hidden focus-within:border-[#074073] transition-all">
-                <div className="bg-gray-50 px-4 flex items-center justify-center border-r border-gray-200 text-[10px] font-bold text-gray-500 uppercase">
-                  Mobile
+              <div className="relative group">
+                {/* Absolute Prefix Block with MOBILE Badge */}
+                <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none">
+                  <span className="text-[10px] font-black tracking-wider text-slate-400 group-focus-within:text-[#074073] transition-colors">
+                    MOBILE
+                  </span>
+                  <div className="w-[1.5px] h-5 bg-slate-200 ml-3 group-focus-within:bg-[#074073]/20 transition-colors" />
                 </div>
+
                 <input
                   type="text"
                   name="mobile"
                   value={mobile}
                   onBlur={handleBlur}
                   onChange={(e) => setMobile(e.target.value)}
-                  placeholder="e.g 0722000000"
-                  className="flex-1 px-4 outline-none text-sm font-medium"
+                  placeholder="e.g. 0722000000"
+                  className="w-full pl-[88px] pr-6 py-5 h-14 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:bg-white focus:border-[#074073] focus:ring-4 focus:ring-[#074073]/5 transition-all placeholder:text-xs font-medium text-slate-800"
                 />
               </div>
-              {errors.mobile && (
-                <p className="text-[10px] text-red-500 ml-1 font-medium">
-                  {errors.mobile}
-                </p>
-              )}
+
+              {/* Framer Motion Error State */}
+              <AnimatePresence>
+                {errors.mobile && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    className="text-rose-500 text-[11px] font-bold flex items-center gap-1 ml-1"
+                  >
+                    <AlertCircle size={12} /> {errors.mobile}
+                  </motion.p>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </div>
