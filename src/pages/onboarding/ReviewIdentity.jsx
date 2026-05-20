@@ -128,7 +128,7 @@ const ReviewIdentity = () => {
       <div className="flex-1">
         {/* Header with Modern Disclaimer */}
         <header className="mb-3 w-full">
-          <h1 className="text-2xl font-black text-primary uppercase tracking-tight mb-4">
+          <h1 className="text-xl font-black text-primary uppercase tracking-tight mb-2">
             Review Extracted Details
           </h1>
           <div className="p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50 flex items-start gap-3">
