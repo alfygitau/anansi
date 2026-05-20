@@ -307,7 +307,7 @@ const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
               {amount}
             </span>
             <div
-              className={`mt-2 px-2.5 py-1 rounded-lg ${config.bg}`}
+              className={`mt-2 px-3 py-2 rounded-lg flex items-center justify-center ${config.bg}`}
               style={{ color: config.color }}
             >
               <span className="text-[9px] font-black uppercase tracking-widest leading-none">

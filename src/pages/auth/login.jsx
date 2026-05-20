@@ -209,7 +209,7 @@ const Login = () => {
                     value={formData.memberId}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className="w-full pl-[74px] pr-6 py-5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 transition-all font-semibold text-slate-800"
+                    className="w-full pl-[74px] pr-6 py-5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 transition-all placeholder:text-xs font-semibold text-slate-800"
                   />
                 </div>
                 <AnimatePresence>
