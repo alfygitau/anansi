@@ -55,7 +55,9 @@ const MyLoans = ({ onBack }) => {
             icon={<CheckCircle2 className="text-emerald-500" />}
           />
         </div>
-        <h1 className="text-xl mt-6 mb-1 font-medium tracking-tight">All Loans</h1>
+        <h1 className="text-xl mt-6 mb-1 font-medium tracking-tight">
+          All Loans
+        </h1>
         {/* 2. Main Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* LEFT: Search & List (8 Columns) */}
@@ -107,23 +109,23 @@ const MyLoans = ({ onBack }) => {
 
           {/* RIGHT: Quick Actions & Sidebar (4 Columns) */}
           <aside className="lg:col-span-5 space-y-6">
-            <ApplyLoanAction />
+            <ApplyLoanAction onClick={() => navigate("/loan-products")} />
             {/* Quick Actions Card */}
-            <div className="bg-primary rounded-[22px] p-4 text-white">
-              <h3 className="text-lg font-black mb-4 flex items-center gap-2">
-                <Zap className="text-secondary" size={20} /> Quick Actions
+            <div className="bg-slate-50 rounded-[22px] p-5 border border-slate-200">
+              <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
+                <Zap className="text-slate-400" size={16} /> Quick Actions
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <ActionButton
-                  icon={<FileText size={18} />}
+                  icon={<FileText size={16} />}
                   label="View loan statements"
                   onClick={() => navigate("/statements")}
                   primary
                 />
                 <ActionButton
-                  icon={<CreditCard size={18} />}
+                  icon={<CreditCard size={16} />}
                   label="Make a Repayment"
-                  onClick={() => navigate("/repay")}
+                  onClick={() => navigate("/all-loans")}
                 />
               </div>
             </div>
@@ -300,13 +302,16 @@ const LoanItem = ({
 const ActionButton = ({ icon, label, onClick, primary = false }) => (
   <button
     onClick={onClick}
-    className={`w-full flex items-center gap-3 p-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.1em] transition-all ${
+    className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-[11px] font-black uppercase tracking-[0.08em] transition-all border ${
       primary
-        ? "bg-secondary text-primary hover:bg-sky-300"
-        : "bg-white/10 text-white hover:bg-white/20 border border-white/5"
+        ? "bg-primary border-slate-900 text-white hover:bg-slate-800"
+        : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50 shadow-sm"
     }`}
   >
-    {icon} {label}
+    <span className={primary ? "text-slate-400" : "text-slate-400"}>
+      {icon}
+    </span>
+    {label}
   </button>
 );
 
