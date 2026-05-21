@@ -57,6 +57,7 @@ import useAuth from "../../hooks/useAuth";
 import { useStore } from "../../store/useStore";
 import { useFormatAmount } from "../../hooks/useFormatAmount";
 import { allLoans, myLoanApplications } from "../../static/loans";
+import LoanTerms from "../../components/loan-terms-conditions/TermsAndCobditions";
 
 const allProducts = [
   {
@@ -219,6 +220,7 @@ const Homepage = () => {
   const [showAwaitMembershipPayment, setShowAwaitMembershipPayment] =
     useState(false);
   const formatAmount = useFormatAmount();
+  const [showLoanTerms, setShowLoanTerms] = useState(false);
 
   const formatNumber = (value) => {
     if (value === null || value === undefined || isNaN(value)) return "0";
@@ -282,6 +284,11 @@ const Homepage = () => {
 
   return (
     <>
+      <LoanTerms
+        isOpen={showLoanTerms}
+        onClose={() => setShowLoanTerms(false)}
+      />
+
       <InvestAmount
         isOpen={showInvestAmount}
         onClose={() => setShowInvestAmount(false)}
@@ -715,6 +722,7 @@ const Homepage = () => {
                     key={product.id}
                     product={product}
                     onApply={() => {}}
+                    onTerms={() => setShowLoanTerms(true)}
                   />
                 ))
               ) : (
@@ -729,7 +737,7 @@ const Homepage = () => {
 };
 
 /* --- Sub-Components --- */
-const DetailedProductCard = ({ product, onApply }) => {
+const DetailedProductCard = ({ product, onApply, onTerms }) => {
   const {
     name,
     description,
@@ -781,7 +789,10 @@ const DetailedProductCard = ({ product, onApply }) => {
 
       {/* Bottom Action Bar */}
       <div className="bg-slate-50 px-6 py-4 flex items-center justify-between border-t border-slate-100">
-        <div className="flex items-center gap-1 text-[10px] font-semibold text-slate-400">
+        <div
+          onClick={onTerms}
+          className="flex items-center cursor-pointer gap-1 text-[10px] font-semibold text-slate-400"
+        >
           <Info size={12} />
           <span>Terms & Conditions apply</span>
         </div>
