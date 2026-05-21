@@ -138,29 +138,35 @@ const LoanApplications = () => {
 
           {/* RIGHT: Quick Actions & Sidebar (4 Columns) */}
           <aside className="lg:col-span-5 space-y-6">
-            <ApplyLoanAction />
+            <ApplyLoanAction onClick={() => navigate("/loan-products")} />
             {/* Action Required Card */}
-            <div className="bg-primary rounded-[32px] p-4 text-white">
+            <div className="bg-slate-50 rounded-[32px] p-6 border border-slate-200">
+              {/* Header Section */}
               <div className="flex items-center gap-2 mb-4">
-                <Zap className="text-secondary" size={20} />
-                <h3 className="text-lg font-black tracking-tight">
+                <Zap className="text-slate-400" size={16} />
+                <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">
                   Pending Action
                 </h3>
               </div>
-              <div className="p-4 bg-white/5 rounded-2xl border border-white/10 mb-6">
-                <p className="text-[11px] font-bold text-secondary uppercase tracking-widest mb-1">
+
+              {/* Status Notice Block */}
+              <div className="p-4 bg-white rounded-2xl border border-slate-200/60 shadow-sm mb-5">
+                <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1.5">
                   Attention Required
                 </p>
-                <p className="text-xs leading-relaxed text-white/80">
+                <p className="text-xs leading-relaxed text-slate-600">
                   Your{" "}
-                  <span className="text-white font-bold underline">
+                  <span className="text-slate-900 font-bold">
                     Biashara Loan
                   </span>{" "}
                   is waiting for guarantor signatures.
                 </p>
               </div>
-              <button className="w-full bg-secondary text-primary py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-sky-300 transition-colors flex items-center justify-center gap-2">
-                Invite Guarantors <ArrowRight size={14} />
+
+              {/* Main Call-to-Action Button */}
+              <button className="w-full bg-primary text-white py-3.5 rounded-xl text-[11px] font-black uppercase tracking-[0.08em] hover:bg-slate-800 transition-all flex items-center justify-center gap-2 shadow-sm">
+                Invite Guarantors{" "}
+                <ArrowRight size={14} className="text-slate-400" />
               </button>
             </div>
 
