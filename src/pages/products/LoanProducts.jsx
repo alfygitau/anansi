@@ -15,11 +15,12 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import LoanTerms from "../../components/loan-terms-conditions/TermsAndCobditions";
 
 const LoanProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-
+  const [showLoanTerms, setShowLoanTerms] = useState(false);
   const allProducts = [
     {
       id: "prod_01",
@@ -148,62 +149,71 @@ const LoanProducts = () => {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 text-primary pb-20">
-      <div className="max-w-6xl sm:px-4 mx-auto">
-        {/* Header Section */}
-        <header className="py-2">
-          <h1 className="text-2xl font-medium tracking-tight">Loan Products</h1>
-          <p className="text-slate-400 text-sm">
-            Whether you're growing your business, funding an education, or
-            achieving personal goals, we have options tailored to your needs.
-          </p>
-          {/* Modern Search Bar */}
-          <div className="mt-4 flex gap-3">
-            <div className="relative flex-1">
-              <Search
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-                size={18}
-              />
-              <input
-                type="text"
-                placeholder="Search for a loan (e.g. Emergency)..."
-                className="w-full pl-12 pr-4 py-4 bg-white border border-slate-100 rounded-2xl shadow-sm focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none transition-all"
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <button className="p-4 bg-white border border-slate-100 rounded-2xl text-slate-400 hover:text-primary transition-colors shadow-sm">
-              <Filter size={20} />
-            </button>
-          </div>
-        </header>
-
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-6">
-          {filteredProducts.map((product) => (
-            <DetailedProductCard
-              key={product.id}
-              product={product}
-              onApply={() => navigate("/loan-eligibility")}
-            />
-          ))}
-        </div>
-
-        {/* Empty State for Search */}
-        {filteredProducts.length === 0 && (
-          <div className="py-20 text-center">
-            <p className="text-slate-400 font-medium">
-              No products match your search.
+    <>
+      <LoanTerms
+        isOpen={showLoanTerms}
+        onClose={() => setShowLoanTerms(false)}
+      />
+      <div className="min-h-screen bg-slate-50 text-primary pb-20">
+        <div className="max-w-6xl sm:px-4 mx-auto">
+          {/* Header Section */}
+          <header className="py-2">
+            <h1 className="text-2xl font-medium tracking-tight">
+              Loan Products
+            </h1>
+            <p className="text-slate-400 text-sm">
+              Whether you're growing your business, funding an education, or
+              achieving personal goals, we have options tailored to your needs.
             </p>
+            {/* Modern Search Bar */}
+            <div className="mt-4 flex gap-3">
+              <div className="relative flex-1">
+                <Search
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+                  size={18}
+                />
+                <input
+                  type="text"
+                  placeholder="Search for a loan (e.g. Emergency)..."
+                  className="w-full pl-12 pr-4 py-4 bg-white border border-slate-100 rounded-2xl shadow-sm focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none transition-all"
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <button className="p-4 bg-white border border-slate-100 rounded-2xl text-slate-400 hover:text-primary transition-colors shadow-sm">
+                <Filter size={20} />
+              </button>
+            </div>
+          </header>
+
+          {/* Products Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-6">
+            {filteredProducts.map((product) => (
+              <DetailedProductCard
+                key={product.id}
+                product={product}
+                onApply={() => navigate("/loan-eligibility")}
+                onTerms={() => setShowLoanTerms(true)}
+              />
+            ))}
           </div>
-        )}
+
+          {/* Empty State for Search */}
+          {filteredProducts.length === 0 && (
+            <div className="py-20 text-center">
+              <p className="text-slate-400 font-medium">
+                No products match your search.
+              </p>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
 /* --- Sub-Component: ProductCard --- */
 
-const DetailedProductCard = ({ product, onApply }) => {
+const DetailedProductCard = ({ product, onApply, onTerms }) => {
   const {
     name,
     description,
@@ -255,7 +265,10 @@ const DetailedProductCard = ({ product, onApply }) => {
 
       {/* Bottom Action Bar */}
       <div className="bg-slate-50 px-6 py-4 flex items-center justify-between border-t border-slate-100">
-        <div className="flex items-center gap-1 text-[10px] font-semibold text-slate-400">
+        <div
+          onClick={onTerms}
+          className="flex items-center cursor-pointer gap-1 text-[10px] font-semibold text-slate-400"
+        >
           <Info size={12} />
           <span>Terms & Conditions apply</span>
         </div>
