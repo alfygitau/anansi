@@ -247,7 +247,7 @@ const MyStatements = () => {
 
             {/* RIGHT COLUMN: INFO & DISCLAIMERS */}
             <aside className="lg:col-span-4 space-y-6">
-              <ApplyLoanAction />
+              <ApplyLoanAction onClick={() => setShowGenerateStatement(true)} />
               {/* Security Card */}
               <div className="bg-primary rounded-[32px] p-8 text-white relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-full -mr-16 -mt-16 blur-2xl" />
