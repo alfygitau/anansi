@@ -55,42 +55,46 @@ const ReviewRequest = ({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="relative w-full max-w-md bg-white shadow-2xl flex flex-col h-full border-l border-slate-100"
+            className="relative w-full max-w-[480px] bg-white flex flex-col h-full relative"
           >
+            <button
+              onClick={onClose}
+              className="absolute top-5 right-5 z-10 flex items-center justify-center w-10 h-10 bg-slate-100 hover:bg-slate-200 text-gray-500 hover:text-gray-900 rounded-full transition-all active:scale-95 shadow-sm"
+            >
+              <X size={20} />
+            </button>
             {/* Header */}
-            <div className="p-6 border-b border-slate-50 flex items-center justify-between">
+            <div className="p-8 py-5 flex items-center justify-between">
               <div>
                 <div className="flex items-center gap-3">
                   <h3 className="text-lg font-black text-slate-900">
                     Review Request
                   </h3>
                   <span
-                    className={`text-[8px] px-2 py-0.5 rounded-md font-bold uppercase ${
+                    className={`text-[8px] px-2 py-0.5 rounded-md font-black uppercase tracking-wider border ${
                       borrowerInfo?.status === "pending"
-                        ? "bg-amber-100 text-amber-700"
-                        : "bg-slate-100 text-slate-500"
+                        ? "bg-amber-100 text-amber-700 border-amber-200/40"
+                        : borrowerInfo?.status === "accepted" ||
+                            borrowerInfo?.status === "approved"
+                          ? "bg-emerald-50 text-emerald-700 border-emerald-100"
+                          : borrowerInfo?.status === "rejected" ||
+                              borrowerInfo?.status === "declined"
+                            ? "bg-red-50 text-red-600 border-red-100/60"
+                            : "bg-slate-50 text-slate-500 border-slate-200/60"
                     }`}
                   >
                     {borrowerInfo?.status}
                   </span>
                 </div>
-                <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mt-1">
+                <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">
                   Guarantorship Protocol
                 </p>
               </div>
-              <button
-                onClick={onClose}
-                className="size-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-slate-900 hover:rotate-90 transition-all duration-300"
-              >
-                <X size={20} strokeWidth={3} />
-              </button>
             </div>
-
+            <div className="border mx-8 border-slate-100"></div>
             {/* Content Body */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
-              {/* Alert Note */}
-              <div className="bg-blue-50/50 rounded-xl p-4 border border-blue-100/50 flex items-center gap-4">
-                <Info className="text-blue-600 shrink-0" size={20} />
+            <div className="flex-1 overflow-y-auto p-8 py-4 space-y-6 custom-scrollbar">
+              <div>
                 <p className="text-[12px] leading-relaxed text-blue-900 font-medium">
                   Review the borrower's request carefully. By accepting, you
                   commit your deposits as security for this loan.
@@ -99,10 +103,7 @@ const ReviewRequest = ({
 
               {/* Borrower Details */}
               <section>
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="size-8 rounded-lg bg-slate-900 flex items-center justify-center text-white">
-                    <User size={16} />
-                  </div>
+                <div className="flex items-center gap-3 mb-3">
                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
                     Borrower Identity
                   </span>
@@ -130,16 +131,13 @@ const ReviewRequest = ({
 
               {/* Loan Parameters */}
               <section>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="size-8 rounded-lg bg-blue-600 flex items-center justify-center text-white">
-                    <ShieldCheck size={16} />
-                  </div>
+                <div className="flex items-center gap-3 mb-2">
                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
                     Loan Parameters
                   </span>
                 </div>
 
-                <div className="bg-slate-50 rounded-[12px] p-4 border border-slate-100 shadow-inner">
+                <div className="bg-slate-50 rounded-[12px] p-4">
                   <div className="mb-4">
                     <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">
                       Requested Amount
