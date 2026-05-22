@@ -152,7 +152,7 @@ const ManualIdEntry = () => {
       animate={{ opacity: 1 }}
       className="max-w-[1300px] md:px-6 sm:px-4 mb-10 mx-auto"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* LEFT COLUMN: REGISTRY CONFIGURATION WORKSPACE */}
         <div className="lg:col-span-7">
           <header className="mb-10">
