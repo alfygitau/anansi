@@ -63,7 +63,7 @@ const CollateralRegistry = () => {
         {/* Header Section */}
         <div className="border-b border-slate-50 mb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-black text-primary uppercase tracking-tight">
+            <h1 className="text-2xl font-medium text-primary uppercase tracking-tight">
               Collateral & Assets
             </h1>
             <p className="text-slate-500 text-sm mt-1">
