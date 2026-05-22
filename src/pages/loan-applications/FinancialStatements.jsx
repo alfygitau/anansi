@@ -10,6 +10,10 @@ import {
   Smartphone,
   Building2,
   Loader2,
+  EyeOff,
+  Eye,
+  ArrowRight,
+  Info,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMutation } from "react-query";
@@ -27,6 +31,7 @@ const FinancialStatements = () => {
   const [file, setFile] = useState(null);
   const [password, setPassword] = useState("");
   const fileInputRef = useRef(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { mutate: uploadMutation, isLoading: isUploading } = useMutation({
     mutationKey: ["upload statements"],
@@ -78,11 +83,11 @@ const FinancialStatements = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] font-sans">
+    <div className="bg-[#F8FAFC] font-sans">
       <div className="max-w-6xl sm:px-3 mx-auto overflow-hidden">
         {/* Header Section */}
-        <div className="py-4 border-b border-slate-50">
-          <h1 className="text-2xl mb-2 font-black text-primary uppercase tracking-tight">
+        <div className="border-b border-slate-50">
+          <h1 className="text-2xl mb-2 font-black text-primary tracking-tight">
             Financial Verification
           </h1>
           <div className="space-y-2">
@@ -141,13 +146,53 @@ const FinancialStatements = () => {
             />
           </div>
 
-          <div className="flex justify-end pt-4">
-            <button
-              onClick={() => navigate("/collateral-registry")}
-              className="h-14 w-full md:w-[240px] bg-[#074073] text-white rounded-2xl font-bold hover:shadow-lg hover:shadow-blue-900/20 transition-all active:scale-[0.98]"
-            >
-              Continue Application
-            </button>
+          <div className="pt-6 mt-6 border-t border-slate-100">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              {/* LEFT COLUMN: STATUTORY & DATA PRIVACY DISCLAIMERS (8 COLS) */}
+              <div className="lg:col-span-8 bg-slate-50/50 border border-slate-200/60 rounded-2xl p-4 space-y-3.5">
+                {/* Data Declaration Disclaimer */}
+                <div className="flex items-start gap-2.5 text-[10px] leading-relaxed text-slate-400 font-medium">
+                  <Info size={14} className="shrink-0 mt-0.5 text-slate-400" />
+                  <p>
+                    <span className="text-slate-500 font-bold">
+                      Data Declaration:
+                    </span>{" "}
+                    Submitting this configuration locks your current principal
+                    calculations into the active registration database session.
+                    Ensure all metadata tags align precisely with your
+                    supporting documentation.
+                  </p>
+                </div>
+
+                {/* Privacy Encryption Disclaimer */}
+                <div className="flex items-start gap-2.5 text-[10px] leading-relaxed text-slate-400 font-medium">
+                  <Lock size={14} className="shrink-0 mt-0.5 text-slate-400" />
+                  <p>
+                    <span className="text-slate-500 font-bold">
+                      Privacy Encryption:
+                    </span>{" "}
+                    Pipeline verification checks are secured using end-to-end
+                    AES-256 protocols. Your network coordinates and session data
+                    are cryptographically bound to this submission event.
+                  </p>
+                </div>
+              </div>
+
+              {/* RIGHT COLUMN: ACTION BUTTON HOUSING (4 COLS) */}
+              <div className="lg:col-span-4 h-full flex items-end justify-end">
+                <button
+                  type="button"
+                  onClick={() => navigate("/collateral-registry")}
+                  className="h-14 w-full bg-primary hover:bg-slate-800 text-white rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-2 transition-all shadow-md group active:scale-[0.99]"
+                >
+                  Continue Application
+                  <ArrowRight
+                    size={14}
+                    className="text-slate-400 group-hover:translate-x-0.5 transition-transform"
+                  />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -168,17 +213,15 @@ const FinancialStatements = () => {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 bottom-0 w-full max-w-[450px] bg-white shadow-2xl z-[90] flex flex-col p-8"
+              className="fixed top-0 right-0 bottom-0 w-full max-w-[480px] bg-white shadow-2xl z-[90] flex flex-col p-6"
             >
               <div className="flex-1 overflow-y-auto">
-                <h3 className="text-xl font-black text-primary uppercase tracking-tight mb-2">
+                <h3 className="text-xl font-black text-primary uppercase tracking-tight">
                   Upload {activeModal === "mpesa" ? "M-PESA" : "Bank"} Statement
                 </h3>
                 <p className="text-sm text-slate-500 mb-8">
                   Ensure the PDF covers at least 6 months of activity.
                 </p>
-
-                {/* Dropzone */}
                 <div
                   onClick={() => fileInputRef.current.click()}
                   className={`border-2 border-dashed rounded-[24px] p-8 transition-all flex flex-col items-center justify-center cursor-pointer mb-6
@@ -203,22 +246,44 @@ const FinancialStatements = () => {
                     PDF format only
                   </p>
                 </div>
-
-                {/* Password Input */}
                 <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <Lock size={14} className="text-secondary" />
-                    <label className="text-xs font-black text-primary uppercase tracking-widest">
-                      Document Password
+                  <div className="w-full space-y-2">
+                    {/* Label Track */}
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                      Security Access Key
                     </label>
+
+                    {/* Unified Housing Deck Wrapper */}
+                    <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
+                      {/* Left Guard Icon Prefix Section */}
+                      <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto select-none">
+                        <Lock size={16} />
+                      </div>
+
+                      {/* Clean Data Field Input */}
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Enter file password if protected"
+                        className="w-full bg-transparent border-none pl-4 pr-12 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 placeholder:text-slate-300 font-medium"
+                      />
+
+                      {/* Right Action Panel: Toggle Visibility */}
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none"
+                        title={showPassword ? "Hide password" : "Show password"}
+                      >
+                        {showPassword ? (
+                          <EyeOff size={16} />
+                        ) : (
+                          <Eye size={16} />
+                        )}
+                      </button>
+                    </div>
                   </div>
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter file password if protected"
-                    className="w-full h-14 px-5 rounded-2xl bg-slate-50 border border-slate-100 focus:border-secondary focus:ring-4 focus:ring-secondary/5 transition-all outline-none"
-                  />
                   <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 flex gap-3">
                     <AlertCircle
                       size={14}
@@ -235,7 +300,7 @@ const FinancialStatements = () => {
               <button
                 disabled={!file || isUploading}
                 onClick={handleUpload}
-                className="w-full h-16 bg-primary text-white rounded-[20px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl disabled:opacity-50 mt-6"
+                className="w-full h-16 bg-primary text-white rounded-[20px] font-medium uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl disabled:opacity-50 mt-6"
               >
                 {isUploading ? (
                   <Loader2 className="animate-spin" />

@@ -9,6 +9,9 @@ import {
   Smartphone,
   Briefcase,
   ChevronRight,
+  FileText,
+  SlidersHorizontal,
+  ChevronDown,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -58,7 +61,7 @@ const CollateralRegistry = () => {
     <div className="min-h-screen bg-[#F8FAFC] font-sans">
       <div className="max-w-6xl sm:px-3 mx-auto overflow-hidden">
         {/* Header Section */}
-        <div className="border-b border-slate-50 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="border-b border-slate-50 mb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-black text-primary uppercase tracking-tight">
               Collateral & Assets
@@ -70,9 +73,9 @@ const CollateralRegistry = () => {
           </div>
           <button
             onClick={() => setIsAdding(true)}
-            className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-2xl font-bold hover:bg-[#062d7a] transition-all shadow-lg shadow-blue-900/10"
+            className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-2xl font-medium hover:bg-[#062d7a] transition-all shadow-lg shadow-blue-900/10"
           >
-            <Plus size={20} /> Add New Asset
+            <Plus size={20} /> Add Asset
           </button>
         </div>
         <div className="mt-4 space-y-3">
@@ -163,7 +166,7 @@ const CollateralRegistry = () => {
             )}
           </div>
           {/* --- BOTTOM ACTION BAR --- */}
-          <div className="mt-12 pt-8 border-t border-slate-50 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="mt-12 border-t border-slate-50 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-green-600">
                 <ShieldCheck size={20} />
@@ -182,7 +185,7 @@ const CollateralRegistry = () => {
 
             <button
               onClick={() => navigate("/normal-loan-terms-conditions")}
-              className="group w-full md:w-[280px] h-16 bg-primary text-white rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] transition-all active:scale-[0.98]"
+              className="group w-full md:w-[280px] h-16 bg-primary text-white rounded-2xl font-medium uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] transition-all active:scale-[0.98]"
             >
               Finalize & Continue
               <ChevronRight
@@ -210,13 +213,13 @@ const CollateralRegistry = () => {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25 }}
-              className="fixed top-0 right-0 bottom-0 w-full max-w-[500px] bg-white z-50 shadow-2xl flex flex-col p-8 overflow-y-auto"
+              className="fixed top-0 right-0 bottom-0 w-full max-w-[480px] bg-white z-50 shadow-2xl flex flex-col p-6 overflow-y-auto"
             >
-              <h2 className="text-xl font-black text-primary uppercase tracking-tight mb-6">
+              <h2 className="text-xl font-black text-primary uppercase tracking-tight">
                 Register Collateral
               </h2>
-
-              <div className="space-y-6">
+              <p className="text-sm text-slate-500">Add a collateral</p>
+              <div className="space-y-6  mt-6">
                 {/* Asset Type Selector */}
                 <div className="grid grid-cols-2 gap-3">
                   {assetTypes.map((t) => (
@@ -234,43 +237,97 @@ const CollateralRegistry = () => {
                 </div>
 
                 <div className="space-y-4">
-                  <Input
-                    label="Asset Name / Model"
-                    placeholder="e.g. Toyota Corolla 2018"
-                    value={form.name}
-                    onChange={(val) => setForm({ ...form, name: val })}
-                  />
+                  <div className="w-full space-y-2">
+                    {/* Label Track */}
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                      Asset Name / Model
+                    </label>
+
+                    {/* Unified Housing Deck Wrapper */}
+                    <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
+                      {/* Left Guard Icon Prefix Section */}
+                      <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto select-none">
+                        <FileText size={16} />
+                      </div>
+
+                      {/* Clean Data Field Input */}
+                      <input
+                        type="text"
+                        value={form.name}
+                        onChange={(e) =>
+                          setForm({ ...form, name: e.target.value })
+                        }
+                        placeholder="e.g. Toyota Corolla 2018"
+                        className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 placeholder:text-slate-300 font-medium"
+                      />
+                    </div>
+                  </div>
 
                   <div className="flex gap-4">
                     <div className="flex-1">
-                      <Input
-                        label="Estimated Value (KES)"
-                        type="number"
-                        placeholder="0.00"
-                        value={form.value}
-                        onChange={(val) => setForm({ ...form, value: val })}
-                      />
+                      <div className="w-full space-y-2">
+                        {/* Label Track */}
+                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                          Estimated Value (KES)
+                        </label>
+
+                        {/* Unified Housing Deck Wrapper */}
+                        <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
+                          {/* Left Currency Badge Section */}
+                          <div className="pl-5 pr-4 flex items-center text-slate-400 text-xs font-black tracking-wider border-r border-slate-200/60 h-5 my-auto select-none">
+                            KES
+                          </div>
+
+                          {/* Clean Data Field Input */}
+                          <input
+                            type="number"
+                            value={form.value}
+                            onChange={(e) =>
+                              setForm({ ...form, value: e.target.value })
+                            }
+                            placeholder="0.00"
+                            className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 placeholder:text-slate-300 font-medium"
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <div className="w-[140px]">
-                      <label className="text-[10px] font-black text-primary uppercase tracking-widest block mb-2">
+                    <div className="w-[200px] space-y-2">
+                      {/* Label Track */}
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block ml-2">
                         Condition
                       </label>
-                      <select
-                        className="w-full h-14 bg-slate-50 border border-slate-100 rounded-xl px-3 text-xs font-bold outline-none focus:border-secondary"
-                        value={form.condition}
-                        onChange={(e) =>
-                          setForm({ ...form, condition: e.target.value })
-                        }
-                      >
-                        <option>Excellent</option>
-                        <option>Good</option>
-                        <option>Fair</option>
-                      </select>
+
+                      {/* Unified Housing Deck Wrapper */}
+                      <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
+                        {/* Left Setting Icon Prefix Section */}
+                        <div className="pl-4 pr-2.5 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto select-none">
+                          <SlidersHorizontal size={14} />
+                        </div>
+
+                        {/* Clean Select Interaction Option */}
+                        <select
+                          value={form.condition}
+                          onChange={(e) =>
+                            setForm({ ...form, condition: e.target.value })
+                          }
+                          className="w-full bg-transparent border-none pl-3 pr-8 h-full text-xs font-bold text-slate-900 outline-none focus:ring-0 appearance-none cursor-pointer"
+                        >
+                          <option value="Excellent">Excellent</option>
+                          <option value="Good">Good</option>
+                          <option value="Fair">Fair</option>
+                        </select>
+
+                        {/* Custom Chevron Indicator to support crisp appearance-none resets */}
+                        <ChevronDown
+                          className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                          size={14}
+                        />
+                      </div>
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-primary uppercase tracking-widest block">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
                       Description
                     </label>
                     <textarea
@@ -289,17 +346,17 @@ const CollateralRegistry = () => {
                     <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-slate-400 group-hover:text-secondary transition-colors">
                       <Camera size={24} />
                     </div>
-                    <p className="text-[11px] font-bold text-slate-500 mt-3 uppercase tracking-wider">
-                      Upload Asset Photo
+                    <p className="text-[10px] font-bold text-slate-500 mt-3 uppercase tracking-wider">
+                      Upload Asset Photo / Documentation
                     </p>
                   </div>
                 </div>
 
                 <button
                   onClick={handleAddAsset}
-                  className="w-full h-16 bg-primary text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-blue-900/20 active:scale-[0.98] transition-all"
+                  className="w-full h-16 bg-primary text-white rounded-2xl font-medium uppercase tracking-widest shadow-xl shadow-blue-900/20 active:scale-[0.98] transition-all"
                 >
-                  Save Asset to Registry
+                  Save to Registry
                 </button>
               </div>
             </motion.div>
