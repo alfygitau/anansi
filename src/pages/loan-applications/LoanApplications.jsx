@@ -83,7 +83,7 @@ const LoanApplications = () => {
     <div className="min-h-screen bg-slate-50 text-primary pb-20">
       <div className="max-w-6xl sm:px-4 mx-auto">
         {/* Header Section */}
-        <header className="py-4 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <header className="flex mb-3 flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <h1 className="text-2xl font-black tracking-tight">
               Loan Applications
@@ -164,7 +164,7 @@ const LoanApplications = () => {
               </div>
 
               {/* Main Call-to-Action Button */}
-              <button className="w-full bg-primary text-white py-3.5 rounded-xl text-[11px] font-black uppercase tracking-[0.08em] hover:bg-slate-800 transition-all flex items-center justify-center gap-2 shadow-sm">
+              <button className="w-full bg-primary text-white py-5 rounded-xl text-[11px] font-black uppercase tracking-[0.08em] hover:bg-slate-800 transition-all flex items-center justify-center gap-2 shadow-sm">
                 Invite Guarantors{" "}
                 <ArrowRight size={14} className="text-slate-400" />
               </button>
