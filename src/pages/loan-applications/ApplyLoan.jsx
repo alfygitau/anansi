@@ -38,9 +38,9 @@ const ApplyLoan = () => {
   return (
     <div className="w-full text-primary">
       <div className="max-w-6xl py-4 mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* Left Column: Configuration (7 Cols) */}
-          <div className="lg:col-span-6 space-y-6">
+          <div className="lg:col-span-7 space-y-6">
             <header className="space-y-2">
               <h1 className="text-2xl font-extrabold tracking-tight text-primary">
                 Loan Configuration
@@ -63,10 +63,10 @@ const ApplyLoan = () => {
               </div>
             </header>
 
-            <div className="space-y-10">
+            <div className="space-y-6">
               {/* Enhanced Principal Amount Input */}
               <div className="group">
-                <div className="flex justify-between items-end mb-4">
+                <div className="flex justify-between items-end mb-1">
                   <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
                     Desired Principal (KES)
                   </label>
@@ -91,32 +91,34 @@ const ApplyLoan = () => {
                 </div>
               </div>
 
-              {/* Tenure Slider */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
-                    Repayment Tenure
-                  </label>
-                  <div className="text-right">
-                    <span className="text-xl font-black text-primary leading-none">
-                      {tenure}
-                    </span>
-                    <span className="text-xs font-bold text-slate-400 ml-1 uppercase">
-                      Months
-                    </span>
+              <div className="w-full space-y-1">
+                <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-2">
+                  Tenure Duration
+                </label>
+                <div className="relative flex items-center justify-between bg-white border-2 border-slate-100 rounded-2xl h-16 transition-all duration-200">
+                  <button
+                    type="button"
+                    onClick={() => setTenure(Math.max(1, tenure - 1))}
+                    className="h-full px-5 text-slate-400 hover:text-slate-900 border-r border-slate-200/60 font-black text-lg transition-colors"
+                  >
+                    -
+                  </button>
+                  <div className="text-sm font-black text-slate-900 uppercase tracking-wider select-none">
+                    {tenure}{" "}
+                    <span className="text-slate-400 font-medium">Months</span>
                   </div>
+                  <button
+                    type="button"
+                    onClick={() => setTenure(Math.min(48, tenure + 1))}
+                    className="h-full px-5 text-slate-400 hover:text-slate-900 border-l border-slate-200/60 font-black text-lg transition-colors"
+                  >
+                    +
+                  </button>
                 </div>
-                <PremiumSlider
-                  min={1}
-                  max={48}
-                  initialValue={6}
-                  value={tenure}
-                  onChange={setTenure}
-                />
               </div>
 
               {/* Frequency Selection */}
-              <div className="space-y-4">
+              <div className="space-y-1">
                 <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
                   Payment Frequency
                 </label>
@@ -140,25 +142,44 @@ const ApplyLoan = () => {
 
             {/* Regulatory Footer */}
             <footer className="pt-6 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="flex gap-4">
-                <Scale size={18} className="text-slate-400 shrink-0" />
-                <p className="text-[11px] text-slate-500 leading-normal">
-                  <span className="font-bold text-slate-800">Compliance:</span>{" "}
-                  All facilities are regulated under the Sacco Societies Act.
-                </p>
+              {/* Compliance Notice Block */}
+              <div className="flex gap-4 items-start">
+                <Scale size={18} className="text-slate-400 shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-800 block">
+                    Regulatory Compliance
+                  </span>
+                  <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
+                    All financial facilities, savings configurations, and credit
+                    lines are strictly governed and audited under the{" "}
+                    <span className="text-slate-700 font-bold">
+                      Sacco Societies Act (Cap 490B)
+                    </span>
+                  </p>
+                </div>
               </div>
-              <div className="flex gap-4">
-                <ShieldCheck size={18} className="text-slate-400 shrink-0" />
-                <p className="text-[11px] text-slate-500 leading-normal">
-                  <span className="font-bold text-slate-800">Security:</span>{" "}
-                  256-bit SSL encryption protects your financial data.
-                </p>
+
+              {/* Data Protection Security Block */}
+              <div className="flex gap-4 items-start">
+                <ShieldCheck
+                  size={18}
+                  className="text-slate-400 shrink-0 mt-0.5"
+                />
+                <div className="space-y-1">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-800 block">
+                    Data Privacy & Encryption
+                  </span>
+                  <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
+                    Financial metadata transmission channels meet the compliance
+                    standards set out by the Data Protection Act (2019).
+                  </p>
+                </div>
               </div>
             </footer>
           </div>
 
           {/* Right Column: Complete Statutory Disclaimers (5 Cols) */}
-          <div className="lg:col-span-6">
+          <div className="lg:col-span-5">
             <div className="sticky top-12 bg-slate-50 rounded-[32px] space-y-6">
               {/* Header section with Modal Access Trigger */}
               <div className="flex justify-between items-start border-b border-slate-200 pb-4">
@@ -414,9 +435,9 @@ const AmortizationScheduleModal = ({
               </div>
 
               {tenure > 12 && (
-                <p className="text-[10px] text-slate-400 mt-4 text-center font-medium italic">
-                  * Showing initial 12 payment matrices of the configured{" "}
-                  {tenure}-month period lifecycle.
+                <p className="text-[10px] text-slate-400 mt-4 text-left font-medium italic">
+                  Showing initial 12 payment matrices of the configured {tenure}
+                  -month period lifecycle.
                 </p>
               )}
             </div>
