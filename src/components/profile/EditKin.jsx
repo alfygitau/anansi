@@ -114,105 +114,105 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
             </div>
             <div className="border mx-5 border-slate-100"></div>
             {/* SCROLLABLE CENTRAL CONTAINER */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-6 custom-scrollbar">
-              {/* Name Field */}
-              <div className="relative group">
-                <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
+            <div className="flex-1 overflow-y-auto p-8 space-y-6 custom-scrollbar">
+              {/* Full Name Field */}
+              <div className="w-full space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
                   Full Name
                 </label>
-                <div className="relative">
-                  <User
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
-                    size={18}
-                  />
+                <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
+                  <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0">
+                    <User size={16} />
+                  </div>
                   <input
+                    type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
                     placeholder="Enter kin name"
-                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-slate-900 transition-all focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
+                    className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none placeholder:text-slate-300 font-medium"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-5">
+              {/* Split Fields Row */}
+              <div className="grid grid-cols-2 gap-4">
                 {/* Relationship Field */}
-                <div className="relative group">
-                  <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
+                <div className="w-full space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
                     Relationship
                   </label>
-                  <div className="relative">
-                    <Heart
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
-                      size={18}
-                    />
+                  <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
+                    <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0">
+                      <Heart size={16} />
+                    </div>
                     <input
+                      type="text"
                       name="relationship"
                       value={formData.relationship}
                       onChange={handleInputChange}
                       placeholder="e.g. Spouse"
-                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-slate-900 transition-all focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
+                      className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none placeholder:text-slate-300 font-medium"
                     />
                   </div>
                 </div>
 
                 {/* Date of Birth Field */}
-                <div className="relative group">
-                  <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
+                <div className="w-full space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
                     Date of Birth
                   </label>
-                  <div className="relative">
-                    <Calendar
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
-                      size={18}
-                    />
+                  <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
+                    <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0">
+                      <Calendar size={16} />
+                    </div>
                     <input
                       type="date"
                       name="dob"
                       value={formData.dob}
                       onChange={handleInputChange}
-                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-slate-900 transition-all focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
+                      className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none cursor-pointer"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Phone Number Field */}
-              <div className="relative group">
-                <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
+              <div className="w-full space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
                   Phone Number
                 </label>
-                <div className="relative">
-                  <Phone
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
-                    size={18}
-                  />
+                <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
+                  <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0">
+                    <Phone size={16} />
+                  </div>
                   <input
+                    type="text"
                     name="phoneNumber"
                     value={formData.phoneNumber}
                     onChange={handleInputChange}
                     placeholder="e.g. +254 7XX XXX XXX"
-                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-slate-900 transition-all focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
+                    className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none placeholder:text-slate-300 font-medium"
                   />
                 </div>
               </div>
 
               {/* Location Field */}
-              <div className="relative group">
-                <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
+              <div className="w-full space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
                   Location
                 </label>
-                <div className="relative">
-                  <MapPin
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
-                    size={18}
-                  />
+                <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
+                  <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0">
+                    <MapPin size={16} />
+                  </div>
                   <input
+                    type="text"
                     name="location"
                     value={formData.location}
                     onChange={handleInputChange}
                     placeholder="City, Estate"
-                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-slate-900 transition-all focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
+                    className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none placeholder:text-slate-300 font-medium"
                   />
                 </div>
               </div>
