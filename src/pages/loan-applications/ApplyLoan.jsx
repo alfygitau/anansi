@@ -24,9 +24,7 @@ const ApplyLoan = () => {
   const [frequency, setFrequency] = useState("Monthly");
   const [isScheduleOpen, setIsScheduleOpen] = useState(false);
 
-  const annualRate = 0.144; // 14.4%
-
-  // Retain basic installment calculation specifically to pass down to the side drawer
+  const annualRate = 0.144;
   const calculateInstallment = () => {
     const p = amount || 0;
     const r = annualRate / 12;

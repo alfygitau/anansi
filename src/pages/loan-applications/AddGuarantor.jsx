@@ -48,21 +48,17 @@ const AddGuarantors = ({ limit = 4 }) => {
   return (
     <div className="w-full text-primary antialiased">
       <main className="max-w-6xl mx-auto">
-        <header className="space-y-4 mb-4">
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
-            Nominate <span className="text-primary">Guarantors</span>
+        <header className="space-y-2 mb-4">
+          <h1 className="text-2xl font-bold tracking-tight text-primary">
+            Nominate Guarantors
           </h1>
           <div className="space-y-4">
             <p className="text-slate-500 text-base leading-relaxed">
               Nominate eligible members to act as guarantors for your credit
-              facility. Once submitted, your nominees will receive a
-              <span className="text-slate-900 font-semibold">
-                {" "}
-                secure digital invitation{" "}
-              </span>
-              via the Anansi portal to review your application details, verify
-              their available shares, and provide legal authorization for the
-              request.
+              facility. Once submitted, your nominees will receive a secure
+              digital invitation via the Anansi portal to review your
+              application details, verify their available shares, and provide
+              legal authorization for the request.
             </p>
             <div className="flex flex-wrap gap-x-6 gap-y-2">
               <div className="flex items-center gap-2">
@@ -244,9 +240,9 @@ const AddGuarantors = ({ limit = 4 }) => {
         {/* --- RIGHT SIDE: QUEUE (5 Cols) --- */}
         <div>
           <div className="flex items-center justify-between px-2">
-            <div className="flex items-center gap-3">
-              <History size={18} className="text-slate-400" />
-              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
+            <div className="flex items-center gap-2">
+              <History size={16} className="text-slate-400" />
+              <h3 className="text-[11px] font-black uppercase text-slate-400">
                 Assignment Queue
               </h3>
             </div>
@@ -255,16 +251,19 @@ const AddGuarantors = ({ limit = 4 }) => {
             </span>
           </div>
           {/* Bottom Actions */}
-          <div className="pt-3 mb-8 space-y-6">
-            <div className="flex gap-4 p-5 bg-amber-50/40 border border-amber-100 rounded-2xl items-center">
+          <div className="pt-5 mb-8 space-y-6">
+            <div className="flex gap-4 p-2 bg-amber-50/40 border border-amber-100 rounded-2xl items-center">
               <AlertCircle size={20} className="text-amber-500 shrink-0" />
               <div className="space-y-1">
                 <span className="text-[10px] font-black uppercase tracking-widest text-amber-900">
                   Important Notice
                 </span>
                 <p className="text-[11px] leading-relaxed text-amber-800 font-medium">
-                  Members have 48 hours to approve this request via the Anansi
-                  portal. Ensure you have informed them prior to invitation.
+                  Nominated members must electronically sign and ratify this
+                  guarantee indemnity agreement via the Anansi secure member
+                  portal within 48 hours of issuance. Unsigned payloads
+                  automatically expire, requiring full configuration
+                  re-submission.
                 </p>
               </div>
             </div>
@@ -284,7 +283,7 @@ const AddGuarantors = ({ limit = 4 }) => {
           </div>
         </div>
         {/* Regulatory & Security Detail Section */}
-        <div className="flex items-start w-full">
+        <div className="flex items-start gap-5 w-full">
           <InfoBlock
             icon={<ShieldCheck size={20} className="text-[#005C53]" />}
             title="Privacy & Data Encapsulation"
@@ -324,7 +323,7 @@ const AddGuarantors = ({ limit = 4 }) => {
 };
 
 const InfoBlock = ({ icon, title, text }) => (
-  <div className="flex gap-4">
+  <div className="flex items-center border p-3 rounded-xl gap-4">
     <div className="shrink-0">{icon}</div>
     <div className="space-y-1">
       <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-800">
