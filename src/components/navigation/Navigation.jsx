@@ -81,12 +81,13 @@ const Navigation = () => {
                 Need Help?
               </span>
             </button>
+            <div className="h-8 w-[1px] bg-slate-200 hidden md:block"></div>
 
             {/* Notifications */}
             <div className="relative">
               <button
                 onClick={() => navigate("/notifications")}
-                className="p-2.5 text-slate-400 hover:text-primary hover:bg-slate-50 rounded-2xl transition-all relative"
+                className="p-2.5 text-slate-400 hover:text-primary rounded-xl transition-all relative"
               >
                 <Bell size={22} />
                 <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 border-2 border-white rounded-full"></span>
@@ -94,24 +95,24 @@ const Navigation = () => {
             </div>
 
             {/* Divider */}
-            <div className="h-8 w-[1px] bg-slate-100 hidden md:block"></div>
+            <div className="h-8 w-[1px] bg-slate-200 hidden md:block"></div>
 
             {/* Profile Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="flex items-center gap-3 p-1.5 pl-3 bg-slate-50 hover:bg-slate-100 border border-slate-100 rounded-[20px] transition-all"
+                className="flex items-center gap-3 p-1.5 py-1 px-3 pl-3 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-[16px] transition-all"
               >
-                <div className="flex flex-col items-end hidden md:block">
-                  <span className="text-[11px] font-black text-primary leading-none uppercase tracking-wider">
-                    {registeredUser?.firstname} {registeredUser?.lastname}
-                  </span>
-                </div>
-                <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-900/20">
+                <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center text-white font-bold text-sm">
                   {getInitials(
                     registeredUser?.firstname,
                     registeredUser?.lastname,
                   )}
+                </div>
+                <div className="flex flex-col items-end hidden md:block">
+                  <span className="text-[11px] font-black text-primary leading-none uppercase tracking-wider">
+                    {registeredUser?.firstname} {registeredUser?.lastname}
+                  </span>
                 </div>
                 <ChevronDown
                   size={16}
