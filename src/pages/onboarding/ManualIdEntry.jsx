@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
@@ -8,9 +8,9 @@ import {
   ShieldCheck,
   Info,
   ArrowRight,
-  ChevronLeft,
   Lock,
-  FileCheck,
+  Loader2,
+  Fingerprint,
 } from "lucide-react";
 import { useStore } from "../../store/useStore";
 import { useMutation } from "react-query";
@@ -25,6 +25,7 @@ const ManualIdEntry = () => {
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const kycDetails = useStore((state) => state.kyc_details);
+
   const splitName = (fullName) => {
     if (!fullName) return { firstName: "", middleName: "", lastName: "" };
     const parts = fullName.trim().split(/\s+/);
@@ -36,14 +37,20 @@ const ManualIdEntry = () => {
   };
 
   const names = splitName(kycDetails?.fullNames || kycDetails?.fullName);
-  const firstName = names.firstName;
-  const middleName = names.middleName;
-  const lastName = names.lastName;
+  const todayString = useMemo(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    // Ensure month and day are padded with a leading zero if they are single digits
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`; // Outputs: "2026-05-22"
+  }, []);
 
   const [formData, setFormData] = useState({
-    firstName: firstName,
-    middleName: middleName,
-    lastName: lastName,
+    firstName: names.firstName,
+    middleName: names.middleName,
+    lastName: names.lastName,
     idNumber: kycDetails?.idNumber || "",
     dateOfBirth: kycDetails?.dateOfBirth || "",
     gender: kycDetails?.gender || "",
@@ -143,302 +150,294 @@ const ManualIdEntry = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="max-w-[1300px] sm:px-4 md:px-6 mx-auto"
+      className="max-w-[1300px] md:px-6 sm:px-4 mb-10 mx-auto"
     >
-      {/* Navigation Header */}
-      <button
-        onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-slate-400 hover:text-primary transition-colors mb-8 group"
-      >
-        <ChevronLeft
-          size={20}
-          className="group-hover:-translate-x-1 transition-transform"
-        />
-        <span className="text-xs font-bold uppercase tracking-widest">
-          Back to Scanner
-        </span>
-      </button>
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-        {/* Left Column: The Form */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+        {/* LEFT COLUMN: REGISTRY CONFIGURATION WORKSPACE */}
         <div className="lg:col-span-7">
           <header className="mb-10">
-            <h1 className="text-3xl font-black text-primary uppercase tracking-tight mb-2">
+            <h1 className="text-2xl font-extrabold tracking-tight text-primary">
               Manual ID Entry
             </h1>
-            <p className="text-slate-500">
-              Please enter your details exactly as they appear on your National
-              ID or Passport.
+            <p className="text-slate-500 text-sm mt-1">
+              Please declare your details precisely as they appear on your
+              National ID or Passport framework.
             </p>
           </header>
 
-          <form className="space-y-6" onSubmit={handleManualEntry}>
-            {/* Full Name Input */}
+          <form className="space-y-8" onSubmit={handleManualEntry}>
+            {/* CATEGORY 1: LEGAL IDENTITY NAME REGISTER */}
             <div className="space-y-4">
-              {/* First & Middle Name Grid */}
+              <div className="border-b border-slate-100 pb-2">
+                <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
+                  Personal Identity
+                </h3>
+              </div>
+
+              {/* First & Middle Name Side-by-Side Row */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* First Name */}
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">
+                <div className="w-full space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
                     First Name
                   </label>
-                  <div className="relative">
-                    <User
-                      className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300"
-                      size={20}
-                    />
+                  <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-16 transition-all duration-200">
+                    <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto select-none shrink-0">
+                      <User size={16} />
+                    </div>
                     <input
                       type="text"
                       name="firstName"
                       value={formData?.firstName}
                       onBlur={handleBlur}
-                      placeholder="e.g. JOHN"
-                      className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-secondary focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-primary"
                       onChange={handleInputChange}
+                      placeholder="e.g. JOHN"
+                      className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:outline-none border-0 focus:border-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none placeholder:text-slate-300 font-medium"
                     />
                   </div>
                   {errors.firstName && touched.firstName && (
-                    <p className="text-[10px] text-red-500 font-bold ml-4 uppercase tracking-tighter">
+                    <p className="text-[10px] text-red-500 font-bold ml-2 uppercase tracking-tight">
                       {errors.firstName}
                     </p>
                   )}
                 </div>
 
                 {/* Middle Name */}
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">
+                <div className="w-full space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
                     Middle Name (Optional)
                   </label>
-                  <div className="relative">
-                    <User
-                      className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300"
-                      size={20}
-                    />
+                  <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-16 transition-all duration-200">
+                    <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto select-none shrink-0">
+                      <User size={16} />
+                    </div>
                     <input
                       type="text"
                       name="middleName"
                       value={formData?.middleName}
                       onBlur={handleBlur}
-                      placeholder="e.g. DOE"
-                      className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-secondary focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-primary"
                       onChange={handleInputChange}
+                      placeholder="e.g. DOE"
+                      className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:outline-none border-0 focus:border-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none placeholder:text-slate-300 font-medium"
                     />
                   </div>
-                  {errors.middleName && touched.middleName && (
-                    <p className="text-[10px] text-red-500 font-bold ml-4 uppercase tracking-tighter">
-                      {errors.middleName}
-                    </p>
-                  )}
                 </div>
               </div>
 
-              {/* Last Name (Full Width) */}
-              <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">
+              {/* Last Name */}
+              <div className="w-full space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
                   Last Name / Surname
                 </label>
-                <div className="relative">
-                  <User
-                    className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300"
-                    size={20}
-                  />
+                <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-16 transition-all duration-200">
+                  <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto select-none shrink-0">
+                    <User size={16} />
+                  </div>
                   <input
                     type="text"
                     name="lastName"
                     value={formData?.lastName}
                     onBlur={handleBlur}
-                    placeholder="e.g. OKOTH"
-                    className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-secondary focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-primary"
                     onChange={handleInputChange}
+                    placeholder="e.g. OKOTH"
+                    className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:outline-none border-0 focus:border-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none placeholder:text-slate-300 font-medium"
                   />
                 </div>
                 {errors.lastName && touched.lastName && (
-                  <p className="text-[10px] text-red-500 font-bold ml-4 uppercase tracking-tighter">
+                  <p className="text-[10px] text-red-500 font-bold ml-2 uppercase tracking-tight">
                     {errors.lastName}
                   </p>
                 )}
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* ID Number */}
-              <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">
-                  ID Number
-                </label>
-                <div className="relative">
-                  <Hash
-                    className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300"
-                    size={20}
-                  />
-                  <input
-                    type="text"
-                    name="idNumber"
-                    value={formData?.idNumber}
-                    onBlur={handleBlur}
-                    placeholder="12345678"
-                    className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-secondary focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-primary"
-                    onChange={handleInputChange}
-                  />
-                </div>
-                {errors.idNumber && touched.idNumber && (
-                  <p className="text-[10px] text-red-500 font-bold ml-4 uppercase tracking-tighter">
-                    {errors.idNumber}
-                  </p>
-                )}
+            {/* CATEGORY 2: STATUTORY PARAMETERS & META DATA */}
+            <div className="space-y-4">
+              <div className="border-b border-slate-100 pb-2">
+                <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
+                  Statutory Information
+                </h3>
               </div>
 
-              {/* Date of Birth */}
-              <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">
-                  Date of Birth
-                </label>
-                <div className="relative">
-                  <Calendar
-                    className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300"
-                    size={20}
-                  />
-                  <input
-                    type="date"
-                    name="dateOfBirth"
-                    value={formData?.dateOfBirth}
-                    onBlur={handleBlur}
-                    className="w-full h-[64px] bg-slate-50 border-2 border-slate-200 focus:border-secondary focus:bg-white rounded-[20px] pl-14 pr-6 transition-all outline-none font-bold text-primary"
-                    onChange={handleInputChange}
-                  />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* ID Number */}
+                <div className="w-full space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                    ID Number
+                  </label>
+                  <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-16 transition-all duration-200">
+                    <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto select-none shrink-0">
+                      <Hash size={16} />
+                    </div>
+                    <input
+                      type="text"
+                      name="idNumber"
+                      value={formData?.idNumber}
+                      onBlur={handleBlur}
+                      onChange={handleInputChange}
+                      placeholder="12345678"
+                      className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:outline-none border-0 focus:border-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none placeholder:text-slate-300 font-medium"
+                    />
+                  </div>
+                  {errors.idNumber && touched.idNumber && (
+                    <p className="text-[10px] text-red-500 font-bold ml-2 uppercase tracking-tight">
+                      {errors.idNumber}
+                    </p>
+                  )}
                 </div>
-                {errors.dateOfBirth && touched.dateOfBirth && (
-                  <p className="text-[10px] text-red-500 font-bold ml-4 uppercase tracking-tighter">
-                    {errors.dateOfBirth}
+
+                {/* Date of Birth */}
+                <div className="w-full space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                    Date of Birth
+                  </label>
+                  <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-16 transition-all duration-200">
+                    <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto select-none shrink-0">
+                      <Calendar size={16} />
+                    </div>
+                    <input
+                      type="date"
+                      name="dateOfBirth"
+                      value={formData?.dateOfBirth}
+                      max={todayString}
+                      onBlur={handleBlur}
+                      onChange={handleInputChange}
+                      className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:outline-none border-0 focus:border-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none cursor-pointer"
+                    />
+                  </div>
+                  {errors.dateOfBirth && touched.dateOfBirth && (
+                    <p className="text-[10px] text-red-500 font-bold ml-2 uppercase tracking-tight">
+                      {errors.dateOfBirth}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Gender Select Dropdown */}
+              <div className="w-full space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                  Gender Configuration
+                </label>
+                <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-16 transition-all duration-200">
+                  <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto select-none shrink-0">
+                    <Fingerprint size={16} />
+                  </div>
+                  <select
+                    name="gender"
+                    value={formData?.gender}
+                    onBlur={handleBlur}
+                    onChange={handleInputChange}
+                    className="w-full bg-transparent border-none pl-4 pr-10 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 appearance-none cursor-pointer"
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                {errors.gender && touched.gender && (
+                  <p className="text-[10px] text-red-500 font-bold ml-2 uppercase tracking-tight">
+                    {errors.gender}
                   </p>
                 )}
               </div>
             </div>
 
-            {/* KRA PIN */}
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">
-                Gender
-              </label>
-              <div className="relative">
-                <FileCheck
-                  className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300"
-                  size={20}
-                />
-                <input
-                  type="text"
-                  name="gender"
-                  value={formData?.gender}
-                  onBlur={handleBlur}
-                  placeholder="e.g male"
-                  className="w-full h-[64px] bg-slate-100 border-2 border-slate-200 focus:border-secondary focus:bg-white rounded-[24px] pl-14 pr-6 transition-all outline-none font-bold text-primary"
-                  onChange={handleInputChange}
-                />
-              </div>
-              {errors.gender && touched.gender && (
-                <p className="text-[10px] text-red-500 font-bold ml-4 uppercase tracking-tighter">
-                  {errors.gender}
-                </p>
-              )}
-            </div>
-
+            {/* PROGRESS ACTIONS CONTROLLER BLOCK */}
             <button
               type="submit"
               disabled={isLoading || isInvalid}
-              className={`w-full h-[72px] rounded-[28px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-4 transition-all shadow-xl mt-8 ${
-                isLoading || isInvalid
-                  ? "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none"
-                  : "bg-primary text-white hover:bg-secondary hover:text-primary shadow-blue-900/20 active:scale-[0.98]"
-              }`}
+              className={`w-full h-14 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all mt-8 shadow-sm
+                ${
+                  isLoading || isInvalid
+                    ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200/40 shadow-none"
+                    : "bg-slate-900 text-white hover:bg-slate-800 active:scale-[0.99]"
+                }
+              `}
             >
               {isLoading ? (
                 <>
-                  <svg
-                    className="animate-spin h-5 w-5 text-slate-400"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                  Processing...
+                  <Loader2 className="animate-spin w-4 h-4 text-slate-400" />
+                  <span>Processing Verification Ledger...</span>
                 </>
               ) : (
                 <>
-                  Continue <ArrowRight size={20} />
+                  <span>Verify & Proceed</span>
+                  <ArrowRight size={14} />
                 </>
               )}
             </button>
-
-            {/* Compliance Disclaimer Footer */}
-            <p className="text-[11px] text-slate-400 leading-relaxed">
-              By proceeding, you authorize Anansi Sacco to verify these details
-              against official government databases including IPRS and iTax.
-            </p>
           </form>
         </div>
 
-        {/* Right Column: Information & Disclaimers */}
-        <div className="lg:col-span-5 space-y-6">
-          <div className="bg-primary rounded-[40px] p-8 text-white relative overflow-hidden">
-            <ShieldCheck className="absolute -right-8 -bottom-8 text-white/5 w-64 h-64" />
-
-            <div className="relative z-10">
-              <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-6">
-                <Lock className="text-secondary" size={24} />
+        {/* RIGHT COLUMN: DESATURATED COMPLIANCE SIDEBARS */}
+        <div className="lg:col-span-5 space-y-4">
+          {/* Main Vault Declaration Box */}
+          <div className="bg-slate-50/50 border border-slate-200/60 rounded-[32px] p-6 space-y-6">
+            <div className="flex justify-between items-start border-b border-slate-200/60 pb-4">
+              <div>
+                <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">
+                  Cryptographic Vault
+                </h3>
+                <p className="text-xs text-slate-600 mt-1 font-semibold">
+                  Secure Identity Ledger Core
+                </p>
               </div>
-              <h3 className="text-xl font-black uppercase tracking-tight mb-4 leading-tight">
-                Secure Data
-                <br />
-                Handling
-              </h3>
-              <p className="text-white/60 text-sm leading-relaxed mb-6">
-                Anansi uses AES-256 encryption to protect your identity. Your
-                details are strictly used for mandatory KYC (Know Your Customer)
-                compliance as required by the SACCO Societies Regulatory
-                Authority (SASRA).
-              </p>
+              <div className="w-9 h-9 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-500 shadow-sm">
+                <Lock size={16} />
+              </div>
+            </div>
 
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 py-3 border-t border-white/10">
-                  <div className="w-2 h-2 bg-secondary rounded-full" />
-                  <p className="text-xs font-bold uppercase tracking-widest">
-                    End-to-End Encrypted
-                  </p>
-                </div>
-                <div className="flex items-center gap-3 py-3 border-t border-white/10">
-                  <div className="w-2 h-2 bg-secondary rounded-full" />
-                  <p className="text-xs font-bold uppercase tracking-widest">
-                    SASRA Compliant
-                  </p>
-                </div>
+            <p className="text-slate-500 text-xs leading-relaxed font-medium">
+              Anansi handles personal documentation pools using full
+              industry-grade AES-256 protocols. Your verified indices are logged
+              exclusively for mandatory KYC matching routines mandated by SASRA
+              financial guidelines.
+            </p>
+
+            <div className="space-y-2 pt-2">
+              <div className="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200/40 shadow-sm">
+                <div className="w-1.5 h-1.5 bg-slate-900 rounded-full" />
+                <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">
+                  End-to-End Encrypted Tunnel
+                </p>
+              </div>
+              <div className="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200/40 shadow-sm">
+                <div className="w-1.5 h-1.5 bg-slate-900 rounded-full" />
+                <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">
+                  SASRA Regulatory Protocol Bound
+                </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-slate-50 rounded-[40px] p-8 border border-slate-200">
-            <div className="flex items-center gap-3 mb-4">
-              <Info className="text-primary" size={20} />
-              <p className="font-black text-primary uppercase text-xs tracking-widest">
-                Why is this needed?
+          {/* Context Advisory Box */}
+          <div className="bg-slate-50/50 border border-slate-200/60 rounded-[32px] p-6">
+            <div className="flex items-center gap-2.5 mb-3">
+              <Info className="text-slate-500" size={16} />
+              <p className="font-black text-slate-700 uppercase text-[10px] tracking-widest">
+                Context Advisory
               </p>
             </div>
-            <p className="text-slate-500 text-[13px] leading-relaxed">
-              We collect this information to verify your membership eligibility
-              and to secure your financial future. Incorrect information may
-              lead to a delay in account activation.
+            <p className="text-slate-500 text-xs leading-relaxed font-medium">
+              We compile these metrics to establish clean profile indexing keys
+              on the shared registry. Discrepancies or mismatch vectors can
+              pause system activation sequences during processing.
             </p>
           </div>
         </div>

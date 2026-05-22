@@ -3,10 +3,8 @@ import {
   Upload,
   CheckCircle2,
   ChevronRight,
-  Info,
   Loader2,
   FileText,
-  ShieldAlert,
   ShieldCheck,
 } from "lucide-react";
 import MyProgress from "../../components/progress-bar/MyProgress";
@@ -93,82 +91,86 @@ const IdentityVerification = () => {
     },
   });
 
-  const { mutate: extractFrontIdDetailsMutate } = useMutation({
-    mutationKey: ["extract-front-id-details"],
-    mutationFn: async () => {
-      const response = await extractIdDetails(files.front);
-      return response.data.data;
-    },
-    onSuccess: async (data) => {
-      const hasId = !!data?.idNumber;
-      const nameValue = data?.fullNames || data?.fullName;
-      const hasName = nameValue && nameValue.trim().length > 0;
-      if (!hasId || !hasName) {
+  // 1. ADDED: Named Loading State Tracker for Front ID Extraction
+  const { mutate: extractFrontIdDetailsMutate, isLoading: isFrontLoading } =
+    useMutation({
+      mutationKey: ["extract-front-id-details"],
+      mutationFn: async () => {
+        const response = await extractIdDetails(files.front);
+        return response.data.data;
+      },
+      onSuccess: async (data) => {
+        const hasId = !!data?.idNumber;
+        const nameValue = data?.fullNames || data?.fullName;
+        const hasName = nameValue && nameValue.trim().length > 0;
+        if (!hasId || !hasName) {
+          showToast({
+            title: "Scan Unsuccessful",
+            type: "error",
+            position: "top-right",
+            description:
+              "We couldn't read your ID details. Please ensure the document is not blurry and try again.",
+          });
+          setShowOcrFailure(true);
+          return;
+        }
+        setKycDetails(data);
+        await extractBackIdDetailsMutate();
+      },
+      onError: (error) => {
         showToast({
-          title: "Scan Unsuccessful",
+          title: "Onboarding glitch",
           type: "error",
           position: "top-right",
-          description:
-            "We couldn't read your ID details. Please ensure the document is not blurry and try again.",
+          description: error?.response?.data?.message || error.message,
         });
         setShowOcrFailure(true);
-        return;
-      }
-      setKycDetails(data);
-      await extractBackIdDetailsMutate();
-    },
-    onError: (error) => {
-      showToast({
-        title: "Onboarding glitch",
-        type: "error",
-        position: "top-right",
-        description: error?.response?.data?.message || error.message,
-      });
-      setShowOcrFailure(true);
-    },
-  });
+      },
+    });
 
-  const { mutate: extractBackIdDetailsMutate, isLoading } = useMutation({
-    mutationKey: ["extract-back-id-details"],
-    mutationFn: async () => {
-      const response = await extractBackIdDetails(files.back);
-      return response.data.data.foundAny;
-    },
-    onSuccess: async (data) => {
-      if (!data) {
-        showToast({
-          title: "Verification Failed",
-          type: "error",
-          position: "top-right",
-          description:
-            "The back of the ID you uploaded is invalid. Please ensure it is clear and well-lit before trying again.",
-        });
-      } else {
-        showToast({
-          title: "Identity Verified",
-          type: "success",
-          position: "top-right",
-          description:
-            "We've successfully read your ID details and updated your profile automatically.",
-        });
-        setIdImages(urls);
-        handleConfirm();
-      }
-    },
-    onError: (error) => {
-      showToast({
-        title: "Onboarding glitch",
-        type: "error",
-        position: "top-right",
-        description: error?.response?.data?.message || error.message,
-      });
-      setShowOcrFailure(true);
-    },
-  });
-
-  const { mutate: extractPassportDetailsMutate, isLoadingPassport } =
+  // 2. ADDED: Named Loading State Tracker for Back ID Extraction
+  const { mutate: extractBackIdDetailsMutate, isLoading: isBackLoading } =
     useMutation({
       mutationKey: ["extract-back-id-details"],
+      mutationFn: async () => {
+        const response = await extractBackIdDetails(files.back);
+        return response.data.data.foundAny;
+      },
+      onSuccess: async (data) => {
+        if (!data) {
+          showToast({
+            title: "Verification Failed",
+            type: "error",
+            position: "top-right",
+            description:
+              "The back of the ID you uploaded is invalid. Please ensure it is clear and well-lit before trying again.",
+          });
+        } else {
+          showToast({
+            title: "Identity Verified",
+            type: "success",
+            position: "top-right",
+            description:
+              "We've successfully read your ID details and updated your profile automatically.",
+          });
+          setIdImages(urls);
+          handleConfirm();
+        }
+      },
+      onError: (error) => {
+        showToast({
+          title: "Onboarding glitch",
+          type: "error",
+          position: "top-right",
+          description: error?.response?.data?.message || error.message,
+        });
+        setShowOcrFailure(true);
+      },
+    });
+
+  const { mutate: extractPassportDetailsMutate, isLoading: isLoadingPassport } =
+    useMutation({
+      mutationKey: ["extract-passport-details"],
       mutationFn: async () => {
         const response = await extractBackIdDetails(files.passport);
         return response.data.data;
@@ -204,9 +206,12 @@ const IdentityVerification = () => {
     }, 3000);
   };
 
-  // DYNAMIC COMPLIANCE HOOKS FOR DISABLED STATE EVALUATION
+  // DYNAMIC CONFIGURATION CHECKS FOR LOADING BOUTIQUES
   const isIdDisabled = !files.front || !files.back;
   const isPassportDisabled = !files.passport;
+
+  // 3. UNIFIED MATRIX LOOKUPS FOR COMBINED STATE TRACKING
+  const isProcessingId = isFrontLoading || isBackLoading;
 
   return (
     <>
@@ -214,20 +219,17 @@ const IdentityVerification = () => {
         isOpen={showOcrFailure}
         onClose={() => setShowOcrFailure(false)}
       />
-
       <SuccessVerification
         isOpen={showVerifySuccess}
         onClose={() => setShowVerifySuccess(false)}
       />
-
       <DocumentError
         isOpen={showDocumentError}
         onClose={() => setShowDocumentError(false)}
       />
 
       <div className="sm:px-4 flex justify-center items-start">
-        <div className="w-full max-w-[1300px] md:px-6 flex flex-col lg:flex-row gap-6">
-          {/* Left Progress Sidebar */}
+        <div className="w-full max-w-[1300px] md:px-6 mb-[20px] flex flex-col lg:flex-row gap-6">
           <aside className="w-full hidden lg:block lg:w-[22%] shrink-0">
             <MyProgress
               currentTitle="Identity Verification"
@@ -235,7 +237,6 @@ const IdentityVerification = () => {
             />
           </aside>
 
-          {/* Main Full-Width Form Workspace */}
           <main className="flex-1 flex flex-col justify-between">
             <div className="space-y-8">
               <header>
@@ -249,32 +250,17 @@ const IdentityVerification = () => {
                 </p>
               </header>
 
-              {/* 1. INPUTS ROW: Config Selectors Side-By-Side */}
-              {/* 💡 Changed 'grid-cols-1 sm:grid-cols-2' to 'grid-cols-2' to force them side-by-side everywhere */}
               <div className="grid grid-cols-2 gap-4">
-                {/* Select Country */}
                 <div className="flex flex-col gap-2">
                   <label className="text-sm font-medium text-gray-700">
                     Country of Citizenship
                   </label>
-                  <select
-                    className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
- hover:border-gray-300 
- focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
- cursor-pointer"
-                    style={{
-                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
-                      backgroundRepeat: "no-repeat",
-                      backgroundPosition: "right 1rem center",
-                      backgroundSize: "1.25rem",
-                    }}
-                  >
+                  <select className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 hover:border-gray-300 focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 cursor-pointer">
                     <option>Kenya</option>
                     <option>United States</option>
                   </select>
                 </div>
 
-                {/* Select Document Type */}
                 <div className="flex flex-col gap-2">
                   <label className="text-sm font-medium text-gray-700">
                     Select Document Type
@@ -282,16 +268,7 @@ const IdentityVerification = () => {
                   <select
                     value={documentType}
                     onChange={(e) => setDocumentType(e.target.value)}
-                    className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
- hover:border-gray-300 
- focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
- cursor-pointer"
-                    style={{
-                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
-                      backgroundRepeat: "no-repeat",
-                      backgroundPosition: "right 1rem center",
-                      backgroundSize: "1.25rem",
-                    }}
+                    className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 hover:border-gray-300 focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 cursor-pointer"
                   >
                     <option value="National Id">National ID</option>
                     <option value="Passport">Passport</option>
@@ -299,7 +276,6 @@ const IdentityVerification = () => {
                 </div>
               </div>
 
-              {/* 2. UPLOADERS ROW: Document Fields Side-By-Side */}
               <div>
                 {documentType === "National Id" ? (
                   <div className="grid grid-cols-2 gap-4">
@@ -325,13 +301,12 @@ const IdentityVerification = () => {
                   </div>
                 )}
               </div>
-              {/* 3. GUIDELINES & DISCLAIMERS ROW: Nested Beneath Upload Blocks */}
+
               <div className="space-y-2">
                 <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">
                   Pre-Scan Note
                 </h3>
                 <div className="relative overflow-hidden bg-white border border-slate-200/80 rounded-3xl p-4 shadow-sm transition-all duration-300 hover:shadow-md hover:border-slate-300/80">
-                  {/* Header Block */}
                   <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-2.5 text-slate-800">
                       <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
@@ -346,14 +321,10 @@ const IdentityVerification = () => {
                         </h4>
                       </div>
                     </div>
-
-                    {/* Micro Metric Tag */}
                     <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-lg border border-emerald-100">
                       OCR Ready
                     </span>
                   </div>
-
-                  {/* Checklist Grid Matrix */}
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <PremiumRequirement
                       title="Validity Check"
@@ -370,12 +341,10 @@ const IdentityVerification = () => {
                     <PremiumRequirement
                       title="Accepted Formats"
                       desc="Standard image extensions: JPEG, PNG, or JPG"
-                      isMeta
                     />
                   </ul>
                 </div>
 
-                {/* Passport Specific Warning Block */}
                 {documentType === "Passport" && (
                   <div className="bg-orange-50 border border-orange-100 rounded-[24px] p-5 animate-in fade-in duration-200">
                     <p className="text-orange-800 text-[10px] font-black mb-1.5 uppercase tracking-wider">
@@ -389,7 +358,6 @@ const IdentityVerification = () => {
                 )}
               </div>
 
-              {/* Hidden Structural System Inputs */}
               <input
                 type="file"
                 ref={fileInputs.front}
@@ -413,46 +381,70 @@ const IdentityVerification = () => {
               />
             </div>
 
-            <div className="mt-5 mb-5 flex justify-end">
-              {documentType === "National Id" && (
-                <button
-                  type="button"
-                  disabled={isLoading || isIdDisabled}
-                  onClick={handleContinue}
-                  className={`w-full md:w-auto px-8 h-14 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all
-                    ${
-                      isLoading || isIdDisabled
-                        ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200/40 shadow-none"
-                        : "bg-primary text-white hover:bg-secondary active:scale-[0.99] shadow-lg shadow-blue-900/10"
-                    }
-                  `}
-                >
-                  {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
-                  <span>Continue</span>
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              )}
+            {/* BOTTOM ACTION DECK: ASYMMETRIC SYSTEM INTEGRATION */}
+            <div className="pt-6 border-t border-slate-100">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                {/* LEFT COLUMN: LEGAL & PRIVACY DECLARATION SAFEGUARDS (8 COLS) */}
+                <div className="lg:col-span-8 bg-slate-50/60 border border-slate-200/50 rounded-2xl p-4">
+                  <div className="flex items-start gap-3 text-[11px] leading-relaxed text-slate-400 font-medium">
+                    <p>
+                      <span className="text-slate-600 font-bold">
+                        Data Privacy Ledger:
+                      </span>{" "}
+                      By initiating this cryptographic document scan, you
+                      authorize the automated system to parse your identity
+                      registry metadata via high-fidelity optical extraction
+                      protocols. Your payloads are completely encrypted and
+                      strictly handled according to the Data Protection Act.
+                    </p>
+                  </div>
+                </div>
 
-              {documentType === "Passport" && (
-                <button
-                  type="button"
-                  disabled={isLoadingPassport || isPassportDisabled}
-                  onClick={handlePassportContinue}
-                  className={`w-full md:w-auto px-8 h-14 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all
-                    ${
-                      isLoadingPassport || isPassportDisabled
-                        ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200/40 shadow-none"
-                        : "bg-primary text-white hover:bg-secondary active:scale-[0.99] shadow-lg shadow-blue-900/10"
-                    }
-                  `}
-                >
-                  {isLoadingPassport && (
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                {/* RIGHT COLUMN: CALL TO ACTION EXECUTION ENGINE (4 COLS) */}
+                <div className="lg:col-span-4 flex justify-end">
+                  {documentType === "National Id" && (
+                    <button
+                      type="button"
+                      disabled={isProcessingId || isIdDisabled}
+                      onClick={handleContinue}
+                      className={`w-full lg:w-[200px] h-14 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all
+            ${
+              isProcessingId || isIdDisabled
+                ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200/40 shadow-none"
+                : "bg-primary text-white hover:bg-secondary active:scale-[0.99] shadow-lg shadow-blue-900/10"
+            }
+          `}
+                    >
+                      {isProcessingId && (
+                        <Loader2 className="w-4 h-4 animate-spin text-slate-400" />
+                      )}
+                      <span>Continue</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
                   )}
-                  <span>Continue</span>
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              )}
+
+                  {documentType === "Passport" && (
+                    <button
+                      type="button"
+                      disabled={isLoadingPassport || isPassportDisabled}
+                      onClick={handlePassportContinue}
+                      className={`w-full lg:w-[200px] h-14 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all
+            ${
+              isLoadingPassport || isPassportDisabled
+                ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200/40 shadow-none"
+                : "bg-primary text-white hover:bg-secondary active:scale-[0.99] shadow-lg shadow-blue-900/10"
+            }
+          `}
+                    >
+                      {isLoadingPassport && (
+                        <Loader2 className="w-4 h-4 animate-spin text-slate-400" />
+                      )}
+                      <span>Continue</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
           </main>
         </div>
@@ -461,6 +453,7 @@ const IdentityVerification = () => {
   );
 };
 
+// Sub components unchanged for structure preservation
 const UploadBox = ({ label, file, onUpload, large }) => (
   <div className="space-y-2 w-full">
     <p className="text-sm font-medium text-gray-700">{label}</p>
@@ -493,7 +486,7 @@ const UploadBox = ({ label, file, onUpload, large }) => (
   </div>
 );
 
-const PremiumRequirement = ({ title, desc, isMeta }) => (
+const PremiumRequirement = ({ title, desc }) => (
   <li className="flex items-start gap-3 p-3 bg-slate-50/50 rounded-xl border border-slate-100 transition-colors hover:bg-slate-50">
     <div className="mt-0.5 shrink-0">
       <CheckCircle2 className="w-4 h-4 text-emerald-500" />
