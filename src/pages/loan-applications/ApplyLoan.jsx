@@ -85,8 +85,8 @@ const ApplyLoan = () => {
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(Number(e.target.value))}
-                    className="w-full bg-white border-none pl-4 pr-6 text-xl font-medium text-slate-900 outline-none focus:ring-0 placeholder:text-slate-200"
-                    placeholder="0"
+                    className="w-full bg-white border-none pl-4 pr-6 text-xl font-medium text-slate-900 outline-none focus:outline-none border-0 focus:border-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none placeholder:text-slate-200"
+                    placeholder="0.00"
                   />
                 </div>
               </div>
