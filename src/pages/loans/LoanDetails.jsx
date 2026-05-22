@@ -17,6 +17,7 @@ import RepayAmount from "../../components/loans/RepayAmount";
 import AddRepayAmount from "../../components/loans/AddRepayAmount";
 import ConfirmRepayDetails from "../../components/loans/ConfirmRepayDetails";
 import AwaitLoanPayment from "../../components/loans/AwaitLoanPayment";
+import { useNavigate } from "react-router-dom";
 
 const LoanDetails = () => {
   const loanData = {
@@ -77,7 +78,7 @@ const LoanDetails = () => {
       ref: "SBH55621QQ",
     },
   ];
-
+  const navigate = useNavigate();
   const [showRepayAmount, setShowRepayAmount] = useState(false);
   const [showAddRepayAmount, setShowAddRepayAmount] = useState(false);
   const [showConfirmRepayDetails, setShowConfirmRepayDetails] = useState(false);
@@ -242,28 +243,28 @@ const LoanDetails = () => {
                 icon={<CreditCard className="text-emerald-500" />}
                 label="Pay Loan"
                 sub="Direct M-PESA"
-                onClick={() => {}}
+                onClick={() => setShowRepayAmount(true)}
                 variant="emerald"
               />
               <QuickActionButton
                 icon={<FileStack className="text-blue-500" />}
                 label="Statements"
                 sub="View Ledger"
-                onClick={() => {}}
+                onClick={() => navigate("/statements")}
                 variant="blue"
               />
               <QuickActionButton
                 icon={<ClipboardList className="text-purple-500" />}
                 label="Applications"
                 sub="Check Status"
-                onClick={() => {}}
+                onClick={() => navigate("/all-loan-applications")}
                 variant="purple"
               />
               <QuickActionButton
                 icon={<LayoutGrid className="text-slate-500" />}
                 label="Other Products"
                 sub="Explore More"
-                onClick={() => {}}
+                onClick={() => navigate("/loan-products")}
                 variant="slate"
               />
             </div>
@@ -284,8 +285,8 @@ const LoanDetails = () => {
                 <h3 className="text-[13px] font-black uppercase tracking-[0.2em] text-slate-400">
                   Transaction Ledger
                 </h3>
-                <button className="text-[13px] font-black uppercase tracking-widest text-secondary hover:underline flex items-center gap-1">
-                  Download Statement <Receipt size={14} />
+                <button className="text-[13px] font-black tracking-widest text-primary hover:underline flex items-center gap-1">
+                  Download Statement
                 </button>
               </div>
 
