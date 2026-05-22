@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   UserPlus,
   ShieldCheck,
+  Smartphone,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -190,45 +191,79 @@ const AddGuarantors = ({ limit = 4 }) => {
                       <motion.div
                         key={g.id}
                         layout
-                        initial={{ opacity: 0, scale: 0.9 }}
+                        initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{
                           opacity: 0,
-                          scale: 0.9,
+                          scale: 0.95,
                           transition: { duration: 0.2 },
                         }}
-                        className="group bg-white border border-slate-200 p-5 rounded-2xl flex items-center justify-between hover:border-primary/20 hover:shadow-lg hover:shadow-slate-100 transition-all"
+                        className="group bg-slate-50 border border-slate-200 p-4 rounded-2xl flex items-center justify-between hover:border-slate-300 hover:bg-white hover:shadow-sm transition-all duration-200"
                       >
-                        <div className="flex items-center gap-4">
-                          <div className="size-12 bg-slate-50 rounded-xl flex items-center justify-center text-primary font-bold group-hover:bg-primary group-hover:text-white transition-all text-lg">
-                            {g.name.charAt(0)}
+                        {/* LEFT: AVATAR & CREDENTIAL DATA FIELDS */}
+                        <div className="flex items-center gap-4 flex-1">
+                          {/* Minimalist Premium Initial Avatar */}
+                          <div className="size-10 bg-white border border-slate-200/60 rounded-xl flex items-center justify-center text-slate-700 font-black text-sm shadow-sm select-none shrink-0">
+                            {g.name.charAt(0).toUpperCase()}
                           </div>
-                          <div>
+
+                          {/* Metadata Rows */}
+                          <div className="space-y-1">
                             <div className="flex items-center gap-2">
                               <h4 className="font-bold text-slate-900 text-sm tracking-tight">
                                 {g.name}
                               </h4>
                               <CheckCircle2
                                 size={14}
-                                className="text-emerald-500"
+                                className="text-emerald-500 shrink-0"
                               />
                             </div>
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
-                              ID: {g.idNo} •{" "}
-                              <span className="text-primary">{g.shares}</span>
-                            </p>
+
+                            {/* ALIGNED DETAILS ROW */}
+                            <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                              <span className="flex items-center gap-1">
+                                <Fingerprint
+                                  size={12}
+                                  className="text-slate-300"
+                                />
+                                ID:{" "}
+                                <span className="text-slate-600 font-bold">
+                                  {g.idNo}
+                                </span>
+                              </span>
+
+                              {/* Clean Vertical Rule Divider */}
+                              <div className="h-2.5 w-[1.5px] bg-slate-200" />
+
+                              <span className="flex items-center gap-1">
+                                <Smartphone
+                                  size={12}
+                                  className="text-slate-300"
+                                />
+                                TEL:{" "}
+                                <span className="text-slate-600 font-bold">
+                                  0756300300
+                                </span>
+                              </span>
+                            </div>
                           </div>
                         </div>
-                        <button
-                          onClick={() =>
-                            setGuarantors(
-                              guarantors.filter((x) => x.id !== g.id),
-                            )
-                          }
-                          className="p-2.5 text-slate-200 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
-                        >
-                          <Trash2 size={18} />
-                        </button>
+
+                        {/* RIGHT: ACTION PANEL (Hides natively until hovered) */}
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 pl-4">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setGuarantors(
+                                guarantors.filter((x) => x.id !== g.id),
+                              )
+                            }
+                            className="p-2 rounded-xl bg-white border border-slate-200/60 text-slate-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50/50 transition-all shadow-sm flex items-center justify-center"
+                            title="Remove this guarantor"
+                          >
+                            <Trash2 size={15} />
+                          </button>
+                        </div>
                       </motion.div>
                     ))}
                   </motion.div>
