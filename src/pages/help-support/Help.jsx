@@ -93,7 +93,7 @@ const HelpSupport = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 text-primary pb-20">
+    <div className="bg-slate-50 text-primary">
       <div className="max-w-6xl sm:px-4 mx-auto">
         {/* Header */}
         <header className="py-3 flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -109,18 +109,18 @@ const HelpSupport = () => {
                 Support Center
               </span>
             </div>
-            <h1 className="text-4xl font-black tracking-tight">
+            <h1 className="text-2xl font-black tracking-tight">
               How can we help you today?
             </h1>
           </div>
         </header>
 
         {/* 1. Detailed Contact Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
           {contactMethods.map((method, idx) => (
             <div
               key={idx}
-              className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl shadow-blue-900/5 hover:border-secondary/40 transition-all group cursor-pointer"
+              className="bg-white p-6 rounded-[32px] border border-slate-100 hover:border-secondary/40 transition-all group cursor-pointer"
             >
               <div
                 className={`w-12 h-12 ${method.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}
