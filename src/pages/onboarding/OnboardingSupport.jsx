@@ -82,23 +82,8 @@ const HelpPage = () => {
       {/* Header */}
       <div className="text-left mb-6">
         {/* Navigation Header */}
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-slate-400 hover:text-primary transition-colors mb-3 group"
-        >
-          <ChevronLeft
-            size={20}
-            className="group-hover:-translate-x-1 transition-transform"
-          />
-          <span className="text-xs font-bold uppercase tracking-widest">
-            Back to Scanner
-          </span>
-        </button>
         <div className="flex items-center gap-2">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-blue-100 rounded-full mb-3">
-            <HelpCircle className="text-primary" size={28} />
-          </div>
-          <h1 className="text-2xl font-black text-primary uppercase tracking-tight">
+          <h1 className="text-2xl font-medium text-primary tracking-tight">
             Support Center
           </h1>
         </div>
@@ -113,7 +98,7 @@ const HelpPage = () => {
         {contactMethods.map((method, idx) => (
           <div
             key={idx}
-            className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl shadow-blue-900/5 hover:border-secondary/40 transition-all group cursor-pointer"
+            className="bg-white p-6 rounded-[32px] border border-slate-100 hover:border-secondary/40 transition-all group cursor-pointer"
           >
             <div
               className={`w-12 h-12 ${method.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}
@@ -134,7 +119,7 @@ const HelpPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Left Column: Guidelines & Visuals */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white border border-slate-100 rounded-[32px] p-8 shadow-xl shadow-blue-900/5">
+          <div className="bg-white border border-slate-100 rounded-[32px] p-8">
             <div className="flex items-center gap-2 mb-6">
               <Lightbulb className="text-amber-500" size={20} />
               <p className="text-[12px] font-black uppercase tracking-[0.2em] text-primary">
@@ -182,7 +167,7 @@ const HelpPage = () => {
               Common Questions
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 rounded-xl border border-slate-100 hover:border-secondary/30 transition-colors">
+              <div className="p-4 rounded-xl border border-slate-200 hover:border-secondary/30 transition-colors">
                 <p className="text-[13px] font-bold text-slate-800 mb-1">
                   Why is my KRA PIN not scanning?
                 </p>
@@ -190,7 +175,7 @@ const HelpPage = () => {
                   Ensure it's the official iTax certificate and not a photocopy.
                 </p>
               </div>
-              <div className="p-4 rounded-xl border border-slate-100 hover:border-secondary/30 transition-colors">
+              <div className="p-4 rounded-xl border border-slate-200 hover:border-secondary/30 transition-colors">
                 <p className="text-[13px] font-bold text-slate-800 mb-1">
                   What if I only have a waiting card?
                 </p>
@@ -204,26 +189,6 @@ const HelpPage = () => {
 
         {/* Right Column: Actions & Contact */}
         <div className="space-y-4">
-          <div className="bg-primary p-6 rounded-[32px] text-white">
-            <p className="text-[10px] font-bold text-secondary uppercase tracking-widest mb-4">
-              Quick Actions
-            </p>
-            <div className="space-y-3">
-              <button
-                onClick={() => navigate("/onboarding/verify-identity")}
-                className="w-full h-[56px] bg-white text-primary rounded-[20px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-secondary hover:text-primary transition-all"
-              >
-                Retake Photo <ArrowRight size={18} />
-              </button>
-              <button
-                onClick={() => navigate("/onboarding/id-manual-entry")}
-                className="w-full h-[56px] border border-white/20 text-white rounded-[20px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-white/10 transition-all"
-              >
-                Manual Entry
-              </button>
-            </div>
-          </div>
-
           <div className="p-6 border border-slate-200 rounded-[32px] bg-white">
             <div className="flex items-center justify-between mb-4">
               <p className="text-[12px] font-bold text-slate-800">

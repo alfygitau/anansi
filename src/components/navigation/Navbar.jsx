@@ -11,12 +11,13 @@ const Navbar = () => {
       {<Logout isOpen={showLogout} onClose={() => setShowLogout(false)} />}
       <nav className="w-full h-[120px] bg-gray-50 flex items-center justify-between sticky top-0 z-50">
         {/* Logo Section */}
-        <div className="flex items-center">
-          <div className="w-16 h-16 bg-primary rounded-[22px] flex items-center justify-center shadow-2xl shadow-blue-900/20">
-            <span className="text-white text-3xl font-black">A</span>
+        <div className="flex items-center gap-3 mb-8">
+          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/10">
+            <span className="text-white text-2xl font-black">A</span>
           </div>
-          {/* Optional: Add brand name if not in logo image */}
-          <span className="ml-3 text-xl font-bold text-primary">Anansi</span>
+          <span className="text-lg font-black text-primary tracking-tighter uppercase">
+            Anansi Sacco
+          </span>
         </div>
 
         {/* Navigation Actions */}

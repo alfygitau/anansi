@@ -204,6 +204,10 @@ const IdentityVerification = () => {
     }, 3000);
   };
 
+  // DYNAMIC COMPLIANCE HOOKS FOR DISABLED STATE EVALUATION
+  const isIdDisabled = !files.front || !files.back;
+  const isPassportDisabled = !files.passport;
+
   return (
     <>
       <OCRFailure
@@ -238,7 +242,7 @@ const IdentityVerification = () => {
                 <h1 className="text-xl font-black text-primary tracking-tight mb-2">
                   Upload Identity Document
                 </h1>
-                <p className="text-gray-500 text-sm max-w-3xl">
+                <p className="text-gray-500 text-sm w-full">
                   Let's get started by uploading your ID or Passport. This will
                   help us automatically fill in your details and verify your
                   citizenship.
@@ -321,9 +325,11 @@ const IdentityVerification = () => {
                   </div>
                 )}
               </div>
-
               {/* 3. GUIDELINES & DISCLAIMERS ROW: Nested Beneath Upload Blocks */}
-              <div className="space-y-4">
+              <div className="space-y-2">
+                <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">
+                  Pre-Scan Note
+                </h3>
                 <div className="relative overflow-hidden bg-white border border-slate-200/80 rounded-3xl p-4 shadow-sm transition-all duration-300 hover:shadow-md hover:border-slate-300/80">
                   {/* Header Block */}
                   <div className="flex items-center justify-between mb-5">
@@ -407,31 +413,44 @@ const IdentityVerification = () => {
               />
             </div>
 
-            {/* Bottom Form Actions Execution Line */}
-            <div className="mt-4 pt-4">
+            <div className="mt-5 mb-5 flex justify-end">
               {documentType === "National Id" && (
                 <button
-                  disabled={isLoading}
+                  type="button"
+                  disabled={isLoading || isIdDisabled}
                   onClick={handleContinue}
-                  className="w-full md:w-auto md:float-right px-8 h-14 bg-primary hover:bg-secondary text-white font-semibold rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-900/10"
+                  className={`w-full md:w-auto px-8 h-14 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all
+                    ${
+                      isLoading || isIdDisabled
+                        ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200/40 shadow-none"
+                        : "bg-primary text-white hover:bg-secondary active:scale-[0.99] shadow-lg shadow-blue-900/10"
+                    }
+                  `}
                 >
-                  {isLoading && <Loader2 className="w-5 h-5 animate-spin" />}
-                  Continue
-                  <ChevronRight className="w-5 h-5" />
+                  {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+                  <span>Continue</span>
+                  <ChevronRight className="w-4 h-4" />
                 </button>
               )}
 
               {documentType === "Passport" && (
                 <button
-                  disabled={isLoadingPassport}
+                  type="button"
+                  disabled={isLoadingPassport || isPassportDisabled}
                   onClick={handlePassportContinue}
-                  className="w-full md:w-auto md:float-right px-8 h-14 bg-primary hover:bg-secondary text-white font-semibold rounded-xl flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-900/10"
+                  className={`w-full md:w-auto px-8 h-14 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all
+                    ${
+                      isLoadingPassport || isPassportDisabled
+                        ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200/40 shadow-none"
+                        : "bg-primary text-white hover:bg-secondary active:scale-[0.99] shadow-lg shadow-blue-900/10"
+                    }
+                  `}
                 >
                   {isLoadingPassport && (
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <Loader2 className="w-4 h-4 animate-spin" />
                   )}
-                  Continue
-                  <ChevronRight className="w-5 h-5" />
+                  <span>Continue</span>
+                  <ChevronRight className="w-4 h-4" />
                 </button>
               )}
             </div>
