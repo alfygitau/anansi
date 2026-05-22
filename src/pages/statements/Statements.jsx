@@ -159,14 +159,14 @@ const MyStatements = () => {
                 <h1 className="text-2xl font-black tracking-tight">
                   Statements
                 </h1>
-                <p className="text-slate-400 text-sm mt-2 font-medium">
+                <p className="text-slate-400 text-sm mt-1 font-medium">
                   Official financial records for Anansi Sacco members. All
                   documents are legally encrypted.
                 </p>
               </div>
             </header>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-2 items-start">
               {/* LEFT COLUMN: FILTERS & LIST */}
               <div className="lg:col-span-8 space-y-6">
                 {/* Filter Card */}
@@ -426,7 +426,7 @@ const StatementListItem = ({ stmt, onDownload }) => (
           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">
             {stmt.type === "loan"
               ? "Repayment History"
-              : "Monthly Account Summary"}
+              : "Account Summary"}
           </p>
         </div>
       </div>

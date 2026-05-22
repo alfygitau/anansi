@@ -4,17 +4,16 @@ import {
   Scale,
   FileCheck2,
   AlertTriangle,
-  ArrowRight,
   ShieldCheck,
   ChevronDown,
   Info,
+  Download,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const LoanTerms = ({ isOpen, onClose, onAccept }) => {
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
 
-  // Simple handler to check if user has read through the terms
   const handleScroll = (e) => {
     const target = e.target;
     const isAtBottom =
@@ -34,7 +33,6 @@ const LoanTerms = ({ isOpen, onClose, onAccept }) => {
           transition={{ duration: 0.25, ease: "easeInOut" }}
           className="fixed inset-0 z-[100] flex justify-end bg-slate-900/40"
         >
-          {/* Backdrop dismissal target */}
           <div className="absolute inset-0" onClick={onClose} />
 
           <motion.div
@@ -45,7 +43,7 @@ const LoanTerms = ({ isOpen, onClose, onAccept }) => {
             className="bg-white relative w-full max-w-[480px] h-full shadow-2xl flex flex-col z-10 overflow-hidden"
           >
             {/* PREMIUM HEADER */}
-            <div className="bg-white p-5 border-b border-slate-100 flex items-center justify-between sticky top-0 z-20">
+            <div className="bg-white p-5 flex items-center justify-between sticky top-0 z-20">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-700 border border-slate-200/60">
                   <Scale size={18} />
@@ -67,6 +65,7 @@ const LoanTerms = ({ isOpen, onClose, onAccept }) => {
               </button>
             </div>
 
+            <div className="border mx-5 border-slate-100"></div>
             {/* DETAILED AGREEMENT CONTENT AREA */}
             <div
               onScroll={handleScroll}
@@ -154,16 +153,17 @@ const LoanTerms = ({ isOpen, onClose, onAccept }) => {
                 </div>
               )}
             </div>
+            <div className="border mx-5 border-slate-100"></div>
 
             {/* FIXED BOTTOM ACTION PANEL */}
-            <div className="p-5 border-t border-slate-100 bg-white mt-auto flex flex-col gap-3">
+            <div className="p-5 bg-white mt-auto flex flex-col gap-3">
               <div className="grid grid-cols-2 gap-4 mt-2">
                 <button
                   type="button"
                   onClick={onClose}
                   className="w-full bg-white border border-slate-200 text-slate-600 py-4 rounded-xl text-[11px] font-black uppercase tracking-[0.08em] hover:bg-slate-50 transition-all text-center shadow-sm"
                 >
-                  Decline
+                  Close
                 </button>
                 <button
                   type="button"
@@ -171,8 +171,7 @@ const LoanTerms = ({ isOpen, onClose, onAccept }) => {
                   onClick={onAccept}
                   className="w-full bg-slate-900 text-white py-4 rounded-xl text-[11px] font-black uppercase tracking-[0.08em] hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-900 transition-all flex items-center justify-center gap-2 shadow-sm"
                 >
-                  Accept Terms{" "}
-                  <ArrowRight size={14} className="text-slate-400" />
+                  Download <Download size={14} className="text-slate-400" />
                 </button>
               </div>
             </div>

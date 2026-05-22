@@ -78,20 +78,16 @@ const EligibilityCheck = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] font-sans selection:bg-blue-100">
+    <div className="bg-[#F8FAFC] text-[#0F172A] font-sans selection:bg-blue-100">
       <div className="max-w-6xl sm:px-4 mx-auto mx-auto">
         {/* Header Section */}
         <header className="flex flex-col md:flex-row md:items-end justify-between mb-4 gap-6">
           <div className="space-y-2">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+            <h1 className="text-2xl font-bold tracking-tight text-primary">
               Loan <span>Eligibility</span>
             </h1>
-            <p className="text-slate-500 text-lg font-medium">
-              Real-time analysis for your{" "}
-              <span className="text-slate-900 font-semibold decoration-blue-200 underline-offset-4">
-                Development Loan
-              </span>{" "}
-              standing.
+            <p className="text-slate-500 text-md font-medium">
+              Real-time analysis for your Development Loan standing.
             </p>
           </div>
           <button className="flex items-center gap-2 text-slate-400 hover:text-slate-600 font-semibold text-sm transition-colors group">
@@ -150,7 +146,7 @@ const EligibilityCheck = () => {
                   className={`relative group px-10 py-4 rounded-2xl font-bold text-white overflow-hidden transition-all shadow-lg hover:shadow-blue-200 active:scale-95 ${
                     checking
                       ? "bg-slate-200 cursor-not-allowed"
-                      : "bg-blue-600 hover:bg-blue-700"
+                      : "bg-primary hover:bg-blue-700"
                   }`}
                 >
                   <span className="relative z-10 flex items-center gap-3 uppercase tracking-wider text-sm">
@@ -184,88 +180,84 @@ const EligibilityCheck = () => {
             />
 
             {/* Notice Card */}
-            <div className="group relative overflow-hidden bg-[#0A192F] rounded-[16px] p-4 text-white shadow-2xl border border-white/5 transition-all hover:border-blue-500/30">
-              {/* Abstract Background Glow */}
-              <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-600/10 rounded-full blur-[80px] group-hover:bg-blue-600/20 transition-colors" />
+            <div className="space-y-6">
+              {/* CARD 1: INSTITUTIONAL SECURITY */}
+              <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 relative overflow-hidden">
+                <div className="space-y-5">
+                  {/* Header: Clean Icon + Status */}
+                  <div className="flex items-center justify-between">
+                    <div className="p-3 bg-white border border-slate-200/60 rounded-xl shadow-sm text-slate-400">
+                      <Shield size={18} />
+                    </div>
 
-              <div className="relative z-10 space-y-5">
-                {/* Header: Glass Icon + Status */}
-                <div className="flex items-center justify-between">
-                  <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-2xl backdrop-blur-md">
-                    <Shield size={22} className="text-blue-400" />
+                    {/* Minimalist Status indicator */}
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 rounded-full border border-slate-200/40">
+                      <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">
+                        System Live
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+
+                  {/* Typography */}
+                  <div>
+                    <h4 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">
+                      Institutional Security
+                    </h4>
+                    <p className="text-slate-500 text-xs leading-relaxed font-medium">
+                      Your data is protected via{" "}
+                      <span className="text-slate-900 font-bold">
+                        AES-256 encryption
+                      </span>
+                      . This analysis adheres to the Sacco Rule 4.2 Regulatory
+                      Framework for automated credit scoring.
+                    </p>
+                  </div>
+
+                  {/* Footer Info */}
+                  <div className="pt-4 flex items-center justify-between border-t border-slate-200/60">
+                    <div className="flex items-center gap-1.5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                      <Lock size={12} /> Encrypted
+                    </div>
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 cursor-pointer transition-colors">
+                      Privacy Policy
                     </span>
-                    <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">
-                      System Live
-                    </span>
                   </div>
-                </div>
-
-                {/* Typography */}
-                <div>
-                  <h4 className="text-lg font-black tracking-tight mb-2">
-                    Institutional Security
-                  </h4>
-                  <p className="text-slate-400 text-xs leading-relaxed font-medium">
-                    Your data is protected via{" "}
-                    <span className="text-white">AES-256 encryption</span>. This
-                    analysis adheres to the Sacco Rule 4.2 Regulatory Framework
-                    for automated credit scoring.
-                  </p>
-                </div>
-
-                {/* Footer Info */}
-                <div className="pt-4 flex items-center justify-between border-t border-white/5">
-                  <div className="flex items-center gap-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                    <Lock size={12} /> Encrypted
-                  </div>
-                  <span className="text-[10px] font-bold text-blue-400 hover:underline cursor-pointer">
-                    Privacy Policy
-                  </span>
                 </div>
               </div>
-            </div>
 
-            <div className="group relative overflow-hidden bg-gradient-to-br from-[#1E293B] to-[#0F172A] rounded-[16px] p-4 text-white shadow-2xl border border-slate-700/50">
-              {/* Decorative Icon Watermark */}
-              <div className="absolute -right-6 -bottom-6 text-white/5 rotate-12 transition-transform group-hover:scale-110 group-hover:rotate-0 duration-700">
-                <Info size={140} strokeWidth={1} />
-              </div>
+              {/* CARD 2: CAPACITY LOGIC */}
+              <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 relative overflow-hidden">
+                <div className="space-y-5">
+                  {/* Icon Wrapper */}
+                  <div className="p-3 bg-white border border-slate-200/60 rounded-xl shadow-sm text-slate-400 w-fit">
+                    <Calculator size={18} />
+                  </div>
 
-              <div className="relative z-10 space-y-5">
-                {/* Icon Wrapper */}
-                <div className="w-12 h-12 bg-indigo-500/20 rounded-2xl flex items-center justify-center border border-indigo-500/30">
-                  <Calculator size={22} className="text-indigo-400" />
-                </div>
+                  {/* Content */}
+                  <div>
+                    <h4 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">
+                      Capacity Logic
+                    </h4>
+                    <p className="text-slate-500 text-xs leading-relaxed font-medium">
+                      Limits are dynamically calculated based on a{" "}
+                      <span className="text-slate-900 font-bold">
+                        3x Deposit Multiplier
+                      </span>
+                      . Increasing your monthly deposits will instantly elevate
+                      your borrowing ceiling.
+                    </p>
+                  </div>
 
-                {/* Content */}
-                <div>
-                  <h4 className="text-lg font-black tracking-tight mb-2">
-                    Capacity Logic
-                  </h4>
-                  <p className="text-slate-400 text-xs leading-relaxed font-medium">
-                    Limits are dynamically calculated based on a{" "}
-                    <span className="text-indigo-300">
-                      3x Deposit Multiplier
+                  {/* Action Link/Badge */}
+                  <div className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl transition-all hover:bg-slate-50 cursor-pointer shadow-sm group">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+                      How is this calculated?
                     </span>
-                    . Increasing your monthly deposits will instantly elevate
-                    your borrowing ceiling.
-                  </p>
-                </div>
-
-                {/* Action Link/Badge */}
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 rounded-xl transition-colors cursor-pointer group/btn">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-200">
-                    How is this calculated?
-                  </span>
-                  <ChevronRight
-                    size={14}
-                    className="text-slate-400 group-hover/btn:translate-x-1 transition-transform"
-                  />
+                    <ChevronRight
+                      size={12}
+                      className="text-slate-400 group-hover:translate-x-0.5 transition-transform"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

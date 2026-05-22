@@ -7,22 +7,26 @@ import {
   ShieldCheck,
   Info,
   ChevronRight,
+  X,
+  FileSpreadsheet,
+  AlertTriangle,
+  HelpCircle,
+  FileText,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import PremiumSlider from "../../shared/slider/Slider";
 
 const ApplyLoan = () => {
   const navigate = useNavigate();
-  const [amount, setAmount] = useState(50000);
+  const [amount, setAmount] = useState(0);
   const [tenure, setTenure] = useState(48);
   const [frequency, setFrequency] = useState("Monthly");
+  const [isScheduleOpen, setIsScheduleOpen] = useState(false);
 
-  // Constants for Anansi Financial Logic
   const annualRate = 0.144; // 14.4%
-  const processingFeeRate = 0.015; // 1.5%
-  const insurancePremium = 1200;
 
-  // Financial Calculations
+  // Retain basic installment calculation specifically to pass down to the side drawer
   const calculateInstallment = () => {
     const p = amount || 0;
     const r = annualRate / 12;
@@ -32,29 +36,24 @@ const ApplyLoan = () => {
   };
 
   const installment = calculateInstallment();
-  const totalRepayable = installment * tenure;
-  const totalInterest = totalRepayable - amount;
 
   return (
     <div className="w-full text-primary">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl py-4 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Left Column: Configuration (7 Cols) */}
-          <div className="lg:col-span-7 space-y-6">
-            <header className="space-y-4">
-              <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
+          <div className="lg:col-span-6 space-y-6">
+            <header className="space-y-2">
+              <h1 className="text-2xl font-extrabold tracking-tight text-primary">
                 Loan Configuration
               </h1>
               <div className="space-y-4">
                 <p className="text-slate-500 leading-relaxed text-sm">
                   Configure your facility by adjusting the principal and
                   preferred repayment window. Your interest is calculated using
-                  the{" "}
-                  <span className="text-slate-900 font-semibold">
-                    Reducing Balance Method
-                  </span>
-                  , meaning you only pay interest on the remaining principal
-                  each month, not the original loan amount.
+                  the Reducing Balance Method , meaning you only pay interest on
+                  the remaining principal each month, not the original loan
+                  amount.
                 </p>
                 <p className="text-slate-400 leading-relaxed text-xs">
                   This approach ensures that as you pay down your debt, your
@@ -67,7 +66,7 @@ const ApplyLoan = () => {
             </header>
 
             <div className="space-y-10">
-              {/* Principal Amount Input */}
+              {/* Enhanced Principal Amount Input */}
               <div className="group">
                 <div className="flex justify-between items-end mb-4">
                   <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
@@ -77,21 +76,18 @@ const ApplyLoan = () => {
                     Max: 2.5M
                   </span>
                 </div>
-                <div className="group relative flex items-center">
-                  {/* Prefix Container */}
-                  <div className="absolute left-0 h-full flex items-center px-5 pointer-events-none">
-                    <span className="text-lg font-bold text-slate-400 tracking-tight">
-                      KES
-                    </span>
-                    {/* Vertical Separator */}
-                    <div className="ml-4 h-6 w-[1.5px] bg-slate-200 group-focus-within:bg-primary/30 transition-colors" />
-                  </div>
 
+                {/* Fixed Border Wrapper */}
+                <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-16 transition-all duration-200">
+                  {/* Prefix Section */}
+                  <div className="pl-5 pr-4 flex items-center text-slate-400 text-sm font-bold border-r border-slate-200 h-6 my-auto select-none">
+                    KES
+                  </div>
                   <input
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(Number(e.target.value))}
-                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl h-16 pl-24 pr-6 text-xl font-medium text-slate-900 focus:bg-white focus:border-primary focus:ring-0 transition-all outline-none placeholder:text-slate-200"
+                    className="w-full bg-white border-none pl-4 pr-6 text-xl font-medium text-slate-900 outline-none focus:ring-0 placeholder:text-slate-200"
                     placeholder="0"
                   />
                 </div>
@@ -133,8 +129,8 @@ const ApplyLoan = () => {
                       onClick={() => setFrequency(opt)}
                       className={`h-14 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all border-2 ${
                         frequency === opt
-                          ? "border-primary bg-primary/5 text-primary"
-                          : "border-slate-100 text-slate-400 hover:border-slate-200"
+                          ? "border-slate-900 bg-primary text-white"
+                          : "border-slate-100 text-slate-400 hover:border-slate-200 bg-white"
                       }`}
                     >
                       {opt}
@@ -147,14 +143,14 @@ const ApplyLoan = () => {
             {/* Regulatory Footer */}
             <footer className="pt-6 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="flex gap-4">
-                <Scale size={18} className="text-primary shrink-0" />
+                <Scale size={18} className="text-slate-400 shrink-0" />
                 <p className="text-[11px] text-slate-500 leading-normal">
                   <span className="font-bold text-slate-800">Compliance:</span>{" "}
                   All facilities are regulated under the Sacco Societies Act.
                 </p>
               </div>
               <div className="flex gap-4">
-                <ShieldCheck size={18} className="text-primary shrink-0" />
+                <ShieldCheck size={18} className="text-slate-400 shrink-0" />
                 <p className="text-[11px] text-slate-500 leading-normal">
                   <span className="font-bold text-slate-800">Security:</span>{" "}
                   256-bit SSL encryption protects your financial data.
@@ -163,112 +159,285 @@ const ApplyLoan = () => {
             </footer>
           </div>
 
-          {/* Right Column: Financial Summary (5 Cols) */}
-          <div className="lg:col-span-5">
-            <div className="sticky top-12 bg-slate-50 border border-slate-200 rounded-[32px] p-4 space-y-8">
-              <div className="flex justify-between items-start">
+          {/* Right Column: Complete Statutory Disclaimers (5 Cols) */}
+          <div className="lg:col-span-6">
+            <div className="sticky top-12 bg-slate-50 rounded-[32px] space-y-6">
+              {/* Header section with Modal Access Trigger */}
+              <div className="flex justify-between items-start border-b border-slate-200 pb-4">
                 <div>
-                  <h3 className="text-xl font-bold">Financial Summary</h3>
-                  <p className="text-xs text-slate-400 mt-1 font-medium">
-                    Verified Amortization Schedule
+                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">
+                    Regulatory Framework
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-1 font-medium">
+                    Statutory Disclaimers & Disclosures
                   </p>
                 </div>
-                <ExternalLink
-                  size={18}
-                  className="text-slate-300 cursor-pointer hover:text-primary"
-                />
+
+                <button
+                  type="button"
+                  onClick={() => setIsScheduleOpen(true)}
+                  className="p-2.5 rounded-xl bg-white border border-slate-200/60 shadow-sm text-slate-400 hover:text-slate-900 hover:border-slate-400 transition-all flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-wider"
+                  title="View calculations blueprint"
+                >
+                  <FileText size={14} />
+                  <span>View Schedule</span>
+                  <ExternalLink size={12} />
+                </button>
               </div>
 
-              {/* Installment Highlight */}
-              <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm text-center">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">
-                  Monthly Installment
-                </p>
-                <h4 className="text-4xl font-black text-slate-900 tracking-tighter">
-                  <span className="text-lg font-medium mr-1">KES</span>
-                  {installment.toLocaleString(undefined, {
-                    maximumFractionDigits: 0,
-                  })}
-                </h4>
-              </div>
+              {/* DETAILED STATUTORY LEGAL & DISBURSEMENT BLOCKS */}
+              <div className="space-y-4">
+                {/* Accordion Style Content Card 1 */}
+                <div className="p-4 bg-white rounded-2xl border border-slate-200/60 shadow-sm space-y-1.5">
+                  <div className="flex items-center gap-2 text-slate-800">
+                    <Scale size={14} className="text-slate-400" />
+                    <h4 className="text-[10px] font-black uppercase tracking-widest">
+                      01. Legal Enforceability
+                    </h4>
+                  </div>
+                  <p className="text-[10px] leading-relaxed text-slate-500">
+                    By submitting this preliminary loan configuration, you
+                    acknowledge that this is a statement of capability and
+                    intent, not a binding offer. Final credit issuance is
+                    subject to execution of full legal charges under the Sacco
+                    Societies Act.
+                  </p>
+                </div>
 
-              {/* Detailed Breakdown */}
-              <div className="space-y-4 px-2">
-                <SummaryRow
-                  label="Principal Amount"
-                  value={`KES ${amount.toLocaleString()}`}
-                />
-                <SummaryRow
-                  label="Est. Total Interest"
-                  value={`KES ${totalInterest.toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
-                />
-                <SummaryRow
-                  label="Processing Fee (1.5%)"
-                  value={`KES ${(amount * processingFeeRate).toLocaleString()}`}
-                />
-                <SummaryRow label="Insurance & Duty" value="KES 1,400" />
-                <div className="pt-4 mt-4 border-t border-slate-200 flex justify-between items-center">
-                  <span className="text-sm font-bold text-slate-900">
-                    Total Repayable
-                  </span>
-                  <span className="text-sm font-black text-primary">
-                    KES{" "}
-                    {totalRepayable.toLocaleString(undefined, {
-                      maximumFractionDigits: 0,
-                    })}
-                  </span>
+                {/* Accordion Style Content Card 2 */}
+                <div className="p-4 bg-white rounded-2xl border border-slate-200/60 shadow-sm space-y-1.5">
+                  <div className="flex items-center gap-2 text-slate-800">
+                    <Info size={14} className="text-slate-400" />
+                    <h4 className="text-[10px] font-black uppercase tracking-widest">
+                      02. Reducing Balance Math
+                    </h4>
+                  </div>
+                  <p className="text-[10px] leading-relaxed text-slate-500">
+                    Amortization structures rely entirely on a daily compound
+                    interval applied strictly against the active residual
+                    principal vector. Early liquidation or partial amortization
+                    variants immediately reduce your overall finance overhead
+                    load.
+                  </p>
+                </div>
+
+                {/* Accordion Style Content Card 3 */}
+                <div className="p-4 bg-white rounded-2xl border border-slate-200/60 shadow-sm space-y-1.5">
+                  <div className="flex items-center gap-2 text-slate-800">
+                    <AlertTriangle size={14} className="text-amber-500" />
+                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
+                      03. Delinquency Covenants
+                    </h4>
+                  </div>
+                  <p className="text-[10px] leading-relaxed text-slate-500">
+                    Uncured arrears tracking beyond 15 business operations
+                    cycles will automatically execute acceleration mechanisms
+                    over total active liability channels, rendering guarantor
+                    networks directly responsible for asset liquidation
+                    protocols.
+                  </p>
+                </div>
+
+                {/* Accordion Style Content Card 4 */}
+                <div className="p-4 bg-white rounded-2xl border border-slate-200/60 shadow-sm space-y-1.5">
+                  <div className="flex items-center gap-2 text-slate-800">
+                    <HelpCircle size={14} className="text-slate-400" />
+                    <h4 className="text-[10px] font-black uppercase tracking-widest">
+                      04. Variable Fees Disclaimer
+                    </h4>
+                  </div>
+                  <p className="text-[10px] leading-relaxed text-slate-500">
+                    Third-party regulatory overhead items, including excise
+                    duties, statutory stamp values, and credit reference bureau
+                    validation passes are volatile parameter metrics and are
+                    pinned exactly to the actual time of execution.
+                  </p>
                 </div>
               </div>
 
-              {/* Payment Health Indicator */}
-              <div className="p-4 bg-white rounded-2xl border border-slate-100 flex items-center gap-4">
-                {/* Add 'shrink-0' to lock the dimensions */}
-                <div className="w-10 h-10 shrink-0 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                  <Info size={20} />
-                </div>
-                <div className="text-[10px] leading-relaxed text-slate-500">
-                  <span className="font-bold text-slate-800">
-                    Anansi Insight:
-                  </span>{" "}
-                  Keeping your tenure under 24 months reduces total interest
-                  costs by <span className="text-primary font-bold">12%</span>.
-                </div>
-              </div>
-
-              {/* Primary Action */}
+              {/* Primary Action Button */}
               <button
                 onClick={() => navigate("/add-guarantor")}
-                className="w-full h-16 bg-[#1A1C1E] hover:bg-black text-white rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-slate-200 group"
+                className="w-full h-14 bg-primary hover:bg-slate-800 text-white rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all shadow-md group"
               >
-                Continue to Add Guarantors
+                Acknowledge & Add Guarantors
                 <ArrowRight
-                  size={18}
-                  className="group-hover:translate-x-1 transition-transform"
+                  size={16}
+                  className="text-slate-400 group-hover:translate-x-0.5 transition-transform"
                 />
               </button>
 
-              <div className="flex items-center justify-center gap-2 opacity-30">
+              <div className="flex items-center justify-center gap-2 opacity-30 pt-2">
                 <Lock size={12} />
                 <span className="text-[9px] font-black uppercase tracking-widest">
-                  End-to-End Encrypted
+                  End-to-End Encrypted Secure Core
                 </span>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* AMORTIZATION SCHEDULE SLIDE DRAWER */}
+      <AmortizationScheduleModal
+        isOpen={isScheduleOpen}
+        onClose={() => setIsScheduleOpen(false)}
+        amount={amount}
+        tenure={tenure}
+        annualRate={annualRate}
+        installment={installment}
+      />
     </div>
   );
 };
 
 /**
- * HELPER: SUMMARY ROW
+ * FIXED RIGHT-SIDED DRAWER SCRIPT BREAKDOWN
  */
-const SummaryRow = ({ label, value }) => (
-  <div className="flex justify-between items-center text-xs font-medium">
-    <span className="text-slate-400">{label}</span>
-    <span className="text-slate-700 font-bold">{value}</span>
-  </div>
-);
+const AmortizationScheduleModal = ({
+  isOpen,
+  onClose,
+  amount,
+  tenure,
+  annualRate,
+  installment,
+}) => {
+  const generateScheduleRows = () => {
+    let remainingPrincipal = amount;
+    const monthlyRate = annualRate / 12;
+    const rows = [];
+
+    for (let i = 1; i <= Math.min(tenure, 12); i++) {
+      const interestPayment = remainingPrincipal * monthlyRate;
+      const principalPayment = installment - interestPayment;
+      remainingPrincipal = Math.max(0, remainingPrincipal - principalPayment);
+
+      rows.push({
+        month: i,
+        payment: installment,
+        principal: principalPayment,
+        interest: interestPayment,
+        balance: remainingPrincipal,
+      });
+    }
+    return rows;
+  };
+
+  const scheduleRows = generateScheduleRows();
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+          className="fixed inset-0 z-[100] flex justify-end bg-slate-900/40"
+        >
+          <div className="absolute inset-0" onClick={onClose} />
+
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 30, stiffness: 240 }}
+            className="bg-white relative w-full max-w-[480px] h-full flex flex-col z-10 overflow-hidden"
+          >
+            {/* Header */}
+            <div className="p-4 border-b border-slate-100 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200/60 flex items-center justify-center text-slate-500">
+                  <FileSpreadsheet size={18} />
+                </div>
+                <div>
+                  <h3 className="text-slate-900 text-sm font-black uppercase tracking-wider">
+                    Amortization Ledger
+                  </h3>
+                  <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-0.5">
+                    Projected Schedule
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={onClose}
+                className="w-9 h-9 rounded-xl bg-slate-50 border border-slate-200/60 flex items-center justify-center text-slate-400 hover:text-slate-900 transition-colors"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Scrollable Data Rows */}
+            <div className="flex-1 overflow-y-auto p-4">
+              <div className="border border-slate-100 overflow-hidden shadow-sm bg-white">
+                <table className="w-full text-left border-collapse text-xs">
+                  <thead>
+                    <tr className="bg-slate-50 border-b border-slate-100 text-[9px] font-black uppercase tracking-wider text-slate-400">
+                      <th className="p-3 text-center">Cycle</th>
+                      <th className="p-3 text-right">Payment</th>
+                      <th className="p-3 text-right">Principal</th>
+                      <th className="p-3 text-right">Interest</th>
+                      <th className="p-3 text-right">Balance</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-50 text-slate-600 font-medium">
+                    {scheduleRows.map((row) => (
+                      <tr
+                        key={row.month}
+                        className="hover:bg-slate-50/60 transition-colors"
+                      >
+                        <td className="p-3 text-center text-slate-400 font-bold">
+                          {row.month}
+                        </td>
+                        <td className="p-3 text-right text-slate-900 font-semibold">
+                          {row.payment.toLocaleString(undefined, {
+                            maximumFractionDigits: 2,
+                          })}
+                        </td>
+                        <td className="p-3 text-right text-emerald-600">
+                          {row.principal.toLocaleString(undefined, {
+                            maximumFractionDigits: 2,
+                          })}
+                        </td>
+                        <td className="p-3 text-right text-amber-600">
+                          {row.interest.toLocaleString(undefined, {
+                            maximumFractionDigits: 2,
+                          })}
+                        </td>
+                        <td className="p-3 text-right text-slate-900 font-bold">
+                          {row.balance.toLocaleString(undefined, {
+                            maximumFractionDigits: 2,
+                          })}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {tenure > 12 && (
+                <p className="text-[10px] text-slate-400 mt-4 text-center font-medium italic">
+                  * Showing initial 12 payment matrices of the configured{" "}
+                  {tenure}-month period lifecycle.
+                </p>
+              )}
+            </div>
+
+            {/* Footer Control Panel */}
+            <div className="p-4 border-t border-slate-100 bg-slate-50 mt-auto">
+              <button
+                type="button"
+                onClick={onClose}
+                className="w-full bg-slate-900 text-white py-5 rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-slate-800 transition-colors shadow-sm"
+              >
+                Close
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
 
 export default ApplyLoan;
