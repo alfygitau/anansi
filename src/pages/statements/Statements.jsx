@@ -421,7 +421,7 @@ const StatementListItem = ({ stmt, onDownload }) => (
         </div>
         <div>
           <h4 className="font-black text-primary text-base leading-tight">
-            {stmt.product.name}
+            {stmt?.product?.name}
           </h4>
           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">
             {stmt.type === "loan"
@@ -433,7 +433,7 @@ const StatementListItem = ({ stmt, onDownload }) => (
 
       <div className="md:col-span-3">
         <p className="text-sm font-black text-primary">
-          {new Date(stmt.start_date).toLocaleDateString("en-GB", {
+          {new Date(stmt?.start_date)?.toLocaleDateString("en-GB", {
             month: "short",
             day: "numeric",
             year: "numeric",
@@ -446,7 +446,7 @@ const StatementListItem = ({ stmt, onDownload }) => (
 
       <div className="md:col-span-3">
         <p className="text-sm font-black text-primary">
-          {new Date(stmt.end_date).toLocaleDateString("en-GB", {
+          {new Date(stmt?.end_date)?.toLocaleDateString("en-GB", {
             month: "short",
             day: "numeric",
             year: "numeric",

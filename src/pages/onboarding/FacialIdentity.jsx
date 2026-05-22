@@ -78,7 +78,7 @@ const FacialIdentity = () => {
   });
 
   return (
-    <div className="flex flex-col lg:flex-row w-full max-w-[1300px] md:px-6 mb-[30px] mx-auto bg-gray-50 min-h-screen">
+    <div className="flex flex-col lg:flex-row w-full max-w-[1300px] md:px-6 mb-[30px] mx-auto bg-gray-50">
       {/* Sidebar Progress - Locked to 22% Width */}
       <div className="hidden lg:block w-[22%] h-full shrink-0">
         <MyProgress
@@ -88,14 +88,14 @@ const FacialIdentity = () => {
       </div>
 
       {/* Main Content Area - Expands to occupy full remaining right-side width */}
-      <div className="flex-1 space-y-8">
+      <div className="flex-1 space-y-4">
         {/* Header Block Section */}
         <header>
-          <h1 className="text-xl font-black text-primary uppercase tracking-tight mb-2">
+          <h1 className="text-xl font-black text-primary tracking-tight mb-2">
             Selfie Verification
           </h1>
 
-          <div className="bg-blue-50/50 border-l-4 border-secondary p-5 rounded-r-[24px] mb-6">
+          <div className="bg-blue-50/50 border-l-4 border-secondary p-5 rounded-r-[24px] mb-4">
             <p className="text-[14px] text-slate-700 leading-relaxed">
               <span className="font-bold text-primary">Pro Tip:</span> For the
               fastest verification, use your smartphone. Mobile cameras provide
@@ -103,7 +103,7 @@ const FacialIdentity = () => {
             </p>
           </div>
 
-          <div className="space-y-4 px-1">
+          <div className="space-y-3 px-1">
             <p className="text-[15px] text-slate-600 leading-relaxed font-medium">
               To protect your account and ensure the security of our community,
               we require a quick biometric selfie check. This helps us confirm

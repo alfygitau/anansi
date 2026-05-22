@@ -37,7 +37,6 @@ const EditFinancialDetails = ({ isOpen, onClose, customer, refetch }) => {
   }, [customer]);
 
   const primaryColor = "#074073";
-  const darkBlue = "#042159";
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -75,160 +74,145 @@ const EditFinancialDetails = ({ isOpen, onClose, customer, refetch }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          {/* Backdrop with Blur */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+          className="fixed inset-0 z-[100] flex justify-end bg-slate-900/60"
+        >
+          {/* Invisible dismissal zone target click area */}
+          <div className="absolute inset-0" onClick={onClose} />
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-primary/40 bg-slate-900/40"
-          />
-
-          {/* Modal Container */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-lg bg-white rounded-[40px] shadow-[0px_20px_50px_rgba(0,0,0,0.2)] overflow-hidden border border-slate-100"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 26, stiffness: 220 }}
+            className="bg-white relative w-full max-w-[480px] h-full shadow-2xl flex flex-col z-10"
           >
-            {/* Close Button */}
+            {/* CLOSE BUTTON ANCHOR */}
             <button
               onClick={onClose}
-              className="absolute top-6 right-6 p-2 hover:bg-slate-50 rounded-full transition-colors z-10"
+              className="absolute top-5 right-5 z-10 flex items-center justify-center w-10 h-10 bg-slate-100 hover:bg-slate-200 text-gray-500 hover:text-gray-900 rounded-full transition-all active:scale-95 shadow-sm"
             >
-              <X size={20} className="text-slate-400" />
+              <X size={20} />
             </button>
 
-            <div className="p-6">
-              {/* Header */}
-              <div className="text-center mb-10">
-                <div className="w-16 h-16 bg-blue-50 rounded-3xl flex items-center justify-center mb-4 mx-auto">
-                  <Landmark
-                    size={32}
-                    className={`text-[${primaryColor}]`}
-                    style={{ color: primaryColor }}
+            {/* HEADER TRACK (Pinnned, non-scrollable) */}
+            <div className="p-8 pb-4 flex flex-col text-left shrink-0">
+              <h2 className="text-xl font-black text-slate-900">
+                Financial Profile
+              </h2>
+              <p className="text-slate-400 text-xs font-medium">
+                Update your employment and tax information
+              </p>
+            </div>
+            <div className="border mx-8 border-slate-100"></div>
+            {/* SCROLLABLE CENTRAL CONTAINER */}
+            <div className="flex-1 overflow-y-auto p-8 space-y-6 custom-scrollbar">
+              {/* Tax Identification (KRA PIN) - READ ONLY VARIANT */}
+              <div className="w-full space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                  Tax Identification (KRA PIN)
+                </label>
+                <div className="relative flex items-center bg-slate-50/50 border-2 border-slate-100 rounded-2xl h-14 shadow-sm select-none">
+                  <div className="pl-4 pr-3 flex items-center text-slate-300 border-r border-slate-200/60 h-5 my-auto shrink-0">
+                    <ShieldCheck size={16} />
+                  </div>
+                  <input
+                    type="text"
+                    value={formData.snnOrKra}
+                    readOnly
+                    placeholder="A00XXXXXXZ"
+                    className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-400 cursor-not-allowed outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
                   />
                 </div>
-                <h2 className={`text-2xl font-black text-[${darkBlue}]`}>
-                  Financial Profile
-                </h2>
-                <p className="text-slate-400 text-sm font-medium mt-1">
-                  Update your employment and tax information
-                </p>
               </div>
 
-              <div className="space-y-6">
-                {/* KRA PIN / SSN (Read Only Styled) */}
-                <div className="relative group">
-                  <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
-                    Tax Identification (KRA PIN)
-                  </label>
-                  <div className="relative">
-                    <ShieldCheck
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
-                      size={18}
-                    />
-                    <input
-                      type="text"
-                      value={formData.snnOrKra}
-                      readOnly
-                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none text-sm font-bold text-slate-500 cursor-not-allowed"
-                      placeholder="A00XXXXXXZ"
-                    />
+              {/* Employment Type Select - EDITABLE */}
+              <div className="w-full space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                  Employment Type
+                </label>
+                <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
+                  <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0">
+                    <Briefcase size={16} />
                   </div>
-                </div>
-
-                {/* Employment Type Select */}
-                <div className="relative group">
-                  <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
-                    Employment Type
-                  </label>
-                  <div className="relative">
-                    <Briefcase
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#074073] transition-colors"
-                      size={18}
-                    />
-                    <select
-                      name="employmentType"
-                      value={formData.employmentType}
-                      onChange={handleInputChange}
-                      className="w-full h-14 pl-12 pr-12 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none appearance-none text-sm font-bold text-primary transition-all cursor-pointer"
-                    >
-                      <option value="">Select type</option>
-                      <option value="Employed">Employed</option>
-                      <option value="Self employed">Self Employed</option>
-                    </select>
-                    <ChevronDown
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none"
-                      size={18}
-                    />
-                  </div>
-                </div>
-
-                {/* Job Title / Occupation */}
-                <div className="relative group">
-                  <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
-                    Current Occupation
-                  </label>
-                  <div className="relative">
-                    <Navigation
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#074073] transition-colors"
-                      size={18}
-                    />
-                    <input
-                      name="occupation"
-                      value={formData.occupation}
-                      onChange={handleInputChange}
-                      placeholder="e.g. Software Engineer"
-                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none transition-all text-sm font-bold text-primary"
-                    />
-                  </div>
-                </div>
-
-                {/* Monthly Income */}
-                <div className="relative group">
-                  <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
-                    Monthly Income Range (KES)
-                  </label>
-                  <div className="relative">
-                    <Wallet
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#074073] transition-colors"
-                      size={18}
-                    />
-                    <input
-                      name="income"
-                      value={formData.income}
-                      onChange={handleInputChange}
-                      placeholder="e.g. 50,000 - 100,000"
-                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none transition-all text-sm font-bold text-primary"
-                    />
-                  </div>
+                  <select
+                    name="employmentType"
+                    value={formData.employmentType}
+                    onChange={handleInputChange}
+                    className="w-full bg-transparent border-none pl-4 pr-10 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 appearance-none cursor-pointer"
+                  >
+                    <option value="">Select type</option>
+                    <option value="Employed">Employed</option>
+                    <option value="Self employed">Self Employed</option>
+                  </select>
+                  <ChevronDown
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                    size={16}
+                  />
                 </div>
               </div>
 
-              {/* Action Button */}
-              <div className="mt-10">
-                <button
-                  onClick={handleSave}
-                  disabled={isLoading}
-                  className={`w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs text-white shadow-xl transition-all flex items-center justify-center gap-3
-                    ${isLoading ? "bg-slate-200 text-slate-400 shadow-none" : `bg-[${primaryColor}] hover:opacity-95 active:scale-[0.98] shadow-blue-900/20`}
-                  `}
-                  style={{
-                    backgroundColor: isLoading ? "#e2e8f0" : primaryColor,
-                  }}
-                >
-                  {isLoading ? (
-                    <Loader2 className="animate-spin" size={20} />
-                  ) : (
-                    "Save Financial Details"
-                  )}
-                </button>
+              {/* Current Occupation - EDITABLE */}
+              <div className="w-full space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                  Current Occupation
+                </label>
+                <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
+                  <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0">
+                    <Navigation size={16} />
+                  </div>
+                  <input
+                    name="occupation"
+                    value={formData.occupation}
+                    onChange={handleInputChange}
+                    placeholder="e.g. Software Engineer"
+                    className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none placeholder:text-slate-300 font-medium"
+                  />
+                </div>
+              </div>
+
+              {/* Monthly Income Range (KES) - EDITABLE */}
+              <div className="w-full space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                  Monthly Income Range (KES)
+                </label>
+                <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
+                  <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0">
+                    <Wallet size={16} />
+                  </div>
+                  <input
+                    name="income"
+                    value={formData.income}
+                    onChange={handleInputChange}
+                    placeholder="e.g. 50,000 - 100,000"
+                    className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none placeholder:text-slate-300 font-medium"
+                  />
+                </div>
               </div>
             </div>
+
+            {/* ANCHORED FOOTER ACTION PANEL */}
+            <div className="mt-auto p-8 bg-slate-50 border-t border-slate-100 shrink-0">
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={isLoading}
+                className={`w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs text-white shadow-md transition-all flex items-center justify-center gap-3
+                  ${isLoading ? "bg-slate-300 cursor-not-allowed" : "bg-[#074073] hover:opacity-95 active:scale-[0.99]"}
+                `}
+              >
+                {isLoading ? (
+                  <Loader2 className="animate-spin" size={20} />
+                ) : (
+                  "Save Financial Details"
+                )}
+              </button>
+            </div>
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

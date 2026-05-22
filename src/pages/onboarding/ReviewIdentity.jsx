@@ -128,7 +128,7 @@ const ReviewIdentity = () => {
       <div className="flex-1">
         {/* Header with Modern Disclaimer */}
         <header className="mb-3 w-full">
-          <h1 className="text-xl font-black text-primary uppercase tracking-tight mb-2">
+          <h1 className="text-xl font-black text-primary tracking-tight mb-2">
             Review Extracted Details
           </h1>
           <div className="p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50 flex items-start gap-3">
@@ -242,7 +242,7 @@ const ReviewIdentity = () => {
           <div className="flex flex-col sm:w-full sm:flex-row items-center gap-4 w-1/3 md:w-auto">
             <button
               onClick={() => navigate("/onboarding/verify-identity")}
-              className="w-full border sm:w-full px-8 h-[60px] rounded-[22px] text-xs font-black uppercase tracking-widest text-slate-400 hover:text-red-500 transition-all flex items-center justify-center gap-2"
+              className="w-full border sm:w-full px-8 h-[60px] rounded-[22px] text-xs font-medium uppercase tracking-widest text-slate-400 hover:text-red-500 transition-all flex items-center justify-center gap-2"
             >
               <AlertCircle size={16} />
               Re-scan Document
@@ -252,7 +252,7 @@ const ReviewIdentity = () => {
             <button
               onClick={handleUpdate}
               disabled={isLoading}
-              className="w-full sm:w-full px-10 h-[64px] bg-primary text-white rounded-[24px] font-black uppercase tracking-[0.15em] flex items-center justify-center gap-3 hover:bg-secondary hover:text-primary hover:shadow-lg hover:shadow-secondary/20 transition-all active:scale-[0.98] disabled:opacity-50"
+              className="w-full sm:w-full px-10 h-[64px] bg-primary text-white rounded-[24px] font-medium uppercase tracking-[0.15em] flex items-center justify-center gap-3 hover:bg-secondary hover:text-primary hover:shadow-lg hover:shadow-secondary/20 transition-all active:scale-[0.98] disabled:opacity-50"
             >
               {isLoading ? (
                 <Loader2 className="animate-spin" size={24} />

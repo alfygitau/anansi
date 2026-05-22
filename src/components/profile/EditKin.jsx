@@ -40,7 +40,6 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
   }, [customer]);
 
   const primaryColor = "#074073";
-  const darkBlue = "#042159";
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -79,46 +78,43 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          {/* Glassmorphism Backdrop */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+          className="fixed inset-0 z-[100] flex justify-end bg-slate-900/60"
+        >
+          {/* Invisible dismissal zone target click area */}
+          <div className="absolute inset-0" onClick={onClose} />
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-primary/40 bg-slate-900/40"
-          />
-
-          {/* Modal Container */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-xl bg-white rounded-[40px] shadow-2xl overflow-hidden border border-slate-100"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 26, stiffness: 220 }}
+            className="bg-white relative w-full max-w-[480px] h-full shadow-2xl flex flex-col z-10"
           >
-            {/* Header / Info Section */}
-            <div className="p-6 pb-0 text-center">
-              <button
-                onClick={onClose}
-                className="absolute top-8 right-8 p-2 hover:bg-slate-50 rounded-full transition-colors"
-              >
-                <X size={20} className="text-slate-300" />
-              </button>
+            {/* CLOSE BUTTON ANCHOR */}
+            <button
+              onClick={onClose}
+              className="absolute top-5 right-5 z-10 flex items-center justify-center w-10 h-10 bg-slate-100 hover:bg-slate-200 text-gray-500 hover:text-gray-900 rounded-full transition-all active:scale-95 shadow-sm"
+            >
+              <X size={20} />
+            </button>
 
-              <div className="w-16 h-16 bg-blue-50 rounded-3xl flex items-center justify-center mb-4 mx-auto">
-                <ShieldAlert size={32} style={{ color: primaryColor }} />
-              </div>
-
-              <h2 className={`text-2xl font-black text-[${darkBlue}]`}>
+            {/* HEADER TRACK (Pinned, non-scrollable) */}
+            <div className="p-5 pb-4 flex flex-col shrink-0">
+              <h2 className="text-xl font-black text-slate-900">
                 Next of Kin Details
               </h2>
-              <p className="text-slate-400 text-sm font-medium mt-3 max-w-[85%] mx-auto leading-relaxed">
+              <p className="text-slate-400 w-[80%] text-xs font-medium mt-1  leading-relaxed">
                 Provide information about your next of kin for emergency and
                 security purposes. This remains strictly confidential.
               </p>
             </div>
-
-            <div className="p-6 space-y-5">
+            <div className="border mx-5 border-slate-100"></div>
+            {/* SCROLLABLE CENTRAL CONTAINER */}
+            <div className="flex-1 overflow-y-auto p-5 space-y-6 custom-scrollbar">
               {/* Name Field */}
               <div className="relative group">
                 <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
@@ -126,7 +122,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
                 </label>
                 <div className="relative">
                   <User
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#074073]"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
                     size={18}
                   />
                   <input
@@ -134,7 +130,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
                     value={formData.name}
                     onChange={handleInputChange}
                     placeholder="Enter kin name"
-                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-primary transition-all"
+                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-slate-900 transition-all focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
                   />
                 </div>
               </div>
@@ -147,7 +143,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
                   </label>
                   <div className="relative">
                     <Heart
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#074073]"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
                       size={18}
                     />
                     <input
@@ -155,7 +151,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
                       value={formData.relationship}
                       onChange={handleInputChange}
                       placeholder="e.g. Spouse"
-                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-primary transition-all"
+                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-slate-900 transition-all focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
                     />
                   </div>
                 </div>
@@ -167,7 +163,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
                   </label>
                   <div className="relative">
                     <Calendar
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#074073]"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
                       size={18}
                     />
                     <input
@@ -175,7 +171,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
                       name="dob"
                       value={formData.dob}
                       onChange={handleInputChange}
-                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-primary transition-all"
+                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-slate-900 transition-all focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
                     />
                   </div>
                 </div>
@@ -188,7 +184,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
                 </label>
                 <div className="relative">
                   <Phone
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#074073]"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
                     size={18}
                   />
                   <input
@@ -196,7 +192,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
                     value={formData.phoneNumber}
                     onChange={handleInputChange}
                     placeholder="e.g. +254 7XX XXX XXX"
-                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-primary transition-all"
+                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-slate-900 transition-all focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
                   />
                 </div>
               </div>
@@ -208,7 +204,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
                 </label>
                 <div className="relative">
                   <MapPin
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#074073]"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
                     size={18}
                   />
                   <input
@@ -216,33 +212,31 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
                     value={formData.location}
                     onChange={handleInputChange}
                     placeholder="City, Estate"
-                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-primary transition-all"
+                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none text-sm font-bold text-slate-900 transition-all focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
                   />
                 </div>
               </div>
+            </div>
 
-              {/* Save Button */}
-              <div className="pt-4">
-                <button
-                  onClick={handleSave}
-                  disabled={isLoading}
-                  className={`w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs text-white shadow-xl transition-all flex items-center justify-center gap-3
-                    ${isLoading ? "bg-slate-200 text-slate-400 shadow-none" : "hover:opacity-95 active:scale-[0.98] shadow-blue-900/20"}
-                  `}
-                  style={{
-                    backgroundColor: isLoading ? "#e2e8f0" : primaryColor,
-                  }}
-                >
-                  {isLoading ? (
-                    <Loader2 className="animate-spin" size={20} />
-                  ) : (
-                    "Update Kin Details"
-                  )}
-                </button>
-              </div>
+            {/* ANCHORED FOOTER ACTION PANEL */}
+            <div className="mt-auto p-5 bg-slate-50 border-t border-slate-100 shrink-0">
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={isLoading}
+                className={`w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs text-white shadow-md transition-all flex items-center justify-center gap-3
+                  ${isLoading ? "bg-slate-300 cursor-not-allowed" : "bg-[#074073] hover:opacity-95 active:scale-[0.99]"}
+                `}
+              >
+                {isLoading ? (
+                  <Loader2 className="animate-spin" size={20} />
+                ) : (
+                  "Update Kin Details"
+                )}
+              </button>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

@@ -34,7 +34,6 @@ const EditProfile = ({ isOpen, onClose, customer }) => {
   }, [customer]);
 
   const primaryColor = "#074073";
-  const darkBlue = "#042159";
 
   const handleSave = () => {
     setLoading(true);
@@ -48,165 +47,165 @@ const EditProfile = ({ isOpen, onClose, customer }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          {/* Deep Blue Glass Backdrop */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+          className="fixed inset-0 z-[100] flex justify-end bg-slate-900/60"
+        >
+          {/* Invisible dismissal zone target click area */}
+          <div className="absolute inset-0" onClick={onClose} />
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-primary/40 bg-slate-900/40"
-          />
-
-          {/* Modal Container */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-lg bg-white rounded-[40px] shadow-2xl overflow-hidden border border-slate-100"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 26, stiffness: 220 }}
+            className="bg-white relative w-full max-w-[480px] h-full shadow-2xl flex flex-col z-10"
           >
-            {/* Header Area */}
-            <div className="p-6 pb-0 flex justify-between items-start">
-              <div className="flex-1 text-center">
-                <h2 className={`text-2xl font-black text-[${darkBlue}]`}>
-                  Profile Identity
-                </h2>
-                <div className="flex items-center justify-center gap-1.5 mt-2 text-slate-400">
-                  <Lock size={14} />
-                  <p className="text-xs font-medium uppercase tracking-widest">
-                    Verified Information
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={onClose}
-                className="absolute top-8 right-8 p-2 hover:bg-slate-50 rounded-full transition-colors"
-              >
-                <X size={20} className="text-slate-300" />
-              </button>
-            </div>
+            {/* CLOSE BUTTON ANCHOR */}
+            <button
+              onClick={onClose}
+              className="absolute top-5 right-5 z-10 flex items-center justify-center w-10 h-10 bg-slate-100 hover:bg-slate-200 text-gray-500 hover:text-gray-900 rounded-full transition-all active:scale-95 shadow-sm"
+            >
+              <X size={20} />
+            </button>
 
-            <div className="p-6 space-y-5">
+            {/* HEADER TRACK (Pinned, non-scrollable) */}
+            <div className="p-8 pb-4 flex flex-col shrink-0">
+              <h2 className="text-xl font-black text-slate-900">
+                Profile Identity
+              </h2>
+              <div className="flex items-center gap-1.5 text-slate-400">
+                <p className="text-[10px] font-black uppercase tracking-widest">
+                  Verified Vault Information
+                </p>
+              </div>
+            </div>
+            <div className="border mx-8 border-slate-100"></div>
+            {/* SCROLLABLE CENTRAL CONTAINER */}
+            <div className="flex-1 overflow-y-auto p-8 space-y-6 custom-scrollbar">
               {/* Names Grid */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="relative group">
-                  <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
+                {/* First Name Field */}
+                <div className="w-full space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
                     First Name
                   </label>
-                  <div className="relative">
-                    <User
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
-                      size={17}
-                    />
+                  <div className="relative flex items-center bg-slate-50/50 border-2 border-slate-100 rounded-2xl h-14 shadow-sm select-none">
+                    <div className="pl-4 pr-3 flex items-center text-slate-300 border-r border-slate-200/60 h-5 my-auto shrink-0">
+                      <User size={16} />
+                    </div>
                     <input
                       value={formData.firstName}
                       readOnly
-                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-400 cursor-not-allowed outline-none"
+                      className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-400 cursor-not-allowed outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
                     />
                   </div>
                 </div>
-                <div className="relative group">
-                  <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
+
+                {/* Last Name Field */}
+                <div className="w-full space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
                     Last Name
                   </label>
-                  <div className="relative">
-                    <User
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
-                      size={17}
-                    />
+                  <div className="relative flex items-center bg-slate-50/50 border-2 border-slate-100 rounded-2xl h-14 shadow-sm select-none">
+                    <div className="pl-4 pr-3 flex items-center text-slate-300 border-r border-slate-200/60 h-5 my-auto shrink-0">
+                      <User size={16} />
+                    </div>
                     <input
                       value={formData.lastName}
                       readOnly
-                      className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-400 cursor-not-allowed outline-none"
+                      className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-400 cursor-not-allowed outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Email Field */}
-              <div className="relative">
-                <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
+              <div className="w-full space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
                   Email Address
                 </label>
-                <div className="relative">
-                  <Mail
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
-                    size={17}
-                  />
+                <div className="relative flex items-center bg-slate-50/50 border-2 border-slate-100 rounded-2xl h-14 shadow-sm select-none">
+                  <div className="pl-4 pr-3 flex items-center text-slate-300 border-r border-slate-200/60 h-5 my-auto shrink-0">
+                    <Mail size={16} />
+                  </div>
                   <input
                     value={formData.email}
                     readOnly
-                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-400 cursor-not-allowed outline-none"
+                    className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-400 cursor-not-allowed outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
                   />
                 </div>
               </div>
 
               {/* Phone Number Field */}
-              <div className="relative">
-                <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
+              <div className="w-full space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
                   Phone Number
                 </label>
-                <div className="relative">
-                  <Phone
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
-                    size={17}
-                  />
+                <div className="relative flex items-center bg-slate-50/50 border-2 border-slate-100 rounded-2xl h-14 shadow-sm select-none">
+                  <div className="pl-4 pr-3 flex items-center text-slate-300 border-r border-slate-200/60 h-5 my-auto shrink-0">
+                    <Phone size={16} />
+                  </div>
                   <input
                     value={formData.phoneNumber}
                     readOnly
-                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-400 cursor-not-allowed outline-none"
+                    className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-400 cursor-not-allowed outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
                   />
                 </div>
               </div>
 
               {/* Date of Birth Field */}
-              <div className="relative">
-                <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
+              <div className="w-full space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
                   Date of Birth
                 </label>
-                <div className="relative">
-                  <Calendar
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
-                    size={17}
-                  />
+                <div className="relative flex items-center bg-slate-50/50 border-2 border-slate-100 rounded-2xl h-14 shadow-sm select-none">
+                  <div className="pl-4 pr-3 flex items-center text-slate-300 border-r border-slate-200/60 h-5 my-auto shrink-0">
+                    <Calendar size={16} />
+                  </div>
                   <input
                     value={formData.dob}
                     readOnly
-                    className="w-full h-14 pl-12 pr-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-400 cursor-not-allowed outline-none"
+                    className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-400 cursor-not-allowed outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
                   />
                 </div>
               </div>
 
-              {/* Security Hint */}
-              <div className="flex gap-3 p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50">
+              {/* Security Hint Info Block */}
+              <div className="flex gap-3 p-4 bg-slate-50 border border-slate-200/60 shadow-sm rounded-2xl">
                 <Info size={16} className="text-[#074073] shrink-0 mt-0.5" />
                 <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
                   Identity details are verified and locked. To update these,
                   please contact the{" "}
                   <span className="text-[#074073] font-bold">
-                    Admin Support
+                    Admin Support Matrix
                   </span>
                   .
                 </p>
               </div>
+            </div>
 
-              {/* Button */}
-              <div className="pt-2">
-                <button
-                  onClick={handleSave}
-                  className={`w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs text-white transition-all active:scale-[0.98] shadow-xl shadow-blue-900/20`}
-                  style={{ backgroundColor: primaryColor }}
-                >
-                  {loading ? (
-                    <Loader2 className="animate-spin" size={20} />
-                  ) : (
-                    "Close Profile"
-                  )}
-                </button>
-              </div>
+            {/* ANCHORED FOOTER ACTION PANEL */}
+            <div className="mt-auto p-8 bg-slate-50 border-t border-slate-100 shrink-0">
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={loading}
+                className={`w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs text-white shadow-md transition-all flex items-center justify-center gap-3
+                  ${loading ? "bg-slate-300 cursor-not-allowed" : "bg-[#074073] hover:opacity-95 active:scale-[0.99]"}
+                `}
+              >
+                {loading ? (
+                  <Loader2 className="animate-spin" size={20} />
+                ) : (
+                  "Close Profile"
+                )}
+              </button>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

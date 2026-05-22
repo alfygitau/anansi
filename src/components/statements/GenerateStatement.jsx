@@ -287,9 +287,9 @@ const GenerateStatement = ({
                   <button
                     disabled={isDisabled}
                     type="submit"
-                    className={`w-full py-4 rounded-2xl font-bold transition-all flex items-center justify-center gap-3 ${
+                    className={`w-full py-4 rounded-2xl font-medium transition-all flex items-center justify-center gap-3 ${
                       isDisabled
-                        ? "bg-slate-300 text-slate-500 cursor-not-allowed shadow-none scale-100 active:scale-100"
+                        ? "bg-slate-100 text-slate-500 cursor-not-allowed shadow-none scale-100 active:scale-100"
                         : "bg-primary text-white shadow-xl shadow-blue-900/20 hover:scale-[1.01] active:scale-[0.98]"
                     }`}
                   >

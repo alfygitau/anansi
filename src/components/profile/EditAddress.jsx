@@ -105,42 +105,42 @@ const EditAddress = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          {/* Backdrop */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+          className="fixed inset-0 z-[100] flex justify-end bg-slate-900/60"
+        >
+          {/* Invisible dismissal zone target click area */}
+          <div className="absolute inset-0" onClick={onClose} />
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-primary/40 bg-slate-900/40"
-          />
-
-          {/* Modal Card */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-xl bg-white rounded-[32px] shadow-2xl overflow-hidden border border-slate-100"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 26, stiffness: 220 }}
+            className="bg-white relative w-full max-w-[480px] h-full shadow-2xl flex flex-col z-10"
           >
+            <button
+              onClick={onClose}
+              className="absolute top-5 right-5 z-10 flex items-center justify-center w-10 h-10 bg-slate-100 hover:bg-slate-200 text-gray-500 hover:text-gray-900 rounded-full transition-all active:scale-95 shadow-sm"
+            >
+              <X size={20} />
+            </button>
             {/* Header Area */}
-            <div className="p-8 pb-0 flex justify-between items-start">
+            <div className="p-8 pb-4 flex justify-between items-start shrink-0">
               <div>
-                <h2 className={`text-2xl font-black text-[${primaryColor}]`}>
+                <h2 className="text-2xl font-black text-[#074073]">
                   Update Address
                 </h2>
-                <p className="text-slate-400 text-sm font-medium mt-1">
+                <p className="text-slate-400 text-sm font-medium">
                   Ensure your location details are accurate for logistics.
                 </p>
               </div>
-              <button
-                onClick={onClose}
-                className="p-2 hover:bg-slate-50 rounded-full transition-colors"
-              >
-                <X size={24} className="text-slate-300" />
-              </button>
             </div>
-
-            <div className="p-8 space-y-6 max-h-[70vh] overflow-y-auto custom-scrollbar">
+            <div className="border mx-8 border-slate-100"></div>
+            {/* SCROLLABLE CENTRAL CONTAINER */}
+            <div className="flex-1 overflow-y-auto p-8 space-y-6 custom-scrollbar">
               <div className="relative group">
                 <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
                   Country of Residence
@@ -198,7 +198,6 @@ const EditAddress = ({
                       County
                     </label>
                     <div className="relative group">
-                      {/* Left Side Decorative Icon */}
                       <MapPin
                         className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#074073] transition-colors"
                         size={18}
@@ -218,7 +217,6 @@ const EditAddress = ({
                         ))}
                       </select>
 
-                      {/* Right Side Custom Dropdown Arrow */}
                       <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-300">
                         <ChevronDown size={20} strokeWidth={2.5} />
                       </div>
@@ -230,7 +228,6 @@ const EditAddress = ({
                       Sub-County
                     </label>
                     <div className="relative group">
-                      {/* Left Icon: Navigation/Pointer for Sub-locality */}
                       <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
                         <Navigation
                           className="text-slate-300 group-focus-within:text-[#074073] transition-colors"
@@ -244,9 +241,8 @@ const EditAddress = ({
                         name="subcounty"
                         value={formData.subcounty}
                         onChange={handleInputChange}
-                        // Added pl-12 for the icon space and pr-12 for the custom arrow
                         className="w-full h-14 pl-12 pr-12 bg-slate-50 border border-slate-100 focus:border-[#074073] focus:bg-white rounded-2xl outline-none appearance-none text-sm font-bold text-primary transition-all cursor-pointer disabled:opacity-50"
-                        disabled={!formData.county} // Disable until a county is picked
+                        disabled={!formData.county}
                       >
                         <option value="">Select Sub-County</option>
                         {subCounties?.map((sub) => (
@@ -256,7 +252,6 @@ const EditAddress = ({
                         ))}
                       </select>
 
-                      {/* Right Icon: Custom Dropdown Arrow */}
                       <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-300 group-focus-within:text-[#074073] transition-transform group-focus-within:rotate-180 duration-300">
                         <ChevronDown size={20} strokeWidth={2.5} />
                       </div>
@@ -273,29 +268,28 @@ const EditAddress = ({
                 /* International Address Layout */
                 <div className="grid grid-cols-2 gap-4">
                   <div className="col-span-2 space-y-4">
-                    {/* Similar input pattern for City, State, Zipcode, Address 1 & 2 */}
+                    {/* Add inputs here for alternative regions */}
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Footer Action */}
-            <div className="p-8 bg-slate-50/50 flex gap-4">
+            {/* ANCHORED FOOTER ACTION BOX */}
+            <div className="mt-auto p-8 bg-slate-50 border-t border-slate-100 flex gap-4 shrink-0">
               <button
+                type="button"
                 onClick={onClose}
-                className="flex-1 h-14 bg-white border border-slate-200 text-primary rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-slate-50 transition-all"
+                className="flex-1 h-14 bg-white border border-slate-200 text-slate-700 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-slate-50 transition-all shadow-sm"
               >
                 Cancel
               </button>
               <button
+                type="button"
                 onClick={handleSave}
                 disabled={isLoading}
-                className={`flex-[2] h-14 rounded-2xl font-black uppercase tracking-widest text-xs text-white shadow-xl transition-all flex items-center justify-center gap-2
-                  ${isLoading ? "bg-slate-300" : `bg-[${primaryColor}] hover:opacity-90 active:scale-[0.98] shadow-blue-900/20`}
+                className={`flex-[2] h-14 rounded-2xl font-black uppercase tracking-widest text-xs text-white shadow-md transition-all flex items-center justify-center gap-2
+                  ${isLoading ? "bg-slate-300 cursor-not-allowed" : "bg-[#074073] hover:opacity-95 active:scale-[0.99]"}
                 `}
-                style={{
-                  backgroundColor: isLoading ? "#cbd5e1" : primaryColor,
-                }}
               >
                 {isLoading ? (
                   <Loader2 className="animate-spin" size={20} />
@@ -305,7 +299,7 @@ const EditAddress = ({
               </button>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

@@ -232,11 +232,11 @@ const IdentityVerification = () => {
           </aside>
 
           {/* Main Full-Width Form Workspace */}
-          <main className="flex-1 shadow-sm flex flex-col justify-between">
+          <main className="flex-1 flex flex-col justify-between">
             <div className="space-y-8">
               <header>
-                <h1 className="text-xl font-black text-primary uppercase tracking-tight mb-2">
-                  Upload Government issued ID
+                <h1 className="text-xl font-black text-primary tracking-tight mb-2">
+                  Upload Identity Document
                 </h1>
                 <p className="text-gray-500 text-sm max-w-3xl">
                   Let's get started by uploading your ID or Passport. This will
@@ -408,7 +408,7 @@ const IdentityVerification = () => {
             </div>
 
             {/* Bottom Form Actions Execution Line */}
-            <div className="mt-4 pt-4 border-t border-slate-100">
+            <div className="mt-4 pt-4">
               {documentType === "National Id" && (
                 <button
                   disabled={isLoading}
