@@ -60,7 +60,7 @@ const InvestAmount = ({ isOpen, onClose, onConfirm }) => {
   const calculateShares = () => {
     const count = Number(numberShares) / 1000;
     return new Intl.NumberFormat("en-KE", {
-      minimumFractionDigits: 0,
+      minimumFractionDigits: 2,
       maximumFractionDigits: 4,
     }).format(count);
   };
@@ -211,8 +211,8 @@ const InvestAmount = ({ isOpen, onClose, onConfirm }) => {
                     <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">
                       Units to Acquire
                     </label>
-                    <div className="h-14 flex items-center justify-center bg-[#074073] rounded-xl shadow-inner shadow-black/10">
-                      <p className="text-sm font-medium text-white">
+                    <div className="h-14 flex items-center justify-center border rounded-xl">
+                      <p className="text-sm font-medium text-primary">
                         {calculateShares()}
                       </p>
                     </div>
