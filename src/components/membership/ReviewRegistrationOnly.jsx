@@ -6,6 +6,7 @@ import {
   ArrowRight,
   Lock,
   Loader2,
+  X,
 } from "lucide-react";
 import { useStore } from "../../store/useStore";
 import useAuth from "../../hooks/useAuth";
@@ -53,135 +54,147 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-primary/70 bg-slate-900/40"
-          />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+          className="fixed inset-0 z-[100] flex justify-end bg-slate-900/60"
+        >
+          {/* Invisible dismissal zone target click area */}
+          <div className="absolute inset-0" onClick={onClose} />
 
-          {/* Modal Card */}
           <motion.div
-            initial={{ scale: 0.95, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.95, opacity: 0, y: 20 }}
-            className="relative w-full p-8 max-w-[480px] bg-white rounded-[32px] overflow-hidden shadow-2xl flex flex-col"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 26, stiffness: 220 }}
+            className="bg-white relative w-full max-w-[480px] h-full shadow-2xl flex flex-col z-10"
           >
-            {/* Header / Progress Section */}
+            {/* Circled Grey Close Button Anchor */}
+            <button
+              type="button"
+              onClick={onClose}
+              className="absolute top-5 right-5 z-10 flex items-center justify-center w-10 h-10 bg-slate-100 hover:bg-slate-200 text-gray-500 hover:text-gray-900 rounded-full transition-all active:scale-95 shadow-sm"
+            >
+              <X size={20} />
+            </button>
 
-            <div className="space-y-8">
-              {/* Title Section */}
-              <div className="text-center space-y-2">
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F0FFFE] text-primary mb-2 shadow-inner">
-                  <ShieldCheck size={28} />
-                </div>
-                <h2 className="text-2xl font-medium text-primary tracking-tight">
+            {/* Header Track */}
+            <div className="px-8 pt-5 pb-6 flex items-start gap-2">
+              <div className="w-10 h-10 bg-slate-50 border border-slate-200/60 rounded-xl flex items-center justify-center text-[#074073] shrink-0">
+                <ShieldCheck size={20} />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-[#074073] leading-tight">
                   Review Registration
                 </h2>
-                <p className="text-slate-500 text-sm">
-                  Activate your Anansi membership
+                <p className="text-[11px] text-slate-500 font-medium">
+                  Verify verification matrices before firing network protocols
                 </p>
               </div>
+            </div>
+            <div className="border-b mx-8 border-slate-200"></div>
 
-              {/* M-PESA Confirmation Box */}
-              <div className="p-5 rounded-2xl bg-[#F0FFFE] border border-cyan-100 space-y-4">
-                <div className="flex items-center justify-between border-b border-cyan-200/50 pb-3">
+            {/* Scrollable Core Review Content Body */}
+            <div className="flex-1 overflow-y-auto p-8 space-y-6">
+              
+              {/* Desaturated M-PESA Confirmation Summary Box */}
+              <div className="p-4 rounded-2xl bg-slate-50/50 border border-slate-200/60 shadow-sm space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-200/40 pb-3">
                   <div className="flex items-center gap-2">
-                    <Smartphone size={16} className="text-primary" />
-                    <span className="text-xs font-bold text-cyan-900 uppercase tracking-wider">
+                    <Smartphone size={14} className="text-slate-400" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                       M-PESA Checkout
                     </span>
                   </div>
-                  <img src="/mpesa.svg" alt="M-Pesa" className="h-4" />
+                  <img src="/mpesa.svg" alt="M-Pesa Core Logo" className="h-4 opacity-60 grayscale" />
                 </div>
 
                 <div className="flex justify-between items-end">
                   <div>
-                    <p className="text-[10px] font-medium text-cyan-700/60 uppercase tracking-widest">
-                      Phone Number
+                    <p className="text-[9px] text-slate-400 font-black uppercase tracking-wider">
+                      Handset Validation Node
                     </p>
-                    <p className="text-lg font-medium text-primary">
-                      {membershipPhone || "07XX XXX XXX"}
+                    <p className="text-sm font-bold text-slate-900 mt-0.5">
+                      {membershipPhone || "Not Configured"}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-[10px] font-medium text-cyan-700/60 uppercase tracking-widest">
-                      Date
+                    <p className="text-[9px] text-slate-400 font-black uppercase tracking-wider">
+                      Ledger Date
                     </p>
-                    <p className="text-xs font-bold text-primary flex items-center gap-1">
-                      <Calendar size={12} /> {today}
+                    <p className="text-xs font-bold text-slate-800 flex items-center gap-1 mt-0.5 justify-end">
+                      <Calendar size={12} className="text-slate-400" /> {today}
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Total Card */}
-              <div className="bg-primary p-6 rounded-2xl text-white shadow-xl shadow-blue-900/20 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <Lock size={60} />
+              {/* High-Contrast Premium Invoice Summary Block */}
+              <div className="bg-slate-900 border border-slate-950 p-6 rounded-2xl text-white shadow-md relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-4 opacity-5 text-white pointer-events-none">
+                  <Lock size={80} />
                 </div>
                 <div className="relative z-10 flex justify-between items-center">
                   <div>
-                    <p className="text-cyan-400 text-[10px] font-medium uppercase tracking-[0.2em] mb-1">
-                      Total Due
+                    <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mb-1">
+                      Total Due Gross
                     </p>
-                    <h3 className="text-3xl font-medium tracking-tighter">
+                    <h3 className="text-2xl font-black tracking-tight">
                       KES 1,000.00
                     </h3>
                   </div>
                   <div className="text-right">
-                    <span className="text-[10px] bg-white/10 px-2 py-1 rounded border border-white/20">
+                    <span className="text-[9px] font-black uppercase tracking-wider bg-white/5 px-2.5 py-1 rounded-lg border border-white/10 text-slate-300">
                       Standard Entry
                     </span>
                   </div>
                 </div>
               </div>
 
-              {/* STK Push Disclaimer */}
-              <div className="flex gap-3 px-2">
-                <motion.div
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ repeat: Infinity, duration: 3 }}
-                  className="shrink-0"
-                >
-                  <div className="h-2 w-2 rounded-full bg-blue-500 mt-1" />
-                </motion.div>
-                <p className="text-[11px] text-slate-500 leading-relaxed italic">
-                  An <span className="font-bold text-primary">STK Push</span>{" "}
-                  prompt will appear on your phone shortly. Ensure your phone is
-                  unlocked and enter your M-PESA PIN to complete registration.
+              {/* Network Action STK Advisory Alert Block */}
+              <div className="p-4 rounded-xl flex gap-3 bg-slate-50 border border-slate-200/60 shadow-sm">
+                <Smartphone size={14} className="text-[#074073] shrink-0 mt-0.5 animate-pulse" />
+                <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
+                  <span className="text-slate-800 font-bold">PIN Authorization Notice:</span> Confirming execution triggers an automatic STK popup directly onto the wireless validation endpoint node. Input your authentication credentials immediately.
                 </p>
               </div>
+
             </div>
 
-            {/* Action Footer */}
-            <div className="bg-white border-t mt-5 border-slate-50">
+            <div className="border-b mx-8 border-slate-100"></div>
+
+            {/* Pinned Execution Action Footer Deck */}
+            <div className="p-8 bg-white shrink-0">
               <button
+                type="button"
                 disabled={isLoading}
                 onClick={handlePayment}
-                className="group w-full h-14 bg-primary hover:bg-[#062d7a] disabled:bg-slate-300 text-white rounded-2xl font-medium uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98]"
+                className={`group w-full h-16 rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all
+                  ${
+                    isLoading
+                      ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200/40"
+                      : "bg-[#074073] hover:bg-[#052d52] text-white active:scale-[0.98] shadow-md"
+                  }
+                `}
               >
                 {isLoading ? (
                   <>
-                    <Loader2 size={18} className="animate-spin" />
-                    Initiating Payment...
+                    <Loader2 size={16} className="animate-spin text-slate-400" />
+                    <span>Initiating Payment Protocol...</span>
                   </>
                 ) : (
                   <>
-                    Confirm and Pay
-                    <ArrowRight
-                      size={18}
-                      className="group-hover:translate-x-1 transition-transform text-secondary"
-                    />
+                    <span>Confirm & Authorize Payment</span>
+                    <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5" />
                   </>
                 )}
               </button>
             </div>
+
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

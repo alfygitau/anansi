@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Smartphone, ShieldCheck, Lock, ArrowRight } from "lucide-react";
+import { X, Smartphone, ShieldCheck, Lock, ArrowRight, Phone } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 import { useStore } from "../../store/useStore";
 
@@ -12,7 +12,7 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
   const setMembershipMobile = useStore((state) => state.setMembershipMobile);
 
   useEffect(() => {
-    setPhoneNumber(auth?.user?.mobileno);
+    setPhoneNumber(auth?.user?.mobileno || "");
   }, [auth]);
 
   const onContinue = () => {
@@ -20,133 +20,163 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
     onNext();
   };
 
+  const isFormValid = phoneNumber.length >= 10;
+
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
-          {/* Backdrop */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+          className="fixed inset-0 z-[100] flex justify-end bg-slate-900/60"
+        >
+          {/* Invisible dismissal zone target click area */}
+          <div className="absolute inset-0" onClick={onClose} />
+          
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-primary/60 bg-slate-900/40"
-          />
-
-          {/* Centered Modal Card */}
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-[480px] bg-white rounded-[32px] overflow-hidden shadow-2xl flex flex-col"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 26, stiffness: 220 }}
+            className="bg-white relative w-full max-w-[480px] h-full shadow-2xl flex flex-col z-10"
           >
-            {/* Header / Close button */}
-            {/* Content Container */}
-            <div className="p-10 space-y-6">
-              {/* Top Section / Progress */}
-              <div className="space-y-4">
-                <div className="bg-primary rounded-2xl p-5 text-white relative overflow-hidden">
-                  <div className="absolute right-4 top-4 opacity-10">
-                    <ShieldCheck size={50} />
+            {/* Circled Grey Close Button Anchor */}
+            <button
+              onClick={onClose}
+              className="absolute top-5 right-5 z-10 flex items-center justify-center w-10 h-10 bg-slate-100 hover:bg-slate-200 text-gray-500 hover:text-gray-900 rounded-full transition-all active:scale-95 shadow-sm"
+            >
+              <X size={20} />
+            </button>
+
+            {/* Header Track */}
+            <div className="px-8 pt-5 pb-6">
+              <h2 className="text-2xl font-bold text-[#074073]">
+                Setup Membership
+              </h2>
+              <p className="text-sm text-slate-500 font-medium">
+                Welcome to Anansi Sacco membership terminal
+              </p>
+            </div>
+            <div className="border-b mx-8 border-slate-100"></div>
+
+            {/* Scrollable Core Body Content */}
+            <div className="flex-1 overflow-y-auto p-8 space-y-6">
+              
+              {/* Premium Informational Pitch Deck */}
+              <div className="p-5 rounded-[24px] border border-blue-100 bg-blue-50/30 relative overflow-hidden">
+                <div className="absolute right-4 top-4 opacity-5 text-[#074073] pointer-events-none">
+                  <ShieldCheck size={80} />
+                </div>
+                <div className="relative z-10 flex gap-4 items-start">
+                  <div className="bg-white border border-blue-100 w-10 h-10 rounded-xl flex items-center justify-center text-[#074073] shrink-0 shadow-sm">
+                    <Smartphone size={18} />
                   </div>
-                  <div className="relative z-10 flex items-center gap-4">
-                    <div className="bg-white/20 w-10 h-10 rounded-md flex items-center justify-center">
-                      <Smartphone className="text-secondary" size={20} />
-                    </div>
-                    <div>
-                      <h2 className="text-xl font-medium tracking-tight">
-                        Setup Membership
-                      </h2>
-                      Welcome to Anansi Sacco!
-                      <br />
-                      Join Anansi Sacco today with a
-                      <span class="font-bold">one-time payment</span> of
-                      <span class="font-bold">KES 1,000.00</span>
-                      to unlock all the benefits and services we offer.
-                    </div>
-                  </div>
+                  <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                    Unlock institutional credit facilities, high-yield dividend pools, and premium savings ledgers by initializing your membership registration structure.
+                  </p>
                 </div>
               </div>
 
-              {/* Input Fields */}
-              <div className="space-y-5">
-                {/* Fixed Amount */}
-                <div className="space-y-2">
-                  <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-1">
-                    Membership Amount
+              {/* Input Configuration Categories */}
+              <div className="space-y-6">
+                
+                {/* Fixed Membership Fee Vector - PREFERRED SYSTEM INPUT DESIGN */}
+                <div className="w-full space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1 block">
+                    Membership Activation Fee
                   </label>
-                  <div className="flex h-12 w-full items-center bg-slate-50 border border-slate-200 rounded-xl px-4">
-                    <span className="font-bold text-slate-400 text-xs mr-3">
+                  <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 rounded-2xl h-14 shadow-sm select-none">
+                    <div className="pl-6 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0 font-bold text-[11px] tracking-wider">
                       KES
-                    </span>
+                    </div>
                     <input
                       type="text"
                       value={amount}
                       readOnly
-                      className="bg-transparent font-bold text-primary outline-none w-full"
+                      className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-500 cursor-not-allowed outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none"
                     />
                   </div>
                 </div>
 
-                {/* Phone Number */}
-                <div className="space-y-2">
+                {/* M-PESA Target Billing Node - PREFERRED SYSTEM INPUT DESIGN */}
+                <div className="w-full space-y-2">
                   <div className="flex justify-between items-center ml-1">
-                    <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 block">
                       M-PESA Phone Number
                     </label>
                     <img
                       src="/mpesa.svg"
-                      alt="Mpesa"
-                      className="h-4 w-auto grayscale opacity-50"
+                      alt="M-Pesa Core Logo"
+                      className="h-4 opacity-60 grayscale"
                     />
                   </div>
-                  <input
-                    type="tel"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    placeholder="e.g. 0712345678"
-                    className="h-14 w-full rounded-2xl border border-slate-200 px-4 text-sm font-bold focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all shadow-sm"
-                  />
+                  
+                  <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
+                    <div className="pl-5 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0">
+                      <Phone size={16} />
+                    </div>
+                    <input
+                      type="tel"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      placeholder="e.g. 0712345678"
+                      className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none placeholder:text-xs placeholder:text-slate-300 font-medium"
+                    />
+                  </div>
 
-                  <label className="flex items-center gap-2 cursor-pointer mt-2">
+                  {/* Vault Persistence Remember Checklist Token */}
+                  <label className="flex items-start gap-2.5 cursor-pointer mt-3 select-none group pl-1">
                     <input
                       type="checkbox"
                       checked={rememberMe}
                       onChange={() => setRememberMe(!rememberMe)}
-                      className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary"
+                      className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#074073] focus:ring-[#074073]/20"
                     />
-                    <span className="text-[11px] text-slate-500 font-medium">
-                      Save this number for future Sacco transactions
+                    <span className="text-[11px] text-slate-400 group-hover:text-slate-600 font-medium leading-normal transition-colors">
+                      Persist this validation parameter node for future Sacco processing pipelines
                     </span>
                   </label>
                 </div>
+
               </div>
 
-              {/* Secure Footer Section */}
-              <div className="space-y-4 pt-2">
-                <div className="bg-cyan-50/50 p-4 rounded-xl flex gap-3 border border-cyan-100">
-                  <Lock size={16} className="text-primary shrink-0" />
-                  <p className="text-[11px] text-slate-600 leading-relaxed italic">
-                    By clicking continue, an{" "}
-                    <span className="font-bold">STK push</span> will be sent to
-                    your phone. Ensure your phone is unlocked.
-                  </p>
-                </div>
-
-                <button
-                  onClick={onContinue}
-                  className="group w-full h-14 bg-primary hover:bg-[#062d7a] text-white rounded-2xl font-medium uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/10 active:scale-[0.98]"
-                >
-                  Pay & Activate
-                  <ArrowRight
-                    size={18}
-                    className="group-hover:translate-x-1 transition-transform text-secondary"
-                  />
-                </button>
+              {/* Secure STK Real-time Advisory Prompt */}
+              <div className="p-4 rounded-xl flex gap-3 bg-slate-50 border border-slate-200/60 shadow-sm">
+                <Lock size={14} className="text-[#074073] shrink-0 mt-0.5" />
+                <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
+                  <span className="text-slate-800 font-bold">STK Network Protocol Notice:</span> Advancing past this initialization stage fires an instant payment authentication request to your handset terminal window. Ensure the display is active.
+                </p>
               </div>
+
             </div>
+            
+            <div className="border-b mx-8 border-slate-100"></div>
+
+            {/* Pinned Execution Footer Card */}
+            <div className="p-8 bg-white">
+              <button
+                onClick={onContinue}
+                disabled={!isFormValid}
+                className={`group w-full h-16 rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all
+                  ${
+                    isFormValid
+                      ? "bg-[#074073] hover:bg-[#052d52] text-white active:scale-[0.98] shadow-md"
+                      : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  }
+                `}
+              >
+                <span>Pay & Activate Membership</span>
+                <ArrowRight
+                  size={14}
+                  className={`transition-transform duration-200 ${isFormValid ? "group-hover:translate-x-0.5" : ""}`}
+                />
+              </button>
+            </div>
+
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

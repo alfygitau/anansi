@@ -6,6 +6,7 @@ import {
   Loader2,
   CreditCard,
   ArrowRight,
+  X,
 } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 import { useMutation } from "react-query";
@@ -57,160 +58,172 @@ const ReviewMembership = ({ isOpen, onClose, onNext }) => {
     await payMembershipMutate();
   };
 
+  const registrationFee = 1000;
+  const sharesAmount = parseFloat(membershipDetails?.shares) || 0;
+  const savingsAmount = parseFloat(membershipDetails?.savings) || 0;
+  const totalPayable = registrationFee + sharesAmount + savingsAmount;
+
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-primary/70 bg-slate-900/40"
-          />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+          className="fixed inset-0 z-[100] flex justify-end bg-slate-900/60"
+        >
+          {/* Invisible dismissal zone target click area */}
+          <div className="absolute inset-0" onClick={onClose} />
 
-          {/* Modal Card */}
           <motion.div
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.95, opacity: 0 }}
-            className="relative w-full max-w-[480px] p-6 bg-white rounded-[32px] overflow-hidden shadow-2xl flex flex-col"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 26, stiffness: 220 }}
+            className="bg-white relative w-full max-w-[480px] h-full shadow-2xl flex flex-col z-10"
           >
-            <div className="space-y-4 overflow-y-auto no-scrollbar max-h-[80vh]">
-              {/* Summary Header */}
-              <div className="text-center space-y-2">
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-50 text-primary mb-2">
-                  <ShieldCheck size={28} />
-                </div>
-                <h2 className="text-2xl font-medium text-primary tracking-tight">
+            {/* Circled Grey Close Button Anchor */}
+            <button
+              type="button"
+              onClick={onClose}
+              className="absolute top-5 right-5 z-10 flex items-center justify-center w-10 h-10 bg-slate-100 hover:bg-slate-200 text-gray-500 hover:text-gray-900 rounded-full transition-all active:scale-95 shadow-sm"
+            >
+              <X size={20} />
+            </button>
+
+            {/* Header Track */}
+            <div className="px-8 pt-5 pb-6 flex items-start gap-4">
+              <div className="w-12 h-12 bg-slate-50 border border-slate-200/60 rounded-xl flex items-center justify-center text-[#074073] shrink-0 shadow-sm">
+                <ShieldCheck size={20} />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-[#074073] leading-tight">
                   Confirm Details
                 </h2>
-                <p className="text-slate-500 text-sm">
-                  Please verify your transaction details below
+                <p className="text-xs text-slate-500 font-medium mt-0.5">
+                  Verify transaction details before firing network protocols
                 </p>
               </div>
+            </div>
+            <div className="border-b mx-8 border-slate-100"></div>
 
-              {/* M-PESA Box */}
-              <div className="group relative p-3 rounded-2xl bg-[#F0FFFE] border border-cyan-100 transition-all hover:shadow-md">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-[10px] font-medium uppercase tracking-widest text-cyan-700">
-                    Payment Method
+            {/* Scrollable Core Review Content Body */}
+            <div className="flex-1 overflow-y-auto p-8 space-y-6">
+              
+              {/* Desaturated M-PESA Routing Summary Box */}
+              <div className="p-4 rounded-2xl bg-slate-50/50 border border-slate-200/60 shadow-sm">
+                <div className="flex items-center justify-between border-b border-slate-200/40 pb-3 mb-3">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    Target Billing Gateway
                   </span>
                   <img
                     src="/mpesa.svg"
-                    alt="M-Pesa"
-                    className="h-4 opacity-80"
+                    alt="M-Pesa Core Logo"
+                    className="h-4 opacity-60 grayscale"
                   />
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center shadow-sm">
-                    <Smartphone size={18} className="text-primary" />
+                <div className="flex items-center gap-3.5">
+                  <div className="w-9 h-9 rounded-xl bg-white border border-slate-200/60 flex items-center justify-center text-slate-700 shadow-sm">
+                    <Smartphone size={16} />
                   </div>
                   <div>
-                    <p className="text-xs text-cyan-800/60 font-bold uppercase tracking-tighter">
-                      Phone Number
+                    <p className="text-[9px] text-slate-400 font-black uppercase tracking-wider">
+                      Handset Validation Node
                     </p>
-                    <p className="text-sm font-medium text-primary">
-                      {"0769404436" || "Not Set"}
+                    <p className="text-sm font-bold text-slate-900 mt-0.5">
+                      {membershipPhone || "Not Configured"}
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Breakdown Table */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 mb-2">
+              {/* Transaction Breakdown Table List Matrix */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 pl-1">
                   <CreditCard size={14} className="text-slate-400" />
-                  <span className="text-[10px] font-medium uppercase tracking-widest text-slate-400">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                     Transaction Breakdown
                   </span>
                 </div>
 
-                <div className="rounded-2xl border border-slate-100 overflow-hidden">
-                  <div className="p-4 space-y-3 bg-slate-50/50">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-slate-500">Registration Fee</span>
-                      <span className="font-bold text-primary">
-                        {formatKES(1000)}
-                      </span>
+                <div className="rounded-2xl border-2 border-slate-100 overflow-hidden shadow-sm">
+                  <div className="p-4 space-y-3 bg-slate-50/30">
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-slate-500 text-xs font-medium">Registration Activation Fee</span>
+                      <span className="font-bold text-slate-900">{formatKES(registrationFee)}</span>
                     </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-slate-500">Shares Purchase</span>
-                      <span className="font-bold text-primary">
-                        {formatKES(membershipDetails?.shares)}
-                      </span>
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-slate-500 text-xs font-medium">Share Capital Purchase</span>
+                      <span className="font-bold text-slate-900">{formatKES(sharesAmount)}</span>
                     </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-slate-500">Initial Savings</span>
-                      <span className="font-bold text-primary">
-                        {formatKES(membershipDetails?.savings)}
-                      </span>
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-slate-500 text-xs font-medium">Initial Savings Deposit</span>
+                      <span className="font-bold text-slate-900">{formatKES(savingsAmount)}</span>
                     </div>
                   </div>
 
-                  <div className="p-4 bg-primary text-white flex justify-between items-center">
-                    <span className="text-xs font-medium uppercase tracking-widest text-cyan-400">
-                      Total Payable
+                  {/* Dark-Mode Themed Summary Footing */}
+                  <div className="p-4 bg-slate-900 text-white flex justify-between items-center">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                      Total Payable Gross
                     </span>
-                    <span className="text-xl font-medium">
-                      {formatKES(
-                        (parseFloat(membershipDetails?.shares) || 0) +
-                          (parseFloat(membershipDetails?.savings) || 0),
-                      )}
+                    <span className="text-xl font-black tracking-tight">
+                      {formatKES(totalPayable)}
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 px-2">
-                  <Calendar size={12} className="text-slate-400" />
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                    {today}
+                <div className="flex items-center gap-2 px-1 text-slate-400">
+                  <Calendar size={12} />
+                  <span className="text-[10px] font-black uppercase tracking-wider">
+                    Ledger Log: {today}
                   </span>
                 </div>
               </div>
 
-              {/* Disclaimer */}
-              <div className="bg-amber-50 p-3 rounded-xl border border-amber-100 flex items-center gap-3">
-                <motion.div
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ repeat: Infinity, duration: 2 }}
-                >
-                  <Smartphone size={18} className="text-amber-600" />
-                </motion.div>
-                <p className="text-[11px] text-amber-800 leading-relaxed font-medium">
-                  An <span className="font-medium underline">STK Push</span>{" "}
-                  prompt will be sent to your phone. Please enter your M-PESA
-                  PIN to finalize activation.
+              {/* Network Action STK Advisory Alert Block */}
+              <div className="p-4 rounded-xl flex gap-3 bg-slate-50 border border-slate-200/60 shadow-sm">
+                <Smartphone size={14} className="text-[#074073] shrink-0 mt-0.5 animate-pulse" />
+                <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
+                  <span className="text-slate-800 font-bold">PIN Authorization Notice:</span> Confirming execution triggers an automatic STK popup directly onto the wireless validation endpoint node. Input your authentication credentials immediately.
                 </p>
               </div>
+
             </div>
 
-            {/* CTA Button */}
-            <div className="border-t mt-4 border-slate-50">
+            <div className="border-b mx-8 border-slate-100"></div>
+
+            {/* Pinned Execution Action Footer Deck */}
+            <div className="p-8 bg-white shrink-0">
               <button
+                type="button"
                 disabled={isLoading}
                 onClick={handlePayment}
-                className="group w-full h-14 bg-primary hover:bg-[#062d7a] disabled:bg-slate-300 text-white rounded-2xl font-medium uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98]"
+                className={`group w-full h-16 rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all
+                  ${
+                    isLoading
+                      ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200/40"
+                      : "bg-[#074073] hover:bg-[#052d52] text-white active:scale-[0.98] shadow-md"
+                  }
+                `}
               >
                 {isLoading ? (
                   <>
-                    <Loader2 size={18} className="animate-spin" />
-                    Initiating Payment...
+                    <Loader2 size={16} className="animate-spin text-slate-400" />
+                    <span>Initiating Payment Protocol...</span>
                   </>
                 ) : (
                   <>
-                    Confirm and Pay
-                    <ArrowRight
-                      size={18}
-                      className="group-hover:translate-x-1 transition-transform text-secondary"
-                    />
+                    <span>Confirm & Authorize Payment</span>
+                    <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5" />
                   </>
                 )}
               </button>
             </div>
+
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );
