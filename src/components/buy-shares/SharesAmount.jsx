@@ -96,7 +96,7 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
                 <h2 className="text-2xl font-bold text-[#074073]">
                   Buy Shares
                 </h2>
-                <p className="text-sm text-slate-500 mt-1">
+                <p className="text-sm text-slate-500">
                   Invest in your future by increasing your stake in the SACCO.
                 </p>
               </div>

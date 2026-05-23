@@ -78,7 +78,7 @@ const ReviewDeposit = ({ isOpen, onClose, onConfirm }) => {
                 <h2 className="text-2xl font-bold text-[#074073]">
                   Review Transfer
                 </h2>
-                <p className="text-sm text-slate-500 mt-1 font-medium">
+                <p className="text-sm text-slate-500 font-medium">
                   Double check your details before confirming
                 </p>
               </div>

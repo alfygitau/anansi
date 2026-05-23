@@ -93,7 +93,7 @@ const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
               <h2 className="text-2xl font-black tracking-tighter text-[#042159]">
                 Verify Payment
               </h2>
-              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-1">
+              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
                 Review your purchase summary
               </p>
             </div>

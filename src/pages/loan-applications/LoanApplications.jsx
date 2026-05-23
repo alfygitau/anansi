@@ -164,7 +164,7 @@ const LoanApplications = () => {
               </div>
 
               {/* Main Call-to-Action Button */}
-              <button className="w-full bg-primary text-white py-5 rounded-xl text-[11px] font-black uppercase tracking-[0.08em] hover:bg-slate-800 transition-all flex items-center justify-center gap-2 shadow-sm">
+              <button className="w-full bg-primary text-white py-5 rounded-xl text-[11px] font-black uppercase tracking-[0.08em] hover:bg-secondary transition-all flex items-center justify-center gap-2 shadow-sm">
                 Invite Guarantors{" "}
                 <ArrowRight size={14} className="text-slate-400" />
               </button>

@@ -93,7 +93,7 @@ const ConfirmInvest = ({ isOpen, onClose, onConfirm }) => {
               <h2 className="text-2xl font-bold text-[#074073]">
                 Confirm Transaction
               </h2>
-              <p className="text-sm text-slate-500 mt-1 font-medium">
+              <p className="text-sm text-slate-500 font-medium">
                 Review your investment details before paying
               </p>
             </div>
