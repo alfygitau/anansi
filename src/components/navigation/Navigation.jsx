@@ -133,10 +133,18 @@ const Navigation = () => {
                   />
                   <DropdownItem
                     icon={<FileText size={18} className="text-primary" />}
-                    label="Statements"
+                    label="Account Statements"
                     onClick={() => {
                       setIsProfileOpen(false);
                       navigate("/statements");
+                    }}
+                  />
+                  <DropdownItem
+                    icon={<FileText size={18} className="text-primary" />}
+                    label="Loan Statements"
+                    onClick={() => {
+                      setIsProfileOpen(false);
+                      navigate("/loan-statements");
                     }}
                   />
                   <DropdownItem

@@ -28,7 +28,6 @@ import { fetchAccounts } from "../../sdks/accounts/accounts";
 const MyStatements = () => {
   const [year, setYear] = useState("");
   const [accountType, setAccountType] = useState("");
-  const [activeTab, setActiveTab] = useState("accounts");
   const [showGenerateStatement, setShowGenerateStatement] = useState(false);
   const currentYear = new Date().getFullYear(); // 2026
   const yearsArray = Array.from({ length: 6 }, (_, index) =>
@@ -174,8 +173,7 @@ const MyStatements = () => {
                   <div className="flex flex-col md:flex-row items-center gap-6">
                     <div className="flex-1 w-full">
                       <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 mb-2 block ml-2">
-                        Filter by{" "}
-                        {activeTab === "accounts" ? "Account" : "Loan"}
+                        Filter by accounts
                       </label>
                       <div className="relative">
                         <Wallet
@@ -187,17 +185,13 @@ const MyStatements = () => {
                           onChange={(e) => setAccountType(e.target.value)}
                           className="w-full pl-12 pr-12 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm font-bold transition-all appearance-none cursor-pointer"
                         >
-                          <option value="">
-                            All{" "}
-                            {activeTab === "accounts" ? "Accounts" : "Loans"}
-                          </option>
-                          {activeTab === "accounts" &&
-                            accounts.map((acc) => (
-                              <option key={acc.id} value={acc.id}>
-                                {acc.product?.name} (****
-                                {acc.account_number.slice(-4)})
-                              </option>
-                            ))}
+                          <option value="">All accounts</option>
+                          {accounts.map((acc) => (
+                            <option key={acc.id} value={acc.id}>
+                              {acc.product?.name} (****
+                              {acc.account_number.slice(-4)})
+                            </option>
+                          ))}
                         </select>
                         <ChevronDown
                           className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
@@ -235,28 +229,6 @@ const MyStatements = () => {
                     </div>
                   </div>
                 </section>
-
-                {/* Tabs */}
-                <div className="flex gap-4">
-                  <TabButton
-                    active={activeTab === "accounts"}
-                    onClick={() => {
-                      setActiveTab("accounts");
-                      setAccountType("");
-                    }}
-                    icon={<Wallet size={16} />}
-                    label="Accounts"
-                  />
-                  <TabButton
-                    active={activeTab === "loans"}
-                    onClick={() => {
-                      setActiveTab("loans");
-                      setAccountType("");
-                    }}
-                    icon={<Receipt size={16} />}
-                    label="Loans"
-                  />
-                </div>
 
                 {/* List */}
                 <div className="space-y-4 h-[750px] overflow-y-auto">
@@ -394,19 +366,6 @@ const ApplyLoanAction = ({ onClick }) => {
     </div>
   );
 };
-
-const TabButton = ({ active, onClick, icon, label }) => (
-  <button
-    onClick={onClick}
-    className={`px-8 py-3 rounded-2xl border border-slate-200 font-bold text-sm transition-all flex items-center gap-2 ${
-      active
-        ? "bg-secondary text-white shadow-lg shadow-blue-400/20 scale-105"
-        : "bg-white text-slate-400 hover:text-primary border border-slate-200 hover:border-slate-200"
-    }`}
-  >
-    {icon} {label}
-  </button>
-);
 
 const StatementListItem = ({ stmt, onDownload }) => (
   <div className="group p-6 bg-white border border-slate-200 rounded-[32px] hover:border-secondary/30 hover:shadow-2xl hover:shadow-blue-900/5 transition-all">

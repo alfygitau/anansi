@@ -53,6 +53,7 @@ import TitleUpdater from "./helmet/TitleUpdater";
 import ChangeEmail from "./pages/onboarding/ChangeEmail";
 import ChangeMobile from "./pages/onboarding/ChangeMobile";
 import ProtectedRoute from "./routes/Protect";
+import MyLoanStatements from "./pages/loan-statements/LoanStatements";
 
 function App() {
   return (
@@ -154,6 +155,7 @@ function App() {
           <Route path="/add-statements" element={<FinancialStatements />} />
           <Route path="/collateral-registry" element={<CollateralRegistry />} />
           <Route path="/statements" element={<Statements />} />
+          <Route path="/loan-statements" element={<MyLoanStatements />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/guarantorship" element={<Guarantorship />} />
           <Route
