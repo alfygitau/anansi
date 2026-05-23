@@ -598,9 +598,9 @@ const Homepage = () => {
 
           {/* Account Section */}
           {/* MASTER DASHBOARD COMPACT SECTION GRID GRID */}
-          <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8 items-start">
+          <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-6 items-start">
             {/* LEFT PANEL: COMPACT ACCOUNT CARDS VECTORS (5 COLS) */}
-            <div className="lg:col-span-5 space-y-2">
+            <div className="lg:col-span-5 space-y-3">
               <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 pl-1">
                 Active Accounts
               </h2>
@@ -625,7 +625,7 @@ const Homepage = () => {
 
             <div className="lg:col-span-7">
               {/* Micro-Header */}
-              <h2 className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-2 pl-0.5">
+              <h2 className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-3 pl-0.5">
                 Quick Actions
               </h2>
               <div className="bg-slate-50/40 border border-slate-200/50 rounded-2xl p-2.5 flex flex-col justify-between">
@@ -664,7 +664,7 @@ const Homepage = () => {
           </h2>
 
           {/* Side-by-Side: Applications and Loans */}
-          <div className="grid grid-cols-1 mb-6 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 mb-3 lg:grid-cols-2 gap-8">
             {/* Right Side: Active Loans */}
             <section>
               <div className="flex items-center justify-between mb-4">
@@ -989,7 +989,7 @@ const LoanItem = ({
   return (
     <div
       onClick={onTap}
-      className="mb-4 cursor-pointer rounded-[30px] bg-white shadow-[0_12px_24px_rgba(10,35,81,0.04)] transition-all active:scale-[0.99] hover:shadow-[0_12px_32px_rgba(10,35,81,0.07)]"
+      className="mb-4 cursor-pointer rounded-[30px] bg-white transition-all active:scale-[0.99] hover:shadow-[0_12px_32px_rgba(10,35,81,0.07)]"
     >
       <div className="flex flex-col">
         {/* Header */}

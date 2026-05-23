@@ -225,7 +225,7 @@ const LoanItem = ({
   return (
     <div
       onClick={onTap}
-      className="mb-4 cursor-pointer rounded-[30px] bg-white shadow-[0_12px_24px_rgba(10,35,81,0.04)] transition-all active:scale-[0.99] hover:shadow-[0_12px_32px_rgba(10,35,81,0.07)]"
+      className="mb-4 cursor-pointer rounded-[30px] bg-white transition-all active:scale-[0.99] hover:shadow-[0_12px_32px_rgba(10,35,81,0.07)]"
     >
       <div className="flex flex-col">
         {/* Header */}
@@ -302,7 +302,7 @@ const LoanItem = ({
 const ActionButton = ({ icon, label, onClick, primary = false }) => (
   <button
     onClick={onClick}
-    className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-[11px] font-black uppercase tracking-[0.08em] transition-all border ${
+    className={`w-full flex items-center gap-3 px-4 py-5 rounded-xl text-[11px] font-black uppercase tracking-[0.08em] transition-all border ${
       primary
         ? "bg-primary border-slate-900 text-white hover:bg-slate-800"
         : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50 shadow-sm"
