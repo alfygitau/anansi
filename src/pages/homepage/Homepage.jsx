@@ -181,7 +181,7 @@ const Homepage = () => {
     },
     {
       id: 8,
-      label: "View Statements",
+      label: "Account Statements",
       icon: <Folder size={24} />,
       onClick: () => navigate("/statements"),
     },

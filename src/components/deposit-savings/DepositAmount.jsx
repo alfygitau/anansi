@@ -75,7 +75,7 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 26, stiffness: 220 }}
-            className="bg-white relative w-full max-w-[500px] h-full shadow-2xl flex flex-col z-10"
+            className="bg-white relative w-full max-w-[480px] h-full shadow-2xl flex flex-col z-10"
           >
             <button
               onClick={onClose}

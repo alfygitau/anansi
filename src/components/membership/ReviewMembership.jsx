@@ -75,7 +75,7 @@ const ReviewMembership = ({ isOpen, onClose, onNext }) => {
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
-            className="relative w-full max-w-[520px] p-6 bg-white rounded-[32px] overflow-hidden shadow-2xl flex flex-col"
+            className="relative w-full max-w-[480px] p-6 bg-white rounded-[32px] overflow-hidden shadow-2xl flex flex-col"
           >
             <div className="space-y-4 overflow-y-auto no-scrollbar max-h-[80vh]">
               {/* Summary Header */}

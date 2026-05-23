@@ -1,17 +1,17 @@
 const AccountDetailsLoader = () => {
   return (
-    <div className="min-h-screen bg-slate-50 pb-20">
+    <div className="bg-slate-50">
       <div className="max-w-6xl mx-auto">
         {/* Header Skeleton */}
-        <header className="py-8 flex items-center gap-4">
+        <header className="pb-3 flex items-center gap-4">
           <div className="w-8 h-8 bg-slate-200 rounded-full animate-pulse" />
           <div className="w-32 h-3 bg-slate-200 rounded animate-pulse" />
         </header>
 
         {/* 1. Hero & Quick Actions Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
           {/* Main Balance Area Skeleton */}
-          <div className="lg:col-span-8 bg-slate-200 rounded-[40px] p-10 min-h-[300px] flex flex-col justify-between animate-pulse">
+          <div className="lg:col-span-8 bg-slate-200 rounded-[40px] p-6 h-[250px] flex flex-col justify-between animate-pulse">
             <div>
               <div className="w-24 h-2 bg-slate-300 rounded mb-6" />
               <div className="w-64 h-12 bg-slate-300 rounded" />
@@ -33,7 +33,7 @@ const AccountDetailsLoader = () => {
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
-                className="bg-white border border-slate-100 p-6 rounded-[32px] flex flex-col items-center justify-center gap-4 animate-pulse"
+                className="bg-white border border-slate-100 p-4 rounded-[32px] flex flex-col items-center justify-center gap-4 animate-pulse"
               >
                 <div className="w-12 h-12 bg-slate-100 rounded-2xl" />
                 <div className="w-16 h-2 bg-slate-100 rounded" />

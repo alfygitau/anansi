@@ -68,7 +68,7 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
             initial={{ scale: 0.95, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
-            className="relative w-full p-8 max-w-[520px] bg-white rounded-[32px] overflow-hidden shadow-2xl flex flex-col"
+            className="relative w-full p-8 max-w-[480px] bg-white rounded-[32px] overflow-hidden shadow-2xl flex flex-col"
           >
             {/* Header / Progress Section */}
 

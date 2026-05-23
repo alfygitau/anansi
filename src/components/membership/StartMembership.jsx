@@ -34,7 +34,7 @@ const StartMembership = ({ isOpen, onPay, onLogout }) => {
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-[460px] bg-primary border border-white/10 rounded-[32px] overflow-hidden shadow-2xl shadow-black/50"
+            className="relative w-full max-w-[480px] bg-primary border border-white/10 rounded-[32px] overflow-hidden shadow-2xl shadow-black/50"
           >
             {/* Decorative Background Glow */}
             <div className="absolute -top-24 -right-24 w-48 h-48 bg-secondary/20 rounded-full blur-3xl" />

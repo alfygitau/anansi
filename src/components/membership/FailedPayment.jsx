@@ -77,7 +77,7 @@ const FailedMembershipPayment = ({
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-[520px] bg-white rounded-[32px] overflow-hidden shadow-2xl flex flex-col"
+            className="relative w-full max-w-[480px] bg-white rounded-[32px] overflow-hidden shadow-2xl flex flex-col"
           >
             <div className="p-8 space-y-8 overflow-y-auto no-scrollbar max-h-[85vh]">
               {/* Error Status Banner */}

@@ -78,7 +78,7 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-[520px] bg-white p-6 rounded-[32px] overflow-hidden shadow-2xl flex flex-col max-h-[95vh]"
+            className="relative w-full max-w-[480px] bg-white p-6 rounded-[32px] overflow-hidden shadow-2xl flex flex-col max-h-[95vh]"
           >
             {/* Scrollable Form Body */}
             <div className="flex-1 overflow-y-auto space-y-4 no-scrollbar">
