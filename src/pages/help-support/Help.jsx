@@ -98,17 +98,6 @@ const HelpSupport = () => {
         {/* Header */}
         <header className="py-3 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => navigate(-1)}
-                className="p-2 hover:bg-slate-200 rounded-xl transition-all"
-              >
-                <ArrowLeft size={20} />
-              </button>
-              <span className="text-[10px] font-medium uppercase tracking-widest text-secondary">
-                Support Center
-              </span>
-            </div>
             <h1 className="text-2xl font-medium tracking-tight">
               How can we help you today?
             </h1>
@@ -142,7 +131,6 @@ const HelpSupport = () => {
           {/* 2. Simple Sacco FAQs (8 Cols) */}
           <div className="lg:col-span-8">
             <div className="flex items-center gap-3 mb-4">
-              <HelpCircle className="text-secondary" size={24} />
               <h2 className="text-2xl font-medium tracking-tight">
                 Frequently Asked Questions
               </h2>

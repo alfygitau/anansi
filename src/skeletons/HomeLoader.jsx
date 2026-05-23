@@ -1,10 +1,10 @@
 const HomeLoader = () => {
   return (
-    <div className="min-h-screen bg-slate-50 pb-12 animate-pulse">
+    <div className="bg-slate-50 animate-pulse">
       {/* Centered Container */}
       <div className="max-w-6xl mx-auto">
         {/* Header Skeleton */}
-        <header className="flex justify-between mb-6 items-center pt-8">
+        <header className="flex justify-between mb-6 items-center">
           <div className="space-y-2">
             <div className="h-8 w-48 bg-slate-200 rounded-lg"></div>
             <div className="h-4 w-64 bg-slate-200 rounded-md"></div>
