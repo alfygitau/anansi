@@ -601,7 +601,7 @@ const Homepage = () => {
           <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-6 items-start">
             {/* LEFT PANEL: COMPACT ACCOUNT CARDS VECTORS (5 COLS) */}
             <div className="lg:col-span-5 space-y-3">
-              <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 pl-1">
+              <h2 className="text-[12px] font-black uppercase tracking-[0.2em] text-slate-400 pl-1">
                 Active Accounts
               </h2>
               <div className="space-y-5">
@@ -625,7 +625,7 @@ const Homepage = () => {
 
             <div className="lg:col-span-7">
               {/* Micro-Header */}
-              <h2 className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-3 pl-0.5">
+              <h2 className="text-[12px] font-black uppercase tracking-[0.15em] text-slate-400 mb-3 pl-0.5">
                 Quick Actions
               </h2>
               <div className="bg-slate-50/40 border border-slate-200/50 rounded-2xl p-2.5 flex flex-col justify-between">
@@ -659,7 +659,7 @@ const Homepage = () => {
             </div>
           </section>
 
-          <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-2">
+          <h2 className="text-[12px] font-bold uppercase tracking-widest text-slate-400 mb-1">
             Loans & Applications
           </h2>
 
@@ -725,7 +725,7 @@ const Homepage = () => {
 
           {/* Smaller Quick Actions */}
           <section>
-            <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-2">
+            <h2 className="text-[12px] font-bold uppercase tracking-widest text-slate-400 mb-2">
               Explore Products
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

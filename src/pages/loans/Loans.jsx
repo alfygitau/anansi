@@ -30,7 +30,7 @@ const MyLoans = ({ onBack }) => {
       <div className="max-w-6xl sm:px-4 mx-auto">
         {/* Header */}
         <header className="py-2">
-          <h1 className="text-2xl font-black tracking-tight">My Loans</h1>
+          <h1 className="text-2xl font-medium tracking-tight">My Loans</h1>
           <p className="text-slate-400 text-sm font-medium">
             Manage your active credit lines and track your path to financial
             freedom.
@@ -328,7 +328,7 @@ const DisclaimerItem = ({ text }) => (
 // just ensure font sizes align with the new layout...
 
 const StatMiniCard = ({ label, count, icon }) => (
-  <div className="bg-white p-6 rounded-[32px] border border-slate-100 flex items-center justify-between shadow-xl shadow-blue-900/5">
+  <div className="bg-white p-6 rounded-[32px] border border-slate-100 flex items-center justify-between">
     <div>
       <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
         {label}
