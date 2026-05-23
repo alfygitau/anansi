@@ -104,7 +104,7 @@ const InvestAmount = ({ isOpen, onClose, onConfirm }) => {
               <h2 className="text-2xl font-bold text-[#074073]">
                 Quick Invest & Save
               </h2>
-              <p className="text-sm text-slate-500 mt-1 font-medium">
+              <p className="text-sm text-slate-500 font-medium">
                 Buy shares and Deposit Savings at a go!
               </p>
             </div>

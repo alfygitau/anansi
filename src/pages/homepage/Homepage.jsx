@@ -161,12 +161,6 @@ const Homepage = () => {
       onClick: () => setShowSharesAmount(true),
     },
     {
-      id: 4,
-      label: "Calculate Loan",
-      icon: <Calculator size={24} />,
-      onClick: () => navigate("/loan-calculator"),
-    },
-    {
       id: 5,
       label: "View All Loans",
       icon: <LayoutList size={24} />,
@@ -477,9 +471,9 @@ const Homepage = () => {
         <HomeLoader />
       ) : (
         <div className="max-w-6xl sm:px-4 mx-auto">
-          <header className="flex justify-between mb-6 items-center">
+          <header className="flex justify-between mb-3 items-center">
             <div>
-              <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
+              <h1 className="text-2xl text-primary font-bold tracking-tight">Dashboard</h1>
               <p className="text-sm text-slate-500">
                 Welcome back to your financial overview.
               </p>
@@ -603,46 +597,65 @@ const Homepage = () => {
           ) : null}
 
           {/* Account Section */}
-          <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            {sortedAccounts?.length > 0 &&
-              sortedAccounts.map((account, index) => (
-                <AccountCard
-                  key={account.id || index}
-                  title={account?.product?.name || "Savings Account"}
-                  accountNumber={account.account_number || "ACC-XXXXX"}
-                  balance={formatAmount(account?.balance)}
-                  isPrimary={account?.product?.name === "Savings"}
-                  navigateToAccountDetails={() =>
-                    navigate(
-                      `/account-details/${account.id}/${account.account_number}`,
-                    )
-                  }
-                />
-              ))}
-          </section>
+          {/* MASTER DASHBOARD COMPACT SECTION GRID GRID */}
+          <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8 items-start">
+            {/* LEFT PANEL: COMPACT ACCOUNT CARDS VECTORS (5 COLS) */}
+            <div className="lg:col-span-5 space-y-2">
+              <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 pl-1">
+                Active Accounts
+              </h2>
+              <div className="space-y-5">
+                {sortedAccounts?.length > 0 &&
+                  sortedAccounts.map((account, index) => (
+                    <AccountCard
+                      key={account.id || index}
+                      title={account?.product?.name || "Savings Account"}
+                      accountNumber={account.account_number || "ACC-XXXXX"}
+                      balance={formatAmount(account?.balance)}
+                      isPrimary={account?.product?.name === "Savings"}
+                      navigateToAccountDetails={() =>
+                        navigate(
+                          `/account-details/${account.id}/${account.account_number}`,
+                        )
+                      }
+                    />
+                  ))}
+              </div>
+            </div>
 
-          <section className="mb-6">
-            <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
-              Quick Actions
-            </h2>
-            <div className="grid grid-cols-4 lg:grid-cols-9 gap-4 lg:gap-6">
-              {quickActions.map(({ id, label, icon, onClick }) => (
-                <div
-                  key={id}
-                  onClick={onClick}
-                  className="flex flex-col items-start cursor-pointer group w-full"
-                >
-                  <div className="w-20 h-20 sm:w-20 sm:h-20 bg-slate-200 rounded-[24px] sm:rounded-3xl flex items-center justify-center text-primary transition-all duration-300 group-hover:bg-secondary group-hover:text-white group-hover:shadow-xl group-hover:shadow-blue-100 group-hover:-translate-y-1">
-                    {React.cloneElement(icon, {
-                      size: 28,
-                      className: "sm:w-[32px] sm:h-[32px]",
-                    })}
-                  </div>
-                  <span className="text-[10px] sm:text-[11px] font-black text-center mt-3 leading-tight max-w-[80px] sm:max-w-[90px] uppercase tracking-wider text-slate-400 group-hover:text-primary transition-colors">
-                    {label}
-                  </span>
+            <div className="lg:col-span-7">
+              {/* Micro-Header */}
+              <h2 className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-2 pl-0.5">
+                Quick Actions
+              </h2>
+              <div className="bg-slate-50/40 border border-slate-200/50 rounded-2xl p-2.5 flex flex-col justify-between">
+                {/* High-Density Micro Matrix */}
+                <div className="grid grid-cols-2 gap-2.5">
+                  {quickActions.map(({ id, label, icon, onClick }) => (
+                    <div
+                      key={id}
+                      onClick={onClick}
+                      className="flex items-center gap-2.5 h-16 p-2.5 cursor-pointer group bg-white border border-slate-100 rounded-xl hover:border-primary transition-all duration-200 select-none shadow-sm"
+                    >
+                      {/* Action Icon Square Plate (Perfect 1:1 Match) */}
+                      <div className="w-10 h-10 bg-slate-50 border border-slate-200/20 rounded-lg flex items-center justify-center text-slate-700 transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:border-primary shrink-0">
+                        {React.cloneElement(icon, {
+                          size: 18,
+                          className:
+                            "shrink-0 transition-transform duration-200 group-hover:scale-105",
+                        })}
+                      </div>
+
+                      {/* Right Text Vector Column */}
+                      <div className="min-w-0 flex-1">
+                        <span className="block text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-primary transition-colors leading-tight truncate">
+                          {label}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </section>
 
@@ -862,7 +875,7 @@ const AccountCard = ({
   return (
     <div
       onClick={navigateToAccountDetails}
-      className={`p-6 cursor-pointer rounded-[32px] transition-all relative overflow-hidden group ${
+      className={`p-5 py-6 cursor-pointer rounded-[25px] transition-all relative overflow-hidden group ${
         isPrimary ? "bg-primary text-white" : "bg-white border border-slate-200"
       }`}
     >
