@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  FileText,
-  AlertTriangle,
-  Download,
-  Printer,
-  Check,
-} from "lucide-react";
+import { AlertTriangle, Download, Printer, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const NormalLoanTermsConditions = () => {
@@ -32,9 +26,7 @@ const NormalLoanTermsConditions = () => {
         {/* Header with Actions */}
         <header className="mb-3 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <h1 className="text-2xl tracking-tight">
-              Terms & Conditions
-            </h1>
+            <h1 className="text-2xl tracking-tight">Terms & Conditions</h1>
           </div>
 
           <div className="flex gap-3">
@@ -60,7 +52,7 @@ const NormalLoanTermsConditions = () => {
                 <span className="text-[10px] font-bold px-2 py-1 bg-secondary/10 text-secondary rounded-md tracking-tighter">
                   01
                 </span>
-                <h3 className="text-sm font-black uppercase tracking-widest text-primary">
+                <h3 className="text-sm font-medium uppercase tracking-widest text-primary">
                   Disbursement & Interest Framework
                 </h3>
               </div>
@@ -82,7 +74,7 @@ const NormalLoanTermsConditions = () => {
 
             {/* 02. Repayment & Default Penalties (High Visibility) */}
             <section className="p-8 bg-rose-50/50 rounded-[32px] border border-rose-100 relative overflow-hidden">
-              <h3 className="text-sm font-black uppercase tracking-widest mb-6 flex items-center gap-2 text-rose-700">
+              <h3 className="text-sm font-medium uppercase tracking-widest mb-6 flex items-center gap-2 text-rose-700">
                 <AlertTriangle size={18} /> Default & Legal Recourse
               </h3>
               <div className="space-y-4 relative z-10">
@@ -106,7 +98,7 @@ const NormalLoanTermsConditions = () => {
                 <span className="text-[10px] font-bold px-2 py-1 bg-secondary/10 text-secondary rounded-md">
                   02
                 </span>
-                <h3 className="text-sm font-black uppercase tracking-widest text-primary">
+                <h3 className="text-sm font-medium uppercase tracking-widest text-primary">
                   Guarantor Statutory Obligations
                 </h3>
               </div>
@@ -131,7 +123,7 @@ const NormalLoanTermsConditions = () => {
                 <span className="text-[10px] font-bold px-2 py-1 bg-secondary/10 text-secondary rounded-md">
                   03
                 </span>
-                <h3 className="text-sm font-black uppercase tracking-widest text-primary">
+                <h3 className="text-sm font-medium uppercase tracking-widest text-primary">
                   Right of Offset & Lien
                 </h3>
               </div>
@@ -152,7 +144,7 @@ const NormalLoanTermsConditions = () => {
                 <span className="text-[10px] font-bold px-2 py-1 bg-secondary/10 text-secondary rounded-md">
                   04
                 </span>
-                <h3 className="text-sm font-black uppercase tracking-widest text-primary">
+                <h3 className="text-sm font-medium uppercase tracking-widest text-primary">
                   Credit Life Insurance
                 </h3>
               </div>
@@ -186,7 +178,7 @@ const NormalLoanTermsConditions = () => {
                   perform credit checks as required.
                 </p>
                 {!hasScrolledToBottom && (
-                  <p className="text-[10px] text-secondary font-black uppercase mt-2 animate-pulse">
+                  <p className="text-[10px] text-secondary font-medium uppercase mt-2 animate-pulse">
                     Please scroll to the bottom to enable agreement
                   </p>
                 )}
@@ -196,14 +188,14 @@ const NormalLoanTermsConditions = () => {
             <div className="flex flex-col md:flex-row gap-4">
               <button
                 onClick={onCancel}
-                className="flex-1 py-5 border rounded-[24px] font-black uppercase tracking-widest text-slate-400 hover:text-red-500 transition-all"
+                className="flex-1 py-5 border rounded-[24px] font-medium uppercase tracking-widest text-slate-400 hover:text-red-500 transition-all"
               >
                 Decline
               </button>
               <button
                 disabled={!agreed || !hasScrolledToBottom}
                 onClick={onAccept}
-                className="flex-[2] py-5 bg-primary text-white rounded-[24px] font-black uppercase tracking-widest shadow-xl shadow-blue-900/20 hover:bg-secondary transition-all disabled:opacity-20 disabled:grayscale disabled:cursor-not-allowed"
+                className="flex-[2] py-5 bg-primary text-white rounded-[24px] font-medium uppercase tracking-widest shadow-xl shadow-blue-900/20 hover:bg-secondary transition-all disabled:opacity-20 disabled:grayscale disabled:cursor-not-allowed"
               >
                 Accept & Submit Application
               </button>

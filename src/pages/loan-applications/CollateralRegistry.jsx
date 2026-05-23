@@ -124,7 +124,7 @@ const CollateralRegistry = () => {
               <ShieldCheck size={24} />
             </div>
             <div className="space-y-2">
-              <h4 className="text-[11px] font-black text-primary uppercase tracking-widest">
+              <h4 className="text-[11px] font-medium text-primary uppercase tracking-widest">
                 Asset Valuation & Security
               </h4>
               <p className="text-xs text-slate-600 leading-relaxed">
@@ -172,7 +172,7 @@ const CollateralRegistry = () => {
                 <ShieldCheck size={20} />
               </div>
               <div>
-                <p className="text-[11px] font-black text-primary uppercase tracking-widest leading-none">
+                <p className="text-[11px] font-medium text-primary uppercase tracking-widest leading-none">
                   Registry Status
                 </p>
                 <p className="text-xs text-slate-500 mt-1">
@@ -215,7 +215,7 @@ const CollateralRegistry = () => {
               transition={{ type: "spring", damping: 25 }}
               className="fixed top-0 right-0 bottom-0 w-full max-w-[480px] bg-white z-50 shadow-2xl flex flex-col p-6 overflow-y-auto"
             >
-              <h2 className="text-xl font-black text-primary uppercase tracking-tight">
+              <h2 className="text-xl font-medium text-primary uppercase tracking-tight">
                 Register Collateral
               </h2>
               <p className="text-sm text-slate-500">Add a collateral</p>
@@ -239,7 +239,7 @@ const CollateralRegistry = () => {
                 <div className="space-y-4">
                   <div className="w-full space-y-2">
                     {/* Label Track */}
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                    <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                       Asset Name / Model
                     </label>
 
@@ -267,14 +267,14 @@ const CollateralRegistry = () => {
                     <div className="flex-1">
                       <div className="w-full space-y-2">
                         {/* Label Track */}
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                        <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                           Estimated Value (KES)
                         </label>
 
                         {/* Unified Housing Deck Wrapper */}
                         <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
                           {/* Left Currency Badge Section */}
-                          <div className="pl-5 pr-4 flex items-center text-slate-400 text-xs font-black tracking-wider border-r border-slate-200/60 h-5 my-auto select-none">
+                          <div className="pl-5 pr-4 flex items-center text-slate-400 text-xs font-medium tracking-wider border-r border-slate-200/60 h-5 my-auto select-none">
                             KES
                           </div>
 
@@ -293,7 +293,7 @@ const CollateralRegistry = () => {
                     </div>
                     <div className="w-[200px] space-y-2">
                       {/* Label Track */}
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block ml-2">
+                      <label className="text-[10px] font-medium text-slate-400 uppercase tracking-widest block ml-2">
                         Condition
                       </label>
 
@@ -327,7 +327,7 @@ const CollateralRegistry = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                    <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                       Description
                     </label>
                     <textarea
@@ -387,13 +387,13 @@ const AssetCard = ({ asset, onDelete }) => (
       </button>
     </div>
     <h3 className="font-bold text-slate-800 mb-1">{asset.name}</h3>
-    <p className="text-[10px] font-black text-secondary uppercase tracking-widest mb-3">
+    <p className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-3">
       KES {Number(asset.value).toLocaleString()}
     </p>
 
     <div className="flex items-center gap-2 mb-4">
       <span
-        className={`px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-tighter ${asset.condition === "Excellent" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"}`}
+        className={`px-2 py-0.5 rounded text-[9px] font-medium uppercase tracking-tighter ${asset.condition === "Excellent" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"}`}
       >
         {asset.condition}
       </span>
@@ -408,19 +408,6 @@ const AssetCard = ({ asset, onDelete }) => (
         className="text-slate-300 group-hover:translate-x-1 transition-transform"
       />
     </div>
-  </div>
-);
-
-const Input = ({ label, ...props }) => (
-  <div className="space-y-2">
-    <label className="text-[10px] font-black text-primary uppercase tracking-widest block">
-      {label}
-    </label>
-    <input
-      className="w-full h-14 px-5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium outline-none focus:border-secondary focus:ring-4 focus:ring-secondary/5 transition-all"
-      {...props}
-      onChange={(e) => props.onChange(e.target.value)}
-    />
   </div>
 );
 

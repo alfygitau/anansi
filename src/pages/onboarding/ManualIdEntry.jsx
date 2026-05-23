@@ -5,7 +5,6 @@ import {
   User,
   Hash,
   Calendar,
-  ShieldCheck,
   Info,
   ArrowRight,
   Lock,
@@ -169,7 +168,7 @@ const ManualIdEntry = () => {
             {/* CATEGORY 1: LEGAL IDENTITY NAME REGISTER */}
             <div className="space-y-4">
               <div className="border-b border-slate-100 pb-2">
-                <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
+                <h3 className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-400">
                   Personal Identity
                 </h3>
               </div>
@@ -178,7 +177,7 @@ const ManualIdEntry = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* First Name */}
                 <div className="w-full space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                  <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                     First Name
                   </label>
                   <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-16 transition-all duration-200">
@@ -204,7 +203,7 @@ const ManualIdEntry = () => {
 
                 {/* Middle Name */}
                 <div className="w-full space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                  <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                     Middle Name (Optional)
                   </label>
                   <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-16 transition-all duration-200">
@@ -226,7 +225,7 @@ const ManualIdEntry = () => {
 
               {/* Last Name */}
               <div className="w-full space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                   Last Name / Surname
                 </label>
                 <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-16 transition-all duration-200">
@@ -254,7 +253,7 @@ const ManualIdEntry = () => {
             {/* CATEGORY 2: STATUTORY PARAMETERS & META DATA */}
             <div className="space-y-4">
               <div className="border-b border-slate-100 pb-2">
-                <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
+                <h3 className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-400">
                   Statutory Information
                 </h3>
               </div>
@@ -262,7 +261,7 @@ const ManualIdEntry = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* ID Number */}
                 <div className="w-full space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                  <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                     ID Number
                   </label>
                   <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-16 transition-all duration-200">
@@ -288,7 +287,7 @@ const ManualIdEntry = () => {
 
                 {/* Date of Birth */}
                 <div className="w-full space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                  <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                     Date of Birth
                   </label>
                   <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-16 transition-all duration-200">
@@ -315,7 +314,7 @@ const ManualIdEntry = () => {
 
               {/* Gender Select Dropdown */}
               <div className="w-full space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                   Gender Configuration
                 </label>
                 <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-16 transition-all duration-200">
@@ -391,7 +390,7 @@ const ManualIdEntry = () => {
           <div className="bg-slate-50/50 border border-slate-200/60 rounded-[32px] p-6 space-y-6">
             <div className="flex justify-between items-start border-b border-slate-200/60 pb-4">
               <div>
-                <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">
+                <h3 className="text-xs font-medium uppercase tracking-widest text-slate-400">
                   Cryptographic Vault
                 </h3>
                 <p className="text-xs text-slate-600 mt-1 font-semibold">
@@ -413,13 +412,13 @@ const ManualIdEntry = () => {
             <div className="space-y-2 pt-2">
               <div className="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200/40 shadow-sm">
                 <div className="w-1.5 h-1.5 bg-slate-900 rounded-full" />
-                <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">
+                <p className="text-[10px] font-medium text-slate-600 uppercase tracking-widest">
                   End-to-End Encrypted Tunnel
                 </p>
               </div>
               <div className="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200/40 shadow-sm">
                 <div className="w-1.5 h-1.5 bg-slate-900 rounded-full" />
-                <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">
+                <p className="text-[10px] font-medium text-slate-600 uppercase tracking-widest">
                   SASRA Regulatory Protocol Bound
                 </p>
               </div>
@@ -430,7 +429,7 @@ const ManualIdEntry = () => {
           <div className="bg-slate-50/50 border border-slate-200/60 rounded-[32px] p-6">
             <div className="flex items-center gap-2.5 mb-3">
               <Info className="text-slate-500" size={16} />
-              <p className="font-black text-slate-700 uppercase text-[10px] tracking-widest">
+              <p className="font-medium text-slate-700 uppercase text-[10px] tracking-widest">
                 Context Advisory
               </p>
             </div>

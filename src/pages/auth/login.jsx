@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { loginUser, resendOtp } from "../../sdks/auth/auth";
+import { loginUser } from "../../sdks/auth/auth";
 import { useMutation } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
 import useAuth from "../../hooks/useAuth";
@@ -110,11 +110,11 @@ const Login = () => {
           <div className="relative z-10">
             <div className="inline-flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-full border border-slate-100 mb-12">
               <ShieldCheck className="text-primary" size={18} />
-              <span className="text-primary text-xs font-black tracking-widest uppercase">
+              <span className="text-primary text-xs font-medium tracking-widest uppercase">
                 ANANSI SACCO
               </span>
             </div>
-            <h2 className="text-slate-900 text-2xl xl:text-3xl font-black leading-[1.1] mb-8">
+            <h2 className="text-slate-900 text-2xl xl:text-3xl font-medium leading-[1.1] mb-8">
               A faster, reliable way to manage{" "}
               <span className="text-primary">your money.</span>
             </h2>
@@ -127,7 +127,7 @@ const Login = () => {
                   />
                 </div>
                 <div>
-                  <h4 className="text-slate-900 font-black text-lg">
+                  <h4 className="text-slate-900 font-medium text-lg">
                     Instant Access
                   </h4>
                   <p className="text-slate-500 text-sm font-medium leading-relaxed mt-1">
@@ -144,7 +144,7 @@ const Login = () => {
                   />
                 </div>
                 <div>
-                  <h4 className="text-slate-900 font-black text-lg">
+                  <h4 className="text-slate-900 font-medium text-lg">
                     Shares Management
                   </h4>
                   <p className="text-slate-500 text-sm font-medium leading-relaxed mt-1">
@@ -161,7 +161,7 @@ const Login = () => {
                   />
                 </div>
                 <div>
-                  <h4 className="text-slate-900 font-black text-lg">
+                  <h4 className="text-slate-900 font-medium text-lg">
                     Bank-Grade Security
                   </h4>
                   <p className="text-slate-500 text-sm font-medium leading-relaxed mt-1">
@@ -173,7 +173,7 @@ const Login = () => {
             </div>
           </div>
           <div className="relative z-10 pt-8 flex items-center justify-between">
-            <span className="text-slate-400 text-[10px] uppercase font-black tracking-tighter">
+            <span className="text-slate-400 text-[10px] uppercase font-medium tracking-tighter">
               Anansi Sacco © 2026
             </span>
           </div>
@@ -181,7 +181,7 @@ const Login = () => {
         <div className="p-6 lg:p-6 sm:p-2 flex items-center justify-center bg-white">
           <div className="w-full">
             <div className="mb-10">
-              <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+              <h1 className="text-3xl font-medium text-slate-900 tracking-tight">
                 Member Sign In
               </h1>
               <p className="text-slate-400 font-medium mt-2">
@@ -191,7 +191,7 @@ const Login = () => {
             <form onSubmit={handleLogin} className="space-y-6">
               {/* Member ID Field */}
               <div className="space-y-2">
-                <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">
+                <label className="text-[11px] font-medium text-slate-400 uppercase tracking-widest ml-1">
                   Username / Email
                 </label>
                 <div className="relative group">
@@ -228,7 +228,7 @@ const Login = () => {
                 If you have forgotten your credentials, please use the{" "}
                 <span
                   onClick={() => navigate("/auth/forgot-password")}
-                  class="text-blue-600 font-black cursor-pointer hover:text-blue-800 underline underline-offset-2"
+                  class="text-blue-600 font-medium cursor-pointer hover:text-blue-800 underline underline-offset-2"
                 >
                   Account Recovery
                 </span>{" "}
@@ -237,7 +237,7 @@ const Login = () => {
               {/* Password Field */}
               <div className="space-y-2">
                 <div className="flex justify-between items-center px-1">
-                  <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest">
+                  <label className="text-[11px] font-medium text-slate-400 uppercase tracking-widest">
                     Password
                   </label>
                 </div>
@@ -285,7 +285,7 @@ const Login = () => {
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={!isFormValid || isLoading}
-                className={`w-full py-6 rounded-2xl font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-3 transition-all
+                className={`w-full py-6 rounded-2xl font-medium uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-3 transition-all
                   ${
                     isFormValid && !isLoading
                       ? "bg-primary text-white shadow-xl shadow-slate-900/10 hover:bg-secondary active:shadow-none"

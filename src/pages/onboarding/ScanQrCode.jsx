@@ -74,7 +74,7 @@ const SelfieQRCode = () => {
       {/* 2. Main Area: QR Workstation */}
       <div className="flex-1 md:px-3 sm:px-3">
         <header className="mb-6">
-          <h1 className="text-2xl font-black text-primary uppercase tracking-tight mb-2">
+          <h1 className="text-2xl font-medium text-primary uppercase tracking-tight mb-2">
             Scan to Start
           </h1>
           <p className="text-slate-500 text-[15px] leading-relaxed w-full">
@@ -131,7 +131,7 @@ const SelfieQRCode = () => {
             <div className="relative z-10">
               <div className="flex items-center gap-2 mb-3">
                 <Lock className="text-primary" size={16} />
-                <span className="text-[11px] font-black uppercase tracking-widest text-primary">
+                <span className="text-[11px] font-medium uppercase tracking-widest text-primary">
                   Secure Session Sync
                 </span>
               </div>
@@ -161,7 +161,7 @@ const SelfieQRCode = () => {
           <button
             onClick={handleContinue}
             disabled={isLoading}
-            className="w-full h-[64px] bg-primary text-white rounded-[24px] font-black uppercase tracking-[0.15em] flex items-center justify-center gap-3 hover:bg-secondary hover:text-primary transition-all shadow-xl shadow-blue-900/10"
+            className="w-full h-[64px] bg-primary text-white rounded-[24px] font-medium uppercase tracking-[0.15em] flex items-center justify-center gap-3 hover:bg-secondary hover:text-primary transition-all shadow-xl shadow-blue-900/10"
           >
             {isLoading ? (
               <Loader2 className="animate-spin" size={24} />
@@ -180,7 +180,7 @@ const SelfieQRCode = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Smartphone className="text-primary" size={20} />
-              <h4 className="text-[12px] font-black uppercase tracking-widest text-primary">
+              <h4 className="text-[12px] font-medium uppercase tracking-widest text-primary">
                 Mobile Sync
               </h4>
             </div>
@@ -193,7 +193,7 @@ const SelfieQRCode = () => {
           <div className="p-6 bg-white rounded-[32px] border border-slate-100 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
               <ShieldCheck className="text-secondary" size={18} />
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-primary">
+              <h4 className="text-[11px] font-medium uppercase tracking-widest text-primary">
                 Capture Tips
               </h4>
             </div>

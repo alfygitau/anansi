@@ -1,12 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  X,
-  TrendingUp,
-  AlertCircle,
-  ShieldAlert,
-  Phone,
-  Coins,
-} from "lucide-react";
+import { X, TrendingUp, AlertCircle, Phone, Coins } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 import { useStore } from "../../store/useStore";
 import { motion, AnimatePresence } from "framer-motion";
@@ -116,19 +109,19 @@ const InvestAmount = ({ isOpen, onClose, onConfirm }) => {
               <div className="p-4 rounded-[24px] border border-emerald-100 bg-emerald-50/30">
                 <div className="flex items-center gap-2 mb-2">
                   <Coins className="text-primary" size={18} />
-                  <p className="text-primary text-[10px] font-black uppercase tracking-widest">
+                  <p className="text-primary text-[10px] font-medium uppercase tracking-widest">
                     Deposit Savings
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">
+                  <label className="text-[11px] font-medium text-slate-400 uppercase tracking-widest ml-1">
                     Savings Amount
                   </label>
                   <div className="relative group">
                     {/* Absolute Prefix Block with Custom KES Badge */}
                     <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none">
-                      <span className="text-[11px] font-black tracking-wider text-slate-400 group-focus-within:text-[#074073] transition-colors">
+                      <span className="text-[11px] font-medium tracking-wider text-slate-400 group-focus-within:text-[#074073] transition-colors">
                         KES
                       </span>
                       <div className="w-[1.5px] h-5 bg-slate-200 ml-3 group-focus-within:bg-[#074073]/20 transition-colors" />
@@ -165,24 +158,24 @@ const InvestAmount = ({ isOpen, onClose, onConfirm }) => {
                 <div className="flex justify-between items-center mb-4">
                   <div className="flex items-center gap-2">
                     <TrendingUp className="text-[#074073]" size={18} />
-                    <p className="text-[#074073] text-[10px] font-black uppercase tracking-widest">
+                    <p className="text-[#074073] text-[10px] font-medium uppercase tracking-widest">
                       Buy Shares
                     </p>
                   </div>
-                  <span className="text-[9px] bg-white border border-blue-100 text-[#074073] px-2 py-1 rounded-lg font-black uppercase tracking-tighter">
+                  <span className="text-[9px] bg-white border border-blue-100 text-[#074073] px-2 py-1 rounded-lg font-medium uppercase tracking-tighter">
                     1 Share = KES 1,000
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">
+                    <label className="text-[11px] font-medium text-slate-400 uppercase tracking-widest ml-1">
                       Investment
                     </label>
                     <div className="relative group">
                       {/* Absolute Prefix Block with Custom KES Badge */}
                       <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none">
-                        <span className="text-[11px] font-black tracking-wider text-slate-400 group-focus-within:text-[#074073] transition-colors">
+                        <span className="text-[11px] font-medium tracking-wider text-slate-400 group-focus-within:text-[#074073] transition-colors">
                           KES
                         </span>
                         <div className="w-[1.5px] h-5 bg-slate-200 ml-3 group-focus-within:bg-[#074073]/20 transition-colors" />
@@ -219,7 +212,7 @@ const InvestAmount = ({ isOpen, onClose, onConfirm }) => {
                       Units to Acquire
                     </label>
                     <div className="h-14 flex items-center justify-center bg-[#074073] rounded-xl shadow-inner shadow-black/10">
-                      <p className="text-sm font-black text-white">
+                      <p className="text-sm font-medium text-white">
                         {calculateShares()}
                       </p>
                     </div>
@@ -230,7 +223,7 @@ const InvestAmount = ({ isOpen, onClose, onConfirm }) => {
               {/* Payment Method Section */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between ml-1">
-                  <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest">
+                  <p className="text-[11px] font-medium text-slate-400 uppercase tracking-widest">
                     Payment Method
                   </p>
                   <img src="/mpesa.svg" alt="M-Pesa" className="h-5" />
@@ -239,7 +232,7 @@ const InvestAmount = ({ isOpen, onClose, onConfirm }) => {
                 <div className="relative group">
                   {/* Absolute Prefix Block with MOBILE Badge */}
                   <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none">
-                    <span className="text-[10px] font-black tracking-wider text-slate-400 group-focus-within:text-[#074073] transition-colors">
+                    <span className="text-[10px] font-medium tracking-wider text-slate-400 group-focus-within:text-[#074073] transition-colors">
                       <Phone size={20} />
                     </span>
                     <div className="w-[1.5px] h-5 bg-slate-200 ml-3 group-focus-within:bg-[#074073]/20 transition-colors" />
@@ -277,7 +270,7 @@ const InvestAmount = ({ isOpen, onClose, onConfirm }) => {
               <button
                 onClick={handleSave}
                 disabled={!isFormValid}
-                className={`w-full h-16 font-black rounded-2xl transition-all uppercase tracking-widest text-xs ${
+                className={`w-full h-16 font-medium rounded-2xl transition-all uppercase tracking-widest text-xs ${
                   isFormValid
                     ? "bg-[#074073] hover:bg-[#052d52] text-white active:scale-[0.98]"
                     : "bg-gray-100 text-gray-400 cursor-not-allowed"

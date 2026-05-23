@@ -86,10 +86,10 @@ const ReviewDeposit = ({ isOpen, onClose, onConfirm }) => {
               <div className="p-8 space-y-6">
                 {/* Large Amount Display */}
                 <div className="text-center py-8 bg-slate-50 rounded-[28px] border border-slate-100 shadow-sm">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em] mb-2">
+                  <p className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.25em] mb-2">
                     Deposit Amount
                   </p>
-                  <h2 className="text-4xl font-black text-[#074073] flex items-center justify-center">
+                  <h2 className="text-4xl font-medium text-[#074073] flex items-center justify-center">
                     <span className="text-lg font-bold mr-2 text-[#074073]/60 uppercase">
                       KES
                     </span>
@@ -134,7 +134,7 @@ const ReviewDeposit = ({ isOpen, onClose, onConfirm }) => {
               <button
                 disabled={isLoading}
                 onClick={handleContinue}
-                className={`w-full h-14 rounded-2xl font-black flex items-center justify-center gap-3 transition-all active:scale-[0.98] shadow-xl shadow-[#074073]/10 ${
+                className={`w-full h-14 rounded-2xl font-medium flex items-center justify-center gap-3 transition-all active:scale-[0.98] shadow-xl shadow-[#074073]/10 ${
                   isLoading
                     ? "bg-slate-100 text-slate-400 cursor-not-allowed"
                     : "bg-[#074073] hover:bg-[#052d52] text-white"
@@ -155,7 +155,7 @@ const ReviewDeposit = ({ isOpen, onClose, onConfirm }) => {
               </button>
 
               <div className="flex items-center justify-center gap-2 mt-2">
-                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                <p className="text-[9px] font-medium text-slate-400 uppercase tracking-widest">
                   Secure Transaction Layer Active
                 </p>
               </div>

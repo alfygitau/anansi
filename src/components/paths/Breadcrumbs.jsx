@@ -9,7 +9,6 @@ import {
   UserCircle,
   ShieldCheck,
   Zap,
-  Lock,
 } from "lucide-react";
 
 const routeLabels = {
@@ -166,7 +165,7 @@ const Breadcrumbs = () => {
                   ) : (
                     <div className="flex items-center gap-2">
                       <span className="text-primary">{item.icon}</span>
-                      <span className="text-[13px] font-black text-primary uppercase tracking-[0.15em]">
+                      <span className="text-[13px] font-medium text-primary uppercase tracking-[0.15em]">
                         {item.label}
                       </span>
                     </div>

@@ -88,7 +88,7 @@ const ChangeEmail = () => {
           size={20}
           className="group-hover:-translate-x-1 transition-transform"
         />
-        <span className="text-xs font-black uppercase tracking-widest">
+        <span className="text-xs font-medium uppercase tracking-widest">
           Go Back
         </span>
       </button>
@@ -97,7 +97,7 @@ const ChangeEmail = () => {
         {/* Left: Content */}
         <div className="lg:col-span-6">
           <header className="mb-10">
-            <h1 className="text-3xl font-black text-primary uppercase tracking-tight leading-none mb-4">
+            <h1 className="text-3xl font-medium text-primary uppercase tracking-tight leading-none mb-4">
               Update Your Email Address
             </h1>
             <p className="text-slate-500 text-lg leading-relaxed">
@@ -108,7 +108,7 @@ const ChangeEmail = () => {
 
           <form onSubmit={handleEmailChange} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-4">
+              <label className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 ml-4">
                 Official Email Address
               </label>
               <div className="relative">
@@ -147,7 +147,7 @@ const ChangeEmail = () => {
             <button
               type="submit"
               disabled={isLoading || !!error || !email}
-              className={`w-full h-[72px] rounded-[28px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-4 transition-all shadow-xl mt-8 ${
+              className={`w-full h-[72px] rounded-[28px] font-medium uppercase tracking-[0.2em] flex items-center justify-center gap-4 transition-all shadow-xl mt-8 ${
                 isLoading || !!error || !email
                   ? "bg-slate-200 text-slate-400 cursor-not-allowed"
                   : "bg-primary text-white hover:bg-secondary hover:text-primary shadow-blue-900/20 active:scale-[0.98]"
@@ -177,7 +177,7 @@ const ChangeEmail = () => {
             />
 
             <div className="space-y-3 relative z-10">
-              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
+              <h4 className="text-[10px] font-medium uppercase tracking-[0.2em] text-primary">
                 Security Protocol & Next Steps
               </h4>
 
@@ -214,7 +214,7 @@ const ChangeEmail = () => {
             </div>
 
             <div className="relative z-10">
-              <h3 className="text-3xl font-black uppercase tracking-tight mb-6 leading-tight">
+              <h3 className="text-3xl font-medium uppercase tracking-tight mb-6 leading-tight">
                 Secure Digital <br />
                 <span className="text-secondary">Verification</span>
               </h3>
@@ -222,7 +222,7 @@ const ChangeEmail = () => {
               <div className="space-y-6 mb-10 max-w-sm">
                 {/* Explanation 1: Compliance */}
                 <div className="space-y-2">
-                  <p className="text-secondary font-black text-[10px] uppercase tracking-[0.2em]">
+                  <p className="text-secondary font-medium text-[10px] uppercase tracking-[0.2em]">
                     Compliance Standards
                   </p>
                   <p className="text-white/70 text-sm leading-relaxed">
@@ -239,7 +239,7 @@ const ChangeEmail = () => {
 
                 {/* Explanation 2: The OTP Process */}
                 <div className="space-y-2">
-                  <p className="text-secondary font-black text-[10px] uppercase tracking-[0.2em]">
+                  <p className="text-secondary font-medium text-[10px] uppercase tracking-[0.2em]">
                     Next Step: Instant OTP
                   </p>
                   <p className="text-white/70 text-sm leading-relaxed">

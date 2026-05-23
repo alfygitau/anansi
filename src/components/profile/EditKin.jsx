@@ -1,15 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  X,
-  User,
-  Heart,
-  MapPin,
-  Phone,
-  Calendar,
-  Loader2,
-  ShieldAlert,
-} from "lucide-react";
+import { X, User, Heart, MapPin, Phone, Calendar, Loader2 } from "lucide-react";
 import { useMutation } from "react-query";
 import { updateNextOfKin } from "../../sdks/customer/customer";
 import { useToast } from "../../contexts/ToastProvider";
@@ -38,8 +29,6 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
       });
     }
   }, [customer]);
-
-  const primaryColor = "#074073";
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -104,7 +93,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
 
             {/* HEADER TRACK (Pinned, non-scrollable) */}
             <div className="p-5 pb-4 flex flex-col shrink-0">
-              <h2 className="text-xl font-black text-slate-900">
+              <h2 className="text-xl font-medium text-slate-900">
                 Next of Kin Details
               </h2>
               <p className="text-slate-400 w-[80%] text-xs font-medium mt-1  leading-relaxed">
@@ -117,7 +106,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
             <div className="flex-1 overflow-y-auto p-8 space-y-6 custom-scrollbar">
               {/* Full Name Field */}
               <div className="w-full space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                   Full Name
                 </label>
                 <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
@@ -139,7 +128,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
               <div className="grid grid-cols-2 gap-4">
                 {/* Relationship Field */}
                 <div className="w-full space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                  <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                     Relationship
                   </label>
                   <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
@@ -159,7 +148,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
 
                 {/* Date of Birth Field */}
                 <div className="w-full space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                  <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                     Date of Birth
                   </label>
                   <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
@@ -179,7 +168,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
 
               {/* Phone Number Field */}
               <div className="w-full space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                   Phone Number
                 </label>
                 <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
@@ -199,7 +188,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
 
               {/* Location Field */}
               <div className="w-full space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                   Location
                 </label>
                 <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
@@ -224,7 +213,7 @@ const EditNextOfKin = ({ isOpen, onClose, customer, refetch }) => {
                 type="button"
                 onClick={handleSave}
                 disabled={isLoading}
-                className={`w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs text-white shadow-md transition-all flex items-center justify-center gap-3
+                className={`w-full h-14 rounded-2xl font-medium uppercase tracking-widest text-xs text-white shadow-md transition-all flex items-center justify-center gap-3
                   ${isLoading ? "bg-slate-300 cursor-not-allowed" : "bg-[#074073] hover:opacity-95 active:scale-[0.99]"}
                 `}
               >

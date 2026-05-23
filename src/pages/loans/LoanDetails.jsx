@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Smartphone,
   Clock,
-  Receipt,
   CheckCircle2,
   CreditCard,
   FileStack,
@@ -149,14 +148,14 @@ const LoanDetails = () => {
           <header>
             <div className="flex justify-between items-end">
               <div>
-                <h1 className="text-3xl font-black tracking-tight">
+                <h1 className="text-3xl font-medium tracking-tight">
                   {loanData.product}
                 </h1>
                 <p className="text-slate-400 font-mono text-xs mt-1 uppercase tracking-widest">
                   {loanData.code}
                 </p>
               </div>
-              <div className="bg-primary text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.1em]">
+              <div className="bg-primary text-white px-4 py-2 rounded-xl text-[10px] font-medium uppercase tracking-[0.1em]">
                 {loanData.status}
               </div>
             </div>
@@ -164,7 +163,7 @@ const LoanDetails = () => {
           <div className="flex flex-col lg:flex-row gap-6 py-5 w-full">
             <div className="flex-1 min-w-[320px] bg-gradient-to-br from-[#0A2351] to-[#152E5F] rounded-[35px] p-7 shadow-[0_15px_30px_rgba(10,35,81,0.15)] text-white">
               <div className="flex justify-between items-center mb-4">
-                <span className="text-[#17C6C6] text-[10px] font-black tracking-[1.8px] uppercase">
+                <span className="text-[#17C6C6] text-[10px] font-medium tracking-[1.8px] uppercase">
                   Emergency Fund Loan
                 </span>
                 <div className="bg-white/10 px-2 py-1 rounded-lg flex items-center justify-center">
@@ -178,7 +177,7 @@ const LoanDetails = () => {
                   <span className="text-white/50 text-[10px] font-extrabold tracking-[1.2px] uppercase">
                     Current Balance
                   </span>
-                  <h2 className="text-[28px] font-black mt-1 leading-none">
+                  <h2 className="text-[28px] font-medium mt-1 leading-none">
                     KES 142,500.00
                   </h2>
                 </div>
@@ -193,7 +192,7 @@ const LoanDetails = () => {
                   <span className="text-white/70 text-[13px] font-semibold">
                     Repayment Progress
                   </span>
-                  <span className="text-[#17C6C6] text-[13px] font-black">
+                  <span className="text-[#17C6C6] text-[13px] font-medium">
                     35%
                   </span>
                 </div>
@@ -220,17 +219,17 @@ const LoanDetails = () => {
                 <hr className="border-black/10 my-3" />
 
                 <div className="flex justify-between items-center">
-                  <span className="text-[14px] font-black text-slate-900">
+                  <span className="text-[14px] font-medium text-slate-900">
                     Total Due (15 May)
                   </span>
-                  <span className="text-[16px] font-black text-teal-900">
+                  <span className="text-[16px] font-medium text-teal-900">
                     KES 24,500.00
                   </span>
                 </div>
               </div>
               <button
                 onClick={() => setShowRepayAmount(true)}
-                className="mt-6 w-full py-3 bg-[#17C6C6] text-white rounded-xl font-black text-[12px] uppercase tracking-widest shadow-lg shadow-teal-500/20 active:scale-[0.98] transition-transform"
+                className="mt-6 w-full py-3 bg-[#17C6C6] text-white rounded-xl font-medium text-[12px] uppercase tracking-widest shadow-lg shadow-teal-500/20 active:scale-[0.98] transition-transform"
               >
                 Pay Installment
               </button>
@@ -273,7 +272,7 @@ const LoanDetails = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 py-3">
             {/* Left Side: Schedule (Stepper) */}
             <div className="md:col-span-6">
-              <h3 className="text-[13px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">
+              <h3 className="text-[13px] font-medium uppercase tracking-[0.2em] text-slate-400 mb-3">
                 Repayment Progress
               </h3>
               <LoanScheduleList installments={scheduleData} />
@@ -282,10 +281,10 @@ const LoanDetails = () => {
             {/* Right Side: Transactions */}
             <div className="md:col-span-6">
               <div className="flex justify-between items-center mb-3">
-                <h3 className="text-[13px] font-black uppercase tracking-[0.2em] text-slate-400">
+                <h3 className="text-[13px] font-medium uppercase tracking-[0.2em] text-slate-400">
                   Transaction Ledger
                 </h3>
-                <button className="text-[13px] font-black tracking-widest text-primary hover:underline flex items-center gap-1">
+                <button className="text-[13px] font-medium tracking-widest text-primary hover:underline flex items-center gap-1">
                   Download Statement
                 </button>
               </div>
@@ -343,7 +342,7 @@ const MiniDetail = ({ label, value }) => (
     <span className="text-white/50 text-[9px] font-bold uppercase tracking-wider">
       {label}
     </span>
-    <span className="text-[12px] font-black text-white">{value}</span>
+    <span className="text-[12px] font-medium text-white">{value}</span>
   </div>
 );
 
@@ -390,13 +389,13 @@ const MPesaTransactionRow = ({ tx }) => {
       <div className="text-right">
         {/* Color polarity: Blue for money in, Green for repayments */}
         <p
-          className={`text-sm font-black ${isDisbursement ? "text-primary" : "text-[#3EB344]"}`}
+          className={`text-sm font-medium ${isDisbursement ? "text-primary" : "text-[#3EB344]"}`}
         >
           {isDisbursement ? "+" : "-"}
           {tx.amount}
         </p>
         <div className="flex items-center justify-end gap-1 mt-0.5">
-          <span className="text-[9px] font-black uppercase text-slate-300 tracking-tighter">
+          <span className="text-[9px] font-medium uppercase text-slate-300 tracking-tighter">
             Verified
           </span>
           <CheckCircle2 size={10} className="text-[#3EB344]" />
@@ -459,7 +458,7 @@ const LoanScheduleList = ({ installments = [], onSelectInstallment }) => {
             <div className="flex-1 flex flex-col min-w-0">
               <span
                 className={`
-                text-[14px] font-black truncate
+                text-[14px] font-medium truncate
                 ${isPaid ? "line-through text-slate-400" : "text-[#0A2351]"}
               `}
               >
@@ -473,12 +472,12 @@ const LoanScheduleList = ({ installments = [], onSelectInstallment }) => {
             {/* Amount & Status Badge */}
             <div className="flex flex-col items-end shrink-0 ml-4">
               <span
-                className={`text-[14px] font-black ${isPaid ? "text-slate-400" : "text-slate-900"}`}
+                className={`text-[14px] font-medium ${isPaid ? "text-slate-400" : "text-slate-900"}`}
               >
                 {item.amount}
               </span>
               {isPaid ? (
-                <span className="text-[9px] font-black text-[#17C6C6] tracking-wider uppercase">
+                <span className="text-[9px] font-medium text-[#17C6C6] tracking-wider uppercase">
                   SUCCESS
                 </span>
               ) : (

@@ -79,7 +79,7 @@ const ForgotPassword = () => {
           <div className="w-16 h-16 bg-blue-50 rounded-3xl flex items-center justify-center mb-6">
             <ShieldCheck size={32} className="text-secondary" />
           </div>
-          <h1 className="text-2xl font-black text-primary mb-2">
+          <h1 className="text-2xl font-medium text-primary mb-2">
             Forgot Password?
           </h1>
           <p className="text-slate-400 text-sm leading-relaxed max-w-[320px] mx-auto">
@@ -92,7 +92,7 @@ const ForgotPassword = () => {
         {/* FORM */}
         <form onSubmit={handleReset} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1">
+            <label className="text-[11px] font-medium uppercase tracking-widest text-slate-400 ml-1">
               Email Address
             </label>
             <div className="relative">
@@ -126,7 +126,7 @@ const ForgotPassword = () => {
           <button
             type="submit"
             disabled={isButtonDisabled}
-            className={`w-full h-14 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-lg 
+            className={`w-full h-14 text-white rounded-2xl font-medium uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-lg 
     ${
       isButtonDisabled
         ? "opacity-50 cursor-not-allowed shadow-none bg-slate-400"
@@ -151,7 +151,7 @@ const ForgotPassword = () => {
           <div className="flex gap-3">
             <ShieldAlert size={18} className="text-secondary shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-primary">
+              <h4 className="text-[11px] font-medium uppercase tracking-widest text-primary">
                 Security Notice
               </h4>
               <p className="text-[12px] text-slate-500 leading-relaxed">

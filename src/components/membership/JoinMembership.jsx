@@ -54,7 +54,7 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
                       <Smartphone className="text-secondary" size={20} />
                     </div>
                     <div>
-                      <h2 className="text-xl font-black tracking-tight">
+                      <h2 className="text-xl font-medium tracking-tight">
                         Setup Membership
                       </h2>
                       Welcome to Anansi Sacco!
@@ -72,7 +72,7 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
               <div className="space-y-5">
                 {/* Fixed Amount */}
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                  <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-1">
                     Membership Amount
                   </label>
                   <div className="flex h-12 w-full items-center bg-slate-50 border border-slate-200 rounded-xl px-4">
@@ -91,7 +91,7 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
                 {/* Phone Number */}
                 <div className="space-y-2">
                   <div className="flex justify-between items-center ml-1">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400">
                       M-PESA Phone Number
                     </label>
                     <img
@@ -135,7 +135,7 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
 
                 <button
                   onClick={onContinue}
-                  className="group w-full h-14 bg-primary hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/10 active:scale-[0.98]"
+                  className="group w-full h-14 bg-primary hover:bg-[#062d7a] text-white rounded-2xl font-medium uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/10 active:scale-[0.98]"
                 >
                   Pay & Activate
                   <ArrowRight

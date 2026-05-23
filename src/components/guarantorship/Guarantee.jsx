@@ -46,7 +46,7 @@ const GuaranteeAmount = ({
                   <Landmark size={20} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-black text-slate-900 leading-tight">
+                  <h3 className="text-lg font-medium text-slate-900 leading-tight">
                     Pledge Amount
                   </h3>
                 </div>
@@ -74,12 +74,12 @@ const GuaranteeAmount = ({
               {/* Input Group */}
               <div className="space-y-6">
                 <div className="relative group">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-2">
+                  <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 mb-2 block ml-2">
                     Guarantee Amount
                   </label>
                   <div className="relative flex items-center">
                     {/* Currency Prefix */}
-                    <div className="absolute left-6 text-sm font-black text-slate-400">
+                    <div className="absolute left-6 text-sm font-medium text-slate-400">
                       KES
                     </div>
 
@@ -88,7 +88,7 @@ const GuaranteeAmount = ({
                       value={amount}
                       onChange={handleInputChange}
                       placeholder="0.00"
-                      className="w-full pl-16 pr-8 py-3 bg-slate-100 border-2 border-transparent rounded-[12px] text-2xl font-black text-slate-900 outline-none transition-all focus:bg-white focus:border-blue-600 focus:shadow-2xl focus:shadow-blue-900/5 placeholder:text-slate-300"
+                      className="w-full pl-16 pr-8 py-3 bg-slate-100 border-2 border-transparent rounded-[12px] text-2xl font-medium text-slate-900 outline-none transition-all focus:bg-white focus:border-blue-600 focus:shadow-2xl focus:shadow-blue-900/5 placeholder:text-slate-300"
                     />
                   </div>
                 </div>
@@ -113,7 +113,7 @@ const GuaranteeAmount = ({
               <div className="mt-auto pt-10">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="h-px flex-1 bg-slate-100"></div>
-                  <span className="text-[9px] font-black uppercase text-slate-300">
+                  <span className="text-[9px] font-medium uppercase text-slate-300">
                     Secure Transaction
                   </span>
                   <div className="h-px flex-1 bg-slate-100"></div>
@@ -126,7 +126,7 @@ const GuaranteeAmount = ({
               <button
                 onClick={handleContinue}
                 disabled={!amount || parseFloat(amount) <= 0}
-                className="w-full h-16 rounded-[18px] bg-slate-900 text-white text-xs font-black uppercase tracking-[0.2em] shadow-2xl shadow-slate-200 hover:bg-slate-800 transition-all active:scale-95 disabled:opacity-20 disabled:grayscale flex items-center justify-center gap-3"
+                className="w-full h-16 rounded-[18px] bg-slate-900 text-white text-xs font-medium uppercase tracking-[0.2em] shadow-2xl shadow-slate-200 hover:bg-slate-800 transition-all active:scale-95 disabled:opacity-20 disabled:grayscale flex items-center justify-center gap-3"
               >
                 Continue to Finalize
                 <ArrowRight size={18} strokeWidth={3} />

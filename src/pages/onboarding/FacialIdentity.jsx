@@ -91,7 +91,7 @@ const FacialIdentity = () => {
       <div className="flex-1 space-y-4">
         {/* Header Block Section */}
         <header>
-          <h1 className="text-xl font-black text-primary tracking-tight mb-2">
+          <h1 className="text-xl font-medium text-primary tracking-tight mb-2">
             Selfie Verification
           </h1>
 
@@ -111,7 +111,7 @@ const FacialIdentity = () => {
               provided.
             </p>
             <div className="flex flex-col gap-2">
-              <h4 className="text-[11px] font-black uppercase tracking-[0.1em] text-primary">
+              <h4 className="text-[11px] font-medium uppercase tracking-[0.1em] text-primary">
                 How it works:
               </h4>
               <ol className="text-[13px] text-slate-500 space-y-2 list-decimal list-inside ml-1">
@@ -148,7 +148,7 @@ const FacialIdentity = () => {
 
                 {/* truncate utilities ensure text clips elegantly if subtext content runs too long inside a smaller 2-column box */}
                 <div className="flex flex-col gap-1 min-w-0">
-                  <h3 className="text-[13px] lg:text-[14px] font-black text-primary uppercase tracking-tight leading-none truncate">
+                  <h3 className="text-[13px] lg:text-[14px] font-medium text-primary uppercase tracking-tight leading-none truncate">
                     {card.title}
                   </h3>
                   <p className="text-[11px] lg:text-[12px] text-slate-500 font-medium group-hover:text-slate-700 transition-colors truncate">
@@ -170,7 +170,7 @@ const FacialIdentity = () => {
         <div>
           <button
             onClick={openWebcam}
-            className="text-[11px] font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors"
+            className="text-[11px] font-medium uppercase tracking-widest text-slate-400 hover:text-primary transition-colors"
           >
             I don’t have access to a camera
           </button>
@@ -182,7 +182,7 @@ const FacialIdentity = () => {
           <div className="md:col-span-4 bg-white border border-slate-200/60 rounded-3xl p-6 shadow-sm">
             <div className="flex items-center gap-2 mb-3">
               <Lock className="text-primary" size={16} />
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-primary">
+              <h4 className="text-[11px] font-medium uppercase tracking-widest text-primary">
                 Privacy & Security
               </h4>
             </div>
@@ -196,7 +196,7 @@ const FacialIdentity = () => {
           <div className="md:col-span-5 bg-white border border-slate-200/60 rounded-3xl p-6 shadow-sm">
             <div className="flex items-center gap-2 mb-3">
               <ShieldCheck className="text-secondary" size={16} />
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-primary">
+              <h4 className="text-[11px] font-medium uppercase tracking-widest text-primary">
                 Capture Tips
               </h4>
             </div>
@@ -222,7 +222,7 @@ const FacialIdentity = () => {
           <div className="md:col-span-3 bg-[#042159] text-white rounded-3xl p-6 shadow-sm flex flex-col justify-center">
             <div className="flex items-center gap-2 mb-2">
               <Info size={14} className="text-secondary" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-white/90">
+              <span className="text-[10px] font-medium uppercase tracking-widest text-white/90">
                 Compliance
               </span>
             </div>

@@ -107,13 +107,13 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
               {/* Share Calculation Section */}
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1 space-y-1">
-                  <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">
+                  <label className="text-[11px] font-medium text-slate-400 uppercase tracking-widest ml-1">
                     Purchase Cost (KES)
                   </label>
                   <div className="relative group">
                     {/* Absolute Prefix Block with Custom KES Badge */}
                     <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none">
-                      <span className="text-[11px] font-black tracking-wider text-slate-400 group-focus-within:text-[#074073] transition-colors">
+                      <span className="text-[11px] font-medium tracking-wider text-slate-400 group-focus-within:text-[#074073] transition-colors">
                         KES
                       </span>
                       <div className="w-[1.5px] h-5 bg-slate-200 ml-3 group-focus-within:bg-[#074073]/20 transition-colors" />
@@ -175,13 +175,13 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">
+                  <label className="text-[11px] font-medium text-slate-400 uppercase tracking-widest ml-1">
                     M-PESA Phone Number
                   </label>
                   <div className="relative group">
                     {/* Absolute Prefix Block with MOBILE Badge */}
                     <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none">
-                      <span className="text-[10px] font-black tracking-wider text-slate-400 group-focus-within:text-[#074073] transition-colors">
+                      <span className="text-[10px] font-medium tracking-wider text-slate-400 group-focus-within:text-[#074073] transition-colors">
                         MOBILE
                       </span>
                       <div className="w-[1.5px] h-5 bg-slate-200 ml-3 group-focus-within:bg-[#074073]/20 transition-colors" />

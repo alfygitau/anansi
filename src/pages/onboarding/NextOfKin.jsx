@@ -147,7 +147,7 @@ const NextOfKin = () => {
                 <ShieldAlert size={20} className="text-amber-600" />
               </div>
               <div className="space-y-1">
-                <h4 className="text-[11px] font-black text-primary uppercase tracking-widest">
+                <h4 className="text-[11px] font-medium text-primary uppercase tracking-widest">
                   Statutory Requirement
                 </h4>
                 <p className="text-xs text-slate-600 leading-relaxed">

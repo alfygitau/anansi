@@ -53,8 +53,7 @@ const EditAddress = ({
       setCountry(customer?.country_of_residence || "");
     }
   }, [customer]);
-
-  const primaryColor = "#074073";
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -130,7 +129,7 @@ const EditAddress = ({
             {/* Header Area */}
             <div className="p-8 pb-4 flex justify-between items-start shrink-0">
               <div>
-                <h2 className="text-2xl font-black text-[#074073]">
+                <h2 className="text-2xl font-medium text-[#074073]">
                   Update Address
                 </h2>
                 <p className="text-slate-400 text-sm font-medium">
@@ -142,7 +141,7 @@ const EditAddress = ({
             {/* SCROLLABLE CENTRAL CONTAINER */}
             <div className="flex-1 overflow-y-auto p-8 space-y-6 custom-scrollbar">
               <div className="relative group">
-                <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
+                <label className="text-[11px] font-medium uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
                   Country of Residence
                 </label>
                 <div className="relative group">
@@ -174,7 +173,7 @@ const EditAddress = ({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Physical Address - Full Width */}
                   <div className="md:col-span-2 relative">
-                    <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
+                    <label className="text-[11px] font-medium uppercase tracking-widest text-slate-400 ml-1 mb-2 block">
                       Physical Address
                     </label>
                     <div className="relative">
@@ -194,7 +193,7 @@ const EditAddress = ({
 
                   {/* County Select */}
                   <div className="space-y-2">
-                    <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                    <label className="text-[11px] font-medium uppercase tracking-widest text-slate-400 ml-1">
                       County
                     </label>
                     <div className="relative group">
@@ -224,7 +223,7 @@ const EditAddress = ({
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                    <label className="text-[11px] font-medium uppercase tracking-widest text-slate-400 ml-1">
                       Sub-County
                     </label>
                     <div className="relative group">
@@ -279,7 +278,7 @@ const EditAddress = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 h-14 bg-white border border-slate-200 text-slate-700 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-slate-50 transition-all shadow-sm"
+                className="flex-1 h-14 bg-white border border-slate-200 text-slate-700 rounded-2xl font-medium uppercase tracking-widest text-xs hover:bg-slate-50 transition-all shadow-sm"
               >
                 Cancel
               </button>
@@ -287,7 +286,7 @@ const EditAddress = ({
                 type="button"
                 onClick={handleSave}
                 disabled={isLoading}
-                className={`flex-[2] h-14 rounded-2xl font-black uppercase tracking-widest text-xs text-white shadow-md transition-all flex items-center justify-center gap-2
+                className={`flex-[2] h-14 rounded-2xl font-medium uppercase tracking-widest text-xs text-white shadow-md transition-all flex items-center justify-center gap-2
                   ${isLoading ? "bg-slate-300 cursor-not-allowed" : "bg-[#074073] hover:opacity-95 active:scale-[0.99]"}
                 `}
               >

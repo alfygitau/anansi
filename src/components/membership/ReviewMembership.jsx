@@ -83,7 +83,7 @@ const ReviewMembership = ({ isOpen, onClose, onNext }) => {
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-50 text-primary mb-2">
                   <ShieldCheck size={28} />
                 </div>
-                <h2 className="text-2xl font-black text-primary tracking-tight">
+                <h2 className="text-2xl font-medium text-primary tracking-tight">
                   Confirm Details
                 </h2>
                 <p className="text-slate-500 text-sm">
@@ -94,7 +94,7 @@ const ReviewMembership = ({ isOpen, onClose, onNext }) => {
               {/* M-PESA Box */}
               <div className="group relative p-3 rounded-2xl bg-[#F0FFFE] border border-cyan-100 transition-all hover:shadow-md">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-cyan-700">
+                  <span className="text-[10px] font-medium uppercase tracking-widest text-cyan-700">
                     Payment Method
                   </span>
                   <img
@@ -111,7 +111,7 @@ const ReviewMembership = ({ isOpen, onClose, onNext }) => {
                     <p className="text-xs text-cyan-800/60 font-bold uppercase tracking-tighter">
                       Phone Number
                     </p>
-                    <p className="text-sm font-black text-primary">
+                    <p className="text-sm font-medium text-primary">
                       {"0769404436" || "Not Set"}
                     </p>
                   </div>
@@ -122,7 +122,7 @@ const ReviewMembership = ({ isOpen, onClose, onNext }) => {
               <div className="space-y-4">
                 <div className="flex items-center gap-2 mb-2">
                   <CreditCard size={14} className="text-slate-400" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  <span className="text-[10px] font-medium uppercase tracking-widest text-slate-400">
                     Transaction Breakdown
                   </span>
                 </div>
@@ -150,10 +150,10 @@ const ReviewMembership = ({ isOpen, onClose, onNext }) => {
                   </div>
 
                   <div className="p-4 bg-primary text-white flex justify-between items-center">
-                    <span className="text-xs font-black uppercase tracking-widest text-cyan-400">
+                    <span className="text-xs font-medium uppercase tracking-widest text-cyan-400">
                       Total Payable
                     </span>
-                    <span className="text-xl font-black">
+                    <span className="text-xl font-medium">
                       {formatKES(
                         (parseFloat(membershipDetails?.shares) || 0) +
                           (parseFloat(membershipDetails?.savings) || 0),
@@ -179,7 +179,7 @@ const ReviewMembership = ({ isOpen, onClose, onNext }) => {
                   <Smartphone size={18} className="text-amber-600" />
                 </motion.div>
                 <p className="text-[11px] text-amber-800 leading-relaxed font-medium">
-                  An <span className="font-black underline">STK Push</span>{" "}
+                  An <span className="font-medium underline">STK Push</span>{" "}
                   prompt will be sent to your phone. Please enter your M-PESA
                   PIN to finalize activation.
                 </p>
@@ -191,7 +191,7 @@ const ReviewMembership = ({ isOpen, onClose, onNext }) => {
               <button
                 disabled={isLoading}
                 onClick={handlePayment}
-                className="group w-full h-14 bg-primary hover:bg-[#062d7a] disabled:bg-slate-300 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98]"
+                className="group w-full h-14 bg-primary hover:bg-[#062d7a] disabled:bg-slate-300 text-white rounded-2xl font-medium uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98]"
               >
                 {isLoading ? (
                   <>

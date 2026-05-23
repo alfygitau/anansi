@@ -40,7 +40,7 @@ const AccountSuccess = ({ user = { username: "Member" } }) => {
             </div>
           </div>
 
-          <h1 className="text-3xl font-black text-primary tracking-tight mb-4">
+          <h1 className="text-3xl font-medium text-primary tracking-tight mb-4">
             Welcome Aboard!
           </h1>
           <p className="text-slate-500 font-medium leading-relaxed max-w-[340px]">
@@ -51,7 +51,7 @@ const AccountSuccess = ({ user = { username: "Member" } }) => {
 
           <div className="mt-12 flex items-center gap-3 px-6 py-3 bg-white rounded-full shadow-sm border border-slate-100">
             <ShieldCheck size={18} className="text-secondary" />
-            <span className="text-[11px] font-black uppercase tracking-wider text-primary">
+            <span className="text-[11px] font-medium uppercase tracking-wider text-primary">
               Verified by SACCO Security
             </span>
           </div>
@@ -125,7 +125,7 @@ const AccountSuccess = ({ user = { username: "Member" } }) => {
           <button
             onClick={handleStart}
             disabled={loading}
-            className="group w-full h-[68px] bg-secondary hover:bg-white text-white hover:text-primary rounded-[24px] font-black uppercase tracking-[2px] text-[13px] transition-all flex items-center justify-center gap-3 shadow-xl shadow-blue-950/40 disabled:opacity-50"
+            className="group w-full h-[68px] bg-secondary hover:bg-white text-white hover:text-primary rounded-[24px] font-medium uppercase tracking-[2px] text-[13px] transition-all flex items-center justify-center gap-3 shadow-xl shadow-blue-950/40 disabled:opacity-50"
           >
             {loading ? (
               <Loader2 className="animate-spin" size={24} />

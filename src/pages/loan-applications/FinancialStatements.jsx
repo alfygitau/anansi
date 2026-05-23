@@ -87,7 +87,7 @@ const FinancialStatements = () => {
       <div className="max-w-6xl sm:px-3 mx-auto overflow-hidden">
         {/* Header Section */}
         <div className="border-b border-slate-50">
-          <h1 className="text-2xl mb-2 font-black text-primary tracking-tight">
+          <h1 className="text-2xl mb-2 font-medium text-primary tracking-tight">
             Financial Verification
           </h1>
           <div className="space-y-2">
@@ -114,7 +114,7 @@ const FinancialStatements = () => {
           <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-4 flex gap-4">
             <ShieldCheck className="text-secondary shrink-0" size={24} />
             <div>
-              <h4 className="text-[11px] font-black text-primary uppercase tracking-widest mb-1">
+              <h4 className="text-[11px] font-medium text-primary uppercase tracking-widest mb-1">
                 Privacy Guarantee
               </h4>
               <p className="text-xs text-slate-600 leading-relaxed">
@@ -216,7 +216,7 @@ const FinancialStatements = () => {
               className="fixed top-0 right-0 bottom-0 w-full max-w-[480px] bg-white shadow-2xl z-[90] flex flex-col p-6"
             >
               <div className="flex-1 overflow-y-auto">
-                <h3 className="text-xl font-black text-primary uppercase tracking-tight">
+                <h3 className="text-xl font-medium text-primary uppercase tracking-tight">
                   Upload {activeModal === "mpesa" ? "M-PESA" : "Bank"} Statement
                 </h3>
                 <p className="text-sm text-slate-500 mb-8">
@@ -242,14 +242,14 @@ const FinancialStatements = () => {
                   <p className="text-sm font-bold text-slate-700">
                     {file ? file.name : "Tap to browse or drag file here"}
                   </p>
-                  <p className="text-[11px] text-slate-400 mt-1 uppercase font-black tracking-widest">
+                  <p className="text-[11px] text-slate-400 mt-1 uppercase font-medium tracking-widest">
                     PDF format only
                   </p>
                 </div>
                 <div className="space-y-3">
                   <div className="w-full space-y-2">
                     {/* Label Track */}
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                    <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                       Security Access Key
                     </label>
 
@@ -321,14 +321,14 @@ const StatementSection = ({ title, icon, data, onUpload, onDelete }) => (
     <div className="flex items-center justify-between mb-4">
       <div className="flex items-center gap-2 text-primary">
         {icon}
-        <h3 className="text-sm font-black uppercase tracking-widest">
+        <h3 className="text-sm font-medium uppercase tracking-widest">
           {title}
         </h3>
       </div>
       {data.length > 0 && (
         <button
           onClick={onUpload}
-          className="text-[11px] font-black text-secondary uppercase hover:underline"
+          className="text-[11px] font-medium text-secondary uppercase hover:underline"
         >
           Add More
         </button>
@@ -346,7 +346,7 @@ const StatementSection = ({ title, icon, data, onUpload, onDelete }) => (
           </p>
           <button
             onClick={onUpload}
-            className="px-6 py-3 bg-white border border-slate-200 rounded-xl text-[11px] font-black uppercase text-primary hover:bg-primary hover:text-white transition-all shadow-sm"
+            className="px-6 py-3 bg-white border border-slate-200 rounded-xl text-[11px] font-medium uppercase text-primary hover:bg-primary hover:text-white transition-all shadow-sm"
           >
             Upload Now
           </button>

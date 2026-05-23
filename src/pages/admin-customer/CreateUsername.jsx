@@ -66,7 +66,7 @@ const CreateUsername = () => {
               <UserCircle className="text-secondary" size={40} />
             </div>
 
-            <h1 className="text-4xl font-black tracking-tighter mb-6 leading-tight">
+            <h1 className="text-4xl font-medium tracking-tighter mb-6 leading-tight">
               Your Anansi <br /> Identity.
             </h1>
 
@@ -101,7 +101,7 @@ const CreateUsername = () => {
           </div>
 
           <div className="mt-12 pt-6 border-t border-white/10 flex items-center justify-between">
-            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-blue-400">
+            <span className="text-[9px] font-medium uppercase tracking-[0.3em] text-blue-400">
               Anansi
             </span>
             <ShieldCheck size={16} className="text-blue-400" />
@@ -115,7 +115,7 @@ const CreateUsername = () => {
             className="max-w-md mx-auto w-full space-y-10"
           >
             <div className="text-center lg:text-left mb-2">
-              <h2 className="text-2xl font-black text-primary tracking-tight mb-2">
+              <h2 className="text-2xl font-medium text-primary tracking-tight mb-2">
                 Create Username
               </h2>
             </div>
@@ -163,7 +163,7 @@ const CreateUsername = () => {
                 ].map((req, i) => (
                   <div
                     key={i}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-full border text-[10px] font-black uppercase tracking-wider transition-all
+                    className={`flex items-center gap-2 px-4 py-2 rounded-full border text-[10px] font-medium uppercase tracking-wider transition-all
                       ${req.met ? "bg-emerald-50 border-emerald-100 text-emerald-700" : "bg-white border-slate-100 text-slate-300"}`}
                   >
                     <Check
@@ -183,7 +183,7 @@ const CreateUsername = () => {
               <button
                 type="submit"
                 disabled={isLoading || !validation.isValid}
-                className="w-full h-20 bg-primary text-white rounded-[30px] font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-4 shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] active:scale-[0.98] disabled:opacity-20 disabled:grayscale transition-all"
+                className="w-full h-20 bg-primary text-white rounded-[30px] font-medium uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-4 shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] active:scale-[0.98] disabled:opacity-20 disabled:grayscale transition-all"
               >
                 {isLoading ? (
                   <Loader2 className="animate-spin" size={20} />

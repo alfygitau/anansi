@@ -128,7 +128,7 @@ const WebCapture = () => {
             currentSubtitle="Selfie Verification"
           />
           <div className="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm">
-            <h3 className="text-[12px] font-black text-primary uppercase tracking-widest mb-4">
+            <h3 className="text-[12px] font-medium text-primary uppercase tracking-widest mb-4">
               Capture Guide
             </h3>
             <div className="space-y-6">
@@ -152,7 +152,7 @@ const WebCapture = () => {
           <div className="bg-blue-50/50 p-6 rounded-[32px] border border-blue-100/50">
             <div className="flex gap-3 mb-2">
               <Info size={18} className="text-secondary" />
-              <span className="text-[11px] font-black text-primary uppercase tracking-widest">
+              <span className="text-[11px] font-medium text-primary uppercase tracking-widest">
                 Pro Tip
               </span>
             </div>
@@ -166,7 +166,7 @@ const WebCapture = () => {
         {/* CENTER COLUMN: Camera Viewport */}
         <div className="lg:col-span-6 flex flex-col">
           <div className="text-left mb-8">
-            <h1 className="text-2xl lg:text-3xl font-black text-primary uppercase tracking-tight">
+            <h1 className="text-2xl lg:text-3xl font-medium text-primary uppercase tracking-tight">
               {capturedImage ? "Verify Your Capture" : "Facial Biometrics"}
             </h1>
             <p className="text-slate-500 text-sm mt-2 w-full">
@@ -193,7 +193,7 @@ const WebCapture = () => {
                       </p>
                       <button
                         onClick={startCamera}
-                        className="mt-6 px-6 py-3 bg-secondary rounded-xl text-[11px] font-black uppercase"
+                        className="mt-6 px-6 py-3 bg-secondary rounded-xl text-[11px] font-medium uppercase"
                       >
                         Try Again
                       </button>
@@ -238,7 +238,7 @@ const WebCapture = () => {
               <button
                 onClick={takePhoto}
                 disabled={cameraError}
-                className="w-full h-16 bg-primary text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl hover:bg-[#072d7a] transition-all active:scale-[0.98]"
+                className="w-full h-16 bg-primary text-white rounded-[24px] font-medium uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl hover:bg-[#072d7a] transition-all active:scale-[0.98]"
               >
                 <Camera size={20} /> Capture Selfie
               </button>
@@ -249,14 +249,14 @@ const WebCapture = () => {
                     setCapturedImage(null);
                     startCamera();
                   }}
-                  className="h-16 rounded-[24px] border-2 border-slate-200 text-primary font-black uppercase tracking-widest text-[11px] hover:bg-slate-50 transition-all"
+                  className="h-16 rounded-[24px] border-2 border-slate-200 text-primary font-medium uppercase tracking-widest text-[11px] hover:bg-slate-50 transition-all"
                 >
                   Retake
                 </button>
                 <button
                   onClick={handleUpload}
                   disabled={isLoading}
-                  className="h-16 bg-primary text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl hover:bg-[#072d7a] transition-all active:scale-[0.98]"
+                  className="h-16 bg-primary text-white rounded-[24px] font-medium uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl hover:bg-[#072d7a] transition-all active:scale-[0.98]"
                 >
                   {isLoading ? (
                     <Loader2 className="animate-spin" />
@@ -274,7 +274,7 @@ const WebCapture = () => {
           <div className="bg-white p-6 rounded-[32px] border border-slate-100">
             <div className="flex items-center gap-2 mb-4">
               <ShieldAlert className="text-secondary" size={18} />
-              <h3 className="text-[11px] font-black text-primary uppercase tracking-widest">
+              <h3 className="text-[11px] font-medium text-primary uppercase tracking-widest">
                 Compliance
               </h3>
             </div>
@@ -295,7 +295,7 @@ const WebCapture = () => {
           </div>
 
           <div className="p-6 bg-primary rounded-[32px] text-white shadow-xl shadow-blue-900/20">
-            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 text-secondary">
+            <h4 className="text-[10px] font-medium uppercase tracking-[0.2em] mb-2 text-secondary">
               Data Privacy
             </h4>
             <p className="text-[11px] text-white/70 leading-relaxed">
@@ -315,7 +315,7 @@ const GuideStep = ({ icon, title, desc }) => (
       {icon}
     </div>
     <div>
-      <h4 className="text-[13px] font-black text-primary leading-tight mb-1">
+      <h4 className="text-[13px] font-medium text-primary leading-tight mb-1">
         {title}
       </h4>
       <p className="text-[11px] text-slate-400 leading-snug">{desc}</p>

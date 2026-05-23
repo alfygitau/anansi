@@ -44,14 +44,14 @@ const TransactionDetails = ({ isOpen, onClose, transaction }) => {
               >
                 <X size={20} />
               </button>
-              <h2 className="text-3xl font-black text-slate-900">
+              <h2 className="text-3xl font-medium text-slate-900">
                 {formatAmount(transaction?.amount)}
               </h2>
               <p className="text-slate-500 font-medium mt-1">
                 {transaction?.type}
               </p>
               <div
-                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-wider mt-4 ${statusColors[transaction.status]}`}
+                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-medium uppercase tracking-wider mt-4 ${statusColors[transaction.status]}`}
               >
                 {transaction?.status === "pending" ? (
                   <Clock size={12} />
@@ -126,7 +126,7 @@ const TransactionDetails = ({ isOpen, onClose, transaction }) => {
 
               {transaction.note && (
                 <div className="p-4 rounded-2xl bg-blue-50/50 border border-blue-100">
-                  <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">
+                  <p className="text-[10px] font-medium text-blue-400 uppercase tracking-widest mb-1">
                     Note
                   </p>
                   <p className="text-sm text-blue-900 font-medium">
@@ -162,7 +162,7 @@ const ActionButton = ({ icon, label, onClick }) => (
 
 const InfoRow = ({ label, value, isRef, copy, className = "" }) => (
   <div>
-    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
+    <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest mb-1">
       {label}
     </p>
     <div className="flex items-center gap-2 group">
@@ -185,7 +185,7 @@ const PartyTile = ({ title, name, sub, icon }) => (
       {icon}
     </div>
     <div>
-      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+      <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">
         {title}
       </p>
       <p className="text-sm font-bold text-slate-800">{name}</p>

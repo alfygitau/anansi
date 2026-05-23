@@ -105,11 +105,11 @@ const HelpSupport = () => {
               >
                 <ArrowLeft size={20} />
               </button>
-              <span className="text-[10px] font-black uppercase tracking-widest text-secondary">
+              <span className="text-[10px] font-medium uppercase tracking-widest text-secondary">
                 Support Center
               </span>
             </div>
-            <h1 className="text-2xl font-black tracking-tight">
+            <h1 className="text-2xl font-medium tracking-tight">
               How can we help you today?
             </h1>
           </div>
@@ -127,7 +127,7 @@ const HelpSupport = () => {
               >
                 {method.icon}
               </div>
-              <h3 className="font-black text-sm mb-1">{method.title}</h3>
+              <h3 className="font-medium text-sm mb-1">{method.title}</h3>
               <p className="text-primary font-bold text-xs mb-2">
                 {method.detail}
               </p>
@@ -143,7 +143,7 @@ const HelpSupport = () => {
           <div className="lg:col-span-8">
             <div className="flex items-center gap-3 mb-4">
               <HelpCircle className="text-secondary" size={24} />
-              <h2 className="text-2xl font-black tracking-tight">
+              <h2 className="text-2xl font-medium tracking-tight">
                 Frequently Asked Questions
               </h2>
             </div>
@@ -181,7 +181,7 @@ const HelpSupport = () => {
               <div className="relative z-10">
                 <div className="flex items-center gap-2 mb-6">
                   <AlertTriangle className="text-amber-400" size={20} />
-                  <h3 className="text-[11px] font-black uppercase tracking-widest text-blue-200">
+                  <h3 className="text-[11px] font-medium uppercase tracking-widest text-blue-200">
                     System Status
                   </h3>
                 </div>
@@ -210,7 +210,7 @@ const HelpSupport = () => {
             <div className="bg-white rounded-[32px] p-8 border border-slate-100">
               <div className="flex items-center gap-2 mb-6">
                 <ShieldAlert className="text-secondary" size={18} />
-                <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400">
+                <h3 className="text-[11px] font-medium uppercase tracking-widest text-slate-400">
                   Disclaimers
                 </h3>
               </div>
@@ -225,7 +225,7 @@ const HelpSupport = () => {
                   Core Banking System.
                 </li>
               </ul>
-              <button className="mt-6 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary hover:underline">
+              <button className="mt-6 flex items-center gap-2 text-[10px] font-medium uppercase tracking-widest text-primary hover:underline">
                 View Full Terms <ExternalLink size={12} />
               </button>
             </div>
@@ -243,7 +243,7 @@ const StatusUpdate = ({ title, status, time, type }) => (
     <div className="flex justify-between items-center mb-1">
       <span className="text-[11px] font-bold text-white">{title}</span>
       <span
-        className={`text-[9px] font-black uppercase tracking-tighter ${type === "warning" ? "text-amber-400" : "text-emerald-400"}`}
+        className={`text-[9px] font-medium uppercase tracking-tighter ${type === "warning" ? "text-amber-400" : "text-emerald-400"}`}
       >
         {status}
       </span>

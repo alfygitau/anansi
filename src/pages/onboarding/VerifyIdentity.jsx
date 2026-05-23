@@ -240,7 +240,7 @@ const IdentityVerification = () => {
           <main className="flex-1 flex flex-col justify-between">
             <div className="space-y-8">
               <header>
-                <h1 className="text-xl font-black text-primary tracking-tight mb-2">
+                <h1 className="text-xl font-medium text-primary tracking-tight mb-2">
                   Upload Identity Document
                 </h1>
                 <p className="text-gray-500 text-sm w-full">
@@ -303,7 +303,7 @@ const IdentityVerification = () => {
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">
+                <h3 className="text-xs font-medium uppercase tracking-widest text-slate-400">
                   Pre-Scan Note
                 </h3>
                 <div className="relative overflow-hidden bg-white border border-slate-200/80 rounded-3xl p-4 shadow-sm transition-all duration-300 hover:shadow-md hover:border-slate-300/80">
@@ -313,7 +313,7 @@ const IdentityVerification = () => {
                         <ShieldCheck className="w-4 h-4" />
                       </div>
                       <div>
-                        <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">
+                        <h3 className="text-xs font-medium uppercase tracking-widest text-slate-400">
                           Compliance Guard
                         </h3>
                         <h4 className="text-sm font-bold text-slate-800 mt-0.5">
@@ -321,7 +321,7 @@ const IdentityVerification = () => {
                         </h4>
                       </div>
                     </div>
-                    <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-lg border border-emerald-100">
+                    <span className="text-[10px] font-medium uppercase tracking-wider bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-lg border border-emerald-100">
                       OCR Ready
                     </span>
                   </div>
@@ -347,7 +347,7 @@ const IdentityVerification = () => {
 
                 {documentType === "Passport" && (
                   <div className="bg-orange-50 border border-orange-100 rounded-[24px] p-5 animate-in fade-in duration-200">
-                    <p className="text-orange-800 text-[10px] font-black mb-1.5 uppercase tracking-wider">
+                    <p className="text-orange-800 text-[10px] font-medium mb-1.5 uppercase tracking-wider">
                       [Important Note] Uploading Passport
                     </p>
                     <p className="text-orange-700 text-xs leading-relaxed font-medium">

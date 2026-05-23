@@ -23,7 +23,7 @@ const CaptureFailed = () => {
           </div>
           <div className="flex items-center gap-2 text-primary cursor-pointer active:opacity-60 transition-opacity">
             <Headphones size={24} />
-            <span className="text-[13px] font-black uppercase tracking-widest">
+            <span className="text-[13px] font-medium uppercase tracking-widest">
               Help
             </span>
           </div>
@@ -45,7 +45,7 @@ const CaptureFailed = () => {
 
         {/* Text Content */}
         <div className="text-center max-w-[400px] mb-10">
-          <h1 className="text-2xl font-black text-primary uppercase tracking-tight mb-4">
+          <h1 className="text-2xl font-medium text-primary uppercase tracking-tight mb-4">
             Upload Failed
           </h1>
           <p className="text-slate-500 text-[15px] leading-relaxed">
@@ -63,7 +63,7 @@ const CaptureFailed = () => {
           transition={{ delay: 0.2 }}
           className="w-full max-w-[400px] bg-slate-50 rounded-[32px] p-8 py-8 border border-slate-100 flex flex-col items-center relative overflow-hidden"
         >
-          <p className="text-primary font-black uppercase text-[12px] tracking-widest mb-8">
+          <p className="text-primary font-medium uppercase text-[12px] tracking-widest mb-8">
             Let's try these fixes
           </p>
 
@@ -101,14 +101,14 @@ const CaptureFailed = () => {
         <div className="mt-12 w-full max-w-[400px] space-y-4">
           <button
             onClick={() => navigate("/kyc-selfie/take-photo")}
-            className="w-full h-16 bg-primary text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 active:scale-[0.98] transition-transform"
+            className="w-full h-16 bg-primary text-white rounded-[24px] font-medium uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 active:scale-[0.98] transition-transform"
           >
             <Camera size={20} /> Try Again
           </button>
 
           <button
             onClick={() => window.location.reload()}
-            className="w-full h-14 bg-white text-primary border-2 border-primary/10 rounded-[24px] font-black uppercase tracking-widest text-xs active:opacity-60 transition-opacity"
+            className="w-full h-14 bg-white text-primary border-2 border-primary/10 rounded-[24px] font-medium uppercase tracking-widest text-xs active:opacity-60 transition-opacity"
           >
             Refresh Page
           </button>

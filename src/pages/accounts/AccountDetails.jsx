@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  ArrowLeft,
   Eye,
   EyeOff,
   Copy,
@@ -155,7 +154,7 @@ const AccountDetails = () => {
       ) : (
         <div className="min-h-screen bg-slate-50 text-primary pb-20">
           <div className="max-w-6xl sm:px-4 mx-auto">
-            <h3 className="text-xl font-black mb-3 tracking-tight">
+            <h3 className="text-xl font-medium mb-3 tracking-tight">
               Account Details
             </h3>
             {/* 1. Hero Balance Card & Quick Actions (Grid Layout) */}
@@ -166,12 +165,12 @@ const AccountDetails = () => {
                 <div className="relative z-10">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-300/60">
+                    <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-blue-300/60">
                       {account?.product?.name}
                     </span>
                   </div>
                   <div className="flex items-center gap-6">
-                    <h2 className="text-4xl font-black tracking-tighter">
+                    <h2 className="text-4xl font-medium tracking-tighter">
                       {balanceVisible
                         ? `${formatAmount(account?.balance)}`
                         : "KES ••••••••"}
@@ -191,7 +190,7 @@ const AccountDetails = () => {
 
                 <div className="relative z-10 flex items-end justify-between border-t border-white/10 pt-6 mt-4">
                   <div>
-                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-300/40 mb-1">
+                    <p className="text-[9px] font-medium uppercase tracking-[0.2em] text-blue-300/40 mb-1">
                       Account Number
                     </p>
                     <div className="flex items-center gap-3">
@@ -247,10 +246,10 @@ const AccountDetails = () => {
               {/* Left: Transaction List (8 Cols) */}
               <div className="lg:col-span-8">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xl font-black tracking-tight">
+                  <h3 className="text-xl font-medium tracking-tight">
                     Recent Transactions
                   </h3>
-                  <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-primary">
+                  <button className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-widest text-slate-400 hover:text-primary">
                     <Filter size={16} /> Filter
                   </button>
                 </div>
@@ -276,7 +275,7 @@ const AccountDetails = () => {
                           className="text-slate-300 relative z-10"
                         />
                       </div>
-                      <h4 className="text-lg font-black text-primary mb-2 tracking-tight">
+                      <h4 className="text-lg font-medium text-primary mb-2 tracking-tight">
                         No Transactions Yet
                       </h4>
                       <p className="text-xs text-slate-400 max-w-[280px] leading-relaxed font-medium mb-8">
@@ -285,7 +284,7 @@ const AccountDetails = () => {
                       </p>
                       <button
                         onClick={() => {}}
-                        className="flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] active:scale-95 transition-all"
+                        className="flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-2xl text-[10px] font-medium uppercase tracking-[0.2em] shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] active:scale-95 transition-all"
                       >
                         <ArrowDownCircle size={18} className="text-secondary" />
                         Make First Deposit
@@ -307,7 +306,7 @@ const AccountDetails = () => {
                 <div className="bg-white rounded-[32px] p-8 border border-slate-100">
                   <div className="flex items-center gap-3 mb-6">
                     <ShieldCheck className="text-emerald-500" size={20} />
-                    <h3 className="font-black text-[11px] uppercase tracking-widest text-slate-400">
+                    <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
                       Account Security
                     </h3>
                   </div>
@@ -321,7 +320,7 @@ const AccountDetails = () => {
                 <div className="bg-blue-50/50 rounded-[32px] p-8 border border-blue-100/100">
                   <div className="flex items-center gap-3 mb-4">
                     <Info className="text-secondary" size={20} />
-                    <h3 className="font-black text-[11px] uppercase tracking-widest text-slate-400">
+                    <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
                       Important Info
                     </h3>
                   </div>
@@ -361,7 +360,7 @@ const VerticalAction = ({ icon, label, color, darkText = false, onClick }) => (
     >
       {React.cloneElement(icon, { size: 24 })}
     </div>
-    <span className="text-[10px] font-black uppercase tracking-widest">
+    <span className="text-[10px] font-medium uppercase tracking-widest">
       {label}
     </span>
   </button>
@@ -385,14 +384,14 @@ const TransactionRow = ({ tx, setTransaction, setShowTransactionDetails }) => {
           <p className="text-[10px] text-slate-400 font-mono tracking-tight uppercase">
             {tx.public_id}
           </p>
-          <h4 className="text-sm font-black text-primary">{tx.type}</h4>
+          <h4 className="text-sm font-medium text-primary">{tx.type}</h4>
           <p className="text-[10px] text-slate-400 font-mono tracking-tight uppercase">
             {tx.ref_number} • {tx.createdAt}
           </p>
         </div>
       </div>
       <div className="text-right">
-        <p className="text-base font-black text-green-600 font-mono">
+        <p className="text-base font-medium text-green-600 font-mono">
           {formatAmount(tx?.amount)}
         </p>
         <p className="text-[9px] font-bold uppercase text-slate-300 tracking-widest">

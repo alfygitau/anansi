@@ -156,7 +156,7 @@ const MyStatements = () => {
             {/* Header Section */}
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div>
-                <h1 className="text-2xl font-black tracking-tight">
+                <h1 className="text-2xl font-medium tracking-tight">
                   Statements
                 </h1>
                 <p className="text-slate-400 text-sm mt-1 font-medium">
@@ -173,7 +173,7 @@ const MyStatements = () => {
                 <section className="bg-white rounded-[20px] p-5 border border-slate-200">
                   <div className="flex flex-col md:flex-row items-center gap-6">
                     <div className="flex-1 w-full">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-2">
+                      <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 mb-2 block ml-2">
                         Filter by{" "}
                         {activeTab === "accounts" ? "Account" : "Loan"}
                       </label>
@@ -207,7 +207,7 @@ const MyStatements = () => {
                     </div>
 
                     <div className="w-full md:w-48">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-2">
+                      <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 mb-2 block ml-2">
                         Year
                       </label>
                       <div className="relative">
@@ -291,7 +291,7 @@ const MyStatements = () => {
                 <div className="bg-primary rounded-[32px] p-8 text-white relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-full -mr-16 -mt-16 blur-2xl" />
                   <Lock className="text-secondary mb-4" size={28} />
-                  <h3 className="text-lg font-black mb-2 leading-tight">
+                  <h3 className="text-lg font-medium mb-2 leading-tight">
                     Password Protected PDFs
                   </h3>
                   <p className="text-white/50 text-xs leading-relaxed mb-6 font-medium">
@@ -299,7 +299,7 @@ const MyStatements = () => {
                     credentials to view them.
                   </p>
                   <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
-                    <p className="text-[10px] uppercase font-black tracking-[0.2em] text-secondary mb-1">
+                    <p className="text-[10px] uppercase font-medium tracking-[0.2em] text-secondary mb-1">
                       Unlocking Key
                     </p>
                     <p className="text-xs font-bold">
@@ -312,7 +312,7 @@ const MyStatements = () => {
                 <div className="bg-white rounded-[32px] p-8 border border-slate-100">
                   <div className="flex items-center gap-3 mb-6">
                     <ShieldAlert className="text-amber-500" size={20} />
-                    <h3 className="font-black text-[11px] uppercase tracking-[0.15em] text-slate-400">
+                    <h3 className="font-medium text-[11px] uppercase tracking-[0.15em] text-slate-400">
                       Legal Disclaimers
                     </h3>
                   </div>
@@ -328,7 +328,7 @@ const MyStatements = () => {
                 <div className="bg-blue-50/50 rounded-[32px] p-8 border border-blue-100/50">
                   <div className="flex items-center gap-3 mb-4">
                     <HelpCircle className="text-secondary" size={20} />
-                    <h3 className="font-black text-[11px] uppercase tracking-[0.15em]">
+                    <h3 className="font-medium text-[11px] uppercase tracking-[0.15em]">
                       Need Assistance?
                     </h3>
                   </div>
@@ -336,7 +336,7 @@ const MyStatements = () => {
                     Missing a transaction? Contact our support line or visit
                     your nearest Anansi branch.
                   </p>
-                  <button className="text-primary text-[10px] font-black uppercase tracking-widest hover:text-secondary transition-colors flex items-center gap-2">
+                  <button className="text-primary text-[10px] font-medium uppercase tracking-widest hover:text-secondary transition-colors flex items-center gap-2">
                     Contact Support{" "}
                     <ArrowLeft size={12} className="rotate-180" />
                   </button>
@@ -376,7 +376,7 @@ const ApplyLoanAction = ({ onClick }) => {
 
         {/* 2. Text Content */}
         <div className="flex-1 ml-4 flex flex-col justify-center">
-          <span className="text-[#0A2351] font-black text-[15px] leading-tight">
+          <span className="text-[#0A2351] font-medium text-[15px] leading-tight">
             Generate a statement
           </span>
           <span className="text-slate-400 text-[11px] font-medium mt-0.5">
@@ -420,19 +420,17 @@ const StatementListItem = ({ stmt, onDownload }) => (
           )}
         </div>
         <div>
-          <h4 className="font-black text-primary text-base leading-tight">
+          <h4 className="font-medium text-primary text-base leading-tight">
             {stmt?.product?.name}
           </h4>
           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">
-            {stmt.type === "loan"
-              ? "Repayment History"
-              : "Account Summary"}
+            {stmt.type === "loan" ? "Repayment History" : "Account Summary"}
           </p>
         </div>
       </div>
 
       <div className="md:col-span-3">
-        <p className="text-sm font-black text-primary">
+        <p className="text-sm font-medium text-primary">
           {new Date(stmt?.start_date)?.toLocaleDateString("en-GB", {
             month: "short",
             day: "numeric",
@@ -445,7 +443,7 @@ const StatementListItem = ({ stmt, onDownload }) => (
       </div>
 
       <div className="md:col-span-3">
-        <p className="text-sm font-black text-primary">
+        <p className="text-sm font-medium text-primary">
           {new Date(stmt?.end_date)?.toLocaleDateString("en-GB", {
             month: "short",
             day: "numeric",

@@ -89,7 +89,7 @@ const AddGuarantors = ({ limit = 4 }) => {
             <div className="bg-white h-[400px] border border-slate-200 rounded-[32px] p-8 space-y-8">
               <div className="flex items-center gap-3 text-primary">
                 <Search size={18} />
-                <h3 className="text-[11px] font-black uppercase tracking-[0.2em]">
+                <h3 className="text-[11px] font-medium uppercase tracking-[0.2em]">
                   Registry Search
                 </h3>
               </div>
@@ -103,7 +103,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                   <div className="flex flex-col gap-2">
                     {/* Name Input */}
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                      <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-1">
                         Member Name
                       </label>
                       <div className="group relative flex items-center">
@@ -123,7 +123,7 @@ const AddGuarantors = ({ limit = 4 }) => {
 
                     {/* ID Input */}
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                      <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-1">
                         National ID
                       </label>
                       <div className="group relative flex items-center">
@@ -173,7 +173,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                     <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
                       <UserPlus size={24} className="text-slate-200" />
                     </div>
-                    <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest">
+                    <p className="text-[11px] font-medium text-slate-400 uppercase tracking-widest">
                       Your queue is empty
                     </p>
                     <p className="text-xs text-slate-300 mt-2 leading-relaxed">
@@ -203,7 +203,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                         {/* LEFT: AVATAR & CREDENTIAL DATA FIELDS */}
                         <div className="flex items-center gap-4 flex-1">
                           {/* Minimalist Premium Initial Avatar */}
-                          <div className="size-10 bg-white border border-slate-200/60 rounded-xl flex items-center justify-center text-slate-700 font-black text-sm shadow-sm select-none shrink-0">
+                          <div className="size-10 bg-white border border-slate-200/60 rounded-xl flex items-center justify-center text-slate-700 font-medium text-sm shadow-sm select-none shrink-0">
                             {g.name.charAt(0).toUpperCase()}
                           </div>
 
@@ -220,7 +220,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                             </div>
 
                             {/* ALIGNED DETAILS ROW */}
-                            <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                            <div className="flex items-center gap-3 text-[10px] font-medium uppercase tracking-widest text-slate-400">
                               <span className="flex items-center gap-1">
                                 <Fingerprint
                                   size={12}
@@ -277,11 +277,11 @@ const AddGuarantors = ({ limit = 4 }) => {
           <div className="flex items-center justify-between px-2">
             <div className="flex items-center gap-2">
               <History size={16} className="text-slate-400" />
-              <h3 className="text-[11px] font-black uppercase text-slate-400">
+              <h3 className="text-[11px] font-medium uppercase text-slate-400">
                 Assignment Queue
               </h3>
             </div>
-            <span className="text-[10px] font-black text-primary bg-primary/10 px-3 py-1 rounded-full">
+            <span className="text-[10px] font-medium text-primary bg-primary/10 px-3 py-1 rounded-full">
               {guarantors.length} / {limit} SELECTED
             </span>
           </div>
@@ -290,7 +290,7 @@ const AddGuarantors = ({ limit = 4 }) => {
             <div className="flex gap-4 p-2 bg-amber-50/40 border border-amber-100 rounded-2xl items-center">
               <AlertCircle size={20} className="text-amber-500 shrink-0" />
               <div className="space-y-1">
-                <span className="text-[10px] font-black uppercase tracking-widest text-amber-900">
+                <span className="text-[10px] font-medium uppercase tracking-widest text-amber-900">
                   Important Notice
                 </span>
                 <p className="text-[11px] leading-relaxed text-amber-800 font-medium">
@@ -361,7 +361,7 @@ const InfoBlock = ({ icon, title, text }) => (
   <div className="flex items-center border p-3 rounded-xl gap-4">
     <div className="shrink-0">{icon}</div>
     <div className="space-y-1">
-      <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-800">
+      <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-800">
         {title}
       </h4>
       <p className="text-[11px] text-slate-500 leading-normal font-medium">

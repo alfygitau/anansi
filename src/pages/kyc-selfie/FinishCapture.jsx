@@ -24,7 +24,7 @@ const FinishCapture = () => {
           {/* Help Section */}
           <div className="flex items-center gap-2 text-primary cursor-pointer active:opacity-60 transition-opacity">
             <Headphones size={24} />
-            <span className="text-[13px] font-black uppercase tracking-widest">
+            <span className="text-[13px] font-medium uppercase tracking-widest">
               Help
             </span>
           </div>
@@ -46,7 +46,7 @@ const FinishCapture = () => {
 
         {/* Text Content */}
         <div className="text-center max-w-[400px] mb-12">
-          <h1 className="text-2xl font-black text-primary uppercase tracking-tight mb-4">
+          <h1 className="text-2xl font-medium text-primary uppercase tracking-tight mb-4">
             Selfie Verified
           </h1>
           <p className="text-slate-500 text-[15px] leading-relaxed">
@@ -73,7 +73,7 @@ const FinishCapture = () => {
           <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-6">
             <Monitor className="text-primary" size={28} />
           </div>
-          <p className="text-primary font-black uppercase text-[12px] tracking-widest mb-6 mt-6">
+          <p className="text-primary font-medium uppercase text-[12px] tracking-widest mb-6 mt-6">
             What to do next?
           </p>
 

@@ -40,7 +40,7 @@ const OCRFailure = ({ isOpen, onClose }) => {
               <XCircle className="text-red-500" size={48} strokeWidth={1.5} />
             </div>
 
-            <h3 className="text-xl font-black text-primary uppercase tracking-tight mb-3">
+            <h3 className="text-xl font-medium text-primary uppercase tracking-tight mb-3">
               Document Scan Failed
             </h3>
 

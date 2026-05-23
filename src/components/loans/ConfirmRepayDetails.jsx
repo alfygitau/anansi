@@ -48,7 +48,7 @@ const ConfirmRepayDetails = ({
                 <X size={20} />
               </button>
 
-              <h2 className="text-2xl font-black text-primary tracking-tight">
+              <h2 className="text-2xl font-medium text-primary tracking-tight">
                 Review Payment
               </h2>
               <p className="text-sm text-slate-500 font-medium">
@@ -60,16 +60,16 @@ const ConfirmRepayDetails = ({
             <div className="flex-grow overflow-y-auto p-8 space-y-8 bg-slate-50/30">
               {/* The "Big Check" Amount Card */}
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm text-center relative overflow-hidden">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block mb-2">
+                <span className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em] block mb-2">
                   Total Repayment
                 </span>
-                <h1 className="text-4xl font-black text-primary tracking-tight">
+                <h1 className="text-4xl font-medium text-primary tracking-tight">
                   {formatCurrency(amount)}
                 </h1>
               </div>
               {/* Transaction Details Breakdown */}
               <div className="space-y-2">
-                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.25em]">
+                <h3 className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.25em]">
                   Transaction Summary
                 </h3>
                 <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
@@ -80,16 +80,16 @@ const ConfirmRepayDetails = ({
                         <Smartphone size={20} />
                       </div>
                       <div>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-wide">
+                        <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wide">
                           Source
                         </p>
-                        <p className="text-sm font-black text-slate-900">
+                        <p className="text-sm font-medium text-slate-900">
                           {phoneNumber}
                         </p>
                       </div>
                     </div>
                     <div className="px-3 py-1 bg-emerald-100/50 rounded-full">
-                      <span className="text-[10px] font-black text-emerald-700 uppercase">
+                      <span className="text-[10px] font-medium text-emerald-700 uppercase">
                         M-Pesa
                       </span>
                     </div>
@@ -102,16 +102,16 @@ const ConfirmRepayDetails = ({
                         <Hash size={20} />
                       </div>
                       <div>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-wide">
+                        <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wide">
                           Reference
                         </p>
-                        <p className="text-sm font-black text-slate-900 uppercase tracking-tight">
+                        <p className="text-sm font-medium text-slate-900 uppercase tracking-tight">
                           LN-{new Date().getFullYear()}-AX
                         </p>
                       </div>
                     </div>
                     <div className="px-3 py-1 bg-blue-100/50 rounded-full">
-                      <span className="text-[10px] font-black text-blue-700 uppercase">
+                      <span className="text-[10px] font-medium text-blue-700 uppercase">
                         Loan
                       </span>
                     </div>
@@ -124,16 +124,16 @@ const ConfirmRepayDetails = ({
                         <DollarSign size={20} />
                       </div>
                       <div>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-wide">
+                        <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wide">
                           Transaction Fee
                         </p>
-                        <p className="text-sm font-black text-slate-900">
+                        <p className="text-sm font-medium text-slate-900">
                           Zero Charges
                         </p>
                       </div>
                     </div>
                     <div className="px-3 py-1 bg-amber-100/50 rounded-full">
-                      <span className="text-[10px] font-black text-amber-700 uppercase">
+                      <span className="text-[10px] font-medium text-amber-700 uppercase">
                         Free
                       </span>
                     </div>
@@ -176,7 +176,7 @@ const ConfirmRepayDetails = ({
 
               <div className="flex flex-col items-center gap-4 mt-2">
                 <div className="flex items-center gap-2">
-                  <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">
+                  <p className="text-[10px] text-slate-400 font-medium uppercase tracking-[0.2em]">
                     End-to-End Encrypted
                   </p>
                 </div>

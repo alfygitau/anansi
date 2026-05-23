@@ -6,7 +6,6 @@ import {
   Scale,
   ShieldCheck,
   Info,
-  ChevronRight,
   X,
   FileSpreadsheet,
   AlertTriangle,
@@ -15,7 +14,6 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import PremiumSlider from "../../shared/slider/Slider";
 
 const ApplyLoan = () => {
   const navigate = useNavigate();
@@ -67,7 +65,7 @@ const ApplyLoan = () => {
               {/* Enhanced Principal Amount Input */}
               <div className="group">
                 <div className="flex justify-between items-end mb-1">
-                  <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
+                  <label className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-400">
                     Desired Principal (KES)
                   </label>
                   <span className="text-xs font-bold text-slate-300">
@@ -92,25 +90,25 @@ const ApplyLoan = () => {
               </div>
 
               <div className="w-full space-y-1">
-                <label className="text-[11px] font-black uppercase tracking-widest text-slate-400 ml-2">
+                <label className="text-[11px] font-medium uppercase tracking-widest text-slate-400 ml-2">
                   Tenure Duration
                 </label>
                 <div className="relative flex items-center justify-between bg-white border-2 border-slate-100 rounded-2xl h-16 transition-all duration-200">
                   <button
                     type="button"
                     onClick={() => setTenure(Math.max(1, tenure - 1))}
-                    className="h-full px-5 text-slate-400 hover:text-slate-900 border-r border-slate-200/60 font-black text-lg transition-colors"
+                    className="h-full px-5 text-slate-400 hover:text-slate-900 border-r border-slate-200/60 font-medium text-lg transition-colors"
                   >
                     -
                   </button>
-                  <div className="text-sm font-black text-slate-900 uppercase tracking-wider select-none">
+                  <div className="text-sm font-medium text-slate-900 uppercase tracking-wider select-none">
                     {tenure}{" "}
                     <span className="text-slate-400 font-medium">Months</span>
                   </div>
                   <button
                     type="button"
                     onClick={() => setTenure(Math.min(48, tenure + 1))}
-                    className="h-full px-5 text-slate-400 hover:text-slate-900 border-l border-slate-200/60 font-black text-lg transition-colors"
+                    className="h-full px-5 text-slate-400 hover:text-slate-900 border-l border-slate-200/60 font-medium text-lg transition-colors"
                   >
                     +
                   </button>
@@ -119,7 +117,7 @@ const ApplyLoan = () => {
 
               {/* Frequency Selection */}
               <div className="space-y-1">
-                <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">
+                <label className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-400">
                   Payment Frequency
                 </label>
                 <div className="grid grid-cols-3 gap-4">
@@ -146,7 +144,7 @@ const ApplyLoan = () => {
               <div className="flex gap-4 items-start">
                 <Scale size={18} className="text-slate-400 shrink-0 mt-0.5" />
                 <div className="space-y-1">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-800 block">
+                  <span className="text-[10px] font-medium uppercase tracking-widest text-slate-800 block">
                     Regulatory Compliance
                   </span>
                   <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
@@ -166,7 +164,7 @@ const ApplyLoan = () => {
                   className="text-slate-400 shrink-0 mt-0.5"
                 />
                 <div className="space-y-1">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-800 block">
+                  <span className="text-[10px] font-medium uppercase tracking-widest text-slate-800 block">
                     Data Privacy & Encryption
                   </span>
                   <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
@@ -184,7 +182,7 @@ const ApplyLoan = () => {
               {/* Header section with Modal Access Trigger */}
               <div className="flex justify-between items-start border-b border-slate-200 pb-4">
                 <div>
-                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">
+                  <h3 className="text-xs font-medium uppercase tracking-widest text-slate-400">
                     Regulatory Framework
                   </h3>
                   <p className="text-xs text-slate-500 mt-1 font-medium">
@@ -195,7 +193,7 @@ const ApplyLoan = () => {
                 <button
                   type="button"
                   onClick={() => setIsScheduleOpen(true)}
-                  className="p-2.5 rounded-xl bg-white border border-slate-200/60 shadow-sm text-slate-400 hover:text-slate-900 hover:border-slate-400 transition-all flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-wider"
+                  className="p-2.5 rounded-xl bg-white border border-slate-200/60 shadow-sm text-slate-400 hover:text-slate-900 hover:border-slate-400 transition-all flex items-center justify-center gap-2 text-[10px] font-medium uppercase tracking-wider"
                   title="View calculations blueprint"
                 >
                   <FileText size={14} />
@@ -210,7 +208,7 @@ const ApplyLoan = () => {
                 <div className="p-4 bg-white rounded-2xl border border-slate-200/60 shadow-sm space-y-1.5">
                   <div className="flex items-center gap-2 text-slate-800">
                     <Scale size={14} className="text-slate-400" />
-                    <h4 className="text-[10px] font-black uppercase tracking-widest">
+                    <h4 className="text-[10px] font-medium uppercase tracking-widest">
                       01. Legal Enforceability
                     </h4>
                   </div>
@@ -227,7 +225,7 @@ const ApplyLoan = () => {
                 <div className="p-4 bg-white rounded-2xl border border-slate-200/60 shadow-sm space-y-1.5">
                   <div className="flex items-center gap-2 text-slate-800">
                     <Info size={14} className="text-slate-400" />
-                    <h4 className="text-[10px] font-black uppercase tracking-widest">
+                    <h4 className="text-[10px] font-medium uppercase tracking-widest">
                       02. Reducing Balance Math
                     </h4>
                   </div>
@@ -244,7 +242,7 @@ const ApplyLoan = () => {
                 <div className="p-4 bg-white rounded-2xl border border-slate-200/60 shadow-sm space-y-1.5">
                   <div className="flex items-center gap-2 text-slate-800">
                     <AlertTriangle size={14} className="text-amber-500" />
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-700">
+                    <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-700">
                       03. Delinquency Covenants
                     </h4>
                   </div>
@@ -261,7 +259,7 @@ const ApplyLoan = () => {
                 <div className="p-4 bg-white rounded-2xl border border-slate-200/60 shadow-sm space-y-1.5">
                   <div className="flex items-center gap-2 text-slate-800">
                     <HelpCircle size={14} className="text-slate-400" />
-                    <h4 className="text-[10px] font-black uppercase tracking-widest">
+                    <h4 className="text-[10px] font-medium uppercase tracking-widest">
                       04. Variable Fees Disclaimer
                     </h4>
                   </div>
@@ -288,7 +286,7 @@ const ApplyLoan = () => {
 
               <div className="flex items-center justify-center gap-2 opacity-30 pt-2">
                 <Lock size={12} />
-                <span className="text-[9px] font-black uppercase tracking-widest">
+                <span className="text-[9px] font-medium uppercase tracking-widest">
                   End-to-End Encrypted Secure Core
                 </span>
               </div>
@@ -370,7 +368,7 @@ const AmortizationScheduleModal = ({
                   <FileSpreadsheet size={18} />
                 </div>
                 <div>
-                  <h3 className="text-slate-900 text-sm font-black uppercase tracking-wider">
+                  <h3 className="text-slate-900 text-sm font-medium uppercase tracking-wider">
                     Amortization Ledger
                   </h3>
                   <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-0.5">
@@ -391,7 +389,7 @@ const AmortizationScheduleModal = ({
               <div className="border border-slate-100 overflow-hidden shadow-sm bg-white">
                 <table className="w-full text-left border-collapse text-xs">
                   <thead>
-                    <tr className="bg-slate-50 border-b border-slate-100 text-[9px] font-black uppercase tracking-wider text-slate-400">
+                    <tr className="bg-slate-50 border-b border-slate-100 text-[9px] font-medium uppercase tracking-wider text-slate-400">
                       <th className="p-3 text-center">Cycle</th>
                       <th className="p-3 text-right">Payment</th>
                       <th className="p-3 text-right">Principal</th>
@@ -447,7 +445,7 @@ const AmortizationScheduleModal = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="w-full bg-slate-900 text-white py-5 rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-slate-800 transition-colors shadow-sm"
+                className="w-full bg-slate-900 text-white py-5 rounded-xl text-[11px] font-medium uppercase tracking-widest hover:bg-slate-800 transition-colors shadow-sm"
               >
                 Close
               </button>

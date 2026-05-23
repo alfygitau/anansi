@@ -1,13 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  X,
-  Info,
-  Wallet,
-  Phone,
-  AlertCircle,
-  CheckCircle2,
-  ShieldAlert,
-} from "lucide-react";
+import { X, Wallet, Phone, AlertCircle, ShieldAlert } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 import { useStore } from "../../store/useStore";
 import { motion, AnimatePresence } from "framer-motion";
@@ -126,7 +118,7 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
                 {/* Inputs Grid */}
                 <div className="space-y-8">
                   <div className="space-y-2">
-                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">
+                    <label className="text-[11px] font-medium text-slate-400 uppercase tracking-widest ml-1">
                       M-PESA Phone Number
                     </label>
                     <div className="relative group">
@@ -165,13 +157,13 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">
+                    <label className="text-[11px] font-medium text-slate-400 uppercase tracking-widest ml-1">
                       Amount to Deposit
                     </label>
                     <div className="relative group">
                       {/* Absolute Prefix Block with Custom KES Badge */}
                       <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none">
-                        <span className="text-[11px] font-black tracking-wider text-slate-400 group-focus-within:text-[#074073] transition-colors">
+                        <span className="text-[11px] font-medium tracking-wider text-slate-400 group-focus-within:text-[#074073] transition-colors">
                           KES
                         </span>
                         {/* Shifted ml-3 here to cleanly space from the letters instead of the icon layout */}

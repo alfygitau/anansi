@@ -1,19 +1,16 @@
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+
 import {
   AlertCircle,
   Image as ImageIcon,
   Maximize,
   FileText,
-  ArrowRight,
   ShieldCheck,
-  HelpCircle,
   Lightbulb,
   Check,
   X,
   MessageCircle,
   Clock,
-  ChevronLeft,
   Phone,
   MessageSquare,
   Mail,
@@ -21,8 +18,6 @@ import {
 } from "lucide-react";
 
 const HelpPage = () => {
-  const navigate = useNavigate();
-
   const tips = [
     {
       icon: <ShieldCheck className="text-secondary" size={20} />,
@@ -105,7 +100,7 @@ const HelpPage = () => {
             >
               {method.icon}
             </div>
-            <h3 className="font-black text-sm mb-1">{method.title}</h3>
+            <h3 className="font-medium text-sm mb-1">{method.title}</h3>
             <p className="text-primary font-bold text-xs mb-2">
               {method.detail}
             </p>
@@ -122,7 +117,7 @@ const HelpPage = () => {
           <div className="bg-white border border-slate-100 rounded-[32px] p-8">
             <div className="flex items-center gap-2 mb-6">
               <Lightbulb className="text-amber-500" size={20} />
-              <p className="text-[12px] font-black uppercase tracking-[0.2em] text-primary">
+              <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-primary">
                 Verification Tips
               </p>
             </div>

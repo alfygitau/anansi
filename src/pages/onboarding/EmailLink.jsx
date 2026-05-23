@@ -72,11 +72,11 @@ const EmailLink = () => {
               <header className="mb-8">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-50 text-green-600 mb-4">
                   <CheckCircle2 size={16} />
-                  <span className="text-[10px] font-black uppercase tracking-widest">
+                  <span className="text-[10px] font-medium uppercase tracking-widest">
                     Link Sent Successfully
                   </span>
                 </div>
-                <h1 className="text-2xl font-black text-primary uppercase tracking-tight leading-none mb-4">
+                <h1 className="text-2xl font-medium text-primary uppercase tracking-tight leading-none mb-4">
                   Selfie Verification
                 </h1>
                 <p className="text-slate-500 text-lg leading-relaxed">
@@ -95,11 +95,11 @@ const EmailLink = () => {
               <div className="space-y-8 mb-12">
                 {/* Step 1: Email Access */}
                 <div className="flex gap-6 group">
-                  <div className="flex-shrink-0 w-10 h-10 bg-primary text-white rounded-2xl flex items-center justify-center font-black text-base shadow-lg shadow-blue-900/20 group-hover:scale-110 transition-transform">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary text-white rounded-2xl flex items-center justify-center font-medium text-base shadow-lg shadow-blue-900/20 group-hover:scale-110 transition-transform">
                     1
                   </div>
                   <div className="space-y-1">
-                    <p className="text-primary font-black uppercase text-xs tracking-widest">
+                    <p className="text-primary font-medium uppercase text-xs tracking-widest">
                       Access your Inbox
                     </p>
                     <p className="text-slate-600 text-sm leading-relaxed">
@@ -116,11 +116,11 @@ const EmailLink = () => {
 
                 {/* Step 2: Mobile Action */}
                 <div className="flex gap-6 group">
-                  <div className="flex-shrink-0 w-10 h-10 bg-primary text-white rounded-2xl flex items-center justify-center font-black text-base shadow-lg shadow-blue-900/20 group-hover:scale-110 transition-transform">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary text-white rounded-2xl flex items-center justify-center font-medium text-base shadow-lg shadow-blue-900/20 group-hover:scale-110 transition-transform">
                     2
                   </div>
                   <div className="space-y-1">
-                    <p className="text-primary font-black uppercase text-xs tracking-widest">
+                    <p className="text-primary font-medium uppercase text-xs tracking-widest">
                       Biometric Scan
                     </p>
                     <p className="text-slate-600 text-sm leading-relaxed">
@@ -137,11 +137,11 @@ const EmailLink = () => {
 
                 {/* Step 3: Confirmation */}
                 <div className="flex gap-6 group">
-                  <div className="flex-shrink-0 w-10 h-10 bg-primary text-white rounded-2xl flex items-center justify-center font-black text-base shadow-lg shadow-blue-900/20 group-hover:scale-110 transition-transform">
+                  <div className="flex-shrink-0 w-10 h-10 bg-primary text-white rounded-2xl flex items-center justify-center font-medium text-base shadow-lg shadow-blue-900/20 group-hover:scale-110 transition-transform">
                     3
                   </div>
                   <div className="space-y-1">
-                    <p className="text-primary font-black uppercase text-xs tracking-widest">
+                    <p className="text-primary font-medium uppercase text-xs tracking-widest">
                       Sync & Finalize
                     </p>
                     <p className="text-slate-600 text-sm leading-relaxed">
@@ -179,7 +179,7 @@ const EmailLink = () => {
               <button
                 onClick={handleCheckSelfie}
                 disabled={isFetching}
-                className={`w-full h-[72px] rounded-[28px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-4 transition-all shadow-xl ${
+                className={`w-full h-[72px] rounded-[28px] font-medium uppercase tracking-[0.2em] flex items-center justify-center gap-4 transition-all shadow-xl ${
                   isFetching
                     ? "bg-slate-200 text-slate-400 cursor-not-allowed"
                     : "bg-primary text-white hover:bg-secondary hover:text-primary shadow-blue-900/20"
@@ -222,7 +222,7 @@ const EmailLink = () => {
                     <ShieldCheck className="text-primary" size={20} />
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[11px] font-black uppercase tracking-widest text-slate-600">
+                    <p className="text-[11px] font-medium uppercase tracking-widest text-slate-600">
                       Regulatory Compliance & Security
                     </p>
                     <p className="text-[11px] text-slate-400 leading-relaxed">
@@ -251,7 +251,7 @@ const EmailLink = () => {
                     <Info className="text-primary" size={20} />
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[11px] font-black uppercase tracking-widest text-slate-600">
+                    <p className="text-[11px] font-medium uppercase tracking-widest text-slate-600">
                       Troubleshooting & Support
                     </p>
                     <p className="text-[11px] text-slate-400 leading-relaxed font-medium">

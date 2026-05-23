@@ -31,7 +31,7 @@ const MobileSelfieLanding = () => {
           <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
             <Headphones size={16} />
           </div>
-          <span className="text-[11px] font-black uppercase tracking-widest">
+          <span className="text-[11px] font-medium uppercase tracking-widest">
             Help
           </span>
         </button>
@@ -46,7 +46,7 @@ const MobileSelfieLanding = () => {
               Secure Verification
             </span>
           </div>
-          <h1 className="text-2xl font-black text-primary uppercase tracking-tight mb-2">
+          <h1 className="text-2xl font-medium text-primary uppercase tracking-tight mb-2">
             Selfie Verification
           </h1>
           <p className="text-slate-500 text-sm leading-relaxed px-4">
@@ -97,7 +97,7 @@ const MobileSelfieLanding = () => {
 
         {/* 4. Checklist Card */}
         <div className="w-full bg-white rounded-[32px] p-8 border border-slate-100 shadow-sm mb-6">
-          <h3 className="text-[12px] font-black text-primary uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
+          <h3 className="text-[12px] font-medium text-primary uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
             <Lightbulb size={16} className="text-secondary" />
             Success Checklist
           </h3>
@@ -152,7 +152,7 @@ const MobileSelfieLanding = () => {
         <footer className="w-full sticky bottom-6 px-6">
           <button
             onClick={startCapture}
-            className="w-full h-[64px] bg-primary text-white rounded-[24px] font-black uppercase tracking-[0.15em] flex items-center justify-center gap-3 shadow-2xl shadow-blue-900/30 active:scale-[0.98] transition-all"
+            className="w-full h-[64px] bg-primary text-white rounded-[24px] font-medium uppercase tracking-[0.15em] flex items-center justify-center gap-3 shadow-2xl shadow-blue-900/30 active:scale-[0.98] transition-all"
           >
             Start Verification
             <ArrowRight size={20} className="text-secondary" />

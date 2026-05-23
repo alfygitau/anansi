@@ -28,6 +28,7 @@ import {
   Car,
   Home,
   Info,
+  Check,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import InvestAmount from "../../components/quick-invest/InvestAmount";
@@ -473,7 +474,9 @@ const Homepage = () => {
         <div className="max-w-6xl sm:px-4 mx-auto">
           <header className="flex justify-between mb-3 items-center">
             <div>
-              <h1 className="text-2xl text-primary font-bold tracking-tight">Dashboard</h1>
+              <h1 className="text-2xl text-primary font-bold tracking-tight">
+                Dashboard
+              </h1>
               <p className="text-sm text-slate-500">
                 Welcome back to your financial overview.
               </p>
@@ -524,7 +527,7 @@ const Homepage = () => {
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-secondary shadow-lg shadow-blue-900/20">
                       <ShieldCheck size={22} />
                     </div>
-                    <h3 className="text-lg font-black uppercase tracking-tight text-primary">
+                    <h3 className="text-lg font-medium uppercase tracking-tight text-primary">
                       Membership Progress
                     </h3>
                   </div>
@@ -556,10 +559,10 @@ const Homepage = () => {
                 <div className="w-full lg:w-[340px] space-y-5">
                   <div className="space-y-2">
                     <div className="flex items-end justify-between px-1">
-                      <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">
+                      <span className="text-[11px] font-medium uppercase tracking-widest text-slate-400">
                         Shares Acquired
                       </span>
-                      <span className="text-[13px] font-black text-primary">
+                      <span className="text-[13px] font-medium text-primary">
                         {percentage.toFixed(1)}%
                       </span>
                     </div>
@@ -583,7 +586,7 @@ const Homepage = () => {
 
                   <button
                     onClick={() => setShowSharesAmount(true)}
-                    className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-primary px-8 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-blue-900/20 transition-all hover:bg-[#062d7a] active:scale-[0.98]"
+                    className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-primary px-8 text-xs font-medium uppercase tracking-widest text-white shadow-xl shadow-blue-900/20 transition-all hover:bg-[#062d7a] active:scale-[0.98]"
                   >
                     Buy Shares
                     <ArrowRight
@@ -601,7 +604,7 @@ const Homepage = () => {
           <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-6 items-start">
             {/* LEFT PANEL: COMPACT ACCOUNT CARDS VECTORS (5 COLS) */}
             <div className="lg:col-span-5 space-y-3">
-              <h2 className="text-[12px] font-black uppercase tracking-[0.2em] text-slate-400 pl-1">
+              <h2 className="text-[12px] font-medium uppercase tracking-[0.2em] text-slate-400 pl-1">
                 Active Accounts
               </h2>
               <div className="space-y-5">
@@ -625,7 +628,7 @@ const Homepage = () => {
 
             <div className="lg:col-span-7">
               {/* Micro-Header */}
-              <h2 className="text-[12px] font-black uppercase tracking-[0.15em] text-slate-400 mb-3 pl-0.5">
+              <h2 className="text-[12px] font-medium uppercase tracking-[0.15em] text-slate-400 mb-3 pl-0.5">
                 Quick Actions
               </h2>
               <div className="bg-slate-50/40 border border-slate-200/50 rounded-2xl p-2.5 flex flex-col justify-between">
@@ -648,7 +651,7 @@ const Homepage = () => {
 
                       {/* Right Text Vector Column */}
                       <div className="min-w-0 flex-1">
-                        <span className="block text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-primary transition-colors leading-tight truncate">
+                        <span className="block text-[10px] font-medium uppercase tracking-wider text-slate-400 group-hover:text-primary transition-colors leading-tight truncate">
                           {label}
                         </span>
                       </div>
@@ -775,7 +778,7 @@ const DetailedProductCard = ({ product, onApply, onTerms }) => {
           </div>
 
           {/* Rate Badge */}
-          <span className="text-[11px] font-black uppercase tracking-widest text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
+          <span className="text-[11px] font-medium uppercase tracking-widest text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
             {rate} P.A
           </span>
         </div>
@@ -812,7 +815,7 @@ const DetailedProductCard = ({ product, onApply, onTerms }) => {
 
         <button
           onClick={onApply}
-          className="px-6 py-2.5 bg-[#042159] text-white text-[11px] font-black uppercase tracking-widest rounded-xl shadow-lg shadow-blue-900/10 hover:bg-slate-800 transition-all active:scale-95"
+          className="px-6 py-2.5 bg-[#042159] text-white text-[11px] font-medium uppercase tracking-widest rounded-xl shadow-lg shadow-blue-900/10 hover:bg-slate-800 transition-all active:scale-95"
         >
           Apply Now
         </button>
@@ -823,7 +826,7 @@ const DetailedProductCard = ({ product, onApply, onTerms }) => {
 
 const InfoColumn = ({ label, value }) => (
   <div className="flex flex-col gap-1">
-    <span className="text-[9px] font-black text-slate-400 tracking-wider uppercase">
+    <span className="text-[9px] font-medium text-slate-400 tracking-wider uppercase">
       {label}
     </span>
     <span className="text-xs font-bold text-slate-700">{value}</span>
@@ -851,10 +854,10 @@ const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
         </div>
 
         <div className="flex flex-col items-end">
-          <span className="text-[13px] font-black text-[#0A2351] font-outfit">
+          <span className="text-[13px] font-medium text-[#0A2351] font-outfit">
             {amount}
           </span>
-          <span className="text-[9px] font-black uppercase text-amber-500 tracking-tighter">
+          <span className="text-[9px] font-medium uppercase text-amber-500 tracking-tighter">
             {status}
           </span>
         </div>
@@ -872,6 +875,20 @@ const AccountCard = ({
 }) => {
   const [isVisible, setIsVisible] = useState(true);
   const maskedBalance = isVisible ? balance : "KES *********";
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleCopy = async (e) => {
+    e.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(accountNumber);
+      setIsCopied(true);
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 2000);
+    } catch (err) {
+      console.error("Failed to copy text into buffer framework: ", err);
+    }
+  };
   return (
     <div
       onClick={navigateToAccountDetails}
@@ -883,7 +900,7 @@ const AccountCard = ({
       <div className="flex justify-between items-start mb-6">
         <div>
           <p
-            className={`text-[10px] font-black uppercase tracking-widest ${
+            className={`text-[10px] font-medium uppercase tracking-widest ${
               isPrimary ? "text-blue-300/70" : "text-slate-400"
             }`}
           >
@@ -895,11 +912,28 @@ const AccountCard = ({
             >
               {accountNumber}
             </p>
-            <button className="opacity-0 group-hover:opacity-100 transition-opacity">
-              <Copy
-                size={12}
-                className={isPrimary ? "text-blue-300" : "text-slate-300"}
-              />
+            <button
+              type="button"
+              onClick={handleCopy}
+              className={`transition-all duration-200 focus:outline-none focus:ring-0 ${
+                isCopied ? "opacity-100" : "opacity-0 group-hover:opacity-100" // Hidden until row hover
+              }`}
+            >
+              {isCopied ? (
+                <Check
+                  size={10}
+                  className="text-emerald-500 animate-in zoom-in duration-200"
+                />
+              ) : (
+                <Copy
+                  size={10}
+                  className={
+                    isPrimary
+                      ? "text-slate-400 hover:text-white"
+                      : "text-slate-300 hover:text-slate-600"
+                  }
+                />
+              )}
             </button>
           </div>
         </div>
@@ -968,7 +1002,7 @@ const ProductsEmptyState = () => (
 
     <button
       onClick={() => window.location.reload()}
-      className="mt-6 flex items-center gap-2 px-6 py-2 border border-slate-200 text-primary rounded-[7px] text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all active:scale-95"
+      className="mt-6 flex items-center gap-2 px-6 py-2 border border-slate-200 text-primary rounded-[7px] text-[10px] font-medium uppercase tracking-widest hover:bg-slate-50 transition-all active:scale-95"
     >
       <RefreshCcw size={14} />
       Refresh Catalog
@@ -995,7 +1029,7 @@ const LoanItem = ({
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-5 pb-3.5">
           <div className="flex flex-col">
-            <h3 className="text-[16px] font-black text-[#0A2351] tracking-tight">
+            <h3 className="text-[16px] font-medium text-[#0A2351] tracking-tight">
               {title}
             </h3>
             <span className="text-[13px] font-bold text-gray-500">{id}</span>
@@ -1016,7 +1050,7 @@ const LoanItem = ({
             <span className="text-[9px] font-extrabold text-gray-400 tracking-widest">
               PRINCIPAL
             </span>
-            <div className="text-[15px] font-black font-outfit text-black">
+            <div className="text-[15px] font-medium font-outfit text-black">
               {amount}
             </div>
           </div>
@@ -1025,7 +1059,7 @@ const LoanItem = ({
             <span className="text-[9px] font-extrabold text-gray-400 tracking-widest">
               CURRENT BALANCE
             </span>
-            <div className="text-[15px] font-black font-outfit text-[#0A2351]">
+            <div className="text-[15px] font-medium font-outfit text-[#0A2351]">
               {balance}
             </div>
           </div>
@@ -1042,7 +1076,7 @@ const LoanItem = ({
               style={{ backgroundColor: statusColor }}
             />
             <span
-              className="text-[10px] font-black uppercase"
+              className="text-[10px] font-medium uppercase"
               style={{ color: statusColor }}
             >
               {status}

@@ -66,7 +66,7 @@ const MyProgress = ({ currentTitle, currentSubtitle }) => {
               {/* Text Content */}
               <div className="flex flex-col gap-2">
                 <h3
-                  className={`text-sm font-black uppercase tracking-tight ${
+                  className={`text-sm font-medium uppercase tracking-tight ${
                     isActive ? "text-primary" : "text-slate-400"
                   }`}
                 >

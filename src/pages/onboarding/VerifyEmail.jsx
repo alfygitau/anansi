@@ -151,7 +151,7 @@ const VerifyEmail = () => {
           </div>
         </div>
 
-        <h1 className="text-2xl font-black text-primary tracking-tight mb-3">
+        <h1 className="text-2xl font-medium text-primary tracking-tight mb-3">
           Check your inbox
         </h1>
         <p className="text-slate-400 text-sm font-medium mb-8 leading-relaxed px-4">
@@ -173,7 +173,7 @@ const VerifyEmail = () => {
               key={index}
               type="text"
               maxLength="1"
-              className="w-full h-16 sm:h-12 text-center text-2xl font-black text-primary bg-slate-50 border-2 rounded-2xl focus:border-secondary focus:bg-white focus:ring-4 focus:ring-secondary/10 transition-all outline-none"
+              className="w-full h-16 sm:h-12 text-center text-2xl font-medium text-primary bg-slate-50 border-2 rounded-2xl focus:border-secondary focus:bg-white focus:ring-4 focus:ring-secondary/10 transition-all outline-none"
               value={data}
               onChange={(e) => handleChange(e.target, index)}
               onFocus={(e) => e.target.select()}
@@ -185,7 +185,7 @@ const VerifyEmail = () => {
         <button
           disabled={isLoading || otp?.join("").length < 6}
           onClick={handleVerify}
-          className="w-full h-[64px] bg-primary text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-secondary transition-all shadow-xl shadow-blue-900/10 mb-8 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-primary"
+          className="w-full h-[64px] bg-primary text-white rounded-[24px] font-medium uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-secondary transition-all shadow-xl shadow-blue-900/10 mb-8 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-primary"
         >
           {isLoading ? (
             <Loader2 className="animate-spin" size={24} />
@@ -199,7 +199,7 @@ const VerifyEmail = () => {
         {/* Resend Logic */}
         <div className="flex flex-col items-center gap-4">
           {timer > 0 ? (
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-300">
+            <p className="text-[10px] font-medium uppercase tracking-widest text-slate-300">
               Resend code in <span className="text-secondary">{timer}s</span>
             </p>
           ) : (
@@ -211,7 +211,7 @@ const VerifyEmail = () => {
                 size={16}
                 className={`${isResending ? "animate-spin" : "group-hover:rotate-180 transition-transform duration-500"}`}
               />
-              <span className="text-[10px] font-black uppercase tracking-widest">
+              <span className="text-[10px] font-medium uppercase tracking-widest">
                 Resend Verification Code
               </span>
             </button>

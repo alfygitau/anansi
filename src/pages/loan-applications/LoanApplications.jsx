@@ -85,7 +85,7 @@ const LoanApplications = () => {
         {/* Header Section */}
         <header className="flex mb-3 flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <h1 className="text-2xl font-black tracking-tight">
+            <h1 className="text-2xl font-medium tracking-tight">
               Loan Applications
             </h1>
             <p className="text-slate-400 text-sm font-medium">
@@ -113,7 +113,7 @@ const LoanApplications = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
-                <button className="flex items-center gap-2 px-6 py-4 border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-slate-50 transition-all">
+                <button className="flex items-center gap-2 px-6 py-4 border border-slate-200 rounded-2xl text-[10px] font-medium uppercase tracking-widest text-slate-400 hover:bg-slate-50 transition-all">
                   <Filter size={18} /> Filter
                 </button>
               </div>
@@ -144,14 +144,14 @@ const LoanApplications = () => {
               {/* Header Section */}
               <div className="flex items-center gap-2 mb-4">
                 <Zap className="text-slate-400" size={16} />
-                <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">
+                <h3 className="text-xs font-medium uppercase tracking-widest text-slate-400">
                   Pending Action
                 </h3>
               </div>
 
               {/* Status Notice Block */}
               <div className="p-4 bg-white rounded-2xl border border-slate-200/60 shadow-sm mb-5">
-                <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1.5">
+                <p className="text-[10px] font-medium text-amber-600 uppercase tracking-widest mb-1.5">
                   Attention Required
                 </p>
                 <p className="text-xs leading-relaxed text-slate-600">
@@ -164,7 +164,7 @@ const LoanApplications = () => {
               </div>
 
               {/* Main Call-to-Action Button */}
-              <button className="w-full bg-primary text-white py-5 rounded-xl text-[11px] font-black uppercase tracking-[0.08em] hover:bg-secondary transition-all flex items-center justify-center gap-2 shadow-sm">
+              <button className="w-full bg-primary text-white py-5 rounded-xl text-[11px] font-medium uppercase tracking-[0.08em] hover:bg-secondary transition-all flex items-center justify-center gap-2 shadow-sm">
                 Invite Guarantors{" "}
                 <ArrowRight size={14} className="text-slate-400" />
               </button>
@@ -174,7 +174,7 @@ const LoanApplications = () => {
             <div className="bg-white rounded-[32px] p-4 border border-slate-100 shadow-xl shadow-blue-900/5">
               <div className="flex items-center gap-3 mb-6">
                 <ShieldCheck className="text-emerald-500" size={20} />
-                <h3 className="font-black text-[11px] uppercase tracking-widest text-slate-400">
+                <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
                   Approval Flow
                 </h3>
               </div>
@@ -190,7 +190,7 @@ const LoanApplications = () => {
             <div className="bg-blue-50/50 rounded-[32px] p-4 border border-blue-100/100">
               <div className="flex items-center gap-3 mb-6">
                 <Gavel className="text-secondary" size={20} />
-                <h3 className="font-black text-[11px] uppercase tracking-widest text-slate-400">
+                <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
                   Legal Info
                 </h3>
               </div>
@@ -224,7 +224,7 @@ const ApplyLoanAction = ({ onClick }) => {
 
         {/* 2. Text Content */}
         <div className="flex-1 ml-4 flex flex-col justify-center">
-          <span className="text-[#0A2351] font-black text-[15px] leading-tight">
+          <span className="text-[#0A2351] font-medium text-[15px] leading-tight">
             Apply for a new Loan
           </span>
           <span className="text-slate-400 text-[11px] font-medium mt-0.5">
@@ -296,7 +296,7 @@ const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
             <span className="block font-mono text-slate-400 text-[10px] font-bold tracking-wider uppercase leading-none mb-1">
               {reference}
             </span>
-            <h3 className="font-black text-[14px] text-[#0A2351] leading-tight truncate">
+            <h3 className="font-medium text-[14px] text-[#0A2351] leading-tight truncate">
               {title}
             </h3>
             <div className="flex items-center gap-1.5 mt-1">
@@ -309,14 +309,14 @@ const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
 
           {/* 3. Amount and Status Badge */}
           <div className="flex flex-col items-end shrink-0">
-            <span className="font-mono font-black text-[14px] text-[#0A2351] tracking-tighter">
+            <span className="font-mono font-medium text-[14px] text-[#0A2351] tracking-tighter">
               {amount}
             </span>
             <div
               className={`mt-2 px-3 py-2 rounded-lg flex items-center justify-center ${config.bg}`}
               style={{ color: config.color }}
             >
-              <span className="text-[9px] font-black uppercase tracking-widest leading-none">
+              <span className="text-[9px] font-medium uppercase tracking-widest leading-none">
                 {status}
               </span>
             </div>
@@ -335,7 +335,7 @@ const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
 const ProcessStep = ({ step, label, active = false }) => (
   <div className="flex items-center gap-3">
     <div
-      className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black ${active ? "bg-emerald-500 text-white" : "bg-slate-100 text-slate-400"}`}
+      className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-medium ${active ? "bg-emerald-500 text-white" : "bg-slate-100 text-slate-400"}`}
     >
       {step}
     </div>

@@ -83,7 +83,7 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
             {/* Scrollable Form Body */}
             <div className="flex-1 overflow-y-auto space-y-4 no-scrollbar">
               <div className="text-center space-y-2">
-                <h2 className="text-2xl font-black text-primary tracking-tight">
+                <h2 className="text-2xl font-medium text-primary tracking-tight">
                   Contributions
                 </h2>
                 <p className="text-slate-500 text-sm">
@@ -104,7 +104,7 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-emerald-700/60 ml-1">
+                    <label className="text-[10px] font-medium uppercase tracking-widest text-emerald-700/60 ml-1">
                       Amount to Save
                     </label>
                     <div className="flex h-12 w-full items-center bg-white border border-emerald-200 rounded-xl px-4 focus-within:ring-2 focus-within:ring-emerald-500/20 transition-all">
@@ -148,7 +148,7 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
 
                   <div className="grid grid-cols-1 gap-4">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-blue-700/60 ml-1">
+                      <label className="text-[10px] font-medium uppercase tracking-widest text-blue-700/60 ml-1">
                         Investment Amount
                       </label>
                       <div className="flex h-12 w-full items-center bg-white border border-blue-200 rounded-xl px-4 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
@@ -181,7 +181,7 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
                           Equity to be issued:
                         </span>
                       </div>
-                      <span className="text-sm font-black text-blue-700">
+                      <span className="text-sm font-medium text-blue-700">
                         {calculateShares(sharesAmount)} Shares
                       </span>
                     </div>
@@ -205,7 +205,7 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
                 onClick={handleReview}
                 disabled={!isFormValid}
                 className={`
-    group w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs 
+    group w-full h-14 rounded-2xl font-medium uppercase tracking-widest text-xs 
     flex items-center justify-center gap-3 transition-all duration-200
     ${
       isFormValid

@@ -118,7 +118,7 @@ const Notifications = () => {
             <div className="lg:col-span-8 space-y-6">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl font-black text-primary flex items-center gap-3">
+                  <h1 className="text-2xl font-medium text-primary flex items-center gap-3">
                     Notifications
                     {unreadCount > 0 && (
                       <span className="bg-rose-500 text-white text-[10px] px-4 rounded-full">
@@ -200,7 +200,7 @@ const Notifications = () => {
                                   {notification.message}
                                 </p>
 
-                                <span className="text-[11px] font-black text-slate-400 uppercase tracking-widest">
+                                <span className="text-[11px] font-medium text-slate-400 uppercase tracking-widest">
                                   {timeLabel}
                                 </span>
                               </div>
@@ -225,7 +225,7 @@ const Notifications = () => {
               <div className="bg-primary rounded-[32px] p-6 text-white">
                 <div className="flex items-center gap-3 mb-6">
                   <Zap size={20} className="text-secondary" />
-                  <h3 className="text-sm font-black uppercase tracking-widest">
+                  <h3 className="text-sm font-medium uppercase tracking-widest">
                     Quick Actions
                   </h3>
                 </div>
@@ -249,7 +249,7 @@ const Notifications = () => {
 
               {/* STATUS SUMMARY */}
               <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm">
-                <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-4">
+                <h3 className="text-[11px] font-medium uppercase tracking-widest text-slate-400 mb-4">
                   Account Health
                 </h3>
                 <div className="space-y-4">
@@ -300,7 +300,7 @@ const Notifications = () => {
 const TabButton = ({ active, onClick, label }) => (
   <button
     onClick={onClick}
-    className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${active ? "bg-white text-primary shadow-sm" : "text-slate-400 hover:text-slate-600"}`}
+    className={`px-5 py-2 rounded-xl text-[10px] font-medium uppercase tracking-widest transition-all ${active ? "bg-white text-primary shadow-sm" : "text-slate-400 hover:text-slate-600"}`}
   >
     {label}
   </button>
@@ -318,7 +318,7 @@ const ActionButton = ({ label, icon, primary, onNavigate }) => (
 const HealthItem = ({ label, status, color }) => (
   <div className="flex justify-between items-center">
     <span className="text-xs font-medium text-slate-600">{label}</span>
-    <span className={`text-xs font-black uppercase tracking-tighter ${color}`}>
+    <span className={`text-xs font-medium uppercase tracking-tighter ${color}`}>
       {status}
     </span>
   </div>

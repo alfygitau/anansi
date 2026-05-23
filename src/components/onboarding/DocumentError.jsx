@@ -44,7 +44,7 @@ const DocumentError = ({ isOpen, onClose }) => {
             </div>
 
             {/* Typography */}
-            <h2 className="text-2xl font-black text-primary mb-4">
+            <h2 className="text-2xl font-medium text-primary mb-4">
               Upload Unsuccessful
             </h2>
             <p className="text-slate-500 text-[15px] leading-relaxed mb-10 px-4">

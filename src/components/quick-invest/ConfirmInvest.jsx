@@ -108,10 +108,10 @@ const ConfirmInvest = ({ isOpen, onClose, onConfirm }) => {
                 </label>
                 <div className="bg-sky-50/50 border border-sky-100 rounded-[24px] p-5 flex items-center justify-between">
                   <div className="space-y-1">
-                    <p className="text-[10px] text-sky-600 font-black uppercase tracking-tighter">
+                    <p className="text-[10px] text-sky-600 font-medium uppercase tracking-tighter">
                       M-PESA Number
                     </p>
-                    <p className="text-lg font-black text-[#074073]">
+                    <p className="text-lg font-medium text-[#074073]">
                       {investDetails?.mobile || "Not Set"}
                     </p>
                   </div>
@@ -132,7 +132,7 @@ const ConfirmInvest = ({ isOpen, onClose, onConfirm }) => {
                       Total Payable
                     </span>
                     <div className="text-right">
-                      <p className="text-2xl font-black text-[#074073]">
+                      <p className="text-2xl font-medium text-[#074073]">
                         <span className="text-xs font-bold mr-1 text-[#074073]/50">
                           KES
                         </span>
@@ -149,7 +149,7 @@ const ConfirmInvest = ({ isOpen, onClose, onConfirm }) => {
                       <span className="text-xs font-semibold text-slate-500">
                         Shares Purchase
                       </span>
-                      <span className="text-sm font-black text-slate-700">
+                      <span className="text-sm font-medium text-slate-700">
                         {formatCurrency(investDetails?.sharesAmount)}
                       </span>
                     </div>
@@ -157,7 +157,7 @@ const ConfirmInvest = ({ isOpen, onClose, onConfirm }) => {
                       <span className="text-xs font-semibold text-slate-500">
                         Savings Deposit
                       </span>
-                      <span className="text-sm font-black text-slate-700">
+                      <span className="text-sm font-medium text-slate-700">
                         {formatCurrency(investDetails?.savings)}
                       </span>
                     </div>
@@ -185,7 +185,7 @@ const ConfirmInvest = ({ isOpen, onClose, onConfirm }) => {
               <button
                 disabled={isLoading}
                 onClick={handleContinue}
-                className={`w-full h-16 rounded-2xl font-black flex items-center justify-center gap-3 transition-all active:scale-[0.98] shadow-xl shadow-blue-900/10 ${
+                className={`w-full h-16 rounded-2xl font-medium flex items-center justify-center gap-3 transition-all active:scale-[0.98] shadow-xl shadow-blue-900/10 ${
                   isLoading
                     ? "bg-slate-100 text-slate-400 cursor-not-allowed"
                     : "bg-[#074073] hover:bg-[#052d52] text-white"
@@ -209,7 +209,7 @@ const ConfirmInvest = ({ isOpen, onClose, onConfirm }) => {
               </button>
 
               <div className="flex items-center justify-center gap-2 mt-2">
-                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                <p className="text-[9px] font-medium text-slate-400 uppercase tracking-widest">
                   Secure 256-bit Encrypted Payment
                 </p>
               </div>

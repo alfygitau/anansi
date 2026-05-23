@@ -64,7 +64,7 @@ const DeclineRequest = ({
                   <AlertCircle size={20} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-black text-slate-900 leading-tight">
+                  <h3 className="text-lg font-medium text-slate-900 leading-tight">
                     Decline Request
                   </h3>
                 </div>
@@ -91,7 +91,7 @@ const DeclineRequest = ({
 
               {/* Selection Options */}
               <div className="space-y-4">
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">
+                <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 ml-1">
                   Selection Reason
                 </span>
 
@@ -157,7 +157,7 @@ const DeclineRequest = ({
               <button
                 onClick={handleDecline}
                 disabled={!reason || isLoading}
-                className="w-full h-16 rounded-[24px] bg-rose-600 text-white text-xs font-black uppercase tracking-[0.2em] shadow-xl shadow-rose-200 hover:bg-rose-700 active:scale-95 transition-all disabled:opacity-20 disabled:grayscale flex items-center justify-center gap-3"
+                className="w-full h-16 rounded-[24px] bg-rose-600 text-white text-xs font-medium uppercase tracking-[0.2em] shadow-xl shadow-rose-200 hover:bg-rose-700 active:scale-95 transition-all disabled:opacity-20 disabled:grayscale flex items-center justify-center gap-3"
               >
                 {isLoading ? (
                   <div className="size-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -171,7 +171,7 @@ const DeclineRequest = ({
 
               <button
                 onClick={onClose}
-                className="w-full mt-4 text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-colors"
+                className="w-full mt-4 text-[10px] font-medium text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-colors"
               >
                 Cancel and Go Back
               </button>

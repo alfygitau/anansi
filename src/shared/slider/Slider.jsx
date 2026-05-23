@@ -44,7 +44,7 @@ const PremiumSliderWithTooltip = ({
           }}
         >
           {/* Tooltip Bubble */}
-          <div className="bg-[#074073] text-white text-[11px] font-black py-2 px-3 rounded-lg shadow-xl whitespace-nowrap uppercase tracking-widest">
+          <div className="bg-[#074073] text-white text-[11px] font-medium py-2 px-3 rounded-lg shadow-xl whitespace-nowrap uppercase tracking-widest">
             {value.toLocaleString()}
           </div>
           {/* Tooltip Arrow */}
@@ -100,10 +100,10 @@ const PremiumSliderWithTooltip = ({
         {}
         {/* Min/Max Labels */}
         <div className="flex justify-between mt-1">
-          <span className="text-[10px] font-black text-slate-400 tracking-widest uppercase">
+          <span className="text-[10px] font-medium text-slate-400 tracking-widest uppercase">
             {min}
           </span>
-          <span className="text-[10px] font-black text-slate-400 tracking-widest uppercase">
+          <span className="text-[10px] font-medium text-slate-400 tracking-widest uppercase">
             {max}
           </span>
         </div>

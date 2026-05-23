@@ -9,8 +9,6 @@ import {
   AlertCircle,
   Download,
   X,
-  FileText,
-  ShieldAlert,
   DollarSign,
 } from "lucide-react";
 import { useFormatAmount } from "../../hooks/useFormatAmount";
@@ -242,7 +240,7 @@ const LoanCalculator = () => {
               {/* 1. Ultra-Modern Header */}
               <div className="p-6 pb-6 flex justify-between items-start">
                 <div>
-                  <h2 className="text-4xl font-black text-primary tracking-tighter italic">
+                  <h2 className="text-4xl font-medium text-primary tracking-tighter italic">
                     Repayment <span className="text-secondary">Schedule</span>
                   </h2>
 
@@ -252,7 +250,7 @@ const LoanCalculator = () => {
                       <button
                         key={type}
                         onClick={() => setActiveScheduleTab(type)}
-                        className={`px-8 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
+                        className={`px-8 py-2.5 rounded-xl text-[10px] font-medium uppercase tracking-widest transition-all duration-300 ${
                           activeScheduleTab === type
                             ? "bg-white text-primary shadow-xl shadow-primary/10"
                             : "text-slate-500 hover:text-primary"
@@ -278,7 +276,7 @@ const LoanCalculator = () => {
               </div>
 
               {/* 2. Visual Table Header */}
-              <div className="px-10 py-2 grid grid-cols-6 text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-slate-100">
+              <div className="px-10 py-2 grid grid-cols-6 text-[9px] font-medium uppercase tracking-[0.2em] text-slate-400 border-b border-slate-100">
                 <span className="col-span-1">Period</span>
                 <span className="col-span-1 text-center">Installment</span>
                 <span className="col-span-1 text-center">Principal</span>
@@ -299,7 +297,7 @@ const LoanCalculator = () => {
                     >
                       {/* Month Badge */}
                       <div className="col-span-1">
-                        <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-slate-100 text-primary font-black text-xs group-hover:bg-primary group-hover:text-white transition-colors">
+                        <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-slate-100 text-primary font-medium text-xs group-hover:bg-primary group-hover:text-white transition-colors">
                           {row.month}
                         </span>
                       </div>
@@ -322,7 +320,7 @@ const LoanCalculator = () => {
                       {/* Visual Balance Column */}
                       <div className="col-span-2 text-right">
                         <div className="flex flex-col items-end gap-1.5">
-                          <span className="font-black text-primary">
+                          <span className="font-medium text-primary">
                             {formatAmount(Math.max(0, Number(row.balance)))}
                           </span>
                           {/* Micro Progress Bar */}
@@ -346,10 +344,10 @@ const LoanCalculator = () => {
 
                 <div className="flex gap-12 relative z-10">
                   <div className="flex flex-col">
-                    <span className="text-[10px] font-black text-blue-300/60 uppercase tracking-widest mb-1">
+                    <span className="text-[10px] font-medium text-blue-300/60 uppercase tracking-widest mb-1">
                       Projected Interest
                     </span>
-                    <span className="text-2xl font-black text-white italic">
+                    <span className="text-2xl font-medium text-white italic">
                       {activeScheduleTab === "reducing"
                         ? formatAmount(reducing.totalInterest)
                         : formatAmount(simple.totalInterest)}
@@ -357,10 +355,10 @@ const LoanCalculator = () => {
                   </div>
 
                   <div className="flex flex-col border-l border-white/10 pl-12">
-                    <span className="text-[10px] font-black text-blue-300/60 uppercase tracking-widest mb-1">
+                    <span className="text-[10px] font-medium text-blue-300/60 uppercase tracking-widest mb-1">
                       Total Payable
                     </span>
-                    <span className="text-2xl font-black text-secondary italic">
+                    <span className="text-2xl font-medium text-secondary italic">
                       {activeScheduleTab === "reducing"
                         ? formatAmount(reducing.totalPayable)
                         : formatAmount(simple.totalPayable)}
@@ -376,7 +374,7 @@ const LoanCalculator = () => {
                       activeScheduleTab === "reducing" ? reducing : simple,
                     )
                   }
-                  className="relative z-10 px-10 py-4 bg-secondary text-primary rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] hover:bg-white transition-all active:scale-95 flex items-center gap-3"
+                  className="relative z-10 px-10 py-4 bg-secondary text-primary rounded-2xl font-medium text-[11px] uppercase tracking-[0.2em] hover:bg-white transition-all active:scale-95 flex items-center gap-3"
                 >
                   <Download size={18} /> Export PDF
                 </button>
@@ -387,13 +385,13 @@ const LoanCalculator = () => {
         <div className="max-w-6xl sm:px-4 mx-auto">
           <header className="flex mt-2 items-center justify-between">
             <div className="flex items-center gap-4">
-              <h1 className="text-3xl font-black tracking-tight">
+              <h1 className="text-3xl font-medium tracking-tight">
                 Loan Calculator
               </h1>
             </div>
             <button
               onClick={() => setShowModal(true)}
-              className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all"
+              className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-2xl text-[10px] font-medium uppercase tracking-widest hover:bg-slate-50 transition-all"
             >
               <Download size={16} /> Export Schedule
             </button>
@@ -416,19 +414,19 @@ const LoanCalculator = () => {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 pb-6 border-b border-slate-50 gap-2">
               <div className="flex items-center gap-3">
                 <div className="w-1.5 h-6 bg-sky-500 rounded-full" />
-                <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-[#042159]">
+                <h3 className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#042159]">
                   Loan Parameters
                 </h3>
               </div>
               {/* Strategy Toggle - Now as a prominent "Strategy" switch */}
               <div className="flex items-center gap-4">
-                <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+                <span className="text-[9px] font-medium uppercase tracking-widest text-slate-400">
                   Rate Basis:
                 </span>
                 <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200/50">
                   <button
                     onClick={() => setIsMonthly(false)}
-                    className={`px-5 py-1 text-[10px] font-black uppercase rounded-xl transition-all duration-300 ${
+                    className={`px-5 py-1 text-[10px] font-medium uppercase rounded-xl transition-all duration-300 ${
                       !isMonthly
                         ? "bg-white text-[#042159] shadow-lg shadow-blue-900/5"
                         : "text-slate-400 hover:text-slate-600"
@@ -438,7 +436,7 @@ const LoanCalculator = () => {
                   </button>
                   <button
                     onClick={() => setIsMonthly(true)}
-                    className={`px-5 py-1 text-[10px] font-black uppercase rounded-xl transition-all duration-300 ${
+                    className={`px-5 py-1 text-[10px] font-medium uppercase rounded-xl transition-all duration-300 ${
                       isMonthly
                         ? "bg-white text-[#042159] shadow-lg shadow-blue-900/5"
                         : "text-slate-400 hover:text-slate-600"
@@ -489,7 +487,7 @@ const LoanCalculator = () => {
                   <div className="p-2 bg-secondary rounded-lg">
                     <ShieldCheck size={20} className="text-primary" />
                   </div>
-                  <h3 className="text-xl font-black uppercase tracking-widest text-[13px] text-blue-300">
+                  <h3 className="text-xl font-medium uppercase tracking-widest text-[13px] text-blue-300">
                     Reducing Balance
                   </h3>
                 </div>
@@ -524,7 +522,7 @@ const LoanCalculator = () => {
                   <div className="p-2 bg-slate-100 rounded-lg">
                     <Percent size={20} className="text-primary" />
                   </div>
-                  <h3 className="text-xl font-black uppercase tracking-widest text-[13px] text-slate-400">
+                  <h3 className="text-xl font-medium uppercase tracking-widest text-[13px] text-slate-400">
                     Simple Interest
                   </h3>
                 </div>
@@ -571,8 +569,8 @@ const LoanCalculator = () => {
               text="Compare both methods carefully. Reducing balance typically results in a lower total cost than simple interest for the same rate."
             />
             <div className="bg-blue-600 rounded-[32px] p-8 text-white flex flex-col items-center justify-center text-center">
-              <h4 className="font-black text-sm mb-2">Ready to proceed?</h4>
-              <button className="w-full py-3 bg-secondary text-primary rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-sky-300 transition-colors">
+              <h4 className="font-medium text-sm mb-2">Ready to proceed?</h4>
+              <button className="w-full py-3 bg-secondary text-primary rounded-xl font-medium text-[11px] uppercase tracking-widest hover:bg-sky-300 transition-colors">
                 Apply for this Loan
               </button>
             </div>
@@ -588,7 +586,7 @@ const LoanCalculator = () => {
 const InputGroup = ({ label, icon, type, ...props }) => (
   <div className="space-y-2">
     {/* Label */}
-    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 flex items-center gap-2 ml-1">
+    <label className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 flex items-center gap-2 ml-1">
       {label}
     </label>
 
@@ -615,12 +613,12 @@ const InputGroup = ({ label, icon, type, ...props }) => (
 const ResultRow = ({ label, value, highlight, dark }) => (
   <div className="space-y-1">
     <p
-      className={`text-[10px] font-black uppercase tracking-widest ${dark ? "text-slate-400" : "text-blue-300/60"}`}
+      className={`text-[10px] font-medium uppercase tracking-widest ${dark ? "text-slate-400" : "text-blue-300/60"}`}
     >
       {label}
     </p>
     <p
-      className={`font-black tracking-tight ${highlight ? "text-4xl" : "text-xl"} ${dark ? "text-primary" : "text-white"}`}
+      className={`font-medium tracking-tight ${highlight ? "text-4xl" : "text-xl"} ${dark ? "text-primary" : "text-white"}`}
     >
       KES{" "}
       {Number(value).toLocaleString(undefined, { maximumFractionDigits: 2 })}
@@ -630,7 +628,7 @@ const ResultRow = ({ label, value, highlight, dark }) => (
 
 const InfoCard = ({ title, text }) => (
   <div className="p-8 border border-slate-200 rounded-[32px] bg-white/50">
-    <h4 className="font-black text-[11px] uppercase tracking-widest text-primary mb-3 flex items-center gap-2">
+    <h4 className="font-medium text-[11px] uppercase tracking-widest text-primary mb-3 flex items-center gap-2">
       <Info size={14} className="text-secondary" /> {title}
     </h4>
     <p className="text-xs text-slate-500 leading-relaxed font-medium">{text}</p>

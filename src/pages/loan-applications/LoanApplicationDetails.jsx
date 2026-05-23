@@ -4,9 +4,6 @@ import {
   Users,
   Info,
   ShieldCheck,
-  Download,
-  MessageCircle,
-  UserPlus,
   Zap,
   FileSearch,
   Shield,
@@ -109,7 +106,7 @@ const LoanApplicationDetails = ({ onBack }) => {
         <header className="py-2">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h1 className="text-2xl font-black tracking-tight">
+              <h1 className="text-2xl font-medium tracking-tight">
                 {appData.product}
               </h1>
               <p className="text-slate-400 font-mono text-xs mt-1 uppercase tracking-widest">
@@ -117,7 +114,7 @@ const LoanApplicationDetails = ({ onBack }) => {
               </p>
             </div>
             {/* Status Indicator */}
-            <div className="bg-amber-500 text-white px-5 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-amber-200">
+            <div className="bg-amber-500 text-white px-5 py-2 rounded-2xl text-[10px] font-medium uppercase tracking-widest shadow-lg shadow-amber-200">
               {appData.status}
             </div>
           </div>
@@ -142,7 +139,7 @@ const LoanApplicationDetails = ({ onBack }) => {
                 </div>
                 {/* Premium Status Badge */}
                 <div className="bg-[#FFB300] px-3 py-1.5 rounded-full shadow-lg shadow-amber-900/20">
-                  <span className="text-white text-[9px] font-black uppercase tracking-wider">
+                  <span className="text-white text-[9px] font-medium uppercase tracking-wider">
                     Under Review
                   </span>
                 </div>
@@ -153,7 +150,7 @@ const LoanApplicationDetails = ({ onBack }) => {
                 <p className="text-white/50 text-[10px] font-extrabold tracking-[1.5px] uppercase mb-1.5">
                   Loan Amount
                 </p>
-                <h1 className="text-white text-4xl font-black tracking-tighter">
+                <h1 className="text-white text-4xl font-medium tracking-tighter">
                   KES 45,000.00
                 </h1>
               </div>
@@ -181,7 +178,7 @@ const LoanApplicationDetails = ({ onBack }) => {
                 <p className="text-slate-400 text-[9px] font-extrabold tracking-wider uppercase">
                   Loan Product
                 </p>
-                <p className="text-[#0A2351] text-[15px] font-black">
+                <p className="text-[#0A2351] text-[15px] font-medium">
                   Emergency Fund Plus
                 </p>
               </div>
@@ -222,7 +219,7 @@ const LoanApplicationDetails = ({ onBack }) => {
           <StatusInsight status="Reviewing Customer Information" />
         )}
         <div className="mb-2 mt-6 flex items-baseline justify-between">
-          <h2 className="text-[11px] font-black uppercase tracking-[2px] text-slate-400">
+          <h2 className="text-[11px] font-medium uppercase tracking-[2px] text-slate-400">
             Application Milestones
           </h2>
           <span className="text-[10px] font-bold text-[#17C6C6]">
@@ -273,7 +270,7 @@ const LoanApplicationDetails = ({ onBack }) => {
                 <div className="flex-1 ml-4 flex flex-col min-w-0">
                   <h4
                     className={`
-            text-[13px] font-black leading-tight truncate
+            text-[13px] font-medium leading-tight truncate
             ${isDone ? "line-through text-slate-400" : "text-[#0A2351]"}
           `}
                   >
@@ -288,7 +285,7 @@ const LoanApplicationDetails = ({ onBack }) => {
                 <div className="flex items-center gap-2 ml-2">
                   <div
                     className={`
-            px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-wider whitespace-nowrap
+            px-2 py-0.5 rounded-md text-[8px] font-medium uppercase tracking-wider whitespace-nowrap
             ${theme.bg}
           `}
                     style={{ color: theme.color }}
@@ -323,95 +320,12 @@ const DetailCell = ({ icon: Icon, label, value }) => (
       <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tight truncate">
         {label}
       </span>
-      <span className="text-[13px] font-black text-[#0A2351] truncate">
+      <span className="text-[13px] font-medium text-[#0A2351] truncate">
         {value}
       </span>
     </div>
   </div>
 );
-
-const DetailItem = ({ label, value, isHighlight }) => (
-  <div>
-    <p className="text-[9px] font-black uppercase tracking-[0.15em] text-slate-300 mb-1">
-      {label}
-    </p>
-    <p
-      className={`text-base font-bold ${isHighlight ? "text-secondary font-black" : "text-primary"}`}
-    >
-      {value}
-    </p>
-  </div>
-);
-
-const DocRow = ({ label }) => (
-  <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl group cursor-pointer hover:bg-white hover:shadow-sm transition-all border border-transparent hover:border-slate-100">
-    <div className="flex items-center gap-3">
-      <FileText size={18} className="text-secondary" />
-      <span className="text-sm font-bold text-primary">{label}</span>
-    </div>
-    <Download size={16} className="text-slate-300 group-hover:text-primary" />
-  </div>
-);
-
-const GuarantorCard = ({ guarantor }) => {
-  const isPending = guarantor.status === "Pending";
-
-  return (
-    <div className="bg-white p-5 rounded-[28px] border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
-      <div className="flex items-start justify-between mb-4">
-        {/* Avatar/Status Icon */}
-        <div
-          className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${
-            isPending
-              ? "bg-amber-50 text-amber-500"
-              : "bg-emerald-50 text-emerald-600"
-          }`}
-        >
-          {isPending ? (
-            <UserPlus size={22} className="animate-pulse" />
-          ) : (
-            <ShieldCheck size={22} />
-          )}
-        </div>
-
-        {/* Amount Badge */}
-        <div className="text-right">
-          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-            Guarantee
-          </p>
-          <p className="text-sm font-black text-primary">{guarantor.amount}</p>
-        </div>
-      </div>
-
-      <div>
-        <h4 className="font-bold text-primary text-sm truncate">
-          {guarantor.name}
-        </h4>
-        <p className="text-[10px] font-mono text-slate-400 mt-0.5">
-          {guarantor.phone}
-        </p>
-      </div>
-
-      {/* Action Footer */}
-      <div className="mt-4 pt-4 border-t border-slate-50 flex items-center justify-between">
-        <span
-          className={`text-[9px] font-black uppercase tracking-widest ${
-            isPending ? "text-amber-500" : "text-emerald-500"
-          }`}
-        >
-          {guarantor.status}
-        </span>
-
-        {isPending && (
-          <button className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-secondary hover:text-primary transition-colors">
-            <MessageCircle size={12} />
-            Nudge via SMS
-          </button>
-        )}
-      </div>
-    </div>
-  );
-};
 
 const StatusInsight = ({ status, onContinue }) => {
   const insights = {
@@ -469,7 +383,7 @@ const StatusInsight = ({ status, onContinue }) => {
 
         {/* Text Content */}
         <div className="flex-1">
-          <h3 className="text-lg font-black text-[#0A2351] tracking-tight">
+          <h3 className="text-lg font-medium text-[#0A2351] tracking-tight">
             {active.title}
           </h3>
           <p className="text-sm text-[#0A2351]/70 leading-relaxed mt-1 max-w-2xl">
@@ -482,7 +396,7 @@ const StatusInsight = ({ status, onContinue }) => {
           {active.showButton ? (
             <button
               onClick={onContinue}
-              className="group flex items-center justify-center gap-2 w-full md:w-auto px-6 py-3 bg-[#0A2351] text-white rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-lg shadow-blue-900/20 hover:bg-[#152E5F] active:scale-95 transition-all"
+              className="group flex items-center justify-center gap-2 w-full md:w-auto px-6 py-3 bg-[#0A2351] text-white rounded-2xl font-medium text-[11px] uppercase tracking-widest shadow-lg shadow-blue-900/20 hover:bg-[#152E5F] active:scale-95 transition-all"
             >
               {active.actionLabel}
               <ArrowRight
@@ -496,7 +410,7 @@ const StatusInsight = ({ status, onContinue }) => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#17C6C6] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-[#17C6C6]"></span>
               </span>
-              <span className="text-[10px] font-black uppercase text-[#17C6C6]">
+              <span className="text-[10px] font-medium uppercase text-[#17C6C6]">
                 System Live
               </span>
             </div>

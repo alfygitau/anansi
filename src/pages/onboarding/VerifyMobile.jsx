@@ -153,7 +153,7 @@ const VerifyMobile = () => {
             </div>
           </div>
 
-          <h1 className="text-2xl font-black text-primary tracking-tight mb-3">
+          <h1 className="text-2xl font-medium text-primary tracking-tight mb-3">
             Verify Mobile Number
           </h1>
 
@@ -165,7 +165,7 @@ const VerifyMobile = () => {
               <span className="text-primary font-bold">{mobile}</span>
               <button
                 onClick={onChangeNumber}
-                className="text-[10px] font-black uppercase text-secondary hover:underline"
+                className="text-[10px] font-medium uppercase text-secondary hover:underline"
               >
                 Edit
               </button>
@@ -179,7 +179,7 @@ const VerifyMobile = () => {
                 key={index}
                 type="text"
                 maxLength="1"
-                className="w-full h-16 sm:h-12 text-center text-2xl font-black text-primary bg-slate-50 border-2 rounded-2xl focus:border-secondary focus:bg-white focus:ring-4 focus:ring-secondary/10 transition-all outline-none"
+                className="w-full h-16 sm:h-12 text-center text-2xl font-medium text-primary bg-slate-50 border-2 rounded-2xl focus:border-secondary focus:bg-white focus:ring-4 focus:ring-secondary/10 transition-all outline-none"
                 value={data}
                 onChange={(e) => handleChange(e, index)}
                 onKeyDown={(e) => {
@@ -199,7 +199,7 @@ const VerifyMobile = () => {
           <button
             onClick={handleVerify}
             disabled={isLoading || otp.includes("")}
-            className="w-full h-[64px] bg-primary text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-secondary transition-all disabled:opacity-20 disabled:grayscale shadow-xl shadow-blue-900/10 mb-8"
+            className="w-full h-[64px] bg-primary text-white rounded-[24px] font-medium uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-secondary transition-all disabled:opacity-20 disabled:grayscale shadow-xl shadow-blue-900/10 mb-8"
           >
             {isLoading ? (
               <Loader2 className="animate-spin" />
@@ -213,7 +213,7 @@ const VerifyMobile = () => {
           {/* Resend Logic */}
           <div className="pt-4 text-center">
             {timer > 0 ? (
-              <p className="text-[10px] text-center font-black uppercase tracking-widest text-slate-300">
+              <p className="text-[10px] text-center font-medium uppercase tracking-widest text-slate-300">
                 Resend SMS in{" "}
                 <span className="text-secondary font-bold">{timer}s</span>
               </p>
@@ -223,7 +223,7 @@ const VerifyMobile = () => {
                 className="flex items-center justify-center gap-2 text-secondary hover:text-primary transition-all mx-auto"
               >
                 <RefreshCw size={14} />
-                <span className="text-[10px] font-black uppercase tracking-widest">
+                <span className="text-[10px] font-medium uppercase tracking-widest">
                   Resend Code
                 </span>
               </button>

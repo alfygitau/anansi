@@ -99,7 +99,7 @@ const ReviewIdentity = () => {
           <div className="p-5 bg-white rounded-[24px] border border-slate-100 shadow-sm">
             <div className="flex items-center gap-2 mb-3">
               <Fingerprint className="text-secondary" size={18} />
-              <span className="text-[10px] font-black uppercase tracking-widest text-primary">
+              <span className="text-[10px] font-medium uppercase tracking-widest text-primary">
                 Why Verify?
               </span>
             </div>
@@ -128,7 +128,7 @@ const ReviewIdentity = () => {
       <div className="flex-1">
         {/* Header with Modern Disclaimer */}
         <header className="mb-3 w-full">
-          <h1 className="text-xl font-black text-primary tracking-tight mb-2">
+          <h1 className="text-xl font-medium text-primary tracking-tight mb-2">
             Review Extracted Details
           </h1>
           <div className="p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50 flex items-start gap-3">
@@ -169,7 +169,7 @@ const ReviewIdentity = () => {
                   </span>
                 </div>
               )}
-              <div className="absolute top-4 left-4 px-3 py-1 bg-primary text-white rounded-full text-[9px] font-black uppercase tracking-widest">
+              <div className="absolute top-4 left-4 px-3 py-1 bg-primary text-white rounded-full text-[9px] font-medium uppercase tracking-widest">
                 {doc.label}
               </div>
             </motion.div>
@@ -186,7 +186,7 @@ const ReviewIdentity = () => {
 
               return (
                 <div key={idx} className="group">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4 mb-2 block">
+                  <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-4 mb-2 block">
                     {field.label}
                   </label>
                   <div className="relative">

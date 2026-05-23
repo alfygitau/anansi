@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import {
   X,
   ChevronDown,
-  Mail,
   Clock,
   Wallet,
   Loader2,
-  CheckCircle2,
   FileText,
   Layers,
   Calendar,
@@ -92,7 +90,7 @@ const GenerateStatement = ({
 
                   {/* STATEMENT TYPE DROPDOWN */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">
+                    <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2">
                       Statement Type
                     </label>
 
@@ -131,7 +129,7 @@ const GenerateStatement = ({
 
                   {/* STATEMENT DURATION */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">
+                    <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2">
                       Statement Duration
                     </label>
                     <div className="relative flex items-center bg-slate-50 rounded-2xl transition-all focus-within:ring-2 focus-within:ring-secondary/20">
@@ -177,7 +175,7 @@ const GenerateStatement = ({
                         className="grid grid-cols-2 gap-4 overflow-hidden"
                       >
                         <div className="space-y-2">
-                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">
+                          <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2">
                             Start Date
                           </label>
                           <div className="relative flex items-center bg-slate-50 rounded-2xl">
@@ -207,7 +205,7 @@ const GenerateStatement = ({
                         </div>
 
                         <div className="space-y-2">
-                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">
+                          <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2">
                             End Date
                           </label>
                           <div className="relative flex items-center bg-slate-50 rounded-2xl">
@@ -241,7 +239,7 @@ const GenerateStatement = ({
 
                   {/* TARGET ACCOUNT */}
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">
+                    <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2">
                       Target Account
                     </label>
                     <div className="relative flex items-center bg-slate-50 rounded-2xl transition-all focus-within:ring-2 focus-within:ring-secondary/20">

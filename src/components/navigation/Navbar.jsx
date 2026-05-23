@@ -13,9 +13,9 @@ const Navbar = () => {
         {/* Logo Section */}
         <div className="flex items-center gap-3 mb-8">
           <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/10">
-            <span className="text-white text-2xl font-black">A</span>
+            <span className="text-white text-2xl font-medium">A</span>
           </div>
-          <span className="text-lg font-black text-primary tracking-tighter uppercase">
+          <span className="text-lg font-medium text-primary tracking-tighter uppercase">
             Anansi Sacco
           </span>
         </div>

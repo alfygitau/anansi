@@ -60,7 +60,7 @@ const FinalConfirmation = ({
                   <ShieldCheck size={20} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-black text-slate-900 leading-tight">
+                  <h3 className="text-lg font-medium text-slate-900 leading-tight">
                     Final Summary
                   </h3>
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
@@ -84,12 +84,12 @@ const FinalConfirmation = ({
                   className="absolute -right-4 -bottom-4 opacity-10"
                   size={70}
                 />
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">
+                <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 mb-2">
                   My Pledged Amount
                 </p>
                 <div className="flex items-baseline gap-2">
                   <span className="text-sm font-bold text-blue-400">KES</span>
-                  <span className="text-4xl font-black">
+                  <span className="text-4xl font-medium">
                     {formatCurrency(guaranteeAmount)}
                   </span>
                 </div>
@@ -103,7 +103,7 @@ const FinalConfirmation = ({
               <section className="space-y-3">
                 <div className="flex items-center gap-2 px-1">
                   <User size={14} className="text-slate-400" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  <span className="text-[10px] font-medium uppercase tracking-widest text-slate-400">
                     Borrower Identity
                   </span>
                 </div>
@@ -112,7 +112,7 @@ const FinalConfirmation = ({
                     <p className="text-[11px] font-bold text-slate-400 uppercase">
                       Full Name
                     </p>
-                    <p className="text-sm font-black text-slate-900">
+                    <p className="text-sm font-medium text-slate-900">
                       {borrowerDetails?.borrowerName}
                     </p>
                   </div>
@@ -131,7 +131,7 @@ const FinalConfirmation = ({
               <section className="space-y-3">
                 <div className="flex items-center gap-2 px-1">
                   <Briefcase size={14} className="text-slate-400" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  <span className="text-[10px] font-medium uppercase tracking-widest text-slate-400">
                     Loan Structure
                   </span>
                 </div>
@@ -140,13 +140,13 @@ const FinalConfirmation = ({
                     <span className="font-semibold text-slate-500">
                       Requested Principal
                     </span>
-                    <span className="font-black text-slate-900">
+                    <span className="font-medium text-slate-900">
                       KES {formatCurrency(loanInfo?.loanamount)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center text-xs">
                     <span className="font-semibold text-slate-500">Tenure</span>
-                    <span className="font-black text-slate-900">
+                    <span className="font-medium text-slate-900">
                       {loanInfo?.loanperiod} Days
                     </span>
                   </div>
@@ -154,15 +154,15 @@ const FinalConfirmation = ({
                     <span className="font-semibold text-slate-500">
                       Interest Rate
                     </span>
-                    <span className="font-black text-emerald-600">
+                    <span className="font-medium text-emerald-600">
                       {loanInfo?.loaninterest}% p.m
                     </span>
                   </div>
                   <div className="pt-4 border-t border-emerald-100 flex justify-between items-center">
-                    <span className="text-xs font-black text-slate-900">
+                    <span className="text-xs font-medium text-slate-900">
                       Total Liability
                     </span>
-                    <span className="text-sm font-black text-blue-600">
+                    <span className="text-sm font-medium text-blue-600">
                       KES {formatCurrency(loanInfo?.loanrepaymentamount)}
                     </span>
                   </div>
@@ -188,7 +188,7 @@ const FinalConfirmation = ({
                   <Check size={14} strokeWidth={4} />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-xs font-black text-slate-900">
+                  <p className="text-xs font-medium text-slate-900">
                     Legal Agreement
                   </p>
                   <p className="text-[11px] leading-relaxed text-slate-500 font-medium">
@@ -208,7 +208,7 @@ const FinalConfirmation = ({
               <button
                 onClick={handleFinish}
                 disabled={!agreed || isLoading}
-                className="w-full h-16 rounded-[24px] bg-blue-600 text-white text-xs font-black uppercase tracking-[0.2em] shadow-xl shadow-blue-200 hover:bg-blue-700 transition-all active:scale-95 disabled:opacity-30 disabled:grayscale flex items-center justify-center gap-3"
+                className="w-full h-16 rounded-[24px] bg-blue-600 text-white text-xs font-medium uppercase tracking-[0.2em] shadow-xl shadow-blue-200 hover:bg-blue-700 transition-all active:scale-95 disabled:opacity-30 disabled:grayscale flex items-center justify-center gap-3"
               >
                 {isLoading ? (
                   <div className="size-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

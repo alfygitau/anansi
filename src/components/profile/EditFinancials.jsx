@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
   Briefcase,
-  Landmark,
   Wallet,
   ShieldCheck,
   Loader2,
@@ -35,8 +34,6 @@ const EditFinancialDetails = ({ isOpen, onClose, customer, refetch }) => {
       });
     }
   }, [customer]);
-
-  const primaryColor = "#074073";
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -100,7 +97,7 @@ const EditFinancialDetails = ({ isOpen, onClose, customer, refetch }) => {
 
             {/* HEADER TRACK (Pinnned, non-scrollable) */}
             <div className="p-8 pb-4 flex flex-col text-left shrink-0">
-              <h2 className="text-xl font-black text-slate-900">
+              <h2 className="text-xl font-medium text-slate-900">
                 Financial Profile
               </h2>
               <p className="text-slate-400 text-xs font-medium">
@@ -112,7 +109,7 @@ const EditFinancialDetails = ({ isOpen, onClose, customer, refetch }) => {
             <div className="flex-1 overflow-y-auto p-8 space-y-6 custom-scrollbar">
               {/* Tax Identification (KRA PIN) - READ ONLY VARIANT */}
               <div className="w-full space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                   Tax Identification (KRA PIN)
                 </label>
                 <div className="relative flex items-center bg-slate-50/50 border-2 border-slate-100 rounded-2xl h-14 shadow-sm select-none">
@@ -131,7 +128,7 @@ const EditFinancialDetails = ({ isOpen, onClose, customer, refetch }) => {
 
               {/* Employment Type Select - EDITABLE */}
               <div className="w-full space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                   Employment Type
                 </label>
                 <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
@@ -157,7 +154,7 @@ const EditFinancialDetails = ({ isOpen, onClose, customer, refetch }) => {
 
               {/* Current Occupation - EDITABLE */}
               <div className="w-full space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                   Current Occupation
                 </label>
                 <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
@@ -176,7 +173,7 @@ const EditFinancialDetails = ({ isOpen, onClose, customer, refetch }) => {
 
               {/* Monthly Income Range (KES) - EDITABLE */}
               <div className="w-full space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                   Monthly Income Range (KES)
                 </label>
                 <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
@@ -200,7 +197,7 @@ const EditFinancialDetails = ({ isOpen, onClose, customer, refetch }) => {
                 type="button"
                 onClick={handleSave}
                 disabled={isLoading}
-                className={`w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs text-white shadow-md transition-all flex items-center justify-center gap-3
+                className={`w-full h-14 rounded-2xl font-medium uppercase tracking-widest text-xs text-white shadow-md transition-all flex items-center justify-center gap-3
                   ${isLoading ? "bg-slate-300 cursor-not-allowed" : "bg-[#074073] hover:opacity-95 active:scale-[0.99]"}
                 `}
               >

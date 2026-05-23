@@ -76,12 +76,12 @@ const SetNewPassword = () => {
           <div className="relative z-10">
             <button
               onClick={() => navigate(-1)}
-              className="flex items-center gap-2 text-blue-300 hover:text-white transition-colors mb-12 text-[10px] font-black uppercase tracking-widest"
+              className="flex items-center gap-2 text-blue-300 hover:text-white transition-colors mb-12 text-[10px] font-medium uppercase tracking-widest"
             >
               <ChevronLeft size={16} /> Previous Step
             </button>
 
-            <h1 className="text-3xl font-black tracking-tighter mb-4 leading-tight">
+            <h1 className="text-3xl font-medium tracking-tighter mb-4 leading-tight">
               Secure Your <br /> Access Vault.
             </h1>
             <p className="text-blue-100/60 text-sm mb-10 font-medium">
@@ -91,7 +91,7 @@ const SetNewPassword = () => {
 
             {/* Live Strength Checklist */}
             <div className="space-y-3 bg-white/5 p-6 rounded-[32px] border border-white/5 bg-slate-900/40">
-              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-secondary mb-4">
+              <h4 className="text-[10px] font-medium uppercase tracking-[0.2em] text-secondary mb-4">
                 Strength Guard
               </h4>
               {[
@@ -140,7 +140,7 @@ const SetNewPassword = () => {
             className="max-w-md mx-auto w-full space-y-6"
           >
             <div className="mb-8">
-              <h2 className="text-2xl font-black text-primary tracking-tight">
+              <h2 className="text-2xl font-medium text-primary tracking-tight">
                 Set Password
               </h2>
               <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">
@@ -167,7 +167,7 @@ const SetNewPassword = () => {
               },
             ].map((field) => (
               <div key={field.id} className="space-y-2">
-                <label className="text-[10px] font-black text-primary uppercase tracking-[0.15em] ml-2">
+                <label className="text-[10px] font-medium text-primary uppercase tracking-[0.15em] ml-2">
                   {field.label}
                 </label>
                 <div className="relative group">
@@ -202,7 +202,7 @@ const SetNewPassword = () => {
               <button
                 type="submit"
                 disabled={isLoading || !allValid}
-                className="w-full h-[55px] bg-primary text-white rounded-[24px] font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-4 shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] active:scale-[0.98] disabled:opacity-20 disabled:grayscale transition-all"
+                className="w-full h-[55px] bg-primary text-white rounded-[24px] font-medium uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-4 shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] active:scale-[0.98] disabled:opacity-20 disabled:grayscale transition-all"
               >
                 {isLoading ? (
                   <Loader2 className="animate-spin" size={20} />

@@ -3,7 +3,6 @@ import {
   X,
   Phone,
   Info,
-  ShieldCheck,
   AlertCircle,
   ArrowRight,
   DollarSign,
@@ -51,7 +50,7 @@ const AddRepayAmount = ({
                 <X size={20} />
               </button>
 
-              <h2 className="text-2xl font-black text-primary tracking-tight">
+              <h2 className="text-2xl font-medium text-primary tracking-tight">
                 Custom Repayment
               </h2>
               <p className="text-sm text-slate-500 font-medium">
@@ -66,12 +65,12 @@ const AddRepayAmount = ({
                 <div className="flex items-center gap-3">
                   <div className="bg-[#2EB400] p-2 rounded-lg">
                     {/* Simplified MPESA Icon Representation */}
-                    <span className="text-white font-black text-[10px]">
+                    <span className="text-white font-medium text-[10px]">
                       M-PESA
                     </span>
                   </div>
                   <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-wider">
+                    <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider">
                       Method
                     </p>
                     <p className="text-sm font-bold text-slate-900">
@@ -84,7 +83,7 @@ const AddRepayAmount = ({
 
               {/* Input: Phone Number (Using your new design system) */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">
+                <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-4">
                   M-Pesa Phone Number
                 </label>
                 <div className="relative flex group h-16">
@@ -112,7 +111,7 @@ const AddRepayAmount = ({
 
               {/* Input: Custom Amount */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">
+                <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-4">
                   Payment Amount
                 </label>
                 <div className="relative flex group h-16">
@@ -121,7 +120,7 @@ const AddRepayAmount = ({
                       size={18}
                       className="text-slate-300 group-focus-within:text-primary transition-colors"
                     />
-                    <span className="ml-3 text-sm font-bold text-slate-400 font-black">
+                    <span className="ml-3 text-sm font-bold text-slate-400 font-medium">
                       KES
                     </span>
                     <div className="w-[1px] h-6 bg-slate-200 ml-4 group-focus-within:bg-primary/20 transition-colors" />
@@ -171,13 +170,13 @@ const AddRepayAmount = ({
               <button
                 onClick={onContinue}
                 disabled={!isValid}
-                className="w-full h-[60px] bg-primary text-white rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#062d7a] transition-all disabled:opacity-20 shadow-xl shadow-blue-900/10 active:scale-95"
+                className="w-full h-[60px] bg-primary text-white rounded-2xl font-medium uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#062d7a] transition-all disabled:opacity-20 shadow-xl shadow-blue-900/10 active:scale-95"
               >
                 Review Payment <ArrowRight size={18} />
               </button>
 
               <div className="flex items-center justify-center gap-2 mt-2">
-                <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">
+                <p className="text-[10px] text-slate-400 font-medium uppercase tracking-[0.2em]">
                   Sacco-Grade Encryption
                 </p>
               </div>

@@ -328,7 +328,7 @@ const Guarantorship = () => {
               <div className="flex border-b border-slate-100 px-8">
                 <button
                   onClick={() => setActiveTab("Requests")}
-                  className={`py-4 px-4 text-sm font-black uppercase tracking-widest transition-all relative ${activeTab === "Requests" ? "text-primary" : "text-slate-400"}`}
+                  className={`py-4 px-4 text-sm font-medium uppercase tracking-widest transition-all relative ${activeTab === "Requests" ? "text-primary" : "text-slate-400"}`}
                 >
                   Requests
                   {activeTab === "Requests" && (
@@ -340,7 +340,7 @@ const Guarantorship = () => {
                 </button>
                 <button
                   onClick={() => setActiveTab("Loans")}
-                  className={`py-4 px-4 text-sm font-black uppercase tracking-widest transition-all relative ${activeTab === "Loans" ? "text-primary" : "text-slate-400"}`}
+                  className={`py-4 px-4 text-sm font-medium uppercase tracking-widest transition-all relative ${activeTab === "Loans" ? "text-primary" : "text-slate-400"}`}
                 >
                   Guaranteed Loans
                   {activeTab === "Loans" && (
@@ -377,7 +377,7 @@ const Guarantorship = () => {
                               <div className="flex justify-between items-center mb-1">
                                 <div className="flex flex-col gap-1">
                                   {/* Borrower Name as a premium subtitle */}
-                                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                  <span className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">
                                     Request from {request?.borrowerName}
                                   </span>
                                   {/* Large Message Body - Guaranteed 2 lines */}
@@ -410,7 +410,7 @@ const Guarantorship = () => {
                                       setBorrowerDetails(request);
                                       setShowReviewRequest(true);
                                     }}
-                                    className="text-xs font-black text-secondary uppercase tracking-wider hover:text-primary transition-colors flex items-center gap-1"
+                                    className="text-xs font-medium text-secondary uppercase tracking-wider hover:text-primary transition-colors flex items-center gap-1"
                                   >
                                     View Full Request Details
                                   </button>
@@ -462,7 +462,7 @@ const Guarantorship = () => {
                                 <p className="text-sm font-bold text-primary">
                                   {loan?.borrowerName}
                                 </p>
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">
                                   {loan?.loanInfo.loancode}
                                 </p>
                               </div>
@@ -471,7 +471,7 @@ const Guarantorship = () => {
                               <p className="text-xs font-medium text-slate-400">
                                 Guaranteed
                               </p>
-                              <p className="text-sm font-black text-emerald-600">
+                              <p className="text-sm font-medium text-emerald-600">
                                 {formatKES(loan?.amountGuaranteed)}
                               </p>
                             </div>
@@ -516,10 +516,10 @@ const StatCard = ({ icon, label, value, sub }) => (
     <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center mb-4">
       {icon}
     </div>
-    <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
+    <p className="text-[11px] font-medium text-slate-400 uppercase tracking-[0.1em]">
       {label}
     </p>
-    <h3 className="text-xl font-black text-primary my-1">{value}</h3>
+    <h3 className="text-xl font-medium text-primary my-1">{value}</h3>
     <p className="text-[10px] font-bold text-slate-300 uppercase tracking-wider">
       {sub}
     </p>
@@ -534,7 +534,7 @@ const StatusBadge = ({ status }) => {
   };
   return (
     <span
-      className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter border ${styles[status]}`}
+      className={`px-2.5 py-1 rounded-full text-[10px] font-medium uppercase tracking-tighter border ${styles[status]}`}
     >
       {status}
     </span>
@@ -554,7 +554,7 @@ const EmptyState = ({ icon: Icon, title, description }) => (
         <Icon size={40} className="text-secondary" />
       </div>
     </div>
-    <h3 className="text-lg font-black text-primary mb-2 tracking-tight">
+    <h3 className="text-lg font-medium text-primary mb-2 tracking-tight">
       {title}
     </h3>
     <p className="text-sm text-slate-400 max-w-[240px] leading-relaxed">

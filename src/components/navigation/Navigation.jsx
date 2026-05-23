@@ -62,9 +62,9 @@ const Navigation = () => {
             className="flex items-center gap-2 cursor-pointer"
           >
             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-              <span className="text-white font-black text-xl">A</span>
+              <span className="text-white font-medium text-xl">A</span>
             </div>
-            <span className="text-primary font-black text-xl tracking-tighter">
+            <span className="text-primary font-medium text-xl tracking-tighter">
               ANANSI
             </span>
           </div>
@@ -110,7 +110,7 @@ const Navigation = () => {
                   )}
                 </div>
                 <div className="flex flex-col items-end hidden md:block">
-                  <span className="text-[11px] font-black text-primary leading-none uppercase tracking-wider">
+                  <span className="text-[11px] font-medium text-primary leading-none uppercase tracking-wider">
                     {registeredUser?.firstname} {registeredUser?.lastname}
                   </span>
                 </div>
@@ -222,7 +222,7 @@ const Navigation = () => {
               className="fixed top-0 right-0 bottom-0 w-[80%] max-w-[320px] bg-white z-[100] shadow-2xl p-6 flex flex-col md:hidden"
             >
               <div className="flex justify-between items-center mb-8">
-                <span className="font-black text-primary">MENU</span>
+                <span className="font-medium text-primary">MENU</span>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="p-2 bg-slate-100 rounded-full"
@@ -265,7 +265,7 @@ const Navigation = () => {
               </div>
 
               <div className="mt-auto p-4 bg-blue-50 rounded-3xl">
-                <p className="text-[10px] font-black text-primary uppercase tracking-widest mb-1">
+                <p className="text-[10px] font-medium text-primary uppercase tracking-widest mb-1">
                   Support
                 </p>
                 <p className="text-xs text-slate-500">

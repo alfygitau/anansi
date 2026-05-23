@@ -26,7 +26,7 @@ const DeclineRequestSuccess = ({ isOpen, onClose }) => {
                 <XCircle size={40} strokeWidth={2.5} className="-rotate-12" />
               </div>
 
-              <h3 className="text-2xl font-black text-slate-900 mb-3">
+              <h3 className="text-2xl font-medium text-slate-900 mb-3">
                 Request Declined
               </h3>
               <p className="text-sm font-medium text-slate-500 leading-relaxed px-2">
@@ -46,7 +46,7 @@ const DeclineRequestSuccess = ({ isOpen, onClose }) => {
 
             <button
               onClick={onClose}
-              className="mt-10 w-full h-14 rounded-2xl border-2 border-slate-100 bg-white text-slate-900 text-xs font-black uppercase tracking-[0.2em] hover:bg-slate-50 transition-all active:scale-95"
+              className="mt-10 w-full h-14 rounded-2xl border-2 border-slate-100 bg-white text-slate-900 text-xs font-medium uppercase tracking-[0.2em] hover:bg-slate-50 transition-all active:scale-95"
             >
               Close Portal
             </button>

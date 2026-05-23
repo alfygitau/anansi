@@ -1,14 +1,5 @@
 import React, { useState } from "react";
-import {
-  X,
-  Scale,
-  FileCheck2,
-  AlertTriangle,
-  ShieldCheck,
-  ChevronDown,
-  Info,
-  Download,
-} from "lucide-react";
+import { X, Scale, AlertTriangle, ChevronDown, Download } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const LoanTerms = ({ isOpen, onClose, onAccept }) => {
@@ -49,7 +40,7 @@ const LoanTerms = ({ isOpen, onClose, onAccept }) => {
                   <Scale size={18} />
                 </div>
                 <div>
-                  <h2 className="text-slate-900 text-base font-black uppercase tracking-wider">
+                  <h2 className="text-slate-900 text-base font-medium uppercase tracking-wider">
                     Terms & Conditions
                   </h2>
                   <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-0.5">
@@ -80,7 +71,7 @@ const LoanTerms = ({ isOpen, onClose, onAccept }) => {
               {/* SECTION 2: LEGAL INTELLECTUAL TERMS TEXT */}
               <div className="space-y-4 text-xs text-slate-600 leading-relaxed">
                 <div className="space-y-2">
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-400">
                     02. Interest Calculation & Accrual
                   </h4>
                   <p className="bg-white border border-slate-100 p-4 rounded-xl shadow-sm text-slate-500">
@@ -93,7 +84,7 @@ const LoanTerms = ({ isOpen, onClose, onAccept }) => {
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-400">
                     03. Prepayment & Early Redemption Clauses
                   </h4>
                   <p className="bg-white border border-slate-100 p-4 rounded-xl shadow-sm text-slate-500">
@@ -107,12 +98,12 @@ const LoanTerms = ({ isOpen, onClose, onAccept }) => {
 
                 {/* CRITICAL WARNING SECTION */}
                 <div className="space-y-2">
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
+                  <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
                     <AlertTriangle size={12} className="text-amber-500" /> 04.
                     Default & Delinquency Covenants
                   </h4>
                   <div className="p-4 bg-white rounded-2xl border border-slate-200/60 shadow-sm">
-                    <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1">
+                    <p className="text-[10px] font-medium text-amber-600 uppercase tracking-widest mb-1">
                       Critical Notice
                     </p>
                     <p className="text-slate-500 text-xs">
@@ -132,7 +123,7 @@ const LoanTerms = ({ isOpen, onClose, onAccept }) => {
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-400">
                     05. Legal Framework & Jurisdiction
                   </h4>
                   <p className="bg-white border border-slate-100 p-4 rounded-xl shadow-sm text-slate-500">
@@ -147,7 +138,7 @@ const LoanTerms = ({ isOpen, onClose, onAccept }) => {
 
               {/* CONTINUOUS READING INDICATOR */}
               {!hasScrolledToBottom && (
-                <div className="flex items-center justify-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 p-2.5 rounded-xl border border-dashed border-slate-200 animate-pulse">
+                <div className="flex items-center justify-center gap-1 text-[10px] font-medium uppercase tracking-widest text-slate-400 bg-slate-50 p-2.5 rounded-xl border border-dashed border-slate-200 animate-pulse">
                   <ChevronDown size={14} /> Scroll down to complete reading
                   requirements
                 </div>
@@ -161,7 +152,7 @@ const LoanTerms = ({ isOpen, onClose, onAccept }) => {
                 <button
                   type="button"
                   onClick={onClose}
-                  className="w-full bg-white border border-slate-200 text-slate-600 py-4 rounded-xl text-[11px] font-black uppercase tracking-[0.08em] hover:bg-slate-50 transition-all text-center shadow-sm"
+                  className="w-full bg-white border border-slate-200 text-slate-600 py-4 rounded-xl text-[11px] font-medium uppercase tracking-[0.08em] hover:bg-slate-50 transition-all text-center shadow-sm"
                 >
                   Close
                 </button>
@@ -169,7 +160,7 @@ const LoanTerms = ({ isOpen, onClose, onAccept }) => {
                   type="button"
                   disabled={!hasScrolledToBottom}
                   onClick={onAccept}
-                  className="w-full bg-slate-900 text-white py-4 rounded-xl text-[11px] font-black uppercase tracking-[0.08em] hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-900 transition-all flex items-center justify-center gap-2 shadow-sm"
+                  className="w-full bg-slate-900 text-white py-4 rounded-xl text-[11px] font-medium uppercase tracking-[0.08em] hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-900 transition-all flex items-center justify-center gap-2 shadow-sm"
                 >
                   Download <Download size={14} className="text-slate-400" />
                 </button>

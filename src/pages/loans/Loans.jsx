@@ -2,13 +2,9 @@ import React, { useState } from "react";
 import {
   Search,
   Filter,
-  ArrowUpRight,
   Clock,
   CheckCircle2,
   AlertCircle,
-  CheckCircle,
-  AlertTriangle,
-  ShieldX,
   CreditCard,
   Info,
   ShieldCheck,
@@ -76,7 +72,7 @@ const MyLoans = ({ onBack }) => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
-                <button className="flex items-center gap-2 px-6 py-3 border border rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-slate-50 transition-all">
+                <button className="flex items-center gap-2 px-6 py-3 border border rounded-2xl text-[10px] font-medium uppercase tracking-widest text-slate-400 hover:bg-slate-50 transition-all">
                   <Filter size={16} /> Filter Status
                 </button>
               </div>
@@ -112,7 +108,7 @@ const MyLoans = ({ onBack }) => {
             <ApplyLoanAction onClick={() => navigate("/loan-products")} />
             {/* Quick Actions Card */}
             <div className="bg-slate-50 rounded-[22px] p-5 border border-slate-200">
-              <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
+              <h3 className="text-xs font-medium uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
                 <Zap className="text-slate-400" size={16} /> Quick Actions
               </h3>
               <div className="space-y-2">
@@ -134,7 +130,7 @@ const MyLoans = ({ onBack }) => {
             <div className="bg-white rounded-[22px] p-4 border border-slate-100 shadow-xl shadow-blue-900/5">
               <div className="flex items-center gap-3 mb-4">
                 <ShieldCheck className="text-emerald-500" size={20} />
-                <h3 className="font-black text-[11px] uppercase tracking-widest text-slate-400">
+                <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
                   Credit Standing
                 </h3>
               </div>
@@ -149,7 +145,7 @@ const MyLoans = ({ onBack }) => {
             <div className="bg-blue-50/50 rounded-[32px] p-4 border border-blue-100/50">
               <div className="flex items-center gap-3 mb-6">
                 <Info className="text-secondary" size={20} />
-                <h3 className="font-black text-[11px] uppercase tracking-widest text-slate-400">
+                <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
                   Important Notes
                 </h3>
               </div>
@@ -193,7 +189,7 @@ const ApplyLoanAction = ({ onClick }) => {
 
         {/* 2. Text Content */}
         <div className="flex-1 ml-4 flex flex-col justify-center">
-          <span className="text-[#0A2351] font-black text-[15px] leading-tight">
+          <span className="text-[#0A2351] font-medium text-[15px] leading-tight">
             Apply for a new Loan
           </span>
           <span className="text-slate-400 text-[11px] font-medium mt-0.5">
@@ -231,7 +227,7 @@ const LoanItem = ({
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-5 pb-3.5">
           <div className="flex flex-col">
-            <h3 className="text-[16px] font-black text-[#0A2351] tracking-tight">
+            <h3 className="text-[16px] font-medium text-[#0A2351] tracking-tight">
               {title}
             </h3>
             <span className="text-[13px] font-bold text-gray-500">{id}</span>
@@ -252,7 +248,7 @@ const LoanItem = ({
             <span className="text-[9px] font-extrabold text-gray-400 tracking-widest">
               PRINCIPAL
             </span>
-            <div className="text-[15px] font-black font-outfit text-black">
+            <div className="text-[15px] font-medium font-outfit text-black">
               {amount}
             </div>
           </div>
@@ -261,7 +257,7 @@ const LoanItem = ({
             <span className="text-[9px] font-extrabold text-gray-400 tracking-widest">
               CURRENT BALANCE
             </span>
-            <div className="text-[15px] font-black font-outfit text-[#0A2351]">
+            <div className="text-[15px] font-medium font-outfit text-[#0A2351]">
               {balance}
             </div>
           </div>
@@ -278,7 +274,7 @@ const LoanItem = ({
               style={{ backgroundColor: statusColor }}
             />
             <span
-              className="text-[10px] font-black uppercase"
+              className="text-[10px] font-medium uppercase"
               style={{ color: statusColor }}
             >
               {status}
@@ -302,7 +298,7 @@ const LoanItem = ({
 const ActionButton = ({ icon, label, onClick, primary = false }) => (
   <button
     onClick={onClick}
-    className={`w-full flex items-center gap-3 px-4 py-5 rounded-xl text-[11px] font-black uppercase tracking-[0.08em] transition-all border ${
+    className={`w-full flex items-center gap-3 px-4 py-5 rounded-xl text-[11px] font-medium uppercase tracking-[0.08em] transition-all border ${
       primary
         ? "bg-primary border-slate-900 text-white hover:bg-slate-800"
         : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50 shadow-sm"
@@ -330,107 +326,15 @@ const DisclaimerItem = ({ text }) => (
 const StatMiniCard = ({ label, count, icon }) => (
   <div className="bg-white p-6 rounded-[32px] border border-slate-100 flex items-center justify-between">
     <div>
-      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+      <p className="text-[10px] font-medium uppercase tracking-widest text-slate-400">
         {label}
       </p>
-      <p className="text-3xl font-black mt-1 text-primary">{count}</p>
+      <p className="text-3xl font-medium mt-1 text-primary">{count}</p>
     </div>
     <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center">
       {React.cloneElement(icon, { size: 28 })}
     </div>
   </div>
 );
-
-const DetailedLoanCard = ({ loan, navigate }) => {
-  const statusConfig = {
-    Active: {
-      color: "bg-primary text-white",
-      icon: <Clock size={16} />,
-      bgLight: "bg-blue-50",
-      iconColor: "text-blue-600",
-    },
-    Paid: {
-      color: "bg-emerald-500 text-white",
-      icon: <CheckCircle size={16} />,
-      bgLight: "bg-emerald-50",
-      iconColor: "text-emerald-600",
-    },
-    Overdue: {
-      color: "bg-amber-500 text-white",
-      icon: <AlertTriangle size={16} />,
-      bgLight: "bg-amber-50",
-      iconColor: "text-amber-600",
-    },
-    Defaulted: {
-      color: "bg-red-600 text-white",
-      icon: <ShieldX size={16} />,
-      bgLight: "bg-red-50",
-      iconColor: "text-red-600",
-    },
-  };
-
-  const style = statusConfig[loan.status] || statusConfig.Active;
-
-  return (
-    <div
-      onClick={navigate}
-      className="group p-6 bg-white border border-slate-200 rounded-[32px] hover:border-secondary/30 hover:shadow-2xl transition-all cursor-pointer relative"
-    >
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-        <div className="md:col-span-4 flex items-center gap-4">
-          <div
-            className={`w-14 h-14 shrink-0 rounded-[20px] flex items-center justify-center ${style.bgLight}`}
-          >
-            {React.cloneElement(style.icon, {
-              size: 26,
-              className: style.iconColor,
-            })}
-          </div>
-          <div className="truncate">
-            <h4 className="font-black text-primary text-base truncate">
-              {loan.productName}
-            </h4>
-            <p className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
-              {loan.loanCode}
-            </p>
-          </div>
-        </div>
-        <div className="md:col-span-3">
-          <p
-            className={`text-base font-black ${loan.status === "Paid" ? "text-slate-200 line-through" : "text-primary"}`}
-          >
-            {loan.balance}
-          </p>
-          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-            Balance
-          </p>
-        </div>
-        <div className="md:col-span-2">
-          <p
-            className={`text-[11px] font-black ${loan.status === "Overdue" ? "text-red-500" : "text-slate-600"}`}
-          >
-            {loan.repaymentDate}
-          </p>
-          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-            Next Due
-          </p>
-        </div>
-        <div className="md:col-span-2 flex md:justify-center">
-          <div
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest w-fit shadow-lg shadow-current/10 ${style.color}`}
-          >
-            {loan.status}
-          </div>
-        </div>
-        <div className="md:col-span-1 flex justify-end">
-          <ArrowUpRight
-            size={20}
-            className="text-slate-200 group-hover:text-secondary transition-all"
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default MyLoans;

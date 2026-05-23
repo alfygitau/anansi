@@ -256,13 +256,13 @@ const ProfilePage = () => {
                     <Camera size={16} />
                   </button>
                 </div>
-                <h2 className="mt-4 text-xl font-black text-white">
+                <h2 className="mt-4 text-xl font-medium text-white">
                   {customer?.firstname} {customer?.lastname}
                 </h2>
                 <p className="text-blue-200 text-xs font-medium opacity-80 mt-1">
                   {customer?.email}
                 </p>
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white bg-white/10 px-4 py-1.5 rounded-full mt-6">
+                <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-white bg-white/10 px-4 py-1.5 rounded-full mt-6">
                   ID: {customer?.public_id}
                 </span>
               </div>
@@ -384,10 +384,10 @@ const ProfilePage = () => {
                     <UserMinus size={28} />
                   </div>
                   <div>
-                    <h3 className="text-sm font-black uppercase tracking-widest text-slate-400">
+                    <h3 className="text-sm font-medium uppercase tracking-widest text-slate-400">
                       SACCO Exit Policy
                     </h3>
-                    <h2 className="text-xl font-black text-primary">
+                    <h2 className="text-xl font-medium text-primary">
                       Termination of SACCO Membership
                     </h2>
                   </div>
@@ -461,7 +461,7 @@ const ProfilePage = () => {
                   <X size={20} />
                 </button>
                 <div className="text-center">
-                  <h3 className="text-lg font-black text-primary mb-6">
+                  <h3 className="text-lg font-medium text-primary mb-6">
                     Update Profile Photo
                   </h3>
                   <div className="w-40 h-40 rounded-full bg-slate-50 mx-auto mb-6 border-2 border-dashed border-slate-200 flex items-center justify-center overflow-hidden">
@@ -532,7 +532,7 @@ const RequirementCard = ({ icon, title, description }) => (
       <h4 className="font-bold text-primary text-sm leading-tight">{title}</h4>
       <p className="text-xs text-slate-500 mt-1">{description}</p>
     </div>
-    <div className="ml-auto flex items-center gap-1.5 px-3 py-1 bg-amber-50 border border-amber-100 rounded-full text-[10px] font-black uppercase tracking-widest text-amber-600">
+    <div className="ml-auto flex items-center gap-1.5 px-3 py-1 bg-amber-50 border border-amber-100 rounded-full text-[10px] font-medium uppercase tracking-widest text-amber-600">
       Pending Verification
     </div>
   </div>
@@ -547,7 +547,7 @@ const InfoCard = ({ title, icon, children, fullHeight, onEdit }) => (
     <div className="flex justify-between items-center mb-6">
       <div className="flex items-center gap-2.5">
         <div className="p-2 bg-blue-50 text-secondary rounded-lg">{icon}</div>
-        <h3 className="text-[12px] font-black uppercase tracking-wider text-primary">
+        <h3 className="text-[12px] font-medium uppercase tracking-wider text-primary">
           {title}
         </h3>
       </div>
@@ -564,7 +564,7 @@ const InfoCard = ({ title, icon, children, fullHeight, onEdit }) => (
 
 const DataField = ({ label, value, isMonetary }) => (
   <div className="group">
-    <p className="text-[9px] font-black uppercase tracking-[0.1em] text-slate-400 mb-0.5 group-hover:text-secondary transition-colors">
+    <p className="text-[9px] font-medium uppercase tracking-[0.1em] text-slate-400 mb-0.5 group-hover:text-secondary transition-colors">
       {label}
     </p>
     <p

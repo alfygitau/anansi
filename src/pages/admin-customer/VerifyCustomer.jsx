@@ -95,7 +95,7 @@ const AdminOtpVerification = () => {
             <ShieldCheck size={40} strokeWidth={1.5} />
           </div>
 
-          <h2 className="text-3xl font-black text-primary tracking-tight mb-3">
+          <h2 className="text-3xl font-medium text-primary tracking-tight mb-3">
             Identity Check
           </h2>
           <p className="text-slate-400 text-sm leading-relaxed max-w-[320px] mx-auto font-medium">
@@ -123,7 +123,7 @@ const AdminOtpVerification = () => {
                 value={data}
                 onChange={(e) => handleChange(e.target.value, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
-                className="w-16 h-16 md:h-18 text-center text-3xl font-black text-primary bg-slate-100 border-2 rounded-[20px] focus:border-secondary focus:bg-white focus:ring-8 focus:ring-blue-400/10 outline-none transition-all shadow-sm"
+                className="w-16 h-16 md:h-18 text-center text-3xl font-medium text-primary bg-slate-100 border-2 rounded-[20px] focus:border-secondary focus:bg-white focus:ring-8 focus:ring-blue-400/10 outline-none transition-all shadow-sm"
               />
             ))}
           </div>
@@ -136,7 +136,7 @@ const AdminOtpVerification = () => {
               type="button"
               disabled={timer > 0}
               onClick={() => setTimer(60)}
-              className={`flex items-center gap-2 mx-auto text-xs font-black uppercase tracking-widest transition-all ${
+              className={`flex items-center gap-2 mx-auto text-xs font-medium uppercase tracking-widest transition-all ${
                 timer > 0
                   ? "text-slate-300"
                   : "text-secondary hover:text-primary"
@@ -153,7 +153,7 @@ const AdminOtpVerification = () => {
           <button
             type="submit"
             disabled={isLoading || otp.join("").length < 6}
-            className="w-full h-16 bg-primary text-white rounded-[24px] font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 hover:bg-[#072d7a] active:scale-[0.98] disabled:opacity-20 disabled:grayscale transition-all"
+            className="w-full h-16 bg-primary text-white rounded-[24px] font-medium uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 hover:bg-[#072d7a] active:scale-[0.98] disabled:opacity-20 disabled:grayscale transition-all"
           >
             {isLoading ? (
               <Loader2 className="animate-spin" size={20} />
@@ -167,7 +167,7 @@ const AdminOtpVerification = () => {
 
         <div className="mt-12 flex items-center justify-center gap-2 opacity-30">
           <div className="h-[1px] w-8 bg-slate-400" />
-          <span className="text-[9px] font-black uppercase tracking-widest text-slate-500">
+          <span className="text-[9px] font-medium uppercase tracking-widest text-slate-500">
             Anansi Security Layer
           </span>
           <div className="h-[1px] w-8 bg-slate-400" />

@@ -45,12 +45,12 @@ const AcceptRequestSuccess = ({ isOpen, onClose, loanCode }) => {
                 </motion.div>
               </div>
 
-              <h3 className="text-2xl font-black text-slate-900 mb-2">
+              <h3 className="text-2xl font-medium text-slate-900 mb-2">
                 Success!
               </h3>
               <p className="text-sm font-medium text-slate-500 leading-relaxed px-4">
                 You have officially guaranteed the loan request for
-                <span className="block font-black text-blue-600 mt-1 uppercase tracking-wider underline">
+                <span className="block font-medium text-blue-600 mt-1 uppercase tracking-wider underline">
                   #{loanCode || "LN-9902"}
                 </span>
               </p>
@@ -68,7 +68,7 @@ const AcceptRequestSuccess = ({ isOpen, onClose, loanCode }) => {
             <div className="mt-10">
               <button
                 onClick={onClose}
-                className="w-full h-14 rounded-2xl bg-slate-900 text-white text-xs font-black uppercase tracking-[0.2em] shadow-xl shadow-slate-200 hover:scale-[1.02] active:scale-95 transition-all"
+                className="w-full h-14 rounded-2xl bg-slate-900 text-white text-xs font-medium uppercase tracking-[0.2em] shadow-xl shadow-slate-200 hover:scale-[1.02] active:scale-95 transition-all"
               >
                 Done
               </button>

@@ -238,7 +238,7 @@ const DetailedProductCard = ({ product, onApply, onTerms }) => {
           </div>
 
           {/* Rate Badge */}
-          <span className="text-[11px] font-black uppercase tracking-widest text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
+          <span className="text-[11px] font-medium uppercase tracking-widest text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
             {rate} P.A
           </span>
         </div>
@@ -275,7 +275,7 @@ const DetailedProductCard = ({ product, onApply, onTerms }) => {
 
         <button
           onClick={onApply}
-          className="px-6 py-2.5 bg-[#042159] text-white text-[11px] font-black uppercase tracking-widest rounded-xl shadow-lg shadow-blue-900/10 hover:bg-slate-800 transition-all active:scale-95"
+          className="px-6 py-2.5 bg-[#042159] text-white text-[11px] font-medium uppercase tracking-widest rounded-xl shadow-lg shadow-blue-900/10 hover:bg-slate-800 transition-all active:scale-95"
         >
           Apply Now
         </button>
@@ -287,7 +287,7 @@ const DetailedProductCard = ({ product, onApply, onTerms }) => {
 // Helper Sub-component for the Info Grid
 const InfoColumn = ({ label, value }) => (
   <div className="flex flex-col gap-1">
-    <span className="text-[9px] font-black text-slate-400 tracking-wider uppercase">
+    <span className="text-[9px] font-medium text-slate-400 tracking-wider uppercase">
       {label}
     </span>
     <span className="text-xs font-bold text-slate-700">{value}</span>

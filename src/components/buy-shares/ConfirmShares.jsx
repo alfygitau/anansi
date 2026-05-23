@@ -90,7 +90,7 @@ const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
 
             {/* Header */}
             <div className="px-8 pt-8 pb-6">
-              <h2 className="text-2xl font-black tracking-tighter text-[#042159]">
+              <h2 className="text-2xl font-medium tracking-tighter text-[#042159]">
                 Verify Payment
               </h2>
               <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
@@ -102,16 +102,16 @@ const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
             <div className="flex-1 overflow-y-auto p-8 space-y-8">
               {/* M-PESA Card - Professional Styling */}
               <div className="space-y-3">
-                <label className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">
+                <label className="flex items-center gap-2 text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em] ml-1">
                   <Phone size={12} className="text-emerald-500" /> Account
                   Details
                 </label>
                 <div className="bg-emerald-50/50 border border-emerald-100 rounded-[24px] p-5 flex items-center justify-between">
                   <div className="space-y-1">
-                    <p className="text-[9px] text-emerald-600 font-black uppercase tracking-tighter">
+                    <p className="text-[9px] text-emerald-600 font-medium uppercase tracking-tighter">
                       M-PESA Recipient
                     </p>
-                    <p className="text-lg font-black text-[#042159]">
+                    <p className="text-lg font-medium text-[#042159]">
                       {sharesDetails?.mobile}
                     </p>
                   </div>
@@ -123,7 +123,7 @@ const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
 
               {/* Transaction Details Card */}
               <div className="space-y-3">
-                <label className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">
+                <label className="flex items-center gap-2 text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em] ml-1">
                   <Receipt size={12} className="text-sky-500" /> Summary
                 </label>
                 <div className="bg-slate-50 border border-slate-100 rounded-[24px] p-6 space-y-5">
@@ -131,7 +131,7 @@ const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
                     <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
                       Investment Cost
                     </span>
-                    <span className="text-2xl font-black text-[#042159]">
+                    <span className="text-2xl font-medium text-[#042159]">
                       <span className="text-xs not-italic font-bold opacity-40">
                         KES
                       </span>{" "}
@@ -143,7 +143,7 @@ const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
                     <span className="text-[11px] font-bold text-slate-400 uppercase flex items-center gap-2">
                       <Calendar size={14} className="text-slate-400" /> Date
                     </span>
-                    <span className="text-xs font-black text-slate-600">
+                    <span className="text-xs font-medium text-slate-600">
                       {formattedDate}
                     </span>
                   </div>
@@ -167,7 +167,7 @@ const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
               <button
                 onClick={handleContinue}
                 disabled={isLoading}
-                className={`w-full h-16 rounded-[22px] font-black text-[11px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 transition-all duration-300 shadow-xl
+                className={`w-full h-16 rounded-[22px] font-medium text-[11px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 transition-all duration-300 shadow-xl
     ${
       isLoading
         ? "bg-slate-100 text-slate-400 cursor-not-allowed"
@@ -186,7 +186,7 @@ const ConfirmShares = ({ isOpen, onClose, onConfirm }) => {
                   </>
                 )}
               </button>
-              <p className="text-center text-[9px] text-slate-400 uppercase tracking-widest mt-2 font-black opacity-60">
+              <p className="text-center text-[9px] text-slate-400 uppercase tracking-widest mt-2 font-medium opacity-60">
                 Powered by Secure M-PESA Integration
               </p>
             </div>

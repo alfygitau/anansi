@@ -9,18 +9,16 @@ import {
   FileText,
   HelpCircle,
   ChevronRight,
-  Info,
   AlertTriangle,
   Circle,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useFormatAmount } from "../../hooks/useFormatAmount";
 
 const EligibilityCheck = () => {
   const [checking, setChecking] = useState(true);
   const navigate = useNavigate();
-  const loanLimitAmount = 450000;
-  const loanLimit = `KES ${loanLimitAmount.toLocaleString()}`;
-
+  const loanLimit = 450000;
   const loanRequirements = [
     {
       id: "req_1",
@@ -82,7 +80,7 @@ const EligibilityCheck = () => {
       <div className="max-w-6xl sm:px-4 mx-auto mx-auto">
         {/* Header Section */}
         <header className="flex flex-col md:flex-row md:items-end justify-between mb-4 gap-6">
-          <div className="space-y-2">
+          <div>
             <h1 className="text-2xl font-bold tracking-tight text-primary">
               Loan <span>Eligibility</span>
             </h1>
@@ -105,7 +103,7 @@ const EligibilityCheck = () => {
             <LoanLimitCard loanLimit={loanLimit} checking={checking} />
 
             {/* Requirements Grid */}
-            <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-[0_20px_50px_rgba(0,0,0,0.02)]">
+            <div className="bg-white rounded-[32px] p-6 border border-slate-100">
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h3 className="text-lg font-bold text-slate-900">
@@ -192,7 +190,7 @@ const EligibilityCheck = () => {
 
                     {/* Minimalist Status indicator */}
                     <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 rounded-full border border-slate-200/40">
-                      <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">
+                      <span className="text-[9px] font-medium text-slate-500 uppercase tracking-widest">
                         System Live
                       </span>
                     </div>
@@ -200,7 +198,7 @@ const EligibilityCheck = () => {
 
                   {/* Typography */}
                   <div>
-                    <h4 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">
+                    <h4 className="text-xs font-medium uppercase tracking-widest text-slate-400 mb-2">
                       Institutional Security
                     </h4>
                     <p className="text-slate-500 text-xs leading-relaxed font-medium">
@@ -215,10 +213,10 @@ const EligibilityCheck = () => {
 
                   {/* Footer Info */}
                   <div className="pt-4 flex items-center justify-between border-t border-slate-200/60">
-                    <div className="flex items-center gap-1.5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <div className="flex items-center gap-1.5 text-[10px] font-medium text-slate-400 uppercase tracking-widest">
                       <Lock size={12} /> Encrypted
                     </div>
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 cursor-pointer transition-colors">
+                    <span className="text-[10px] font-medium text-slate-400 uppercase tracking-widest hover:text-slate-600 cursor-pointer transition-colors">
                       Privacy Policy
                     </span>
                   </div>
@@ -235,7 +233,7 @@ const EligibilityCheck = () => {
 
                   {/* Content */}
                   <div>
-                    <h4 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">
+                    <h4 className="text-xs font-medium uppercase tracking-widest text-slate-400 mb-2">
                       Capacity Logic
                     </h4>
                     <p className="text-slate-500 text-xs leading-relaxed font-medium">
@@ -250,7 +248,7 @@ const EligibilityCheck = () => {
 
                   {/* Action Link/Badge */}
                   <div className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl transition-all hover:bg-slate-50 cursor-pointer shadow-sm group">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+                    <span className="text-[10px] font-medium uppercase tracking-widest text-slate-500">
                       How is this calculated?
                     </span>
                     <ChevronRight
@@ -277,12 +275,13 @@ const LoanLimitCard = ({
   shares = "KES 25k",
   multiplier = "3.0x",
 }) => {
+  const formatAmount = useFormatAmount();
   return (
-    <div className="relative overflow-hidden rounded-[35px] p-3 shadow-2xl bg-gradient-to-br from-[#0A2351] to-[#1B3C73]">
+    <div className="relative overflow-hidden rounded-[35px] p-3 bg-gradient-to-br from-[#0A2351] to-[#1B3C73]">
       {/* Content Container */}
       <div className="flex flex-col items-center text-center">
         {/* Label - Teal Accent */}
-        <span className="text-[10px] font-black uppercase tracking-[0.15em] text-[#17C6C6] mb-4">
+        <span className="text-[10px] font-medium uppercase tracking-[0.15em] text-[#17C6C6] mb-4">
           Your Borrowing Capacity
         </span>
 
@@ -299,8 +298,8 @@ const LoanLimitCard = ({
               ))}
             </div>
           ) : (
-            <h2 className="text-4xl md:text-5xl font-black tracking-tighter text-white">
-              {loanLimit || "KES 0.00"}
+            <h2 className="text-4xl md:text-5xl font-medium tracking-tighter text-white">
+              {formatAmount(loanLimit) || "KES 0.00"}
             </h2>
           )}
         </div>
@@ -332,7 +331,7 @@ const HeaderStat = ({ label, value }) => (
     <span className="text-[9px] font-bold text-white/40 uppercase tracking-wider mb-1">
       {label}
     </span>
-    <span className="text-sm font-black text-white">{value}</span>
+    <span className="text-sm font-medium text-white">{value}</span>
   </div>
 );
 
@@ -360,12 +359,12 @@ const SaccoChecklistTile = ({ title, desc, status, isMet, isWarning }) => {
       {/* Content Section */}
       <div className="flex-grow flex flex-col">
         <div className="flex items-center justify-between">
-          <h4 className="text-[14px] font-black text-[#0A2351] tracking-tight">
+          <h4 className="text-[14px] font-semibold text-[#0A2351] tracking-tight">
             {title}
           </h4>
 
           <span
-            className="text-[9px] font-black uppercase tracking-widest"
+            className="text-[9px] font-medium uppercase tracking-widest"
             style={{ color: iconColor }}
           >
             {status?.toUpperCase()}
@@ -382,7 +381,7 @@ const SaccoChecklistTile = ({ title, desc, status, isMet, isWarning }) => {
 
 const PremiumSidebar = ({ actions }) => (
   <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm">
-    <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">
+    <h3 className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 mb-4">
       Resources
     </h3>
     <div className="space-y-4">

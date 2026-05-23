@@ -41,7 +41,7 @@ const SuccessVerification = ({ isOpen, onClose }) => {
 
             {/* Detailed Success Message */}
             <div className="text-center space-y-4 mb-10">
-              <h2 className="text-2xl font-black text-primary uppercase tracking-tight">
+              <h2 className="text-2xl font-medium text-primary uppercase tracking-tight">
                 Document Read Successfully!
               </h2>
               <p className="text-[14px] text-slate-500 leading-relaxed max-w-[380px] mx-auto">

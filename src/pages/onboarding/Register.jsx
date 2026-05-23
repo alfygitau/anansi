@@ -4,7 +4,6 @@ import {
   Mail,
   Eye,
   EyeOff,
-  CheckCircle2,
   Loader2,
   ArrowRight,
   Phone,
@@ -147,14 +146,14 @@ const Registration = () => {
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/10">
-                <span className="text-white text-2xl font-black">A</span>
+                <span className="text-white text-2xl font-medium">A</span>
               </div>
-              <span className="text-lg font-black text-primary tracking-tighter uppercase">
+              <span className="text-lg font-medium text-primary tracking-tighter uppercase">
                 Anansi Sacco
               </span>
             </div>
 
-            <h2 className="text-slate-900 text-4xl font-black leading-tight mb-8">
+            <h2 className="text-slate-900 text-4xl font-medium leading-tight mb-8">
               Empowering your <br />
               <span className="text-primary">financial future.</span>
             </h2>
@@ -179,7 +178,7 @@ const Registration = () => {
           </div>
 
           <div className="relative z-10 pt-6 border-t border-slate-100">
-            <p className="text-slate-400 text-[9px] font-black uppercase tracking-[0.2em]">
+            <p className="text-slate-400 text-[9px] font-medium uppercase tracking-[0.2em]">
               © {new Date().getFullYear()} Anansi Sacco | Registered Financial
               Institution
             </p>
@@ -190,7 +189,7 @@ const Registration = () => {
         <div className="flex-1 w-full flex items-center justify-center p-6 lg:p-6 bg-white">
           <div className="w-full">
             <header className="mb-4 text-center lg:text-left">
-              <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+              <h1 className="text-3xl font-medium text-slate-900 tracking-tight">
                 Create Profile
               </h1>
             </header>
@@ -219,7 +218,7 @@ const Registration = () => {
               />
 
               <div className="space-y-1.5">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4 block">
+                <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-4 block">
                   Mobile Number
                 </label>
                 <div className="relative flex group h-16">
@@ -316,7 +315,7 @@ const Registration = () => {
 
               <button
                 disabled={isLoading || !isFormValid}
-                className="w-full h-[58px] bg-primary text-white rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-secondary transition-all disabled:opacity-30 shadow-lg shadow-blue-900/10 mt-2"
+                className="w-full h-[58px] bg-primary text-white rounded-2xl font-medium uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-secondary transition-all disabled:opacity-30 shadow-lg shadow-blue-900/10 mt-2"
               >
                 {isLoading ? (
                   <Loader2 className="animate-spin" />
@@ -333,7 +332,7 @@ const Registration = () => {
                   <button
                     type="button"
                     onClick={() => navigate("/auth/login")}
-                    className="text-primary font-black uppercase tracking-widest text-[10px] hover:underline ml-1"
+                    className="text-primary font-medium uppercase tracking-widest text-[10px] hover:underline ml-1"
                   >
                     Log In
                   </button>
@@ -349,7 +348,7 @@ const Registration = () => {
 
 const InputGroup = ({ label, icon: Icon, error, children, ...props }) => (
   <div className="w-full space-y-1.5">
-    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4 block">
+    <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-4 block">
       {label}
     </label>
     <div className="relative flex items-center group">

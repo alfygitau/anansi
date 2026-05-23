@@ -53,7 +53,7 @@ const SaveAndInvest = ({ isOpen, onNext, onClose, onCombine }) => {
                   <TrendingUp size={32} />
                 </div>
                 <div className="space-y-2">
-                  <h2 className="text-2xl font-black text-primary tracking-tight leading-tight">
+                  <h2 className="text-2xl font-medium text-primary tracking-tight leading-tight">
                     Maximize Your <br />
                     Starting Investment
                   </h2>
@@ -72,7 +72,7 @@ const SaveAndInvest = ({ isOpen, onNext, onClose, onCombine }) => {
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-2">
                   <Zap className="text-amber-500" size={18} />
-                  <h4 className="text-[11px] font-black uppercase text-slate-700">
+                  <h4 className="text-[11px] font-medium uppercase text-slate-700">
                     Save Money
                   </h4>
                   <p className="text-[10px] text-slate-500 leading-tight">
@@ -81,7 +81,7 @@ const SaveAndInvest = ({ isOpen, onNext, onClose, onCombine }) => {
                 </div>
                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-2">
                   <PiggyBank className="text-emerald-500" size={18} />
-                  <h4 className="text-[11px] font-black uppercase text-slate-700">
+                  <h4 className="text-[11px] font-medium uppercase text-slate-700">
                     Early Growth
                   </h4>
                   <p className="text-[10px] text-slate-500 leading-tight">
@@ -104,7 +104,7 @@ const SaveAndInvest = ({ isOpen, onNext, onClose, onCombine }) => {
               <div className="space-y-3">
                 <button
                   onClick={onCombine}
-                  className="group w-full h-14 bg-primary hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all active:scale-[0.98]"
+                  className="group w-full h-14 bg-primary hover:bg-[#062d7a] text-white rounded-2xl font-medium uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all active:scale-[0.98]"
                 >
                   Yes, Add Shares & Savings
                   <ArrowRight

@@ -251,7 +251,7 @@ const ProfileInformation = () => {
       {/* Main Content - 80% */}
       <div className="flex-1 lg:w-[75%] sm:px-5 overflow-y-auto">
         <div className="mb-10">
-          <h1 className="text-2xl lg:text-2xl font-black text-primary uppercase tracking-tight">
+          <h1 className="text-2xl lg:text-2xl font-medium text-primary uppercase tracking-tight">
             Complete Your Profile
           </h1>
           <p className="text-slate-500 text-sm mt-1 w-full">
@@ -267,7 +267,7 @@ const ProfileInformation = () => {
               <AlertCircle size={20} className="text-secondary" />
             </div>
             <div className="space-y-1">
-              <h4 className="text-[11px] font-black text-primary uppercase tracking-widest">
+              <h4 className="text-[11px] font-medium text-primary uppercase tracking-widest">
                 Data Privacy & Security
               </h4>
               <p className="text-xs text-slate-600 leading-relaxed">

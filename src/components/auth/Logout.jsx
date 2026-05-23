@@ -67,7 +67,7 @@ const Logout = ({ isOpen, onClose }) => {
 
               {/* Text Content */}
               <div className="text-center space-y-3 mb-6">
-                <h3 className="text-[22px] font-black text-primary">
+                <h3 className="text-[22px] font-medium text-primary">
                   Confirm Logout
                 </h3>
                 <p className="text-[14px] text-slate-500 leading-relaxed max-w-[320px] mx-auto">

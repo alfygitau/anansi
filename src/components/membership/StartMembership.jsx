@@ -50,7 +50,7 @@ const StartMembership = ({ isOpen, onPay, onLogout }) => {
                   />
                 </div>
                 <div>
-                  <h2 className="text-3xl font-black text-white tracking-tight">
+                  <h2 className="text-3xl font-medium text-white tracking-tight">
                     Setup Membership
                   </h2>
                   <p className="text-secondary text-xs font-bold uppercase tracking-[0.2em] mt-1">
@@ -83,7 +83,7 @@ const StartMembership = ({ isOpen, onPay, onLogout }) => {
               <div className="space-y-4 pt-2">
                 <button
                   onClick={onPay}
-                  className="group w-full h-14 bg-secondary hover:bg-[#3da8d4] text-primary rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 transition-all active:scale-[0.98] shadow-lg shadow-secondary/20"
+                  className="group w-full h-14 bg-secondary hover:bg-[#3da8d4] text-primary rounded-2xl font-medium uppercase tracking-widest text-sm flex items-center justify-center gap-3 transition-all active:scale-[0.98] shadow-lg shadow-secondary/20"
                 >
                   Pay and get access
                   <ArrowRight

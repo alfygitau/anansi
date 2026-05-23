@@ -78,7 +78,7 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F0FFFE] text-primary mb-2 shadow-inner">
                   <ShieldCheck size={28} />
                 </div>
-                <h2 className="text-2xl font-black text-primary tracking-tight">
+                <h2 className="text-2xl font-medium text-primary tracking-tight">
                   Review Registration
                 </h2>
                 <p className="text-slate-500 text-sm">
@@ -100,15 +100,15 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
 
                 <div className="flex justify-between items-end">
                   <div>
-                    <p className="text-[10px] font-black text-cyan-700/60 uppercase tracking-widest">
+                    <p className="text-[10px] font-medium text-cyan-700/60 uppercase tracking-widest">
                       Phone Number
                     </p>
-                    <p className="text-lg font-black text-primary">
+                    <p className="text-lg font-medium text-primary">
                       {membershipPhone || "07XX XXX XXX"}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-[10px] font-black text-cyan-700/60 uppercase tracking-widest">
+                    <p className="text-[10px] font-medium text-cyan-700/60 uppercase tracking-widest">
                       Date
                     </p>
                     <p className="text-xs font-bold text-primary flex items-center gap-1">
@@ -125,10 +125,10 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
                 </div>
                 <div className="relative z-10 flex justify-between items-center">
                   <div>
-                    <p className="text-cyan-400 text-[10px] font-black uppercase tracking-[0.2em] mb-1">
+                    <p className="text-cyan-400 text-[10px] font-medium uppercase tracking-[0.2em] mb-1">
                       Total Due
                     </p>
-                    <h3 className="text-3xl font-black tracking-tighter">
+                    <h3 className="text-3xl font-medium tracking-tighter">
                       KES 1,000.00
                     </h3>
                   </div>
@@ -162,7 +162,7 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
               <button
                 disabled={isLoading}
                 onClick={handlePayment}
-                className="group w-full h-14 bg-primary hover:bg-[#062d7a] disabled:bg-slate-300 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98]"
+                className="group w-full h-14 bg-primary hover:bg-[#062d7a] disabled:bg-slate-300 text-white rounded-2xl font-medium uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98]"
               >
                 {isLoading ? (
                   <>

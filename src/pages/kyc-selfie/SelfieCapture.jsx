@@ -179,7 +179,7 @@ const SelfieCapture = () => {
           {/* Help Section */}
           <div className="flex items-center gap-2 text-primary cursor-pointer active:opacity-60 transition-opacity">
             <Headphones size={24} />
-            <span className="text-[13px] font-black uppercase tracking-widest">
+            <span className="text-[13px] font-medium uppercase tracking-widest">
               Help
             </span>
           </div>
@@ -190,7 +190,7 @@ const SelfieCapture = () => {
         {/* Container for content - Added pb-40 to ensure space for the sticky footer */}
         <div className="flex flex-col items-center py-3 px-6 pb-10">
           <div className="text-center mb-6">
-            <h1 className="text-xl font-black text-primary uppercase tracking-tight">
+            <h1 className="text-xl font-medium text-primary uppercase tracking-tight">
               {capturedImage ? "Verify Identity" : "Take a Selfie"}
             </h1>
             <p className="text-slate-500 text-sm mt-1">
@@ -266,7 +266,7 @@ const SelfieCapture = () => {
 
           {/* Requirements */}
           <div className="w-full max-w-[400px] mt-6">
-            <p className="text-[11px] font-black uppercase tracking-[0.1em] text-primary mb-4 opacity-60">
+            <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-primary mb-4 opacity-60">
               Verification Requirements
             </p>
             <div className="grid grid-cols-1 gap-3">
@@ -294,7 +294,7 @@ const SelfieCapture = () => {
             <button
               onClick={takePhoto}
               disabled={cameraError}
-              className="w-full h-16 bg-primary text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 active:scale-[0.98] transition-transform disabled:bg-slate-300"
+              className="w-full h-16 bg-primary text-white rounded-[24px] font-medium uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 active:scale-[0.98] transition-transform disabled:bg-slate-300"
             >
               <Camera size={20} /> Capture Photo
             </button>
@@ -303,7 +303,7 @@ const SelfieCapture = () => {
               <button
                 onClick={handleUpload}
                 disabled={isLoading}
-                className="w-full h-16 bg-primary text-white rounded-[24px] font-black uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl active:scale-[0.98] transition-transform"
+                className="w-full h-16 bg-primary text-white rounded-[24px] font-medium uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl active:scale-[0.98] transition-transform"
               >
                 {isLoading ? (
                   <Loader2 className="animate-spin" />
@@ -317,7 +317,7 @@ const SelfieCapture = () => {
                   startCamera();
                 }}
                 disabled={isLoading}
-                className="w-full h-16 rounded-[24px] text-primary border font-black uppercase text-[11px] tracking-widest active:opacity-60 transition-opacity"
+                className="w-full h-16 rounded-[24px] text-primary border font-medium uppercase text-[11px] tracking-widest active:opacity-60 transition-opacity"
               >
                 Retake Photo
               </button>

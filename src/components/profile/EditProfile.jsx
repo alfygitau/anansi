@@ -1,15 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  X,
-  User,
-  Mail,
-  Phone,
-  Calendar,
-  Lock,
-  Loader2,
-  Info,
-} from "lucide-react";
+import { X, User, Mail, Phone, Calendar, Loader2, Info } from "lucide-react";
 
 const EditProfile = ({ isOpen, onClose, customer }) => {
   const [loading, setLoading] = useState(false);
@@ -32,8 +23,6 @@ const EditProfile = ({ isOpen, onClose, customer }) => {
       });
     }
   }, [customer]);
-
-  const primaryColor = "#074073";
 
   const handleSave = () => {
     setLoading(true);
@@ -73,11 +62,11 @@ const EditProfile = ({ isOpen, onClose, customer }) => {
 
             {/* HEADER TRACK (Pinned, non-scrollable) */}
             <div className="p-8 pb-4 flex flex-col shrink-0">
-              <h2 className="text-xl font-black text-slate-900">
+              <h2 className="text-xl font-medium text-slate-900">
                 Profile Identity
               </h2>
               <div className="flex items-center gap-1.5 text-slate-400">
-                <p className="text-[10px] font-black uppercase tracking-widest">
+                <p className="text-[10px] font-medium uppercase tracking-widest">
                   Verified Vault Information
                 </p>
               </div>
@@ -89,7 +78,7 @@ const EditProfile = ({ isOpen, onClose, customer }) => {
               <div className="grid grid-cols-2 gap-4">
                 {/* First Name Field */}
                 <div className="w-full space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                  <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                     First Name
                   </label>
                   <div className="relative flex items-center bg-slate-50/50 border-2 border-slate-100 rounded-2xl h-14 shadow-sm select-none">
@@ -106,7 +95,7 @@ const EditProfile = ({ isOpen, onClose, customer }) => {
 
                 {/* Last Name Field */}
                 <div className="w-full space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                  <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                     Last Name
                   </label>
                   <div className="relative flex items-center bg-slate-50/50 border-2 border-slate-100 rounded-2xl h-14 shadow-sm select-none">
@@ -124,7 +113,7 @@ const EditProfile = ({ isOpen, onClose, customer }) => {
 
               {/* Email Field */}
               <div className="w-full space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                   Email Address
                 </label>
                 <div className="relative flex items-center bg-slate-50/50 border-2 border-slate-100 rounded-2xl h-14 shadow-sm select-none">
@@ -141,7 +130,7 @@ const EditProfile = ({ isOpen, onClose, customer }) => {
 
               {/* Phone Number Field */}
               <div className="w-full space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                   Phone Number
                 </label>
                 <div className="relative flex items-center bg-slate-50/50 border-2 border-slate-100 rounded-2xl h-14 shadow-sm select-none">
@@ -158,7 +147,7 @@ const EditProfile = ({ isOpen, onClose, customer }) => {
 
               {/* Date of Birth Field */}
               <div className="w-full space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">
+                <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                   Date of Birth
                 </label>
                 <div className="relative flex items-center bg-slate-50/50 border-2 border-slate-100 rounded-2xl h-14 shadow-sm select-none">
@@ -193,7 +182,7 @@ const EditProfile = ({ isOpen, onClose, customer }) => {
                 type="button"
                 onClick={handleSave}
                 disabled={loading}
-                className={`w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs text-white shadow-md transition-all flex items-center justify-center gap-3
+                className={`w-full h-14 rounded-2xl font-medium uppercase tracking-widest text-xs text-white shadow-md transition-all flex items-center justify-center gap-3
                   ${loading ? "bg-slate-300 cursor-not-allowed" : "bg-[#074073] hover:opacity-95 active:scale-[0.99]"}
                 `}
               >

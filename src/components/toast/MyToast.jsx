@@ -46,7 +46,7 @@ const CustomToast = ({
             <div className="flex-shrink-0 mt-1">{icons[type]}</div>
 
             <div className="flex-grow pr-4">
-              <h3 className="text-primary font-black text-sm uppercase tracking-wider mb-1">
+              <h3 className="text-primary font-medium text-sm uppercase tracking-wider mb-1">
                 {title}
               </h3>
               <p className="text-slate-400 text-xs leading-relaxed font-medium whitespace-pre-line">

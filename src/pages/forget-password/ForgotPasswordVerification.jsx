@@ -72,7 +72,7 @@ const ForgotOTPVerification = () => {
           <div className="w-16 h-16 bg-blue-50 rounded-3xl flex items-center justify-center mb-6">
             <KeyRound size={32} className="text-secondary" />
           </div>
-          <h1 className="text-2xl font-black text-primary mb-2">Verify OTP</h1>
+          <h1 className="text-2xl font-medium text-primary mb-2">Verify OTP</h1>
           <p className="text-slate-400 text-sm leading-relaxed px-4">
             To ensure your account's security, we've sent a 6-digit verification
             code to <br />
@@ -93,14 +93,14 @@ const ForgotOTPVerification = () => {
                 value={data}
                 onChange={(e) => handleChange(e.target, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
-                className="w-14 h-14 sm:w-12 sm:h-14 text-center text-xl font-black text-primary bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-secondary focus:bg-white focus:ring-4 focus:ring-blue-100/50 transition-all"
+                className="w-14 h-14 sm:w-12 sm:h-14 text-center text-xl font-medium text-primary bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-secondary focus:bg-white focus:ring-4 focus:ring-blue-100/50 transition-all"
               />
             ))}
           </div>
           <button
             type="submit"
             disabled={isLoading || otp.join("").length < 6}
-            className="w-full h-14 bg-primary hover:bg-[#062d7a] text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-900/20 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full h-14 bg-primary hover:bg-[#062d7a] text-white rounded-2xl font-medium uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-900/20 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <Loader2 className="animate-spin" size={20} />
@@ -118,7 +118,7 @@ const ForgotOTPVerification = () => {
           <div className="flex gap-3">
             <ShieldAlert size={18} className="text-secondary shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-primary">
+              <h4 className="text-[11px] font-medium uppercase tracking-widest text-primary">
                 Security Notice
               </h4>
               <p className="text-[12px] text-slate-500 leading-relaxed">

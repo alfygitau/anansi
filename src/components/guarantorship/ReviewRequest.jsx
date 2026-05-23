@@ -1,9 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
-  Info,
-  User,
-  ShieldCheck,
   Calendar,
   CheckCircle,
   XCircle,
@@ -67,11 +64,11 @@ const ReviewRequest = ({
             <div className="p-8 py-5 flex items-center justify-between">
               <div>
                 <div className="flex items-center gap-3">
-                  <h3 className="text-lg font-black text-slate-900">
+                  <h3 className="text-lg font-medium text-slate-900">
                     Review Request
                   </h3>
                   <span
-                    className={`text-[8px] px-2 py-0.5 rounded-md font-black uppercase tracking-wider border ${
+                    className={`text-[8px] px-2 py-0.5 rounded-md font-medium uppercase tracking-wider border ${
                       borrowerInfo?.status === "pending"
                         ? "bg-amber-100 text-amber-700 border-amber-200/40"
                         : borrowerInfo?.status === "accepted" ||
@@ -104,7 +101,7 @@ const ReviewRequest = ({
               {/* Borrower Details */}
               <section>
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+                  <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400">
                     Borrower Identity
                   </span>
                 </div>
@@ -114,7 +111,7 @@ const ReviewRequest = ({
                     <span className="text-xs font-bold text-slate-400 uppercase tracking-tighter">
                       Full Name
                     </span>
-                    <span className="text-sm font-black text-slate-900">
+                    <span className="text-sm font-medium text-slate-900">
                       {borrowerInfo?.borrowerName || "---"}
                     </span>
                   </div>
@@ -132,21 +129,21 @@ const ReviewRequest = ({
               {/* Loan Parameters */}
               <section>
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+                  <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400">
                     Loan Parameters
                   </span>
                 </div>
 
                 <div className="bg-slate-50 rounded-[12px] p-4">
                   <div className="mb-4">
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">
+                    <p className="text-[9px] font-medium text-slate-400 uppercase tracking-widest mb-1">
                       Requested Amount
                     </p>
                     <div className="flex items-baseline gap-1">
                       <span className="text-xs font-bold text-blue-600">
                         KES
                       </span>
-                      <span className="text-3xl font-black text-slate-900">
+                      <span className="text-3xl font-medium text-slate-900">
                         {formatCurrency(loanInfo?.loanamount)}
                       </span>
                     </div>
@@ -155,7 +152,7 @@ const ReviewRequest = ({
                     <div className="space-y-1">
                       <div className="flex items-center gap-1.5 text-slate-400">
                         <Calendar size={10} />
-                        <p className="text-[9px] font-black uppercase tracking-widest">
+                        <p className="text-[9px] font-medium uppercase tracking-widest">
                           Tenure
                         </p>
                       </div>
@@ -166,7 +163,7 @@ const ReviewRequest = ({
                     <div className="space-y-1">
                       <div className="flex items-center gap-1.5 text-slate-400">
                         <LayoutGrid size={10} />
-                        <p className="text-[9px] font-black uppercase tracking-widest">
+                        <p className="text-[9px] font-medium uppercase tracking-widest">
                           Interest
                         </p>
                       </div>
@@ -177,10 +174,10 @@ const ReviewRequest = ({
                   </div>
                   <div className="mt-4 p-4 bg-white rounded-2xl border border-slate-100">
                     <div className="flex justify-between items-center">
-                      <span className="text-[10px] font-black text-slate-400 uppercase">
+                      <span className="text-[10px] font-medium text-slate-400 uppercase">
                         Repayment
                       </span>
-                      <span className="text-sm font-black text-blue-600">
+                      <span className="text-sm font-medium text-blue-600">
                         KES {formatCurrency(loanInfo?.loanrepaymentamount)}
                       </span>
                     </div>
@@ -195,13 +192,13 @@ const ReviewRequest = ({
                 <div className="grid grid-cols-2 gap-4">
                   <button
                     onClick={handleDecline}
-                    className="h-14 rounded-2xl border border-rose-100 bg-rose-50 text-rose-600 text-[11px] font-black uppercase tracking-widest hover:bg-rose-100 transition-all active:scale-95"
+                    className="h-14 rounded-2xl border border-rose-100 bg-rose-50 text-rose-600 text-[11px] font-medium uppercase tracking-widest hover:bg-rose-100 transition-all active:scale-95"
                   >
                     Decline
                   </button>
                   <button
                     onClick={handleContinue}
-                    className="h-14 rounded-2xl bg-slate-900 text-white text-[11px] font-black uppercase tracking-widest hover:bg-slate-800 shadow-xl shadow-slate-200 transition-all active:scale-95 flex items-center justify-center gap-3"
+                    className="h-14 rounded-2xl bg-slate-900 text-white text-[11px] font-medium uppercase tracking-widest hover:bg-slate-800 shadow-xl shadow-slate-200 transition-all active:scale-95 flex items-center justify-center gap-3"
                   >
                     Continue
                     <ArrowRight size={16} strokeWidth={3} />
@@ -209,7 +206,7 @@ const ReviewRequest = ({
                 </div>
               ) : (
                 <div
-                  className={`h-14 w-full rounded-2xl flex items-center justify-center gap-3 font-black text-[11px] uppercase tracking-widest border-2 ${
+                  className={`h-14 w-full rounded-2xl flex items-center justify-center gap-3 font-medium text-[11px] uppercase tracking-widest border-2 ${
                     borrowerInfo?.status === "accepted"
                       ? "bg-emerald-50 border-emerald-100 text-emerald-600"
                       : "bg-rose-50 border-rose-100 text-rose-600"

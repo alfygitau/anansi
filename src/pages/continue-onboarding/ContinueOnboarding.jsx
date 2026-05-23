@@ -71,7 +71,7 @@ const ProceedOnboarding = () => {
             <div className="w-14 h-14 bg-secondary/20 rounded-2xl flex items-center justify-center mb-8">
               <ShieldCheck className="text-secondary" size={32} />
             </div>
-            <h2 className="text-3xl font-black leading-tight mb-4">
+            <h2 className="text-3xl font-medium leading-tight mb-4">
               Finish Your <br /> Registration
             </h2>
             <p className="text-blue-100/70 text-sm font-medium">
@@ -120,10 +120,10 @@ const ProceedOnboarding = () => {
         {/* Right Side: Content & Actions */}
         <div className="lg:w-7/12 p-10 lg:p-16 flex flex-col justify-center">
           <div className="mb-10">
-            <span className="inline-block px-4 py-1 rounded-full bg-blue-50 text-secondary text-[10px] font-black uppercase tracking-widest mb-4">
+            <span className="inline-block px-4 py-1 rounded-full bg-blue-50 text-secondary text-[10px] font-medium uppercase tracking-widest mb-4">
               Account Status: Partial Setup
             </span>
-            <h1 className="text-3xl font-black text-primary mb-4">
+            <h1 className="text-3xl font-medium text-primary mb-4">
               Welcome Back, {auth?.user?.firstname}!
             </h1>
             <p className="text-slate-500 text-sm leading-relaxed">
@@ -143,7 +143,7 @@ const ProceedOnboarding = () => {
             <div className="p-4 rounded-3xl bg-slate-50 border border-slate-100">
               <div className="flex items-center gap-2 mb-2 text-primary">
                 <FileText size={16} />
-                <span className="text-[11px] font-black uppercase tracking-wider">
+                <span className="text-[11px] font-medium uppercase tracking-wider">
                   KYC Compliance
                 </span>
               </div>
@@ -155,7 +155,7 @@ const ProceedOnboarding = () => {
             <div className="p-4 rounded-3xl bg-slate-50 border border-slate-100">
               <div className="flex items-center gap-2 mb-2 text-primary">
                 <Info size={16} />
-                <span className="text-[11px] font-black uppercase tracking-wider">
+                <span className="text-[11px] font-medium uppercase tracking-wider">
                   Data Handling
                 </span>
               </div>
@@ -170,7 +170,7 @@ const ProceedOnboarding = () => {
           <div className="space-y-4">
             <button
               onClick={handleContinue}
-              className="w-full bg-primary hover:bg-[#062d7a] text-white py-5 rounded-[24px] font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98]"
+              className="w-full bg-primary hover:bg-[#062d7a] text-white py-5 rounded-[24px] font-medium uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-900/20 active:scale-[0.98]"
             >
               Resume Registration <ArrowRight size={18} />
             </button>
@@ -191,11 +191,11 @@ const ProceedOnboarding = () => {
           <div className="mt-12 pt-8 border-t border-slate-100 flex justify-between items-center">
             <button
               onClick={() => navigate(-1)}
-              className="text-slate-400 text-[10px] font-black uppercase tracking-widest hover:text-primary"
+              className="text-slate-400 text-[10px] font-medium uppercase tracking-widest hover:text-primary"
             >
               Logout Session
             </button>
-            <button className="flex items-center gap-1 text-secondary text-[10px] font-black uppercase tracking-widest hover:underline">
+            <button className="flex items-center gap-1 text-secondary text-[10px] font-medium uppercase tracking-widest hover:underline">
               Help Center <ExternalLink size={12} />
             </button>
           </div>

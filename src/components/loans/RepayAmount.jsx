@@ -1,11 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
-  ArrowLeft,
-  ArrowRight,
-  X,
-  ShieldCheck,
-  CheckCircle2,
-} from "lucide-react";
+import React, { useState } from "react";
+import { ArrowRight, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
@@ -72,7 +66,7 @@ const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
                 <X size={20} />
               </button>
 
-              <h2 className="text-2xl font-black text-primary tracking-tight">
+              <h2 className="text-2xl font-medium text-primary tracking-tight">
                 Repayment Option
               </h2>
               <p className="text-sm text-slate-500 font-medium leading-relaxed">
@@ -114,7 +108,7 @@ const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
                       {/* Text Content */}
                       <div className="flex flex-col">
                         <h4
-                          className={`font-black text-base leading-tight transition-colors ${
+                          className={`font-medium text-base leading-tight transition-colors ${
                             selectedOption === option.id
                               ? "text-primary"
                               : "text-slate-900"
@@ -130,10 +124,10 @@ const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
 
                     {/* Right Section: Price (Also centered along the axis) */}
                     <div className="text-right shrink-0 flex flex-col items-end">
-                      <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">
+                      <span className="text-[9px] font-medium text-slate-400 uppercase tracking-widest mb-0.5">
                         Amount
                       </span>
-                      <span className="font-black text-primary text-sm leading-none">
+                      <span className="font-medium text-primary text-sm leading-none">
                         {option.amount
                           ? formatCurrency(option.amount)
                           : "Flexible"}
@@ -149,12 +143,12 @@ const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
               <button
                 disabled={!selectedOption}
                 onClick={() => onProceed(selectedOption)}
-                className="w-full h-[60px] bg-primary text-white rounded-2xl font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#062d7a] transition-all disabled:opacity-20 shadow-xl shadow-blue-900/10 active:scale-95"
+                className="w-full h-[60px] bg-primary text-white rounded-2xl font-medium uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#062d7a] transition-all disabled:opacity-20 shadow-xl shadow-blue-900/10 active:scale-95"
               >
                 Continue to Pay <ArrowRight size={18} />
               </button>
               <div className="flex items-center justify-center gap-2 mt-2">
-                <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">
+                <p className="text-[10px] text-slate-400 font-medium uppercase tracking-[0.2em]">
                   Anansi Security Verified
                 </p>
               </div>
