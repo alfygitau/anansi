@@ -31,7 +31,7 @@ client.interceptors.response.use(
 
       // 2. Redirect the user to the login page
       // Using window.location.href is the most reliable way outside of a React component
-      // window.location.href = "/auth/login";
+      window.location.href = "/auth/login";
     }
 
     return Promise.reject(error);

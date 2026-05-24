@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import {
   Camera,
-  Edit3,
   User,
   MapPin,
   Briefcase,
@@ -15,6 +14,7 @@ import {
   UserMinus,
   Scale,
   Loader2,
+  UserRoundPen,
 } from "lucide-react";
 import { useQuery, useMutation } from "react-query";
 import { getCustomer, updateProfilePhoto } from "../../sdks/customer/customer";
@@ -555,7 +555,7 @@ const InfoCard = ({ title, icon, children, fullHeight, onEdit }) => (
         onClick={onEdit}
         className="p-1.5 hover:bg-slate-50 rounded-full text-slate-400 transition-colors"
       >
-        <Edit3 size={16} />
+        <UserRoundPen size={16} />
       </button>
     </div>
     <div className="flex-grow">{children}</div>
