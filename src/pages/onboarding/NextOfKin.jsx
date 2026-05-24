@@ -5,7 +5,15 @@ import useAuth from "../../hooks/useAuth";
 import { useMutation } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
 import { createNextOfKin, updateKinStatus } from "../../sdks/customer/customer";
-import { ShieldAlert } from "lucide-react";
+import {
+  ShieldAlert,
+  User,
+  Calendar,
+  Heart,
+  Phone,
+  MapPin,
+  AlertCircle,
+} from "lucide-react";
 
 const NextOfKin = () => {
   const navigate = useNavigate();
@@ -168,18 +176,21 @@ const NextOfKin = () => {
                   name: "fullName",
                   type: "text",
                   placeholder: "Enter full name",
+                  icon: <User size={16} />,
                 },
                 {
                   label: "Date of Birth",
                   name: "birthDate",
                   type: "date",
                   placeholder: "",
+                  icon: <Calendar size={16} />,
                 },
                 {
                   label: "Relationship",
                   name: "relationship",
                   type: "text",
                   placeholder: "e.g. Spouse, Sibling",
+                  icon: <Heart size={16} />,
                 },
                 {
                   label: "Phone Number",
@@ -187,6 +198,7 @@ const NextOfKin = () => {
                   type: "text",
                   placeholder: "07... or 254...",
                   inputMode: "numeric",
+                  icon: <Phone size={16} />,
                 },
                 {
                   label: "Location",
@@ -194,39 +206,61 @@ const NextOfKin = () => {
                   type: "text",
                   placeholder: "Enter residential location",
                   fullWidth: true,
+                  icon: <MapPin size={16} />,
                 },
               ].map((field) => (
                 <div
                   key={field.name}
-                  className={`flex flex-col gap-1.5 ${field.fullWidth ? "md:col-span-2" : ""}`}
+                  className={`flex flex-col gap-2 ${field.fullWidth ? "md:col-span-2" : ""}`}
                 >
-                  <label className="text-sm font-semibold text-gray-700">
+                  {/* Fine, tracking-spaced upper category label system */}
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
                     {field.label}
                   </label>
-                  <input
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    value={formData[field.name]}
-                    inputMode={field.inputMode}
-                    max={field.name === "birthDate" ? today : undefined}
-                    onChange={(e) =>
-                      field.name === "phone"
-                        ? handlePhoneInput(e)
-                        : setFormData({
-                            ...formData,
-                            [field.name]: e.target.value,
-                          })
-                    }
-                    onBlur={(e) => validateField(field.name, e.target.value)}
-                    className={`h-14 px-4 rounded-xl border transition-all outline-none bg-gray-50 focus:ring-2 focus:ring-primary/20 ${
-                      errors[field.name]
-                        ? "border-red-500 shadow-sm shadow-red-50"
-                        : "border-gray-200 focus:border-primary focus:bg-white"
-                    }`}
-                  />
+
+                  {/* Preferred Input Outer Shell Framework */}
+                  <div
+                    className={`relative flex items-center bg-slate-50/50 border-2 rounded-2xl h-14 transition-all duration-200
+            ${
+              errors[field.name]
+                ? "border-red-500 bg-white"
+                : "border-slate-100 focus-within:border-slate-900 focus-within:bg-white"
+            }
+          `}
+                  >
+                    {/* Absolute Left Vertical Boundary Prefix Bay */}
+                    <div
+                      className={`pl-4 pr-3 flex items-center border-r h-5 my-auto shrink-0 select-none transition-colors duration-200
+              ${errors[field.name] ? "text-red-400 border-red-200" : "text-slate-400 border-slate-200/60"}
+            `}
+                    >
+                      {field.icon}
+                    </div>
+
+                    <input
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      value={formData[field.name] || ""}
+                      inputMode={field.inputMode}
+                      max={field.name === "birthDate" ? today : undefined}
+                      onChange={(e) =>
+                        field.name === "phone"
+                          ? handlePhoneInput(e)
+                          : setFormData({
+                              ...formData,
+                              [field.name]: e.target.value,
+                            })
+                      }
+                      onBlur={(e) => validateField(field.name, e.target.value)}
+                      className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 placeholder:text-slate-300 font-medium cursor-text"
+                    />
+                  </div>
+
+                  {/* Dynamic Verification Error Stack Notifications */}
                   {errors[field.name] && (
-                    <span className="text-[11px] text-red-500 font-bold uppercase tracking-tight ml-1">
-                      {errors[field.name]}
+                    <span className="text-[10px] text-red-500 font-bold uppercase tracking-tight ml-1 flex items-center gap-1.5 mt-0.5">
+                      <AlertCircle size={12} className="shrink-0" />
+                      <span>{errors[field.name]}</span>
                     </span>
                   )}
                 </div>
