@@ -11,7 +11,16 @@ import {
   getStates,
   updateCustomerFinancials,
 } from "../../sdks/customer/customer";
-import { AlertCircle } from "lucide-react";
+import {
+  AlertCircle,
+  ArrowRight,
+  Loader2,
+  Globe,
+  MapPin,
+  Briefcase,
+  DollarSign,
+  FileText,
+} from "lucide-react";
 
 const ProfileInformation = () => {
   const navigate = useNavigate();
@@ -250,7 +259,7 @@ const ProfileInformation = () => {
 
       {/* Main Content - 80% */}
       <div className="flex-1 lg:w-[75%] sm:px-5 overflow-y-auto">
-        <div className="mb-10">
+        <div className="mb-5">
           <h1 className="text-2xl lg:text-2xl font-medium text-primary uppercase tracking-tight">
             Complete Your Profile
           </h1>
@@ -283,41 +292,55 @@ const ProfileInformation = () => {
           {/* Keeps form readable on large screens */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Left Column: Address */}
+
+            {/* LEFT COLUMN: ADDRESS INFORMATION */}
             <div className="space-y-6">
-              <h2 className="text-lg font-bold text-gray-900 border-b pb-4">
+              <h2 className="text-lg font-black text-gray-900 border-b pb-4 uppercase tracking-tight">
                 Address Information
               </h2>
 
-              <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-medium text-gray-700">
+              {/* Country of Residence */}
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
                   Country of Residence
                 </label>
-                <select
-                  value={form.country}
-                  onBlur={(e) => validateField("country", e.target.value)}
-                  onChange={(e) =>
-                    setForm({ ...form, country: e.target.value })
-                  }
-                  className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
-             hover:border-gray-300 
-             focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
-             cursor-pointer"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "right 1rem center",
-                    backgroundSize: "1.25rem",
-                  }}
-                >
-                  <option value="">Select country</option>
-                  {countries.map((c) => (
-                    <option key={c.id} value={c.name}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 rounded-2xl h-14 transition-all duration-200">
+                  <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0 select-none">
+                    <Globe size={16} />
+                  </div>
+                  <select
+                    value={form.country}
+                    onBlur={(e) => validateField("country", e.target.value)}
+                    onChange={(e) =>
+                      setForm({ ...form, country: e.target.value })
+                    }
+                    className="w-full bg-transparent border-none pl-4 pr-10 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 appearance-none cursor-pointer"
+                  >
+                    <option value="">Select country</option>
+                    {countries.map((c) => (
+                      <option key={c.id} value={c.name}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+                </div>
                 {errors.country && (
-                  <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                  <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1 ml-1">
                     <AlertCircle size={12} /> {errors.country}
                   </span>
                 )}
@@ -325,27 +348,19 @@ const ProfileInformation = () => {
 
               {form.country === "KENYA" || !form.country ? (
                 <>
-                  {/* Address Details - Vertical Stack */}
-                  <div className="flex flex-col gap-[20px]">
-                    {/* County Selection */}
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-sm font-medium text-gray-700">
-                        County
-                      </label>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                      County
+                    </label>
+                    <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 rounded-2xl h-14 transition-all duration-200">
+                      <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0 select-none">
+                        <MapPin size={16} />
+                      </div>
                       <select
                         value={form.county}
                         onChange={handleCountyChange}
                         onBlur={(e) => validateField("county", e.target.value)}
-                        className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
-             hover:border-gray-300 
-             focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
-             cursor-pointer"
-                        style={{
-                          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "right 1rem center",
-                          backgroundSize: "1.25rem",
-                        }}
+                        className="w-full bg-transparent border-none pl-4 pr-10 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 appearance-none cursor-pointer"
                       >
                         <option value="">Select county</option>
                         {counties.map((c) => (
@@ -354,18 +369,38 @@ const ProfileInformation = () => {
                           </option>
                         ))}
                       </select>
-                      {errors.county && (
-                        <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
-                          <AlertCircle size={12} /> {errors.county}
-                        </span>
-                      )}
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </div>
                     </div>
+                    {errors.county && (
+                      <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1 ml-1">
+                        <AlertCircle size={12} /> {errors.county}
+                      </span>
+                    )}
+                  </div>
 
-                    {/* Sub-County Selection */}
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-sm font-medium text-gray-700">
-                        Sub-County
-                      </label>
+                  {/* Sub-County Selection */}
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                      Sub-County
+                    </label>
+                    <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 rounded-2xl h-14 transition-all duration-200">
+                      <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0 select-none">
+                        <MapPin size={16} />
+                      </div>
                       <select
                         value={form.subcounty}
                         onBlur={(e) =>
@@ -374,16 +409,7 @@ const ProfileInformation = () => {
                         onChange={(e) =>
                           setForm({ ...form, subcounty: e.target.value })
                         }
-                        className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
-             hover:border-gray-300 
-             focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
-             cursor-pointer"
-                        style={{
-                          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "right 1rem center",
-                          backgroundSize: "1.25rem",
-                        }}
+                        className="w-full bg-transparent border-none pl-4 pr-10 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 appearance-none cursor-pointer"
                       >
                         <option value="">Select sub-county</option>
                         {subcounties.map((s) => (
@@ -392,31 +418,56 @@ const ProfileInformation = () => {
                           </option>
                         ))}
                       </select>
-                      {errors.subcounty && (
-                        <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
-                          <AlertCircle size={12} /> {errors.subcounty}
-                        </span>
-                      )}
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </div>
                     </div>
+                    {errors.subcounty && (
+                      <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1 ml-1">
+                        <AlertCircle size={12} /> {errors.subcounty}
+                      </span>
+                    )}
                   </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-sm font-medium text-gray-700">
+
+                  {/* Physical Address */}
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
                       Physical Address
                     </label>
-                    <input
-                      type="text"
-                      value={form.physicalAddress}
-                      onBlur={(e) =>
-                        validateField("physicalAddress", e.target.value)
-                      }
-                      onChange={(e) =>
-                        setForm({ ...form, physicalAddress: e.target.value })
-                      }
-                      placeholder="House/Street/Building"
-                      className="h-14 px-4 rounded-xl border border-gray-200 bg-gray-50 outline-none focus:border-primary"
-                    />
+                    <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 rounded-2xl h-14 transition-all duration-200">
+                      <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0 select-none">
+                        <MapPin size={16} />
+                      </div>
+                      <input
+                        type="text"
+                        value={form.physicalAddress}
+                        onBlur={(e) =>
+                          validateField("physicalAddress", e.target.value)
+                        }
+                        onChange={(e) =>
+                          setForm({
+                            ...form,
+                            physicalAddress: e.target.value,
+                          })
+                        }
+                        placeholder="House/Street/Building"
+                        className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 placeholder:text-slate-300 font-medium"
+                      />
+                    </div>
                     {errors.physicalAddress && (
-                      <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                      <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1 ml-1">
                         <AlertCircle size={12} /> {errors.physicalAddress}
                       </span>
                     )}
@@ -424,66 +475,105 @@ const ProfileInformation = () => {
                 </>
               ) : (
                 <div className="space-y-4">
-                  <input
-                    type="text"
-                    placeholder="Address Line 1"
-                    value={form.address_1}
-                    onBlur={(e) => validateField("address_1", e.target.value)}
-                    onChange={(e) =>
-                      setForm({ ...form, address_1: e.target.value })
-                    }
-                    className="h-12 w-full px-4 rounded-xl border border-gray-200 bg-gray-50 outline-none"
-                  />
-                  {errors.address_1 && (
-                    <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
-                      <AlertCircle size={12} /> {errors.address_1}
-                    </span>
-                  )}
-                  <div className="flex flex-col gap-[20px]">
-                    <div className="w-full">
-                      <select
-                        value={form.state}
-                        onBlur={(e) => validateField("state", e.target.value)}
-                        onChange={(e) =>
-                          setForm({ ...form, state: e.target.value })
+                  {/* Address Line 1 */}
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                      Address Line 1
+                    </label>
+                    <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 rounded-2xl h-14 transition-all duration-200">
+                      <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0 select-none">
+                        <MapPin size={16} />
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Address Line 1"
+                        value={form.address_1}
+                        onBlur={(e) =>
+                          validateField("address_1", e.target.value)
                         }
-                        className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
-             hover:border-gray-300 
-             focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
-             cursor-pointer"
-                        style={{
-                          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "right 1rem center",
-                          backgroundSize: "1.25rem",
-                        }}
-                      >
-                        <option value="">State</option>
-                        {states.map((s) => (
-                          <option key={s.id} value={s.name}>
-                            {s.name}
-                          </option>
-                        ))}
-                      </select>
+                        onChange={(e) =>
+                          setForm({ ...form, address_1: e.target.value })
+                        }
+                        className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 placeholder:text-slate-300 font-medium"
+                      />
+                    </div>
+                    {errors.address_1 && (
+                      <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1 ml-1">
+                        <AlertCircle size={12} /> {errors.address_1}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* State Selection */}
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                        State
+                      </label>
+                      <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 rounded-2xl h-14 transition-all duration-200">
+                        <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0 select-none">
+                          <MapPin size={16} />
+                        </div>
+                        <select
+                          value={form.state}
+                          onBlur={(e) => validateField("state", e.target.value)}
+                          onChange={(e) =>
+                            setForm({ ...form, state: e.target.value })
+                          }
+                          className="w-full bg-transparent border-none pl-4 pr-10 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 appearance-none cursor-pointer"
+                        >
+                          <option value="">State</option>
+                          {states.map((s) => (
+                            <option key={s.id} value={s.name}>
+                              {s.name}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </div>
+                      </div>
                       {errors.kra && (
-                        <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                        <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1 ml-1">
                           <AlertCircle size={12} /> {errors.kra}
                         </span>
                       )}
                     </div>
-                    <div className="w-full">
-                      <input
-                        type="text"
-                        placeholder="City"
-                        value={form.city}
-                        onBlur={(e) => validateField("city", e.target.value)}
-                        onChange={(e) =>
-                          setForm({ ...form, city: e.target.value })
-                        }
-                        className="h-14 px-4 w-full rounded-xl border border-gray-200 bg-gray-50 outline-none"
-                      />
+
+                    {/* City Input */}
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
+                        City
+                      </label>
+                      <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 rounded-2xl h-14 transition-all duration-200">
+                        <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0 select-none">
+                          <MapPin size={16} />
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="City"
+                          value={form.city}
+                          onBlur={(e) => validateField("city", e.target.value)}
+                          onChange={(e) =>
+                            setForm({ ...form, city: e.target.value })
+                          }
+                          className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 placeholder:text-slate-300 font-medium"
+                        />
+                      </div>
                       {errors.city && (
-                        <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                        <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1 ml-1">
                           <AlertCircle size={12} /> {errors.city}
                         </span>
                       )}
@@ -493,73 +583,92 @@ const ProfileInformation = () => {
               )}
             </div>
 
-            {/* Right Column: Employment */}
+            {/* RIGHT COLUMN: ADDITIONAL INFORMATION */}
             <div className="space-y-6">
-              <h2 className="text-lg font-bold text-gray-900 border-b pb-4">
+              <h2 className="text-lg font-black text-gray-900 border-b pb-4 uppercase tracking-tight">
                 Additional Information
               </h2>
 
-              <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-medium text-gray-700">
+              {/* Employment Type */}
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
                   Employment Type
                 </label>
-                <select
-                  value={form.employment_type}
-                  onBlur={(e) =>
-                    validateField("employment_type", e.target.value)
-                  }
-                  onChange={(e) =>
-                    setForm({ ...form, employment_type: e.target.value })
-                  }
-                  className="h-14 w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-all duration-200 
-             hover:border-gray-300 
-             focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 
-             cursor-pointer"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23042159' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "right 1rem center",
-                    backgroundSize: "1.25rem",
-                  }}
-                >
-                  <option value="">Select type</option>
-                  <option value="Employed">Employed</option>
-                  <option value="Self employed">Self Employed</option>
-                </select>
+                <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 rounded-2xl h-14 transition-all duration-200">
+                  <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0 select-none">
+                    <Briefcase size={16} />
+                  </div>
+                  <select
+                    value={form.employment_type}
+                    onBlur={(e) =>
+                      validateField("employment_type", e.target.value)
+                    }
+                    onChange={(e) =>
+                      setForm({ ...form, employment_type: e.target.value })
+                    }
+                    className="w-full bg-transparent border-none pl-4 pr-10 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 appearance-none cursor-pointer"
+                  >
+                    <option value="">Select type</option>
+                    <option value="Employed">Employed</option>
+                    <option value="Self employed">Self Employed</option>
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+                </div>
                 {errors.employment_type && (
-                  <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                  <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1 ml-1">
                     <AlertCircle size={12} /> {errors.employment_type}
                   </span>
                 )}
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-medium text-gray-700">
+              {/* Job Title */}
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
                   Job Title
                 </label>
-                <input
-                  type="text"
-                  value={form.jobTitle}
-                  onChange={(e) =>
-                    setForm({ ...form, jobTitle: e.target.value })
-                  }
-                  onBlur={(e) => validateField("jobTitle", e.target.value)}
-                  placeholder="e.g. Software Engineer"
-                  className="h-14 px-4 rounded-xl border border-gray-200 bg-gray-50 outline-none"
-                />
+                <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 rounded-2xl h-14 transition-all duration-200">
+                  <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0 select-none">
+                    <Briefcase size={16} />
+                  </div>
+                  <input
+                    type="text"
+                    value={form.jobTitle}
+                    onChange={(e) =>
+                      setForm({ ...form, jobTitle: e.target.value })
+                    }
+                    onBlur={(e) => validateField("jobTitle", e.target.value)}
+                    placeholder="e.g. Software Engineer"
+                    className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 placeholder:text-slate-300 font-medium"
+                  />
+                </div>
                 {errors.jobTitle && (
-                  <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                  <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1 ml-1">
                     <AlertCircle size={12} /> {errors.jobTitle}
                   </span>
                 )}
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-medium text-gray-700">
+              {/* Monthly Income */}
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
                   Monthly Income
                 </label>
-                <div className="flex">
-                  <div className="h-14 px-4 flex items-center bg-gray-100 border border-r-0 border-gray-200 rounded-l-xl text-xs font-bold text-gray-500">
+                <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 rounded-2xl h-14 transition-all duration-200">
+                  <div className="pl-6 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0 font-bold text-[11px] tracking-wider select-none">
                     KES
                   </div>
                   <input
@@ -569,49 +678,67 @@ const ProfileInformation = () => {
                     onChange={(e) =>
                       setForm({ ...form, income: e.target.value })
                     }
-                    className="h-14 flex-1 px-4 border border-gray-200 rounded-r-xl outline-none focus:ring-1 focus:ring-primary"
                     placeholder="0.00"
+                    className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 placeholder:text-slate-300 font-medium"
                   />
                 </div>
                 {errors.income && (
-                  <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                  <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1 ml-1">
                     <AlertCircle size={12} /> {errors.income}
                   </span>
                 )}
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-medium text-gray-700">
+              {/* KRA PIN */}
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">
                   KRA PIN (Optional)
                 </label>
-                <input
-                  type="text"
-                  value={form.kra}
-                  onBlur={(e) => validateField("kra", e.target.value)}
-                  onChange={(e) =>
-                    setForm({ ...form, kra: e.target.value.toUpperCase() })
-                  }
-                  placeholder="A00XXXXXXXXZ"
-                  className="h-14 px-4 rounded-xl border border-gray-200 bg-gray-50 outline-none uppercase"
-                />
+                <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 rounded-2xl h-14 transition-all duration-200">
+                  <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0 select-none">
+                    <FileText size={16} />
+                  </div>
+                  <input
+                    type="text"
+                    value={form.kra}
+                    onBlur={(e) => validateField("kra", e.target.value)}
+                    onChange={(e) =>
+                      setForm({ ...form, kra: e.target.value.toUpperCase() })
+                    }
+                    placeholder="A00XXXXXXXXZ"
+                    className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 uppercase placeholder:text-slate-300 placeholder:normal-case font-medium"
+                  />
+                </div>
                 {errors.kra && (
-                  <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1">
+                  <span className="text-[11px] font-bold text-red-500 mt-1 flex items-center gap-1 ml-1">
                     <AlertCircle size={12} /> {errors.kra}
                   </span>
                 )}
               </div>
 
+              {/* Primary Actions Controller */}
               <button
+                type="button"
                 disabled={isLoading || isFormInvalid()}
                 onClick={handleContinue}
-                className="w-full h-14 bg-primary text-white rounded-xl font-bold mt-4 shadow-lg shadow-blue-900/10 
-             hover:bg-[#062d7a] transition-all flex items-center justify-center gap-3 
-             disabled:opacity-50 disabled:grayscale disabled:cursor-not-allowed"
+                className={`w-full h-16 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all mt-4
+          ${
+            isLoading || isFormInvalid()
+              ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200/40 shadow-none"
+              : "bg-primary text-white hover:bg-slate-800 active:scale-[0.99]"
+          }
+        `}
               >
                 {isLoading ? (
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <>
+                    <Loader2 className="animate-spin w-4 h-4 text-slate-400" />
+                    <span>Syncing Onboarding Register...</span>
+                  </>
                 ) : (
-                  "Save & Continue"
+                  <>
+                    <span>Save & Continue</span>
+                    <ArrowRight size={14} />
+                  </>
                 )}
               </button>
             </div>

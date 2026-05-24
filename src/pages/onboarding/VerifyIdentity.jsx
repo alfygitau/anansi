@@ -104,13 +104,6 @@ const IdentityVerification = () => {
         const nameValue = data?.fullNames || data?.fullName;
         const hasName = nameValue && nameValue.trim().length > 0;
         if (!hasId || !hasName) {
-          showToast({
-            title: "Scan Unsuccessful",
-            type: "error",
-            position: "top-right",
-            description:
-              "We couldn't read your ID details. Please ensure the document is not blurry and try again.",
-          });
           setShowOcrFailure(true);
           return;
         }
@@ -140,13 +133,6 @@ const IdentityVerification = () => {
               "The back of the ID you uploaded is invalid. Please ensure it is clear and well-lit before trying again.",
           });
         } else {
-          showToast({
-            title: "Identity Verified",
-            type: "success",
-            position: "top-right",
-            description:
-              "We've successfully read your ID details and updated your profile automatically.",
-          });
           setIdImages(urls);
           handleConfirm();
         }
@@ -164,13 +150,6 @@ const IdentityVerification = () => {
         return response.data.data;
       },
       onSuccess: async (data) => {
-        showToast({
-          title: "Identity Verified",
-          type: "success",
-          position: "top-right",
-          description:
-            "We've successfully read your Passport details and updated your profile automatically.",
-        });
         setIdImages(urls);
         setKycDetails(data);
         handleConfirm();
@@ -288,7 +267,7 @@ const IdentityVerification = () => {
                 <h3 className="text-xs font-medium uppercase tracking-widest text-slate-400">
                   Pre-Scan Note
                 </h3>
-                <div className="relative overflow-hidden bg-white border border-slate-200/80 rounded-3xl p-4 shadow-sm transition-all duration-300 hover:shadow-md hover:border-slate-300/80">
+                <div className="relative overflow-hidden bg-white border border-slate-200/80 rounded-3xl p-4 transition-all duration-300">
                   <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-2.5 text-slate-800">
                       <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
@@ -364,7 +343,7 @@ const IdentityVerification = () => {
             </div>
 
             {/* BOTTOM ACTION DECK: ASYMMETRIC SYSTEM INTEGRATION */}
-            <div className="pt-6 border-t border-slate-100">
+            <div className="pt-6">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
                 {/* LEFT COLUMN: LEGAL & PRIVACY DECLARATION SAFEGUARDS (8 COLS) */}
                 <div className="lg:col-span-8 bg-slate-50/60 border border-slate-200/50 rounded-2xl p-4">
