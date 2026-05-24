@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import MyProgress from "../../components/progress-bar/MyProgress";
 import {
@@ -135,32 +136,38 @@ const FacialIdentity = () => {
             <div
               key={card.id}
               onClick={card.action}
-              className="group relative min-h-[90px] lg:h-[100px] p-4 border border-slate-100 cursor-pointer w-full bg-white rounded-[24px] flex items-center justify-between transition-all duration-300 hover:border-secondary/30 hover:shadow-2xl hover:shadow-blue-900/10 active:scale-[0.98]"
+              className="group relative min-h-[90px] lg:h-[100px] p-4 border border-slate-100 cursor-pointer w-full bg-white rounded-[24px] flex items-center justify-between transition-all duration-300 hover:border-slate-300 hover:shadow-2xl hover:shadow-blue-900/5 active:scale-[0.98]"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[24px]" />
-
-              <div className="flex items-center gap-4 lg:gap-5 relative z-10 w-full pr-2">
+              {/* Left Section Alignment */}
+              <div className="flex items-center gap-4 lg:gap-5 relative z-10 min-w-0 w-full pr-2">
+                {/* 1. Leading Icon Container (Background transforms to primary, icon text transforms to white) */}
+                {/* 1. Leading Icon Container */}
                 <div className="h-[50px] w-[50px] lg:h-[64px] lg:w-[64px] shrink-0 rounded-2xl bg-slate-50 flex items-center justify-center shadow-inner group-hover:bg-primary transition-all duration-300">
-                  <div className="group-hover:text-white transition-colors duration-300 scale-90 lg:scale-100">
-                    {card.icon}
+                  <div className="scale-90 lg:scale-100 transition-transform duration-300 group-hover:scale-105">
+                    {/* ⚡ Dynamic override to enforce text-primary naturally, shifting to solid white on hover */}
+                    {React.cloneElement(card.icon, {
+                      className:
+                        "text-primary group-hover:text-white transition-colors duration-300 shrink-0",
+                    })}
                   </div>
                 </div>
 
-                {/* truncate utilities ensure text clips elegantly if subtext content runs too long inside a smaller 2-column box */}
+                {/* Text Metadata Deck */}
                 <div className="flex flex-col gap-1 min-w-0">
-                  <h3 className="text-[13px] lg:text-[14px] font-medium text-primary uppercase tracking-tight leading-none truncate">
+                  <h3 className="text-[13px] lg:text-[14px] font-black uppercase tracking-wider text-primary group-hover:text-slate-900 transition-colors duration-300 leading-none truncate">
                     {card.title}
                   </h3>
-                  <p className="text-[11px] lg:text-[12px] text-slate-500 font-medium group-hover:text-slate-700 transition-colors truncate">
+                  <p className="text-[11px] lg:text-[12px] text-slate-500 font-medium transition-colors duration-300 truncate">
                     {card.subtitle}
                   </p>
                 </div>
               </div>
 
-              <div className="relative z-10 h-8 w-8 lg:h-10 lg:w-10 flex items-center justify-center rounded-full bg-slate-50 text-primary group-hover:bg-secondary group-hover:text-primary transition-all duration-300 shrink-0">
+              {/* 2. Trailing Chevron Action Circle Node (Background transforms to primary, chevron transforms to white) */}
+              <div className="relative z-10 h-8 w-8 lg:h-10 lg:w-10 flex items-center justify-center rounded-full bg-slate-50 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 shrink-0">
                 <ChevronRight
                   size={18}
-                  className="group-hover:translate-x-0.5 transition-transform"
+                  className="transform translate-x-0 group-hover:translate-x-0.5 transition-transform duration-300"
                 />
               </div>
             </div>

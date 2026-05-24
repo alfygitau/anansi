@@ -9,9 +9,9 @@ const Navbar = () => {
   return (
     <>
       {<Logout isOpen={showLogout} onClose={() => setShowLogout(false)} />}
-      <nav className="w-full h-[120px] bg-gray-50 flex items-center justify-between sticky top-0 z-50">
+      <nav className="w-full h-[100px] bg-gray-50 flex items-center justify-between sticky top-0 z-50">
         {/* Logo Section */}
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/10">
             <span className="text-white text-2xl font-medium">A</span>
           </div>

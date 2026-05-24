@@ -62,7 +62,7 @@ const SelfieQRCode = () => {
   });
 
   return (
-    <div className="w-full md:px-6 max-w-[1300px] mb-[40px] mx-auto flex flex-col lg:flex-row font-sans">
+    <div className="w-full md:px-6 max-w-[1300px] mb-[30px] mx-auto flex flex-col lg:flex-row font-sans">
       {/* 1. Left Sidebar: Progress */}
       <div className="hidden lg:block w-[23%] bg-slate-50/50">
         <MyProgress
@@ -70,7 +70,6 @@ const SelfieQRCode = () => {
           currentSubtitle="Selfie Verification"
         />
       </div>
-
       {/* 2. Main Area: QR Workstation */}
       <div className="flex-1 md:px-3 sm:px-3">
         <header className="mb-6">
@@ -86,143 +85,175 @@ const SelfieQRCode = () => {
             identity in real-time.
           </p>
         </header>
+        <div className="w-full grid grid-cols-1 md:grid-cols-12 mb-5 gap-8 items-center bg-white border border-slate-200/60 p-5 rounded-[32px]">
+          {/* LEFT COLUMN: SECURE SYNC INSTRUCTIONS (7 COLS) */}
+          <div className="md:col-span-7 space-y-5">
+            {/* Error Context Banner (Fires down smoothly within the left context bracket if true) */}
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-start gap-3 p-4 bg-red-50/60 border border-red-100 rounded-2xl"
+              >
+                <AlertCircle
+                  className="text-red-500 shrink-0 mt-0.5"
+                  size={16}
+                />
+                <p className="text-xs text-red-700 font-medium leading-normal">
+                  Biometric payload absent. Please complete the capture process
+                  on your phone before triggering validation checks.
+                </p>
+              </motion.div>
+            )}
 
-        <div className="flex flex-col items-center  lg:items-center">
-          {/* QR Code Container */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="p-6 bg-white border-2 border-slate-100 rounded-[40px] shadow-2xl shadow-blue-900/5 mb-6"
-          >
-            <div className="p-4 bg-slate-50 rounded-[32px]">
-              <QRCodeCanvas
-                value={selfieUrl}
-                size={240}
-                level={"H"}
-                includeMargin={true}
-                imageSettings={{
-                  src: "/logo-icon.png",
-                  x: undefined,
-                  y: undefined,
-                  height: 40,
-                  width: 40,
-                  excavate: true,
-                }}
-              />
-            </div>
-          </motion.div>
-
-          {/* Error Message */}
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-3 p-4 bg-red-50 border border-red-100 rounded-2xl mb-8 w-full"
-            >
-              <AlertCircle className="text-red-500 shrink-0" size={18} />
-              <p className="text-[13px] text-red-700 font-medium">
-                We couldn't find your selfie yet. Please complete the process on
-                your phone before clicking continue.
-              </p>
-            </motion.div>
-          )}
-
-          <div className="bg-slate-50 border border-slate-100 rounded-[24px] mb-6 p-5 relative overflow-hidden group">
-            <div className="relative z-10">
-              <div className="flex items-center gap-2 mb-3">
-                <Lock className="text-primary" size={16} />
-                <span className="text-[11px] font-medium uppercase tracking-widest text-primary">
+            {/* Informational Bridge Deck Card */}
+            <div className="bg-slate-50 border border-slate-200/40 rounded-2xl p-5 relative overflow-hidden">
+              <div className="flex items-center gap-2.5 mb-3">
+                <div className="w-7 h-7 bg-white border border-slate-200/60 rounded-lg flex items-center justify-center text-[#074073]">
+                  <Lock size={14} />
+                </div>
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                   Secure Session Sync
                 </span>
               </div>
 
-              <div className="space-y-3">
-                <p className="text-[13px] text-slate-600 leading-relaxed">
-                  This QR code creates a{" "}
-                  <span className="font-bold text-slate-800">
+              <div className="space-y-4">
+                <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                  Scanning this node establishes a{" "}
+                  <span className="font-bold text-slate-900">
                     one-time encrypted bridge
                   </span>{" "}
-                  between this computer and your mobile device. No personal data
-                  is stored on the mobile browser after the session ends.
+                  between your computer and mobile device framework. No raw
+                  identity footprints are logged or cached on the temporary
+                  mobile terminal window interface post-execution.
                 </p>
 
-                <div className="flex items-start gap-2 pt-3 border-t border-slate-200/60">
-                  <Info className="text-secondary shrink-0 mt-0.5" size={14} />
-                  <p className="text-[11px] text-slate-500 italic leading-snug">
-                    Ensure you stay on this page. Once the mobile capture is
-                    successful, the "Continue" button below will activate your
-                    final verification step.
+                <div className="flex items-start gap-2.5 pt-4 border-t border-slate-200/60 text-slate-400">
+                  <Info className="shrink-0 mt-0.5" size={14} />
+                  <p className="text-[11px] font-medium leading-normal italic">
+                    Keep this browser tab open. Once the facial biometric
+                    snapshot registers on your remote device, the terminal
+                    control deck will unlock immediately.
                   </p>
                 </div>
               </div>
             </div>
           </div>
 
-          <button
-            onClick={handleContinue}
-            disabled={isLoading}
-            className="w-full h-[64px] bg-primary text-white rounded-[24px] font-medium uppercase tracking-[0.15em] flex items-center justify-center gap-3 hover:bg-secondary hover:text-primary transition-all shadow-xl shadow-blue-900/10"
-          >
-            {isLoading ? (
-              <Loader2 className="animate-spin" size={24} />
-            ) : (
-              <>
-                Continue <ArrowRight size={20} />
-              </>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* 3. Right Sidebar: Info & Disclaimers */}
-      <div className="lg:w-[300px] pl-5 sm:mt-6 bg-slate-50/50">
-        <div className="space-y-8 sticky top-10">
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <Smartphone className="text-primary" size={20} />
-              <h4 className="text-[12px] font-medium uppercase tracking-widest text-primary">
-                Mobile Sync
-              </h4>
-            </div>
-            <p className="text-[13px] text-slate-500 leading-relaxed">
-              Your session is securely linked. Once you finish on mobile, this
-              screen will allow you to proceed.
-            </p>
+          {/* RIGHT COLUMN: ENCRYPTED QR CODE CONTAINER (5 COLS) */}
+          <div className="md:col-span-5 flex flex-col items-center justify-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="p-5 bg-white border-2 border-slate-100 rounded-[28px] shadow-md shadow-blue-900/5 select-none shrink-0"
+            >
+              <div className="p-3 bg-slate-50 border border-slate-100 rounded-2xl">
+                <QRCodeCanvas
+                  value={selfieUrl}
+                  size={190}
+                  level={"H"}
+                  includeMargin={true}
+                  imageSettings={{
+                    src: "/logo-icon.png",
+                    x: undefined,
+                    y: undefined,
+                    height: 32,
+                    width: 32,
+                    excavate: true,
+                  }}
+                />
+              </div>
+            </motion.div>
           </div>
-
-          <div className="p-6 bg-white rounded-[32px] border border-slate-100 shadow-sm">
-            <div className="flex items-center gap-2 mb-4">
-              <ShieldCheck className="text-secondary" size={18} />
-              <h4 className="text-[11px] font-medium uppercase tracking-widest text-primary">
-                Capture Tips
+        </div>
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50/50 p-6 rounded-[32px] border border-slate-200/60">
+          {/* RIGHT COLUMN: SYSTEM GUIDANCE MODULE */}
+          <div className="p-6 bg-white rounded-[24px] border border-slate-200/60 flex flex-col justify-center">
+            <div className="flex items-center gap-2.5 mb-4">
+              <div className="w-8 h-8 bg-slate-50 border border-slate-200/60 rounded-xl flex items-center justify-center text-emerald-600">
+                <ShieldCheck size={16} />
+              </div>
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                Biometric Capture Diagnostics
               </h4>
             </div>
+
             <ul className="space-y-3">
               {[
-                "Use a plain background",
-                "Ensure bright, even lighting",
-                "Keep a neutral expression",
+                "Situate portrait framing against a flat, untextured background layout.",
+                "Ensure dynamic, clean environmental lighting arrays block facial glare.",
+                "Maintain a calm, centered physical expression inside terminal sight lines.",
               ].map((tip, i) => (
                 <li
                   key={i}
-                  className="flex items-center gap-2 text-[12px] text-slate-600"
+                  className="flex items-start gap-3 text-xs text-slate-600 font-medium leading-relaxed"
                 >
-                  <CheckCircle2 size={14} className="text-green-500" />
-                  {tip}
+                  <CheckCircle2
+                    size={14}
+                    className="text-emerald-500 mt-0.5 shrink-0"
+                  />
+                  <span>{tip}</span>
                 </li>
               ))}
             </ul>
           </div>
+          {/* LEFT COLUMN: INTERACTIVE CONTROL CENTER */}
+          <div className="flex flex-col justify-between space-y-6">
+            <div className="space-y-4 p-6 bg-white border border-slate-100 rounded-[24px] flex-1">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 bg-slate-50 border border-slate-200/60 rounded-xl flex items-center justify-center text-[#074073]">
+                  <Smartphone size={16} />
+                </div>
+                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  Mobile Sync Engine
+                </h4>
+              </div>
+              <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                Your session is securely linked across device nodes. Once the
+                high-definition biometric capture process finishes successfully
+                on your mobile platform, this terminal unlocks immediately.
+              </p>
 
-          <div className="flex items-center gap-3 p-4 bg-primary/5 rounded-2xl border border-primary/10">
-            <Lock className="text-primary shrink-0" size={16} />
-            <p className="text-[11px] text-slate-500 leading-tight">
-              Anansi uses ISO-standard biometric encryption. Your selfie is only
-              used for one-time identity matching.
-            </p>
+              {/* ISO Encryption Badge Tag */}
+              <div className="flex items-center gap-3 p-3.5 bg-slate-50/80 border border-slate-100 rounded-xl mt-4">
+                <Lock className="text-[#074073] shrink-0" size={14} />
+                <p className="text-[11px] text-slate-400 font-medium leading-tight">
+                  Anansi deploys ISO-standard neural matching metrics.
+                  Biometrics are permanently discarded post-match.
+                </p>
+              </div>
+            </div>
+
+            {/* Primary Execution Target Trigger */}
+            <button
+              type="button"
+              onClick={handleContinue}
+              disabled={isLoading}
+              className={`w-full h-14 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all shadow-sm shrink-0
+        ${
+          isLoading
+            ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200/40"
+            : "bg-[#074073] text-white hover:bg-[#052d52] active:scale-[0.99]"
+        }
+      `}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="animate-spin text-slate-400" size={16} />
+                  <span>Verifying Sync Registers...</span>
+                </>
+              ) : (
+                <>
+                  <span>Continue Verification</span>
+                  <ArrowRight size={14} />
+                </>
+              )}
+            </button>
           </div>
         </div>
       </div>
+
+      {/* 3. Right Sidebar: Info & Disclaimers */}
     </div>
   );
 };
