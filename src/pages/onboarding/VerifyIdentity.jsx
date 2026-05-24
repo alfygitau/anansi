@@ -118,12 +118,6 @@ const IdentityVerification = () => {
         await extractBackIdDetailsMutate();
       },
       onError: (error) => {
-        showToast({
-          title: "Onboarding glitch",
-          type: "error",
-          position: "top-right",
-          description: error?.response?.data?.message || error.message,
-        });
         setShowOcrFailure(true);
       },
     });
@@ -158,12 +152,6 @@ const IdentityVerification = () => {
         }
       },
       onError: (error) => {
-        showToast({
-          title: "Onboarding glitch",
-          type: "error",
-          position: "top-right",
-          description: error?.response?.data?.message || error.message,
-        });
         setShowOcrFailure(true);
       },
     });
@@ -188,12 +176,6 @@ const IdentityVerification = () => {
         handleConfirm();
       },
       onError: (error) => {
-        showToast({
-          title: "Onboarding glitch",
-          type: "error",
-          position: "top-right",
-          description: error?.response?.data?.message || error.message,
-        });
         setShowOcrFailure(true);
       },
     });

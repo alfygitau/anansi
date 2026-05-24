@@ -25,6 +25,14 @@ const ManualIdEntry = () => {
   const [touched, setTouched] = useState({});
   const kycDetails = useStore((state) => state.kyc_details);
 
+  const formatOcrToInputDate = (ocrDateString) => {
+  if (!ocrDateString) return "";
+  const parts = ocrDateString.trim().split(".");
+  if (parts.length !== 3) return "";
+  const [day, month, year] = parts;
+  return `${year}-${month}-${day}`; 
+};
+
   const splitName = (fullName) => {
     if (!fullName) return { firstName: "", middleName: "", lastName: "" };
     const parts = fullName.trim().split(/\s+/);
@@ -51,7 +59,7 @@ const ManualIdEntry = () => {
     middleName: names.middleName,
     lastName: names.lastName,
     idNumber: kycDetails?.idNumber || "",
-    dateOfBirth: kycDetails?.dateOfBirth || "",
+    dateOfBirth: formatOcrToInputDate(kycDetails?.dateOfBirth) || "",
     gender: kycDetails?.gender || "",
   });
 
@@ -78,12 +86,16 @@ const ManualIdEntry = () => {
     validateField(name, value);
   };
 
-  const isInvalid =
-    !formData.firstName ||
-    !formData.lastName ||
-    !formData.idNumber ||
-    !formData.dateOfBirth ||
-    Object.values(errors).some((error) => error !== "");
+  // ⚡ Corrected Validation Track Model (Gender marked as Optional)
+  const isInvalid = useMemo(() => {
+    return (
+      String(formData.firstName).trim() === "" ||
+      String(formData.lastName).trim() === "" ||
+      String(formData.idNumber).trim() === "" ||
+      !formData.dateOfBirth ||
+      Object.values(errors).some((err) => err && err !== "")
+    );
+  }, [formData, errors]);
 
   const { mutate: updateCustomerMutate, isLoading } = useMutation({
     mutationKey: ["update-customer-personal-info"],
@@ -164,7 +176,7 @@ const ManualIdEntry = () => {
             </p>
           </header>
 
-          <form className="space-y-8" onSubmit={handleManualEntry}>
+          <div className="space-y-8">
             {/* CATEGORY 1: LEGAL IDENTITY NAME REGISTER */}
             <div className="space-y-4">
               <div className="border-b border-slate-100 pb-2">
@@ -356,36 +368,11 @@ const ManualIdEntry = () => {
                 )}
               </div>
             </div>
-
-            {/* PROGRESS ACTIONS CONTROLLER BLOCK */}
-            <button
-              type="submit"
-              disabled={isLoading || isInvalid}
-              className={`w-full h-14 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all mt-8 shadow-sm
-                ${
-                  isLoading || isInvalid
-                    ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200/40 shadow-none"
-                    : "bg-slate-900 text-white hover:bg-slate-800 active:scale-[0.99]"
-                }
-              `}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="animate-spin w-4 h-4 text-slate-400" />
-                  <span>Processing Verification Ledger...</span>
-                </>
-              ) : (
-                <>
-                  <span>Verify & Proceed</span>
-                  <ArrowRight size={14} />
-                </>
-              )}
-            </button>
-          </form>
+          </div>
         </div>
 
         {/* RIGHT COLUMN: DESATURATED COMPLIANCE SIDEBARS */}
-        <div className="lg:col-span-5 space-y-4">
+        <div className="lg:col-span-5 space-y-10">
           {/* Main Vault Declaration Box */}
           <div className="bg-slate-50/50 border border-slate-200/60 rounded-[32px] p-6 space-y-6">
             <div className="flex justify-between items-start border-b border-slate-200/60 pb-4">
@@ -439,6 +426,32 @@ const ManualIdEntry = () => {
               pause system activation sequences during processing.
             </p>
           </div>
+
+          {/* PROGRESS ACTIONS CONTROLLER BLOCK */}
+          <button
+            onClick={handleManualEntry}
+            type="button"
+            disabled={isLoading || isInvalid}
+            className={`w-full h-16 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all mt-8 shadow-sm
+                ${
+                  isLoading || isInvalid
+                    ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200/40 shadow-none"
+                    : "bg-primary text-white hover:bg-slate-800 active:scale-[0.99]"
+                }
+              `}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="animate-spin w-4 h-4 text-slate-400" />
+                <span>Processing Verification Ledger...</span>
+              </>
+            ) : (
+              <>
+                <span>Verify & Proceed</span>
+                <ArrowRight size={14} />
+              </>
+            )}
+          </button>
         </div>
       </div>
     </motion.div>

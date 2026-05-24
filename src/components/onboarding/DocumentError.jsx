@@ -1,7 +1,7 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { XCircle, HelpCircle, RefreshCcw, AlertTriangle } from "lucide-react";
+import { XCircle, HelpCircle, RefreshCcw, AlertTriangle, Edit } from "lucide-react";
 
 const DocumentError = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
@@ -55,11 +55,11 @@ const DocumentError = ({ isOpen, onClose }) => {
             {/* Actions */}
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
               <button
-                onClick={() => navigate("/onboarding/help")}
+                onClick={() => navigate("/onboarding/id-manual-entry")}
                 className="w-full sm:flex-1 h-14 flex items-center justify-center gap-2 rounded-2xl bg-slate-50 text-slate-600 font-bold hover:bg-slate-100 transition-colors border border-slate-200"
               >
-                <HelpCircle size={18} />
-                Get Help
+                <Edit size={18} />
+                Edit ID Details
               </button>
 
               <button

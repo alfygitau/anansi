@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { XCircle, HelpCircle, RefreshCcw, X } from "lucide-react";
+import { XCircle, HelpCircle, RefreshCcw, X, Edit } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const OCRFailure = ({ isOpen, onClose }) => {
@@ -54,11 +54,11 @@ const OCRFailure = ({ isOpen, onClose }) => {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
               <button
-                onClick={() => navigate("/onboarding/help")}
+                onClick={() => navigate("/onboarding/id-manual-entry")}
                 className="w-full h-[56px] flex items-center justify-center gap-2 bg-slate-100 text-slate-600 rounded-[20px] font-bold text-xs uppercase tracking-widest hover:bg-slate-200 transition-all"
               >
-                <HelpCircle size={18} />
-                Get Help
+                <Edit size={18} />
+                Edit ID Details
               </button>
 
               <button
