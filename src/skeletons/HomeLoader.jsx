@@ -47,16 +47,16 @@ const HomeLoader = () => {
             <div className="h-3 w-24 bg-slate-200 rounded ml-0.5 mb-3"></div>
 
             {/* Micro Matrix Outer Envelope Ring */}
-            <div className="bg-slate-50/40 border border-slate-200/50 rounded-2xl p-2.5">
+            <div className="bg-slate-50/40">
               {/* High-Density 2-Column Symmetrical Skeleton Grid */}
-              <div className="grid grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-2 gap-2">
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                   <div
                     key={i}
-                    className="flex items-center gap-2.5 h-16 p-2.5 bg-white border border-slate-100 rounded-xl shadow-sm"
+                    className="flex items-center gap-2.5 p-[9px] bg-white border border-slate-100 rounded-xl"
                   >
                     {/* Action Icon Square Base Plate Indicator (Perfect 1:1 Match) */}
-                    <div className="w-10 h-10 bg-slate-100 border border-slate-200/10 rounded-lg shrink-0"></div>
+                    <div className="w-12 h-12 bg-slate-100 border border-slate-200/10 rounded-lg shrink-0"></div>
 
                     {/* Typography String Tracking Row */}
                     <div className="flex-1 min-w-0 pr-4">

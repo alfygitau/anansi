@@ -631,17 +631,17 @@ const Homepage = () => {
               <h2 className="text-[12px] font-medium uppercase tracking-[0.15em] text-slate-400 mb-3 pl-0.5">
                 Quick Actions
               </h2>
-              <div className="bg-slate-50/40 border border-slate-200/50 rounded-2xl p-2.5 flex flex-col justify-between">
+              <div className="bg-slate-50/40 flex flex-col justify-between">
                 {/* High-Density Micro Matrix */}
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-2 gap-3">
                   {quickActions.map(({ id, label, icon, onClick }) => (
                     <div
                       key={id}
                       onClick={onClick}
-                      className="flex items-center gap-2.5 h-16 p-2.5 cursor-pointer group bg-white border border-slate-100 rounded-xl hover:border-primary transition-all duration-200 select-none shadow-sm"
+                      className="flex items-center gap-2.5 p-[9px] cursor-pointer group bg-white border border-slate-100 rounded-xl hover:border-primary transition-all duration-200 select-none"
                     >
                       {/* Action Icon Square Plate (Perfect 1:1 Match) */}
-                      <div className="w-10 h-10 bg-slate-50 border border-slate-200/20 rounded-lg flex items-center justify-center text-slate-700 transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:border-primary shrink-0">
+                      <div className="w-12 h-12 bg-slate-50 border border-slate-200/20 rounded-lg flex items-center justify-center text-slate-700 transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:border-primary shrink-0">
                         {React.cloneElement(icon, {
                           size: 18,
                           className:
