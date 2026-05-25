@@ -28,15 +28,10 @@ const GenerateStatement = ({
 
   // Evaluate form validation status based on standard required fields
   const isFormInvalid = () => {
-    if (!formData.statementType) return true;
     if (!formData.accountId) return true;
-
-    // If no pre-defined preset duration is selected, custom dates are required
-    if (!formData.duration) {
-      if (!formData.startDate || !formData.endDate) return true;
-    }
-
-    return false;
+    const hasPreset = !!formData.duration;
+    const hasCustomRange = !!(formData.startDate && formData.endDate);
+    return !((hasPreset && !hasCustomRange) || (hasCustomRange && !hasPreset));
   };
 
   const isDisabled = isLoading || isFormInvalid();
@@ -87,156 +82,6 @@ const GenerateStatement = ({
                     Configure your preferences below. The system will compile
                     your requested account details into a secure document.
                   </p>
-
-                  {/* STATEMENT TYPE DROPDOWN */}
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2">
-                      Statement Type
-                    </label>
-
-                    <div className="relative flex items-center bg-slate-50 rounded-2xl transition-all focus-within:ring-2 focus-within:ring-secondary/20">
-                      <div className="pl-4 pr-3 flex items-center text-slate-300 border-r border-slate-200 h-6 my-auto">
-                        <Layers size={18} />
-                      </div>
-                      <select
-                        required
-                        value={formData.statementType}
-                        onBlur={() => handleBlur("statementType")}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            statementType: e.target.value,
-                          })
-                        }
-                        className="w-full pl-3 pr-12 py-5 bg-transparent border-none outline-none text-sm font-bold appearance-none cursor-pointer rounded-2xl"
-                      >
-                        <option value="">Select statement type</option>
-                        <option value="account">Account</option>
-                        <option value="loan">Loan</option>
-                      </select>
-                      <ChevronDown
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
-                        size={18}
-                      />
-                    </div>
-                    {/* ERROR TEXT LOCATION */}
-                    {touchedFields.statementType && !formData.statementType && (
-                      <p className="text-[10px] font-bold tracking-wide text-red-500 ml-2">
-                        Please select a valid statement type
-                      </p>
-                    )}
-                  </div>
-
-                  {/* STATEMENT DURATION */}
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2">
-                      Statement Duration
-                    </label>
-                    <div className="relative flex items-center bg-slate-50 rounded-2xl transition-all focus-within:ring-2 focus-within:ring-secondary/20">
-                      <div className="pl-4 pr-3 flex items-center text-slate-300 border-r border-slate-200 h-6 my-auto">
-                        <Clock size={18} />
-                      </div>
-                      <select
-                        value={formData.duration}
-                        onBlur={() => handleBlur("duration")}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            duration: e.target.value,
-                          })
-                        }
-                        className="w-full pl-3 pr-12 py-5 bg-transparent border-none outline-none text-sm font-bold appearance-none cursor-pointer rounded-2xl"
-                      >
-                        <option value="">Select date range</option>
-                        <option value="month_to_date">This Month</option>
-                        <option value="last_month">Last Month</option>
-                        <option value="three_months">Last 3 Months</option>
-                        <option value="six_months">Last 6 Months</option>
-                      </select>
-                      <ChevronDown
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
-                        size={18}
-                      />
-                    </div>
-                    {touchedFields.duration && !formData.duration && (
-                      <p className="text-[10px] font-bold tracking-wide text-red-500 ml-2">
-                        Date range is required
-                      </p>
-                    )}
-                  </div>
-
-                  {/* CONDITIONAL START & END DATE FIELDS */}
-                  <AnimatePresence>
-                    {!formData.duration && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="grid grid-cols-2 gap-4 overflow-hidden"
-                      >
-                        <div className="space-y-2">
-                          <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2">
-                            Start Date
-                          </label>
-                          <div className="relative flex items-center bg-slate-50 rounded-2xl">
-                            <div className="pl-4 pr-3 flex items-center text-slate-300 border-r border-slate-200 h-6 my-auto">
-                              <Calendar size={18} />
-                            </div>
-                            <input
-                              type="date"
-                              required={!formData.duration}
-                              value={formData.startDate}
-                              onBlur={() => handleBlur("startDate")}
-                              onChange={(e) =>
-                                setFormData({
-                                  ...formData,
-                                  startDate: e.target.value,
-                                })
-                              }
-                              className="w-full pl-3 pr-4 py-5 bg-transparent border-none outline-none text-sm font-bold transition-all rounded-2xl"
-                            />
-                          </div>
-                          {/* ERROR TEXT LOCATION */}
-                          {touchedFields.startDate && !formData.startDate && (
-                            <p className="text-[10px] font-bold tracking-wide text-red-500 ml-2">
-                              Start date is required
-                            </p>
-                          )}
-                        </div>
-
-                        <div className="space-y-2">
-                          <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2">
-                            End Date
-                          </label>
-                          <div className="relative flex items-center bg-slate-50 rounded-2xl">
-                            <div className="pl-4 pr-3 flex items-center text-slate-300 border-r border-slate-200 h-6 my-auto">
-                              <Calendar size={18} />
-                            </div>
-                            <input
-                              type="date"
-                              required={!formData.duration}
-                              value={formData.endDate}
-                              onBlur={() => handleBlur("endDate")}
-                              onChange={(e) =>
-                                setFormData({
-                                  ...formData,
-                                  endDate: e.target.value,
-                                })
-                              }
-                              className="w-full pl-3 pr-4 py-5 bg-transparent border-none outline-none text-sm font-bold transition-all rounded-2xl"
-                            />
-                          </div>
-                          {/* ERROR TEXT LOCATION */}
-                          {touchedFields.endDate && !formData.endDate && (
-                            <p className="text-[10px] font-bold tracking-wide text-red-500 ml-2">
-                              End date is required
-                            </p>
-                          )}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
                   {/* TARGET ACCOUNT */}
                   <div className="space-y-2">
                     <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2">
@@ -278,6 +123,125 @@ const GenerateStatement = ({
                       </p>
                     )}
                   </div>
+
+                  {/* STATEMENT DURATION */}
+                  <div
+                    className={`space-y-2 transition-opacity duration-200 ${formData.startDate || formData.endDate ? "opacity-50" : "opacity-100"}`}
+                  >
+                    <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2">
+                      Statement Duration
+                    </label>
+                    <div
+                      className={`relative flex items-center bg-slate-50 rounded-2xl transition-all focus-within:ring-2 focus-within:ring-secondary/20 ${formData.startDate || formData.endDate ? "cursor-not-allowed bg-slate-100" : ""}`}
+                    >
+                      <div className="pl-4 pr-3 flex items-center text-slate-300 border-r border-slate-200 h-6 my-auto">
+                        <Clock size={18} />
+                      </div>
+                      <select
+                        value={formData.duration}
+                        disabled={!!(formData.startDate || formData.endDate)}
+                        onBlur={() => handleBlur("duration")}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            duration: e.target.value,
+                            startDate: "",
+                            endDate: "",
+                          })
+                        }
+                        className="w-full pl-3 pr-12 py-5 bg-transparent border-none outline-none text-sm font-bold appearance-none cursor-pointer rounded-2xl disabled:cursor-not-allowed"
+                      >
+                        <option value="">Select date range</option>
+                        <option value="month_to_date">This Month</option>
+                        <option value="last_month">Last Month</option>
+                        <option value="three_months">Last 3 Months</option>
+                        <option value="six_months">Last 6 Months</option>
+                      </select>
+                      <ChevronDown
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                        size={18}
+                      />
+                    </div>
+                  </div>
+
+                  {/* MUTUAL EXCLUSION COMPONENT SEPARATOR (Optional visual cue) */}
+                  {!formData.duration &&
+                    !(formData.startDate || formData.endDate) && (
+                      <div className="text-center text-[9px] font-black tracking-widest text-slate-300 uppercase my-1">
+                        — OR —
+                      </div>
+                    )}
+
+                  {/* CONDITIONAL START & END DATE FIELDS */}
+                  <div
+                    className={`grid grid-cols-2 gap-4 transition-opacity duration-200 ${formData.duration ? "opacity-50" : "opacity-100"}`}
+                  >
+                    {/* Start Date Field */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2">
+                        Start Date
+                      </label>
+                      <div
+                        className={`relative flex items-center bg-slate-50 rounded-2xl transition-all ${formData.duration ? "cursor-not-allowed bg-slate-100" : ""}`}
+                      >
+                        <div className="pl-4 pr-3 flex items-center text-slate-300 border-r border-slate-200 h-6 my-auto">
+                          <Calendar size={18} />
+                        </div>
+                        <input
+                          type="date"
+                          disabled={!!formData.duration} // ⚡ Disabled if a duration preset is active
+                          required={!formData.duration}
+                          value={formData.startDate}
+                          onBlur={() => handleBlur("startDate")}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              startDate: e.target.value,
+                              duration: "", // ⚡ Break context hook loop out of duration preset
+                            })
+                          }
+                          className="w-full pl-3 pr-4 py-5 bg-transparent border-none outline-none text-sm font-bold transition-all rounded-2xl disabled:cursor-not-allowed"
+                        />
+                      </div>
+                    </div>
+
+                    {/* End Date Field */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2">
+                        End Date
+                      </label>
+                      <div
+                        className={`relative flex items-center bg-slate-50 rounded-2xl transition-all ${formData.duration ? "cursor-not-allowed bg-slate-100" : ""}`}
+                      >
+                        <div className="pl-4 pr-3 flex items-center text-slate-300 border-r border-slate-200 h-6 my-auto">
+                          <Calendar size={18} />
+                        </div>
+                        <input
+                          type="date"
+                          disabled={!!formData.duration} // ⚡ Disabled if a duration preset is active
+                          required={!formData.duration}
+                          value={formData.endDate}
+                          onBlur={() => handleBlur("endDate")}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              endDate: e.target.value,
+                              duration: "", // ⚡ Break context hook loop out of duration preset
+                            })
+                          }
+                          className="w-full pl-3 pr-4 py-5 bg-transparent border-none outline-none text-sm font-bold transition-all rounded-2xl disabled:cursor-not-allowed"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  {Object.keys(touchedFields).length > 0 && isFormInvalid() && (
+                    <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-100 rounded-xl mb-4">
+                      <span className="text-[11px] font-bold tracking-wide text-red-600 uppercase ml-1">
+                        Please select a preset duration OR configure a valid
+                        custom date range to proceed.
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* ANCHORED ACTION BUTTON HOUSING */}

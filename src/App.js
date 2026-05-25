@@ -54,6 +54,7 @@ import ChangeEmail from "./pages/onboarding/ChangeEmail";
 import ChangeMobile from "./pages/onboarding/ChangeMobile";
 import ProtectedRoute from "./routes/Protect";
 import MyLoanStatements from "./pages/loan-statements/LoanStatements";
+import LoanProductDetails from "./pages/products/LoanProduct";
 
 function App() {
   return (
@@ -145,7 +146,10 @@ function App() {
           />
           <Route path="/help-support" element={<HelpSupport />} />
           <Route path="/loan-calculator" element={<LoanCalculator />} />
+
           <Route path="/loan-products" element={<LoanProducts />} />
+          <Route path="/loan-products/:id" element={<LoanProductDetails />} />
+
           <Route path="/all-loans" element={<MyLoans />} />
           <Route path="/all-loan-applications" element={<LoanApplications />} />
           <Route path="/loan-details" element={<LoanDetails />} />

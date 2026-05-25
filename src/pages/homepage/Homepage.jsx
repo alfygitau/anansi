@@ -4,7 +4,6 @@ import {
   Wallet,
   ArrowDownCircle,
   PieChart,
-  Calculator,
   PlusCircle,
   FilePlus2,
   LayoutList,
@@ -21,12 +20,7 @@ import {
   Users,
   Hourglass,
   ChevronRight,
-  Zap,
-  HeartPulse,
   Briefcase,
-  GraduationCap,
-  Car,
-  Home,
   Info,
   Check,
 } from "lucide-react";
@@ -59,88 +53,15 @@ import { useStore } from "../../store/useStore";
 import { useFormatAmount } from "../../hooks/useFormatAmount";
 import { allLoans, myLoanApplications } from "../../static/loans";
 import LoanTerms from "../../components/loan-terms-conditions/TermsAndCobditions";
-
-const allProducts = [
-  {
-    id: "prod_01",
-    name: "Flash Emergency",
-    cat: "Instant Loan",
-    description:
-      "Get instant funds for urgent bills and unexpected expenses within minutes.",
-    icon: Zap,
-    rate: "1.5%",
-    maxAmount: "50,000",
-    period: "1 Month",
-    color: "#F59E0B",
-  },
-  {
-    id: "prod_02",
-    name: "Mortgage Plus",
-    cat: "Housing",
-    description:
-      "Flexible financing options to help you own your dream home with ease.",
-    icon: Home,
-    rate: "9.0%",
-    maxAmount: "15,000,000",
-    period: "240 Months",
-    color: "#042159",
-  },
-  {
-    id: "prod_03",
-    name: "Asset Financing",
-    cat: "Vehicle",
-    description:
-      "Drive your ambition with low-interest loans for new and used vehicles.",
-    icon: Car,
-    rate: "11.5%",
-    maxAmount: "3,500,000",
-    period: "60 Months",
-    color: "#3B82F6",
-  },
-  {
-    id: "prod_04",
-    name: "Edu-Advance",
-    cat: "Education",
-    description:
-      "Invest in your future with specialized loans covering tuition and supplies.",
-    icon: GraduationCap,
-    rate: "8.5%",
-    maxAmount: "500,000",
-    period: "12 Months",
-    color: "#8B5CF6",
-  },
-  {
-    id: "prod_05",
-    name: "SME Growth",
-    cat: "Business",
-    description:
-      "Scale your business operations with working capital and equipment loans.",
-    icon: Briefcase,
-    rate: "13.0%",
-    maxAmount: "10,000,000",
-    period: "48 Months",
-    color: "#10B981",
-  },
-  {
-    id: "prod_06",
-    name: "Medi-Shield",
-    cat: "Medical",
-    description:
-      "Comprehensive medical loans to ensure health emergencies never catch you off guard.",
-    icon: HeartPulse,
-    rate: "7.0%",
-    maxAmount: "1,200,000",
-    period: "24 Months",
-    color: "#EF4444",
-  },
-];
+import { getLoanProducts } from "../../sdks/loans/loans";
+import LoanProductsLoader from "../../skeletons/LoanProductsLoader";
 
 const Homepage = () => {
   const navigate = useNavigate();
   const { showToast } = useToast();
   const setStoreAccounts = useStore((state) => state.setAccounts);
   const [loans, setLoans] = useState(allLoans);
-  const [loanProducts, setLoanProducts] = useState(allProducts);
+  const [loanProducts, setLoanProducts] = useState([]);
   const [loanApplications, setLoanApplications] = useState(myLoanApplications);
   const quickActions = [
     {
@@ -267,6 +188,25 @@ const Homepage = () => {
       },
     },
   );
+
+  const { isFetching: loadingProducts } = useQuery({
+    queryKey: ["explore products"],
+    queryFn: async () => {
+      const response = await getLoanProducts();
+      return response?.data?.data;
+    },
+    onSuccess: (data) => {
+      setLoanProducts(data);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   const sortedAccounts = useMemo(() => {
     if (!accounts) return [];
@@ -731,14 +671,17 @@ const Homepage = () => {
             <h2 className="text-[12px] font-bold uppercase tracking-widest text-slate-400 mb-2">
               Explore Products
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {loanProducts.length > 0 ? (
-                loanProducts.map((product) => (
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-6">
+              {loadingProducts ? (
+                <LoanProductsLoader />
+              ) : loanProducts?.length > 0 ? (
+                loanProducts?.map((product) => (
                   <DetailedProductCard
                     key={product.id}
                     product={product}
-                    onApply={() => {}}
+                    onApply={() => navigate("/loan-eligibility")}
                     onTerms={() => setShowLoanTerms(true)}
+                    onNavigate={() => navigate(`/loan-products/${product?.id}`)}
                   />
                 ))
               ) : (
@@ -753,40 +696,42 @@ const Homepage = () => {
 };
 
 /* --- Sub-Components --- */
-const DetailedProductCard = ({ product, onApply, onTerms }) => {
+const DetailedProductCard = ({ product, onApply, onTerms, onNavigate }) => {
   const {
-    name,
+    product_name,
     description,
-    icon: Icon,
-    rate,
-    maxAmount,
-    period,
-    color = "#042159",
+    interest_rate,
+    max_amount,
+    max_period,
+    interest_key,
   } = product;
 
   return (
-    <div className="group bg-white rounded-[32px] border border-slate-200 hover:shadow-xl hover:shadow-blue-900/5 transition-all overflow-hidden mb-6">
+    <div
+      onClick={onNavigate}
+      className="group bg-white cursor-pointer rounded-[32px] border border-slate-200 hover:shadow-xl hover:shadow-blue-900/5 transition-all overflow-hidden mb-6"
+    >
       {/* Top Section: Icon, Rate, and Content */}
       <div className="p-6">
         <div className="flex justify-between items-start mb-5">
           {/* Main Icon Box */}
           <div
             className="w-14 h-14 rounded-2xl flex items-center justify-center transition-colors duration-300"
-            style={{ backgroundColor: `${color}1A`, color: color }} // 1A = 10% opacity
+            style={{ backgroundColor: `#0421591A`, color: "#042159" }}
           >
-            <Icon size={28} strokeWidth={1.5} />
+            <Briefcase size={28} strokeWidth={1.5} />
           </div>
 
           {/* Rate Badge */}
           <span className="text-[11px] font-medium uppercase tracking-widest text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
-            {rate} P.A
+            {Number(interest_rate)?.toFixed(1)}% {interest_key}
           </span>
         </div>
 
         {/* Title and Description */}
         <div className="mb-6">
           <h3 className="text-xl font-medium text-slate-900 tracking-tight mb-2 group-hover:text-secondary transition-colors">
-            {name}
+            {product_name}
           </h3>
           <p className="text-sm text-slate-500 leading-relaxed max-w-md">
             {description}
@@ -795,9 +740,9 @@ const DetailedProductCard = ({ product, onApply, onTerms }) => {
 
         {/* Info Grid (Mimicking the Flutter _buildInfoColumn) */}
         <div className="flex items-center justify-between py-4 border-t border-slate-50">
-          <InfoColumn label="MAX AMOUNT" value={`KES ${maxAmount}`} />
+          <InfoColumn label="MAX AMOUNT" value={`KES ${max_amount}`} />
           <div className="h-8 w-px bg-slate-100" /> {/* Vertical Divider */}
-          <InfoColumn label="TENURE" value={period} />
+          <InfoColumn label="TENURE" value={max_period} />
           <div className="h-8 w-px bg-slate-100" /> {/* Vertical Divider */}
           <InfoColumn label="REPAYMENT" value="Monthly" />
         </div>
@@ -806,7 +751,10 @@ const DetailedProductCard = ({ product, onApply, onTerms }) => {
       {/* Bottom Action Bar */}
       <div className="bg-slate-50 px-6 py-4 flex items-center justify-between border-t border-slate-100">
         <div
-          onClick={onTerms}
+          onClick={(event) => {
+            event.stopPropagation();
+            onTerms();
+          }}
           className="flex items-center cursor-pointer gap-1 text-[10px] font-semibold text-slate-400"
         >
           <Info size={12} />
@@ -814,8 +762,11 @@ const DetailedProductCard = ({ product, onApply, onTerms }) => {
         </div>
 
         <button
-          onClick={onApply}
-          className="px-6 py-2.5 bg-[#042159] text-white text-[11px] font-medium uppercase tracking-widest rounded-xl shadow-lg shadow-blue-900/10 hover:bg-slate-800 transition-all active:scale-95"
+          onClick={(event) => {
+            event.stopPropagation();
+            onApply();
+          }}
+          className="px-6 py-2.5 bg-[#042159] text-white text-[11px] font-medium uppercase tracking-widest rounded-xl shadow-lg shadow-blue-900/10 hover:bg-secondary transition-all active:scale-95"
         >
           Apply Now
         </button>

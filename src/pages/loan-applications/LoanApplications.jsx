@@ -15,72 +15,39 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
+import { getLoanApplications } from "../../sdks/applications/applications";
+import useAuth from "../../hooks/useAuth";
+import { useToast } from "../../contexts/ToastProvider";
 
 const LoanApplications = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const { auth } = useAuth();
+  const { showToast } = useToast();
+  const [loanApplications, setLoanApplications] = useState([]);
 
-  const loanApplications = [
-    {
-      reference: "AN-8821-026",
-      title: "Emergency Fund Loan",
-      date: "May 11, 2026",
-      amount: "KES 45,000",
-      status: "Approved",
+  const { isFetching } = useQuery({
+    queryKey: ["all loan applications"],
+    queryFn: async () => {
+      const response = await getLoanApplications(auth?.user?.id);
+      return response?.data?.data;
     },
-    {
-      reference: "AN-8822-027",
-      title: "Asset Finance (Logbook)",
-      date: "May 10, 2026",
-      amount: "KES 1,200,000",
-      status: "Pending",
+    onSuccess: (data) => {
+      setLoanApplications(data);
     },
-    {
-      reference: "AN-8823-028",
-      title: "School Fees Loan",
-      date: "May 08, 2026",
-      amount: "KES 85,000",
-      status: "Approved",
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
     },
-    {
-      reference: "AN-8824-029",
-      title: "Business Biashara Loan",
-      date: "May 05, 2026",
-      amount: "KES 250,000",
-      status: "Declined",
-    },
-    {
-      reference: "AN-8825-030",
-      title: "Agri-Input Credit",
-      date: "May 02, 2026",
-      amount: "KES 30,000",
-      status: "Pending",
-    },
-    {
-      reference: "AN-8826-031",
-      title: "Home Improvement Loan",
-      date: "Apr 28, 2026",
-      amount: "KES 500,000",
-      status: "Approved",
-    },
-    {
-      reference: "AN-8825-032",
-      title: "Agri-Input Credit",
-      date: "May 02, 2026",
-      amount: "KES 30,000",
-      status: "Pending",
-    },
-    {
-      reference: "AN-8826-033",
-      title: "Home Improvement Loan",
-      date: "Apr 28, 2026",
-      amount: "KES 500,000",
-      status: "Approved",
-    },
-  ];
+  });
 
   return (
-    <div className="min-h-screen bg-slate-50 text-primary pb-20">
+    <div className="bg-slate-50 text-primary">
       <div className="max-w-6xl sm:px-4 mx-auto">
         {/* Header Section */}
         <header className="flex mb-3 flex-col md:flex-row md:items-center justify-between gap-6">
@@ -128,8 +95,51 @@ const LoanApplications = () => {
                     />
                   ))
                 ) : (
-                  <div className="py-20 text-center text-slate-300 font-bold italic">
-                    No matching applications found.
+                  <div className="h-[750px] bg-white rounded-[24px] border border-slate-200/60 flex flex-col items-center justify-center p-8 text-center">
+                    {/* ====== MODERN ILLUSTRATIVE ICON MATRIX ====== */}
+                    <div className="relative mb-6 flex items-center justify-center">
+                      {/* Soft Pulsing Ambient Background Glow Ring */}
+                      <div className="absolute w-20 h-20 bg-slate-50 rounded-full animate-pulse" />
+
+                      {/* Primary Central Asset Icon Container */}
+                      <div className="relative w-16 h-16 bg-slate-100/80 border border-slate-200/30 rounded-2xl flex items-center justify-center text-slate-400">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-7 h-7"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            pathLength="360"
+                            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+
+                    {/* ====== HEADER TEXT STACK TYPOGRAPHY ====== */}
+                    <div className="max-w-sm space-y-2 mb-8">
+                      <h3 className="text-lg font-bold text-slate-900 tracking-tight">
+                        No matching applications found
+                      </h3>
+                      <p className="text-slate-400 text-sm leading-relaxed">
+                        We couldn't find any active or past credit applications
+                        linked to your current search parameters. Try adjusting
+                        your filters.
+                      </p>
+                    </div>
+
+                    {/* ====== CALL TO ACTION ELEMENT ====== */}
+                    <button
+                      onClick={() => window.location.reload()}
+                      className="px-6 py-3 bg-[#0F172A] hover:bg-slate-800 text-white font-semibold rounded-xl text-xs uppercase tracking-wider transition-all active:scale-[0.98] shadow-md shadow-slate-900/5"
+                    >
+                      Clear Active Filters
+                    </button>
                   </div>
                 )}
               </div>
