@@ -152,7 +152,7 @@ const AccountDetails = () => {
       {isLoading ? (
         <AccountDetailsLoader />
       ) : (
-        <div className="min-h-screen bg-slate-50 text-primary pb-20">
+        <div className="bg-slate-50 text-primary">
           <div className="max-w-6xl sm:px-4 mx-auto">
             <h3 className="text-xl font-medium mb-3 tracking-tight">
               Account Details

@@ -44,7 +44,7 @@ const LoanProducts = () => {
         onClose={() => setShowLoanTerms(false)}
       />
 
-      <div className="min-h-screen bg-slate-50 text-primary pb-20">
+      <div className="h-full bg-slate-50 text-primary">
         <div className="max-w-6xl sm:px-4 mx-auto">
           {/* Header Section */}
           <header className="py-2 mb-3">

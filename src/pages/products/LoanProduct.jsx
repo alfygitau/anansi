@@ -52,7 +52,7 @@ const LoanProductDetails = () => {
   const formatPercent = (val) => `${Number(val).toFixed(1)}%`;
 
   return (
-    <div className="bg-slate-50/50 text-[#0F172A] pb-24">
+    <div className="bg-slate-50/50 text-[#0F172A]">
       {/* ====== STICKY BACKBAR HEADER ====== */}
       <nav>
         <div className="max-w-6xl mx-auto flex items-center justify-between">

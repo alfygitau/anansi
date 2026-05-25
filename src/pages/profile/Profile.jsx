@@ -231,7 +231,7 @@ const ProfilePage = () => {
       {isFetching ? (
         <ProfileLoader />
       ) : (
-        <div className="max-w-6xl sm:px-4 mx-auto bg-slate-50 pb-20 pt-2 font-sans">
+        <div className="max-w-6xl sm:px-4 mx-auto bg-slate-50 font-sans">
           <div className="w-full mx-auto space-y-6">
             {/* TOP SECTION: SIDE-BY-SIDE */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
@@ -372,7 +372,7 @@ const ProfilePage = () => {
             </div>
 
             {/* MODERNISED DISCLAIMER CONTAINER */}
-            <section className="bg-white rounded-[32px] p-8 shadow-xl shadow-blue-900/5 border border-slate-100 relative overflow-hidden">
+            <section className="bg-white rounded-[32px] p-8 border border-slate-100 relative overflow-hidden">
               {/* Subtle background graphic for depth */}
               <div className="absolute -top-10 -right-10 text-slate-100 opacity-30">
                 <Scale size={180} strokeWidth={1} />
