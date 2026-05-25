@@ -76,7 +76,7 @@ const EligibilityCheck = () => {
   }, []);
 
   return (
-    <div className="bg-[#F8FAFC] text-[#0F172A] font-sans selection:bg-blue-100">
+    <div className="bg-[#F8FAFC] text-[#0F172A] selection:bg-blue-100">
       <div className="max-w-6xl sm:px-4 mx-auto mx-auto">
         {/* Header Section */}
         <header className="flex flex-col md:flex-row md:items-end justify-between mb-4 gap-6">
@@ -141,10 +141,10 @@ const EligibilityCheck = () => {
                 <button
                   disabled={checking}
                   onClick={() => navigate("/apply-loan")}
-                  className={`relative group px-10 py-4 rounded-2xl font-bold text-white overflow-hidden transition-all shadow-lg hover:shadow-blue-200 active:scale-95 ${
+                  className={`relative group px-10 py-4 rounded-2xl font-bold text-white overflow-hidden transition-all active:scale-95 ${
                     checking
                       ? "bg-slate-200 cursor-not-allowed"
-                      : "bg-primary hover:bg-blue-700"
+                      : "bg-primary hover:bg-secondary"
                   }`}
                 >
                   <span className="relative z-10 flex items-center gap-3 uppercase tracking-wider text-sm">
@@ -388,7 +388,7 @@ const PremiumSidebar = ({ actions }) => (
       {actions.map((action, i) => (
         <button
           key={i}
-          className="w-full flex items-center gap-4 rounded-2xl hover:bg-blue-50/50 transition-all group"
+          className="w-full flex items-center gap-4 rounded-2xl transition-all group"
         >
           <div className="p-3 bg-slate-100 rounded-xl text-slate-400 group-hover:bg-white group-hover:text-blue-600 group-hover:shadow-sm transition-all">
             {action.icon}

@@ -140,17 +140,17 @@ const MyLoans = ({ onBack }) => {
                       </div>
                     </div>
                     <div className="max-w-sm space-y-2 mb-8">
-                      <h3 className="text-lg font-bold text-slate-900 tracking-tight">
+                      <h3 className="text-lg font-bold text-primary tracking-tight">
                         No matching loan
                       </h3>
-                      <p className="text-slate-400 text-sm leading-relaxed">
+                      <p className="text-primary text-sm leading-relaxed">
                         We couldn't find any active or past loan linked to your
                         current search parameters. Try adjusting your filters.
                       </p>
                     </div>
                     <button
                       onClick={() => window.location.reload()}
-                      className="px-6 py-3 bg-[#0F172A] hover:bg-slate-800 text-white font-semibold rounded-xl text-xs uppercase tracking-wider transition-all active:scale-[0.98] shadow-md shadow-slate-900/5"
+                      className="px-6 py-3 bg-primary hover:bg-secondary text-white font-semibold rounded-xl text-xs uppercase tracking-wider transition-all active:scale-[0.98] shadow-md shadow-slate-900/5"
                     >
                       Clear Active Filters
                     </button>
@@ -172,7 +172,7 @@ const MyLoans = ({ onBack }) => {
                 <ActionButton
                   icon={<FileText size={16} />}
                   label="View loan statements"
-                  onClick={() => navigate("/statements")}
+                  onClick={() => navigate("/loan-statements")}
                   primary
                 />
                 <ActionButton

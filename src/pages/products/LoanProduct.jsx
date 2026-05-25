@@ -12,18 +12,22 @@ import {
   RefreshCcw,
   CheckSquare,
   Scale,
+  Plus,
+  ChevronRight,
 } from "lucide-react";
 import { useQuery } from "react-query";
 import { getLoanProduct } from "../../sdks/loans/loans";
 import { useToast } from "../../contexts/ToastProvider";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFormatAmount } from "../../hooks/useFormatAmount";
+import { motion } from "framer-motion";
 
 const LoanProductDetails = () => {
   const { showToast } = useToast();
   const [loanProduct, setLoanProduct] = useState({});
   const { id } = useParams();
   const fomatAmount = useFormatAmount();
+  const navigate = useNavigate();
 
   useQuery({
     queryKey: ["explore product", id],
@@ -56,7 +60,10 @@ const LoanProductDetails = () => {
       {/* ====== STICKY BACKBAR HEADER ====== */}
       <nav>
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <button className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-[#0F172A] transition-colors">
+          <button
+            onClick={() => navigate("/loan-products")}
+            className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-[#0F172A] transition-colors"
+          >
             <ArrowLeft size={16} />
             <span>Back to Products</span>
           </button>
@@ -69,7 +76,7 @@ const LoanProductDetails = () => {
           {/* Headline Title Card */}
           <div className="bg-white rounded-[32px] border border-slate-200/60 p-6 shadow-sm">
             <div className="flex items-center gap-2">
-              <div className="w-14 h-14 bg-[#0F172A] rounded-2xl flex items-center justify-center text-white mb-6">
+              <div className="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-white mb-6">
                 <Briefcase size={28} strokeWidth={1.5} />
               </div>
               <h1 className="text-3xl font-bold tracking-tight text-primary mb-3">
@@ -265,7 +272,8 @@ const LoanProductDetails = () => {
         </div>
 
         {/* ====== RIGHT COLUMN: STICKY BREAKDOWN ASSETS SIDEBAR ====== */}
-        <div className="space-y-6">
+        <div className="space-y-4">
+          <ApplyLoanAction onClick={() => navigate("/loan-products")} />
           {/* ====== UNCOLORED MAIN FEE CONTAINER ====== */}
           <div className="bg-white text-slate-900 rounded-[32px] p-6 space-y-6 border border-slate-200/60 shadow-sm top-24">
             <div className="space-y-1">
@@ -418,13 +426,43 @@ const LoanProductDetails = () => {
               )}
             </div>
           </div>
-
-          {/* ====== PRIMARY ACTION BUTTON (Anchored at the end of the space) ====== */}
-          <button className="w-full py-4 bg-[#0F172A] hover:bg-slate-800 text-white font-bold rounded-2xl text-sm transition-all active:scale-[0.98] shadow-xl shadow-blue-950/10">
-            Begin Loan Application
-          </button>
         </div>
       </div>
+    </div>
+  );
+};
+
+const ApplyLoanAction = ({ onClick }) => {
+  return (
+    <div>
+      <motion.button
+        whileTap={{ scale: 0.97 }}
+        whileHover={{ y: -2 }}
+        onClick={onClick}
+        className="w-full text-left bg-white p-4 rounded-[24px] border border-[#0A2351]/10 flex items-center shadow-sm hover:shadow-md transition-all group"
+      >
+        {/* 1. Circle Icon (Matching darkBlue color) */}
+        <div className="p-3 bg-[#0A2351] rounded-full text-white shrink-0 group-hover:scale-110 transition-transform duration-300">
+          <Plus size={20} strokeWidth={3} />
+        </div>
+
+        {/* 2. Text Content */}
+        <div className="flex-1 ml-4 flex flex-col justify-center">
+          <span className="text-[#0A2351] font-medium text-[15px] leading-tight">
+            Apply for this Loan
+          </span>
+          <span className="text-slate-400 text-[11px] font-medium mt-0.5">
+            Instant processing for eligible members
+          </span>
+        </div>
+
+        {/* 3. Right Chevron */}
+        <ChevronRight
+          size={16}
+          className="text-slate-300 ml-6 group-hover:translate-x-1 transition-transform"
+          strokeWidth={2.5}
+        />
+      </motion.button>
     </div>
   );
 };
