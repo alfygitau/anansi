@@ -163,7 +163,7 @@ const MyLoanStatements = () => {
   };
 
   return (
-    <div className="bg-slate-50 text-primary pb-20 h-screen">
+    <div className="bg-slate-50 text-primary">
       <div className="max-w-6xl sm:px-4 mx-auto">
         {/* Header Section */}
         <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-4">
