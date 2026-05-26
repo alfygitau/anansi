@@ -288,7 +288,7 @@ const EligibilityCheck = () => {
 
               <button
                 disabled={isLoading || !eligible}
-                onClick={() => navigate("/apply-loan")}
+                onClick={() => navigate(`/apply-loan/${productId}`)}
                 className={`relative group py-4 w-full rounded-2xl font-medium text-white overflow-hidden transition-all active:scale-95 ${
                   isLoading || !eligible
                     ? "bg-slate-200 cursor-not-allowed"

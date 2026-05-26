@@ -11,17 +11,73 @@ import {
   AlertTriangle,
   HelpCircle,
   FileText,
+  Users,
+  ShieldAlert,
+  FileCheck,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { useQuery, useMutation } from "react-query";
+import { getLoanProduct } from "../../sdks/loans/loans";
+import { useToast } from "../../contexts/ToastProvider";
+import { createLoanApplication } from "../../sdks/applications/applications";
+import useAuth from "../../hooks/useAuth";
 
 const ApplyLoan = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState(0);
   const [purpose, setPurpose] = useState("");
-  const [tenure, setTenure] = useState(48);
+  const [tenure, setTenure] = useState(0);
+  const [minTenure, setMinTenure] = useState(0);
   const [frequency, setFrequency] = useState("Monthly");
   const [isScheduleOpen, setIsScheduleOpen] = useState(false);
+  const { productId } = useParams();
+  const [loanProduct, setLoanProduct] = useState({});
+  const { showToast } = useToast();
+  const [requireCollateral, setRequireCollateral] = useState(false);
+  const [requireGuarantors, setRequireGuarantors] = useState(false);
+  const [requireStatements, setRequireStatements] = useState(false);
+  const { auth } = useAuth();
+  const [errors, setErrors] = useState({ amount: "", tenure: "", purpose: "" });
+
+  const handleAmountBlur = () => {
+    let errorMsg = "";
+
+    if (!amount || amount <= 0) {
+      errorMsg = "Please enter a valid principal request amount.";
+    } else if (amount > 2500000) {
+      errorMsg = "Amount exceeds maximum structural product limit of KES 2.5M.";
+    }
+
+    setErrors((prev) => ({ ...prev, amount: errorMsg }));
+  };
+
+  // 2. Tenure Duration Validation
+  const handleTenureBlur = () => {
+    let errorMsg = "";
+
+    if (tenure === "" || Number(tenure) < 1) {
+      setTenure(1);
+    } else if (Number(tenure) > tenure) {
+      errorMsg = "Maximum duration framework is restricted to 48 months.";
+    }
+    setErrors((prev) => ({ ...prev, tenure: errorMsg }));
+  };
+
+  // 3. Loan Purpose Textarea Validation
+  const handlePurposeBlur = () => {
+    let errorMsg = "";
+    const trimmedPurpose = purpose.trim();
+
+    if (!trimmedPurpose) {
+      errorMsg =
+        "Usage statement explanation is mandatory for validation review.";
+    } else if (trimmedPurpose.length < 1) {
+      errorMsg =
+        "Please supply a more detailed statement description (minimum 15 characters).";
+    }
+    setErrors((prev) => ({ ...prev, purpose: errorMsg }));
+  };
 
   const annualRate = 0.144;
   const calculateInstallment = () => {
@@ -33,6 +89,87 @@ const ApplyLoan = () => {
   };
 
   const installment = calculateInstallment();
+
+  const { isFetching } = useQuery({
+    queryKey: ["explore product", productId],
+    queryFn: async () => {
+      const response = await getLoanProduct(productId);
+      return response?.data?.data;
+    },
+    onSuccess: (data) => {
+      setLoanProduct(data);
+      setTenure(data?.max_period);
+      setRequireGuarantors(data?.requires_guarantor);
+      setRequireCollateral(data?.requires_collateral);
+      setRequireStatements(data?.require_statement);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const formatLabel = (str) => {
+    if (!str) return "";
+    const spaced = str.replace(/_/g, " ");
+    return spaced.charAt(0).toUpperCase() + spaced.slice(1);
+  };
+
+  const { mutate, isLoading } = useMutation({
+    mutationKey: ["create loan application"],
+    mutationFn: async (targetRoute) => {
+      const response = await createLoanApplication(
+        auth?.user?.id,
+        productId,
+        auth?.user?.name,
+        auth?.user?.mobileno,
+        amount,
+        tenure,
+        purpose,
+      );
+      return {
+        application: response.data.data,
+        targetRoute,
+      };
+    },
+    onSuccess: ({ application, targetRoute }) => {
+      const applicationId = application?.id;
+
+      if (!applicationId) {
+        console.error(
+          "Mutation success structural error: API missing application ID attribute.",
+        );
+        return;
+      }
+      navigate(`${targetRoute}/${applicationId}`);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Application Failure",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const isFormValid = () => {
+    const isAmountValid =
+      amount && Number(amount) > 0 && Number(amount) <= 2500000;
+    const isTenureValid = tenure && Number(tenure) >= 1 && Number(tenure) <= 48;
+    const isPurposeValid =
+      purpose && purpose.trim().length >= 1 && purpose.trim().length <= 500;
+    return !!(isAmountValid && isTenureValid && isPurposeValid);
+  };
+
+  const handleLoanApplication = (targetRoute) => {
+    if (isLoading || !isFormValid()) return;
+    mutate(targetRoute);
+  };
 
   return (
     <div className="w-full text-primary">
@@ -48,9 +185,9 @@ const ApplyLoan = () => {
                 <p className="text-slate-500 leading-relaxed text-sm">
                   Configure your facility by adjusting the principal and
                   preferred repayment window. Your interest is calculated using
-                  the Reducing Balance Method , meaning you only pay interest on
-                  the remaining principal each month, not the original loan
-                  amount.
+                  the {formatLabel(loanProduct?.interest_method)} Method ,
+                  meaning you only pay interest on the remaining principal each
+                  month, not the original loan amount.
                 </p>
                 <p className="text-slate-400 leading-relaxed text-xs">
                   This approach ensures that as you pay down your debt, your
@@ -64,7 +201,9 @@ const ApplyLoan = () => {
 
             <div className="space-y-6">
               {/* Enhanced Principal Amount Input */}
-              <div className="group">
+              <div className="group relative">
+                {" "}
+                {/* Added relative positioning context */}
                 <div className="flex justify-between items-end mb-1">
                   <label className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
                     Desired Principal (KES)
@@ -73,7 +212,6 @@ const ApplyLoan = () => {
                     Max: 2.5M
                   </span>
                 </div>
-
                 {/* Fixed Border Wrapper */}
                 <div className="relative flex items-center bg-white border-2 border-slate-100 rounded-2xl h-16 transition-all duration-200">
                   {/* Prefix Section */}
@@ -84,15 +222,26 @@ const ApplyLoan = () => {
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(Number(e.target.value))}
+                    onBlur={handleAmountBlur}
                     className="w-full bg-white border-none pl-4 pr-6 text-xl font-medium text-slate-900 outline-none focus:outline-none border-0 focus:border-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none placeholder:text-slate-200"
                     placeholder="0.00"
                   />
                 </div>
+                {/* ⚡ PRE-ALLOCATED ABSOLUTE ERROR SLOT */}
+                <div className="absolute left-2 -bottom-5 h-4 overflow-visible">
+                  <p
+                    className={`text-[10px] font-bold text-rose-500 transition-opacity duration-200 ${errors.amount ? "opacity-100" : "opacity-0"}`}
+                  >
+                    {errors.amount}
+                  </p>
+                </div>
               </div>
 
-              <div className="w-full space-y-1">
+              <div className="w-full space-y-1 relative">
+                {" "}
+                {/* Added relative positioning context */}
                 <label className="text-[11px] font-medium uppercase tracking-wider text-slate-400 ml-2">
-                  Tenure Duration
+                  Tenure
                 </label>
                 <div className="relative flex items-center justify-between bg-white border-2 border-slate-100 rounded-2xl h-16 transition-all duration-200">
                   <button
@@ -122,9 +271,7 @@ const ApplyLoan = () => {
                         else if (numericVal < 1) setTenure(1);
                         else setTenure(numericVal);
                       }}
-                      onBlur={() => {
-                        if (tenure === "") setTenure(1);
-                      }}
+                      onBlur={handleTenureBlur}
                       className="w-14 text-right pr-1 bg-white border-0 outline-none p-0 focus:ring-0 text-sm font-semibold text-slate-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                     <span className="text-sm font-medium text-slate-400 select-none uppercase tracking-wider pl-1.5">
@@ -142,6 +289,14 @@ const ApplyLoan = () => {
                   >
                     +
                   </button>
+                </div>
+                {/* ⚡ PRE-ALLOCATED ABSOLUTE ERROR SLOT */}
+                <div className="absolute left-2 -bottom-4 h-4 overflow-visible">
+                  <p
+                    className={`text-[10px] font-bold text-rose-500 transition-opacity duration-200 ${errors.tenure ? "opacity-100" : "opacity-0"}`}
+                  >
+                    {errors.tenure}
+                  </p>
                 </div>
               </div>
 
@@ -166,34 +321,42 @@ const ApplyLoan = () => {
                   ))}
                 </div>
               </div>
-            </div>
 
-            <div className="w-full">
-              {/* Removed space-y-2 from parent container */}
-              <div className="flex justify-between items-end px-1 mb-1.5">
-                <label className="text-[11px] font-medium text-slate-500 uppercase tracking-wider block">
-                  Detailed Loan Purpose
-                </label>
-                <span
-                  className={`text-[11px] font-bold ${
-                    purpose.length >= 500
-                      ? "text-rose-500 animate-pulse"
-                      : "text-slate-400"
-                  }`}
-                >
-                  {purpose.length} / {500}
-                </span>
-              </div>
-
-              {/* Reduced padding from p-4 to p-2.5 and set a tighter explicit min-height */}
-              <div className="relative rounded-[16px] bg-white border border-slate-200/80 p-0.5 transition-all duration-200">
-                <textarea
-                  value={purpose}
-                  onChange={(e) => setPurpose(e.target.value)}
-                  rows={3}
-                  placeholder="Briefly itemize your loan utilization requirements..."
-                  className="w-full text-slate-800 text-sm placeholder-slate-300 font-medium bg-transparent border-0 resize-none outline-none focus:ring-0 p-2.5 min-h-[90px] leading-relaxed"
-                />
+              <div className="w-full relative">
+                {" "}
+                {/* Added relative positioning context */}
+                <div className="flex justify-between items-end px-1 mb-1.5">
+                  <label className="text-[11px] font-medium text-slate-500 uppercase tracking-wider block">
+                    Detailed Loan Purpose
+                  </label>
+                  <span
+                    className={`text-[11px] font-bold ${
+                      purpose.length >= 500
+                        ? "text-rose-500 animate-pulse"
+                        : "text-slate-400"
+                    }`}
+                  >
+                    {purpose.length} / {500}
+                  </span>
+                </div>
+                <div className="relative rounded-[16px] bg-white border border-slate-200/80 p-0.5 transition-all duration-200">
+                  <textarea
+                    value={purpose}
+                    onChange={(e) => setPurpose(e.target.value)}
+                    onBlur={handlePurposeBlur}
+                    rows={3}
+                    placeholder="Briefly itemize your loan utilization requirements..."
+                    className="w-full text-slate-800 text-sm placeholder-slate-300 font-medium bg-transparent border-0 resize-none outline-none focus:ring-0 p-2.5 min-h-[90px] leading-relaxed"
+                  />
+                </div>
+                {/* ⚡ PRE-ALLOCATED ABSOLUTE ERROR SLOT */}
+                <div className="absolute left-2 -bottom-5 h-4 overflow-visible">
+                  <p
+                    className={`text-[10px] font-bold text-rose-500 transition-opacity duration-200 ${errors.purpose ? "opacity-100" : "opacity-0"}`}
+                  >
+                    {errors.purpose}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -231,7 +394,7 @@ const ApplyLoan = () => {
                   <div className="flex items-center gap-2 text-slate-800">
                     <Scale size={14} className="text-slate-400" />
                     <h4 className="text-[10px] font-medium uppercase tracking-widest">
-                      01. Legal Enforceability
+                      Legal Enforceability
                     </h4>
                   </div>
                   <p className="text-[10px] leading-relaxed text-slate-500">
@@ -248,7 +411,7 @@ const ApplyLoan = () => {
                   <div className="flex items-center gap-2 text-slate-800">
                     <Info size={14} className="text-slate-400" />
                     <h4 className="text-[10px] font-medium uppercase tracking-widest">
-                      02. Reducing Balance Math
+                      Reducing Balance Math
                     </h4>
                   </div>
                   <p className="text-[10px] leading-relaxed text-slate-500">
@@ -265,7 +428,7 @@ const ApplyLoan = () => {
                   <div className="flex items-center gap-2 text-slate-800">
                     <AlertTriangle size={14} className="text-amber-500" />
                     <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-700">
-                      03. Delinquency Covenants
+                      Delinquency Covenants
                     </h4>
                   </div>
                   <p className="text-[10px] leading-relaxed text-slate-500">
@@ -282,7 +445,7 @@ const ApplyLoan = () => {
                   <div className="flex items-center gap-2 text-slate-800">
                     <HelpCircle size={14} className="text-slate-400" />
                     <h4 className="text-[10px] font-medium uppercase tracking-widest">
-                      04. Variable Fees Disclaimer
+                      Variable Fees Disclaimer
                     </h4>
                   </div>
                   <p className="text-[10px] leading-relaxed text-slate-500">
@@ -295,16 +458,140 @@ const ApplyLoan = () => {
               </div>
 
               {/* Primary Action Button */}
-              <button
-                onClick={() => navigate("/add-guarantor")}
-                className="w-full h-14 bg-primary hover:bg-slate-800 text-white rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all shadow-md group"
-              >
-                Acknowledge & Add Guarantors
-                <ArrowRight
-                  size={16}
-                  className="text-slate-400 group-hover:translate-x-0.5 transition-transform"
-                />
-              </button>
+              <div className="w-full">
+                {(() => {
+                  // Run the centralized form validity check
+                  const isValid = isFormValid();
+
+                  // 1. RULE CHECK: Requires Guarantors
+                  if (requireGuarantors) {
+                    return (
+                      <button
+                        type="button"
+                        disabled={!isValid}
+                        onClick={() => handleLoanApplication("/add-guarantor")}
+                        className={`w-full h-14 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all group ${
+                          isValid
+                            ? "bg-primary hover:bg-secondary text-white shadow-md cursor-pointer"
+                            : "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none"
+                        }`}
+                      >
+                        <Users
+                          size={16}
+                          className={
+                            isValid ? "text-white/70" : "text-slate-300"
+                          }
+                        />
+                        Apply & Add Guarantors
+                        <ArrowRight
+                          size={16}
+                          className={
+                            isValid
+                              ? "text-white/60 group-hover:translate-x-0.5 transition-transform ml-1"
+                              : "text-slate-300 ml-1"
+                          }
+                        />
+                      </button>
+                    );
+                  }
+
+                  // 2. RULE CHECK: Requires Collateral
+                  if (requireCollateral) {
+                    return (
+                      <button
+                        type="button"
+                        disabled={!isValid}
+                        onClick={() => handleLoanApplication("/add-collateral")}
+                        className={`w-full h-14 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all group ${
+                          isValid
+                            ? "bg-primary hover:bg-secondary text-white shadow-md cursor-pointer"
+                            : "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none"
+                        }`}
+                      >
+                        <ShieldAlert
+                          size={16}
+                          className={
+                            isValid ? "text-white/70" : "text-slate-300"
+                          }
+                        />
+                        Apply & Upload Collateral
+                        <ArrowRight
+                          size={16}
+                          className={
+                            isValid
+                              ? "text-white/60 group-hover:translate-x-0.5 transition-transform ml-1"
+                              : "text-slate-300 ml-1"
+                          }
+                        />
+                      </button>
+                    );
+                  }
+
+                  // 3. RULE CHECK: Requires Account Statements
+                  if (requireStatements) {
+                    return (
+                      <button
+                        type="button"
+                        disabled={!isValid}
+                        onClick={() =>
+                          handleLoanApplication("/upload-statements")
+                        }
+                        className={`w-full h-14 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all group ${
+                          isValid
+                            ? "bg-primary hover:bg-secondary text-white shadow-md cursor-pointer"
+                            : "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none"
+                        }`}
+                      >
+                        <FileText
+                          size={16}
+                          className={
+                            isValid ? "text-white/70" : "text-slate-300"
+                          }
+                        />
+                        Apply & Attach Statements
+                        <ArrowRight
+                          size={16}
+                          className={
+                            isValid
+                              ? "text-white/60 group-hover:translate-x-0.5 transition-transform ml-1"
+                              : "text-slate-300 ml-1"
+                          }
+                        />
+                      </button>
+                    );
+                  }
+
+                  // 4. DEFAULT COMPLIANCE FALLBACK: Direct to Terms & Conditions
+                  return (
+                    <button
+                      type="button"
+                      disabled={!isValid}
+                      onClick={() =>
+                        handleLoanApplication("/terms-and-conditions")
+                      }
+                      className={`w-full h-14 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all group ${
+                        isValid
+                          ? "bg-primary hover:bg-secondary text-white shadow-md cursor-pointer"
+                          : "bg-slate-200 text-slate-400 cursor-not-allowed shadow-none"
+                      }`}
+                    >
+                      <FileCheck
+                        size={16}
+                        className={isValid ? "text-white/70" : "text-slate-300"}
+                      />
+                      Review Terms & Apply
+                      <ArrowRight
+                        size={16}
+                        className={
+                          isValid
+                            ? "text-white/60 group-hover:translate-x-0.5 transition-transform ml-1"
+                            : "text-slate-300 ml-1"
+                        }
+                      />
+                    </button>
+                  );
+                })()}
+              </div>
 
               <div className="flex items-center justify-center gap-2 opacity-30">
                 <Lock size={12} />

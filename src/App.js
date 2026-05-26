@@ -157,7 +157,7 @@ function App() {
             path="/loan-eligibility/:productId"
             element={<EligibilityCheck />}
           />
-          <Route path="/apply-loan" element={<ApplyLoan />} />
+          <Route path="/apply-loan/:productId" element={<ApplyLoan />} />
           <Route path="/add-guarantor" element={<AddGuarantors />} />
           <Route path="/add-statements" element={<FinancialStatements />} />
           <Route path="/collateral-registry" element={<CollateralRegistry />} />
