@@ -36,7 +36,7 @@ export const getLoanProduct = async (id) => {
 export const getLoans = async (customerId) => {
   try {
     const response = await loanClient.get(
-      `/loan-applications?customer_id=${customerId}&loan_org_code=BA208&loan_type=BOSA&format=legacy`,
+      `/loans?customer_id=${customerId}&loan_org_code=BA208&format=legacy`,
     );
     return response;
   } catch (error) {

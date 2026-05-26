@@ -11,6 +11,15 @@ export const getLoanApplications = async (customerId) => {
   }
 };
 
+export const getLoanApplication = async (id) => {
+  try {
+    const response = await loanClient.get(`/loan-applications/${id}`);
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
 export const checkEligibility = async (customerId, loanProductId) => {
   try {
     const response = await loanClient.post(
@@ -18,6 +27,20 @@ export const checkEligibility = async (customerId, loanProductId) => {
       {
         customer_id: customerId,
         loan_product_id: loanProductId,
+      },
+    );
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
+export const acceptLoanTerms = async (applicationId, applicantId) => {
+  try {
+    const response = await loanClient.patch(
+      `/loan-applications/${applicationId}/accept-terms`,
+      {
+        customer_id: applicantId,
       },
     );
     return response;

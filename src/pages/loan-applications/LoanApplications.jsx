@@ -19,6 +19,7 @@ import { useQuery } from "react-query";
 import { getLoanApplications } from "../../sdks/applications/applications";
 import useAuth from "../../hooks/useAuth";
 import { useToast } from "../../contexts/ToastProvider";
+import { useFormatAmount } from "../../hooks/useFormatAmount";
 
 const LoanApplications = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -86,14 +87,28 @@ const LoanApplications = () => {
               </div>
 
               <div className="space-y-4">
-                {loanApplications.length > 0 ? (
-                  loanApplications.map((app) => (
-                    <ApplicationItem
-                      key={app.reference}
-                      {...app}
-                      onTap={() => navigate("/loan-application-details")}
-                    />
-                  ))
+                {isFetching ? (
+                  <div className="p-3 overflow-y-auto">
+                    {Array.from({ length: 7 }).map((_, index) => (
+                      <ApplicationSkeleton key={`skeleton-${index}`} />
+                    ))}
+                  </div>
+                ) : loanApplications.length > 0 ? (
+                  <div className="border border-slate-200/80 rounded-[24px] h-[750px] p-3 overflow-y-auto space-y-3 custom-scrollbar">
+                    {loanApplications.map((app) => (
+                      <ApplicationItem
+                        key={app.reference}
+                        title={app?.loan_product?.product_name}
+                        date={app?.created_at}
+                        amount={app?.applied_amount}
+                        status={app?.status}
+                        reference={app?.application_number}
+                        onTap={() =>
+                          navigate(`/loan-application-details/${app?.id}`)
+                        }
+                      />
+                    ))}
+                  </div>
                 ) : (
                   <div className="h-[750px] bg-white rounded-[24px] border border-slate-200/60 flex flex-col items-center justify-center p-8 text-center">
                     {/* ====== MODERN ILLUSTRATIVE ICON MATRIX ====== */}
@@ -281,6 +296,7 @@ const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
 
   const config = getStatusConfig(status);
   const StatusIcon = config.icon;
+  const formatAmount = useFormatAmount();
 
   return (
     <motion.div
@@ -320,7 +336,7 @@ const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
           {/* 3. Amount and Status Badge */}
           <div className="flex flex-col items-end shrink-0">
             <span className="font-mono font-medium text-[14px] text-[#0A2351] tracking-tighter">
-              {amount}
+              {formatAmount(amount)}
             </span>
             <div
               className={`mt-2 px-3 py-2 rounded-lg flex items-center justify-center ${config.bg}`}
@@ -339,6 +355,35 @@ const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
         </div>
       </div>
     </motion.div>
+  );
+};
+
+const ApplicationSkeleton = () => {
+  return (
+    <div className="relative overflow-hidden bg-white rounded-[24px] p-4 border border-[#F1F5F9] border-b-2 shadow-sm animate-pulse mb-4">
+      <div className="relative flex items-center gap-4">
+        {/* 1. Status Indicator Circle Placeholder */}
+        <div className="shrink-0 w-10 h-10 rounded-full bg-slate-100" />
+
+        {/* 2. Main Details Stack */}
+        <div className="flex-1 min-w-0 space-y-2">
+          {/* Reference tag space */}
+          <div className="h-3 bg-slate-100 rounded-md w-20" />
+          {/* Title line space */}
+          <div className="h-4 bg-slate-100 rounded-md w-1/2" />
+          {/* Date row space */}
+          <div className="h-3 bg-slate-100 rounded-md w-1/3" />
+        </div>
+
+        {/* 3. Amount and Status Badge Stack */}
+        <div className="flex flex-col items-end shrink-0 space-y-2">
+          {/* Amount tag space */}
+          <div className="h-4 bg-slate-100 rounded-md w-24" />
+          {/* Status badge block space */}
+          <div className="h-6 bg-slate-100 rounded-lg w-16" />
+        </div>
+      </div>
+    </div>
   );
 };
 

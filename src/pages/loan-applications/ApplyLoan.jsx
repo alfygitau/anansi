@@ -122,10 +122,11 @@ const ApplyLoan = () => {
   const { mutate, isLoading } = useMutation({
     mutationKey: ["create loan application"],
     mutationFn: async (targetRoute) => {
+      const combinedFullName = `${auth?.user?.firstname || ""} ${auth?.user?.lastname || ""}`.trim();
       const response = await createLoanApplication(
         auth?.user?.id,
         productId,
-        auth?.user?.name,
+        combinedFullName,
         auth?.user?.mobileno,
         amount,
         tenure,
@@ -567,7 +568,7 @@ const ApplyLoan = () => {
                       type="button"
                       disabled={!isValid}
                       onClick={() =>
-                        handleLoanApplication("/terms-and-conditions")
+                        handleLoanApplication("/loan-terms-conditions")
                       }
                       className={`w-full h-14 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all group ${
                         isValid

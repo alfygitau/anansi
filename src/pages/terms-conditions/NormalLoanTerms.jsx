@@ -1,24 +1,49 @@
 import { useState } from "react";
 import { AlertTriangle, Download, Printer, Check } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useMutation } from "react-query";
+import { acceptLoanTerms } from "../../sdks/applications/applications";
+import { useToast } from "../../contexts/ToastProvider";
+import useAuth from "../../hooks/useAuth";
 
 const NormalLoanTermsConditions = () => {
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const navigate = useNavigate();
+  const { appId } = useParams();
+  const { showToast } = useToast();
+  const { auth } = useAuth();
 
   const onAccept = () => {
-    navigate("/all-loan-applications");
+    mutate();
   };
   const onCancel = () => {};
 
-  // Logic to detect if user has read the terms
   const handleScroll = (e) => {
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
     if (scrollHeight - scrollTop <= clientHeight + 50) {
       setHasScrolledToBottom(true);
     }
   };
+
+  const { mutate, isLoading } = useMutation({
+    mutationKey: ["accept terms"],
+    mutationFn: async () => {
+      const response = await acceptLoanTerms(appId, auth?.user?.id);
+      return response.data.data;
+    },
+    onSuccess: (data) => {
+      navigate("/all-loan-applications");
+    },
+    onError: (error) => {
+      showToast({
+        title: "Application Failure",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   return (
     <div className="bg-slate-50 text-primary pb-10">
@@ -193,11 +218,21 @@ const NormalLoanTermsConditions = () => {
                 Decline
               </button>
               <button
-                disabled={!agreed || !hasScrolledToBottom}
+                type="button"
+                // ⚡ Freeze the button automatically during active query states
+                disabled={!agreed || !hasScrolledToBottom || isLoading}
                 onClick={onAccept}
-                className="flex-[2] py-5 bg-primary text-white rounded-[24px] font-medium uppercase tracking-widest shadow-xl shadow-blue-900/20 hover:bg-secondary transition-all disabled:opacity-20 disabled:grayscale disabled:cursor-not-allowed"
+                className="flex-[2] py-5 bg-primary text-white rounded-[24px] font-medium uppercase tracking-widest shadow-xl shadow-blue-900/20 hover:bg-secondary transition-all disabled:opacity-20 disabled:grayscale disabled:cursor-not-allowed flex items-center justify-center gap-2.5"
               >
-                Accept & Submit Application
+                {isLoading ? (
+                  <>
+                    {/* Dynamic Inline Spinner Node */}
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin shrink-0" />
+                    <span>Processing Application...</span>
+                  </>
+                ) : (
+                  "Accept & Submit Application"
+                )}
               </button>
             </div>
           </div>

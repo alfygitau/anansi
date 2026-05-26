@@ -19,6 +19,7 @@ import { useQuery } from "react-query";
 import useAuth from "../../hooks/useAuth";
 import { useToast } from "../../contexts/ToastProvider";
 import { getLoans } from "../../sdks/loans/loans";
+import { useFormatAmount } from "../../hooks/useFormatAmount";
 
 const MyLoans = ({ onBack }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,6 +27,7 @@ const MyLoans = ({ onBack }) => {
   const { auth } = useAuth();
   const { showToast } = useToast();
   const [loans, setLoans] = useState([]);
+  const formatAmount = useFormatAmount();
 
   const { isFetching } = useQuery({
     queryKey: ["all loans"],
@@ -34,7 +36,7 @@ const MyLoans = ({ onBack }) => {
       return response?.data?.data;
     },
     onSuccess: (data) => {
-      setLoans(data);
+      setLoans(data?.loan_data);
     },
     onError: (error) => {
       showToast({
@@ -45,6 +47,29 @@ const MyLoans = ({ onBack }) => {
       });
     },
   });
+
+  const getLoanStatusColor = (status = "") => {
+    switch (status.toLowerCase().trim()) {
+      case "active":
+      case "approved":
+      case "servicing":
+        return "#10B981"; // Emerald Green
+      case "pending":
+      case "processing":
+      case "under_review":
+        return "#F59E0B"; // Amber/Yellow
+      case "defaulted":
+      case "overdue":
+      case "arrears":
+        return "#EF4444"; // Rose/Red
+      case "closed":
+      case "settled":
+      case "fully_paid":
+        return "#64748B"; // Slate Gray
+      default:
+        return "#94A3B8"; // Muted Light Gray (Fallback)
+    }
+  };
 
   return (
     <div className="bg-slate-50 text-primary">
@@ -103,20 +128,28 @@ const MyLoans = ({ onBack }) => {
               </div>
 
               <div className="space-y-4">
-                {loans.length > 0 ? (
-                  loans.map((loan) => (
-                    <LoanItem
-                      key={loan.id}
-                      title={loan.title}
-                      id={loan.id}
-                      amount={loan.amount}
-                      balance={loan.balance}
-                      status={loan.status}
-                      statusColor={loan.statusColor}
-                      maturityDate={loan.maturityDate}
-                      onTap={() => navigate("/loan-details")}
-                    />
-                  ))
+                {isFetching ? (
+                  <div className="p-3 overflow-y-auto">
+                    {Array.from({ length: 4 }).map((_, index) => (
+                      <LoanItemSkeleton key={`loan-skeleton-${index}`} />
+                    ))}
+                  </div>
+                ) : loans.length > 0 ? (
+                  <div className="border border-slate-200/80 rounded-[24px] h-[620px] p-3 overflow-y-auto space-y-3 custom-scrollbar">
+                    {loans.map((loan) => (
+                      <LoanItem
+                        key={loan.id}
+                        title={loan.loan_type}
+                        id={loan.loan_code}
+                        amount={formatAmount(loan.loan_amount)}
+                        balance={formatAmount(loan.loan_Balance)}
+                        status={loan.loan_status}
+                        statusColor={getLoanStatusColor(loan?.loan_status)}
+                        maturityDate={loan.loan_due_date}
+                        onTap={() => navigate("/loan-details")}
+                      />
+                    ))}
+                  </div>
                 ) : (
                   <div className="h-[620px] bg-white rounded-[24px] border border-slate-200/60 flex flex-col items-center justify-center p-8 text-center">
                     <div className="relative mb-6 flex items-center justify-center">
@@ -346,6 +379,59 @@ const LoanItem = ({
               className="transition-transform group-hover:translate-x-0.5"
             />
           </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const LoanItemSkeleton = () => {
+  return (
+    <div className="mb-4 rounded-[30px] bg-white border border-slate-100/60 shadow-sm animate-pulse select-none">
+      <div className="flex flex-col">
+        {/* Header Placeholder */}
+        <div className="flex items-center justify-between px-6 pt-5 pb-3.5">
+          <div className="flex flex-col space-y-2 w-1/2">
+            {/* Title Line */}
+            <div className="h-4 bg-slate-100 rounded-md w-3/4" />
+            {/* ID Subtext Line */}
+            <div className="h-3 bg-slate-100 rounded-md w-1/3" />
+          </div>
+          <div className="flex flex-col items-end space-y-2 w-1/4">
+            {/* MATURITY Label */}
+            <div className="h-2.5 bg-slate-100 rounded-md w-14" />
+            {/* Maturity Date Value */}
+            <div className="h-3.5 bg-slate-100 rounded-md w-20" />
+          </div>
+        </div>
+
+        {/* Stats Box Placeholder */}
+        <div className="mx-4 flex items-center justify-between rounded-[22px] bg-[#F8FAFC] px-5 py-4 border border-gray-100/50">
+          <div className="space-y-2">
+            {/* PRINCIPAL Label */}
+            <div className="h-2.5 bg-slate-200/60 rounded-md w-16" />
+            {/* Principal Amount Value */}
+            <div className="h-4 bg-slate-100 rounded-md w-24" />
+          </div>
+
+          {/* Vertical Separator Divider Line */}
+          <div className="h-8 w-[1px] bg-slate-200" />
+
+          <div className="flex flex-col items-end space-y-2">
+            {/* CURRENT BALANCE Label */}
+            <div className="h-2.5 bg-slate-200/60 rounded-md w-24" />
+            {/* Balance Value */}
+            <div className="h-4 bg-slate-100 rounded-md w-24" />
+          </div>
+        </div>
+
+        {/* Footer Placeholder */}
+        <div className="flex items-center justify-between px-6 pt-4 pb-5">
+          {/* Status Capsule Pill */}
+          <div className="h-6 bg-slate-100 rounded-full w-20" />
+
+          {/* View Details Target Link */}
+          <div className="h-3 bg-slate-100 rounded-md w-16" />
         </div>
       </div>
     </div>

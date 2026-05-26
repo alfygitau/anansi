@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FileText,
   Users,
@@ -21,8 +21,15 @@ import {
   Clock,
   ArrowRight,
 } from "lucide-react";
+import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import { getLoanApplication } from "../../sdks/applications/applications";
+import { useToast } from "../../contexts/ToastProvider";
 
 const LoanApplicationDetails = ({ onBack }) => {
+  const { appId } = useParams();
+  const { showToast } = useToast();
+  const [loanApplication, setLoanApplication] = useState({});
   const appData = {
     code: "APP-DEV-001",
     product: "Development Loan",
@@ -98,6 +105,25 @@ const LoanApplicationDetails = ({ onBack }) => {
       return { color: "#EF4444", bg: "bg-red-500/10" }; // Alert Red
     return { color: "#94A3B8", bg: "bg-slate-500/10" }; // Default Grey
   };
+
+  const { isFetching } = useQuery({
+    queryKey: ["get loan application"],
+    queryFn: async () => {
+      const response = await getLoanApplication(appId);
+      return response.data.data;
+    },
+    onSuccess: (data) => {
+      setLoanApplication(data);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Application Failure",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   return (
     <div className="min-h-screen bg-slate-50 text-primary pb-20">

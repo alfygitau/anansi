@@ -166,11 +166,11 @@ function App() {
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/guarantorship" element={<Guarantorship />} />
           <Route
-            path="/normal-loan-terms-conditions"
+            path="/loan-terms-conditions/:appId"
             element={<NormalLoanTermsConditions />}
           />
           <Route
-            path="/loan-application-details"
+            path="/loan-application-details/:appId"
             element={<LoanApplicationDetails />}
           />
         </Route>
