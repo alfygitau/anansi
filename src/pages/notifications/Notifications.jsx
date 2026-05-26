@@ -11,6 +11,7 @@ import {
   ShieldAlert,
   Briefcase,
   Plus,
+  Settings2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -384,9 +385,39 @@ const HealthItem = ({ label, status, color }) => (
 );
 
 const EmptyState = () => (
-  <div className="h-[580px] border rounded-[20px] flex flex-col justify-center items-center text-center">
-    <BellOff size={40} className="mx-auto text-slate-200 mb-4" />
-    <p className="text-slate-400 font-bold">No notifications to show.</p>
+  <div className="h-[580px] bg-white border border-slate-200/60 rounded-[32px] flex flex-col justify-center items-center text-center">
+    {/* ====== RADIAL ICON ANCHOR HUB ====== */}
+    <div className="relative mb-6 flex items-center justify-center">
+      {/* Ambient Outer Pulse Ring */}
+      <div className="absolute w-24 h-24 bg-slate-50 rounded-full animate-ping opacity-60 duration-1000" />
+
+      {/* Solid Inner Icon Canvas Card */}
+      <div className="relative w-20 h-20 bg-slate-50 border border-slate-100 rounded-3xl flex items-center justify-center">
+        <BellOff size={32} className="text-slate-300" strokeWidth={1.5} />
+      </div>
+    </div>
+
+    {/* ====== TYPOGRAPHY TEXT BLOCK ====== */}
+    <div className="space-y-2 max-w-sm">
+      <h3 className="text-lg font-black text-slate-900 tracking-tight">
+        Your inbox is clear
+      </h3>
+      <p className="text-slate-400 font-medium text-sm leading-relaxed">
+        We couldn't find any recent alert logs. When transactions execute, or
+        changes hit your profile ledger, they'll appear here.
+      </p>
+    </div>
+
+    {/* ====== CONTEXTUAL FOOTER CONTROLLER HUB ====== */}
+    <div className="mt-8 pt-6 border-t border-slate-100 w-full max-w-xs flex flex-col gap-3">
+      <button
+        type="button"
+        className="inline-flex items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold border border-slate-200 rounded-xl h-12 px-5 transition-all text-xs tracking-wide uppercase"
+      >
+        <Settings2 size={14} className="text-slate-500" />
+        Configure Alert Preferences
+      </button>
+    </div>
   </div>
 );
 

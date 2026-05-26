@@ -10,3 +10,18 @@ export const getLoanApplications = async (customerId) => {
     throw error?.response?.data || error;
   }
 };
+
+export const checkEligibility = async (customerId, loanProductId) => {
+  try {
+    const response = await loanClient.post(
+      `/loan-applications/check-eligibility`,
+      {
+        customer_id: customerId,
+        loan_product_id: loanProductId,
+      },
+    );
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};

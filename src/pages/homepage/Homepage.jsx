@@ -679,7 +679,7 @@ const Homepage = () => {
                   <DetailedProductCard
                     key={product.id}
                     product={product}
-                    onApply={() => navigate("/loan-eligibility")}
+                    onApply={() => navigate(`/loan-eligibility/${product?.id}`)}
                     onTerms={() => setShowLoanTerms(true)}
                     onNavigate={() => navigate(`/loan-products/${product?.id}`)}
                   />

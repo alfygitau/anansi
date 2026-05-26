@@ -276,7 +276,9 @@ const LoanProductDetails = () => {
 
           {/* ====== RIGHT COLUMN: STICKY BREAKDOWN ASSETS SIDEBAR ====== */}
           <div className="space-y-4">
-            <ApplyLoanAction onClick={() => navigate("/loan-products")} />
+            <ApplyLoanAction
+              onClick={() => navigate(`/loan-eligibility/${id}`)}
+            />
             {/* ====== UNCOLORED MAIN FEE CONTAINER ====== */}
             <div className="bg-white text-slate-900 rounded-[32px] p-6 space-y-6 border border-slate-200/60 shadow-sm top-24">
               <div className="space-y-1">

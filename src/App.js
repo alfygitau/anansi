@@ -153,7 +153,10 @@ function App() {
           <Route path="/all-loans" element={<MyLoans />} />
           <Route path="/all-loan-applications" element={<LoanApplications />} />
           <Route path="/loan-details" element={<LoanDetails />} />
-          <Route path="/loan-eligibility" element={<EligibilityCheck />} />
+          <Route
+            path="/loan-eligibility/:productId"
+            element={<EligibilityCheck />}
+          />
           <Route path="/apply-loan" element={<ApplyLoan />} />
           <Route path="/add-guarantor" element={<AddGuarantors />} />
           <Route path="/add-statements" element={<FinancialStatements />} />
