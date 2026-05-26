@@ -578,7 +578,7 @@ const Homepage = () => {
                     <div
                       key={id}
                       onClick={onClick}
-                      className="flex items-center gap-2.5 p-[9px] cursor-pointer group bg-white border border-slate-100 rounded-xl hover:border-primary transition-all duration-200 select-none"
+                      className="flex items-center gap-2.5 p-[9px] cursor-pointer group bg-white border border-slate-200 rounded-xl hover:border-primary transition-all duration-200 select-none"
                     >
                       {/* Action Icon Square Plate (Perfect 1:1 Match) */}
                       <div className="w-12 h-12 bg-slate-50 border border-slate-200/20 rounded-lg flex items-center justify-center text-slate-700 transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:border-primary shrink-0">

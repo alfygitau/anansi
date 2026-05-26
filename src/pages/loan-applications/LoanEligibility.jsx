@@ -81,7 +81,7 @@ const EligibilityCheck = () => {
         {/* Header Section */}
         <header className="flex flex-col md:flex-row md:items-end justify-between mb-4 gap-6">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-primary">
+            <h1 className="text-2xl font-medium tracking-tight text-primary">
               Loan <span>Eligibility</span>
             </h1>
             <p className="text-slate-500 text-md font-medium">

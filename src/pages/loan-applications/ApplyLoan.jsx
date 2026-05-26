@@ -41,7 +41,7 @@ const ApplyLoan = () => {
           {/* Left Column: Configuration (7 Cols) */}
           <div className="lg:col-span-7 space-y-6">
             <header className="space-y-2">
-              <h1 className="text-2xl font-extrabold tracking-tight text-primary">
+              <h1 className="text-2xl font-bold tracking-tight text-primary">
                 Loan Configuration
               </h1>
               <div className="space-y-4">

@@ -9,6 +9,8 @@ import {
   ArrowUpRight,
   AlertCircle,
   ShieldAlert,
+  Briefcase,
+  Plus,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -112,10 +114,10 @@ const Notifications = () => {
       {isFetching ? (
         <NotificationsLoader />
       ) : (
-        <div className="max-w-6xl sm:px-4 mx-auto py-8">
+        <div className="max-w-6xl sm:px-4 mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* LEFT COLUMN: NOTIFICATION FEED (8/12) */}
-            <div className="lg:col-span-8 space-y-6">
+            <div className="lg:col-span-8 space-y-5">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                   <h1 className="text-2xl font-medium text-primary flex items-center gap-3">
@@ -144,10 +146,10 @@ const Notifications = () => {
                 </div>
               </div>
 
-              <div className="h-[700px] overflow-y-auto shadow-sm shadow-blue-900/5 px-1">
-                {filteredNotifications.length === 0 ? (
-                  <EmptyState />
-                ) : (
+              {filteredNotifications.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <div className="h-[700px] overflow-y-auto shadow-sm shadow-blue-900/5 px-1">
                   <div className="flex flex-col gap-3 p-1">
                     <AnimatePresence>
                       {filteredNotifications.map((notification, index) => {
@@ -217,38 +219,52 @@ const Notifications = () => {
                       })}
                     </AnimatePresence>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
-            <aside className="lg:col-span-4 space-y-6">
+            <aside className="lg:col-span-4 space-y-5">
+              <ApplyLoanAction onClick={() => navigate("/loan-products")} />
               {/* QUICK ACTIONS CARD */}
-              <div className="bg-primary rounded-[32px] p-6 text-white">
+              <div className="bg-white rounded-[32px] p-5 border border-slate-200/60 shadow-sm">
+                {/* ====== CARD HEADER SECTION ====== */}
                 <div className="flex items-center gap-3 mb-6">
-                  <Zap size={20} className="text-secondary" />
-                  <h3 className="text-sm font-medium uppercase tracking-widest">
+                  <div className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100">
+                    <Zap size={16} className="text-slate-600" />
+                  </div>
+                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-500">
                     Quick Actions
                   </h3>
                 </div>
+                {/* ====== BUTTONS GRID PANEL ====== */}
                 <div className="grid grid-cols-1 gap-3">
                   <ActionButton
-                    label="Apply for Loan"
-                    icon={<ArrowUpRight size={16} />}
-                    primary
-                    onNavigate={() => navigate("/loan-products")}
-                  />
-                  <ActionButton
                     label="View my loans"
+                    icon={
+                      <Briefcase
+                        size={16}
+                        className="text-slate-400 group-hover:text-slate-700 transition-colors"
+                      />
+                    }
                     onNavigate={() => navigate("/all-loans")}
+                    className="bg-white hover:bg-slate-50 text-slate-700 font-medium border border-slate-200/60 hover:border-slate-300 rounded-2xl h-14 px-4 flex items-center justify-between transition-all duration-200 group w-full text-sm"
                   />
+
                   <ActionButton
                     label="Check guarantorship status"
+                    icon={
+                      <ShieldCheck
+                        size={16}
+                        className="text-slate-400 group-hover:text-slate-700 transition-colors"
+                      />
+                    }
                     onNavigate={() => navigate("/guarantorship")}
+                    className="bg-white hover:bg-slate-50 text-slate-700 font-medium border border-slate-200/60 hover:border-slate-300 rounded-2xl h-14 px-4 flex items-center justify-between transition-all duration-200 group w-full text-sm"
                   />
                 </div>
               </div>
 
               {/* STATUS SUMMARY */}
-              <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-sm">
+              <div className="bg-white rounded-[32px] p-5 border border-slate-100 shadow-sm">
                 <h3 className="text-[11px] font-medium uppercase tracking-widest text-slate-400 mb-4">
                   Account Health
                 </h3>
@@ -272,7 +288,7 @@ const Notifications = () => {
               </div>
 
               {/* DISCLAIMER / POLICY CARD */}
-              <div className="bg-slate-50 rounded-[32px] p-6 border border-slate-200/50">
+              <div className="bg-slate-50 rounded-[32px] p-5 border border-slate-200/50">
                 <div className="flex items-center gap-2 mb-3 text-primary">
                   <AlertCircle size={18} />
                   <span className="text-xs font-bold uppercase tracking-wider">
@@ -296,6 +312,40 @@ const Notifications = () => {
 };
 
 /* --- MINI SUB-COMPONENTS --- */
+const ApplyLoanAction = ({ onClick }) => {
+  return (
+    <div>
+      <motion.button
+        whileTap={{ scale: 0.97 }}
+        whileHover={{ y: -2 }}
+        onClick={onClick}
+        className="w-full text-left bg-white p-4 rounded-[24px] border border-[#0A2351]/10 flex items-center shadow-sm hover:shadow-md transition-all group"
+      >
+        {/* 1. Circle Icon (Matching darkBlue color) */}
+        <div className="p-3 bg-[#0A2351] rounded-full text-white shrink-0 group-hover:scale-110 transition-transform duration-300">
+          <Plus size={20} strokeWidth={3} />
+        </div>
+
+        {/* 2. Text Content */}
+        <div className="flex-1 ml-4 flex flex-col justify-center">
+          <span className="text-[#0A2351] font-medium text-[15px] leading-tight">
+            Apply for a new Loan
+          </span>
+          <span className="text-slate-400 text-[11px] font-medium mt-0.5">
+            Instant processing for eligible members
+          </span>
+        </div>
+
+        {/* 3. Right Chevron */}
+        <ChevronRight
+          size={16}
+          className="text-slate-300 ml-6 group-hover:translate-x-1 transition-transform"
+          strokeWidth={2.5}
+        />
+      </motion.button>
+    </div>
+  );
+};
 
 const TabButton = ({ active, onClick, label }) => (
   <button
@@ -306,12 +356,21 @@ const TabButton = ({ active, onClick, label }) => (
   </button>
 );
 
-const ActionButton = ({ label, icon, primary, onNavigate }) => (
+const ActionButton = ({ label, icon, primary, onNavigate, className }) => (
   <button
+    type="button"
     onClick={onNavigate}
-    className={`w-full py-3.5 px-5 rounded-2xl text-xs font-bold flex items-center justify-between transition-all ${primary ? "bg-secondary text-white hover:bg-[#3ba8d3]" : "bg-white/10 text-white hover:bg-white/20"}`}
+    className={
+      className ||
+      `w-full py-3.5 px-5 rounded-2xl text-xs font-bold flex items-center justify-between transition-all ${
+        primary
+          ? "bg-secondary text-white hover:bg-[#3ba8d3]"
+          : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+      }`
+    }
   >
-    {label} {icon}
+    <span>{label}</span>
+    {icon && icon}
   </button>
 );
 
@@ -325,7 +384,7 @@ const HealthItem = ({ label, status, color }) => (
 );
 
 const EmptyState = () => (
-  <div className="h-[600px] flex flex-col justify-center items-center text-center">
+  <div className="h-[580px] border rounded-[20px] flex flex-col justify-center items-center text-center">
     <BellOff size={40} className="mx-auto text-slate-200 mb-4" />
     <p className="text-slate-400 font-bold">No notifications to show.</p>
   </div>
