@@ -18,6 +18,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const ApplyLoan = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState(0);
+  const [purpose, setPurpose] = useState("");
   const [tenure, setTenure] = useState(48);
   const [frequency, setFrequency] = useState("Monthly");
   const [isScheduleOpen, setIsScheduleOpen] = useState(false);
@@ -65,7 +66,7 @@ const ApplyLoan = () => {
               {/* Enhanced Principal Amount Input */}
               <div className="group">
                 <div className="flex justify-between items-end mb-1">
-                  <label className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-400">
+                  <label className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
                     Desired Principal (KES)
                   </label>
                   <span className="text-xs font-bold text-slate-300">
@@ -74,7 +75,7 @@ const ApplyLoan = () => {
                 </div>
 
                 {/* Fixed Border Wrapper */}
-                <div className="relative flex items-center bg-white border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-16 transition-all duration-200">
+                <div className="relative flex items-center bg-white border-2 border-slate-100 rounded-2xl h-16 transition-all duration-200">
                   {/* Prefix Section */}
                   <div className="pl-5 pr-4 flex items-center text-slate-400 text-sm font-bold border-r border-slate-200 h-6 my-auto select-none">
                     KES
@@ -90,7 +91,7 @@ const ApplyLoan = () => {
               </div>
 
               <div className="w-full space-y-1">
-                <label className="text-[11px] font-medium uppercase tracking-widest text-slate-400 ml-2">
+                <label className="text-[11px] font-medium uppercase tracking-wider text-slate-400 ml-2">
                   Tenure Duration
                 </label>
                 <div className="relative flex items-center justify-between bg-white border-2 border-slate-100 rounded-2xl h-16 transition-all duration-200">
@@ -101,13 +102,42 @@ const ApplyLoan = () => {
                   >
                     -
                   </button>
-                  <div className="text-sm font-medium text-slate-900 uppercase tracking-wider select-none">
-                    {tenure}{" "}
-                    <span className="text-slate-400 font-medium">Months</span>
+                  <div className="flex items-center justify-center flex-1 px-2 relative">
+                    <input
+                      type="number"
+                      value={tenure}
+                      placeholder="1"
+                      onKeyDown={(e) => {
+                        if (["e", "E", "-", "+", "."].includes(e.key))
+                          e.preventDefault();
+                      }}
+                      onInput={(e) => {
+                        const val = e.target.value;
+                        if (val === "") {
+                          setTenure("");
+                          return;
+                        }
+                        const numericVal = Number(val);
+                        if (numericVal > 48) setTenure(48);
+                        else if (numericVal < 1) setTenure(1);
+                        else setTenure(numericVal);
+                      }}
+                      onBlur={() => {
+                        if (tenure === "") setTenure(1);
+                      }}
+                      className="w-14 text-right pr-1 bg-white border-0 outline-none p-0 focus:ring-0 text-sm font-semibold text-slate-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    />
+                    <span className="text-sm font-medium text-slate-400 select-none uppercase tracking-wider pl-1.5">
+                      Months
+                    </span>
                   </div>
                   <button
                     type="button"
-                    onClick={() => setTenure(Math.min(48, tenure + 1))}
+                    onClick={() =>
+                      setTenure(
+                        Math.max(1, Math.min(48, (Number(tenure) || 1) + 1)),
+                      )
+                    }
                     className="h-full px-5 text-slate-400 hover:text-slate-900 border-l border-slate-200/60 font-medium text-lg transition-colors"
                   >
                     +
@@ -117,7 +147,7 @@ const ApplyLoan = () => {
 
               {/* Frequency Selection */}
               <div className="space-y-1">
-                <label className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-400">
+                <label className="text-[11px] font-medium uppercase tracking-widest text-slate-400">
                   Payment Frequency
                 </label>
                 <div className="grid grid-cols-3 gap-4">
@@ -125,7 +155,7 @@ const ApplyLoan = () => {
                     <button
                       key={opt}
                       onClick={() => setFrequency(opt)}
-                      className={`h-14 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all border-2 ${
+                      className={`h-14 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all border-2 ${
                         frequency === opt
                           ? "border-slate-900 bg-primary text-white"
                           : "border-slate-100 text-slate-400 hover:border-slate-200 bg-white"
@@ -138,42 +168,34 @@ const ApplyLoan = () => {
               </div>
             </div>
 
-            {/* Regulatory Footer */}
-            <footer className="pt-6 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Compliance Notice Block */}
-              <div className="flex gap-4 items-start">
-                <Scale size={18} className="text-slate-400 shrink-0 mt-0.5" />
-                <div className="space-y-1">
-                  <span className="text-[10px] font-medium uppercase tracking-widest text-slate-800 block">
-                    Regulatory Compliance
-                  </span>
-                  <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
-                    All financial facilities, savings configurations, and credit
-                    lines are strictly governed and audited under the{" "}
-                    <span className="text-slate-700 font-bold">
-                      Sacco Societies Act (Cap 490B)
-                    </span>
-                  </p>
-                </div>
+            <div className="w-full">
+              {/* Removed space-y-2 from parent container */}
+              <div className="flex justify-between items-end px-1 mb-1.5">
+                <label className="text-[11px] font-medium text-slate-500 uppercase tracking-wider block">
+                  Detailed Loan Purpose
+                </label>
+                <span
+                  className={`text-[11px] font-bold ${
+                    purpose.length >= 500
+                      ? "text-rose-500 animate-pulse"
+                      : "text-slate-400"
+                  }`}
+                >
+                  {purpose.length} / {500}
+                </span>
               </div>
 
-              {/* Data Protection Security Block */}
-              <div className="flex gap-4 items-start">
-                <ShieldCheck
-                  size={18}
-                  className="text-slate-400 shrink-0 mt-0.5"
+              {/* Reduced padding from p-4 to p-2.5 and set a tighter explicit min-height */}
+              <div className="relative rounded-[16px] bg-white border border-slate-200/80 p-0.5 transition-all duration-200">
+                <textarea
+                  value={purpose}
+                  onChange={(e) => setPurpose(e.target.value)}
+                  rows={3}
+                  placeholder="Briefly itemize your loan utilization requirements..."
+                  className="w-full text-slate-800 text-sm placeholder-slate-300 font-medium bg-transparent border-0 resize-none outline-none focus:ring-0 p-2.5 min-h-[90px] leading-relaxed"
                 />
-                <div className="space-y-1">
-                  <span className="text-[10px] font-medium uppercase tracking-widest text-slate-800 block">
-                    Data Privacy & Encryption
-                  </span>
-                  <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
-                    Financial metadata transmission channels meet the compliance
-                    standards set out by the Data Protection Act (2019).
-                  </p>
-                </div>
               </div>
-            </footer>
+            </div>
           </div>
 
           {/* Right Column: Complete Statutory Disclaimers (5 Cols) */}
@@ -284,7 +306,7 @@ const ApplyLoan = () => {
                 />
               </button>
 
-              <div className="flex items-center justify-center gap-2 opacity-30 pt-2">
+              <div className="flex items-center justify-center gap-2 opacity-30">
                 <Lock size={12} />
                 <span className="text-[9px] font-medium uppercase tracking-widest">
                   End-to-End Encrypted Secure Core
