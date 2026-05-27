@@ -138,15 +138,15 @@ const MyLoans = ({ onBack }) => {
                   <div className="border border-slate-200/80 rounded-[24px] h-[620px] p-3 overflow-y-auto space-y-3 custom-scrollbar">
                     {loans.map((loan) => (
                       <LoanItem
-                        key={loan.id}
-                        title={loan.loan_type}
-                        id={loan.loan_code}
-                        amount={formatAmount(loan.loan_amount)}
-                        balance={formatAmount(loan.loan_Balance)}
-                        status={loan.loan_status}
+                        key={loan?.id}
+                        title={loan?.loan_type}
+                        id={loan?.loan_code}
+                        amount={formatAmount(loan?.loan_amount)}
+                        balance={formatAmount(loan?.loan_Balance)}
+                        status={loan?.loan_status}
                         statusColor={getLoanStatusColor(loan?.loan_status)}
-                        maturityDate={loan.loan_due_date}
-                        onTap={() => navigate("/loan-details")}
+                        maturityDate={loan?.loan_due_date}
+                        onTap={() => navigate(`/loan-details/${loan?.id}`)}
                       />
                     ))}
                   </div>

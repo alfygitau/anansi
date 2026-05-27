@@ -4,7 +4,6 @@ import {
   Lock,
   ExternalLink,
   Scale,
-  ShieldCheck,
   Info,
   X,
   FileSpreadsheet,
@@ -28,7 +27,6 @@ const ApplyLoan = () => {
   const [amount, setAmount] = useState(0);
   const [purpose, setPurpose] = useState("");
   const [tenure, setTenure] = useState(0);
-  const [minTenure, setMinTenure] = useState(0);
   const [frequency, setFrequency] = useState("Monthly");
   const [isScheduleOpen, setIsScheduleOpen] = useState(false);
   const { productId } = useParams();
@@ -276,7 +274,7 @@ const ApplyLoan = () => {
                       className="w-14 text-right pr-1 bg-white border-0 outline-none p-0 focus:ring-0 text-sm font-semibold text-slate-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                     <span className="text-sm font-medium text-slate-400 select-none uppercase tracking-wider pl-1.5">
-                      Months
+                      Month(s)
                     </span>
                   </div>
                   <button

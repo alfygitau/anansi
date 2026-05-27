@@ -23,7 +23,6 @@ export const getLoanProducts = async () => {
   }
 };
 
-
 export const getLoanProduct = async (id) => {
   try {
     const response = await loanClient.get(`/loan-products/${id}`);
@@ -36,8 +35,17 @@ export const getLoanProduct = async (id) => {
 export const getLoans = async (customerId) => {
   try {
     const response = await loanClient.get(
-      `/loans?customer_id=${customerId}&loan_org_code=BA208&format=legacy`,
+      `/loans?customer_id=${customerId}&loan_org_code=BA208&format=full`,
     );
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
+export const getLoan = async (loanId) => {
+  try {
+    const response = await loanClient.get(`/loans/${loanId}?format=full`);
     return response;
   } catch (error) {
     throw error?.response?.data || error;

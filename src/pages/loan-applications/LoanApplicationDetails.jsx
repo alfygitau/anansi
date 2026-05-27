@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   FileText,
-  Users,
   Info,
   ShieldCheck,
   Zap,
@@ -13,90 +12,22 @@ import {
   Lock,
   Briefcase,
   CheckCircle2,
-  UserCircle,
-  Gauge,
-  Box,
-  PenTool,
   ChevronRight,
   Clock,
   ArrowRight,
+  XCircle,
 } from "lucide-react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getLoanApplication } from "../../sdks/applications/applications";
 import { useToast } from "../../contexts/ToastProvider";
+import { useFormatAmount } from "../../hooks/useFormatAmount";
 
 const LoanApplicationDetails = ({ onBack }) => {
   const { appId } = useParams();
   const { showToast } = useToast();
   const [loanApplication, setLoanApplication] = useState({});
-  const appData = {
-    code: "APP-DEV-001",
-    product: "Development Loan",
-    requestedAmount: "KES 1,200,000",
-    submissionDate: "Mar 12, 2026",
-    status: "Under Review",
-    requiredGuarantors: 3,
-  };
-
-  const requirements = [
-    {
-      title: "Identity Verification",
-      subtitle: "National ID & Selfie",
-      status: "Verified",
-      isDone: true,
-      icon: UserCircle,
-    },
-    {
-      title: "Eligibility Check",
-      subtitle: "Credit score & history",
-      status: "Cleared",
-      isDone: true,
-      icon: Gauge,
-    },
-    {
-      title: "Loan Details",
-      subtitle: "Loan amount and loan period",
-      status: "Cleared",
-      isDone: true,
-      icon: FileText,
-    },
-    {
-      title: "Bank Statements",
-      subtitle: "Last 3 months (PDF)",
-      status: "Under Review",
-      isDone: false,
-      isPending: true,
-      icon: FileSearch,
-    },
-    {
-      title: "Guarantor Approval",
-      subtitle: "2 guarantors required",
-      status: "1/2 Approved",
-      isDone: false,
-      icon: Users,
-    },
-    {
-      title: "Assets & Chattels",
-      subtitle: "Logbook or Household items",
-      status: "Action Required",
-      isDone: false,
-      icon: Box,
-    },
-    {
-      title: "Legal Agreement",
-      subtitle: "Sign loan contract",
-      status: "Locked",
-      isDone: false,
-      icon: PenTool,
-    },
-  ];
-
-  const isProcessing = [
-    "Pending Approval",
-    "Pending Disbursement",
-    "Reviewing Customer Information",
-  ].includes("Reviewing Customer Information");
+  const formatAmount = useFormatAmount();
 
   const getStatusTheme = (isDone, isPending, status) => {
     if (isDone) return { color: "#10B981", bg: "bg-emerald-500/10" }; // Success Green
@@ -107,7 +38,7 @@ const LoanApplicationDetails = ({ onBack }) => {
   };
 
   const { isFetching } = useQuery({
-    queryKey: ["get loan application"],
+    queryKey: ["get loan application", appId],
     queryFn: async () => {
       const response = await getLoanApplication(appId);
       return response.data.data;
@@ -125,24 +56,69 @@ const LoanApplicationDetails = ({ onBack }) => {
     },
   });
 
+  const formatLabel = (str) => {
+    if (!str) return "";
+    const spaced = str.replace(/_/g, " ");
+    return spaced.charAt(0).toUpperCase() + spaced.slice(1);
+  };
+
+  const passedCount =
+    loanApplication?.eligibility_result?.checks?.filter(
+      (item) => item.passed === true,
+    ).length || 0;
+  const totalCount = loanApplication?.eligibility_result?.checks?.length || 0;
+
+  if (isFetching) {
+    return <LoanApplicationDetailsSkeleton />;
+  }
+
   return (
-    <div className="min-h-screen bg-slate-50 text-primary pb-20">
+    <div className="bg-slate-50 text-primary">
       <div className="max-w-6xl mx-auto sm:px-4">
         {/* Navigation & Header */}
         <header className="py-2">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <h1 className="text-2xl font-medium tracking-tight">
-                {appData.product}
+                {loanApplication?.loan_product?.product_name}
               </h1>
-              <p className="text-slate-400 font-mono text-xs mt-1 uppercase tracking-widest">
-                {appData.code}
+              <p className="text-slate-400 text-xs uppercase tracking-widest">
+                {loanApplication?.application_number}
               </p>
             </div>
-            {/* Status Indicator */}
-            <div className="bg-amber-500 text-white px-5 py-2 rounded-2xl text-[10px] font-medium uppercase tracking-widest shadow-lg shadow-amber-200">
-              {appData.status}
-            </div>
+            {(() => {
+              // 1. Dynamic Configuration Mapping
+              const getStatusStyles = (status = "") => {
+                switch (status.toLowerCase().trim()) {
+                  case "approved":
+                  case "active":
+                  case "disbursed":
+                    return "bg-emerald-50 border-emerald-200/60 text-emerald-700 shadow-emerald-900/[0.04]";
+                  case "declined":
+                  case "rejected":
+                  case "defaulted":
+                  case "cancelled":
+                    return "bg-rose-50 border-rose-200/60 text-rose-700 shadow-rose-900/[0.04]";
+                  case "pending":
+                  case "under_review":
+                  case "processing":
+                  default:
+                    return "bg-amber-50 border-amber-200/60 text-amber-700 shadow-amber-900/[0.04]";
+                }
+              };
+
+              const statusStyleClasses = getStatusStyles(
+                loanApplication?.status,
+              );
+
+              return (
+                <div
+                  className={`px-3 py-1.5 rounded-full border shadow-md font-bold tracking-widest text-[9px] uppercase transition-all duration-300 backdrop-blur-sm select-none ${statusStyleClasses}`}
+                >
+                  <span>{loanApplication?.status || "Pending"}</span>
+                </div>
+              );
+            })()}
           </div>
         </header>
 
@@ -160,15 +136,43 @@ const LoanApplicationDetails = ({ onBack }) => {
                     Application ID
                   </p>
                   <p className="text-white text-[12px] font-bold">
-                    AN-8821-026
+                    {loanApplication?.application_number}
                   </p>
                 </div>
                 {/* Premium Status Badge */}
-                <div className="bg-[#FFB300] px-3 py-1.5 rounded-full shadow-lg shadow-amber-900/20">
-                  <span className="text-white text-[9px] font-medium uppercase tracking-wider">
-                    Under Review
-                  </span>
-                </div>
+                {(() => {
+                  // 1. Dynamic Configuration Mapping
+                  const getStatusStyles = (status = "") => {
+                    switch (status.toLowerCase().trim()) {
+                      case "approved":
+                      case "active":
+                      case "disbursed":
+                        return "bg-emerald-50 border-emerald-200/60 text-emerald-700 shadow-emerald-900/[0.04]";
+                      case "declined":
+                      case "rejected":
+                      case "defaulted":
+                      case "cancelled":
+                        return "bg-rose-50 border-rose-200/60 text-rose-700 shadow-rose-900/[0.04]";
+                      case "pending":
+                      case "under_review":
+                      case "processing":
+                      default:
+                        return "bg-amber-50 border-amber-200/60 text-amber-700 shadow-amber-900/[0.04]";
+                    }
+                  };
+
+                  const statusStyleClasses = getStatusStyles(
+                    loanApplication?.status,
+                  );
+
+                  return (
+                    <div
+                      className={`px-3 py-1.5 rounded-full border shadow-md font-bold tracking-widest text-[9px] uppercase transition-all duration-300 backdrop-blur-sm select-none ${statusStyleClasses}`}
+                    >
+                      <span>{loanApplication?.status || "Pending"}</span>
+                    </div>
+                  );
+                })()}
               </div>
 
               {/* Amount Section */}
@@ -177,19 +181,62 @@ const LoanApplicationDetails = ({ onBack }) => {
                   Loan Amount
                 </p>
                 <h1 className="text-white text-4xl font-medium tracking-tighter">
-                  KES 45,000.00
+                  {formatAmount(loanApplication?.applied_amount ?? 0)}
                 </h1>
               </div>
 
               <hr className="border-white/10 mb-5" />
 
               {/* Info Footer */}
-              <div className="flex items-start gap-3 mt-auto">
-                <Info size={16} className="text-[#17C6C6] shrink-0 mt-0.5" />
-                <p className="text-white/70 text-[11px] font-medium leading-relaxed">
-                  Verification in progress. Expect a response within 24 hours.
-                </p>
-              </div>
+              {(() => {
+                const getStatusNotification = (status = "") => {
+                  switch (status.toLowerCase().trim()) {
+                    case "approved":
+                    case "active":
+                    case "disbursed":
+                      return {
+                        message:
+                          "Application approved! Your funds are being queued for disbursement via your chosen channel.",
+                        iconColor: "text-emerald-400",
+                        textColor: "text-emerald-100/80",
+                      };
+                    case "declined":
+                    case "rejected":
+                    case "defaulted":
+                    case "cancelled":
+                      return {
+                        message:
+                          "Application declined. Please review the credit committee decision or contact support for help.",
+                        iconColor: "text-rose-400",
+                        textColor: "text-rose-100/80",
+                      };
+                    case "pending":
+                    case "under_review":
+                    case "processing":
+                    default:
+                      return {
+                        message:
+                          "Verification in progress. Expect a full credit committee response within 24 hours.",
+                        iconColor: "text-[#17C6C6]",
+                        textColor: "text-white/70",
+                      };
+                  }
+                };
+                const config = getStatusNotification(loanApplication?.status);
+                return (
+                  <div className="flex items-start gap-3 mt-auto select-none transition-all duration-300">
+                    <Info
+                      size={16}
+                      className={`shrink-0 mt-0.5 transition-colors ${config.iconColor}`}
+                    />
+                    <p
+                      className={`text-[11px] font-medium leading-relaxed transition-colors ${config.textColor}`}
+                    >
+                      {config.message}
+                    </p>
+                  </div>
+                );
+              })()}
             </div>
           </div>
 
@@ -205,7 +252,7 @@ const LoanApplicationDetails = ({ onBack }) => {
                   Loan Product
                 </p>
                 <p className="text-[#0A2351] text-[15px] font-medium">
-                  Emergency Fund Plus
+                  {loanApplication?.loan_product?.product_name}
                 </p>
               </div>
             </div>
@@ -217,52 +264,55 @@ const LoanApplicationDetails = ({ onBack }) => {
               <DetailCell
                 icon={Percent}
                 label="Interest Rate"
-                value="1.5% / Mo"
+                value={`${Number(loanApplication?.loan_product?.interest_rate)?.toFixed(0)}% / Mo`}
               />
               <DetailCell
                 icon={Calendar}
                 label="Loan Period"
-                value="6 Months"
+                value={`${loanApplication?.loan_period} Days`}
               />
               <DetailCell icon={Repeat} label="Frequency" value="Monthly" />
               <DetailCell
                 icon={FileText}
                 label="Processing Fee"
-                value="KES 500"
+                value={`${formatAmount(loanApplication?.disbursement?.processing_fee_deducted ?? 0)}`}
               />
-              <DetailCell icon={Lock} label="Insurance Fee" value="KES 150" />
+              <DetailCell
+                icon={Lock}
+                label="Insurance Fee"
+                value={`${formatAmount(0)}`}
+              />
               <DetailCell
                 icon={Briefcase}
                 label="Excise Duty"
-                value="KES 100"
+                value={`${formatAmount(0)}`}
               />
             </div>
           </div>
         </div>
 
         {/* Conditionally show the insight section */}
-        {isProcessing && (
-          <StatusInsight status="Reviewing Customer Information" />
-        )}
+
+        <StatusInsight status={loanApplication?.status} />
+
         <div className="mb-2 mt-6 flex items-baseline justify-between">
           <h2 className="text-[11px] font-medium uppercase tracking-[2px] text-slate-400">
             Application Milestones
           </h2>
           <span className="text-[10px] font-bold text-[#17C6C6]">
-            3/7 COMPLETED
+            {passedCount}/{totalCount} COMPLETED
           </span>
         </div>
 
         {/* Container: Grid setup with responsive columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {requirements.map((req, index) => {
+          {loanApplication?.eligibility_result?.checks?.map((req, index) => {
             const {
-              isDone,
-              isPending,
-              status,
-              title,
-              subtitle,
-              icon: Icon,
+              passed: isDone,
+              isPending = false,
+              status = req?.passed ? "Cleared" : "Action Required",
+              rule: title,
+              description: subtitle,
             } = req;
             const theme = getStatusTheme(isDone, isPending, status);
 
@@ -278,7 +328,6 @@ const LoanApplicationDetails = ({ onBack }) => {
           }
         `}
               >
-                {/* 1. Dynamic Icon Housing */}
                 <div
                   className={`shrink-0 p-2.5 rounded-full ${theme.bg} flex items-center justify-center`}
                   style={{ color: theme.color }}
@@ -288,11 +337,10 @@ const LoanApplicationDetails = ({ onBack }) => {
                   ) : isPending ? (
                     <Clock size={20} strokeWidth={2.5} />
                   ) : (
-                    <Icon size={20} strokeWidth={2.5} />
+                    <Clock size={20} strokeWidth={2.5} />
                   )}
                 </div>
 
-                {/* 2. Text Content */}
                 <div className="flex-1 ml-4 flex flex-col min-w-0">
                   <h4
                     className={`
@@ -300,14 +348,13 @@ const LoanApplicationDetails = ({ onBack }) => {
             ${isDone ? "line-through text-slate-400" : "text-[#0A2351]"}
           `}
                   >
-                    {title}
+                    {formatLabel(title)}
                   </h4>
                   <p className="text-[10px] font-semibold text-slate-400 mt-0.5 truncate uppercase tracking-tight">
                     {subtitle}
                   </p>
                 </div>
 
-                {/* 3. Status Badge - Compressed for Grid Layout */}
                 <div className="flex items-center gap-2 ml-2">
                   <div
                     className={`
@@ -353,9 +400,10 @@ const DetailCell = ({ icon: Icon, label, value }) => (
   </div>
 );
 
-const StatusInsight = ({ status, onContinue }) => {
+const StatusInsight = ({ status = "", onContinue }) => {
+  // 1. Establish normalized data matrix mapping for dynamic rendering
   const insights = {
-    Draft: {
+    draft: {
       title: "Continue Application",
       description:
         "You have an unfinished application. Complete the remaining steps to submit your request for review.",
@@ -365,7 +413,7 @@ const StatusInsight = ({ status, onContinue }) => {
       actionLabel: "Resume Now",
       showButton: true,
     },
-    "Pending Approval": {
+    "pending approval": {
       title: "Under Credit Review",
       description:
         "Our credit committee is currently reviewing your financial profile and guarantor commitments. This typically takes 24-48 hours.",
@@ -375,36 +423,61 @@ const StatusInsight = ({ status, onContinue }) => {
       actionLabel: "View Details",
       showButton: true,
     },
-    "Reviewing Customer Information": {
+    "reviewing customer information": {
       title: "Verification in Progress",
       description:
         "We are performing standard KYC checks on your provided identification and documents to ensure your security.",
       icon: <FileSearch className="text-indigo-600" />,
       bg: "bg-indigo-50",
       border: "border-indigo-100",
+      actionLabel: "Check Progress",
       showButton: true,
     },
-    "Pending Disbursement": {
+    "pending disbursement": {
       title: "Processing M-PESA Transfer",
       description:
         "Great news! Your loan is approved. We are currently queuing the funds for transfer to your registered mobile number.",
       icon: <Zap className="text-[#17C6C6]" />,
       bg: "bg-sky-50",
       border: "border-sky-100",
+      actionLabel: "",
       showButton: false,
+    },
+    approved: {
+      title: "Loan Approved Successfully",
+      description:
+        "Congratulations! Your credit facility request has passed formal committee evaluations and is ready for onboarding clearance.",
+      icon: <CheckCircle2 className="text-emerald-600" />, // Remember to import CheckCircle2 from 'lucide-react'
+      bg: "bg-emerald-50",
+      border: "border-emerald-100",
+      actionLabel: "View Agreement",
+      showButton: false,
+    },
+    cancelled: {
+      title: "Application Cancelled",
+      description:
+        "This loan application was cancelled by you or voided automatically due to an expiration timeout. You can start a new request anytime.",
+      icon: <XCircle className="text-slate-500" />,
+      bg: "bg-slate-50",
+      border: "border-slate-200",
+      actionLabel: "Start New Application",
+      showButton: true,
     },
   };
 
-  const active = insights[status] || insights["Pending Approval"];
+  // 2. Normalize incoming state values to prevent uppercase case matches from failing
+  const normalizedStatus = status.toLowerCase().trim();
+  const active = insights[normalizedStatus] || insights["pending approval"];
 
   return (
     <div
-      className={`p-6 rounded-[40px] mt-4 border ${active.border} ${active.bg} mb-4 transition-all`}
+      className={`p-4 rounded-[40px] mt-4 border ${active.border} ${active.bg} mb-4 transition-all duration-300`}
     >
       <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
         {/* Icon Housing */}
         <div className="w-16 h-16 bg-white rounded-3xl flex items-center justify-center shadow-sm shrink-0">
-          {React.cloneElement(active.icon, { size: 32, strokeWidth: 2.5 })}
+          {active.icon &&
+            React.cloneElement(active.icon, { size: 32, strokeWidth: 2.5 })}
         </div>
 
         {/* Text Content */}
@@ -412,7 +485,7 @@ const StatusInsight = ({ status, onContinue }) => {
           <h3 className="text-lg font-medium text-[#0A2351] tracking-tight">
             {active.title}
           </h3>
-          <p className="text-sm text-[#0A2351]/70 leading-relaxed mt-1 max-w-2xl">
+          <p className="text-sm text-[#0A2351]/70 leading-relaxed mt-1">
             {active.description}
           </p>
         </div>
@@ -430,17 +503,122 @@ const StatusInsight = ({ status, onContinue }) => {
                 className="group-hover:translate-x-1 transition-transform"
               />
             </button>
-          ) : status === "Pending Disbursement" ? (
-            <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl border border-sky-200">
+          ) : normalizedStatus === "pending disbursement" ? (
+            /* Ambient Pulsing Realtime Indicator */
+            <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl border border-sky-200 w-fit mx-auto md:mx-0">
               <span className="relative flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#17C6C6] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-[#17C6C6]"></span>
               </span>
-              <span className="text-[10px] font-medium uppercase text-[#17C6C6]">
+              <span className="text-[10px] font-medium uppercase text-[#17C6C6] tracking-wider">
                 System Live
               </span>
             </div>
           ) : null}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const LoanApplicationDetailsSkeleton = () => {
+  return (
+    <div className="bg-slate-50 animate-pulse select-none">
+      <div className="max-w-6xl mx-auto sm:px-4">
+        {/* Navigation & Header Placeholder */}
+        <header className="py-2 mb-4">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="space-y-2 w-full md:w-1/3">
+              {/* Product Name Line */}
+              <div className="h-7 bg-slate-200 rounded-xl w-3/4" />
+              {/* Application ID Subtext */}
+              <div className="h-3.5 bg-slate-200 rounded-lg w-1/2" />
+            </div>
+            {/* Top Status Capsule Pill */}
+            <div className="h-7 bg-slate-200 rounded-full w-24" />
+          </div>
+        </header>
+
+        {/* Asymmetric Split Layout Blocks */}
+        <div className="flex flex-col lg:flex-row gap-6 py-4 w-full items-stretch">
+          {/* Left Side: Premium Card Gradient Mask Profile */}
+          <div className="flex-1 rounded-[35px] bg-slate-200 h-[320px] p-7 flex flex-col justify-between">
+            <div className="flex justify-between items-start w-full">
+              <div className="space-y-2">
+                <div className="h-2.5 bg-slate-300 rounded w-20" />
+                <div className="h-4 bg-slate-300 rounded w-28" />
+              </div>
+              <div className="h-7 bg-slate-300 rounded-full w-20" />
+            </div>
+
+            <div className="flex flex-col items-center justify-center space-y-2 my-auto">
+              <div className="h-3 bg-slate-300 rounded w-24" />
+              <div className="h-10 bg-slate-300 rounded-xl w-48" />
+            </div>
+
+            <div className="border-t border-slate-300/50 pt-4 flex gap-3 items-center">
+              <div className="w-4 h-4 rounded-full bg-slate-300 shrink-0" />
+              <div className="h-3 bg-slate-300 rounded w-5/6" />
+            </div>
+          </div>
+
+          {/* Right Side: Parametric Feature Attributes List */}
+          <div className="flex-1 bg-white rounded-[28px] border border-slate-200/60 p-6 flex flex-col justify-between">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-10 h-10 rounded-full bg-slate-100 shrink-0" />
+              <div className="space-y-2 w-1/3">
+                <div className="h-2 bg-slate-100 rounded" />
+                <div className="h-4 bg-slate-200 rounded" />
+              </div>
+            </div>
+            <hr className="border-slate-100 mb-5" />
+
+            {/* 2x3 Grid Parameters Framework */}
+            <div className="grid grid-cols-2 gap-y-6 gap-x-4">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="flex gap-3">
+                  <div className="w-4 h-4 bg-slate-100 rounded shrink-0 mt-0.5" />
+                  <div className="space-y-2 w-3/4">
+                    <div className="h-2 bg-slate-100 rounded w-1/2" />
+                    <div className="h-3.5 bg-slate-200 rounded w-3/4" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* StatusInsight Notification Banner Box Placeholder */}
+        <div className="p-6 rounded-[40px] mt-4 bg-white border border-slate-200/60 flex gap-6 items-center">
+          <div className="w-16 h-16 bg-slate-100 rounded-3xl shrink-0" />
+          <div className="space-y-2 flex-1">
+            <div className="h-4 bg-slate-200 rounded-md w-1/4" />
+            <div className="h-3 bg-slate-100 rounded-md w-3/4" />
+          </div>
+          <div className="h-10 bg-slate-200 rounded-2xl w-32 hidden md:block" />
+        </div>
+
+        {/* Milestones Header Divider */}
+        <div className="mb-4 mt-8 flex justify-between items-center">
+          <div className="h-3 bg-slate-200 rounded w-36" />
+          <div className="h-4 bg-slate-200 rounded w-24" />
+        </div>
+
+        {/* Milestones 2-Column Dashboard Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <div
+              key={index}
+              className="flex items-center p-5 bg-white rounded-[24px] border border-slate-100 shadow-sm"
+            >
+              <div className="w-10 h-10 rounded-full bg-slate-100 shrink-0" />
+              <div className="flex-1 ml-4 space-y-2">
+                <div className="h-3.5 bg-slate-200 rounded-md w-1/2" />
+                <div className="h-2.5 bg-slate-100 rounded-md w-3/4" />
+              </div>
+              <div className="h-5 bg-slate-100 rounded-md w-12 ml-2" />
+            </div>
+          ))}
         </div>
       </div>
     </div>
