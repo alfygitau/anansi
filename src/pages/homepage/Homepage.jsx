@@ -281,6 +281,12 @@ const Homepage = () => {
     }
   };
 
+  const formatLabel = (str) => {
+    if (!str) return "";
+    const spaced = str.replace(/_/g, " ");
+    return spaced.charAt(0).toUpperCase() + spaced.slice(1);
+  };
+
   return (
     <>
       <LoanTerms
@@ -676,7 +682,7 @@ const Homepage = () => {
           {/* Right Side: Active Loans */}
           <section>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold">Recent Loans</h2>
+              <h2 className="text-lg text-primary font-bold">Recent Loans</h2>
               <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">
                 {loans?.length} Running
               </span>
@@ -691,7 +697,7 @@ const Homepage = () => {
               loans?.map((loan) => (
                 <LoanItem
                   key={loan?.id}
-                  title={loan?.loan_type}
+                  title={formatLabel(loan?.loan_type)}
                   id={loan?.loan_code}
                   amount={formatAmount(loan?.loan_amount)}
                   balance={formatAmount(loan?.loan_Balance)}
@@ -711,7 +717,9 @@ const Homepage = () => {
           {/* Left Side: Pending Applications */}
           <section>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold">Loan Applications</h2>
+              <h2 className="text-lg text-primary font-bold">
+                Loan Applications
+              </h2>
               <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
                 {loanApplications?.length} Pending
               </span>
