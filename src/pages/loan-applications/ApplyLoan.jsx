@@ -96,6 +96,7 @@ const ApplyLoan = () => {
 
   const { isFetching } = useQuery({
     queryKey: ["explore product", productId],
+    refetchOnWindowFocus: false,
     queryFn: async () => {
       const response = await getLoanProduct(productId);
       return response?.data?.data;

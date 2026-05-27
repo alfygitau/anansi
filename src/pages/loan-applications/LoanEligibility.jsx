@@ -33,6 +33,7 @@ const EligibilityCheck = () => {
 
   const { isLoading } = useQuery({
     queryKey: ["check eligibility"],
+    refetchOnWindowFocus: false,
     queryFn: async () => {
       const response = await checkEligibility(auth?.user?.id, productId);
       return response?.data?.data;
@@ -57,6 +58,7 @@ const EligibilityCheck = () => {
 
   const { isFetching } = useQuery({
     queryKey: ["explore product", productId],
+    refetchOnWindowFocus: false,
     queryFn: async () => {
       const response = await getLoanProduct(productId);
       return response?.data?.data;

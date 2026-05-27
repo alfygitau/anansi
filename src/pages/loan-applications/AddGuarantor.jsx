@@ -98,6 +98,7 @@ const AddGuarantors = ({ limit = 4 }) => {
 
   const { refetch } = useQuery({
     queryKey: ["get guarantors"],
+    refetchOnWindowFocus: false,
     queryFn: async () => {
       const response = await applicationGuarantors(appId);
       return response.data.data;
