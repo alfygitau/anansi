@@ -472,147 +472,148 @@ const Homepage = () => {
         }}
       />
 
-      {isFetching ? (
-        <HomeLoader />
-      ) : (
-        <div className="max-w-6xl sm:px-4 mx-auto">
-          <header className="flex justify-between mb-3 items-center">
-            <div>
-              <h1 className="text-2xl text-primary font-bold tracking-tight">
-                Dashboard
-              </h1>
-              <p className="text-sm text-slate-500">
-                Welcome back to your financial overview.
-              </p>
-            </div>
-          </header>
-          {/*  */}
-          {loadingShares ? (
-            <div className="mb-6 w-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm animate-pulse">
-              <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-                {/* Left Content Skeleton */}
-                <div className="flex-1 space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 bg-slate-200 rounded-xl" />
-                    <div className="h-6 w-40 bg-slate-200 rounded-md" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="h-4 w-full max-w-[400px] bg-slate-100 rounded" />
-                    <div className="h-4 w-full max-w-[350px] bg-slate-100 rounded" />
-                  </div>
-                  <div className="h-8 w-56 bg-slate-100 rounded-lg" />
+      <div className="max-w-6xl sm:px-4 mx-auto">
+        <header className="flex justify-between mb-3 items-center">
+          <div>
+            <h1 className="text-2xl text-primary font-bold tracking-tight">
+              Dashboard
+            </h1>
+            <p className="text-sm text-slate-500">
+              Welcome back to your financial overview.
+            </p>
+          </div>
+        </header>
+        {/*  */}
+        {loadingShares ? (
+          <div className="mb-6 w-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm animate-pulse">
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+              {/* Left Content Skeleton */}
+              <div className="flex-1 space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 bg-slate-200 rounded-xl" />
+                  <div className="h-6 w-40 bg-slate-200 rounded-md" />
                 </div>
+                <div className="space-y-2">
+                  <div className="h-4 w-full max-w-[400px] bg-slate-100 rounded" />
+                  <div className="h-4 w-full max-w-[350px] bg-slate-100 rounded" />
+                </div>
+                <div className="h-8 w-56 bg-slate-100 rounded-lg" />
+              </div>
 
-                {/* Right Progress Skeleton */}
-                <div className="w-full lg:w-[340px] space-y-5">
-                  <div className="space-y-3">
-                    <div className="flex justify-between">
-                      <div className="h-3 w-20 bg-slate-200 rounded" />
-                      <div className="h-3 w-10 bg-slate-200 rounded" />
-                    </div>
-                    <div className="h-4 w-full bg-slate-100 rounded-full" />
-                    <div className="h-3 w-24 bg-slate-100 rounded ml-auto" />
+              {/* Right Progress Skeleton */}
+              <div className="w-full lg:w-[340px] space-y-5">
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <div className="h-3 w-20 bg-slate-200 rounded" />
+                    <div className="h-3 w-10 bg-slate-200 rounded" />
                   </div>
-                  <div className="h-14 w-full bg-slate-200 rounded-2xl" />
+                  <div className="h-4 w-full bg-slate-100 rounded-full" />
+                  <div className="h-3 w-24 bg-slate-100 rounded ml-auto" />
                 </div>
+                <div className="h-14 w-full bg-slate-200 rounded-2xl" />
               </div>
             </div>
-          ) : Number(currentShares) < 10 ? (
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="mb-6 w-full mx-auto border border-cyan-100 bg-gradient-to-br from-[#F0FFFE] to-white p-4 shadow-sm shadow-cyan-900/5 rounded-2xl"
-            >
-              <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-                {/* Text Content Area */}
-                <div className="flex-1 space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-secondary shadow-lg shadow-blue-900/20">
-                      <ShieldCheck size={22} />
-                    </div>
-                    <h3 className="text-lg font-medium uppercase tracking-tight text-primary">
-                      Membership Progress
-                    </h3>
+          </div>
+        ) : Number(currentShares) < 10 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="mb-6 w-full mx-auto border border-cyan-100 bg-gradient-to-br from-[#F0FFFE] to-white p-4 shadow-sm shadow-cyan-900/5 rounded-2xl"
+          >
+            <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+              {/* Text Content Area */}
+              <div className="flex-1 space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-secondary shadow-lg shadow-blue-900/20">
+                    <ShieldCheck size={22} />
                   </div>
+                  <h3 className="text-lg font-medium uppercase tracking-tight text-primary">
+                    Membership Progress
+                  </h3>
+                </div>
 
-                  <p className="max-w-[550px] text-[15px] leading-relaxed text-slate-600">
-                    To unlock{" "}
-                    <span className="font-bold text-slate-900">
-                      full membership benefits
-                    </span>{" "}
-                    and access various loan products, you need a minimum of{" "}
-                    <span className="font-bold text-primary">
-                      10 shares (KES 10,000)
+                <p className="max-w-[550px] text-[15px] leading-relaxed text-slate-600">
+                  To unlock{" "}
+                  <span className="font-bold text-slate-900">
+                    full membership benefits
+                  </span>{" "}
+                  and access various loan products, you need a minimum of{" "}
+                  <span className="font-bold text-primary">
+                    10 shares (KES 10,000)
+                  </span>
+                  .
+                </p>
+
+                {remainingShares > 0 && (
+                  <div className="inline-flex items-center gap-2 rounded-lg bg-white/60 px-3 py-1.5 border border-cyan-100">
+                    <Wallet size={14} className="text-cyan-600" />
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-800">
+                      {formatAmount(remainingShares * shareValue)}&nbsp;
+                      remaining to reach goal
                     </span>
-                    .
-                  </p>
+                  </div>
+                )}
+              </div>
 
-                  {remainingShares > 0 && (
-                    <div className="inline-flex items-center gap-2 rounded-lg bg-white/60 px-3 py-1.5 border border-cyan-100">
-                      <Wallet size={14} className="text-cyan-600" />
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-800">
-                        {formatAmount(remainingShares * shareValue)}&nbsp;
-                        remaining to reach goal
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Progress and Action Area */}
-                <div className="w-full lg:w-[340px] space-y-5">
-                  <div className="space-y-2">
-                    <div className="flex items-end justify-between px-1">
-                      <span className="text-[11px] font-medium uppercase tracking-widest text-slate-400">
-                        Shares Acquired
-                      </span>
-                      <span className="text-[13px] font-medium text-primary">
-                        {percentage.toFixed(1)}%
-                      </span>
-                    </div>
-
-                    <div className="relative h-4 w-full overflow-hidden rounded-full bg-slate-100 p-1 shadow-inner border border-slate-200/50">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${percentage}%` }}
-                        transition={{ duration: 1.2, ease: "circOut" }}
-                        className="h-full rounded-full bg-gradient-to-r from-primary to-[#074073] relative"
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent" />
-                      </motion.div>
-                    </div>
-
-                    <p className="px-1 text-right text-[12px] font-bold text-slate-500">
-                      {formatNumber(currentShares)}&nbsp;
-                      <span className="text-slate-300">/</span> 10 Shares
-                    </p>
+              {/* Progress and Action Area */}
+              <div className="w-full lg:w-[340px] space-y-5">
+                <div className="space-y-2">
+                  <div className="flex items-end justify-between px-1">
+                    <span className="text-[11px] font-medium uppercase tracking-widest text-slate-400">
+                      Shares Acquired
+                    </span>
+                    <span className="text-[13px] font-medium text-primary">
+                      {percentage.toFixed(1)}%
+                    </span>
                   </div>
 
-                  <button
-                    onClick={() => setShowSharesAmount(true)}
-                    className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-primary px-8 text-xs font-medium uppercase tracking-widest text-white shadow-xl shadow-blue-900/20 transition-all hover:bg-[#062d7a] active:scale-[0.98]"
-                  >
-                    Buy Shares
-                    <ArrowRight
-                      size={18}
-                      className="transition-transform group-hover:translate-x-1 text-secondary"
-                    />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          ) : null}
+                  <div className="relative h-4 w-full overflow-hidden rounded-full bg-slate-100 p-1 shadow-inner border border-slate-200/50">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${percentage}%` }}
+                      transition={{ duration: 1.2, ease: "circOut" }}
+                      className="h-full rounded-full bg-gradient-to-r from-primary to-[#074073] relative"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent" />
+                    </motion.div>
+                  </div>
 
-          {/* Account Section */}
-          {/* MASTER DASHBOARD COMPACT SECTION GRID GRID */}
-          <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-6 items-start">
-            {/* LEFT PANEL: COMPACT ACCOUNT CARDS VECTORS (5 COLS) */}
-            <div className="lg:col-span-5 space-y-3">
-              <h2 className="text-[12px] font-medium uppercase tracking-[0.2em] text-slate-400 pl-1">
-                Active Accounts
-              </h2>
-              <div className="space-y-5">
-                {sortedAccounts?.length > 0 &&
+                  <p className="px-1 text-right text-[12px] font-bold text-slate-500">
+                    {formatNumber(currentShares)}&nbsp;
+                    <span className="text-slate-300">/</span> 10 Shares
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => setShowSharesAmount(true)}
+                  className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-primary px-8 text-xs font-medium uppercase tracking-widest text-white shadow-xl shadow-blue-900/20 transition-all hover:bg-[#062d7a] active:scale-[0.98]"
+                >
+                  Buy Shares
+                  <ArrowRight
+                    size={18}
+                    className="transition-transform group-hover:translate-x-1 text-secondary"
+                  />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        ) : null}
+
+        {/* Account Section */}
+        {/* MASTER DASHBOARD COMPACT SECTION GRID GRID */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-6 items-start">
+          {/* LEFT PANEL: COMPACT ACCOUNT CARDS VECTORS (5 COLS) */}
+          <div className="lg:col-span-5 space-y-3">
+            <h2 className="text-[12px] font-medium uppercase tracking-[0.2em] text-slate-400 pl-1">
+              Active Accounts
+            </h2>
+            <div className="space-y-5">
+              {isFetching
+                ? Array.from({ length: 2 }).map((_, idx) => (
+                    <AccountCardSkeleton key={idx} />
+                  ))
+                : sortedAccounts?.length > 0 &&
                   sortedAccounts.map((account, index) => (
                     <AccountCard
                       key={account.id || index}
@@ -627,148 +628,145 @@ const Homepage = () => {
                       }
                     />
                   ))}
-              </div>
             </div>
-
-            <div className="lg:col-span-7">
-              {/* Micro-Header */}
-              <h2 className="text-[12px] font-medium uppercase tracking-[0.15em] text-slate-400 mb-3 pl-0.5">
-                Quick Actions
-              </h2>
-              <div className="bg-slate-50/40 flex flex-col justify-between">
-                {/* High-Density Micro Matrix */}
-                <div className="grid grid-cols-2 gap-3">
-                  {quickActions.map(({ id, label, icon, onClick }) => (
-                    <div
-                      key={id}
-                      onClick={onClick}
-                      className="flex items-center gap-2.5 p-[9px] cursor-pointer group bg-white border border-slate-200 rounded-xl hover:border-primary transition-all duration-200 select-none"
-                    >
-                      {/* Action Icon Square Plate (Perfect 1:1 Match) */}
-                      <div className="w-12 h-12 bg-slate-50 border border-slate-200/20 rounded-lg flex items-center justify-center text-slate-700 transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:border-primary shrink-0">
-                        {React.cloneElement(icon, {
-                          size: 18,
-                          className:
-                            "shrink-0 transition-transform duration-200 group-hover:scale-105",
-                        })}
-                      </div>
-
-                      {/* Right Text Vector Column */}
-                      <div className="min-w-0 flex-1">
-                        <span className="block text-[10px] font-medium uppercase tracking-wider text-slate-400 group-hover:text-primary transition-colors leading-tight truncate">
-                          {label}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <h2 className="text-[12px] font-bold uppercase tracking-widest text-slate-400 mb-1">
-            Loans & Applications
-          </h2>
-
-          {/* Side-by-Side: Applications and Loans */}
-          <div className="grid grid-cols-1 mb-3 lg:grid-cols-2 gap-8">
-            {/* Right Side: Active Loans */}
-            <section>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold">Recent Loans</h2>
-                <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">
-                  {loans?.length} Running
-                </span>
-              </div>
-              {loadingLoans ? (
-                <div className="p-3 overflow-y-auto">
-                  {Array.from({ length: 2 }).map((_, index) => (
-                    <LoanItemSkeleton key={`loan-skeleton-${index}`} />
-                  ))}
-                </div>
-              ) : loans?.length > 0 ? (
-                loans?.map((loan) => (
-                  <LoanItem
-                    key={loan?.id}
-                    title={loan?.loan_type}
-                    id={loan?.loan_code}
-                    amount={formatAmount(loan?.loan_amount)}
-                    balance={formatAmount(loan?.loan_Balance)}
-                    status={loan?.loan_status}
-                    statusColor={getLoanStatusColor(loan?.loan_status)}
-                    maturityDate={loan?.loan_due_date}
-                    onTap={() => navigate(`/loan-details/${loan?.id}`)}
-                  />
-                ))
-              ) : (
-                <EmptyState
-                  message="No active loans found"
-                  onApply={() => navigate("/loan-products")}
-                />
-              )}
-            </section>
-            {/* Left Side: Pending Applications */}
-            <section>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold">Loan Applications</h2>
-                <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
-                  {loanApplications?.length} Pending
-                </span>
-              </div>
-              {loadingApplications ? (
-                <div className="p-3 overflow-y-auto">
-                  {Array.from({ length: 4 }).map((_, index) => (
-                    <ApplicationSkeleton key={`skeleton-${index}`} />
-                  ))}
-                </div>
-              ) : loanApplications?.length > 0 ? (
-                loanApplications?.map((app, index) => (
-                  <ApplicationItem
-                    key={app.reference}
-                    title={app?.product?.name}
-                    date={app?.application_date}
-                    amount={app?.applied_amount}
-                    status={app?.status}
-                    reference={app?.application_number}
-                    onTap={() =>
-                      navigate(`/loan-application-details/${app?.id}`)
-                    }
-                  />
-                ))
-              ) : (
-                <EmptyState
-                  message="No pending applications"
-                  onApply={() => navigate("/loan-products")}
-                />
-              )}
-            </section>
           </div>
 
-          {/* Smaller Quick Actions */}
-          <section>
-            <h2 className="text-[12px] font-bold uppercase tracking-widest text-slate-400 mb-2">
-              Explore Products
+          <div className="lg:col-span-7">
+            {/* Micro-Header */}
+            <h2 className="text-[12px] font-medium uppercase tracking-[0.15em] text-slate-400 mb-3 pl-0.5">
+              Quick Actions
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-6">
-              {loadingProducts ? (
-                <LoanProductsLoader />
-              ) : loanProducts?.length > 0 ? (
-                loanProducts?.map((product) => (
-                  <DetailedProductCard
-                    key={product.id}
-                    product={product}
-                    onApply={() => navigate(`/loan-eligibility/${product?.id}`)}
-                    onTerms={() => setShowLoanTerms(true)}
-                    onNavigate={() => navigate(`/loan-products/${product?.id}`)}
-                  />
-                ))
-              ) : (
-                <ProductsEmptyState />
-              )}
+            <div className="bg-slate-50/40 flex flex-col justify-between">
+              {/* High-Density Micro Matrix */}
+              <div className="grid grid-cols-2 gap-3">
+                {quickActions.map(({ id, label, icon, onClick }) => (
+                  <div
+                    key={id}
+                    onClick={onClick}
+                    className="flex items-center gap-2.5 p-[9px] cursor-pointer group bg-white border border-slate-200 rounded-xl hover:border-primary transition-all duration-200 select-none"
+                  >
+                    {/* Action Icon Square Plate (Perfect 1:1 Match) */}
+                    <div className="w-12 h-12 bg-slate-50 border border-slate-200/20 rounded-lg flex items-center justify-center text-slate-700 transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:border-primary shrink-0">
+                      {React.cloneElement(icon, {
+                        size: 18,
+                        className:
+                          "shrink-0 transition-transform duration-200 group-hover:scale-105",
+                      })}
+                    </div>
+
+                    {/* Right Text Vector Column */}
+                    <div className="min-w-0 flex-1">
+                      <span className="block text-[10px] font-medium uppercase tracking-wider text-slate-400 group-hover:text-primary transition-colors leading-tight truncate">
+                        {label}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
+          </div>
+        </section>
+
+        <h2 className="text-[12px] font-bold uppercase tracking-widest text-slate-400 mb-1">
+          Loans & Applications
+        </h2>
+
+        {/* Side-by-Side: Applications and Loans */}
+        <div className="grid grid-cols-1 mb-3 lg:grid-cols-2 gap-8">
+          {/* Right Side: Active Loans */}
+          <section>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-bold">Recent Loans</h2>
+              <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">
+                {loans?.length} Running
+              </span>
+            </div>
+            {loadingLoans ? (
+              <div className="p-3 overflow-y-auto">
+                {Array.from({ length: 2 }).map((_, index) => (
+                  <LoanItemSkeleton key={`loan-skeleton-${index}`} />
+                ))}
+              </div>
+            ) : loans?.length > 0 ? (
+              loans?.map((loan) => (
+                <LoanItem
+                  key={loan?.id}
+                  title={loan?.loan_type}
+                  id={loan?.loan_code}
+                  amount={formatAmount(loan?.loan_amount)}
+                  balance={formatAmount(loan?.loan_Balance)}
+                  status={loan?.loan_status}
+                  statusColor={getLoanStatusColor(loan?.loan_status)}
+                  maturityDate={loan?.loan_due_date}
+                  onTap={() => navigate(`/loan-details/${loan?.id}`)}
+                />
+              ))
+            ) : (
+              <EmptyState
+                message="No active loans found"
+                onApply={() => navigate("/loan-products")}
+              />
+            )}
+          </section>
+          {/* Left Side: Pending Applications */}
+          <section>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-bold">Loan Applications</h2>
+              <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
+                {loanApplications?.length} Pending
+              </span>
+            </div>
+            {loadingApplications ? (
+              <div className="p-3 overflow-y-auto">
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <ApplicationSkeleton key={`skeleton-${index}`} />
+                ))}
+              </div>
+            ) : loanApplications?.length > 0 ? (
+              loanApplications?.map((app, index) => (
+                <ApplicationItem
+                  key={app.reference}
+                  title={app?.product?.name}
+                  date={app?.application_date}
+                  amount={app?.applied_amount}
+                  status={app?.status}
+                  reference={app?.application_number}
+                  onTap={() => navigate(`/loan-application-details/${app?.id}`)}
+                />
+              ))
+            ) : (
+              <EmptyState
+                message="No pending applications"
+                onApply={() => navigate("/loan-products")}
+              />
+            )}
           </section>
         </div>
-      )}
+
+        {/* Smaller Quick Actions */}
+        <section>
+          <h2 className="text-[12px] font-bold uppercase tracking-widest text-slate-400 mb-2">
+            Explore Products
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-6">
+            {loadingProducts ? (
+              <LoanProductsLoader />
+            ) : loanProducts?.length > 0 ? (
+              loanProducts?.map((product) => (
+                <DetailedProductCard
+                  key={product.id}
+                  product={product}
+                  onApply={() => navigate(`/loan-eligibility/${product?.id}`)}
+                  onTerms={() => setShowLoanTerms(true)}
+                  onNavigate={() => navigate(`/loan-products/${product?.id}`)}
+                />
+              ))
+            ) : (
+              <ProductsEmptyState />
+            )}
+          </div>
+        </section>
+      </div>
     </>
   );
 };
@@ -1147,6 +1145,38 @@ const AccountCard = ({
     </div>
   );
 };
+
+const AccountCardSkeleton = () => {
+  return (
+    <div className="p-5 py-6 rounded-[25px] border border-slate-100 bg-white shadow-sm animate-pulse select-none h-[178px] flex flex-col justify-between">
+      {/* Header Row Placeholder */}
+      <div className="flex justify-between items-start mb-6">
+        <div className="space-y-2 flex-1">
+          {/* Account Title Label (e.g. Savings Account) */}
+          <div className="h-2.5 bg-slate-200 rounded w-1/3" />
+
+          {/* Account Number Block */}
+          <div className="h-3.5 bg-slate-100 rounded w-1/2" />
+        </div>
+
+        {/* Wallet Icon Housing */}
+        <div className="w-9 h-9 rounded-xl bg-slate-100 shrink-0 mt-1" />
+      </div>
+
+      {/* Balance Footer Row Placeholder */}
+      <div className="flex justify-between items-end">
+        <div>
+          {/* Main Account Balance String Line */}
+          <div className="h-8 bg-slate-200 rounded-xl w-44" />
+        </div>
+
+        {/* Eye Visibility Action Circle Badge */}
+        <div className="w-9 h-9 rounded-full bg-slate-100 shrink-0" />
+      </div>
+    </div>
+  );
+};
+
 const ProductsEmptyState = () => (
   <div className="col-span-full py-12 px-6 bg-white border border-slate-100 rounded-2xl flex flex-col items-center justify-center shadow-sm relative overflow-hidden">
     {/* Subtle Background Decoration */}
