@@ -83,7 +83,9 @@ const AddGuarantors = ({ limit = 4 }) => {
       );
       return response.data.data;
     },
-    onSuccess: (data) => {},
+    onSuccess: (data) => {
+      refetch();
+    },
     onError: (error) => {
       showToast({
         title: "Authentication glitch",
@@ -94,7 +96,7 @@ const AddGuarantors = ({ limit = 4 }) => {
     },
   });
 
-  useQuery({
+  const { refetch } = useQuery({
     queryKey: ["get guarantors"],
     queryFn: async () => {
       const response = await applicationGuarantors(appId);
@@ -174,7 +176,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                 >
                   <div className="flex flex-col gap-4">
                     {/* 1. MEMBER NAME INPUT SECTION */}
-                    <div className="space-y-2 relative pb-4">
+                    <div className="space-y-1 relative pb-4">
                       <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-1">
                         Member Name
                       </label>
@@ -203,7 +205,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                         />
                       </div>
                       {/* Absolute Error Placeholder: Prevents layout shifting */}
-                      <div className="absolute left-1 bottom-0 h-4 overflow-visible">
+                      <div className="absolute left-1 bottom-[-1px] h-4 overflow-visible">
                         <p
                           className={`text-[10px] font-bold text-rose-500 transition-opacity duration-200 ${errors.memberName ? "opacity-100" : "opacity-0"}`}
                         >
@@ -213,7 +215,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                     </div>
 
                     {/* 2. MOBILE NUMBER INPUT SECTION */}
-                    <div className="space-y-2 relative pb-4">
+                    <div className="space-y-1 relative pb-4">
                       <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-1">
                         Mobile Number
                       </label>
@@ -242,7 +244,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                         />
                       </div>
                       {/* Absolute Error Placeholder: Prevents layout shifting */}
-                      <div className="absolute left-1 bottom-0 h-4 overflow-visible">
+                      <div className="absolute left-1 bottom-[-1px] h-4 overflow-visible">
                         <p
                           className={`text-[10px] font-bold text-rose-500 transition-opacity duration-200 ${errors.mobileNumber ? "opacity-100" : "opacity-0"}`}
                         >
