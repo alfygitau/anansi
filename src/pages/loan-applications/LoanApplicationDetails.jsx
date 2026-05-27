@@ -68,6 +68,8 @@ const LoanApplicationDetails = ({ onBack }) => {
     ).length || 0;
   const totalCount = loanApplication?.eligibility_result?.checks?.length || 0;
 
+  const handleContinue = () => {};
+
   if (isFetching) {
     return <LoanApplicationDetailsSkeleton />;
   }
@@ -293,7 +295,10 @@ const LoanApplicationDetails = ({ onBack }) => {
 
         {/* Conditionally show the insight section */}
 
-        <StatusInsight status={loanApplication?.status} />
+        <StatusInsight
+          status={loanApplication?.status}
+          onContinue={handleContinue}
+        />
 
         <div className="mb-2 mt-6 flex items-baseline justify-between">
           <h2 className="text-[11px] font-medium uppercase tracking-[2px] text-slate-400">
@@ -471,7 +476,7 @@ const StatusInsight = ({ status = "", onContinue }) => {
 
   return (
     <div
-      className={`p-4 rounded-[40px] mt-4 border ${active.border} ${active.bg} mb-4 transition-all duration-300`}
+      className={`p-3 rounded-[20px] mt-4 border ${active.border} ${active.bg} mb-4 transition-all duration-300`}
     >
       <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
         {/* Icon Housing */}
@@ -485,7 +490,7 @@ const StatusInsight = ({ status = "", onContinue }) => {
           <h3 className="text-lg font-medium text-[#0A2351] tracking-tight">
             {active.title}
           </h3>
-          <p className="text-sm text-[#0A2351]/70 leading-relaxed mt-1">
+          <p className="text-sm text-[#0A2351]/70 leading-relaxed">
             {active.description}
           </p>
         </div>

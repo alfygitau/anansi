@@ -80,6 +80,10 @@ const EligibilityCheck = () => {
     return spaced.charAt(0).toUpperCase() + spaced.slice(1);
   };
 
+  if (isLoading || isFetching) {
+    return <EligibilityCheckSkeleton />;
+  }
+
   return (
     <div className="bg-[#F8FAFC] text-[#0F172A] selection:bg-blue-100">
       <div className="max-w-6xl sm:px-4 mx-auto mx-auto">
@@ -308,6 +312,109 @@ const EligibilityCheck = () => {
 };
 
 /* --- PREMIUM SUB-COMPONENTS --- */
+const EligibilityCheckSkeleton = () => {
+  return (
+    <div className="bg-[#F8FAFC] min-h-screen animate-pulse select-none pb-20">
+      <div className="max-w-6xl sm:px-4 mx-auto py-2">
+        {/* Header Section Placeholder */}
+        <header className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-6">
+          <div className="space-y-2 w-full md:w-1/2">
+            <div className="h-7 bg-slate-200 rounded-xl w-1/2" />
+            <div className="h-4 bg-slate-200 rounded-lg w-3/4" />
+          </div>
+          <div className="h-4 bg-slate-100 rounded w-28 hidden md:block" />
+        </header>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          {/* Main Content Area Placeholder */}
+          <main className="lg:col-span-8 space-y-6">
+            {/* Borrowing Capacity Main Gradient Card Mock */}
+            <div className="rounded-[35px] p-8 bg-slate-200 h-[190px] flex flex-col justify-between items-center">
+              <div className="h-3 bg-slate-300 rounded w-36" />
+              <div className="h-10 bg-slate-300 rounded-xl w-52" />
+              <div className="w-full h-px bg-slate-300/60 my-2" />
+              <div className="w-full flex justify-between items-center px-4">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i} className="flex flex-col items-center space-y-2">
+                    <div className="h-2.5 bg-slate-300 rounded w-16" />
+                    <div className="h-4 bg-slate-300 rounded w-20" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Verification Checklist Container Mock */}
+            <div className="bg-white rounded-[22px] p-6 border border-slate-100 space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="space-y-2 w-1/3">
+                  <div className="h-4 bg-slate-200 rounded-md w-3/4" />
+                  <div className="h-3 bg-slate-100 rounded-md w-full" />
+                </div>
+                <div className="h-8 bg-slate-100 rounded-2xl w-28" />
+              </div>
+
+              {/* 2-Column Grid Item Checklists Mocks */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start p-5 bg-white border border-slate-100 rounded-[24px]"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-slate-100 shrink-0 mr-4" />
+                    <div className="flex-1 space-y-3">
+                      <div className="flex justify-between items-center">
+                        <div className="h-3.5 bg-slate-200 rounded-md w-1/2" />
+                        <div className="h-2.5 bg-slate-100 rounded w-10" />
+                      </div>
+                      <div className="h-3 bg-slate-100 rounded-md w-5/6" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </main>
+
+          {/* Sidebar Area Placeholder */}
+          <aside className="lg:col-span-4 space-y-6">
+            {/* Notice Card 1: Disbursement Mock */}
+            <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-4">
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 bg-white border border-slate-200/60 rounded-xl shrink-0" />
+                <div className="h-3 bg-slate-200 rounded w-28" />
+              </div>
+              <div className="space-y-2">
+                <div className="h-3 bg-slate-100 rounded w-full" />
+                <div className="h-3 bg-slate-100 rounded w-5/6" />
+                <div className="h-3 bg-slate-100 rounded w-11/12" />
+              </div>
+              <div className="pt-4 border-t border-slate-200/60 flex justify-between">
+                <div className="h-2.5 bg-slate-200 rounded w-24" />
+                <div className="h-2.5 bg-slate-200 rounded w-16" />
+              </div>
+            </div>
+
+            {/* Notice Card 2: Capacity & Committee Mock */}
+            <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-4">
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 bg-white border border-slate-200/60 rounded-xl shrink-0" />
+                <div className="h-3 bg-slate-200 rounded w-36" />
+              </div>
+              <div className="space-y-2">
+                <div className="h-3 bg-slate-100 rounded w-full" />
+                <div className="h-3 bg-slate-100 rounded w-4/5" />
+              </div>
+              <div className="h-9 bg-white border border-slate-200 rounded-xl w-full" />
+            </div>
+
+            {/* Primary Submit Button Action Mock */}
+            <div className="w-full h-14 bg-slate-200 rounded-2xl" />
+          </aside>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const LoanLimitCard = ({
   loanLimit,
   checking,

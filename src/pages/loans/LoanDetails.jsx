@@ -49,64 +49,6 @@ const LoanDetails = () => {
     },
   });
 
-  const loanData = {
-    code: "DEV-2024-9902",
-    product: "Emergency Fund Loan",
-    balance: "KES 450,000",
-    period: "12 Months",
-    rateType: "Reducing Balance",
-    rate: "12% P.A",
-    maturityDate: "Mar 30, 2027",
-    repaymentAmount: "KES 42,500",
-    status: "Active",
-  };
-
-  const scheduleData = [
-    { dueDate: "15 May 2026", amount: "KES 24,500", status: "PAID" },
-    { dueDate: "15 Jun 2026", amount: "KES 24,500", status: "PAID" },
-    { dueDate: "15 Jul 2026", amount: "KES 24,500", status: "UPCOMING" },
-    { dueDate: "15 Aug 2026", amount: "KES 24,500", status: "UPCOMING" },
-    { dueDate: "15 Sep 2026", amount: "KES 24,500", status: "UPCOMING" },
-    { dueDate: "15 Oct 2026", amount: "KES 24,500", status: "UPCOMING" },
-  ];
-
-  const transactions = [
-    {
-      id: 1,
-      type: "M-PESA Repayment",
-      date: "Feb 28, 2026",
-      amount: "KES 42,500",
-      ref: "SCL90231KL",
-    },
-    {
-      id: 2,
-      type: "M-PESA Repayment",
-      date: "Jan 30, 2026",
-      amount: "KES 42,500",
-      ref: "SBC4403940",
-    },
-    {
-      id: 3,
-      type: "M-PESA Repayment",
-      date: "Dec 29, 2025",
-      amount: "KES 42,500",
-      ref: "SCK11204OP",
-    },
-    {
-      id: 4,
-      type: "M-PESA Repayment",
-      date: "Nov 30, 2025",
-      amount: "KES 42,500",
-      ref: "SBA882011M",
-    },
-    {
-      id: 5,
-      type: "M-PESA Repayment",
-      date: "Oct 30, 2025",
-      amount: "KES 42,500",
-      ref: "SBH55621QQ",
-    },
-  ];
   const navigate = useNavigate();
   const [showRepayAmount, setShowRepayAmount] = useState(false);
   const [showAddRepayAmount, setShowAddRepayAmount] = useState(false);

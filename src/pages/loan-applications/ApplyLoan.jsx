@@ -120,7 +120,8 @@ const ApplyLoan = () => {
   const { mutate, isLoading } = useMutation({
     mutationKey: ["create loan application"],
     mutationFn: async (targetRoute) => {
-      const combinedFullName = `${auth?.user?.firstname || ""} ${auth?.user?.lastname || ""}`.trim();
+      const combinedFullName =
+        `${auth?.user?.firstname || ""} ${auth?.user?.lastname || ""}`.trim();
       const response = await createLoanApplication(
         auth?.user?.id,
         productId,
@@ -169,6 +170,10 @@ const ApplyLoan = () => {
     if (isLoading || !isFormValid()) return;
     mutate(targetRoute);
   };
+
+  if (isFetching) {
+    return <ApplyLoanSkeleton />;
+  }
 
   return (
     <div className="w-full text-primary">
@@ -762,6 +767,122 @@ const AmortizationScheduleModal = ({
         </motion.div>
       )}
     </AnimatePresence>
+  );
+};
+
+const ApplyLoanSkeleton = () => {
+  return (
+    <div className="w-full text-primary animate-pulse select-none">
+      <div className="max-w-6xl py-4 mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          {/* Left Column: Configuration Placeholder (7 Cols) */}
+          <div className="lg:col-span-7 space-y-6">
+            <header className="space-y-3">
+              {/* Page Title */}
+              <div className="h-7 bg-slate-200 rounded-xl w-1/3" />
+              {/* Descriptive Copy Stacks */}
+              <div className="space-y-2">
+                <div className="h-3.5 bg-slate-100 rounded w-full" />
+                <div className="h-3.5 bg-slate-100 rounded w-11/12" />
+                <div className="h-3.5 bg-slate-100 rounded w-4/5" />
+              </div>
+              <div className="space-y-1.5 pt-2">
+                <div className="h-2.5 bg-slate-100/60 rounded w-full" />
+                <div className="h-2.5 bg-slate-100/60 rounded w-5/6" />
+              </div>
+            </header>
+
+            <div className="space-y-6 pt-2">
+              {/* Principal Amount Input Mock */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <div className="h-2.5 bg-slate-200 rounded w-28" />
+                  <div className="h-3 bg-slate-100 rounded w-12" />
+                </div>
+                <div className="w-full bg-white border border-slate-200/60 rounded-2xl h-16 flex items-center p-4 gap-4">
+                  <div className="h-5 bg-slate-100 rounded w-8 border-r border-slate-200/60 pr-4 shrink-0" />
+                  <div className="h-6 bg-slate-200 rounded-md w-32" />
+                </div>
+              </div>
+
+              {/* Tenure Duration Input Mock */}
+              <div className="space-y-2">
+                <div className="h-2.5 bg-slate-200 rounded w-14" />
+                <div className="w-full bg-white border border-slate-200/60 rounded-2xl h-16 flex items-center justify-between px-4">
+                  <div className="w-6 h-6 bg-slate-100 rounded-md" />
+                  <div className="h-4 bg-slate-200 rounded-md w-24" />
+                  <div className="w-6 h-6 bg-slate-100 rounded-md" />
+                </div>
+              </div>
+
+              {/* Frequency Multi-Option Selection Strip Mock */}
+              <div className="space-y-2">
+                <div className="h-2.5 bg-slate-200 rounded w-28" />
+                <div className="grid grid-cols-3 gap-4">
+                  {Array.from({ length: 3 }).map((_, idx) => (
+                    <div
+                      key={idx}
+                      className="h-14 bg-white border border-slate-200/60 rounded-xl"
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Textarea Utilization Statement Box Mock */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <div className="h-2.5 bg-slate-200 rounded w-28" />
+                  <div className="h-2.5 bg-slate-100 rounded w-10" />
+                </div>
+                <div className="w-full bg-white border border-slate-200/60 rounded-2xl h-[96px]" />
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Complete Statutory Disclaimers (5 Cols) */}
+          <div className="lg:col-span-5">
+            <div className="bg-slate-50 rounded-[32px] space-y-6">
+              {/* Header Panel with Right Action Button Mock */}
+              <div className="flex justify-between items-center border-b border-slate-200 pb-4">
+                <div className="space-y-2 w-1/2">
+                  <div className="h-2.5 bg-slate-200 rounded w-1/2" />
+                  <div className="h-3 bg-slate-100 rounded w-3/4" />
+                </div>
+                <div className="w-28 h-10 bg-white border border-slate-200 rounded-xl shrink-0" />
+              </div>
+
+              {/* Repeating Accordion Layout Info Panels */}
+              <div className="space-y-4">
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="p-4 bg-white border border-slate-100 rounded-2xl space-y-2"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="w-3.5 h-3.5 bg-slate-100 rounded-full shrink-0" />
+                      <div className="h-2.5 bg-slate-200 rounded w-1/3" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <div className="h-2 bg-slate-100 rounded w-full" />
+                      <div className="h-2 bg-slate-100 rounded w-11/12" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Primary Application Submission Button Action Mock */}
+              <div className="w-full h-14 bg-slate-200 rounded-xl" />
+
+              {/* Footer Encryption Security Token */}
+              <div className="flex items-center justify-center gap-2 opacity-20 pt-2">
+                <div className="w-3 h-3 bg-slate-300 rounded" />
+                <div className="h-2.5 bg-slate-300 rounded w-32" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
