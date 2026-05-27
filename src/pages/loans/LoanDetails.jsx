@@ -253,24 +253,30 @@ const LoanDetails = () => {
             </div>
             <div className="flex-1 min-w-[320px] bg-[#17C6C6]/5 border border-[#17C6C6]/10 rounded-[24px] p-6 flex flex-col justify-center">
               <div className="space-y-4">
-                <PaymentRow label="Principal Amount" value="KES 20,000.00" />
-                <PaymentRow label="Interest Charged" value="KES 3,500.00" />
+                <PaymentRow
+                  label="Principal Amount"
+                  value={formatAmount(loan?.next_payment?.principal_due ?? 0)}
+                />
+                <PaymentRow
+                  label="Interest Charged"
+                  value={formatAmount(loan?.next_payment?.interest_due ?? 0)}
+                />
                 <PaymentRow label="Service Fee" value="KES 0.00" />
 
                 <hr className="border-black/10 my-3" />
 
                 <div className="flex justify-between items-center">
                   <span className="text-[14px] font-medium text-slate-900">
-                    Total Due (15 May)
+                    Total Due ({loan?.next_payment?.due_date})
                   </span>
                   <span className="text-[16px] font-medium text-teal-900">
-                    KES 24,500.00
+                    {formatAmount(loan?.next_payment?.balance_due ?? 0)}
                   </span>
                 </div>
               </div>
               <button
                 onClick={() => setShowRepayAmount(true)}
-                className="mt-6 w-full py-3 bg-[#17C6C6] text-white rounded-xl font-medium text-[12px] uppercase tracking-widest shadow-lg shadow-teal-500/20 active:scale-[0.98] transition-transform"
+                className="mt-6 w-full py-4 bg-secondary text-white rounded-xl font-medium text-[12px] uppercase tracking-widest active:scale-[0.98] transition-transform"
               >
                 Pay Installment
               </button>

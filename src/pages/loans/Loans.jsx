@@ -333,7 +333,7 @@ const LoanItem = ({
         </div>
 
         {/* Stats Box */}
-        <div className="mx-4 flex items-center justify-between rounded-[22px] bg-[#F8FAFC] px-5 py-4 border border-gray-100/50">
+        <div className="mx-4 flex items-center justify-between rounded-[22px] bg-[#F8FAFC] px-5 py-2 border border-gray-100/50">
           <div>
             <span className="text-[9px] font-extrabold text-gray-400 tracking-widest">
               PRINCIPAL

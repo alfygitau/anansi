@@ -11,6 +11,17 @@ export const getLoanApplications = async (customerId) => {
   }
 };
 
+export const getActiveLoanApplications = async (customerId) => {
+  try {
+    const response = await loanClient.get(
+      `/loan-applications/my?customer_id=${customerId}&loan_org_code=BA208`,
+    );
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
 export const getLoanApplication = async (id) => {
   try {
     const response = await loanClient.get(`/loan-applications/${id}`);

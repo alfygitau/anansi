@@ -18,11 +18,14 @@ import {
   ArrowRight,
   ShieldCheck,
   Users,
-  Hourglass,
   ChevronRight,
   Briefcase,
   Info,
   Check,
+  CheckCircle2,
+  XCircle,
+  Clock,
+  Calendar,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import InvestAmount from "../../components/quick-invest/InvestAmount";
@@ -51,18 +54,18 @@ import { getSharesSummary } from "../../sdks/accounts/accounts";
 import useAuth from "../../hooks/useAuth";
 import { useStore } from "../../store/useStore";
 import { useFormatAmount } from "../../hooks/useFormatAmount";
-import { allLoans, myLoanApplications } from "../../static/loans";
 import LoanTerms from "../../components/loan-terms-conditions/TermsAndCobditions";
-import { getLoanProducts } from "../../sdks/loans/loans";
+import { getActiveLoans, getLoanProducts } from "../../sdks/loans/loans";
 import LoanProductsLoader from "../../skeletons/LoanProductsLoader";
+import { getActiveLoanApplications } from "../../sdks/applications/applications";
 
 const Homepage = () => {
   const navigate = useNavigate();
   const { showToast } = useToast();
   const setStoreAccounts = useStore((state) => state.setAccounts);
-  const [loans, setLoans] = useState(allLoans);
+  const [loans, setLoans] = useState([]);
   const [loanProducts, setLoanProducts] = useState([]);
-  const [loanApplications, setLoanApplications] = useState(myLoanApplications);
+  const [loanApplications, setLoanApplications] = useState([]);
   const quickActions = [
     {
       id: 1,
@@ -216,6 +219,67 @@ const Homepage = () => {
       return isASavings === isBSavings ? 0 : isASavings ? -1 : 1;
     });
   }, [accounts]);
+
+  const { isFetching: loadingApplications } = useQuery({
+    queryKey: ["all active applications"],
+    queryFn: async () => {
+      const response = await getActiveLoanApplications(auth?.user?.id);
+      return response?.data?.data;
+    },
+    onSuccess: (data) => {
+      setLoanApplications(data?.applications);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { isFetching: loadingLoans } = useQuery({
+    queryKey: ["all active loans"],
+    queryFn: async () => {
+      const response = await getActiveLoans(auth?.user?.id);
+      return response?.data?.data;
+    },
+    onSuccess: (data) => {
+      setLoans(data?.loans);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const getLoanStatusColor = (status = "") => {
+    switch (status.toLowerCase().trim()) {
+      case "active":
+      case "approved":
+      case "servicing":
+        return "#10B981"; // Emerald Green
+      case "pending":
+      case "processing":
+      case "under_review":
+        return "#F59E0B"; // Amber/Yellow
+      case "defaulted":
+      case "overdue":
+      case "arrears":
+        return "#EF4444"; // Rose/Red
+      case "closed":
+      case "settled":
+      case "fully_paid":
+        return "#64748B"; // Slate Gray
+      default:
+        return "#94A3B8"; // Muted Light Gray (Fallback)
+    }
+  };
 
   return (
     <>
@@ -613,21 +677,27 @@ const Homepage = () => {
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-bold">Recent Loans</h2>
                 <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">
-                  {loans.length} Running
+                  {loans?.length} Running
                 </span>
               </div>
-              {loans.length > 0 ? (
-                loans.map((loan) => (
+              {loadingLoans ? (
+                <div className="p-3 overflow-y-auto">
+                  {Array.from({ length: 2 }).map((_, index) => (
+                    <LoanItemSkeleton key={`loan-skeleton-${index}`} />
+                  ))}
+                </div>
+              ) : loans?.length > 0 ? (
+                loans?.map((loan) => (
                   <LoanItem
-                    key={loan.id}
-                    title={loan.title}
-                    id={loan.id}
-                    amount={loan.amount}
-                    balance={loan.balance}
-                    status={loan.status}
-                    statusColor={loan.statusColor}
-                    maturityDate={loan.maturityDate}
-                    onTap={() => navigate("/loan-details")}
+                    key={loan?.id}
+                    title={loan?.loan_type}
+                    id={loan?.loan_code}
+                    amount={formatAmount(loan?.loan_amount)}
+                    balance={formatAmount(loan?.loan_Balance)}
+                    status={loan?.loan_status}
+                    statusColor={getLoanStatusColor(loan?.loan_status)}
+                    maturityDate={loan?.loan_due_date}
+                    onTap={() => navigate(`/loan-details/${loan?.id}`)}
                   />
                 ))
               ) : (
@@ -642,19 +712,27 @@ const Homepage = () => {
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-bold">Loan Applications</h2>
                 <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
-                  {loanApplications.length} Pending
+                  {loanApplications?.length} Pending
                 </span>
               </div>
-              {loanApplications.length > 0 ? (
-                loanApplications.map((app, index) => (
+              {loadingApplications ? (
+                <div className="p-3 overflow-y-auto">
+                  {Array.from({ length: 4 }).map((_, index) => (
+                    <ApplicationSkeleton key={`skeleton-${index}`} />
+                  ))}
+                </div>
+              ) : loanApplications?.length > 0 ? (
+                loanApplications?.map((app, index) => (
                   <ApplicationItem
-                    key={app.reference || index}
-                    reference={app.reference}
-                    title={app.title}
-                    date={app.date}
-                    amount={app.amount}
-                    status={app.status}
-                    onTap={() => navigate("/loan-application-details")}
+                    key={app.reference}
+                    title={app?.product?.name}
+                    date={app?.application_date}
+                    amount={app?.applied_amount}
+                    status={app?.status}
+                    reference={app?.application_number}
+                    onTap={() =>
+                      navigate(`/loan-application-details/${app?.id}`)
+                    }
                   />
                 ))
               ) : (
@@ -696,6 +774,88 @@ const Homepage = () => {
 };
 
 /* --- Sub-Components --- */
+const LoanItemSkeleton = () => {
+  return (
+    <div className="mb-4 rounded-[30px] bg-white border border-slate-100/60 shadow-sm animate-pulse select-none">
+      <div className="flex flex-col">
+        {/* Header Placeholder */}
+        <div className="flex items-center justify-between px-6 pt-5 pb-3.5">
+          <div className="flex flex-col space-y-2 w-1/2">
+            {/* Title Line */}
+            <div className="h-4 bg-slate-100 rounded-md w-3/4" />
+            {/* ID Subtext Line */}
+            <div className="h-3 bg-slate-100 rounded-md w-1/3" />
+          </div>
+          <div className="flex flex-col items-end space-y-2 w-1/4">
+            {/* MATURITY Label */}
+            <div className="h-2.5 bg-slate-100 rounded-md w-14" />
+            {/* Maturity Date Value */}
+            <div className="h-3.5 bg-slate-100 rounded-md w-20" />
+          </div>
+        </div>
+
+        {/* Stats Box Placeholder */}
+        <div className="mx-4 flex items-center justify-between rounded-[22px] bg-[#F8FAFC] px-5 py-4 border border-gray-100/50">
+          <div className="space-y-2">
+            {/* PRINCIPAL Label */}
+            <div className="h-2.5 bg-slate-200/60 rounded-md w-16" />
+            {/* Principal Amount Value */}
+            <div className="h-4 bg-slate-100 rounded-md w-24" />
+          </div>
+
+          {/* Vertical Separator Divider Line */}
+          <div className="h-8 w-[1px] bg-slate-200" />
+
+          <div className="flex flex-col items-end space-y-2">
+            {/* CURRENT BALANCE Label */}
+            <div className="h-2.5 bg-slate-200/60 rounded-md w-24" />
+            {/* Balance Value */}
+            <div className="h-4 bg-slate-100 rounded-md w-24" />
+          </div>
+        </div>
+
+        {/* Footer Placeholder */}
+        <div className="flex items-center justify-between px-6 pt-4 pb-5">
+          {/* Status Capsule Pill */}
+          <div className="h-6 bg-slate-100 rounded-full w-20" />
+
+          {/* View Details Target Link */}
+          <div className="h-3 bg-slate-100 rounded-md w-16" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ApplicationSkeleton = () => {
+  return (
+    <div className="relative overflow-hidden bg-white rounded-[24px] p-4 border border-[#F1F5F9] border-b-2 shadow-sm animate-pulse mb-4">
+      <div className="relative flex items-center gap-4">
+        {/* 1. Status Indicator Circle Placeholder */}
+        <div className="shrink-0 w-10 h-10 rounded-full bg-slate-100" />
+
+        {/* 2. Main Details Stack */}
+        <div className="flex-1 min-w-0 space-y-2">
+          {/* Reference tag space */}
+          <div className="h-3 bg-slate-100 rounded-md w-20" />
+          {/* Title line space */}
+          <div className="h-4 bg-slate-100 rounded-md w-1/2" />
+          {/* Date row space */}
+          <div className="h-3 bg-slate-100 rounded-md w-1/3" />
+        </div>
+
+        {/* 3. Amount and Status Badge Stack */}
+        <div className="flex flex-col items-end shrink-0 space-y-2">
+          {/* Amount tag space */}
+          <div className="h-4 bg-slate-100 rounded-md w-24" />
+          {/* Status badge block space */}
+          <div className="h-6 bg-slate-100 rounded-lg w-16" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const DetailedProductCard = ({ product, onApply, onTerms, onNavigate }) => {
   const {
     product_name,
@@ -785,35 +945,92 @@ const InfoColumn = ({ label, value }) => (
 );
 
 const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
+  // Logic to determine color and icon based on status
+  const getStatusConfig = (status) => {
+    switch (status.toLowerCase()) {
+      case "approved":
+        return {
+          color: "#10B981", // Emerald
+          bg: "bg-emerald-500/10",
+          icon: CheckCircle2,
+        };
+      case "declined":
+        return {
+          color: "#EF4444", // Rose
+          bg: "bg-red-500/10",
+          icon: XCircle,
+        };
+      case "pending":
+      default:
+        return {
+          color: "#F59E0B", // Amber
+          bg: "bg-amber-500/10",
+          icon: Clock,
+        };
+    }
+  };
+
+  const config = getStatusConfig(status);
+  const StatusIcon = config.icon;
+  const formatAmount = useFormatAmount();
+
   return (
-    <div
+    <motion.div
+      whileTap={{ scale: 0.98 }}
       onClick={onTap}
-      className="group relative cursor-pointer overflow-hidden rounded-[20px] mb-[20px] border border-gray-100 bg-white p-4 transition-all hover:bg-[#17C6C6]/5 active:scale-[0.98]"
+      className="group cursor-pointer select-none mb-4"
     >
-      <div className="flex items-center gap-3">
-        {/* Lucide Hourglass Icon */}
-        <div className="text-amber-500">
-          <Hourglass size={20} strokeWidth={2.5} />
-        </div>
+      <div className="relative overflow-hidden bg-white rounded-[24px] p-4 border border-[#F1F5F9] border-b-2 shadow-sm hover:shadow-md transition-all">
+        {/* Subtle Anansi Teal Splash Overlay on Hover */}
+        <div className="absolute inset-0 bg-[#17C6C6]/0 group-hover:bg-[#17C6C6]/[0.02] transition-colors pointer-events-none" />
 
-        <div className="flex-1 flex flex-col">
-          <span className="text-[11px] uppercase tracking-wider text-gray-400 font-bold">
-            {reference}
-          </span>
-          <h3 className="text-[13px] font-bold text-[#0A2351]">{title}</h3>
-          <span className="text-[11px] text-gray-400">{date}</span>
-        </div>
+        <div className="relative flex items-center gap-4">
+          {/* 1. Status Indicator Icon */}
+          <div
+            className={`shrink-0 w-10 h-10 rounded-full ${config.bg} flex items-center justify-center`}
+            style={{ color: config.color }}
+          >
+            <StatusIcon size={20} strokeWidth={2.5} />
+          </div>
 
-        <div className="flex flex-col items-end">
-          <span className="text-[13px] font-medium text-[#0A2351] font-outfit">
-            {amount}
-          </span>
-          <span className="text-[9px] font-medium uppercase text-amber-500 tracking-tighter">
-            {status}
-          </span>
+          {/* 2. Main Details */}
+          <div className="flex-1 min-w-0">
+            <span className="block font-mono text-slate-400 text-[10px] font-bold tracking-wider uppercase leading-none mb-1">
+              {reference}
+            </span>
+            <h3 className="font-medium text-[14px] text-[#0A2351] leading-tight truncate">
+              {title}
+            </h3>
+            <div className="flex items-center gap-1.5 mt-1">
+              <Calendar size={11} className="text-slate-400" />
+              <span className="text-slate-400 text-[11px] font-medium">
+                {date}
+              </span>
+            </div>
+          </div>
+
+          {/* 3. Amount and Status Badge */}
+          <div className="flex flex-col items-end shrink-0">
+            <span className="font-mono font-medium text-[14px] text-[#0A2351] tracking-tighter">
+              {formatAmount(amount)}
+            </span>
+            <div
+              className={`mt-2 px-3 py-2 rounded-lg flex items-center justify-center ${config.bg}`}
+              style={{ color: config.color }}
+            >
+              <span className="text-[9px] font-medium uppercase tracking-widest leading-none">
+                {status}
+              </span>
+            </div>
+          </div>
+
+          {/* Subtle Chevron indicator for desktop */}
+          <div className="hidden md:block opacity-0 group-hover:opacity-100 transition-opacity translate-x-1">
+            <ChevronRight size={16} className="text-slate-300" />
+          </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -996,7 +1213,7 @@ const LoanItem = ({
         </div>
 
         {/* Stats Box */}
-        <div className="mx-4 flex items-center justify-between rounded-[22px] bg-[#F8FAFC] px-5 py-4 border border-gray-100/50">
+        <div className="mx-4 flex items-center justify-between rounded-[22px] bg-[#F8FAFC] px-5 py-2 border border-gray-100/50">
           <div>
             <span className="text-[9px] font-extrabold text-gray-400 tracking-widest">
               PRINCIPAL

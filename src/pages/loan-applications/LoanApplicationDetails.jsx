@@ -16,8 +16,9 @@ import {
   Clock,
   ArrowRight,
   XCircle,
+  Users,
 } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getLoanApplication } from "../../sdks/applications/applications";
 import { useToast } from "../../contexts/ToastProvider";
@@ -28,6 +29,7 @@ const LoanApplicationDetails = ({ onBack }) => {
   const { showToast } = useToast();
   const [loanApplication, setLoanApplication] = useState({});
   const formatAmount = useFormatAmount();
+  const navigate = useNavigate();
 
   const getStatusTheme = (isDone, isPending, status) => {
     if (isDone) return { color: "#10B981", bg: "bg-emerald-500/10" }; // Success Green
@@ -68,7 +70,11 @@ const LoanApplicationDetails = ({ onBack }) => {
     ).length || 0;
   const totalCount = loanApplication?.eligibility_result?.checks?.length || 0;
 
-  const handleContinue = () => {};
+  const handleContinue = (status) => {
+    if (status?.toLowerCase() === "pending_guarantor") {
+      navigate(`/add-guarantor/${appId}`);
+    }
+  };
 
   if (isFetching) {
     return <LoanApplicationDetailsSkeleton />;
@@ -271,7 +277,7 @@ const LoanApplicationDetails = ({ onBack }) => {
               <DetailCell
                 icon={Calendar}
                 label="Loan Period"
-                value={`${loanApplication?.loan_period} Days`}
+                value={`${loanApplication?.loan_period} Months`}
               />
               <DetailCell icon={Repeat} label="Frequency" value="Monthly" />
               <DetailCell
@@ -297,7 +303,7 @@ const LoanApplicationDetails = ({ onBack }) => {
 
         <StatusInsight
           status={loanApplication?.status}
-          onContinue={handleContinue}
+          onContinue={() => handleContinue(loanApplication?.status)}
         />
 
         <div className="mb-2 mt-6 flex items-baseline justify-between">
@@ -452,7 +458,7 @@ const StatusInsight = ({ status = "", onContinue }) => {
       title: "Loan Approved Successfully",
       description:
         "Congratulations! Your credit facility request has passed formal committee evaluations and is ready for onboarding clearance.",
-      icon: <CheckCircle2 className="text-emerald-600" />, // Remember to import CheckCircle2 from 'lucide-react'
+      icon: <CheckCircle2 className="text-emerald-600" />,
       bg: "bg-emerald-50",
       border: "border-emerald-100",
       actionLabel: "View Agreement",
@@ -466,6 +472,16 @@ const StatusInsight = ({ status = "", onContinue }) => {
       bg: "bg-slate-50",
       border: "border-slate-200",
       actionLabel: "Start New Application",
+      showButton: true,
+    },
+    pending_guarantor: {
+      title: "Guarantor Action Required",
+      description:
+        "Your application requires guarantor backing. Please send invitation requests to your chosen group, or ensure your selected guarantors accept and digitally sign their credit commitments to proceed.",
+      icon: <Users className="text-purple-600" />,
+      bg: "bg-purple-50",
+      border: "border-purple-100",
+      actionLabel: "Manage Guarantors",
       showButton: true,
     },
   };

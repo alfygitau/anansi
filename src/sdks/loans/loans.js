@@ -43,6 +43,17 @@ export const getLoans = async (customerId) => {
   }
 };
 
+export const getActiveLoans = async (customerId) => {
+  try {
+    const response = await loanClient.get(
+      `/loans/my?customer_id=${customerId}&loan_org_code=BA208`,
+    );
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
 export const getLoan = async (loanId) => {
   try {
     const response = await loanClient.get(`/loans/${loanId}?format=full`);

@@ -16,11 +16,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
+
 const AddGuarantors = ({ limit = 4 }) => {
   const [guarantors, setGuarantors] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [memberName, setMemberName] = useState("");
-  const [idNumber, setIdNumber] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
   const navigate = useNavigate();
 
   const handleSearchAndAdd = (e) => {
@@ -33,7 +34,7 @@ const AddGuarantors = ({ limit = 4 }) => {
           {
             id: Date.now(),
             name: memberName || "Samuel Otieno",
-            idNo: idNumber || "29330101",
+            idNo: mobileNumber || "29330101",
             mobile: "0722***901",
             shares: "KES 450,000",
             status: "Eligible",
@@ -41,7 +42,7 @@ const AddGuarantors = ({ limit = 4 }) => {
         ]);
         setIsSearching(false);
         setMemberName("");
-        setIdNumber("");
+        setMobileNumber("");
       }, 800);
     }
   };
@@ -124,7 +125,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                     {/* ID Input */}
                     <div className="space-y-2">
                       <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-1">
-                        National ID
+                        Mobile Number
                       </label>
                       <div className="group relative flex items-center">
                         {/* Changed h-full to h-6 to make the vertical divider float in the center */}
@@ -133,10 +134,10 @@ const AddGuarantors = ({ limit = 4 }) => {
                         </div>
                         <input
                           type="text"
-                          value={idNumber}
-                          onChange={(e) => setIdNumber(e.target.value)}
+                          value={mobileNumber}
+                          onChange={(e) => setMobileNumber(e.target.value)}
                           className="w-full h-14 pl-16 bg-white border border-slate-200 rounded-xl focus:border-primary outline-none transition-all font-semibold text-sm"
-                          placeholder="e.g. 29440101"
+                          placeholder="e.g. 0700000000"
                         />
                       </div>
                     </div>
@@ -146,7 +147,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                     type="submit"
                     disabled={
                       !memberName ||
-                      !idNumber ||
+                      !mobileNumber ||
                       isSearching ||
                       guarantors.length >= limit
                     }

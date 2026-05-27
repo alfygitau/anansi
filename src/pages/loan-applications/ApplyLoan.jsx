@@ -21,12 +21,15 @@ import { getLoanProduct } from "../../sdks/loans/loans";
 import { useToast } from "../../contexts/ToastProvider";
 import { createLoanApplication } from "../../sdks/applications/applications";
 import useAuth from "../../hooks/useAuth";
+import { useFormatAmount } from "../../hooks/useFormatAmount";
 
 const ApplyLoan = () => {
   const navigate = useNavigate();
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const [purpose, setPurpose] = useState("");
   const [tenure, setTenure] = useState(0);
+  const [minPeriod, setMinPeriod] = useState(0);
+  const [maxPeriod, setMaxPeriod] = useState(0);
   const [frequency, setFrequency] = useState("Monthly");
   const [isScheduleOpen, setIsScheduleOpen] = useState(false);
   const { productId } = useParams();
@@ -37,14 +40,17 @@ const ApplyLoan = () => {
   const [requireStatements, setRequireStatements] = useState(false);
   const { auth } = useAuth();
   const [errors, setErrors] = useState({ amount: "", tenure: "", purpose: "" });
+  const formatAmount = useFormatAmount();
 
   const handleAmountBlur = () => {
     let errorMsg = "";
 
     if (!amount || amount <= 0) {
       errorMsg = "Please enter a valid principal request amount.";
-    } else if (amount > 2500000) {
-      errorMsg = "Amount exceeds maximum structural product limit of KES 2.5M.";
+    } else if (amount > Number(loanProduct?.max_amount)) {
+      errorMsg = `Amount exceeds maximum structural product limit of ${formatAmount(loanProduct?.max_amount)}.`;
+    } else if (amount < Number(loanProduct?.min_amount)) {
+      errorMsg = `Amount is less than the minimum structural product limit of ${formatAmount(loanProduct?.min_amount)}.`;
     }
 
     setErrors((prev) => ({ ...prev, amount: errorMsg }));
@@ -57,7 +63,7 @@ const ApplyLoan = () => {
     if (tenure === "" || Number(tenure) < 1) {
       setTenure(1);
     } else if (Number(tenure) > tenure) {
-      errorMsg = "Maximum duration framework is restricted to 48 months.";
+      errorMsg = `Maximum duration framework is restricted to ${tenure} months.`;
     }
     setErrors((prev) => ({ ...prev, tenure: errorMsg }));
   };
@@ -96,7 +102,9 @@ const ApplyLoan = () => {
     },
     onSuccess: (data) => {
       setLoanProduct(data);
-      setTenure(data?.max_period);
+      setMaxPeriod(data?.max_period);
+      setMinPeriod(data?.min_period);
+      setTenure(data?.min_period);
       setRequireGuarantors(data?.requires_guarantor);
       setRequireCollateral(data?.requires_collateral);
       setRequireStatements(data?.require_statement);
@@ -138,13 +146,6 @@ const ApplyLoan = () => {
     },
     onSuccess: ({ application, targetRoute }) => {
       const applicationId = application?.id;
-
-      if (!applicationId) {
-        console.error(
-          "Mutation success structural error: API missing application ID attribute.",
-        );
-        return;
-      }
       navigate(`${targetRoute}/${applicationId}`);
     },
     onError: (error) => {
@@ -158,11 +159,20 @@ const ApplyLoan = () => {
   });
 
   const isFormValid = () => {
+    const numAmount = Number(amount);
+    const numTenure = Number(tenure);
+    const maxLimit = loanProduct?.max_period;
+
     const isAmountValid =
-      amount && Number(amount) > 0 && Number(amount) <= 2500000;
-    const isTenureValid = tenure && Number(tenure) >= 1 && Number(tenure) <= 48;
+      !isNaN(numAmount) &&
+      numAmount > 0 &&
+      numAmount >= Number(loanProduct?.min_amount) &&
+      numAmount <= Number(loanProduct?.max_amount);
+    const isTenureValid =
+      !isNaN(numTenure) && numTenure >= 1 && numTenure <= maxLimit;
     const isPurposeValid =
       purpose && purpose.trim().length >= 1 && purpose.trim().length <= 500;
+
     return !!(isAmountValid && isTenureValid && isPurposeValid);
   };
 
@@ -229,6 +239,8 @@ const ApplyLoan = () => {
                     onBlur={handleAmountBlur}
                     className="w-full bg-white border-none pl-4 pr-6 text-xl font-medium text-slate-900 outline-none focus:outline-none border-0 focus:border-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none placeholder:text-slate-200"
                     placeholder="0.00"
+                    min={loanProduct?.min_amount}
+                    max={loanProduct?.max_amount}
                   />
                 </div>
                 {/* ⚡ PRE-ALLOCATED ABSOLUTE ERROR SLOT */}
@@ -250,7 +262,7 @@ const ApplyLoan = () => {
                 <div className="relative flex items-center justify-between bg-white border-2 border-slate-100 rounded-2xl h-16 transition-all duration-200">
                   <button
                     type="button"
-                    onClick={() => setTenure(Math.max(1, tenure - 1))}
+                    onClick={() => setTenure(Math.max(minPeriod, tenure - 1))}
                     className="h-full px-5 text-slate-400 hover:text-slate-900 border-r border-slate-200/60 font-medium text-lg transition-colors"
                   >
                     -
@@ -271,8 +283,8 @@ const ApplyLoan = () => {
                           return;
                         }
                         const numericVal = Number(val);
-                        if (numericVal > 48) setTenure(48);
-                        else if (numericVal < 1) setTenure(1);
+                        if (numericVal > maxPeriod) setTenure(maxPeriod);
+                        else if (numericVal < minPeriod) setTenure(minPeriod);
                         else setTenure(numericVal);
                       }}
                       onBlur={handleTenureBlur}
@@ -286,7 +298,7 @@ const ApplyLoan = () => {
                     type="button"
                     onClick={() =>
                       setTenure(
-                        Math.max(1, Math.min(48, (Number(tenure) || 1) + 1)),
+                        Math.max(1, Math.min(maxPeriod, (Number(tenure) || 1) + 1)),
                       )
                     }
                     className="h-full px-5 text-slate-400 hover:text-slate-900 border-l border-slate-200/60 font-medium text-lg transition-colors"
