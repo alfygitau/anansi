@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { ArrowRight, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useFormatAmount } from "../../hooks/useFormatAmount";
 
 const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
   const [selectedOption, setSelectedOption] = useState(null);
+  const formatAmount = useFormatAmount();
 
   const paymentOptions = [
     {
       id: "minimum",
-      title: "Minimum Payment",
+      title: "Scheduled Payment",
       description:
         "Cover interest and required principal to keep your loan in good standing.",
       amount: loanData?.minimumPayable || 0,
@@ -28,13 +30,6 @@ const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
       amount: null,
     },
   ];
-
-  const formatCurrency = (val) => {
-    return new Intl.NumberFormat("en-KE", {
-      style: "currency",
-      currency: "KES",
-    }).format(val);
-  };
 
   return (
     <AnimatePresence>
@@ -66,16 +61,16 @@ const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
                 <X size={20} />
               </button>
 
-              <h2 className="text-2xl font-medium text-primary tracking-tight">
+              <h2 className="text-xl font-medium text-primary tracking-tight">
                 Repayment Option
               </h2>
               <p className="text-sm text-slate-500 font-medium leading-relaxed">
-                Select your preferred method to settle your loan balance.
+                Select your preferred method to settle your balance.
               </p>
             </div>
             <div className="border-b border-slate-100 mx-8"></div>
             {/* Selection Area */}
-            <div className="flex-grow overflow-y-auto p-8 space-y-4">
+            <div className="flex-grow overflow-y-auto p-8 px-6 space-y-4">
               {paymentOptions.map((option) => (
                 <div
                   key={option.id}
@@ -116,7 +111,7 @@ const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
                         >
                           {option.title}
                         </h4>
-                        <p className="text-[11px] text-slate-500 font-medium leading-tight max-w-[240px] mt-0.5">
+                        <p className="text-[11px] text-slate-500 font-medium leading-tight max-w-[200px] mt-0.5">
                           {option.description}
                         </p>
                       </div>
@@ -127,9 +122,9 @@ const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
                       <span className="text-[9px] font-medium text-slate-400 uppercase tracking-widest mb-0.5">
                         Amount
                       </span>
-                      <span className="font-medium text-primary text-sm leading-none">
+                      <span className="font-bold text-primary text-sm leading-none">
                         {option.amount
-                          ? formatCurrency(option.amount)
+                          ? formatAmount(option.amount)
                           : "Flexible"}
                       </span>
                     </div>

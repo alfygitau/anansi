@@ -8,7 +8,15 @@ import { ToastProvider } from "./contexts/ToastProvider";
 import { AuthProvider } from "./contexts/AuthProvider";
 import { HelmetProvider } from "react-helmet-async";
 
-const queryClient = new QueryClient({});
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      staleTime: 5 * 60 * 1000,
+    },
+  },
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
