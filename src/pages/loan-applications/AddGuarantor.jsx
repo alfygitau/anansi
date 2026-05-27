@@ -13,9 +13,14 @@ import {
   ShieldCheck,
   Smartphone,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { useQuery, useMutation } from "react-query";
+import {
+  addApplicationGuarantors,
+  applicationGuarantors,
+} from "../../sdks/guarantors/guarantor";
+import { useToast } from "../../contexts/ToastProvider";
 
 const AddGuarantors = ({ limit = 4 }) => {
   const [guarantors, setGuarantors] = useState([]);
@@ -23,28 +28,94 @@ const AddGuarantors = ({ limit = 4 }) => {
   const [memberName, setMemberName] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const navigate = useNavigate();
+  const { appId } = useParams();
+  const { showToast } = useToast();
+  const [errors, setErrors] = useState({ memberName: "", mobileNumber: "" });
 
-  const handleSearchAndAdd = (e) => {
-    e.preventDefault();
-    if (guarantors.length < limit) {
-      setIsSearching(true);
-      setTimeout(() => {
-        setGuarantors([
-          ...guarantors,
-          {
-            id: Date.now(),
-            name: memberName || "Samuel Otieno",
-            idNo: mobileNumber || "29330101",
-            mobile: "0722***901",
-            shares: "KES 450,000",
-            status: "Eligible",
-          },
-        ]);
-        setIsSearching(false);
-        setMemberName("");
-        setMobileNumber("");
-      }, 800);
+  const handleNameBlur = () => {
+    let errorMsg = "";
+    const trimmedName = memberName.trim();
+
+    if (!trimmedName) {
+      errorMsg = "Member name is mandatory to execute registry verification.";
+    } else if (trimmedName.length < 3) {
+      errorMsg = "Please supply a valid search term (minimum 3 characters).";
     }
+
+    setErrors((prev) => ({ ...prev, memberName: errorMsg }));
+  };
+
+  const handleMobileBlur = () => {
+    let errorMsg = "";
+    const trimmedMobile = mobileNumber.trim();
+    const phoneRegex = /^(?:254|\+254|0)?(7|1)\d{8}$/;
+
+    if (!trimmedMobile) {
+      errorMsg = "Mobile connection number is required for guarantor search.";
+    } else if (!phoneRegex.test(trimmedMobile)) {
+      errorMsg =
+        "Please enter a valid mobile number (e.g., 0712345678 or 07XXXXXXXX).";
+    }
+
+    setErrors((prev) => ({ ...prev, mobileNumber: errorMsg }));
+  };
+
+  const isFormValid = () => {
+    const trimmedName = memberName.trim();
+    const trimmedMobile = mobileNumber.trim();
+    const phoneRegex = /^(?:254|\+254|0)?(7|1)\d{8}$/;
+
+    return (
+      trimmedName.length >= 3 &&
+      phoneRegex.test(trimmedMobile) &&
+      !errors.memberName &&
+      !errors.mobileNumber
+    );
+  };
+
+  const { mutate, isLoading } = useMutation({
+    mutationKey: ["add guarantors"],
+    mutationFn: async () => {
+      const response = await addApplicationGuarantors(
+        appId,
+        memberName,
+        mobileNumber,
+      );
+      return response.data.data;
+    },
+    onSuccess: (data) => {},
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  useQuery({
+    queryKey: ["get guarantors"],
+    queryFn: async () => {
+      const response = await applicationGuarantors(appId);
+      return response.data.data;
+    },
+    onSuccess: (data) => {
+      setGuarantors(data);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const handleAddGuarantor = async (e) => {
+    e.preventDefault();
+    await mutate();
   };
 
   return (
@@ -87,7 +158,7 @@ const AddGuarantors = ({ limit = 4 }) => {
         <div className="grid grid-cols-1 mb-2 lg:grid-cols-12 gap-8">
           {/* --- LEFT SIDE: CONFIGURATION (7 Cols) --- */}
           <div className="lg:col-span-6 space-y-12">
-            <div className="bg-white h-[400px] border border-slate-200 rounded-[32px] p-8 space-y-8">
+            <div className="bg-white h-[420px] border border-slate-200 rounded-[32px] p-8 space-y-8">
               <div className="flex items-center gap-3 text-primary">
                 <Search size={18} />
                 <h3 className="text-[11px] font-medium uppercase tracking-[0.2em]">
@@ -98,60 +169,98 @@ const AddGuarantors = ({ limit = 4 }) => {
               {/* Search Form Wrapper */}
               <div className="flex items-start">
                 <form
-                  onSubmit={handleSearchAndAdd}
+                  onSubmit={handleAddGuarantor}
                   className="space-y-6 w-full"
                 >
-                  <div className="flex flex-col gap-2">
-                    {/* Name Input */}
-                    <div className="space-y-2">
+                  <div className="flex flex-col gap-4">
+                    {/* 1. MEMBER NAME INPUT SECTION */}
+                    <div className="space-y-2 relative pb-4">
                       <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-1">
                         Member Name
                       </label>
                       <div className="group relative flex items-center">
-                        {/* Changed h-full to h-7 to make it shorter than the input */}
                         <div className="absolute left-4 h-7 flex items-center pr-3 border-r border-slate-200 group-focus-within:border-primary/30 transition-colors">
                           <User size={18} className="text-slate-300" />
                         </div>
                         <input
                           type="text"
                           value={memberName}
-                          onChange={(e) => setMemberName(e.target.value)}
-                          className="w-full h-14 pl-16 bg-white border border-slate-200 rounded-xl focus:border-primary outline-none transition-all font-semibold text-sm"
+                          onChange={(e) => {
+                            setMemberName(e.target.value);
+                            if (errors.memberName)
+                              setErrors((prev) => ({
+                                ...prev,
+                                memberName: "",
+                              }));
+                          }}
+                          onBlur={handleNameBlur}
+                          className={`w-full h-14 pl-16 bg-white border rounded-xl outline-none transition-all font-semibold text-sm ${
+                            errors.memberName
+                              ? "border-rose-500 focus:border-rose-600 shadow-sm shadow-rose-900/[0.02]"
+                              : "border-slate-200 focus:border-primary"
+                          }`}
                           placeholder="Search name..."
                         />
                       </div>
+                      {/* Absolute Error Placeholder: Prevents layout shifting */}
+                      <div className="absolute left-1 bottom-0 h-4 overflow-visible">
+                        <p
+                          className={`text-[10px] font-bold text-rose-500 transition-opacity duration-200 ${errors.memberName ? "opacity-100" : "opacity-0"}`}
+                        >
+                          {errors.memberName}
+                        </p>
+                      </div>
                     </div>
 
-                    {/* ID Input */}
-                    <div className="space-y-2">
+                    {/* 2. MOBILE NUMBER INPUT SECTION */}
+                    <div className="space-y-2 relative pb-4">
                       <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-1">
                         Mobile Number
                       </label>
                       <div className="group relative flex items-center">
-                        {/* Changed h-full to h-6 to make the vertical divider float in the center */}
                         <div className="absolute left-4 h-6 flex items-center pr-3 border-r border-slate-200 group-focus-within:border-primary/30 transition-colors">
                           <Fingerprint size={18} className="text-slate-300" />
                         </div>
                         <input
                           type="text"
                           value={mobileNumber}
-                          onChange={(e) => setMobileNumber(e.target.value)}
-                          className="w-full h-14 pl-16 bg-white border border-slate-200 rounded-xl focus:border-primary outline-none transition-all font-semibold text-sm"
+                          onChange={(e) => {
+                            setMobileNumber(e.target.value);
+                            if (errors.mobileNumber)
+                              setErrors((prev) => ({
+                                ...prev,
+                                mobileNumber: "",
+                              }));
+                          }}
+                          onBlur={handleMobileBlur}
+                          className={`w-full h-14 pl-16 bg-white border rounded-xl outline-none transition-all font-semibold text-sm ${
+                            errors.mobileNumber
+                              ? "border-rose-500 focus:border-rose-600 shadow-sm shadow-rose-900/[0.02]"
+                              : "border-slate-200 focus:border-primary"
+                          }`}
                           placeholder="e.g. 0700000000"
                         />
+                      </div>
+                      {/* Absolute Error Placeholder: Prevents layout shifting */}
+                      <div className="absolute left-1 bottom-0 h-4 overflow-visible">
+                        <p
+                          className={`text-[10px] font-bold text-rose-500 transition-opacity duration-200 ${errors.mobileNumber ? "opacity-100" : "opacity-0"}`}
+                        >
+                          {errors.mobileNumber}
+                        </p>
                       </div>
                     </div>
                   </div>
 
+                  {/* 3. DYNAMIC VERIFICATION SUBMIT BUTTON */}
                   <button
                     type="submit"
                     disabled={
-                      !memberName ||
-                      !mobileNumber ||
+                      !isFormValid() ||
                       isSearching ||
                       guarantors.length >= limit
                     }
-                    className="w-full h-16 bg-primary text-white rounded-xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:bg-secondary transition-all shadow-xl shadow-primary/10 disabled:opacity-20"
+                    className="w-full h-16 bg-primary text-white rounded-xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:bg-secondary transition-all shadow-xl shadow-primary/10 disabled:opacity-20 disabled:cursor-not-allowed"
                   >
                     {isSearching
                       ? "Validating Registry..."
@@ -169,7 +278,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="h-[400px] border-2 border-dashed border-slate-200 rounded-[32px] flex flex-col items-center justify-center text-center p-8"
+                    className="h-[420px] border-2 border-dashed border-slate-200 rounded-[32px] flex flex-col items-center justify-center text-center p-8"
                   >
                     <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
                       <UserPlus size={24} className="text-slate-200" />
@@ -186,7 +295,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="h-[400px] border-2 border-dashed border-slate-200 rounded-[32px] flex flex-col gap-2 text-center p-3 overflow-y-auto"
+                    className="h-[420px] border-2 border-dashed border-slate-200 rounded-[32px] flex flex-col gap-2 text-center p-3 overflow-y-auto"
                   >
                     {guarantors.map((g) => (
                       <motion.div
