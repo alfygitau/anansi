@@ -72,7 +72,7 @@ const LoanApplicationDetails = ({ onBack }) => {
 
   const handleContinue = (status) => {
     if (status?.toLowerCase() === "pending_guarantor") {
-      navigate(`/add-guarantor/${appId}`);
+      navigate(`/add-guarantor/${loanApplication?.loan_product?.id}/${appId}`);
     }
   };
 

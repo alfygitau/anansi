@@ -582,7 +582,7 @@ const LoanScheduleList = ({ installments = [], onSelectInstallment }) => {
                 </span>
               ) : (
                 <span className="text-[9px] flex items-center">
-                  PENDING <ChevronRight size={14} className="text-slate-300" />
+                  PENDING &nbsp;<ChevronRight size={14} className="text-slate-300" />
                 </span>
               )}
             </div>

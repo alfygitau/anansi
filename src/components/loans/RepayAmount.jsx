@@ -61,7 +61,7 @@ const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
                 <X size={20} />
               </button>
 
-              <h2 className="text-xl font-medium text-primary tracking-tight">
+              <h2 className="text-2xl font-medium text-primary tracking-tight">
                 Repayment Option
               </h2>
               <p className="text-sm text-slate-500 font-medium leading-relaxed">

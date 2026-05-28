@@ -169,7 +169,7 @@ const EditAddress = ({
                 </div>
               </div>
 
-              {country === "Kenya" ? (
+              {country?.toLowerCase() === "kenya" ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Physical Address - Full Width */}
                   <div className="md:col-span-2 relative">

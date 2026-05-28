@@ -299,7 +299,10 @@ const ApplyLoan = () => {
                     type="button"
                     onClick={() =>
                       setTenure(
-                        Math.max(1, Math.min(maxPeriod, (Number(tenure) || 1) + 1)),
+                        Math.max(
+                          1,
+                          Math.min(maxPeriod, (Number(tenure) || 1) + 1),
+                        ),
                       )
                     }
                     className="h-full px-5 text-slate-400 hover:text-slate-900 border-l border-slate-200/60 font-medium text-lg transition-colors"
@@ -486,7 +489,11 @@ const ApplyLoan = () => {
                       <button
                         type="button"
                         disabled={!isValid}
-                        onClick={() => handleLoanApplication("/add-guarantor")}
+                        onClick={() =>
+                          handleLoanApplication(
+                            `/add-guarantor/${loanProduct?.id}`,
+                          )
+                        }
                         className={`w-full h-14 rounded-xl font-bold uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all group ${
                           isValid
                             ? "bg-primary hover:bg-secondary text-white shadow-md cursor-pointer"

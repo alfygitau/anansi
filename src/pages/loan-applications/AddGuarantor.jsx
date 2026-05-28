@@ -21,16 +21,21 @@ import {
   applicationGuarantors,
 } from "../../sdks/guarantors/guarantor";
 import { useToast } from "../../contexts/ToastProvider";
+import { getLoanProduct } from "../../sdks/loans/loans";
 
 const AddGuarantors = ({ limit = 4 }) => {
   const [guarantors, setGuarantors] = useState([]);
-  const [isSearching, setIsSearching] = useState(false);
   const [memberName, setMemberName] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const navigate = useNavigate();
-  const { appId } = useParams();
+  const { productId, appId } = useParams();
   const { showToast } = useToast();
   const [errors, setErrors] = useState({ memberName: "", mobileNumber: "" });
+  const [requireCollateral, setRequireCollateral] = useState(false);
+  const [requireGuarantors, setRequireGuarantors] = useState(false);
+  const [requireStatements, setRequireStatements] = useState(false);
+  const [numberOfGuarantors, setNumberOfGuarantors] = useState(0);
+  const [loanProduct, setLoanProduct] = useState({});
 
   const handleNameBlur = () => {
     let errorMsg = "";
@@ -73,6 +78,30 @@ const AddGuarantors = ({ limit = 4 }) => {
     );
   };
 
+  const { isFetching } = useQuery({
+    queryKey: ["explore product", productId],
+    refetchOnWindowFocus: false,
+    queryFn: async () => {
+      const response = await getLoanProduct(productId);
+      return response?.data?.data;
+    },
+    onSuccess: (data) => {
+      setLoanProduct(data);
+      setRequireGuarantors(data?.requires_guarantor);
+      setRequireCollateral(data?.requires_collateral);
+      setRequireStatements(data?.require_statement);
+      setNumberOfGuarantors(data?.min_guarantors);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
   const { mutate, isLoading } = useMutation({
     mutationKey: ["add guarantors"],
     mutationFn: async () => {
@@ -85,6 +114,14 @@ const AddGuarantors = ({ limit = 4 }) => {
     },
     onSuccess: (data) => {
       refetch();
+      setMemberName("");
+      setMobileNumber("");
+      showToast({
+        title: "Guarantor Linked Successfully",
+        type: "success",
+        position: "top-right",
+        description: `Guarantor has been added to the validation queue.`,
+      });
     },
     onError: (error) => {
       showToast({
@@ -104,7 +141,7 @@ const AddGuarantors = ({ limit = 4 }) => {
       return response.data.data;
     },
     onSuccess: (data) => {
-      setGuarantors(data);
+      setGuarantors(data?.guarantors);
     },
     onError: (error) => {
       showToast({
@@ -258,14 +295,10 @@ const AddGuarantors = ({ limit = 4 }) => {
                   {/* 3. DYNAMIC VERIFICATION SUBMIT BUTTON */}
                   <button
                     type="submit"
-                    disabled={
-                      !isFormValid() ||
-                      isSearching ||
-                      guarantors.length >= limit
-                    }
+                    disabled={!isFormValid() || isLoading}
                     className="w-full h-16 bg-primary text-white rounded-xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:bg-secondary transition-all shadow-xl shadow-primary/10 disabled:opacity-20 disabled:cursor-not-allowed"
                   >
-                    {isSearching
+                    {isLoading
                       ? "Validating Registry..."
                       : "Verify & Add to Queue"}
                     <ArrowRight size={18} />
@@ -277,7 +310,7 @@ const AddGuarantors = ({ limit = 4 }) => {
           <div className="lg:col-span-6 space-y-8">
             <div className="space-y-4">
               <AnimatePresence mode="popLayout">
-                {guarantors.length === 0 ? (
+                {guarantors?.length === 0 ? (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -300,7 +333,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                     animate={{ opacity: 1, y: 0 }}
                     className="h-[420px] border-2 border-dashed border-slate-200 rounded-[32px] flex flex-col gap-2 text-center p-3 overflow-y-auto"
                   >
-                    {guarantors.map((g) => (
+                    {guarantors?.map((g) => (
                       <motion.div
                         key={g.id}
                         layout
@@ -317,14 +350,14 @@ const AddGuarantors = ({ limit = 4 }) => {
                         <div className="flex items-center gap-4 flex-1">
                           {/* Minimalist Premium Initial Avatar */}
                           <div className="size-10 bg-white border border-slate-200/60 rounded-xl flex items-center justify-center text-slate-700 font-medium text-sm shadow-sm select-none shrink-0">
-                            {g.name.charAt(0).toUpperCase()}
+                            {g.guarantor_name.charAt(0).toUpperCase()}
                           </div>
 
                           {/* Metadata Rows */}
                           <div className="space-y-1">
                             <div className="flex items-center gap-2">
                               <h4 className="font-bold text-slate-900 text-sm tracking-tight">
-                                {g.name}
+                                {g.guarantor_name}
                               </h4>
                               <CheckCircle2
                                 size={14}
@@ -335,27 +368,13 @@ const AddGuarantors = ({ limit = 4 }) => {
                             {/* ALIGNED DETAILS ROW */}
                             <div className="flex items-center gap-3 text-[10px] font-medium uppercase tracking-widest text-slate-400">
                               <span className="flex items-center gap-1">
-                                <Fingerprint
-                                  size={12}
-                                  className="text-slate-300"
-                                />
-                                ID:{" "}
-                                <span className="text-slate-600 font-bold">
-                                  {g.idNo}
-                                </span>
-                              </span>
-
-                              {/* Clean Vertical Rule Divider */}
-                              <div className="h-2.5 w-[1.5px] bg-slate-200" />
-
-                              <span className="flex items-center gap-1">
                                 <Smartphone
                                   size={12}
                                   className="text-slate-300"
                                 />
                                 TEL:{" "}
                                 <span className="text-slate-600 font-bold">
-                                  0756300300
+                                  {g?.guarantor_mobile}
                                 </span>
                               </span>
                             </div>
@@ -363,14 +382,9 @@ const AddGuarantors = ({ limit = 4 }) => {
                         </div>
 
                         {/* RIGHT: ACTION PANEL (Hides natively until hovered) */}
-                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 pl-4">
+                        <div className="transition-opacity duration-200 pl-4">
                           <button
                             type="button"
-                            onClick={() =>
-                              setGuarantors(
-                                guarantors.filter((x) => x.id !== g.id),
-                              )
-                            }
                             className="p-2 rounded-xl bg-white border border-slate-200/60 text-slate-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50/50 transition-all shadow-sm flex items-center justify-center"
                             title="Remove this guarantor"
                           >
@@ -395,7 +409,7 @@ const AddGuarantors = ({ limit = 4 }) => {
               </h3>
             </div>
             <span className="text-[10px] font-medium text-primary bg-primary/10 px-3 py-1 rounded-full">
-              {guarantors.length} / {limit} SELECTED
+              {guarantors?.length} / {numberOfGuarantors} SELECTED
             </span>
           </div>
           {/* Bottom Actions */}
@@ -416,18 +430,62 @@ const AddGuarantors = ({ limit = 4 }) => {
               </div>
             </div>
 
-            {guarantors.length > 0 && (
-              <button
-                onClick={() => navigate("/add-statements")}
-                className="w-full h-16 bg-[#1A1C1E] text-white rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:bg-black transition-all shadow-xl shadow-slate-200 group"
-              >
-                Send Invites & Continue
-                <ArrowRight
-                  size={18}
-                  className="group-hover:translate-x-1 transition-transform"
-                />
-              </button>
-            )}
+            {(() => {
+              // Only evaluate routing buttons if the minimum guarantor target has been met
+              if (guarantors?.length >= numberOfGuarantors) {
+                // 1. PATH A: Still requires Collateral Upload step
+                if (requireCollateral) {
+                  return (
+                    <button
+                      type="button"
+                      onClick={() => navigate(`/collateral-registry/${appId}`)}
+                      className="w-full h-16 bg-[#1A1C1E] text-white rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:bg-black transition-all shadow-xl shadow-slate-900/10 group animate-fade-in"
+                    >
+                      Send Invites & Proceed to Collateral
+                      <ArrowRight
+                        size={18}
+                        className="group-hover:translate-x-1 transition-transform"
+                      />
+                    </button>
+                  );
+                }
+
+                // 2. PATH B: Collateral skipped, but requires Bank/Mobile Statements step
+                if (requireStatements) {
+                  return (
+                    <button
+                      type="button"
+                      onClick={() => navigate(`/add-statements/${appId}`)}
+                      className="w-full h-16 bg-[#1A1C1E] text-white rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:bg-black transition-all shadow-xl shadow-slate-900/10 group animate-fade-in"
+                    >
+                      Send Invites & Proceed to Statements
+                      <ArrowRight
+                        size={18}
+                        className="group-hover:translate-x-1 transition-transform"
+                      />
+                    </button>
+                  );
+                }
+
+                // 3. PATH C: Default / Fallback—Review Terms and Conditions
+                return (
+                  <button
+                    type="button"
+                    onClick={() => navigate(`/loan-terms-conditions/${appId}`)}
+                    className="w-full h-16 bg-[#1A1C1E] text-white rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:bg-black transition-all shadow-xl shadow-slate-900/10 group animate-fade-in"
+                  >
+                    Review Terms & Apply
+                    <ArrowRight
+                      size={18}
+                      className="group-hover:translate-x-1 transition-transform"
+                    />
+                  </button>
+                );
+              }
+
+              // Fallback return when criteria are not yet fulfilled
+              return null;
+            })()}
           </div>
         </div>
         {/* Regulatory & Security Detail Section */}
