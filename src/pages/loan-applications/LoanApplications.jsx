@@ -164,46 +164,16 @@ const LoanApplications = () => {
           {/* RIGHT: Quick Actions & Sidebar (4 Columns) */}
           <aside className="lg:col-span-5 space-y-6">
             <ApplyLoanAction onClick={() => navigate("/loan-products")} />
-            {/* Action Required Card */}
-            <div className="bg-slate-50 rounded-[32px] p-6 border border-slate-200">
-              {/* Header Section */}
-              <div className="flex items-center gap-2 mb-4">
-                <Zap className="text-slate-400" size={16} />
-                <h3 className="text-xs font-medium uppercase tracking-widest text-slate-400">
-                  Pending Action
-                </h3>
-              </div>
-
-              {/* Status Notice Block */}
-              <div className="p-4 bg-white rounded-2xl border border-slate-200/60 shadow-sm mb-5">
-                <p className="text-[10px] font-medium text-amber-600 uppercase tracking-widest mb-1.5">
-                  Attention Required
-                </p>
-                <p className="text-xs leading-relaxed text-slate-600">
-                  Your{" "}
-                  <span className="text-slate-900 font-bold">
-                    Biashara Loan
-                  </span>{" "}
-                  is waiting for guarantor signatures.
-                </p>
-              </div>
-
-              {/* Main Call-to-Action Button */}
-              <button className="w-full bg-primary text-white py-5 rounded-xl text-[11px] font-medium uppercase tracking-[0.08em] hover:bg-secondary transition-all flex items-center justify-center gap-2 shadow-sm">
-                Invite Guarantors{" "}
-                <ArrowRight size={14} className="text-slate-400" />
-              </button>
-            </div>
 
             {/* Vetting Process Card */}
             <div className="bg-white rounded-[32px] p-4 border border-slate-100 shadow-xl shadow-blue-900/5">
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-3 mb-3">
                 <ShieldCheck className="text-emerald-500" size={20} />
                 <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
-                  Approval Flow
+                  Approval Flow for Guarantor Loans
                 </h3>
               </div>
-              <div className="space-y-4">
+              <div className="space-y-2">
                 <ProcessStep step="1" label="Member Vetting" active />
                 <ProcessStep step="2" label="Guarantor Verification" active />
                 <ProcessStep step="3" label="Credit Committee Review" />
@@ -220,7 +190,7 @@ const LoanApplications = () => {
                 </h3>
               </div>
               <ul className="space-y-4">
-                <DisclaimerItem text="Disbursement: Approved loans are disbursed to your linked savings account within 24 hours of final approval." />
+                <DisclaimerItem text="Disbursement: Approved loans are disbursed to your linked mobile number within 24 hours of final approval." />
                 <DisclaimerItem text="Processing Fees: A statutory 1% processing fee is deducted from the principal amount upon disbursement." />
                 <DisclaimerItem text="Rejected Status: If an application is rejected, you may appeal or re-apply after 30 days of the decision date." />
               </ul>
