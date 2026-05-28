@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
 import { getLoanProducts } from "../../sdks/loans/loans";
 import LoanProductsLoader from "../../skeletons/LoanProductsLoader";
+import { useFormatAmount } from "../../hooks/useFormatAmount";
 
 const LoanProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -113,6 +114,7 @@ const DetailedProductCard = ({ product, onApply, onTerms, onNavigate }) => {
     interest_key,
   } = product;
 
+  const formatAmount = useFormatAmount();
   return (
     <div
       onClick={onNavigate}
@@ -147,7 +149,7 @@ const DetailedProductCard = ({ product, onApply, onTerms, onNavigate }) => {
 
         {/* Info Grid (Mimicking the Flutter _buildInfoColumn) */}
         <div className="flex items-center justify-between py-4 border-t border-slate-50">
-          <InfoColumn label="MAX AMOUNT" value={`KES ${max_amount}`} />
+          <InfoColumn label="MAX AMOUNT" value={formatAmount(max_amount)} />
           <div className="h-8 w-px bg-slate-100" /> {/* Vertical Divider */}
           <InfoColumn label="TENURE" value={max_period} />
           <div className="h-8 w-px bg-slate-100" /> {/* Vertical Divider */}
