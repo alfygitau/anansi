@@ -393,7 +393,7 @@ const ProfilePage = () => {
                   </div>
                 </div>
 
-                <p className="text-sm text-slate-500 max-w-2xl leading-relaxed">
+                <p className="text-sm text-slate-500 leading-relaxed">
                   Membership withdrawal is a permanent action. Please review the
                   mandatory requirements below to proceed with your application.
                 </p>
@@ -438,7 +438,7 @@ const ProfilePage = () => {
                       Ensure you have met all requirements.
                     </p>
                   </div>
-                  <button className="flex items-center gap-2.5 px-8 py-4 bg-rose-600 text-white rounded-2xl font-bold text-sm shadow-xl shadow-rose-600/20 hover:bg-rose-700 hover:scale-[1.02] transition-all">
+                  <button className="flex items-center gap-2.5 px-8 py-4 bg-rose-600 text-white rounded-2xl font-bold text-sm hover:bg-rose-700 hover:scale-[1.02] transition-all">
                     Submit Exit Application
                   </button>
                 </div>
@@ -532,7 +532,7 @@ const RequirementCard = ({ icon, title, description }) => (
       <h4 className="font-bold text-primary text-sm leading-tight">{title}</h4>
       <p className="text-xs text-slate-500 mt-1">{description}</p>
     </div>
-    <div className="ml-auto flex items-center gap-1.5 px-3 py-1 bg-amber-50 border border-amber-100 rounded-full text-[10px] font-medium uppercase tracking-widest text-amber-600">
+    <div className="ml-auto flex items-center gap-1.5 px-3 py-1 bg-amber-50 border border-amber-100 rounded-full text-[8px] font-medium uppercase tracking-widest text-amber-600">
       Pending Verification
     </div>
   </div>
