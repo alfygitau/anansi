@@ -134,7 +134,7 @@ const CollateralRegistry = () => {
     },
   });
 
-  const { refetch } = useQuery({
+  const { refetch, isFetching } = useQuery({
     queryKey: ["get chattels", appId],
     queryFn: async () => {
       const response = await fetchChattels(appId);
@@ -181,7 +181,7 @@ const CollateralRegistry = () => {
         {/* Header Section */}
         <div className="border-b border-slate-50 mb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-medium text-primary uppercase tracking-tight">
+            <h1 className="text-2xl font-medium text-primary tracking-tight">
               Collateral & Assets
             </h1>
             <p className="text-slate-500 text-sm mt-1">
@@ -256,7 +256,11 @@ const CollateralRegistry = () => {
 
           {/* Assets Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {assets.length === 0 ? (
+            {isFetching ? (
+              Array.from({ length: 3 }).map((_, idx) => (
+                <AssetCardSkeleton key={idx} />
+              ))
+            ) : assets.length === 0 ? (
               <div className="col-span-full py-20 bg-white border-2 border-dashed border-slate-200 rounded-[32px] flex flex-col items-center justify-center text-center">
                 <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 mb-4">
                   <Briefcase size={32} />
@@ -558,14 +562,63 @@ const CollateralRegistry = () => {
   );
 };
 
+const AssetCardSkeleton = () => {
+  return (
+    <div className="bg-white border border-slate-100 rounded-[28px] p-5 shadow-[0_8px_20px_rgba(0,0,0,0.01)] animate-pulse select-none flex flex-col justify-between h-[234px]">
+      <div>
+        {/* Top Header Row Action Deck Placeholder */}
+        <div className="flex justify-between items-start mb-4">
+          {/* Asset Category Icon Mock */}
+          <div className="w-12 h-12 bg-slate-100 border border-slate-200/40 rounded-2xl shrink-0" />
+
+          {/* Trash Action Button Mock */}
+          <div className="w-8 h-8 rounded-xl bg-slate-50 border border-slate-100" />
+        </div>
+
+        {/* Primary Meta Content Stack Placeholder */}
+        <div className="space-y-2 mb-4">
+          {/* Asset Title Line */}
+          <div className="h-4 bg-slate-200 rounded-md w-3/4" />
+          {/* Asset Valuation Line */}
+          <div className="h-4 bg-slate-100 rounded-md w-1/2" />
+        </div>
+
+        {/* Metadata Badges Row Placeholder */}
+        <div className="flex items-center gap-3 mb-5">
+          {/* Condition Capsule Badge */}
+          <div className="h-5 bg-slate-100 rounded-md w-16" />
+
+          {/* Date Stamp Row Badge */}
+          <div className="flex items-center gap-1.5 flex-1">
+            <div className="w-3.5 h-3.5 bg-slate-100 rounded-full shrink-0" />
+            <div className="h-3 bg-slate-100 rounded w-24" />
+          </div>
+        </div>
+      </div>
+
+      {/* Card Secondary Action Drawer Footer Placeholder */}
+      <div className="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
+        {/* Description Line Clamp Mock */}
+        <div className="h-3 bg-slate-100 rounded-md w-2/3" />
+        {/* Chevron Action Indicator Mock */}
+        <div className="w-4 h-4 bg-slate-100 rounded-full shrink-0" />
+      </div>
+    </div>
+  );
+};
+
 const AssetCard = ({ asset, onDelete, onClickDetails }) => {
   // Safe Date Formatting Routine (Handles ISO Strings gracefully)
+
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
+
     try {
       return new Intl.DateTimeFormat("en-GB", {
         day: "numeric",
+
         month: "short",
+
         year: "numeric",
       }).format(new Date(dateString));
     } catch (e) {
@@ -574,13 +627,17 @@ const AssetCard = ({ asset, onDelete, onClickDetails }) => {
   };
 
   // Centralized theme resolver for condition badges
+
   const getConditionTheme = (condition = "") => {
     switch (condition.toLowerCase().trim()) {
       case "excellent":
         return "bg-emerald-50 border-emerald-100 text-emerald-700";
+
       case "good":
         return "bg-blue-50 border-blue-100 text-blue-700";
+
       case "fair":
+
       default:
         return "bg-amber-50 border-amber-100 text-amber-700";
     }
@@ -593,8 +650,10 @@ const AssetCard = ({ asset, onDelete, onClickDetails }) => {
     >
       <div>
         {/* Top Header Row Action Deck */}
+
         <div className="flex justify-between items-start mb-4">
           {/* Asset Category Branded Icon Context */}
+
           <div className="w-12 h-12 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center text-[#0A2351] transition-transform duration-300 group-hover:scale-105">
             {asset.type === "vehicle" ? (
               <Car size={22} strokeWidth={2} />
@@ -606,10 +665,12 @@ const AssetCard = ({ asset, onDelete, onClickDetails }) => {
           </div>
 
           {/* Destructive Delete Execution Button */}
+
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation(); // ⚡ CRITICAL: Blocks container click event bubbling
+
               onDelete(asset.id);
             }}
             className="p-2 text-slate-300 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all active:scale-95"
@@ -620,10 +681,12 @@ const AssetCard = ({ asset, onDelete, onClickDetails }) => {
         </div>
 
         {/* Primary Meta Content Stack */}
+
         <div className="space-y-1 mb-4">
           <h3 className="font-bold text-[#0A2351] text-[15px] tracking-tight truncate">
             {asset.asset_name}
           </h3>
+
           <p className="text-sm font-semibold text-slate-900 tracking-tight">
             KES{" "}
             {Number(asset.estimated_value ?? 0).toLocaleString(undefined, {
@@ -633,8 +696,10 @@ const AssetCard = ({ asset, onDelete, onClickDetails }) => {
         </div>
 
         {/* Context Information Meta Badges Row */}
+
         <div className="flex flex-wrap items-center gap-2 mb-5">
           {/* Dynamic Condition Status Capsule */}
+
           <span
             className={`px-2.5 py-0.5 rounded-md border text-[9px] font-bold uppercase tracking-wider ${getConditionTheme(asset.condition)}`}
           >
@@ -642,18 +707,22 @@ const AssetCard = ({ asset, onDelete, onClickDetails }) => {
           </span>
 
           {/* ⚡ NEW: Date Created Metadata Badge Row */}
+
           <div className="flex items-center gap-1 text-[10px] text-slate-400 font-medium pl-1">
             <Calendar size={11} className="text-slate-300 shrink-0" />
+
             <span>Added {formatDate(asset.created_at || asset.createdAt)}</span>
           </div>
         </div>
       </div>
 
       {/* Card Secondary Action Drawer Footer Divider */}
+
       <div className="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
         <span className="text-[11px] text-slate-400 font-medium leading-normal line-clamp-1 flex-1 pr-4">
           {asset.description || "No specific metadata notes supplied."}
         </span>
+
         <ChevronRight
           size={16}
           className="text-slate-300 group-hover:text-[#0A2351] group-hover:translate-x-1 transition-all duration-300 shrink-0"

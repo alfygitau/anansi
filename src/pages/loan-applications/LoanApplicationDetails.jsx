@@ -76,6 +76,19 @@ const LoanApplicationDetails = ({ onBack }) => {
     }
   };
 
+  const formatGuarantorDate = (dateString) => {
+    if (!dateString) return "";
+    try {
+      return new Intl.DateTimeFormat("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }).format(new Date(dateString));
+    } catch (e) {
+      return "";
+    }
+  };
+
   if (isFetching) {
     return <LoanApplicationDetailsSkeleton />;
   }
@@ -84,15 +97,12 @@ const LoanApplicationDetails = ({ onBack }) => {
     <div className="bg-slate-50 text-primary">
       <div className="max-w-6xl mx-auto sm:px-4">
         {/* Navigation & Header */}
-        <header className="py-2">
+        <header>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <h1 className="text-2xl font-medium tracking-tight">
                 {loanApplication?.loan_product?.product_name}
               </h1>
-              <p className="text-slate-400 text-xs uppercase tracking-widest">
-                {loanApplication?.application_number}
-              </p>
             </div>
             {(() => {
               // 1. Dynamic Configuration Mapping
@@ -130,7 +140,7 @@ const LoanApplicationDetails = ({ onBack }) => {
           </div>
         </header>
 
-        <div className="flex flex-col lg:flex-row gap-6 py-4 w-full items-stretch">
+        <div className="flex flex-col lg:flex-row gap-6 py-2 w-full items-stretch">
           {/* 1. Application Status Header (Left Side) */}
           <div className="flex-1 relative overflow-hidden rounded-[35px] bg-gradient-to-br from-[#0A2351] to-[#1A3A7A] shadow-xl">
             {/* Decorative Circle (Flutter's CircleAvatar radius: 60) */}
@@ -306,88 +316,185 @@ const LoanApplicationDetails = ({ onBack }) => {
           onContinue={() => handleContinue(loanApplication?.status)}
         />
 
-        <div className="mb-2 mt-6 flex items-baseline justify-between">
-          <h2 className="text-[11px] font-medium uppercase tracking-[2px] text-slate-400">
-            Application Milestones
-          </h2>
-          <span className="text-[10px] font-bold text-[#17C6C6]">
-            {passedCount}/{totalCount} COMPLETED
-          </span>
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
+          <div className="lg:col-span-7 space-y-4">
+            <div className="mb-2 mt-6 flex items-baseline justify-between">
+              <h2 className="text-[11px] font-medium uppercase tracking-[2px] text-slate-400">
+                Application Milestones
+              </h2>
+              <span className="text-[10px] font-bold text-[#17C6C6]">
+                {passedCount}/{totalCount} COMPLETED
+              </span>
+            </div>
 
-        {/* Container: Grid setup with responsive columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {loanApplication?.eligibility_result?.checks?.map((req, index) => {
-            const {
-              passed: isDone,
-              isPending = false,
-              status = req?.passed ? "Cleared" : "Action Required",
-              rule: title,
-              description: subtitle,
-            } = req;
-            const theme = getStatusTheme(isDone, isPending, status);
+            {/* Container: Grid setup with responsive columns */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {loanApplication?.eligibility_result?.checks?.map(
+                (req, index) => {
+                  const {
+                    passed: isDone,
+                    isPending = false,
+                    status = req?.passed ? "Cleared" : "Action Required",
+                    rule: title,
+                    description: subtitle,
+                  } = req;
+                  const theme = getStatusTheme(isDone, isPending, status);
 
-            return (
-              <div
-                key={index}
-                className={`
-          flex items-center p-5 rounded-[24px] border-1.5 transition-all duration-300
-          ${
-            isDone
-              ? "bg-white/50 border opacity-70"
-              : "bg-white border-[#F1F4F8] shadow-[0_8px_15px_rgba(0,0,0,0.02)]"
-          }
-        `}
-              >
-                <div
-                  className={`shrink-0 p-2.5 rounded-full ${theme.bg} flex items-center justify-center`}
-                  style={{ color: theme.color }}
-                >
-                  {isDone ? (
-                    <CheckCircle2 size={20} strokeWidth={3} />
-                  ) : isPending ? (
-                    <Clock size={20} strokeWidth={2.5} />
-                  ) : (
-                    <Clock size={20} strokeWidth={2.5} />
-                  )}
-                </div>
+                  return (
+                    <div
+                      key={index}
+                      className={`
+              flex items-center p-5 rounded-[24px] border transition-all duration-300
+              ${
+                isDone
+                  ? "bg-white/50 border opacity-70"
+                  : "bg-white border-[#F1F4F8] shadow-[0_8px_15px_rgba(0,0,0,0.02)]"
+              }
+            `}
+                    >
+                      <div
+                        className={`shrink-0 p-2.5 rounded-full ${theme.bg} flex items-center justify-center`}
+                        style={{ color: theme.color }}
+                      >
+                        {isDone ? (
+                          <CheckCircle2 size={20} strokeWidth={3} />
+                        ) : (
+                          <Clock size={20} strokeWidth={2.5} />
+                        )}
+                      </div>
 
-                <div className="flex-1 ml-4 flex flex-col min-w-0">
-                  <h4
-                    className={`
-            text-[13px] font-medium leading-tight truncate
-            ${isDone ? "line-through text-slate-400" : "text-[#0A2351]"}
-          `}
-                  >
-                    {formatLabel(title)}
-                  </h4>
-                  <p className="text-[10px] font-semibold text-slate-400 mt-0.5 truncate uppercase tracking-tight">
-                    {subtitle}
-                  </p>
-                </div>
+                      <div className="flex-1 ml-4 flex flex-col min-w-0">
+                        <h4
+                          className={`
+                  text-[13px] font-medium leading-tight truncate
+                  ${isDone ? "line-through text-slate-400" : "text-[#0A2351]"}
+                `}
+                        >
+                          {formatLabel(title)}
+                        </h4>
+                        <p className="text-[10px] font-semibold text-slate-400 mt-0.5 truncate uppercase tracking-tight">
+                          {subtitle}
+                        </p>
+                      </div>
 
-                <div className="flex items-center gap-2 ml-2">
+                      <div className="flex items-center gap-2 ml-2">
+                        <div
+                          className={`
+                  px-2 py-0.5 rounded-md text-[8px] font-medium uppercase tracking-wider whitespace-nowrap
+                  ${theme.bg}
+                `}
+                          style={{ color: theme.color }}
+                        >
+                          {status}
+                        </div>
+
+                        {!isDone && !isPending && (
+                          <ChevronRight
+                            size={12}
+                            className="text-slate-300"
+                            strokeWidth={3}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  );
+                },
+              )}
+            </div>
+          </div>
+          <div className="lg:col-span-5 space-y-4">
+            <div className="mb-2 mt-6 flex items-baseline justify-between">
+              <h2 className="text-[11px] font-medium uppercase tracking-[2px] text-slate-400">
+                Assigned Guarantors
+              </h2>
+              <span className="text-[10px] font-bold text-purple-600">
+                {loanApplication?.guarantors?.length || 0} LINKED
+              </span>
+            </div>
+
+            {/* Guarantor Wrapper List Container */}
+            <div className="space-y-3 h-[300px] overflow-y-auto pr-1">
+              {loanApplication?.guarantors &&
+              loanApplication.guarantors.length > 0 ? (
+                loanApplication.guarantors.map((g) => (
                   <div
-                    className={`
-            px-2 py-0.5 rounded-md text-[8px] font-medium uppercase tracking-wider whitespace-nowrap
-            ${theme.bg}
-          `}
-                    style={{ color: theme.color }}
+                    key={g.id}
+                    className="bg-white border border-slate-100 p-4 rounded-2xl flex items-center justify-between shadow-[0_4px_10px_rgba(0,0,0,0.01)] hover:border-slate-200 transition-all"
                   >
-                    {status}
+                    {/* Left Meta Group */}
+                    <div className="flex items-center gap-3 min-w-0">
+                      {/* Initial Avatar */}
+                      <div className="size-9 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center text-[#0A2351] font-bold text-xs shrink-0 select-none">
+                        {g.guarantor_name?.charAt(0).toUpperCase()}
+                      </div>
+
+                      {/* Detail Copy Stack */}
+                      <div className="min-w-0 space-y-0.5">
+                        <h4 className="font-bold text-slate-900 text-xs tracking-tight truncate">
+                          {g.guarantor_name}
+                        </h4>
+                        <p className="text-[9px] font-semibold text-slate-400 truncate tracking-wider">
+                          {g.guarantor_mobile}
+                        </p>
+
+                        {/* ⚡ NEW: Formatted Date Sub-row */}
+                        {g.created_at || g.createdAt ? (
+                          <p className="text-[10px] font-medium text-slate-400 flex items-center gap-1 select-none">
+                            <span>Date:</span>
+                            <span className="text-slate-500 font-semibold">
+                              {formatGuarantorDate(g.created_at || g.createdAt)}
+                            </span>
+                          </p>
+                        ) : null}
+                      </div>
+                    </div>
+
+                    {/* Right Side Status Pill Badge */}
+                    <span
+                      className={`px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider shrink-0 select-none ${
+                        g.status === "Approved"
+                          ? "bg-emerald-50 text-emerald-600 border border-emerald-100/50"
+                          : "bg-amber-50 text-amber-600 border border-amber-100/50"
+                      }`}
+                    >
+                      {g.status || "Pending"}
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <div className="bg-white h-full rounded-2xl border border-dashed border-slate-200 p-8 flex flex-col items-center justify-center text-center select-none animate-fade-in">
+                  {/* 1. DYNAMIC ICON HOUSING MESH */}
+                  <div
+                    className={`w-12 h-12 border rounded-2xl flex items-center justify-center mb-4 shadow-inner ${
+                      loanApplication?.loan_product?.requires_guarantor
+                        ? "bg-slate-50 border-slate-100 text-slate-400"
+                        : "bg-emerald-50/50 border-emerald-100 text-emerald-500"
+                    }`}
+                  >
+                    {loanApplication?.loan_product?.requires_guarantor ? (
+                      <Users size={20} strokeWidth={1.75} />
+                    ) : (
+                      <ShieldCheck size={20} strokeWidth={1.75} />
+                    )}
                   </div>
 
-                  {!isDone && !isPending && (
-                    <ChevronRight
-                      size={12}
-                      className="text-slate-300"
-                      strokeWidth={3}
-                    />
-                  )}
+                  {/* 2. DYNAMIC TYPOGRAPHY COPY STACK */}
+                  <div className="max-w-[200px] space-y-1">
+                    <h4 className="text-[12px] font-bold text-slate-700 tracking-tight">
+                      {loanApplication?.loan_product?.requires_guarantor
+                        ? "No guarantors attached"
+                        : "Guarantors Exempted"}
+                    </h4>
+                    <p className="text-[10px] font-medium text-slate-400 leading-normal">
+                      {loanApplication?.loan_product?.requires_guarantor
+                        ? "No guarantor invitation logs linked to this application setup yet."
+                        : "This specific loan facility processes instantly without requiring third-party credit backing networks."}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

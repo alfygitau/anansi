@@ -119,18 +119,13 @@ const LoanDetails = () => {
           setShowAwaitLoanPayment(false);
         }}
       />
-      <div className="min-h-screen bg-slate-50 text-primary pb-20">
+      <div className="bg-slate-50 text-primary">
         <div className="max-w-6xl sm:px-4 mx-auto">
           <header>
             <div className="flex justify-between items-end">
-              <div>
-                <h1 className="text-3xl font-medium tracking-tight">
-                  {loan?.loan_product?.product_name}
-                </h1>
-                <p className="text-slate-400 text-xs uppercase tracking-widest">
-                  {loan?.loan_code}
-                </p>
-              </div>
+              <h1 className="text-2xl font-medium tracking-tight">
+                {loan?.loan_product?.product_name}
+              </h1>
               {(() => {
                 const getLoanStatusTheme = (status = "") => {
                   switch (status.toLowerCase().trim()) {
@@ -166,7 +161,7 @@ const LoanDetails = () => {
               })()}
             </div>
           </header>
-          <div className="flex flex-col lg:flex-row gap-6 py-5 w-full">
+          <div className="flex flex-col lg:flex-row gap-6 py-3 w-full">
             <div className="flex-1 min-w-[320px] bg-gradient-to-br from-[#0A2351] to-[#152E5F] rounded-[35px] p-7 shadow-[0_15px_30px_rgba(10,35,81,0.15)] text-white">
               <div className="flex justify-between items-center mb-4">
                 <span className="text-[#17C6C6] text-[10px] font-medium tracking-[1.8px] uppercase">
@@ -283,7 +278,7 @@ const LoanDetails = () => {
             </div>
           </div>
 
-          <section className="mb-4">
+          <section className="mb-4 mt-3">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <QuickActionButton
                 icon={<CreditCard className="text-emerald-500" />}
@@ -582,7 +577,8 @@ const LoanScheduleList = ({ installments = [], onSelectInstallment }) => {
                 </span>
               ) : (
                 <span className="text-[9px] flex items-center">
-                  PENDING &nbsp;<ChevronRight size={14} className="text-slate-300" />
+                  PENDING &nbsp;
+                  <ChevronRight size={14} className="text-slate-300" />
                 </span>
               )}
             </div>
