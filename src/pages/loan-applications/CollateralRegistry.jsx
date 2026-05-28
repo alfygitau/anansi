@@ -12,15 +12,24 @@ import {
   FileText,
   SlidersHorizontal,
   ChevronDown,
+  RefreshCw,
+  Calendar,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQuery, useMutation } from "react-query";
+import { useToast } from "../../contexts/ToastProvider";
+import {
+  addColleteral,
+  fetchChattels,
+} from "../../sdks/collaterals/collateral";
 
 const CollateralRegistry = () => {
   const [assets, setAssets] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
   const navigate = useNavigate();
-
+  const { appId } = useParams();
+  const { showToast } = useToast();
   // Form State
   const [form, setForm] = useState({
     type: "",
@@ -29,6 +38,8 @@ const CollateralRegistry = () => {
     condition: "Excellent",
     description: "",
     image: null,
+    image: [],
+    image: [],
   });
 
   const assetTypes = [
@@ -42,10 +53,65 @@ const CollateralRegistry = () => {
     },
   ];
 
-  const handleAddAsset = () => {
-    if (form.name && form.value) {
-      setAssets([...assets, { ...form, id: Date.now() }]);
-      setIsAdding(false);
+  const [errors, setErrors] = useState({
+    type: "",
+    name: "",
+    value: "",
+    description: "",
+  });
+  // 2. Asset Type Blur Watcher
+  const handleTypeSelect = (typeId) => {
+    setForm({ ...form, type: typeId });
+    if (errors.type) setErrors((prev) => ({ ...prev, type: "" }));
+  };
+
+  // 3. Name Field Blur Validation
+  const handleNameBlur = () => {
+    let errorMsg = "";
+    if (!form.name.trim()) {
+      errorMsg = "Asset verification model name is required.";
+    } else if (form.name.trim().length < 3) {
+      errorMsg = "Please supply a descriptive name (min 3 characters).";
+    }
+    setErrors((prev) => ({ ...prev, name: errorMsg }));
+  };
+
+  // 4. Value Field Blur Validation
+  const handleValueBlur = () => {
+    let errorMsg = "";
+    const numericValue = Number(form.value);
+    if (!form.value || isNaN(numericValue) || numericValue <= 0) {
+      errorMsg = "Please enter a valid estimated valuation.";
+    }
+    setErrors((prev) => ({ ...prev, value: errorMsg }));
+  };
+
+  // 5. Description Field Blur Validation
+  const handleDescriptionBlur = () => {
+    let errorMsg = "";
+    if (!form.description.trim()) {
+      errorMsg = "A short collateral validation summary is required.";
+    } else if (form.description.trim().length < 15) {
+      errorMsg = "Provide more details (minimum 15 characters).";
+    }
+    setErrors((prev) => ({ ...prev, description: errorMsg }));
+  };
+
+  const { mutate, isLoading } = useMutation({
+    mutationKey: ["add chattels", appId],
+    mutationFn: async () => {
+      const response = await addColleteral(
+        appId,
+        form?.name,
+        form?.type,
+        form?.value,
+        form?.images,
+        form?.documents,
+      );
+      return response?.data?.data;
+    },
+    onSuccess: (data) => {
+      refetch();
       setForm({
         type: "",
         name: "",
@@ -53,12 +119,64 @@ const CollateralRegistry = () => {
         condition: "Excellent",
         description: "",
         image: null,
+        image: [],
+        image: [],
       });
-    }
+      setIsAdding(false);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Application Failure",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { refetch } = useQuery({
+    queryKey: ["get chattels", appId],
+    queryFn: async () => {
+      const response = await fetchChattels(appId);
+      return response.data?.data;
+    },
+    onSuccess: (data) => {
+      setAssets(data);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Application Failure",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const handleAddAsset = async () => {
+    mutate();
+  };
+
+  const isCollateralValid = () => {
+    const isTypeValid = !!form.type;
+    const isNameValid = form.name.trim().length >= 3;
+    const isValueValid = !isNaN(Number(form.value)) && Number(form.value) > 0;
+    const isDescValid = form.description.trim().length >= 15;
+
+    return (
+      isTypeValid &&
+      isNameValid &&
+      isValueValid &&
+      isDescValid &&
+      !errors.name &&
+      !errors.value &&
+      !errors.description &&
+      !errors.type
+    );
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] font-sans">
+    <div className="bg-[#F8FAFC] font-sans">
       <div className="max-w-6xl sm:px-3 mx-auto overflow-hidden">
         {/* Header Section */}
         <div className="border-b border-slate-50 mb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -154,12 +272,12 @@ const CollateralRegistry = () => {
                 </button>
               </div>
             ) : (
-              assets.map((asset) => (
+              assets?.map((asset) => (
                 <AssetCard
-                  key={asset.id}
+                  key={asset?.id}
                   asset={asset}
                   onDelete={(id) =>
-                    setAssets(assets.filter((a) => a.id !== id))
+                    setAssets(assets?.filter((a) => a.id !== id))
                   }
                 />
               ))
@@ -184,7 +302,7 @@ const CollateralRegistry = () => {
             </div>
 
             <button
-              onClick={() => navigate("/normal-loan-terms-conditions")}
+              onClick={() => navigate(`/loan-terms-conditions/${appId}`)}
               className="group w-full md:w-[280px] h-16 bg-primary text-white rounded-2xl font-medium uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl shadow-blue-900/20 hover:bg-[#062d7a] transition-all active:scale-[0.98]"
             >
               Finalize & Continue
@@ -206,7 +324,7 @@ const CollateralRegistry = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsAdding(false)}
-              className="fixed inset-0 bg-primary/40 bg-slate-900/40 z-40"
+              className="fixed inset-0 bg-slate-900/40 z-40"
             />
             <motion.div
               initial={{ x: "100%" }}
@@ -218,93 +336,130 @@ const CollateralRegistry = () => {
               <h2 className="text-xl font-medium text-primary uppercase tracking-tight">
                 Register Collateral
               </h2>
-              <p className="text-sm text-slate-500">Add a collateral</p>
-              <div className="space-y-6  mt-6">
-                {/* Asset Type Selector */}
-                <div className="grid grid-cols-2 gap-3">
-                  {assetTypes.map((t) => (
-                    <button
-                      key={t.id}
-                      onClick={() => setForm({ ...form, type: t.id })}
-                      className={`p-4 rounded-2xl border flex flex-col items-center gap-2 transition-all ${form.type === t.id ? "border-secondary bg-blue-50 text-primary" : "border-slate-100 text-slate-400 hover:border-slate-200"}`}
+              <p className="text-sm text-slate-500">Add a collateral asset</p>
+
+              <div className="space-y-6 mt-6">
+                {/* ====== 1. ASSET TYPE SELECTOR SECTION ====== */}
+                <div className="space-y-1.5 relative">
+                  <div className="grid grid-cols-2 gap-3">
+                    {assetTypes.map((t) => (
+                      <button
+                        type="button"
+                        key={t.id}
+                        onClick={() => handleTypeSelect(t.id)}
+                        className={`p-2 rounded-2xl border flex flex-col items-center gap-2 transition-all ${
+                          form.type === t.id
+                            ? "border-secondary bg-blue-50 text-primary font-bold shadow-sm"
+                            : errors.type
+                              ? "border-rose-300 bg-rose-50/20 text-slate-400 hover:border-rose-400"
+                              : "border-slate-100 text-slate-400 hover:border-slate-200"
+                        }`}
+                      >
+                        {t.icon}
+                        <span className="text-[10px] font-bold uppercase tracking-widest">
+                          {t.label}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                  {/* Absolute Error Slot */}
+                  <div className="absolute left-1 bottom-0 h-4 overflow-visible">
+                    <p
+                      className={`text-[10px] font-bold text-rose-500 transition-opacity duration-200 ${errors.type ? "opacity-100" : "opacity-0"}`}
                     >
-                      {t.icon}
-                      <span className="text-[10px] font-bold uppercase tracking-widest">
-                        {t.label}
-                      </span>
-                    </button>
-                  ))}
+                      {errors.type}
+                    </p>
+                  </div>
                 </div>
 
                 <div className="space-y-4">
-                  <div className="w-full space-y-2">
-                    {/* Label Track */}
+                  {/* ====== 2. ASSET NAME INPUT SECTION ====== */}
+                  <div className="w-full space-y-1.5 relative pb-4">
                     <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                       Asset Name / Model
                     </label>
-
-                    {/* Unified Housing Deck Wrapper */}
-                    <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
-                      {/* Left Guard Icon Prefix Section */}
+                    <div
+                      className={`relative flex items-center bg-slate-50 border-2 rounded-2xl h-14 transition-all duration-200 shadow-sm focus-within:bg-white ${
+                        errors.name
+                          ? "border-rose-500 focus-within:border-rose-600"
+                          : "border-slate-100 focus-within:border-slate-900"
+                      }`}
+                    >
                       <div className="pl-4 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto select-none">
                         <FileText size={16} />
                       </div>
-
-                      {/* Clean Data Field Input */}
                       <input
                         type="text"
                         value={form.name}
-                        onChange={(e) =>
-                          setForm({ ...form, name: e.target.value })
-                        }
+                        onChange={(e) => {
+                          setForm({ ...form, name: e.target.value });
+                          if (errors.name)
+                            setErrors((prev) => ({ ...prev, name: "" }));
+                        }}
+                        onBlur={handleNameBlur}
                         placeholder="e.g. Toyota Corolla 2018"
-                        className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 placeholder:text-slate-300 font-medium"
+                        className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 placeholder:text-slate-300"
                       />
+                    </div>
+                    {/* Absolute Error Slot */}
+                    <div className="absolute left-2 bottom-0 h-4 overflow-visible">
+                      <p
+                        className={`text-[10px] font-bold text-rose-500 transition-opacity duration-200 ${errors.name ? "opacity-100" : "opacity-0"}`}
+                      >
+                        {errors.name}
+                      </p>
                     </div>
                   </div>
 
-                  <div className="flex gap-4">
-                    <div className="flex-1">
-                      <div className="w-full space-y-2">
-                        {/* Label Track */}
-                        <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
-                          Estimated Value (KES)
-                        </label>
-
-                        {/* Unified Housing Deck Wrapper */}
-                        <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
-                          {/* Left Currency Badge Section */}
-                          <div className="pl-5 pr-4 flex items-center text-slate-400 text-xs font-medium tracking-wider border-r border-slate-200/60 h-5 my-auto select-none">
-                            KES
-                          </div>
-
-                          {/* Clean Data Field Input */}
-                          <input
-                            type="number"
-                            value={form.value}
-                            onChange={(e) =>
-                              setForm({ ...form, value: e.target.value })
-                            }
-                            placeholder="0.00"
-                            className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 placeholder:text-slate-300 font-medium"
-                          />
+                  {/* ====== 3. VALUE & CONDITION SECTION ====== */}
+                  <div className="flex gap-4 items-start">
+                    {/* Estimated Value */}
+                    <div className="flex-1 space-y-1.5 relative pb-4">
+                      <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
+                        Estimated Value (KES)
+                      </label>
+                      <div
+                        className={`relative flex items-center bg-slate-50 border-2 rounded-2xl h-14 transition-all duration-200 shadow-sm focus-within:bg-white ${
+                          errors.value
+                            ? "border-rose-500 focus-within:border-rose-600"
+                            : "border-slate-100 focus-within:border-slate-900"
+                        }`}
+                      >
+                        <div className="pl-5 pr-4 flex items-center text-slate-400 text-xs font-medium tracking-wider border-r border-slate-200/60 h-5 my-auto select-none">
+                          KES
                         </div>
+                        <input
+                          type="number"
+                          value={form.value}
+                          onChange={(e) => {
+                            setForm({ ...form, value: e.target.value });
+                            if (errors.value)
+                              setErrors((prev) => ({ ...prev, value: "" }));
+                          }}
+                          onBlur={handleValueBlur}
+                          placeholder="0.00"
+                          className="w-full bg-transparent border-none pl-4 pr-6 h-full text-sm font-bold text-slate-900 outline-none focus:ring-0 placeholder:text-slate-300"
+                        />
+                      </div>
+                      {/* Absolute Error Slot */}
+                      <div className="absolute left-2 bottom-0 h-4 overflow-visible">
+                        <p
+                          className={`text-[10px] font-bold text-rose-500 transition-opacity duration-200 ${errors.value ? "opacity-100" : "opacity-0"}`}
+                        >
+                          {errors.value}
+                        </p>
                       </div>
                     </div>
-                    <div className="w-[200px] space-y-2">
-                      {/* Label Track */}
+
+                    {/* Condition Options Selector */}
+                    <div className="w-[180px] space-y-1.5 pb-4">
                       <label className="text-[10px] font-medium text-slate-400 uppercase tracking-widest block ml-2">
                         Condition
                       </label>
-
-                      {/* Unified Housing Deck Wrapper */}
                       <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
-                        {/* Left Setting Icon Prefix Section */}
                         <div className="pl-4 pr-2.5 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto select-none">
                           <SlidersHorizontal size={14} />
                         </div>
-
-                        {/* Clean Select Interaction Option */}
                         <select
                           value={form.condition}
                           onChange={(e) =>
@@ -316,8 +471,6 @@ const CollateralRegistry = () => {
                           <option value="Good">Good</option>
                           <option value="Fair">Fair</option>
                         </select>
-
-                        {/* Custom Chevron Indicator to support crisp appearance-none resets */}
                         <ChevronDown
                           className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
                           size={14}
@@ -326,22 +479,38 @@ const CollateralRegistry = () => {
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  {/* ====== 4. DESCRIPTION TEXTAREA SECTION ====== */}
+                  <div className="space-y-1.5 relative pb-4">
                     <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 ml-2 block">
                       Description
                     </label>
                     <textarea
                       rows="3"
-                      className="w-full p-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm outline-none focus:border-secondary transition-all"
-                      placeholder="Identify specific features, serial numbers, or location..."
                       value={form.description}
-                      onChange={(e) =>
-                        setForm({ ...form, description: e.target.value })
-                      }
+                      onChange={(e) => {
+                        setForm({ ...form, description: e.target.value });
+                        if (errors.description)
+                          setErrors((prev) => ({ ...prev, description: "" }));
+                      }}
+                      onBlur={handleDescriptionBlur}
+                      className={`w-full p-4 bg-slate-50 border rounded-2xl text-sm outline-none transition-all ${
+                        errors.description
+                          ? "border-rose-500 focus:border-rose-600"
+                          : "border-slate-100 focus:border-secondary"
+                      }`}
+                      placeholder="Identify specific features, serial numbers, or location..."
                     />
+                    {/* Absolute Error Slot */}
+                    <div className="absolute left-2 bottom-0 h-4 overflow-visible">
+                      <p
+                        className={`text-[10px] font-bold text-rose-500 transition-opacity duration-200 ${errors.description ? "opacity-100" : "opacity-0"}`}
+                      >
+                        {errors.description}
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Image Upload Placeholder */}
+                  {/* Image Upload Block Placeholder */}
                   <div className="border-2 border-dashed border-slate-200 rounded-[24px] p-6 flex flex-col items-center justify-center bg-slate-50 hover:bg-white transition-all cursor-pointer group">
                     <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-slate-400 group-hover:text-secondary transition-colors">
                       <Camera size={24} />
@@ -351,12 +520,34 @@ const CollateralRegistry = () => {
                     </p>
                   </div>
                 </div>
-
                 <button
-                  onClick={handleAddAsset}
-                  className="w-full h-16 bg-primary text-white rounded-2xl font-medium uppercase tracking-widest shadow-xl shadow-blue-900/20 active:scale-[0.98] transition-all"
+                  type="button"
+                  onClick={() => {
+                    if (isLoading) return;
+
+                    if (isCollateralValid()) {
+                      handleAddAsset();
+                    } else {
+                      handleNameBlur();
+                      handleValueBlur();
+                      handleDescriptionBlur();
+                    }
+                  }}
+                  disabled={!isCollateralValid() || isLoading}
+                  className="w-full h-16 bg-primary text-white rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 shadow-xl shadow-blue-900/10 active:scale-[0.98] transition-all disabled:opacity-20 disabled:cursor-not-allowed"
                 >
-                  Save to Registry
+                  {isLoading ? (
+                    <>
+                      <RefreshCw
+                        size={14}
+                        className="animate-spin text-white/80"
+                      />
+                      <span>Saving to Registry...</span>
+                    </>
+                  ) : (
+                    /* Standard Idle State UI */
+                    <span>Save to Registry</span>
+                  )}
                 </button>
               </div>
             </motion.div>
@@ -367,48 +558,110 @@ const CollateralRegistry = () => {
   );
 };
 
-const AssetCard = ({ asset, onDelete }) => (
-  <div className="bg-white border border-slate-100 rounded-[24px] p-5 shadow-sm hover:shadow-md transition-all group">
-    <div className="flex justify-between items-start mb-4">
-      <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-[#074073]">
-        {asset.type === "vehicle" ? (
-          <Car size={24} />
-        ) : asset.type === "land" ? (
-          <Home size={24} />
-        ) : (
-          <Briefcase size={24} />
-        )}
+const AssetCard = ({ asset, onDelete, onClickDetails }) => {
+  // Safe Date Formatting Routine (Handles ISO Strings gracefully)
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    try {
+      return new Intl.DateTimeFormat("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }).format(new Date(dateString));
+    } catch (e) {
+      return "Invalid Date";
+    }
+  };
+
+  // Centralized theme resolver for condition badges
+  const getConditionTheme = (condition = "") => {
+    switch (condition.toLowerCase().trim()) {
+      case "excellent":
+        return "bg-emerald-50 border-emerald-100 text-emerald-700";
+      case "good":
+        return "bg-blue-50 border-blue-100 text-blue-700";
+      case "fair":
+      default:
+        return "bg-amber-50 border-amber-100 text-amber-700";
+    }
+  };
+
+  return (
+    <div
+      onClick={onClickDetails}
+      className="bg-white border border-slate-100 rounded-[28px] p-5 shadow-[0_8px_20px_rgba(0,0,0,0.01)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.03)] hover:border-slate-200/80 transition-all duration-300 group cursor-pointer flex flex-col justify-between"
+    >
+      <div>
+        {/* Top Header Row Action Deck */}
+        <div className="flex justify-between items-start mb-4">
+          {/* Asset Category Branded Icon Context */}
+          <div className="w-12 h-12 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center text-[#0A2351] transition-transform duration-300 group-hover:scale-105">
+            {asset.type === "vehicle" ? (
+              <Car size={22} strokeWidth={2} />
+            ) : asset.type === "land" ? (
+              <Home size={22} strokeWidth={2} />
+            ) : (
+              <Briefcase size={22} strokeWidth={2} />
+            )}
+          </div>
+
+          {/* Destructive Delete Execution Button */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation(); // ⚡ CRITICAL: Blocks container click event bubbling
+              onDelete(asset.id);
+            }}
+            className="p-2 text-slate-300 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all active:scale-95"
+            title="Remove asset registry profile"
+          >
+            <Trash2 size={16} strokeWidth={2.25} />
+          </button>
+        </div>
+
+        {/* Primary Meta Content Stack */}
+        <div className="space-y-1 mb-4">
+          <h3 className="font-bold text-[#0A2351] text-[15px] tracking-tight truncate">
+            {asset.asset_name}
+          </h3>
+          <p className="text-sm font-semibold text-slate-900 tracking-tight">
+            KES{" "}
+            {Number(asset.estimated_value ?? 0).toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+            })}
+          </p>
+        </div>
+
+        {/* Context Information Meta Badges Row */}
+        <div className="flex flex-wrap items-center gap-2 mb-5">
+          {/* Dynamic Condition Status Capsule */}
+          <span
+            className={`px-2.5 py-0.5 rounded-md border text-[9px] font-bold uppercase tracking-wider ${getConditionTheme(asset.condition)}`}
+          >
+            {asset.condition || "Excellent"}
+          </span>
+
+          {/* ⚡ NEW: Date Created Metadata Badge Row */}
+          <div className="flex items-center gap-1 text-[10px] text-slate-400 font-medium pl-1">
+            <Calendar size={11} className="text-slate-300 shrink-0" />
+            <span>Added {formatDate(asset.created_at || asset.createdAt)}</span>
+          </div>
+        </div>
       </div>
-      <button
-        onClick={() => onDelete(asset.id)}
-        className="p-2 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
-      >
-        <Trash2 size={18} />
-      </button>
-    </div>
-    <h3 className="font-bold text-slate-800 mb-1">{asset.name}</h3>
-    <p className="text-[10px] font-medium text-secondary uppercase tracking-widest mb-3">
-      KES {Number(asset.value).toLocaleString()}
-    </p>
 
-    <div className="flex items-center gap-2 mb-4">
-      <span
-        className={`px-2 py-0.5 rounded text-[9px] font-medium uppercase tracking-tighter ${asset.condition === "Excellent" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"}`}
-      >
-        {asset.condition}
-      </span>
+      {/* Card Secondary Action Drawer Footer Divider */}
+      <div className="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
+        <span className="text-[11px] text-slate-400 font-medium leading-normal line-clamp-1 flex-1 pr-4">
+          {asset.description || "No specific metadata notes supplied."}
+        </span>
+        <ChevronRight
+          size={16}
+          className="text-slate-300 group-hover:text-[#0A2351] group-hover:translate-x-1 transition-all duration-300 shrink-0"
+          strokeWidth={2.5}
+        />
+      </div>
     </div>
-
-    <div className="pt-4 border-t border-slate-50 flex items-center justify-between">
-      <span className="text-[10px] text-slate-400 font-medium italic truncate max-w-[120px]">
-        {asset.description || "No description provided"}
-      </span>
-      <ChevronRight
-        size={16}
-        className="text-slate-300 group-hover:translate-x-1 transition-transform"
-      />
-    </div>
-  </div>
-);
+  );
+};
 
 export default CollateralRegistry;

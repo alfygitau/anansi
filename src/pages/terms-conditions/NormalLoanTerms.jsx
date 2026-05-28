@@ -46,7 +46,7 @@ const NormalLoanTermsConditions = () => {
   });
 
   return (
-    <div className="bg-slate-50 text-primary pb-10">
+    <div className="bg-slate-50 text-primary">
       <div className="max-w-6xl mx-auto sm:px-6">
         {/* Header with Actions */}
         <header className="mb-3 flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -65,7 +65,7 @@ const NormalLoanTermsConditions = () => {
         </header>
 
         {/* Terms Container */}
-        <div className="bg-white border border-slate-100 shadow-xl shadow-blue-900/5 overflow-hidden">
+        <div className="bg-white border border-slate-100 overflow-hidden">
           {/* Scrollable Content Area */}
           <div
             onScroll={handleScroll}
@@ -222,7 +222,7 @@ const NormalLoanTermsConditions = () => {
                 // ⚡ Freeze the button automatically during active query states
                 disabled={!agreed || !hasScrolledToBottom || isLoading}
                 onClick={onAccept}
-                className="flex-[2] py-5 bg-primary text-white rounded-[24px] font-medium uppercase tracking-widest shadow-xl shadow-blue-900/20 hover:bg-secondary transition-all disabled:opacity-20 disabled:grayscale disabled:cursor-not-allowed flex items-center justify-center gap-2.5"
+                className="flex-[2] py-5 bg-primary text-white rounded-[24px] font-medium uppercase tracking-widest hover:bg-secondary transition-all disabled:opacity-20 disabled:grayscale disabled:cursor-not-allowed flex items-center justify-center gap-2.5"
               >
                 {isLoading ? (
                   <>

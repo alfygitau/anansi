@@ -167,7 +167,7 @@ function App() {
             element={<FinancialStatements />}
           />
           <Route
-            path="/collateral-registry/:appdId"
+            path="/collateral-registry/:appId"
             element={<CollateralRegistry />}
           />
           <Route path="/statements" element={<Statements />} />
