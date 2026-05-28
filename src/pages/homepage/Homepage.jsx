@@ -26,6 +26,7 @@ import {
   XCircle,
   Clock,
   Calendar,
+  WalletCards,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import InvestAmount from "../../components/quick-invest/InvestAmount";
@@ -615,25 +616,45 @@ const Homepage = () => {
               Active Accounts
             </h2>
             <div className="space-y-5">
-              {isFetching
-                ? Array.from({ length: 2 }).map((_, idx) => (
-                    <AccountCardSkeleton key={idx} />
-                  ))
-                : sortedAccounts?.length > 0 &&
-                  sortedAccounts.map((account, index) => (
-                    <AccountCard
-                      key={account.id || index}
-                      title={account?.product?.name || "Savings Account"}
-                      accountNumber={account.account_number || "ACC-XXXXX"}
-                      balance={formatAmount(account?.balance)}
-                      isPrimary={account?.product?.name === "Savings"}
-                      navigateToAccountDetails={() =>
-                        navigate(
-                          `/account-details/${account.id}/${account.account_number}`,
-                        )
-                      }
+              {isFetching ? (
+                Array.from({ length: 2 }).map((_, idx) => (
+                  <AccountCardSkeleton key={idx} />
+                ))
+              ) : sortedAccounts?.length > 0 ? (
+                sortedAccounts.map((account, index) => (
+                  <AccountCard
+                    key={account.id || index}
+                    title={account?.product?.name || "Savings Account"}
+                    accountNumber={account.account_number || "ACC-XXXXX"}
+                    balance={formatAmount(account?.balance)}
+                    isPrimary={account?.product?.name === "Savings"}
+                    navigateToAccountDetails={() =>
+                      navigate(
+                        `/account-details/${account.id}/${account.account_number}`,
+                      )
+                    }
+                  />
+                ))
+              ) : (
+                <div className="bg-white border border-slate-100 rounded-[28px] p-8 h-[305px] flex flex-col items-center justify-center text-center select-none animate-fade-in">
+                  <div className="w-14 h-14 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center text-slate-400 mb-4 shadow-inner">
+                    <WalletCards
+                      size={24}
+                      strokeWidth={1.5}
+                      className="text-slate-400"
                     />
-                  ))}
+                  </div>
+                  <div className="max-w-[240px] space-y-1.5">
+                    <h4 className="text-[14px] font-bold text-slate-800 tracking-tight">
+                      No active accounts found
+                    </h4>
+                    <p className="text-[11px] font-medium text-slate-400 leading-relaxed">
+                      There are no transactional ledger spaces or savings
+                      portfolios linked to this profile registry yet.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -1156,7 +1177,7 @@ const AccountCard = ({
 
 const AccountCardSkeleton = () => {
   return (
-    <div className="p-5 py-6 rounded-[25px] border border-slate-100 bg-white shadow-sm animate-pulse select-none h-[178px] flex flex-col justify-between">
+    <div className="p-5 py-5 rounded-[25px] border border-slate-100 bg-white animate-pulse select-none flex flex-col justify-between">
       {/* Header Row Placeholder */}
       <div className="flex justify-between items-start mb-6">
         <div className="space-y-2 flex-1">

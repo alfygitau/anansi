@@ -281,10 +281,10 @@ const Guarantorship = () => {
             {/* Header Section */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-bold text-primary">
+                <h1 className="text-2xl font-mediuk text-primary">
                   Guarantorship
                 </h1>
-                <p className="text-slate-500 font-medium mt-1">
+                <p className="text-slate-500 font-medium">
                   Manage and track your loan guarantees.
                 </p>
               </div>
