@@ -311,7 +311,7 @@ const LoanItem = ({
   return (
     <div
       onClick={onTap}
-      className="mb-4 cursor-pointer rounded-[30px] bg-white transition-all active:scale-[0.99] hover:shadow-[0_12px_32px_rgba(10,35,81,0.07)]"
+      className="mb-4 cursor-pointer rounded-[30px] bg-white transition-all active:scale-[0.99] shadow-[0_12px_32px_rgba(10,35,81,0.07)] hover:shadow-[0_12px_32px_rgba(10,35,81,0.07)]"
     >
       <div className="flex flex-col">
         {/* Header */}

@@ -892,7 +892,7 @@ const DetailedProductCard = ({ product, onApply, onTerms, onNavigate }) => {
     max_period,
     interest_key,
   } = product;
-
+  const formatAmount = useFormatAmount();
   return (
     <div
       onClick={onNavigate}
@@ -927,7 +927,7 @@ const DetailedProductCard = ({ product, onApply, onTerms, onNavigate }) => {
 
         {/* Info Grid (Mimicking the Flutter _buildInfoColumn) */}
         <div className="flex items-center justify-between py-4 border-t border-slate-50">
-          <InfoColumn label="MAX AMOUNT" value={`KES ${max_amount}`} />
+          <InfoColumn label="MAX AMOUNT" value={formatAmount(max_amount)} />
           <div className="h-8 w-px bg-slate-100" /> {/* Vertical Divider */}
           <InfoColumn label="TENURE" value={max_period} />
           <div className="h-8 w-px bg-slate-100" /> {/* Vertical Divider */}
@@ -1250,7 +1250,7 @@ const LoanItem = ({
   return (
     <div
       onClick={onTap}
-      className="mb-4 cursor-pointer rounded-[30px] bg-white transition-all active:scale-[0.99] hover:shadow-[0_12px_32px_rgba(10,35,81,0.07)]"
+      className="mb-4 cursor-pointer rounded-[30px] bg-white transition-all active:scale-[0.99] shadow-sm shadow-[0_12px_32px_rgba(10,35,81,0.07)] hover:shadow-[0_12px_32px_rgba(10,35,81,0.07)]"
     >
       <div className="flex flex-col">
         {/* Header */}
