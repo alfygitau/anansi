@@ -305,7 +305,7 @@ const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
 
           {/* 3. Amount and Status Badge */}
           <div className="flex flex-col items-end shrink-0">
-            <span className="font-mono font-medium text-[14px] text-[#0A2351] tracking-tighter">
+            <span className="font-medium text-[14px] text-[#0A2351] tracking-tighter">
               {formatAmount(amount)}
             </span>
             <div

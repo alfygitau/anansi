@@ -162,10 +162,10 @@ const AddGuarantors = ({ limit = 4 }) => {
     <div className="w-full text-primary antialiased">
       <main className="max-w-6xl mx-auto">
         <header className="space-y-2 mb-4">
-          <h1 className="text-2xl font-bold tracking-tight text-primary">
+          <h1 className="text-2xl font-medium tracking-tight text-primary">
             Nominate Guarantors
           </h1>
-          <div className="space-y-4">
+          <div className="space-y-2">
             <p className="text-slate-500 text-base leading-relaxed">
               Nominate eligible members to act as guarantors for your credit
               facility. Once submitted, your nominees will receive a secure
