@@ -12,6 +12,8 @@ import {
   ChevronRight,
   Plus,
   FileText,
+  SlidersHorizontal,
+  ChevronDown,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -28,6 +30,7 @@ const MyLoans = ({ onBack }) => {
   const { showToast } = useToast();
   const [loans, setLoans] = useState([]);
   const formatAmount = useFormatAmount();
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const { isFetching } = useQuery({
     queryKey: ["all loans"],
@@ -110,7 +113,7 @@ const MyLoans = ({ onBack }) => {
           <div className="lg:col-span-7 space-y-4">
             <section>
               <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
-                <div className="relative w-full md:w-96">
+                <div className="relative w-full">
                   <Search
                     className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
                     size={18}
@@ -122,9 +125,26 @@ const MyLoans = ({ onBack }) => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
-                <button className="flex items-center gap-2 px-6 py-3 border border rounded-2xl text-[10px] font-medium uppercase tracking-widest text-slate-400 hover:bg-slate-50 transition-all">
-                  <Filter size={16} /> Filter Status
-                </button>
+                <div className="relative flex items-center group w-[300px]">
+                  {/* Left Filter Context Icon Prefix */}
+                  <div className="absolute left-4 text-slate-400 border-r border-slate-200/60 pr-3 h-4 flex items-center pointer-events-none select-none">
+                    <SlidersHorizontal size={14} strokeWidth={2.5} />
+                  </div>
+                  <select
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="w-full h-12 pl-12 pr-10 bg-white border border-slate-200 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-slate-500 outline-none transition-all cursor-pointer appearance-none hover:bg-slate-50/50"
+                  >
+                    <option value="all">All Records</option>
+                    <option value="pending">Pending Review</option>
+                    <option value="cleared">Cleared / Active</option>
+                    <option value="action_required">Action Required</option>
+                    <option value="rejected">Rejected</option>
+                  </select>
+                  <div className="absolute right-4 text-slate-400 pointer-events-none select-none group-focus-within:text-slate-900 transition-colors">
+                    <ChevronDown size={14} strokeWidth={2.5} />
+                  </div>
+                </div>
               </div>
 
               <div className="space-y-4">
@@ -142,7 +162,7 @@ const MyLoans = ({ onBack }) => {
                         title={loan?.loan_type}
                         id={loan?.loan_code}
                         amount={formatAmount(loan?.loan_amount)}
-                        balance={formatAmount(loan?.outstanding_balance)}
+                        balance={formatAmount(loan?.loan_Balance)}
                         status={loan?.loan_status}
                         statusColor={getLoanStatusColor(loan?.loan_status)}
                         maturityDate={loan?.loan_due_date}
@@ -194,32 +214,11 @@ const MyLoans = ({ onBack }) => {
           </div>
 
           {/* RIGHT: Quick Actions & Sidebar (4 Columns) */}
-          <aside className="lg:col-span-5 space-y-6">
+          <aside className="lg:col-span-5 space-y-4">
             <ApplyLoanAction onClick={() => navigate("/loan-products")} />
-            {/* Quick Actions Card */}
-            <div className="bg-slate-50 rounded-[22px] p-5 border border-slate-200">
-              <h3 className="text-xs font-medium uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
-                <Zap className="text-slate-400" size={16} /> Quick Actions
-              </h3>
-              <div className="space-y-2">
-                <ActionButton
-                  icon={<FileText size={16} />}
-                  label="View loan statements"
-                  onClick={() => navigate("/loan-statements")}
-                  primary
-                />
-                <ActionButton
-                  icon={<CreditCard size={16} />}
-                  label="Make a Repayment"
-                  onClick={() => navigate("/all-loans")}
-                />
-              </div>
-            </div>
-
             {/* Credit Score / Info Card */}
-            <div className="bg-white rounded-[22px] p-4 border border-slate-100 shadow-xl shadow-blue-900/5">
-              <div className="flex items-center gap-3 mb-4">
-                <ShieldCheck className="text-emerald-500" size={20} />
+            <div className="bg-white rounded-[22px] p-4 border border-slate-100">
+              <div className="flex items-center gap-3 mb-2">
                 <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
                   Credit Standing
                 </h3>

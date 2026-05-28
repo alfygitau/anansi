@@ -482,7 +482,7 @@ const Homepage = () => {
       <div className="max-w-6xl sm:px-4 mx-auto">
         <header className="flex justify-between mb-3 items-center">
           <div>
-            <h1 className="text-2xl text-primary font-bold tracking-tight">
+            <h1 className="text-2xl text-primary font-medium tracking-tight">
               Dashboard
             </h1>
             <p className="text-sm text-slate-500">
@@ -703,7 +703,7 @@ const Homepage = () => {
           {/* Right Side: Active Loans */}
           <section>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg text-primary font-bold">Recent Loans</h2>
+              <h2 className="text-lg text-primary font-medium">Recent Loans</h2>
               <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">
                 {loans?.length} Running
               </span>
@@ -738,7 +738,7 @@ const Homepage = () => {
           {/* Left Side: Pending Applications */}
           <section>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg text-primary font-bold">
+              <h2 className="text-lg text-primary font-medium">
                 Loan Applications
               </h2>
               <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">

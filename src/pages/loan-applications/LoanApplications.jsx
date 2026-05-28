@@ -12,6 +12,8 @@ import {
   ChevronRight,
   Clock,
   CheckCircle2,
+  ChevronDown,
+  SlidersHorizontal,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -27,6 +29,7 @@ const LoanApplications = () => {
   const { auth } = useAuth();
   const { showToast } = useToast();
   const [loanApplications, setLoanApplications] = useState([]);
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const { isFetching } = useQuery({
     queryKey: ["all loan applications"],
@@ -77,13 +80,30 @@ const LoanApplications = () => {
                   <input
                     type="text"
                     placeholder="Search by product or application code..."
-                    className="w-full pl-12 pr-4 py-4 bg-white border rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm font-bold transition-all"
+                    className="w-full pl-12 pr-4 h-12 bg-white border rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm font-bold transition-all"
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
-                <button className="flex items-center gap-2 px-6 py-4 border border-slate-200 rounded-2xl text-[10px] font-medium uppercase tracking-widest text-slate-400 hover:bg-slate-50 transition-all">
-                  <Filter size={18} /> Filter
-                </button>
+                <div className="relative flex items-center group max-w-[300px]">
+                  {/* Left Filter Context Icon Prefix */}
+                  <div className="absolute left-4 text-slate-400 border-r border-slate-200/60 pr-3 h-4 flex items-center pointer-events-none select-none">
+                    <SlidersHorizontal size={14} strokeWidth={2.5} />
+                  </div>
+                  <select
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="w-full h-12 pl-12 pr-10 bg-white border border-slate-200 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-slate-500 outline-none transition-all cursor-pointer appearance-none hover:bg-slate-50/50"
+                  >
+                    <option value="all">All Records</option>
+                    <option value="pending">Pending Review</option>
+                    <option value="cleared">Cleared / Active</option>
+                    <option value="action_required">Action Required</option>
+                    <option value="rejected">Rejected</option>
+                  </select>
+                  <div className="absolute right-4 text-slate-400 pointer-events-none select-none group-focus-within:text-slate-900 transition-colors">
+                    <ChevronDown size={14} strokeWidth={2.5} />
+                  </div>
+                </div>
               </div>
 
               <div className="space-y-4">
@@ -167,15 +187,15 @@ const LoanApplications = () => {
 
             {/* Vetting Process Card */}
             <div className="bg-white rounded-[32px] p-4 border border-slate-100 shadow-xl shadow-blue-900/5">
-              <div className="flex items-center gap-3 mb-3">
+              <div className="flex items-center gap-3 mb-2">
                 <ShieldCheck className="text-emerald-500" size={20} />
                 <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
                   Approval Flow for Guarantor Loans
                 </h3>
               </div>
               <div className="space-y-2">
-                <ProcessStep step="1" label="Member Vetting" active />
-                <ProcessStep step="2" label="Guarantor Verification" active />
+                <ProcessStep step="1" label="Member Vetting" />
+                <ProcessStep step="2" label="Guarantor Verification" />
                 <ProcessStep step="3" label="Credit Committee Review" />
                 <ProcessStep step="4" label="Funds Disbursement" />
               </div>
@@ -183,10 +203,10 @@ const LoanApplications = () => {
 
             {/* Disclaimers & Info */}
             <div className="bg-blue-50/50 rounded-[32px] p-4 border border-blue-100/100">
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-3 mb-2">
                 <Gavel className="text-secondary" size={20} />
                 <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
-                  Legal Info
+                  Legal Information
                 </h3>
               </div>
               <ul className="space-y-4">
