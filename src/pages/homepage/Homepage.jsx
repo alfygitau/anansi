@@ -721,7 +721,7 @@ const Homepage = () => {
                   title={formatLabel(loan?.loan_type)}
                   id={loan?.loan_code}
                   amount={formatAmount(loan?.loan_amount)}
-                  balance={formatAmount(loan?.loan_Balance)}
+                  balance={formatAmount(loan?.outstanding_balance)}
                   status={loan?.loan_status}
                   statusColor={getLoanStatusColor(loan?.loan_status)}
                   maturityDate={loan?.loan_due_date}
