@@ -1,7 +1,7 @@
 import { Briefcase, Info } from "lucide-react";
 
 const LoanProductsLoader = () => {
-  const skeletonCards = Array(9).fill(null);
+  const skeletonCards = Array(3).fill(null);
   return skeletonCards.map((_, index) => <ProductCardSkeleton key={index} />);
 };
 
