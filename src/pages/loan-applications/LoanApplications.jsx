@@ -347,11 +347,6 @@ const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
               </span>
             </div>
           </div>
-
-          {/* Subtle Chevron indicator for desktop */}
-          <div className="hidden md:block opacity-0 group-hover:opacity-100 transition-opacity translate-x-1">
-            <ChevronRight size={16} className="text-slate-300" />
-          </div>
         </div>
       </div>
     </motion.div>
