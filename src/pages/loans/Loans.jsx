@@ -30,12 +30,12 @@ const MyLoans = ({ onBack }) => {
   const { showToast } = useToast();
   const [loans, setLoans] = useState([]);
   const formatAmount = useFormatAmount();
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("");
 
   const { isFetching } = useQuery({
-    queryKey: ["all loans"],
+    queryKey: ["all loans", statusFilter],
     queryFn: async () => {
-      const response = await getLoans(auth?.user?.id);
+      const response = await getLoans(auth?.user?.id, statusFilter);
       return response?.data?.data;
     },
     onSuccess: (data) => {
@@ -135,11 +135,10 @@ const MyLoans = ({ onBack }) => {
                     onChange={(e) => setStatusFilter(e.target.value)}
                     className="w-full h-12 pl-12 pr-10 bg-white border border-slate-200 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-slate-500 outline-none transition-all cursor-pointer appearance-none hover:bg-slate-50/50"
                   >
-                    <option value="all">All Records</option>
-                    <option value="pending">Pending Review</option>
-                    <option value="cleared">Cleared / Active</option>
-                    <option value="action_required">Action Required</option>
-                    <option value="rejected">Rejected</option>
+                    <option value="">All Records</option>
+                    <option value="active">Active</option>
+                    <option value="cleared">Cleared / Paid</option>
+                    <option value="defaulted">Defaulted</option>
                   </select>
                   <div className="absolute right-4 text-slate-400 pointer-events-none select-none group-focus-within:text-slate-900 transition-colors">
                     <ChevronDown size={14} strokeWidth={2.5} />

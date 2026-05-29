@@ -32,11 +32,17 @@ export const getLoanProduct = async (id) => {
   }
 };
 
-export const getLoans = async (customerId) => {
+export const getLoans = async (customerId, status) => {
   try {
-    const response = await loanClient.get(
-      `/loans?customer_id=${customerId}&loan_org_code=BA208&format=full`,
-    );
+    const params = new URLSearchParams({
+      customer_id: customerId,
+      loan_org_code: "BA208",
+      format: "full",
+    });
+    if (status && status.trim() !== "" && status !== "all") {
+      params.append("status", status);
+    }
+    const response = await loanClient.get(`/loans?${params.toString()}`);
     return response;
   } catch (error) {
     throw error?.response?.data || error;

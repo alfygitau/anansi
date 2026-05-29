@@ -1,10 +1,17 @@
 import { loanClient } from "../client/loan-client";
 
-export const getLoanApplications = async (customerId) => {
+export const getLoanApplications = async (customerId, status) => {
   try {
-    const response = await loanClient.get(
-      `/loan-applications?customer_id=${customerId}&loan_org_code=BA208`,
-    );
+    const params = new URLSearchParams({
+      customer_id: customerId,
+      loan_org_code: "BA208",
+    });
+
+    if (status && status.trim() !== "" && status !== "all") {
+      params.append("status", status.trim());
+    }
+
+    const response = await loanClient.get(`/loan-applications?${params.toString()}`);
     return response;
   } catch (error) {
     throw error?.response?.data || error;
