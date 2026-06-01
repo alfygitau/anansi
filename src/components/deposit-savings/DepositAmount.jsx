@@ -136,7 +136,14 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
                         name="mobile"
                         value={mobile}
                         onBlur={handleBlur}
-                        onChange={(e) => setMobile(e.target.value)}
+                        onChange={(e) => {
+                          const { name, value } = e.target;
+                          setMobile(e.target.value);
+                          setErrors((prev) => ({
+                            ...prev,
+                            [name]: "",
+                          }));
+                        }}
                         placeholder="e.g. 0712345678"
                         className="w-full pl-[74px] pr-6 py-5 h-14 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:bg-white focus:border-[#074073] focus:ring-4 focus:ring-[#074073]/5 transition-all placeholder:text-xs font-medium text-slate-800"
                       />
@@ -175,7 +182,14 @@ const DepositAmount = ({ isOpen, onClose, onConfirm }) => {
                         name="amount"
                         value={amount}
                         onBlur={handleBlur}
-                        onChange={(e) => setAmount(e.target.value)}
+                        onChange={(e) => {
+                          const { name, value } = e.target;
+                          setAmount(e.target.value);
+                          setErrors((prev) => ({
+                            ...prev,
+                            [name]: "",
+                          }));
+                        }}
                         placeholder="Min. 500"
                         className="w-full pl-[74px] pr-6 py-5 h-14 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:bg-white focus:border-[#074073] focus:ring-4 focus:ring-[#074073]/5 transition-all placeholder:text-xs font-semibold text-slate-800"
                       />
