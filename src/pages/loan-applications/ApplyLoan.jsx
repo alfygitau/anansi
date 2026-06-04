@@ -139,6 +139,7 @@ const ApplyLoan = () => {
         amount,
         tenure,
         purpose,
+        false,
       );
       return {
         application: response.data.data,

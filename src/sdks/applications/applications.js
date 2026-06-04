@@ -11,7 +11,9 @@ export const getLoanApplications = async (customerId, status) => {
       params.append("status", status.trim());
     }
 
-    const response = await loanClient.get(`/loan-applications?${params.toString()}`);
+    const response = await loanClient.get(
+      `/loan-applications?${params.toString()}`,
+    );
     return response;
   } catch (error) {
     throw error?.response?.data || error;
@@ -75,6 +77,7 @@ export const createLoanApplication = async (
   amount,
   duration,
   purpose,
+  termsAccepted,
 ) => {
   try {
     const response = await loanClient.post(`/loan-applications`, {
@@ -88,6 +91,7 @@ export const createLoanApplication = async (
       loan_org_code: "BA208",
       loan_purpose: purpose,
       currency: "KES",
+      terms_accepted: termsAccepted,
     });
     return response;
   } catch (error) {

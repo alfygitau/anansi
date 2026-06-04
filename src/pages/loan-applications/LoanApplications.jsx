@@ -139,13 +139,9 @@ const LoanApplications = () => {
                     ))}
                   </div>
                 ) : (
-                  <div className="h-[750px] bg-white rounded-[24px] border border-slate-200/60 flex flex-col items-center justify-center p-8 text-center">
-                    {/* ====== MODERN ILLUSTRATIVE ICON MATRIX ====== */}
+                  <div className="h-[650px] bg-white rounded-[24px] border border-slate-200/60 flex flex-col items-center justify-center p-8 text-center">
                     <div className="relative mb-6 flex items-center justify-center">
-                      {/* Soft Pulsing Ambient Background Glow Ring */}
                       <div className="absolute w-20 h-20 bg-slate-50 rounded-full animate-pulse" />
-
-                      {/* Primary Central Asset Icon Container */}
                       <div className="relative w-16 h-16 bg-slate-100/80 border border-slate-200/30 rounded-2xl flex items-center justify-center text-slate-400">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -164,8 +160,6 @@ const LoanApplications = () => {
                         </svg>
                       </div>
                     </div>
-
-                    {/* ====== HEADER TEXT STACK TYPOGRAPHY ====== */}
                     <div className="max-w-sm space-y-2 mb-8">
                       <h3 className="text-lg font-bold text-primary tracking-tight">
                         No matching applications found
@@ -176,8 +170,6 @@ const LoanApplications = () => {
                         your filters.
                       </p>
                     </div>
-
-                    {/* ====== CALL TO ACTION ELEMENT ====== */}
                     <button
                       onClick={() => window.location.reload()}
                       className="px-6 py-3 bg-primary hover:bg-secondary text-white font-semibold rounded-xl text-xs uppercase tracking-wider transition-all active:scale-[0.98] shadow-md shadow-slate-900/5"
@@ -189,8 +181,6 @@ const LoanApplications = () => {
               </div>
             </section>
           </div>
-
-          {/* RIGHT: Quick Actions & Sidebar (4 Columns) */}
           <aside className="lg:col-span-5 space-y-6">
             <ApplyLoanAction onClick={() => navigate("/loan-products")} />
             <div className="w-full bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-4 transition-all hover:shadow-[0_8px_40px_rgb(0,0,0,0.08)]">

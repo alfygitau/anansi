@@ -239,7 +239,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                               ? "border-rose-500 focus:border-rose-600 shadow-sm shadow-rose-900/[0.02]"
                               : "border-slate-200 focus:border-primary"
                           }`}
-                          placeholder="Search name..."
+                          placeholder="Enter member name..."
                         />
                       </div>
                       {/* Absolute Error Placeholder: Prevents layout shifting */}

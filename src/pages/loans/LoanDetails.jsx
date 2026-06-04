@@ -335,7 +335,7 @@ const LoanDetails = () => {
                   </p>
                 </div>
               ) : (
-                <div className="w-full h-[600px] overflow-y-auto">
+                <div className="w-full h-[600px] border rounded-[32px] p-4 overflow-y-auto">
                   <LoanScheduleList installments={loan?.schedules ?? []} />
                 </div>
               )}
