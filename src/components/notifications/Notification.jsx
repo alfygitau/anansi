@@ -14,7 +14,7 @@ const Notification = ({ isOpen, onClose, notification }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-slate-900/60 bg-slate-900/40 z-[99]"
+            className="fixed inset-0 bg-slate-500/10 bg-slate-900/40 z-[99]"
           />
 
           {/* Modal Container */}

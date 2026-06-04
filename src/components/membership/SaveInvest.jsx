@@ -36,7 +36,7 @@ const SaveAndInvest = ({ isOpen, onNext, onClose, onCombine }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100] flex justify-end bg-slate-900/60"
+          className="fixed inset-0 z-[100] flex justify-end bg-slate-500/10"
         >
           {/* Invisible dismissal zone target click area */}
           <div className="absolute inset-0" onClick={onClose} />
@@ -75,11 +75,15 @@ const SaveAndInvest = ({ isOpen, onNext, onClose, onCombine }) => {
 
             {/* Scrollable Core Body Content */}
             <div className="flex-1 overflow-y-auto p-8 space-y-6">
-              
               {/* Intent Explainer Text Block */}
               <p className="text-sm text-slate-600 leading-relaxed font-medium pl-1">
-                Would you like to acquire structural shares and log your initial savings deposit alongside registration? 
-                <span className="text-[#074073] font-bold"> Combining your payment prompts</span> allows you to satisfy setup milestones concurrently.
+                Would you like to acquire structural shares and log your initial
+                savings deposit alongside registration?
+                <span className="text-[#074073] font-bold">
+                  {" "}
+                  Combining your payment prompts
+                </span>{" "}
+                allows you to satisfy setup milestones concurrently.
               </p>
 
               {/* Benefits Structured Matrix Blocks */}
@@ -92,7 +96,8 @@ const SaveAndInvest = ({ isOpen, onNext, onClose, onCombine }) => {
                     Mitigate Fees
                   </h4>
                   <p className="text-[11px] text-slate-400 font-medium leading-normal">
-                    Authorize exactly one transaction prompt rather than incurring multiple carrier charges.
+                    Authorize exactly one transaction prompt rather than
+                    incurring multiple carrier charges.
                   </p>
                 </div>
 
@@ -104,7 +109,8 @@ const SaveAndInvest = ({ isOpen, onNext, onClose, onCombine }) => {
                     Immediate Growth
                   </h4>
                   <p className="text-[11px] text-slate-400 font-medium leading-normal">
-                    Lock in corporate dividend distribution vectors and compound balances starting Day 1.
+                    Lock in corporate dividend distribution vectors and compound
+                    balances starting Day 1.
                   </p>
                 </div>
               </div>
@@ -113,10 +119,14 @@ const SaveAndInvest = ({ isOpen, onNext, onClose, onCombine }) => {
               <div className="flex gap-3 p-4 bg-slate-50 border border-slate-200/60 rounded-2xl shadow-sm">
                 <Info className="text-[#074073] shrink-0 mt-0.5" size={16} />
                 <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
-                  <span className="text-slate-800 font-bold">Optional Step:</span> Capital growth allocations are entirely non-mandatory. You can freely pass past this window and seed capital straight from your primary workspace later.
+                  <span className="text-slate-800 font-bold">
+                    Optional Step:
+                  </span>{" "}
+                  Capital growth allocations are entirely non-mandatory. You can
+                  freely pass past this window and seed capital straight from
+                  your primary workspace later.
                 </p>
               </div>
-
             </div>
 
             <div className="border-b mx-8 border-slate-100"></div>
@@ -151,7 +161,6 @@ const SaveAndInvest = ({ isOpen, onNext, onClose, onCombine }) => {
                 Secure Anansi Sacco Protocol Bound
               </span>
             </div>
-
           </motion.div>
         </motion.div>
       )}

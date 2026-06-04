@@ -59,7 +59,7 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100] flex justify-end bg-slate-900/60"
+          className="fixed inset-0 z-[100] flex justify-end bg-slate-500/10"
         >
           {/* Invisible dismissal zone target click area */}
           <div className="absolute inset-0" onClick={onClose} />
@@ -98,7 +98,6 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
 
             {/* Scrollable Core Review Content Body */}
             <div className="flex-1 overflow-y-auto p-8 space-y-6">
-              
               {/* Desaturated M-PESA Confirmation Summary Box */}
               <div className="p-4 rounded-2xl bg-slate-50/50 border border-slate-200/60 shadow-sm space-y-3">
                 <div className="flex items-center justify-between border-b border-slate-200/40 pb-3">
@@ -108,7 +107,11 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
                       M-PESA Checkout
                     </span>
                   </div>
-                  <img src="/mpesa.svg" alt="M-Pesa Core Logo" className="h-4 opacity-60 grayscale" />
+                  <img
+                    src="/mpesa.svg"
+                    alt="M-Pesa Core Logo"
+                    className="h-4 opacity-60 grayscale"
+                  />
                 </div>
 
                 <div className="flex justify-between items-end">
@@ -155,12 +158,19 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
 
               {/* Network Action STK Advisory Alert Block */}
               <div className="p-4 rounded-xl flex gap-3 bg-slate-50 border border-slate-200/60 shadow-sm">
-                <Smartphone size={14} className="text-[#074073] shrink-0 mt-0.5 animate-pulse" />
+                <Smartphone
+                  size={14}
+                  className="text-[#074073] shrink-0 mt-0.5 animate-pulse"
+                />
                 <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
-                  <span className="text-slate-800 font-bold">PIN Authorization Notice:</span> Confirming execution triggers an automatic STK popup directly onto the wireless validation endpoint node. Input your authentication credentials immediately.
+                  <span className="text-slate-800 font-bold">
+                    PIN Authorization Notice:
+                  </span>{" "}
+                  Confirming execution triggers an automatic STK popup directly
+                  onto the wireless validation endpoint node. Input your
+                  authentication credentials immediately.
                 </p>
               </div>
-
             </div>
 
             <div className="border-b mx-8 border-slate-100"></div>
@@ -181,18 +191,23 @@ const ReviewRegistrationOnly = ({ isOpen, onClose, onNext }) => {
               >
                 {isLoading ? (
                   <>
-                    <Loader2 size={16} className="animate-spin text-slate-400" />
+                    <Loader2
+                      size={16}
+                      className="animate-spin text-slate-400"
+                    />
                     <span>Initiating Payment Protocol...</span>
                   </>
                 ) : (
                   <>
                     <span>Confirm & Authorize Payment</span>
-                    <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                    <ArrowRight
+                      size={14}
+                      className="transition-transform duration-200 group-hover:translate-x-0.5"
+                    />
                   </>
                 )}
               </button>
             </div>
-
           </motion.div>
         </motion.div>
       )}

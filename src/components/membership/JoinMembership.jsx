@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Smartphone, ShieldCheck, Lock, ArrowRight, Phone } from "lucide-react";
+import {
+  X,
+  Smartphone,
+  ShieldCheck,
+  Lock,
+  ArrowRight,
+  Phone,
+} from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 import { useStore } from "../../store/useStore";
 
@@ -30,11 +37,11 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100] flex justify-end bg-slate-900/60"
+          className="fixed inset-0 z-[100] flex justify-end bg-slate-500/10"
         >
           {/* Invisible dismissal zone target click area */}
           <div className="absolute inset-0" onClick={onClose} />
-          
+
           <motion.div
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
@@ -63,7 +70,6 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
 
             {/* Scrollable Core Body Content */}
             <div className="flex-1 overflow-y-auto p-8 space-y-6">
-              
               {/* Premium Informational Pitch Deck */}
               <div className="p-5 rounded-[24px] border border-blue-100 bg-blue-50/30 relative overflow-hidden">
                 <div className="absolute right-4 top-4 opacity-5 text-[#074073] pointer-events-none">
@@ -74,14 +80,15 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
                     <Smartphone size={18} />
                   </div>
                   <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                    Unlock institutional credit facilities, high-yield dividend pools, and premium savings ledgers by initializing your membership registration structure.
+                    Unlock institutional credit facilities, high-yield dividend
+                    pools, and premium savings ledgers by initializing your
+                    membership registration structure.
                   </p>
                 </div>
               </div>
 
               {/* Input Configuration Categories */}
               <div className="space-y-6">
-                
                 {/* Fixed Membership Fee Vector - PREFERRED SYSTEM INPUT DESIGN */}
                 <div className="w-full space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1 block">
@@ -112,7 +119,7 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
                       className="h-4 opacity-60 grayscale"
                     />
                   </div>
-                  
+
                   <div className="relative flex items-center bg-slate-50 border-2 border-slate-100 focus-within:border-slate-900 focus-within:bg-white rounded-2xl h-14 transition-all duration-200 shadow-sm">
                     <div className="pl-5 pr-3 flex items-center text-slate-400 border-r border-slate-200/60 h-5 my-auto shrink-0">
                       <Phone size={16} />
@@ -135,23 +142,27 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
                       className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#074073] focus:ring-[#074073]/20"
                     />
                     <span className="text-[11px] text-slate-400 group-hover:text-slate-600 font-medium leading-normal transition-colors">
-                      Persist this validation parameter node for future Sacco processing pipelines
+                      Persist this validation parameter node for future Sacco
+                      processing pipelines
                     </span>
                   </label>
                 </div>
-
               </div>
 
               {/* Secure STK Real-time Advisory Prompt */}
               <div className="p-4 rounded-xl flex gap-3 bg-slate-50 border border-slate-200/60 shadow-sm">
                 <Lock size={14} className="text-[#074073] shrink-0 mt-0.5" />
                 <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
-                  <span className="text-slate-800 font-bold">STK Network Protocol Notice:</span> Advancing past this initialization stage fires an instant payment authentication request to your handset terminal window. Ensure the display is active.
+                  <span className="text-slate-800 font-bold">
+                    STK Network Protocol Notice:
+                  </span>{" "}
+                  Advancing past this initialization stage fires an instant
+                  payment authentication request to your handset terminal
+                  window. Ensure the display is active.
                 </p>
               </div>
-
             </div>
-            
+
             <div className="border-b mx-8 border-slate-100"></div>
 
             {/* Pinned Execution Footer Card */}
@@ -174,7 +185,6 @@ const JoinMembership = ({ isOpen, onClose, onNext }) => {
                 />
               </button>
             </div>
-
           </motion.div>
         </motion.div>
       )}

@@ -1,7 +1,13 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { XCircle, HelpCircle, RefreshCcw, AlertTriangle, Edit } from "lucide-react";
+import {
+  XCircle,
+  HelpCircle,
+  RefreshCcw,
+  AlertTriangle,
+  Edit,
+} from "lucide-react";
 
 const DocumentError = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
@@ -17,7 +23,7 @@ const DocumentError = ({ isOpen, onClose }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="absolute inset-0 bg-slate-900/60 bg-slate-900/40"
+          className="absolute inset-0 bg-slate-500/10 bg-slate-900/40"
         />
 
         {/* Modal Content */}

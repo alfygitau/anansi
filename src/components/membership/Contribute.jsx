@@ -61,7 +61,7 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100] flex justify-end bg-slate-900/60"
+          className="fixed inset-0 z-[100] flex justify-end bg-slate-500/10"
         >
           {/* Invisible dismissal zone target click area */}
           <div className="absolute inset-0" onClick={onClose} />
@@ -95,7 +95,6 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
 
             {/* Scrollable Core Form Workspace Body */}
             <div className="flex-1 overflow-y-auto p-8 space-y-6">
-              
               {/* DEPOSIT SAVINGS CONTAINER MODULE */}
               <div className="p-5 rounded-[24px] bg-emerald-50/30 border border-emerald-100 space-y-4">
                 <div className="flex items-center gap-2.5">
@@ -196,10 +195,14 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
               <div className="p-4 rounded-xl flex gap-3 bg-slate-50 border border-slate-200/60 shadow-sm">
                 <Info className="text-slate-400 shrink-0 mt-0.5" size={14} />
                 <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
-                  <span className="text-slate-800 font-bold">Carrier Surcharge Mitigation:</span> Consolidating your initial capital inputs into a single prompt triggers only one structural M-PESA validation protocol fee, bypassing multiple individual deposit premiums later.
+                  <span className="text-slate-800 font-bold">
+                    Carrier Surcharge Mitigation:
+                  </span>{" "}
+                  Consolidating your initial capital inputs into a single prompt
+                  triggers only one structural M-PESA validation protocol fee,
+                  bypassing multiple individual deposit premiums later.
                 </p>
               </div>
-
             </div>
 
             <div className="border-b mx-8 border-slate-100"></div>
@@ -224,7 +227,6 @@ const SetupContributions = ({ isOpen, onClose, onNext }) => {
                 />
               </button>
             </div>
-
           </motion.div>
         </motion.div>
       )}
