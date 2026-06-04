@@ -3,10 +3,7 @@ import {
   XCircle,
   Search,
   Plus,
-  Filter,
-  Zap,
   ShieldCheck,
-  ArrowRight,
   Gavel,
   Calendar,
   ChevronRight,
@@ -30,6 +27,15 @@ const LoanApplications = () => {
   const { showToast } = useToast();
   const [loanApplications, setLoanApplications] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
+  const formatAmount = useFormatAmount();
+
+  const limitData = {
+    totalLimit: 25000,
+    utilized: 4250,
+    apr: "7.49%",
+    term: "Up to 60 Months",
+    nextReview: "Oct 15, 2026",
+  };
 
   const { isFetching } = useQuery({
     queryKey: ["all loan applications", statusFilter],
@@ -95,9 +101,13 @@ const LoanApplications = () => {
                     className="w-full h-12 pl-12 pr-10 bg-white border border-slate-200 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-slate-500 outline-none transition-all cursor-pointer appearance-none hover:bg-slate-50/50"
                   >
                     <option value="">All Records</option>
-                    <option value="pending_guarantor">Pending Guarantors</option>
+                    <option value="pending_guarantor">
+                      Pending Guarantors
+                    </option>
                     <option value="approved">Approved</option>
-                    <option value="failed_eligibility">Failed Eligibility</option>
+                    <option value="failed_eligibility">
+                      Failed Eligibility
+                    </option>
                     <option value="cancelled">Cancelled</option>
                   </select>
                   <div className="absolute right-4 text-slate-400 pointer-events-none select-none group-focus-within:text-slate-900 transition-colors">
@@ -114,7 +124,7 @@ const LoanApplications = () => {
                     ))}
                   </div>
                 ) : loanApplications.length > 0 ? (
-                  <div className="border border-slate-200/80 rounded-[24px] h-[750px] p-3 overflow-y-auto space-y-3 custom-scrollbar">
+                  <div className="border border-slate-200/80 rounded-[24px] h-[650px] p-3 overflow-y-auto space-y-3 custom-scrollbar">
                     {loanApplications.map((app) => (
                       <ApplicationItem
                         key={app.reference}
@@ -184,6 +194,32 @@ const LoanApplications = () => {
           {/* RIGHT: Quick Actions & Sidebar (4 Columns) */}
           <aside className="lg:col-span-5 space-y-6">
             <ApplyLoanAction onClick={() => navigate("/loan-products")} />
+            <div className="w-full bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-4 transition-all hover:shadow-[0_8px_40px_rgb(0,0,0,0.08)]">
+              {/* Header */}
+              <div className="flex items-start gap-4 mb-4">
+                <div className="p-3 bg-primary rounded-2xl text-white shrink-0">
+                  <ShieldCheck className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-slate-900 tracking-tight">
+                    Loan Limit Details
+                  </h3>
+                  <p className="text-sm text-slate-500 font-medium mt-0.5">
+                    Based on your current financial profile.
+                  </p>
+                </div>
+              </div>
+
+              {/* Main Limit Hero Section */}
+              <div className="bg-slate-50/50 rounded-2xl p-3 border border-slate-50">
+                <span className="text-4xl sm:text-5xl font-extrabold text-primary tracking-tight block">
+                  {formatAmount(limitData.totalLimit)}
+                </span>
+                <span className="text-xs font-bold tracking-wider text-slate-400 uppercase mt-2 block">
+                  Pre-Approved Limit
+                </span>
+              </div>
+            </div>
 
             {/* Vetting Process Card */}
             <div className="bg-white rounded-[32px] p-4 border border-slate-100 shadow-xl shadow-blue-900/5">

@@ -1,17 +1,13 @@
 import React, { useState } from "react";
 import {
   Search,
-  Filter,
   Clock,
   CheckCircle2,
   AlertCircle,
-  CreditCard,
   Info,
   ShieldCheck,
-  Zap,
   ChevronRight,
   Plus,
-  FileText,
   SlidersHorizontal,
   ChevronDown,
 } from "lucide-react";
@@ -72,6 +68,14 @@ const MyLoans = ({ onBack }) => {
       default:
         return "#94A3B8"; // Muted Light Gray (Fallback)
     }
+  };
+
+  const limitData = {
+    totalLimit: 25000,
+    utilized: 4250,
+    apr: "7.49%",
+    term: "Up to 60 Months",
+    nextReview: "Oct 15, 2026",
   };
 
   return (
@@ -216,17 +220,31 @@ const MyLoans = ({ onBack }) => {
           <aside className="lg:col-span-5 space-y-4">
             <ApplyLoanAction onClick={() => navigate("/loan-products")} />
             {/* Credit Score / Info Card */}
-            <div className="bg-white rounded-[22px] p-4 border border-slate-100">
-              <div className="flex items-center gap-3 mb-2">
-                <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
-                  Credit Standing
-                </h3>
+            <div className="w-full bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-4 transition-all hover:shadow-[0_8px_40px_rgb(0,0,0,0.08)]">
+              {/* Header */}
+              <div className="flex items-start gap-4 mb-4">
+                <div className="p-3 bg-primary rounded-2xl text-white shrink-0">
+                  <ShieldCheck className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-slate-900 tracking-tight">
+                    Loan Limit Details
+                  </h3>
+                  <p className="text-sm text-slate-500 font-medium mt-0.5">
+                    Based on your current financial profile.
+                  </p>
+                </div>
               </div>
-              <p className="text-xs text-slate-500 leading-relaxed font-medium">
-                Your current repayment rate is{" "}
-                <span className="text-primary font-bold">84%</span>. Maintaining
-                a rate above 90% qualifies you for higher loan limits.
-              </p>
+
+              {/* Main Limit Hero Section */}
+              <div className="bg-slate-50/50 rounded-2xl p-3 border border-slate-50">
+                <span className="text-4xl sm:text-5xl font-extrabold text-primary tracking-tight block">
+                  {formatAmount(limitData.totalLimit)}
+                </span>
+                <span className="text-xs font-bold tracking-wider text-slate-400 uppercase mt-2 block">
+                  Pre-Approved Limit
+                </span>
+              </div>
             </div>
 
             {/* Legal Disclaimers */}
@@ -242,16 +260,6 @@ const MyLoans = ({ onBack }) => {
                 <DisclaimerItem text="Defaulting for more than 90 days results in CRB listing as per CBK regulations." />
                 <DisclaimerItem text="Loan interest rates are calculated on a reducing balance basis monthly." />
               </ul>
-            </div>
-
-            {/* Footer Support */}
-            <div className="text-left">
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-loose">
-                Need specialized assistance? <br />
-                <span className="text-secondary cursor-pointer hover:underline">
-                  Talk to a Loan Officer
-                </span>
-              </p>
             </div>
           </aside>
         </div>
@@ -435,22 +443,6 @@ const LoanItemSkeleton = () => {
     </div>
   );
 };
-
-const ActionButton = ({ icon, label, onClick, primary = false }) => (
-  <button
-    onClick={onClick}
-    className={`w-full flex items-center gap-3 px-4 py-5 rounded-xl text-[11px] font-medium uppercase tracking-[0.08em] transition-all border ${
-      primary
-        ? "bg-primary border-slate-900 text-white hover:bg-slate-800"
-        : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50 shadow-sm"
-    }`}
-  >
-    <span className={primary ? "text-slate-400" : "text-slate-400"}>
-      {icon}
-    </span>
-    {label}
-  </button>
-);
 
 const DisclaimerItem = ({ text }) => (
   <li className="flex gap-3 items-start">
