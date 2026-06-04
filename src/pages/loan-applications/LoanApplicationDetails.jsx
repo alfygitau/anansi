@@ -541,7 +541,17 @@ const StatusInsight = ({ status = "", onContinue }) => {
       bg: "bg-blue-50",
       border: "border-blue-100",
       actionLabel: "View Details",
-      showButton: true,
+      showButton: false,
+    },
+    "pending_credit_committee": {
+      title: "Under Credit Review",
+      description:
+        "Our credit committee is currently reviewing your financial profile and guarantor commitments. This typically takes 24-48 hours.",
+      icon: <ShieldCheck className="text-blue-600" />,
+      bg: "bg-blue-50",
+      border: "border-blue-100",
+      actionLabel: "View Details",
+      showButton: false,
     },
     "reviewing customer information": {
       title: "Verification in Progress",
@@ -564,6 +574,16 @@ const StatusInsight = ({ status = "", onContinue }) => {
       showButton: false,
     },
     approved: {
+      title: "Loan Approved Successfully",
+      description:
+        "Congratulations! Your credit facility request has passed formal committee evaluations and is ready for onboarding clearance.",
+      icon: <CheckCircle2 className="text-emerald-600" />,
+      bg: "bg-emerald-50",
+      border: "border-emerald-100",
+      actionLabel: "View Agreement",
+      showButton: false,
+    },
+    disbursed: {
       title: "Loan Approved Successfully",
       description:
         "Congratulations! Your credit facility request has passed formal committee evaluations and is ready for onboarding clearance.",
