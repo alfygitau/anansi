@@ -163,8 +163,7 @@ const AccountDetails = () => {
             {/* 1. Hero Balance Card & Quick Actions (Grid Layout) */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
               {/* Main Balance Area (8 Cols) */}
-              <div className="lg:col-span-7 bg-primary rounded-[30px] p-6 text-white relative overflow-hidden group h-[250px] flex flex-col justify-between">
-                <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-secondary opacity-20 blur-[80px] rounded-full"></div>
+              <div className="lg:col-span-7 bg-primary rounded-[30px] p-6 text-white relative overflow-hidden group h-[220px] flex flex-col justify-between">
                 <div className="relative z-10">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
@@ -191,7 +190,7 @@ const AccountDetails = () => {
                   </div>
                 </div>
 
-                <div className="relative z-10 flex items-end justify-between border-t border-white/10 pt-6 mt-4">
+                <div className="relative z-10 flex items-end justify-between border-t border-white/10 pt-6">
                   <div>
                     <p className="text-[9px] font-medium uppercase tracking-[0.2em] text-blue-300/40 mb-1">
                       Account Number
