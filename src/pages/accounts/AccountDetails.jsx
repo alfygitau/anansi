@@ -30,6 +30,7 @@ import ReviewDeposit from "../../components/deposit-savings/ConfirmDeposit";
 import AwaitDepositPayment from "../../components/deposit-savings/AwaitDepositPayment";
 import TransactionDetails from "../../components/transactions/TransactionDetails";
 import { useFormatAmount } from "../../hooks/useFormatAmount";
+import { useFormattedDateTime } from "../../hooks/useFormatDateTime";
 
 const AccountDetails = () => {
   const [balanceVisible, setBalanceVisible] = useState(true);
@@ -303,7 +304,7 @@ const AccountDetails = () => {
               {/* Right: Info & Disclaimers (4 Cols) */}
               <aside className="lg:col-span-4 space-y-6">
                 {/* Account Status Card */}
-                <div className="bg-white rounded-[32px] p-8 border border-slate-100">
+                <div className="bg-white rounded-[32px] p-5 border border-slate-100">
                   <div className="flex items-center gap-3 mb-6">
                     <ShieldCheck className="text-emerald-500" size={20} />
                     <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
@@ -317,7 +318,7 @@ const AccountDetails = () => {
                 </div>
 
                 {/* Disclaimer / Notice */}
-                <div className="bg-blue-50/50 rounded-[32px] p-8 border border-blue-100/100">
+                <div className="bg-blue-50/50 rounded-[32px] p-5 border border-blue-100/100">
                   <div className="flex items-center gap-3 mb-4">
                     <Info className="text-secondary" size={20} />
                     <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
@@ -329,15 +330,6 @@ const AccountDetails = () => {
                     <DisclaimerItem text="A minimum balance of KES 1,000 must be maintained to keep the account active." />
                     <DisclaimerItem text="Interest is calculated daily and credited to your account at the end of every quarter." />
                   </ul>
-                </div>
-
-                {/* Support */}
-                <div className="px-8 flex items-start gap-3 opacity-50">
-                  <Clock size={14} className="mt-0.5 shrink-0" />
-                  <p className="text-[9px] font-bold uppercase tracking-widest leading-relaxed">
-                    Transaction history is available online for up to 2 years.
-                    Older records require a branch visit.
-                  </p>
                 </div>
               </aside>
             </div>
@@ -368,6 +360,7 @@ const VerticalAction = ({ icon, label, color, darkText = false, onClick }) => (
 
 const TransactionRow = ({ tx, setTransaction, setShowTransactionDetails }) => {
   const formatAmount = useFormatAmount();
+  const formatDateTime = useFormattedDateTime();
   return (
     <div
       onClick={() => {
@@ -386,7 +379,7 @@ const TransactionRow = ({ tx, setTransaction, setShowTransactionDetails }) => {
           </p>
           <h4 className="text-sm font-medium text-primary">{tx.type}</h4>
           <p className="text-[10px] text-slate-400 font-mono tracking-tight uppercase">
-            {tx.ref_number} • {tx.createdAt}
+            {tx.ref_number} • {formatDateTime(tx.createdAt)}
           </p>
         </div>
       </div>
