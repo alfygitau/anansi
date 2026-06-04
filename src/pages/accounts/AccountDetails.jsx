@@ -13,6 +13,8 @@ import {
   Info,
   Clock,
   Wallet,
+  SlidersHorizontal,
+  ChevronRight,
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -161,7 +163,7 @@ const AccountDetails = () => {
             {/* 1. Hero Balance Card & Quick Actions (Grid Layout) */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
               {/* Main Balance Area (8 Cols) */}
-              <div className="lg:col-span-8 bg-primary rounded-[30px] p-6 text-white relative overflow-hidden group h-[250px] flex flex-col justify-between">
+              <div className="lg:col-span-7 bg-primary rounded-[30px] p-6 text-white relative overflow-hidden group h-[250px] flex flex-col justify-between">
                 <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-secondary opacity-20 blur-[80px] rounded-full"></div>
                 <div className="relative z-10">
                   <div className="flex items-center gap-2 mb-4">
@@ -211,7 +213,7 @@ const AccountDetails = () => {
               </div>
 
               {/* Quick Actions Vertical (4 Cols) */}
-              <div className="lg:col-span-4 grid grid-cols-2 gap-4">
+              <div className="lg:col-span-5 grid grid-cols-2 gap-4">
                 <VerticalAction
                   icon={<ArrowDownCircle />}
                   label="Deposit"
@@ -245,13 +247,13 @@ const AccountDetails = () => {
             {/* 2. Main Transactions Section with Sidebar */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Left: Transaction List (8 Cols) */}
-              <div className="lg:col-span-8">
+              <div className="lg:col-span-7">
                 <div className="flex items-center justify-between">
                   <h3 className="text-xl font-medium tracking-tight">
                     Recent Transactions
                   </h3>
                   <button className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-widest text-slate-400 hover:text-primary">
-                    <Filter size={16} /> Filter
+                    <SlidersHorizontal size={16} />
                   </button>
                 </div>
 
@@ -302,7 +304,7 @@ const AccountDetails = () => {
               </div>
 
               {/* Right: Info & Disclaimers (4 Cols) */}
-              <aside className="lg:col-span-4 space-y-6">
+              <aside className="lg:col-span-5 space-y-6">
                 {/* Account Status Card */}
                 <div className="bg-white rounded-[32px] p-5 border border-slate-100">
                   <div className="flex items-center gap-3 mb-6">
@@ -342,21 +344,51 @@ const AccountDetails = () => {
 
 /* --- Sub-Components --- */
 
-const VerticalAction = ({ icon, label, color, darkText = false, onClick }) => (
-  <button
-    onClick={onClick}
-    className={`${color} ${darkText ? "text-primary border border-slate-200" : "text-white"} p-4 rounded-[32px] flex flex-col items-center justify-center gap-3 hover:scale-[1.02] transition-all group`}
-  >
-    <div
-      className={`${darkText ? "bg-slate-50" : "bg-white/20"} p-4 rounded-2xl group-hover:scale-110 transition-transform`}
+const VerticalAction = ({ icon, label, description, onClick }) => {
+  return (
+    <button
+      onClick={onClick}
+      className="w-full p-5 bg-white rounded-2xl 
+                 border border-slate-100/80 shadow-[0_4px_20px_rgba(0,0,0,0.02)]
+                 flex items-center justify-between gap-4 
+                 transition-all duration-300 ease-out transform 
+                 hover:-translate-x-0.5 hover:shadow-[0_12px_30px_rgba(15,23,42,0.04)] hover:border-slate-200
+                 active:scale-[0.99] group text-left"
     >
-      {React.cloneElement(icon, { size: 24 })}
-    </div>
-    <span className="text-[10px] font-medium uppercase tracking-widest">
-      {label}
-    </span>
-  </button>
-);
+      {/* Left Content Side: Icon + Text */}
+      <div className="flex items-center gap-4">
+        {/* Premium Icon Wrapper */}
+        <div
+          className="p-3.5 rounded-xl bg-slate-50 text-slate-600 
+                        border border-slate-100/50 transition-all duration-300 ease-out 
+                        group-hover:bg-emerald-50 group-hover:text-emerald-700 group-hover:border-emerald-100 shrink-0"
+        >
+          {React.cloneElement(icon, {
+            size: 22,
+            strokeWidth: 2.2,
+          })}
+        </div>
+
+        {/* Typography Block */}
+        <div className="flex flex-col gap-0.5">
+          <span className="text-sm font-bold tracking-wide text-slate-800 uppercase group-hover:text-emerald-800 transition-colors duration-300">
+            {label}
+          </span>
+          {description && (
+            <span className="text-xs text-slate-400 font-medium leading-normal">
+              {description}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Right Content Side: Premium Trailing Arrow */}
+      <div className="text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all duration-300 ease-out shrink-0 pr-1">
+        <ChevronRight size={20} strokeWidth={2.5} />
+      </div>
+    </button>
+  );
+};
 
 const TransactionRow = ({ tx, setTransaction, setShowTransactionDetails }) => {
   const formatAmount = useFormatAmount();
