@@ -3,14 +3,13 @@ import {
   XCircle,
   Search,
   Plus,
-  ShieldCheck,
-  Gavel,
   Calendar,
   ChevronRight,
   Clock,
   CheckCircle2,
   ChevronDown,
   SlidersHorizontal,
+  CircleGauge,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -105,7 +104,7 @@ const LoanApplications = () => {
                       Pending Guarantors
                     </option>
                     <option value="approved">Approved</option>
-                    <option value="failed_eligibility">
+                    <option value="eligibility_failed">
                       Failed Eligibility
                     </option>
                     <option value="cancelled">Cancelled</option>
@@ -198,7 +197,7 @@ const LoanApplications = () => {
               {/* Header */}
               <div className="flex items-start gap-4 mb-4">
                 <div className="p-3 bg-primary rounded-2xl text-white shrink-0">
-                  <ShieldCheck className="w-7 h-7" />
+                  <CircleGauge className="w-7 h-7" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-slate-900 tracking-tight">
@@ -224,7 +223,6 @@ const LoanApplications = () => {
             {/* Vetting Process Card */}
             <div className="bg-white rounded-[32px] p-4 border border-slate-100 shadow-xl shadow-blue-900/5">
               <div className="flex items-center gap-3 mb-2">
-                <ShieldCheck className="text-emerald-500" size={20} />
                 <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
                   Approval Flow for Guarantor Loans
                 </h3>
@@ -240,7 +238,6 @@ const LoanApplications = () => {
             {/* Disclaimers & Info */}
             <div className="bg-blue-50/50 rounded-[32px] p-4 border border-blue-100/100">
               <div className="flex items-center gap-3 mb-2">
-                <Gavel className="text-secondary" size={20} />
                 <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
                   Legal Information
                 </h3>

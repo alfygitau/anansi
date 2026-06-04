@@ -6,7 +6,6 @@ import {
   Wallet,
   Loader2,
   FileText,
-  Layers,
   Calendar,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";

@@ -4,12 +4,11 @@ import {
   Clock,
   CheckCircle2,
   AlertCircle,
-  Info,
-  ShieldCheck,
   ChevronRight,
   Plus,
   SlidersHorizontal,
   ChevronDown,
+  CircleGauge,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -224,7 +223,7 @@ const MyLoans = ({ onBack }) => {
               {/* Header */}
               <div className="flex items-start gap-4 mb-4">
                 <div className="p-3 bg-primary rounded-2xl text-white shrink-0">
-                  <ShieldCheck className="w-7 h-7" />
+                  <CircleGauge className="w-7 h-7" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-slate-900 tracking-tight">
@@ -249,8 +248,7 @@ const MyLoans = ({ onBack }) => {
 
             {/* Legal Disclaimers */}
             <div className="bg-blue-50/50 rounded-[32px] p-4 border border-blue-100/50">
-              <div className="flex items-center gap-3 mb-6">
-                <Info className="text-secondary" size={20} />
+              <div className="flex items-center gap-3 mb-3">
                 <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
                   Important Notes
                 </h3>
