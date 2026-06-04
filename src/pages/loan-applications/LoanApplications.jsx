@@ -291,6 +291,12 @@ const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
           bg: "bg-emerald-500/10",
           icon: CheckCircle2,
         };
+        case "disbursed":
+        return {
+          color: "#10B981", // Emerald
+          bg: "bg-emerald-500/10",
+          icon: CheckCircle2,
+        };
       case "declined":
         return {
           color: "#EF4444", // Rose
