@@ -415,7 +415,7 @@ const TransactionRow = ({ tx, setTransaction, setShowTransactionDetails }) => {
         </div>
       </div>
       <div className="text-right">
-        <p className="text-base font-medium text-green-600 font-mono">
+        <p className="text-base font-medium text-green-600">
           {formatAmount(tx?.amount)}
         </p>
         <p className="text-[9px] font-bold uppercase text-slate-300 tracking-widest">
