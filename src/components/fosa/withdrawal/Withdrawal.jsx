@@ -7,8 +7,8 @@ import {
   ShieldAlert,
   Smartphone,
 } from "lucide-react";
-import useAuth from "../../hooks/useAuth";
-import { useStore } from "../../store/useStore";
+import useAuth from "../../../hooks/useAuth";
+import { useStore } from "../../../store/useStore";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Withdrawal = ({ isOpen, onClose, account, onSuccess }) => {

@@ -11,7 +11,7 @@ import {
   Send,
   Receipt,
   ArrowUpRight,
-  Smartphone
+  Smartphone,
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -26,9 +26,9 @@ import { useFormatAmount } from "../../hooks/useFormatAmount";
 import { useFormattedDateTime } from "../../hooks/useFormatDateTime";
 
 import DepositAmount from "../../components/deposit-savings/DepositAmount";
-import PayBill from "../../components/fosa/PayBill";
-import Withdrawal from "../../components/fosa/Withdrawal";
-import Transfer from "../../components/fosa/Transfer";
+import PayBill from "../../components/fosa/paybill/PayBill";
+import Withdrawal from "../../components/fosa/withdrawal/Withdrawal";
+import Transfer from "../../components/fosa/transfer/Transfer";
 
 const MyAccountDetails = () => {
   const [balanceVisible, setBalanceVisible] = useState(true);

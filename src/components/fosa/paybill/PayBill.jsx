@@ -7,7 +7,7 @@ import {
   ShieldAlert,
   Smartphone,
 } from "lucide-react";
-import { useStore } from "../../store/useStore";
+import { useStore } from "../../../store/useStore";
 import { motion, AnimatePresence } from "framer-motion";
 
 const PayBill = ({ isOpen, onClose, account, onSuccess }) => {

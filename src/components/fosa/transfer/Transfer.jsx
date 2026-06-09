@@ -7,7 +7,7 @@ import {
   ShieldAlert,
   ArrowDownCircle,
 } from "lucide-react";
-import { useStore } from "../../store/useStore";
+import { useStore } from "../../../store/useStore";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Transfer = ({ isOpen, onClose, account, onSuccess }) => {
@@ -316,9 +316,7 @@ const Transfer = ({ isOpen, onClose, account, onSuccess }) => {
                     : "bg-gray-200 text-gray-400 cursor-not-allowed"
                 }`}
               >
-                {loading
-                  ? "Processing Transfer..."
-                  : "Execute Transfer"}
+                {loading ? "Processing Transfer..." : "Execute Transfer"}
               </button>
             </div>
           </motion.div>
