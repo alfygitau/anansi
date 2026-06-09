@@ -69,50 +69,58 @@ const Homepage = () => {
   const [loanApplications, setLoanApplications] = useState([]);
   const quickActions = [
     {
-      id: 1,
-      label: "Quick Invest & Save",
+      id: "invest",
+      label: "Quick Invest",
+      description: "Grow savings and equity shares.",
       icon: <TrendingUp size={24} />,
       onClick: () => setShowInvestAmount(true),
     },
     {
-      id: 2,
+      id: "deposit",
       label: "Deposit Savings",
+      description: "Instant mobile cash top-up.",
       icon: <ArrowDownCircle size={24} />,
       onClick: () => setShowDepositAmount(true),
     },
     {
-      id: 3,
-      label: "Buy Me Shares",
+      id: "shares",
+      label: "Buy Shares",
+      description: "Purchase cooperative equity capital.",
       icon: <PieChart size={24} />,
       onClick: () => setShowSharesAmount(true),
     },
     {
-      id: 5,
+      id: "loans",
       label: "View All Loans",
+      description: "Check balances and schedules.",
       icon: <LayoutList size={24} />,
       onClick: () => navigate("/all-loans"),
     },
     {
-      id: 6,
+      id: "products",
       label: "Loan Products",
+      description: "Browse instant financing lines.",
       icon: <Grid2X2 size={24} />,
       onClick: () => navigate("/loan-products"),
     },
     {
-      id: 7,
-      label: "Loan Applications",
+      id: "applications",
+      label: "Applications",
+      description: "Track your pending credit lines.",
       icon: <FileText size={24} />,
       onClick: () => navigate("/all-loan-applications"),
     },
     {
-      id: 8,
-      label: "Account Statements",
+      id: "statements",
+      label: "Statements",
+      description: "Export certified ledger histories.",
       icon: <Folder size={24} />,
       onClick: () => navigate("/statements"),
     },
     {
-      id: 9,
-      label: "My Guarantorship",
+      id: "guarantorship",
+      label: "Guarantorship",
+      description: "Review member loan endorsements.",
       icon: <Users size={24} />,
       onClick: () => navigate("/guarantorship"),
     },
@@ -483,7 +491,7 @@ const Homepage = () => {
         <header className="flex justify-between mb-3 items-center">
           <div>
             <h1 className="text-2xl text-primary font-medium tracking-tight">
-              Dashboard
+              Home
             </h1>
             <p className="text-sm text-slate-500">
               Welcome back to your financial overview.
@@ -609,42 +617,42 @@ const Homepage = () => {
 
         {/* Account Section */}
         {/* MASTER DASHBOARD COMPACT SECTION GRID GRID */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-6 items-start">
-          {/* LEFT PANEL: COMPACT ACCOUNT CARDS VECTORS (5 COLS) */}
-          <div className="lg:col-span-5 space-y-3">
+        <div className="w-full space-y-8 mb-6">
+          {/* TOP PANEL: FULL-WIDTH ACTIVE ACCOUNTS LIST */}
+          <div className="w-full space-y-3">
             <h2 className="text-[12px] font-medium uppercase tracking-[0.2em] text-slate-400 pl-1">
               Active Accounts
             </h2>
-            <div className="space-y-5">
+
+            {/* Layout wrapper scales seamlessly into full-width configurations */}
+            <div className="w-full space-y-4">
               {isFetching ? (
                 Array.from({ length: 2 }).map((_, idx) => (
                   <AccountCardSkeleton key={idx} />
                 ))
               ) : sortedAccounts?.length > 0 ? (
-                sortedAccounts.map((account, index) => (
-                  <AccountCard
-                    key={account.id || index}
-                    title={account?.product?.name || "Savings Account"}
-                    accountNumber={account.account_number || "ACC-XXXXX"}
-                    balance={formatAmount(account?.balance)}
-                    isPrimary={account?.product?.name === "Savings"}
-                    navigateToAccountDetails={() =>
-                      navigate(
-                        `/account-details/${account.id}/${account.account_number}`,
-                      )
-                    }
-                  />
-                ))
-              ) : (
-                <div className="bg-white border border-slate-100 rounded-[28px] p-8 h-[305px] flex flex-col items-center justify-center text-center select-none animate-fade-in">
-                  <div className="w-14 h-14 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center text-slate-400 mb-4 shadow-inner">
-                    <WalletCards
-                      size={24}
-                      strokeWidth={1.5}
-                      className="text-slate-400"
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {sortedAccounts.map((account, index) => (
+                    <AccountCard
+                      key={account.id || index}
+                      title={account?.product?.name || "Savings Account"}
+                      accountNumber={account.account_number || "ACC-XXXXX"}
+                      balance={formatAmount(account?.balance)}
+                      isPrimary={account?.product?.name === "Savings"}
+                      navigateToAccountDetails={() =>
+                        navigate(
+                          `/account-details/${account.id}/${account.account_number}`,
+                        )
+                      }
                     />
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-white border border-slate-100 rounded-[28px] p-8 min-h-[180px] flex flex-col items-center justify-center text-center select-none">
+                  <div className="w-12 h-12 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center text-slate-400 mb-3 shadow-inner">
+                    <WalletCards size={20} strokeWidth={1.5} />
                   </div>
-                  <div className="max-w-[240px] space-y-1.5">
+                  <div className="max-w-[280px] space-y-1">
                     <h4 className="text-[14px] font-bold text-slate-800 tracking-tight">
                       No active accounts found
                     </h4>
@@ -658,41 +666,65 @@ const Homepage = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-7">
+          {/* BOTTOM PANEL: PREMIUM FULL-WIDTH BENTO QUICK ACTIONS */}
+          <div className="w-full flex flex-col">
             {/* Micro-Header */}
             <h2 className="text-[12px] font-medium uppercase tracking-[0.15em] text-slate-400 mb-3 pl-0.5">
               Quick Actions
             </h2>
-            <div className="bg-slate-50/40 flex flex-col justify-between">
-              {/* High-Density Micro Matrix */}
-              <div className="grid grid-cols-2 gap-3">
-                {quickActions.map(({ id, label, icon, onClick }) => (
-                  <div
-                    key={id}
-                    onClick={onClick}
-                    className="flex items-center gap-2.5 p-[9px] cursor-pointer group bg-white border border-slate-200 rounded-xl hover:border-primary transition-all duration-200 select-none"
-                  >
-                    {/* Action Icon Square Plate (Perfect 1:1 Match) */}
-                    <div className="w-12 h-12 bg-slate-50 border border-slate-200/20 rounded-lg flex items-center justify-center text-slate-700 transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:border-primary shrink-0">
+
+            {/* Updated Grid: Adaptive 1 column on mobile, 2 columns on tablet, 4 columns on large desktop */}
+            {/* Premium Compact Matrix Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 w-full">
+              {quickActions.map(({ id, label, description, icon, onClick }) => (
+                <div
+                  key={id}
+                  onClick={onClick}
+                  className="group relative flex items-center justify-between p-3.5 cursor-pointer bg-white border border-slate-200 rounded-xl transition-all duration-200 select-none overflow-hidden h-[76px] hover:border-slate-300 hover:shadow-[0_8px_20px_rgba(15,23,42,0.03)] active:scale-[0.99]"
+                >
+                  {/* Content Cluster: Icon Plate + Text Wrapper Side-by-Side */}
+                  <div className="flex items-center gap-3 min-w-0 pl-1">
+                    {/* Compact Icon Plate */}
+                    <div className="w-10 h-10 bg-slate-50 text-slate-600 rounded-lg flex items-center justify-center border border-slate-100 transition-all duration-300 group-hover:bg-[#074073] group-hover:text-white group-hover:border-[#074073] shrink-0">
                       {React.cloneElement(icon, {
-                        size: 18,
+                        size: 16,
+                        strokeWidth: 2.2,
                         className:
                           "shrink-0 transition-transform duration-200 group-hover:scale-105",
                       })}
                     </div>
 
-                    {/* Right Text Vector Column */}
-                    <div className="min-w-0 flex-1">
-                      <span className="block text-[10px] font-medium uppercase tracking-wider text-slate-400 group-hover:text-primary transition-colors leading-tight truncate">
+                    {/* Text Blocks (Truncated perfectly to ensure no text overflows) */}
+                    <div className="flex flex-col min-w-0">
+                      <span className="block text-[12px] font-bold text-slate-800 tracking-tight leading-snug group-hover:text-[#074073] transition-colors truncate">
                         {label}
+                      </span>
+                      <span className="block text-[10px] text-slate-400 font-medium tracking-tight leading-normal mt-0.5 truncate pr-2">
+                        {description}
                       </span>
                     </div>
                   </div>
-                ))}
-              </div>
+
+                  {/* Fine Minimalist Trailing Arrow */}
+                  <div className="text-slate-300 group-hover:text-[#074073] group-hover:translate-x-0.5 transition-all duration-200 shrink-0 pr-1">
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        </section>
+        </div>
 
         <h2 className="text-[12px] font-bold uppercase tracking-widest text-slate-400 mb-1">
           Loans & Applications

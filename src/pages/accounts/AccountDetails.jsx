@@ -157,7 +157,7 @@ const AccountDetails = () => {
       ) : (
         <div className="bg-slate-50 text-primary">
           <div className="max-w-6xl sm:px-4 mx-auto">
-            <h3 className="text-xl font-medium mb-3 tracking-tight">
+            <h3 className="text-xl font-medium mb-1 tracking-tight">
               Account Details
             </h3>
             {/* 1. Hero Balance Card & Quick Actions (Grid Layout) */}
@@ -216,12 +216,14 @@ const AccountDetails = () => {
                 <VerticalAction
                   icon={<ArrowDownCircle />}
                   label="Deposit"
+                  description="Add money via mobile."
                   color="bg-secondary"
                   onClick={() => setShowDepositAmount(true)}
                 />
                 <VerticalAction
                   icon={<FileText />}
                   label="Statements"
+                  description="View transaction history."
                   color="bg-white"
                   darkText
                   onClick={() => navigate("/statements")}
@@ -229,6 +231,7 @@ const AccountDetails = () => {
                 <VerticalAction
                   icon={<TrendingUp />}
                   label="Invest"
+                  description="Save and buy shares."
                   color="bg-white"
                   darkText
                   onClick={() => setShowInvestAmount(true)}
@@ -236,6 +239,7 @@ const AccountDetails = () => {
                 <VerticalAction
                   icon={<Search />}
                   label="Explore"
+                  description="See available loans."
                   color="bg-white"
                   darkText
                   onClick={() => navigate("/loan-products")}
@@ -247,7 +251,7 @@ const AccountDetails = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Left: Transaction List (8 Cols) */}
               <div className="lg:col-span-7">
-                <div className="flex items-center justify-between">
+                <div className="flex mb-2 items-center justify-between">
                   <h3 className="text-xl font-medium tracking-tight">
                     Recent Transactions
                   </h3>
@@ -258,7 +262,7 @@ const AccountDetails = () => {
 
                 <div className="space-y-3">
                   {transactions.length > 0 ? (
-                    <div className="h-[550px] w-full py-3 flex flex-col gap-3 overflow-y-auto">
+                    <div className="h-[600px] border rounded-[32px] w-full p-3 py-2 flex flex-col gap-3 overflow-y-auto">
                       {transactions.map((tx) => (
                         <TransactionRow
                           key={tx.id}
@@ -269,7 +273,7 @@ const AccountDetails = () => {
                       ))}
                     </div>
                   ) : (
-                    <div className="bg-white rounded-[40px] border-2 border-dashed border-slate-100 p-20 flex flex-col items-center justify-center text-center group transition-all hover:border-blue-100">
+                    <div className="bg-white rounded-[32px] h-[600px] border-2 border-dashed border-slate-100 flex flex-col items-center justify-center text-center group transition-all hover:border-blue-100">
                       <div className="w-20 h-20 bg-slate-50 rounded-[30px] flex items-center justify-center mb-6 relative group-hover:scale-110 transition-transform duration-500">
                         <div className="absolute inset-0 bg-blue-100/50 rounded-[30px] animate-ping opacity-20" />
                         <Clock
@@ -303,11 +307,10 @@ const AccountDetails = () => {
               </div>
 
               {/* Right: Info & Disclaimers (4 Cols) */}
-              <aside className="lg:col-span-5 space-y-6">
-                {/* Account Status Card */}
+              <aside className="lg:col-span-5 space-y-4">
+                {/* Account Security Card */}
                 <div className="bg-white rounded-[32px] p-5 border border-slate-100">
                   <div className="flex items-center gap-3 mb-6">
-                    <ShieldCheck className="text-emerald-500" size={20} />
                     <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
                       Account Security
                     </h3>
@@ -318,19 +321,57 @@ const AccountDetails = () => {
                   </p>
                 </div>
 
-                {/* Disclaimer / Notice */}
+                {/* General Important Info Card */}
                 <div className="bg-blue-50/50 rounded-[32px] p-5 border border-blue-100/100">
                   <div className="flex items-center gap-3 mb-4">
-                    <Info className="text-secondary" size={20} />
                     <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-400">
-                      Important Info
+                      Important Information
                     </h3>
                   </div>
-                  <ul className="space-y-4">
-                    <DisclaimerItem text="M-PESA deposits reflect instantly. Third-party bank transfers may take up to 24 hours." />
-                    <DisclaimerItem text="A minimum balance of KES 1,000 must be maintained to keep the account active." />
-                    <DisclaimerItem text="Interest is calculated daily and credited to your account at the end of every quarter." />
+                  <ul>
+                    <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                      M-PESA deposits reflect instantly. Third-party bank
+                      transfers may take up to 24 hours.
+                    </p>
+                    <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                      A minimum balance of KES 1,000 must be maintained to keep
+                      the account active.
+                    </p>
+                    <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                      Interest is calculated daily and credited to your account
+                      at the end of every quarter.
+                    </p>
                   </ul>
+                </div>
+
+                {/* 🔥 New Card 1: Quick Invest Yields & Lock Terms */}
+                <div className="bg-emerald-50/30 rounded-[32px] p-5 border border-emerald-100">
+                  <div className="flex items-center gap-3 mb-4">
+                    <h3 className="font-medium text-[11px] uppercase tracking-widest text-emerald-700">
+                      Investment Operations
+                    </h3>
+                  </div>
+                  <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                    Funds allocated to cooperative share purchasing or lock
+                    asset schemes carry a mandatory 3-month lock-in period.
+                    Premature liquidations are subject to a 2% processing
+                    penalty on accrued interest dividends.
+                  </p>
+                </div>
+
+                {/* 🔥 New Card 2: Statement Certification & Auditing */}
+                <div className="bg-slate-100/60 rounded-[32px] p-5 border border-slate-200">
+                  <div className="flex items-center gap-3 mb-4">
+                    <h3 className="font-medium text-[11px] uppercase tracking-widest text-slate-500">
+                      Statement & Audit Rules
+                    </h3>
+                  </div>
+                  <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                    Digital PDF statement downloads generated through this
+                    console are officially certified by the Sacco ledger engine.
+                    Discrepancies in historical logs must be reported to the
+                    audit committee within 14 business days.
+                  </p>
                 </div>
               </aside>
             </div>
@@ -347,43 +388,36 @@ const VerticalAction = ({ icon, label, description, onClick }) => {
   return (
     <button
       onClick={onClick}
-      className="w-full p-5 bg-white rounded-2xl 
-                 border border-slate-100/80 shadow-[0_4px_20px_rgba(0,0,0,0.02)]
-                 flex items-center justify-between gap-4 
-                 transition-all duration-300 ease-out transform 
-                 hover:-translate-x-0.5 hover:shadow-[0_12px_30px_rgba(15,23,42,0.04)] hover:border-slate-200
-                 active:scale-[0.99] group text-left"
+      type="button"
+      className="w-full p-3 bg-white rounded-2xl 
+                 border border-slate-200 shadow-[0_4px_12px_rgba(15,23,42,0.01)]
+                 flex items-center justify-between gap-3 
+                 transition-all duration-200 ease-out 
+                 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(15,23,42,0.04)] hover:border-slate-200
+                 active:scale-[0.98] group text-left"
     >
-      {/* Left Content Side: Icon + Text */}
-      <div className="flex items-center gap-4">
-        {/* Premium Icon Wrapper */}
-        <div
-          className="p-3.5 rounded-xl bg-slate-50 text-slate-600 
-                        border border-slate-100/50 transition-all duration-300 ease-out 
-                        group-hover:bg-emerald-50 group-hover:text-emerald-700 group-hover:border-emerald-100 shrink-0"
-        >
+      <div className="flex items-center gap-3.5">
+        <div className="p-3 rounded-xl bg-slate-50 text-slate-600 border border-slate-100/50 transition-all duration-200 group-hover:bg-blue-50 group-hover:text-blue-600 group-hover:border-blue-100 shrink-0">
           {React.cloneElement(icon, {
-            size: 22,
+            size: 20,
             strokeWidth: 2.2,
           })}
         </div>
 
-        {/* Typography Block */}
         <div className="flex flex-col gap-0.5">
-          <span className="text-sm font-bold tracking-wide text-slate-800 uppercase group-hover:text-emerald-800 transition-colors duration-300">
+          <span className="text-xs font-bold tracking-wide text-slate-800 uppercase group-hover:text-blue-900 transition-colors">
             {label}
           </span>
           {description && (
-            <span className="text-xs text-slate-400 font-medium leading-normal">
+            <span className="text-[11px] truncate text-slate-400 font-medium tracking-tight">
               {description}
             </span>
           )}
         </div>
       </div>
 
-      {/* Right Content Side: Premium Trailing Arrow */}
-      <div className="text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all duration-300 ease-out shrink-0 pr-1">
-        <ChevronRight size={20} strokeWidth={2.5} />
+      <div className="text-slate-300 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all duration-200 shrink-0 pr-0.5">
+        <ChevronRight size={16} strokeWidth={2.5} />
       </div>
     </button>
   );
@@ -427,8 +461,7 @@ const TransactionRow = ({ tx, setTransaction, setShowTransactionDetails }) => {
 };
 
 const DisclaimerItem = ({ text }) => (
-  <li className="flex gap-3 items-start">
-    <div className="w-1.5 h-1.5 rounded-full bg-secondary mt-1.5 shrink-0" />
+  <li className="flex gap-1 items-start">
     <p className="text-[11px] text-slate-500 leading-normal font-medium">
       {text}
     </p>

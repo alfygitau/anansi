@@ -55,6 +55,7 @@ import ChangeMobile from "./pages/onboarding/ChangeMobile";
 import ProtectedRoute from "./routes/Protect";
 import MyLoanStatements from "./pages/loan-statements/LoanStatements";
 import LoanProductDetails from "./pages/products/LoanProduct";
+import MyAccountDetails from "./pages/accounts/FosaAccount";
 
 function App() {
   return (
@@ -143,6 +144,10 @@ function App() {
           <Route
             path="/account-details/:accountId/:accountNumber"
             element={<AccountDetails />}
+          />
+          <Route
+            path="/my-account-details/:accountId/:accountNumber"
+            element={<MyAccountDetails />}
           />
           <Route path="/help-support" element={<HelpSupport />} />
           <Route path="/loan-calculator" element={<LoanCalculator />} />

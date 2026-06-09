@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import {
-  ArrowLeft,
   Phone,
   Mail,
   MessageSquare,
   Globe,
   ChevronDown,
-  HelpCircle,
   AlertTriangle,
   ShieldAlert,
   Clock,

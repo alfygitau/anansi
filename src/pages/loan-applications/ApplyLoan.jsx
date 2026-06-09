@@ -13,6 +13,8 @@ import {
   Users,
   ShieldAlert,
   FileCheck,
+  Calendar,
+  ChevronDown,
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,6 +24,9 @@ import { useToast } from "../../contexts/ToastProvider";
 import { createLoanApplication } from "../../sdks/applications/applications";
 import useAuth from "../../hooks/useAuth";
 import { useFormatAmount } from "../../hooks/useFormatAmount";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import Popper from "@mui/material/Popper";
 
 const ApplyLoan = () => {
   const navigate = useNavigate();
@@ -41,6 +46,28 @@ const ApplyLoan = () => {
   const { auth } = useAuth();
   const [errors, setErrors] = useState({ amount: "", tenure: "", purpose: "" });
   const formatAmount = useFormatAmount();
+
+  const tenureOptions = Array.from(
+    { length: maxPeriod - minPeriod + 1 },
+    (_, i) => minPeriod + i,
+  );
+
+  const currentMUIValue = tenure ? Number(tenure) : null;
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  // Custom Full-Width Popper element configuration
+  const WidePopper = (props) => {
+    return (
+      <Popper
+        {...props}
+        anchorEl={anchorEl}
+        placement="bottom-start"
+        // 🔥 THE ULTIMATE FIX: Dynamically grabs the parent element's exact width and assigns it
+        style={{ width: anchorEl ? anchorEl.clientWidth : "auto" }}
+        className="z-50"
+      />
+    );
+  };
 
   const handleAmountBlur = () => {
     let errorMsg = "";
@@ -255,69 +282,142 @@ const ApplyLoan = () => {
                 </div>
               </div>
 
-              <div className="w-full space-y-1 relative">
-                {" "}
-                {/* Added relative positioning context */}
-                <label className="text-[11px] font-medium uppercase tracking-wider text-slate-400 ml-2">
-                  Tenure
+              <div>
+                <label className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
+                  Loan Tenure (Months)
                 </label>
-                <div className="relative flex items-center justify-between bg-white border-2 border-slate-100 rounded-2xl h-16 transition-all duration-200">
-                  <button
-                    type="button"
-                    onClick={() => setTenure(Math.max(minPeriod, tenure - 1))}
-                    className="h-full px-5 text-slate-400 hover:text-slate-900 border-r border-slate-200/60 font-medium text-lg transition-colors"
-                  >
-                    -
-                  </button>
-                  <div className="flex items-center justify-center flex-1 px-2 relative">
-                    <input
-                      type="number"
-                      value={tenure}
-                      placeholder="1"
-                      onKeyDown={(e) => {
-                        if (["e", "E", "-", "+", "."].includes(e.key))
-                          e.preventDefault();
-                      }}
-                      onInput={(e) => {
-                        const val = e.target.value;
-                        if (val === "") {
+                <div
+                  style={{ fontFamily: "Google Sans" }}
+                  ref={setAnchorEl}
+                  className="relative flex items-center bg-white border-2 border-slate-100 rounded-2xl h-16 transition-all duration-200 w-full"
+                >
+                  {/* Prefix Icon Section */}
+                  <div className="pl-5 pr-4 flex items-center justify-center text-slate-400 border-r border-slate-200 h-6 my-auto select-none">
+                    <Calendar size={18} className="stroke-[2.5]" />
+                  </div>
+
+                  {/* Input Core Area */}
+                  <div className="flex-1 min-w-0 h-full flex items-center relative">
+                    <Autocomplete
+                      options={tenureOptions}
+                      value={currentMUIValue}
+                      onChange={(event, newValue) => {
+                        if (!newValue) {
                           setTenure("");
                           return;
                         }
-                        const numericVal = Number(val);
-                        if (numericVal > maxPeriod) setTenure(maxPeriod);
-                        else if (numericVal < minPeriod) setTenure(minPeriod);
-                        else setTenure(numericVal);
+                        setTenure(newValue);
+                        setErrors((prev) => ({ ...prev, tenure: "" }));
                       }}
-                      onBlur={handleTenureBlur}
-                      className="w-14 text-right pr-1 bg-white border-0 outline-none p-0 focus:ring-0 text-sm font-semibold text-slate-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      getOptionLabel={(option) => `${option}`}
+                      popupIcon={
+                        <ChevronDown
+                          size={20}
+                          className="stroke-[2.5] text-slate-400"
+                        />
+                      }
+                      fullWidth
+                      disableClearable
+                      slots={{
+                        popper: WidePopper,
+                      }}
+                      sx={{
+                        "& input": {
+                          fontFamily: "'Google Sans', sans-serif !important",
+                        },
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          border: "none !important",
+                        },
+                        "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          border: "none !important",
+                        },
+                        "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                          {
+                            border: "none !important",
+                          },
+                      }}
+                      slotProps={{
+                        paper: {
+                          // Removed left-margin or offset constraints so it perfectly traces the bounding rect box
+                          className:
+                            "bg-white border border-slate-200 rounded-xl mt-1 shadow-xl max-h-48 left-0",
+                          style: { fontFamily: "'Google Sans', sans-serif" },
+                        },
+                      }}
+                      renderOption={(props, option) => {
+                        const { key, ...optionProps } = props;
+                        return (
+                          <li
+                            key={key}
+                            {...optionProps}
+                            className={`px-4 py-2.5 text-sm cursor-pointer transition-colors ${
+                              tenure === option
+                                ? "bg-slate-900 text-white font-medium hover:bg-slate-800"
+                                : "text-slate-700 hover:bg-slate-100"
+                            }`}
+                            style={{ fontFamily: "'Google Sans', sans-serif" }}
+                          >
+                            {option} Month{option > 1 ? "s" : ""}
+                          </li>
+                        );
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          placeholder="Enter loan tenure"
+                          variant="outlined"
+                          onBlur={(e) => {
+                            const val = e.target.value;
+                            const numericVal = parseInt(val, 10);
+
+                            if (isNaN(numericVal) || numericVal < minPeriod) {
+                              setTenure(minPeriod);
+                              setErrors((prev) => ({
+                                ...prev,
+                                tenure: `Adjusted to product minimum of ${minPeriod} months.`,
+                              }));
+                            }
+                          }}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            if (val === "") {
+                              setTenure("");
+                              return;
+                            }
+
+                            const numericVal = parseInt(
+                              val.replace(/\D/g, ""),
+                              10,
+                            );
+                            if (isNaN(numericVal)) return;
+
+                            if (numericVal > maxPeriod) {
+                              setTenure(maxPeriod);
+                              setErrors((prev) => ({
+                                ...prev,
+                                tenure: `Maximum allowed tenure is ${maxPeriod} months.`,
+                              }));
+                            } else {
+                              setTenure(numericVal);
+                              setErrors((prev) => ({ ...prev, tenure: "" }));
+                            }
+                          }}
+                          InputProps={{
+                            ...params.InputProps,
+                            className:
+                              "w-full bg-white m-0 p-0 flex items-center h-full border-0 focus:ring-0",
+                          }}
+                          inputProps={{
+                            ...params.inputProps,
+                            inputMode: "numeric",
+                            className:
+                              "w-full bg-white border-none pl-4 pr-12 text-xl font-medium text-slate-900 outline-none focus:outline-none border-0 focus:border-none focus:ring-0 focus-visible:ring-0 shadow-none focus:shadow-none placeholder:text-slate-200 p-0 m-0",
+                          }}
+                        />
+                      )}
+                      className="w-full h-full flex items-center [&_.MuiAutocomplete-endAdornment]:right-4 [&_.MuiAutocomplete-endAdornment]:top-1/2 [&_.MuiAutocomplete-endAdornment]:-translate-y-1/2"
                     />
-                    <span className="text-sm font-medium text-slate-400 select-none uppercase tracking-wider pl-1.5">
-                      Month(s)
-                    </span>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setTenure(
-                        Math.max(
-                          1,
-                          Math.min(maxPeriod, (Number(tenure) || 1) + 1),
-                        ),
-                      )
-                    }
-                    className="h-full px-5 text-slate-400 hover:text-slate-900 border-l border-slate-200/60 font-medium text-lg transition-colors"
-                  >
-                    +
-                  </button>
-                </div>
-                {/* ⚡ PRE-ALLOCATED ABSOLUTE ERROR SLOT */}
-                <div className="absolute left-2 -bottom-4 h-4 overflow-visible">
-                  <p
-                    className={`text-[10px] font-bold text-rose-500 transition-opacity duration-200 ${errors.tenure ? "opacity-100" : "opacity-0"}`}
-                  >
-                    {errors.tenure}
-                  </p>
                 </div>
               </div>
 

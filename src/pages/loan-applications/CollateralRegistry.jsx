@@ -38,8 +38,7 @@ const CollateralRegistry = () => {
     condition: "Excellent",
     description: "",
     image: null,
-    image: [],
-    image: [],
+    images: [],
   });
 
   const assetTypes = [
@@ -119,8 +118,7 @@ const CollateralRegistry = () => {
         condition: "Excellent",
         description: "",
         image: null,
-        image: [],
-        image: [],
+        images: [],
       });
       setIsAdding(false);
     },
