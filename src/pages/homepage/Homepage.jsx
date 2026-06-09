@@ -719,7 +719,7 @@ const Homepage = () => {
         <div className="grid grid-cols-1 mb-3 lg:grid-cols-2 gap-8">
           {/* Right Side: Active Loans */}
           <section>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-2">
               <h2 className="text-lg text-primary font-medium">Recent Loans</h2>
               <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">
                 {loans?.length} Running
@@ -758,7 +758,7 @@ const Homepage = () => {
           </section>
           {/* Left Side: Pending Applications */}
           <section>
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-2">
               <h2 className="text-lg text-primary font-medium">
                 Loan Applications
               </h2>
