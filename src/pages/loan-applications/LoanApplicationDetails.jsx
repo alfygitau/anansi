@@ -17,6 +17,8 @@ import {
   ArrowRight,
   XCircle,
   Users,
+  AlertCircle,
+  MinusCircle,
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -318,179 +320,303 @@ const LoanApplicationDetails = ({ onBack }) => {
           onContinue={() => handleContinue(loanApplication?.status)}
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
-          <div className="lg:col-span-8 space-y-4">
+        <div className="w-full space-y-8">
+          {/* ROW 1: FULL-WIDTH APPLICATION MILESTONES */}
+          <div className="w-full">
             <div className="mb-2 mt-6 flex items-baseline justify-between">
               <h2 className="text-[11px] font-medium uppercase tracking-[2px] text-slate-400">
                 Application Milestones
               </h2>
-              <span className="text-[10px] font-bold text-[#17C6C6]">
-                {passedCount}/{totalCount} COMPLETED
-              </span>
             </div>
 
-            {/* Container: Grid setup with responsive columns */}
+            {/* Responsive grid for steps: 1 col on mobile, 2 cols on tablet/desktop */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {loanApplication?.eligibility_result?.checks?.map(
-                (req, index) => {
-                  const {
-                    passed: isDone,
-                    isPending = false,
-                    status = req?.passed ? "Cleared" : "Action Required",
-                    rule: title,
-                    description: subtitle,
-                  } = req;
-                  const theme = getStatusTheme(isDone, isPending, status);
+              {loanApplication?.progress?.steps?.map((req, index) => {
+                const isSkipped =
+                  req?.status === "skipped" || req?.required === false;
+                const passed = req?.status === "done" || isSkipped;
+                const isPending = req?.status === "pending";
 
-                  return (
+                let visualStatus = "Action Required";
+                if (isSkipped) {
+                  visualStatus = "Not Required";
+                } else if (req?.status === "done") {
+                  visualStatus = "Cleared";
+                } else if (isPending) {
+                  visualStatus = "In Review";
+                }
+
+                const theme = getStatusTheme(
+                  req?.status === "done",
+                  isPending,
+                  req?.status,
+                );
+
+                return (
+                  <div
+                    key={req?.id || index}
+                    className={`flex items-center p-5 rounded-[24px] border transition-all duration-300 ${
+                      passed
+                        ? "bg-slate-50/50 border-slate-200 opacity-60"
+                        : isPending
+                          ? "bg-white border-blue-100/70 shadow-[0_4px_12px_rgba(7,64,115,0.01)]"
+                          : "bg-white border-slate-100 shadow-[0_8px_15px_rgba(15,23,42,0.02)] hover:border-slate-200"
+                    }`}
+                  >
                     <div
-                      key={index}
-                      className={`
-              flex items-center p-5 rounded-[24px] border transition-all duration-300
-              ${
-                isDone
-                  ? "bg-white/50 border opacity-70"
-                  : "bg-white border-[#F1F4F8] shadow-[0_8px_15px_rgba(0,0,0,0.02)]"
-              }
-            `}
+                      className={`shrink-0 p-2.5 rounded-full ${theme?.bg || "bg-slate-50"}`}
+                      style={{ color: theme?.color || "inherit" }}
                     >
-                      <div
-                        className={`shrink-0 p-2.5 rounded-full ${theme.bg} flex items-center justify-center`}
-                        style={{ color: theme.color }}
-                      >
-                        {isDone ? (
-                          <CheckCircle2 size={20} strokeWidth={3} />
-                        ) : (
-                          <Clock size={20} strokeWidth={2.5} />
-                        )}
-                      </div>
-
-                      <div className="flex-1 ml-4 flex flex-col min-w-0">
-                        <h4
-                          className={`
-                  text-[13px] font-medium leading-tight truncate
-                  ${isDone ? "line-through text-slate-400" : "text-[#0A2351]"}
-                `}
-                        >
-                          {formatLabel(title)}
-                        </h4>
-                        <p className="text-[10px] font-semibold text-slate-400 mt-0.5 truncate uppercase tracking-tight">
-                          {subtitle}
-                        </p>
-                      </div>
-
-                      <div className="flex items-center gap-2 ml-2">
-                        <div
-                          className={`
-                  px-2 py-0.5 rounded-md text-[8px] font-medium uppercase tracking-wider whitespace-nowrap
-                  ${theme.bg}
-                `}
-                          style={{ color: theme.color }}
-                        >
-                          {status}
-                        </div>
-
-                        {!isDone && !isPending && (
-                          <ChevronRight
-                            size={12}
-                            className="text-slate-300"
-                            strokeWidth={3}
-                          />
-                        )}
-                      </div>
+                      {isSkipped ? (
+                        <MinusCircle
+                          size={18}
+                          strokeWidth={2.5}
+                          className="opacity-80"
+                        />
+                      ) : req?.status === "done" ? (
+                        <CheckCircle2 size={18} strokeWidth={3} />
+                      ) : isPending ? (
+                        <Clock
+                          size={18}
+                          strokeWidth={2.5}
+                          className="animate-spin duration-1000 [animation-duration:3s]"
+                        />
+                      ) : (
+                        <AlertCircle size={18} strokeWidth={2.5} />
+                      )}
                     </div>
-                  );
-                },
-              )}
+
+                    <div className="flex-1 ml-4 flex flex-col min-w-0">
+                      <h4
+                        className={`text-[13px] font-bold leading-tight truncate ${passed ? "line-through text-slate-400 font-medium" : "text-[#0A2351]"}`}
+                      >
+                        {req?.label}
+                      </h4>
+                      <p className="text-[10px] font-semibold text-slate-400 mt-1 truncate uppercase tracking-wider">
+                        {req?.summary}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-3 ml-2 shrink-0">
+                      <div
+                        className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-widest whitespace-nowrap ${
+                          isSkipped
+                            ? "bg-slate-100 text-slate-400"
+                            : theme?.bg || "bg-slate-100"
+                        }`}
+                        style={
+                          isSkipped ? {} : { color: theme?.color || "inherit" }
+                        }
+                      >
+                        {visualStatus}
+                      </div>
+
+                      {!passed && !isPending && (
+                        <ChevronRight
+                          size={14}
+                          className="text-slate-300 group-hover:text-[#0A2351] transition-colors"
+                          strokeWidth={3}
+                        />
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
-          <div className="lg:col-span-4 space-y-4">
-            <div className="mb-2 mt-6 flex items-baseline justify-between">
-              <h2 className="text-[11px] font-medium uppercase tracking-[2px] text-slate-400">
-                Assigned Guarantors
-              </h2>
-              <span className="text-[10px] font-bold text-purple-600">
-                {loanApplication?.guarantors?.length || 0} LINKED
-              </span>
-            </div>
 
-            {/* Guarantor Wrapper List Container */}
-            <div className="space-y-3 h-[300px] overflow-y-auto pr-1">
-              {loanApplication?.guarantors &&
-              loanApplication.guarantors.length > 0 ? (
-                loanApplication.guarantors.map((g) => (
-                  <div
-                    key={g.id}
-                    className="bg-white border border-slate-100 p-4 rounded-2xl flex items-center justify-between shadow-[0_4px_10px_rgba(0,0,0,0.01)] hover:border-slate-200 transition-all"
+          {/* ROW 2: SIDE-BY-SIDE LOWER UTILITY TILES (50/50 SPLIT ON DESKTOP) */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start w-full">
+            {/* COLUMN A: ASSIGNED GUARANTORS CARD */}
+            <div className="space-y-4">
+              <div className="mb-2 flex items-baseline justify-between">
+                <h2 className="text-[11px] font-medium uppercase tracking-[2px] text-slate-400">
+                  Assigned Guarantors
+                </h2>
+                {loanApplication?.loan_product?.requires_guarantor ? (
+                  <span className="text-[10px] font-bold text-purple-600">
+                    {loanApplication?.guarantors?.length || 0} LINKED
+                  </span>
+                ) : (
+                  <span
+                    className={`text-[10px] font-bold uppercase tracking-wider ${
+                      loanApplication?.loan_product?.requires_guarantor
+                        ? "text-blue-600"
+                        : "text-emerald-600"
+                    }`}
                   >
-                    {/* Left Meta Group */}
-                    <div className="flex items-center gap-3 min-w-0">
-                      {/* Initial Avatar */}
-                      <div className="size-9 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center text-[#0A2351] font-bold text-xs shrink-0 select-none">
-                        {g.guarantor_name?.charAt(0).toUpperCase()}
-                      </div>
+                    Exempted
+                  </span>
+                )}
+              </div>
 
-                      {/* Detail Copy Stack */}
-                      <div className="min-w-0 space-y-0.5">
-                        <h4 className="font-bold text-slate-900 text-xs tracking-tight truncate">
-                          {g.guarantor_name}
-                        </h4>
-                        <p className="text-[9px] font-semibold text-slate-400 truncate tracking-wider">
-                          {g.guarantor_mobile}
-                        </p>
+              <div className="space-y-3 h-[300px] overflow-y-auto pr-1">
+                {loanApplication?.guarantors &&
+                loanApplication.guarantors.length > 0 ? (
+                  loanApplication.guarantors.map((g) => (
+                    <div
+                      key={g.id}
+                      className="bg-white border border-slate-100 p-4 rounded-2xl flex items-center justify-between shadow-[0_4px_10px_rgba(0,0,0,0.01)] hover:border-slate-200 transition-all"
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="size-9 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center text-[#0A2351] font-bold text-xs shrink-0 select-none">
+                          {g.guarantor_name?.charAt(0).toUpperCase()}
+                        </div>
 
-                        {/* ⚡ NEW: Formatted Date Sub-row */}
-                        {g.created_at || g.createdAt ? (
-                          <p className="text-[10px] font-medium text-slate-400 flex items-center gap-1 select-none">
-                            <span>Date:</span>
-                            <span className="text-slate-500 font-semibold">
-                              {formatGuarantorDate(g.created_at || g.createdAt)}
-                            </span>
+                        <div className="min-w-0 space-y-0.5">
+                          <h4 className="font-bold text-slate-900 text-xs tracking-tight truncate">
+                            {g.guarantor_name}
+                          </h4>
+                          <p className="text-[9px] font-semibold text-slate-400 truncate tracking-wider">
+                            {g.guarantor_mobile}
                           </p>
-                        ) : null}
+                          {g.created_at || g.createdAt ? (
+                            <p className="text-[10px] font-medium text-slate-400 flex items-center gap-1 select-none">
+                              <span>Date:</span>
+                              <span className="text-slate-500 font-semibold">
+                                {formatGuarantorDate(
+                                  g.created_at || g.createdAt,
+                                )}
+                              </span>
+                            </p>
+                          ) : null}
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Right Side Status Pill Badge */}
-                    <span
-                      className={`px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider shrink-0 select-none ${
-                        g.status === "Approved"
-                          ? "bg-emerald-50 text-emerald-600 border border-emerald-100/50"
-                          : "bg-amber-50 text-amber-600 border border-amber-100/50"
+                      <span
+                        className={`px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider shrink-0 select-none ${
+                          g.status === "Approved"
+                            ? "bg-emerald-50 text-emerald-600 border border-emerald-100/50"
+                            : "bg-amber-50 text-amber-600 border border-amber-100/50"
+                        }`}
+                      >
+                        {g.status || "Pending"}
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <div className="bg-white h-[300px] rounded-2xl border border-dashed border-slate-200 p-6 flex flex-col items-center justify-center text-center select-none">
+                    <div
+                      className={`w-11 h-11 border rounded-xl flex items-center justify-center mb-3 shadow-inner ${
+                        loanApplication?.loan_product?.requires_guarantor
+                          ? "bg-slate-50 border-slate-100 text-slate-400"
+                          : "bg-emerald-50/50 border-emerald-100 text-emerald-500"
                       }`}
                     >
-                      {g.status || "Pending"}
-                    </span>
+                      {loanApplication?.loan_product?.requires_guarantor ? (
+                        <Users size={18} />
+                      ) : (
+                        <ShieldCheck size={18} />
+                      )}
+                    </div>
+                    <div className="max-w-[220px] space-y-0.5">
+                      <h4 className="text-[12px] font-bold text-slate-700 tracking-tight">
+                        {loanApplication?.loan_product?.requires_guarantor
+                          ? "No guarantors attached"
+                          : "Guarantors Exempted"}
+                      </h4>
+                      <p className="text-[10px] font-medium text-slate-400 leading-normal">
+                        {loanApplication?.loan_product?.requires_guarantor
+                          ? "No guarantor invitation logs linked yet."
+                          : "This facility processes instantly without credit backing."}
+                      </p>
+                    </div>
                   </div>
-                ))
+                )}
+              </div>
+            </div>
+
+            {/* COLUMN B: CHATELS / DISCUSSIONS CONTAINER PLACEHOLDER */}
+            <div className="space-y-4">
+              {/* Header Section */}
+              <div className="mb-2 flex items-baseline justify-between">
+                <h2 className="text-[11px] font-medium uppercase tracking-[2px] text-slate-400">
+                  Collateral & Chattels
+                </h2>
+                <span
+                  className={`text-[10px] font-bold uppercase tracking-wider ${
+                    loanApplication?.loan_product?.requires_chattels
+                      ? "text-blue-600"
+                      : "text-emerald-600"
+                  }`}
+                >
+                  {loanApplication?.loan_product?.requires_chattels
+                    ? "Secured Asset"
+                    : "Exempted"}
+                </span>
+              </div>
+
+              {/* Main Container - Maps items if they exist, otherwise renders your custom fallback box */}
+              {loanApplication?.chattels &&
+              loanApplication.chattels.length > 0 ? (
+                <div className="bg-white border border-slate-100 rounded-[24px] p-5 h-[300px] shadow-[0_4px_16px_rgba(0,0,0,0.01)] overflow-y-auto space-y-3 pr-1">
+                  {loanApplication.chattels.map((item, idx) => (
+                    <div
+                      key={item.id || idx}
+                      className="border border-slate-50 bg-slate-50/40 p-3.5 rounded-2xl flex items-center justify-between transition-all hover:bg-slate-50 hover:border-slate-100 group"
+                    >
+                      {/* Left Meta Cluster */}
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="size-9 bg-white border border-slate-100 text-slate-400 rounded-xl flex items-center justify-center shrink-0 shadow-sm group-hover:text-[#0A2351] transition-colors">
+                          <ShieldCheck size={18} strokeWidth={2} />
+                        </div>
+                        <div className="min-w-0 space-y-0.5">
+                          <h4 className="font-bold text-slate-800 text-xs tracking-tight truncate">
+                            {item.chattel_name || item.name}
+                          </h4>
+                          <p className="text-[10px] font-medium text-slate-400 truncate tracking-tight">
+                            Valuation:{" "}
+                            <span className="font-semibold text-slate-600">
+                              KES {Number(item.value || 0).toLocaleString()}
+                            </span>
+                          </p>
+                          {item.serial_number && (
+                            <p className="text-[9px] font-mono font-medium text-slate-400 uppercase tracking-tight">
+                              Ref: {item.serial_number}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Right Status Pill */}
+                      <span
+                        className={`px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider shrink-0 ${
+                          item.status === "Verified"
+                            ? "bg-emerald-50 text-emerald-600 border border-emerald-100/50"
+                            : "bg-amber-50 text-amber-600 border border-amber-100/50"
+                        }`}
+                      >
+                        {item.status || "Pending"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               ) : (
-                <div className="bg-white h-full rounded-2xl border border-dashed border-slate-200 p-8 flex flex-col items-center justify-center text-center select-none animate-fade-in">
-                  {/* 1. DYNAMIC ICON HOUSING MESH */}
+                /* 🔥 YOUR CUSTOM DESIGN CORE COMPONENT ENTRY - Dynamically rendered if list array length is zero */
+                <div className="bg-white h-[300px] rounded-2xl border border-dashed border-slate-200 p-6 flex flex-col items-center justify-center text-center select-none">
                   <div
-                    className={`w-12 h-12 border rounded-2xl flex items-center justify-center mb-4 shadow-inner ${
-                      loanApplication?.loan_product?.requires_guarantor
+                    className={`w-11 h-11 border rounded-xl flex items-center justify-center mb-3 shadow-inner ${
+                      loanApplication?.loan_product?.requires_chattels
                         ? "bg-slate-50 border-slate-100 text-slate-400"
                         : "bg-emerald-50/50 border-emerald-100 text-emerald-500"
                     }`}
                   >
-                    {loanApplication?.loan_product?.requires_guarantor ? (
-                      <Users size={20} strokeWidth={1.75} />
+                    {loanApplication?.loan_product?.requires_chattels ? (
+                      <Info size={18} />
                     ) : (
-                      <ShieldCheck size={20} strokeWidth={1.75} />
+                      <ShieldCheck size={18} />
                     )}
                   </div>
-
-                  {/* 2. DYNAMIC TYPOGRAPHY COPY STACK */}
-                  <div className="max-w-[200px] space-y-1">
+                  <div className="max-w-[220px] space-y-0.5">
                     <h4 className="text-[12px] font-bold text-slate-700 tracking-tight">
-                      {loanApplication?.loan_product?.requires_guarantor
-                        ? "No guarantors attached"
-                        : "Guarantors Exempted"}
+                      {loanApplication?.loan_product?.requires_chattels
+                        ? "No collateral declared"
+                        : "Collateral Exempted"}
                     </h4>
                     <p className="text-[10px] font-medium text-slate-400 leading-normal">
-                      {loanApplication?.loan_product?.requires_guarantor
-                        ? "No guarantor invitation logs linked to this application setup yet."
-                        : "This specific loan facility processes instantly without requiring third-party credit backing networks."}
+                      {loanApplication?.loan_product?.requires_chattels
+                        ? "Asset security logs required. Complete item declarations to clear the application block."
+                        : "This specific credit facility structure allows immediate funding authorization without asset registry liens."}
                     </p>
                   </div>
                 </div>
@@ -543,7 +669,7 @@ const StatusInsight = ({ status = "", onContinue }) => {
       actionLabel: "View Details",
       showButton: false,
     },
-    "pending_credit_committee": {
+    pending_credit_committee: {
       title: "Under Credit Review",
       description:
         "Our credit committee is currently reviewing your financial profile and guarantor commitments. This typically takes 24-48 hours.",
