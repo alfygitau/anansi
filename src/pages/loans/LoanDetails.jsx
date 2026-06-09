@@ -252,7 +252,7 @@ const LoanDetails = () => {
               <div className="space-y-4">
                 <PaymentRow
                   label="Principal Amount"
-                  value={formatAmount(loan?.next_payment?.principal_due ?? 0)}
+                  value={formatAmount(loan?.next_payment?.balance_due ?? 0)}
                 />
                 <PaymentRow
                   label="Interest Charged"
@@ -358,13 +358,16 @@ const LoanDetails = () => {
                   Download Statement
                 </button>
               </div>
-              <div className="space-y-3 w-full h-[600px] overflow-y-auto custom-scrollbar">
+              <div className="space-y-3 w-full h-[600px] border p-2 rounded-[32px] overflow-y-auto custom-scrollbar">
                 {loan?.repayments && loan.repayments.length > 0 ? (
                   loan.repayments.map((tx) => (
-                    <MPesaTransactionRow key={tx.id || tx.reference} tx={tx} />
+                    <MPesaTransactionRow
+                      key={tx.id || tx.transaction_ref}
+                      tx={tx}
+                    />
                   ))
                 ) : (
-                  <div className="h-full bg-white rounded-[32px] border border-slate-100 flex flex-col items-center justify-center p-8 text-center shadow-sm select-none animate-fade-in">
+                  <div className="h-full bg-white h-[600px] rounded-[32px] border border-slate-100 flex flex-col items-center justify-center text-center shadow-sm select-none animate-fade-in">
                     {/* Visual Asset Container */}
                     <div className="relative mb-6 flex items-center justify-center">
                       {/* Soft Ambient Background Pulse Ring */}
@@ -535,7 +538,8 @@ const PaymentRow = ({ label, value }) => (
 );
 
 const MPesaTransactionRow = ({ tx }) => {
-  const isDisbursement = tx.type.includes("Disbursement");
+  const isDisbursement = tx?.type?.includes("Disbursement");
+  const formatAmount = useFormatAmount();
 
   return (
     <div className="group p-5 bg-white border border-slate-200 rounded-[28px] hover:border-[#3EB344]/30 transition-all flex items-center justify-between">
@@ -553,15 +557,15 @@ const MPesaTransactionRow = ({ tx }) => {
 
         <div>
           <h4 className="text-sm font-bold text-primary tracking-tight">
-            {tx.type}
+            Loan Repayment
           </h4>
           <div className="flex items-center gap-2 mt-1">
             <span className="text-[10px] font-mono font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded uppercase">
-              {tx.ref}
+              {tx.transaction_ref}
             </span>
             <span className="text-[10px] text-slate-300">•</span>
             <span className="text-[10px] text-slate-400 font-medium">
-              {tx.date}
+              {tx.payment_date}
             </span>
           </div>
         </div>
@@ -573,7 +577,7 @@ const MPesaTransactionRow = ({ tx }) => {
           className={`text-sm font-medium ${isDisbursement ? "text-primary" : "text-[#3EB344]"}`}
         >
           {isDisbursement ? "+" : "-"}
-          {tx.amount}
+          {formatAmount(tx.amount_paid)}
         </p>
         <div className="flex items-center justify-end gap-1 mt-0.5">
           <span className="text-[9px] font-medium uppercase text-slate-300 tracking-tighter">
