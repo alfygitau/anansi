@@ -183,9 +183,9 @@ const LoanApplications = () => {
           </div>
           <aside className="lg:col-span-5 space-y-6">
             <ApplyLoanAction onClick={() => navigate("/loan-products")} />
-            <div className="w-full bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-4 transition-all hover:shadow-[0_8px_40px_rgb(0,0,0,0.08)]">
+            <div className="w-full bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-3 transition-all hover:shadow-[0_8px_40px_rgb(0,0,0,0.08)]">
               {/* Header */}
-              <div className="flex items-start gap-4 mb-4">
+              <div className="flex items-start mb-2 gap-4">
                 <div className="p-3 bg-primary rounded-2xl text-white shrink-0">
                   <CircleGauge className="w-7 h-7" />
                 </div>
@@ -200,7 +200,7 @@ const LoanApplications = () => {
               </div>
 
               {/* Main Limit Hero Section */}
-              <div className="bg-slate-50/50 rounded-2xl p-3 border border-slate-50">
+              <div className="bg-slate-50/50 rounded-2xl p-2 border border-slate-50">
                 <span className="text-4xl sm:text-5xl font-extrabold text-primary tracking-tight block">
                   {formatAmount(limitData.totalLimit)}
                 </span>

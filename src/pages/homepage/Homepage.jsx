@@ -27,6 +27,7 @@ import {
   Clock,
   Calendar,
   WalletCards,
+  AlertTriangle,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import InvestAmount from "../../components/quick-invest/InvestAmount";
@@ -498,118 +499,102 @@ const Homepage = () => {
             </p>
           </div>
         </header>
-        {/*  */}
         {loadingShares ? (
-          <div className="mb-6 w-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm animate-pulse">
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-              {/* Left Content Skeleton */}
-              <div className="flex-1 space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 bg-slate-200 rounded-xl" />
-                  <div className="h-6 w-40 bg-slate-200 rounded-md" />
-                </div>
-                <div className="space-y-2">
-                  <div className="h-4 w-full max-w-[400px] bg-slate-100 rounded" />
-                  <div className="h-4 w-full max-w-[350px] bg-slate-100 rounded" />
-                </div>
-                <div className="h-8 w-56 bg-slate-100 rounded-lg" />
-              </div>
+          /* High-Density Notification Skeleton */
+          <div className="mb-3 w-full mx-auto border border-amber-100/40 bg-white p-4 shadow-[0_4px_20px_rgba(245,158,11,0.01)] rounded-2xl relative overflow-hidden animate-pulse">
+            {/* Left static accent visual bar skeleton */}
+            <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-slate-200" />
 
-              {/* Right Progress Skeleton */}
-              <div className="w-full lg:w-[340px] space-y-5">
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <div className="h-3 w-20 bg-slate-200 rounded" />
-                    <div className="h-3 w-10 bg-slate-200 rounded" />
+            <div className="flex items-center gap-4 pl-2">
+              {/* Centered Warning Icon Placeholder */}
+              <div className="h-10 w-10 bg-slate-200 rounded-xl shrink-0" />
+
+              {/* Content Block Stack Layout */}
+              <div className="flex-1 space-y-3">
+                {/* Headline Header Stream Group */}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="h-3.5 w-48 bg-slate-200 rounded" />
+                    <div className="h-4 w-20 bg-slate-200 rounded-md" />
                   </div>
-                  <div className="h-4 w-full bg-slate-100 rounded-full" />
-                  <div className="h-3 w-24 bg-slate-100 rounded ml-auto" />
+
+                  {/* Description Line Strings */}
+                  <div className="space-y-1.5">
+                    <div className="h-3 w-full max-w-[640px] bg-slate-100 rounded" />
+                    <div className="h-3 w-full max-w-[480px] bg-slate-100 rounded" />
+                  </div>
                 </div>
-                <div className="h-14 w-full bg-slate-200 rounded-2xl" />
+
+                {/* Button Placeholder shifted below description container rows */}
+                <div className="pt-0.5">
+                  <div className="h-9 w-28 bg-slate-200 rounded-xl" />
+                </div>
               </div>
             </div>
           </div>
         ) : Number(currentShares) < 10 ? (
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            className="mb-6 w-full mx-auto border border-cyan-100 bg-gradient-to-br from-[#F0FFFE] to-white p-4 shadow-sm shadow-cyan-900/5 rounded-2xl"
+            exit={{ opacity: 0, scale: 0.98 }}
+            className="mb-6 w-full mx-auto border border-amber-100 bg-gradient-to-br from-amber-50/40 via-white to-white p-4 shadow-[0_4px_20px_rgba(245,158,11,0.02)] rounded-2xl relative overflow-hidden"
           >
-            <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-              {/* Text Content Area */}
-              <div className="flex-1 space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-secondary shadow-lg shadow-blue-900/20">
-                    <ShieldCheck size={22} />
-                  </div>
-                  <h3 className="text-lg font-medium uppercase tracking-tight text-primary">
-                    Membership Progress
-                  </h3>
-                </div>
+            {/* Dynamic Background Warning Accent Line */}
+            <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-amber-500" />
 
-                <p className="max-w-[550px] text-[15px] leading-relaxed text-slate-600">
-                  To unlock{" "}
-                  <span className="font-bold text-slate-900">
-                    full membership benefits
-                  </span>{" "}
-                  and access various loan products, you need a minimum of{" "}
-                  <span className="font-bold text-primary">
-                    10 shares (KES 10,000)
-                  </span>
-                  .
-                </p>
-
-                {remainingShares > 0 && (
-                  <div className="inline-flex items-center gap-2 rounded-lg bg-white/60 px-3 py-1.5 border border-cyan-100">
-                    <Wallet size={14} className="text-cyan-600" />
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-800">
-                      {formatAmount(remainingShares * shareValue)}&nbsp;
-                      remaining to reach goal
-                    </span>
-                  </div>
-                )}
+            {/* 🔥 THE FIX: Changed to items-center to balance the icon vertically against the text block and button */}
+            <div className="flex items-center gap-4 pl-2">
+              {/* Warning Icon Beacon Plate */}
+              {/* 🔥 THE FIX: Removed mt-1 so the flex engine calculates its true vertical midpoint */}
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500 text-white shadow-md shadow-amber-500/20 shrink-0 relative animate-pulse [animation-duration:3s]">
+                <AlertTriangle size={18} strokeWidth={2.5} />
               </div>
 
-              {/* Progress and Action Area */}
-              <div className="w-full lg:w-[340px] space-y-5">
-                <div className="space-y-2">
-                  <div className="flex items-end justify-between px-1">
-                    <span className="text-[11px] font-medium uppercase tracking-widest text-slate-400">
-                      Shares Acquired
-                    </span>
-                    <span className="text-[13px] font-medium text-primary">
-                      {percentage.toFixed(1)}%
+              {/* Content Layout Column Stack */}
+              <div className="flex-1 min-w-0 space-y-3">
+                {/* Title Header Group Line */}
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-amber-700 leading-none">
+                      Action Required: Account Restricted
+                    </h3>
+                    <span className="inline-flex items-center text-[10px] font-bold px-1.5 py-0.5 bg-amber-100/60 text-amber-800 rounded-md leading-none">
+                      {formatNumber(Math.min(Number(currentShares), 10))} /{" "}
+                      {formatNumber(Math.min(Number(currentShares), 10))} SHARES
                     </span>
                   </div>
 
-                  <div className="relative h-4 w-full overflow-hidden rounded-full bg-slate-100 p-1 shadow-inner border border-slate-200/50">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${percentage}%` }}
-                      transition={{ duration: 1.2, ease: "circOut" }}
-                      className="h-full rounded-full bg-gradient-to-r from-primary to-[#074073] relative"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent" />
-                    </motion.div>
-                  </div>
-
-                  <p className="px-1 text-right text-[12px] font-bold text-slate-500">
-                    {formatNumber(currentShares)}&nbsp;
-                    <span className="text-slate-300">/</span> 10 Shares
+                  {/* Main Notification Description */}
+                  <p className="text-xs text-slate-500 font-medium leading-relaxed ">
+                    To unlock{" "}
+                    <span className="font-bold text-slate-800">
+                      Full Membership Benefits
+                    </span>{" "}
+                    and access standard loan facilities, you require a minimum
+                    of 10 equity shares. You are missing{" "}
+                    <span className="font-bold text-slate-800">
+                      KES{" "}
+                      {Number(remainingShares * shareValue).toLocaleString()}
+                    </span>
+                    .
                   </p>
                 </div>
 
-                <button
-                  onClick={() => setShowSharesAmount(true)}
-                  className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-primary px-8 text-xs font-medium uppercase tracking-widest text-white shadow-xl shadow-blue-900/20 transition-all hover:bg-[#062d7a] active:scale-[0.98]"
-                >
-                  Buy Shares
-                  <ArrowRight
-                    size={18}
-                    className="transition-transform group-hover:translate-x-1 text-secondary"
-                  />
-                </button>
+                {/* CTA Action Button */}
+                <div className="pt-0.5">
+                  <button
+                    type="button"
+                    onClick={() => setShowSharesAmount(true)}
+                    className="group inline-flex h-9 items-center justify-center gap-2 rounded-xl bg-[#074073] px-4 text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-blue-950/5 transition-all hover:bg-primary active:scale-[0.98] whitespace-nowrap"
+                  >
+                    Buy Shares
+                    <ArrowRight
+                      size={13}
+                      className="transition-transform group-hover:translate-x-0.5 text-secondary"
+                      strokeWidth={2.5}
+                    />
+                  </button>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -617,9 +602,9 @@ const Homepage = () => {
 
         {/* Account Section */}
         {/* MASTER DASHBOARD COMPACT SECTION GRID GRID */}
-        <div className="w-full space-y-8 mb-6">
+        <div className="w-full space-y-6 mb-6">
           {/* TOP PANEL: FULL-WIDTH ACTIVE ACCOUNTS LIST */}
-          <div className="w-full space-y-3">
+          <div className="w-full space-y-2">
             <h2 className="text-[12px] font-medium uppercase tracking-[0.2em] text-slate-400 pl-1">
               Active Accounts
             </h2>
