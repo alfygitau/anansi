@@ -105,7 +105,7 @@ const Homepage = () => {
     },
     {
       id: "applications",
-      label: "Applications",
+      label: "Loan Applications",
       description: "Track your pending credit lines.",
       icon: <FileText size={24} />,
       onClick: () => navigate("/all-loan-applications"),
