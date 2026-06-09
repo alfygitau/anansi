@@ -223,13 +223,15 @@ const LoanDetails = () => {
                     Repayment Progress
                   </span>
                   <span className="text-[#17C6C6] text-[13px] font-medium">
-                    35%
+                    {Number(loan?.repayment_progress_percent).toFixed(2)}%
                   </span>
                 </div>
                 <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-[#17C6C6] h-full rounded-full"
-                    style={{ width: "35%" }}
+                    style={{
+                      width: `${Number(loan?.repayment_progress_percent)}%`,
+                    }}
                   />
                 </div>
               </div>
@@ -299,7 +301,7 @@ const LoanDetails = () => {
               />
               <QuickActionButton
                 icon={<ClipboardList />}
-                label="Applications"
+                label="Loans Applications"
                 sub="Check Status"
                 description="Track the real-time milestone"
                 onClick={() => navigate("/all-loan-applications")}
