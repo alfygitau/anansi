@@ -747,24 +747,28 @@ const Homepage = () => {
                 ))}
               </div>
             ) : loans?.length > 0 ? (
-              loans?.map((loan) => (
-                <LoanItem
-                  key={loan?.id}
-                  title={formatLabel(loan?.loan_type)}
-                  id={loan?.loan_code}
-                  amount={formatAmount(loan?.loan_amount)}
-                  balance={formatAmount(loan?.outstanding_balance)}
-                  status={loan?.loan_status}
-                  statusColor={getLoanStatusColor(loan?.loan_status)}
-                  maturityDate={loan?.loan_due_date}
-                  onTap={() => navigate(`/loan-details/${loan?.id}`)}
-                />
-              ))
+              <div className="h-[450px] p-2 rounded-[18px] overflow-y-auto border">
+                {loans?.map((loan) => (
+                  <LoanItem
+                    key={loan?.id}
+                    title={formatLabel(loan?.loan_type)}
+                    id={loan?.loan_code}
+                    amount={formatAmount(loan?.loan_amount)}
+                    balance={formatAmount(loan?.outstanding_balance)}
+                    status={loan?.loan_status}
+                    statusColor={getLoanStatusColor(loan?.loan_status)}
+                    maturityDate={loan?.loan_due_date}
+                    onTap={() => navigate(`/loan-details/${loan?.id}`)}
+                  />
+                ))}
+              </div>
             ) : (
-              <EmptyState
-                message="No active loans found"
-                onApply={() => navigate("/loan-products")}
-              />
+              <div className="h-[450px] w-full">
+                <EmptyState
+                  message="No active loans found"
+                  onApply={() => navigate("/loan-products")}
+                />
+              </div>
             )}
           </section>
           {/* Left Side: Pending Applications */}
@@ -784,22 +788,28 @@ const Homepage = () => {
                 ))}
               </div>
             ) : loanApplications?.length > 0 ? (
-              loanApplications?.map((app, index) => (
-                <ApplicationItem
-                  key={app.reference}
-                  title={app?.product?.name}
-                  date={app?.application_date}
-                  amount={app?.applied_amount}
-                  status={app?.status}
-                  reference={app?.application_number}
-                  onTap={() => navigate(`/loan-application-details/${app?.id}`)}
-                />
-              ))
+              <div className="h-[450px] p-2 rounded-[18px] overflow-y-auto border">
+                {loanApplications?.map((app, index) => (
+                  <ApplicationItem
+                    key={app.reference}
+                    title={app?.product?.name}
+                    date={app?.application_date}
+                    amount={app?.applied_amount}
+                    status={app?.status}
+                    reference={app?.application_number}
+                    onTap={() =>
+                      navigate(`/loan-application-details/${app?.id}`)
+                    }
+                  />
+                ))}
+              </div>
             ) : (
-              <EmptyState
-                message="No pending applications"
-                onApply={() => navigate("/loan-products")}
-              />
+              <div className="h-[450px] w-full">
+                <EmptyState
+                  message="No pending applications"
+                  onApply={() => navigate("/loan-products")}
+                />
+              </div>
             )}
           </section>
         </div>
@@ -1352,7 +1362,7 @@ const LoanItem = ({
 };
 
 const EmptyState = ({ message, onApply }) => (
-  <div className="relative overflow-hidden py-12 px-6 border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center bg-white/50 bg-slate-900/40 group transition-all hover:border-secondary/30">
+  <div className="relative h-full w-full overflow-hidden border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center bg-white/50 bg-slate-900/40 group transition-all hover:border-secondary/30">
     {/* Decorative Background Glow */}
     <div className="absolute -top-10 -right-10 w-32 h-32 bg-secondary/5 rounded-full blur-3xl group-hover:bg-secondary/10 transition-colors"></div>
 
