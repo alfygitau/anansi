@@ -119,7 +119,7 @@ const EligibilityCheck = () => {
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-lg font-bold text-slate-900">
-                    Verification Checklist
+                    Eligibility Checklist
                   </h3>
                   <p className="text-sm text-slate-400">
                     Automated background standing check
@@ -188,9 +188,6 @@ const EligibilityCheck = () => {
                 <div className="space-y-5">
                   {/* Header: Clean Icon + Status */}
                   <div className="flex items-center gap-2">
-                    <div className="p-3 bg-white border border-slate-200/60 rounded-xl shadow-sm text-amber-500">
-                      <AlertTriangle size={18} />
-                    </div>
                     <h4 className="text-xs font-black uppercase tracking-widest text-slate-400">
                       Disbursement & Fees
                     </h4>
@@ -250,9 +247,6 @@ const EligibilityCheck = () => {
                 <div className="space-y-5">
                   {/* Icon Wrapper */}
                   <div className="flex items-center gap-2">
-                    <div className="p-3 bg-white border border-slate-200/60 rounded-xl shadow-sm text-slate-500 w-fit">
-                      <Calculator size={18} />
-                    </div>
                     <h4 className="text-xs font-black uppercase tracking-widest text-slate-400">
                       Capacity & Approval Logic
                     </h4>
