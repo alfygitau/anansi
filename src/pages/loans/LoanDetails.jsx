@@ -278,33 +278,38 @@ const LoanDetails = () => {
             </div>
           </div>
 
-          <section className="mb-4 mt-3">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <section className="mb-6 mt-4">
+            {/* Modern full-width dashboard layout grid section wrapper */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full">
               <QuickActionButton
-                icon={<CreditCard className="text-emerald-500" />}
+                icon={<CreditCard />}
                 label="Pay Loan"
                 sub="Direct M-PESA"
+                description="Instant loan repayment via STK"
                 onClick={() => setShowRepayAmount(true)}
                 variant="emerald"
               />
               <QuickActionButton
-                icon={<FileStack className="text-blue-500" />}
+                icon={<FileStack />}
                 label="Statements"
                 sub="View Ledger"
+                description="Export certified transaction history."
                 onClick={() => navigate("/statements")}
                 variant="blue"
               />
               <QuickActionButton
-                icon={<ClipboardList className="text-purple-500" />}
+                icon={<ClipboardList />}
                 label="Applications"
                 sub="Check Status"
+                description="Track the real-time milestone"
                 onClick={() => navigate("/all-loan-applications")}
                 variant="purple"
               />
               <QuickActionButton
-                icon={<LayoutGrid className="text-slate-500" />}
+                icon={<LayoutGrid />}
                 label="Other Products"
                 sub="Explore More"
+                description="Browse custom loan products."
                 onClick={() => navigate("/loan-products")}
                 variant="slate"
               />
@@ -314,7 +319,7 @@ const LoanDetails = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 py-3">
             {/* Left Side: Schedule (Stepper) */}
             <div className="md:col-span-6">
-              <h3 className="text-[13px] font-medium uppercase tracking-[0.2em] text-slate-400 mb-3">
+              <h3 className="text-[13px] font-medium uppercase text-slate-400 mb-2">
                 Repayment Progress
               </h3>
               {loan?.schedules?.length === 0 ? (
@@ -343,9 +348,9 @@ const LoanDetails = () => {
 
             {/* Right Side: Transactions */}
             <div className="md:col-span-6">
-              <div className="flex justify-between items-center mb-3">
-                <h3 className="text-[13px] font-medium uppercase tracking-[0.2em] text-slate-400">
-                  Transaction Ledger
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="text-[13px] font-medium uppercase text-slate-400">
+                  Transactions
                 </h3>
                 <button className="text-[13px] font-medium tracking-widest text-primary hover:underline flex items-center gap-1">
                   Download Statement
@@ -413,36 +418,100 @@ const LoanDetails = () => {
 };
 
 /* --- Sub-Component: QuickActionButton --- */
-const QuickActionButton = ({ icon, label, sub, onClick, variant }) => {
+const QuickActionButton = ({
+  icon,
+  label,
+  sub,
+  description,
+  onClick,
+  variant,
+}) => {
+  // Map your color tokens to match the premium dashboard accent states
   const themes = {
-    emerald: "hover:border-emerald-200 hover:bg-emerald-50/30",
-    blue: "hover:border-blue-200 hover:bg-blue-50/30",
-    purple: "hover:border-purple-200 hover:bg-purple-50/30",
-    slate: "hover:border-slate-200 hover:bg-slate-50/30",
+    emerald: {
+      border:
+        "hover:border-emerald-200 hover:shadow-[0_8px_24px_rgba(16,185,129,0.04)]",
+      icon: "group-hover:bg-emerald-500 group-hover:text-white group-hover:border-emerald-500",
+      accent: "bg-emerald-500",
+      text: "group-hover:text-emerald-600",
+    },
+    blue: {
+      border:
+        "hover:border-blue-200 hover:shadow-[0_8px_24px_rgba(59,130,246,0.04)]",
+      icon: "group-hover:bg-blue-500 group-hover:text-white group-hover:border-blue-500",
+      accent: "bg-blue-500",
+      text: "group-hover:text-blue-600",
+    },
+    purple: {
+      border:
+        "hover:border-purple-200 hover:shadow-[0_8px_24px_rgba(147,51,234,0.04)]",
+      icon: "group-hover:bg-purple-500 group-hover:text-white group-hover:border-purple-500",
+      accent: "bg-purple-500",
+      text: "group-hover:text-purple-600",
+    },
+    slate: {
+      border:
+        "hover:border-slate-300 hover:shadow-[0_8px_24px_rgba(100,116,139,0.04)]",
+      icon: "group-hover:bg-slate-700 group-hover:text-white group-hover:border-slate-700",
+      accent: "bg-slate-700",
+      text: "group-hover:text-slate-700",
+    },
   };
+
+  const currentTheme = themes[variant] || themes.slate;
 
   return (
     <button
+      type="button"
       onClick={onClick}
-      className={`group p-5 bg-white border border-slate-100 rounded-[32px] shadow-sm transition-all duration-300 flex flex-col items-start text-left relative overflow-hidden ${themes[variant]}`}
+      className={`group relative flex items-center justify-between p-3.5 cursor-pointer bg-white border border-slate-200 rounded-xl transition-all duration-200 select-none overflow-hidden h-[76px] active:scale-[0.99] w-full text-left ${currentTheme.border}`}
     >
-      <div className="w-12 h-12 rounded-[20px] bg-slate-50 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-        {React.cloneElement(icon, { size: 24 })}
+      {/* Content Cluster: Icon Plate + Text Wrapper Side-by-Side */}
+      <div className="flex items-center gap-3 min-w-0 pl-1">
+        {/* Compact Dynamic Icon Plate */}
+        <div
+          className={`w-10 h-10 bg-slate-50 text-slate-600 rounded-lg flex items-center justify-center border border-slate-100 transition-all duration-300 ${currentTheme.icon}`}
+        >
+          {React.cloneElement(icon, {
+            size: 16,
+            strokeWidth: 2.2,
+            className:
+              "shrink-0 transition-transform duration-200 group-hover:scale-105",
+          })}
+        </div>
+
+        {/* Text Blocks (Safely truncated to protect layout grid scaling properties) */}
+        <div className="flex flex-col min-w-0">
+          {/* Tag Subheading line element above main label */}
+          <span className="block text-[8px] font-bold uppercase tracking-wider text-slate-400 leading-none mb-0.5">
+            {sub}
+          </span>
+          <h4 className="block text-[12px] font-bold text-slate-800 tracking-tight leading-snug transition-colors group-hover:text-[#074073] truncate">
+            {label}
+          </h4>
+          <p className="block text-[10px] text-slate-400 font-medium tracking-tight leading-normal truncate pr-2">
+            {description}
+          </p>
+        </div>
       </div>
 
-      <div>
-        <h4 className="font-bold text-primary text-sm group-hover:text-secondary transition-colors">
-          {label}
-        </h4>
-        <p className="text-[10px] font-medium text-slate-400 mt-0.5 uppercase tracking-wider">
-          {sub}
-        </p>
+      {/* Fine Minimalist Trailing Arrow */}
+      <div
+        className={`text-slate-300 group-hover:translate-x-0.5 transition-all duration-200 shrink-0 pr-1 ${currentTheme.text}`}
+      >
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
       </div>
-
-      <ChevronRight
-        className="absolute right-6 bottom-6 text-slate-200 group-hover:text-secondary group-hover:translate-x-1 transition-all"
-        size={16}
-      />
     </button>
   );
 };
