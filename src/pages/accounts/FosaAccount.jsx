@@ -355,7 +355,7 @@ const VerticalAction = ({ icon, label, description, onClick }) => {
         </div>
 
         <div className="flex flex-col gap-0.5">
-          <span className="text-xs font-bold tracking-wide text-slate-800 uppercase group-hover:text-blue-900 transition-colors">
+          <span className="text-xs font-bold tracking-wide text-primary uppercase group-hover:text-secondary transition-colors">
             {label}
           </span>
           {description && (
