@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Smartphone, Hash, DollarSign } from "lucide-react";
+import { X, Smartphone, Hash, DollarSign, AlertCircle, Sparkles } from "lucide-react";
 
 const ConfirmRepayDetails = ({
   isOpen,
@@ -57,9 +57,9 @@ const ConfirmRepayDetails = ({
             </div>
             <div className="border-b border-slate-100 mx-8"></div>
             {/* Scrollable Receipt Area */}
-            <div className="flex-grow overflow-y-auto p-8 space-y-8 bg-slate-50/30">
+            <div className="flex-grow overflow-y-auto p-8 py-6 space-y-6 bg-slate-50/30">
               {/* The "Big Check" Amount Card */}
-              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm text-center relative overflow-hidden">
+              <div className="bg-white rounded-3xl p-6 border border-slate-100 text-center relative overflow-hidden">
                 <span className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em] block mb-2">
                   Total Repayment
                 </span>
@@ -72,96 +72,89 @@ const ConfirmRepayDetails = ({
                 <h3 className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.25em]">
                   Transaction Summary
                 </h3>
-                <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
-                  {/* row 1: Payment Source */}
-                  <div className="p-2 flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="size-10 rounded-2xl bg-blue-50 flex items-center justify-center text-emerald-600">
-                        <Smartphone size={20} />
+                <div className="bg-white rounded-[24px] border border-slate-100 shadow-[0_8px_30px_-4px_rgba(0,0,0,0.02)] divide-y divide-slate-100/80 overflow-hidden">
+                  {/* Row 1: Payment Source */}
+                  <div className="p-3.5 flex items-center justify-between hover:bg-slate-50/40 transition-colors">
+                    <div className="flex items-center gap-3.5">
+                      {/* Matched Emerald Tinted Icon Frame */}
+                      <div className="size-9 rounded-xl bg-emerald-50/80 border border-emerald-100/40 flex items-center justify-center text-emerald-600 shrink-0">
+                        <Smartphone size={18} className="stroke-[2.25]" />
                       </div>
                       <div>
-                        <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wide">
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                           Source
                         </p>
-                        <p className="text-sm font-medium text-slate-900">
+                        <p className="text-[14px] font-semibold text-slate-800 tracking-tight mt-0.5">
                           {phoneNumber}
                         </p>
                       </div>
                     </div>
-                    <div className="px-3 py-1 bg-emerald-100/50 rounded-full">
-                      <span className="text-[10px] font-medium text-emerald-700 uppercase">
-                        M-Pesa
-                      </span>
-                    </div>
+                    <span className="px-2.5 py-0.5 bg-emerald-50 border border-emerald-100/60 rounded-full text-[10px] font-bold text-emerald-700 uppercase tracking-wider">
+                      M-Pesa
+                    </span>
                   </div>
 
-                  {/* row 2: Reference */}
-                  <div className="p-2 flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="size-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
-                        <Hash size={20} />
+                  {/* Row 2: Reference */}
+                  <div className="p-3.5 flex items-center justify-between hover:bg-slate-50/40 transition-colors">
+                    <div className="flex items-center gap-3.5">
+                      {/* Matched Blue Tinted Icon Frame */}
+                      <div className="size-9 rounded-xl bg-blue-50/80 border border-blue-100/40 flex items-center justify-center text-blue-600 shrink-0">
+                        <Hash size={18} className="stroke-[2.25]" />
                       </div>
                       <div>
-                        <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wide">
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                           Reference
                         </p>
-                        <p className="text-sm font-medium text-slate-900 uppercase tracking-tight">
+                        <p className="text-[14px] font-semibold text-slate-800 uppercase tracking-wider mt-0.5">
                           LN-{new Date().getFullYear()}-AX
                         </p>
                       </div>
                     </div>
-                    <div className="px-3 py-1 bg-blue-100/50 rounded-full">
-                      <span className="text-[10px] font-medium text-blue-700 uppercase">
-                        Loan
-                      </span>
-                    </div>
+                    <span className="px-2.5 py-0.5 bg-blue-50 border border-blue-100/60 rounded-full text-[10px] font-bold text-blue-700 uppercase tracking-wider">
+                      Facility
+                    </span>
                   </div>
 
-                  {/* row 3: Fees */}
-                  <div className="p-2 flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="size-10 rounded-2xl bg-blue-50 flex items-center justify-center text-amber-600">
-                        <DollarSign size={20} />
+                  {/* Row 3: Fees */}
+                  <div className="p-3.5 flex items-center justify-between hover:bg-slate-50/40 transition-colors">
+                    <div className="flex items-center gap-3.5">
+                      {/* Premium Amber/Sparkle Frame for Waived/Free text */}
+                      <div className="size-9 rounded-xl bg-amber-50/80 border border-amber-100/40 flex items-center justify-center text-amber-600 shrink-0">
+                        <Sparkles size={18} className="stroke-[2.25]" />
                       </div>
                       <div>
-                        <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wide">
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                           Transaction Fee
                         </p>
-                        <p className="text-sm font-medium text-slate-900">
+                        <p className="text-[14px] font-semibold text-slate-800 tracking-tight mt-0.5">
                           Zero Charges
                         </p>
                       </div>
                     </div>
-                    <div className="px-3 py-1 bg-amber-100/50 rounded-full">
-                      <span className="text-[10px] font-medium text-amber-700 uppercase">
-                        Free
-                      </span>
-                    </div>
+                    <span className="px-2.5 py-0.5 bg-amber-50 border border-amber-100/60 rounded-full text-[10px] font-bold text-amber-700 uppercase tracking-wider">
+                      Waived
+                    </span>
                   </div>
                 </div>
               </div>
 
-              {/* STK Instructions Box */}
-              <div className="p-5 bg-primary rounded-2xl text-white relative overflow-hidden">
-                <div className="relative z-10 flex items-center gap-4">
-                  <div className="size-10 shrink-0 bg-white/20 rounded-xl flex items-center justify-center">
-                    <Smartphone size={20} className="text-white" />
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-sm font-bold leading-tight">
-                      STK Push Authorization
-                    </p>
-                    <p className="text-[11px] text-white/70 leading-relaxed">
-                      A secure prompt will appear on your phone shortly. Simply
-                      enter your M-Pesa PIN to complete.
-                    </p>
-                  </div>
+              <div className="space-y-3 pt-4">
+                <div className="flex items-center gap-3">
+                  <AlertCircle
+                    size={14}
+                    className="text-slate-300 mt-0.5 shrink-0"
+                  />
+                  <p className="text-[10px] text-slate-400 leading-relaxed italic">
+                    By clicking continue, an STK push will be sent to your
+                    device. Ensure you have the sufficient funds to complete the
+                    transaction.
+                  </p>
                 </div>
               </div>
             </div>
             <div className="border-b border-slate-100 mx-8"></div>
             {/* Footer Action */}
-            <div className="p-8 bg-white">
+            <div className="p-8 py-6 bg-white">
               <button
                 onClick={onConfirm}
                 disabled={isProcessing}
@@ -173,14 +166,6 @@ const ConfirmRepayDetails = ({
                   <>Authorize & Pay Now</>
                 )}
               </button>
-
-              <div className="flex flex-col items-center gap-4 mt-2">
-                <div className="flex items-center gap-2">
-                  <p className="text-[10px] text-slate-400 font-medium uppercase tracking-[0.2em]">
-                    End-to-End Encrypted
-                  </p>
-                </div>
-              </div>
             </div>
           </motion.div>
         </div>

@@ -7,6 +7,7 @@ import {
   ArrowRight,
   DollarSign,
 } from "lucide-react";
+import useAuth from "../../hooks/useAuth";
 
 const AddRepayAmount = ({
   isOpen,
@@ -135,18 +136,6 @@ const AddRepayAmount = ({
                     className="w-full h-full pl-28 pr-6 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all font-bold text-primary"
                   />
                 </div>
-
-                {/* Info Card: Minimum Payable */}
-                <div className="mt-4 flex items-center gap-3 p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50">
-                  <Info size={16} className="text-primary mt-0.5 shrink-0" />
-                  <p className="text-[11px] text-slate-600 leading-relaxed">
-                    Minimum required payment is{" "}
-                    <span className="font-bold text-primary">
-                      KES {minimumPayable.toLocaleString()}
-                    </span>
-                    . Payments below this may result in late penalties.
-                  </p>
-                </div>
               </div>
 
               {/* Disclaimer Section */}
@@ -166,7 +155,7 @@ const AddRepayAmount = ({
             </div>
             <div className="border-b border-slate-100 mx-8"></div>
             {/* Footer Action */}
-            <div className="p-8 bg-slate-50/30">
+            <div className="p-8 py-6 bg-slate-50/30">
               <button
                 onClick={onContinue}
                 disabled={!isValid}
@@ -174,12 +163,6 @@ const AddRepayAmount = ({
               >
                 Review Payment <ArrowRight size={18} />
               </button>
-
-              <div className="flex items-center justify-center gap-2 mt-2">
-                <p className="text-[10px] text-slate-400 font-medium uppercase tracking-[0.2em]">
-                  Sacco-Grade Encryption
-                </p>
-              </div>
             </div>
           </motion.div>
         </div>

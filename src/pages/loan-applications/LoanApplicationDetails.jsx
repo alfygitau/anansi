@@ -60,18 +60,6 @@ const LoanApplicationDetails = ({ onBack }) => {
     },
   });
 
-  const formatLabel = (str) => {
-    if (!str) return "";
-    const spaced = str.replace(/_/g, " ");
-    return spaced.charAt(0).toUpperCase() + spaced.slice(1);
-  };
-
-  const passedCount =
-    loanApplication?.eligibility_result?.checks?.filter(
-      (item) => item.passed === true,
-    ).length || 0;
-  const totalCount = loanApplication?.eligibility_result?.checks?.length || 0;
-
   const handleContinue = (status) => {
     if (status?.toLowerCase() === "pending_guarantor") {
       navigate(`/add-guarantor/${loanApplication?.loan_product?.id}/${appId}`);
@@ -100,7 +88,6 @@ const LoanApplicationDetails = ({ onBack }) => {
   return (
     <div className="bg-slate-50 text-primary">
       <div className="max-w-6xl mx-auto sm:px-4">
-        {/* Navigation & Header */}
         <header>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
@@ -137,7 +124,7 @@ const LoanApplicationDetails = ({ onBack }) => {
                 <div
                   className={`px-3 py-1.5 rounded-full border shadow-md font-bold tracking-widest text-[9px] uppercase transition-all duration-300 backdrop-blur-sm select-none ${statusStyleClasses}`}
                 >
-                  <span>{loanApplication?.status || "Pending"}</span>
+                  <span>{loanApplication?.status_label || "Pending"}</span>
                 </div>
               );
             })()}
@@ -191,7 +178,7 @@ const LoanApplicationDetails = ({ onBack }) => {
                     <div
                       className={`px-3 py-1.5 rounded-full border shadow-md font-bold tracking-widest text-[9px] uppercase transition-all duration-300 backdrop-blur-sm select-none ${statusStyleClasses}`}
                     >
-                      <span>{loanApplication?.status || "Pending"}</span>
+                      <span>{loanApplication?.status_label || "Pending"}</span>
                     </div>
                   );
                 })()}

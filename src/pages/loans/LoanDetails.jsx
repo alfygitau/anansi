@@ -54,21 +54,21 @@ const LoanDetails = () => {
   const [showAddRepayAmount, setShowAddRepayAmount] = useState(false);
   const [showConfirmRepayDetails, setShowConfirmRepayDetails] = useState(false);
   const [showAwaitLoanPayment, setShowAwaitLoanPayment] = useState(false);
-  const loanInfo = {
-    minimumPayable: 4500.0,
-    paymentInFull: 125000.0,
-    loanId: "LN-2026-X882",
-    currency: "KES",
-    dueDate: "2026-06-15",
-    interestRate: 12.5,
-    breakdown: {
-      principal: 110000.0,
-      accruedInterest: 14500.0,
-      lateFees: 500.0,
-    },
-    isOverdue: false,
-    daysToNextPayment: 32,
-  };
+  // const loanInfo = {
+  //   minimumPayable: 4500.0,
+  //   paymentInFull: 125000.0,
+  //   loanId: "LN-2026-X882",
+  //   currency: "KES",
+  //   dueDate: "2026-06-15",
+  //   interestRate: 12.5,
+  //   breakdown: {
+  //     principal: 110000.0,
+  //     accruedInterest: 14500.0,
+  //     lateFees: 500.0,
+  //   },
+  //   isOverdue: false,
+  //   daysToNextPayment: 32,
+  // };
   const [formData, setFormData] = useState({
     phone: "",
     amount: "",
@@ -84,7 +84,7 @@ const LoanDetails = () => {
       <RepayAmount
         isOpen={showRepayAmount}
         onClose={() => setShowRepayAmount(false)}
-        loanData={loanInfo}
+        loanData={loan}
         onProceed={() => {
           setShowRepayAmount(false);
           setShowAddRepayAmount(true);
@@ -121,6 +121,44 @@ const LoanDetails = () => {
       />
       <div className="bg-slate-50 text-primary">
         <div className="max-w-6xl sm:px-4 mx-auto">
+          {loan?.loan_status === "Overdue" && (
+            <div className="w-full bg-white border border-rose-100/80 border-l-[10px] border-l-rose-600 mb-3 p-3 py-2 pl-5 flex flex-col gap-5">
+              <div className="flex items-center gap-5 flex-1">
+                {/* Premium Soft-Tinted Center-Aligned Icon */}
+                <div className="bg-rose-50/80 border border-rose-100/50 p-3 rounded-[16px] text-rose-600 shrink-0 flex items-center justify-center self-center">
+                  <AlertCircle className="w-5 h-5 stroke-[2.25]" />
+                </div>
+                <div className="space-y-2 flex-1">
+                  <div className="flex items-center">
+                    <span className="text-[11px] font-bold tracking-widest text-rose-600 uppercase">
+                      Overdue Notice
+                    </span>
+                  </div>
+                  <p className="text-[14px] text-zinc-500 leading-relaxed w-full">
+                    Your outstanding balance of{" "}
+                    <span className="font-semibold text-zinc-900">
+                      KES 14,200
+                    </span>{" "}
+                    for your active facility was due on{" "}
+                    <span className="font-semibold text-zinc-900">
+                      October 12, 2026
+                    </span>
+                    . To safeguard your excellent financial standing within the
+                    Sacco, we kindly request that you settle this balance
+                    promptly. Resolving this immediately will protect your
+                    high-tier credit rating and continued borrowing.
+                  </p>
+                  <button
+                    onClick={() => setShowRepayAmount(true)}
+                    className="w-fit px-6 h-[40px] bg-primary hover:opacity-90 text-white text-[13px] font-medium rounded-[10px] flex items-center justify-center transition-all active:scale-[0.98] shadow-sm shadow-primary/10 tracking-wide mt-2"
+                  >
+                    Make Payment
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           <header>
             <div className="flex justify-between items-end">
               <h1 className="text-2xl font-medium tracking-tight">
@@ -258,7 +296,7 @@ const LoanDetails = () => {
                   label="Interest Charged"
                   value={formatAmount(loan?.next_payment?.interest_due ?? 0)}
                 />
-                <PaymentRow label="Service Fee" value="KES 0.00" />
+                <PaymentRow label="Penalty" value="KES 0.00" />
 
                 <hr className="border-black/10 my-3" />
 
@@ -364,6 +402,7 @@ const LoanDetails = () => {
                     <MPesaTransactionRow
                       key={tx.id || tx.transaction_ref}
                       tx={tx}
+                      loan={loan}
                     />
                   ))
                 ) : (
@@ -537,7 +576,7 @@ const PaymentRow = ({ label, value }) => (
   </div>
 );
 
-const MPesaTransactionRow = ({ tx }) => {
+const MPesaTransactionRow = ({ tx, loan }) => {
   const isDisbursement = tx?.type?.includes("Disbursement");
   const formatAmount = useFormatAmount();
 
@@ -556,10 +595,11 @@ const MPesaTransactionRow = ({ tx }) => {
         </div>
 
         <div>
-          <h4 className="text-sm font-bold text-primary tracking-tight">
-            Loan Repayment
-          </h4>
-          <div className="flex items-center gap-2 mt-1">
+          <span className="text-[12px] font-bold text-slate-500 rounded uppercase">
+            {loan.loan_code}
+          </span>
+          <h4 className="text-sm text-primary">Loan Repayment</h4>
+          <div className="flex items-center gap-1">
             <span className="text-[10px] font-mono font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded uppercase">
               {tx.transaction_ref}
             </span>

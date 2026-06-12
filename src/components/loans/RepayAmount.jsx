@@ -13,14 +13,14 @@ const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
       title: "Scheduled Payment",
       description:
         "Cover interest and required principal to keep your loan in good standing.",
-      amount: loanData?.minimumPayable || 0,
+      amount: loanData?.next_payment?.balance_due || 0,
     },
     {
       id: "full",
       title: "Pay in Full",
       description:
         "Settle the entire remaining balance and close this loan account today.",
-      amount: loanData?.paymentInFull || 0,
+      amount: loanData?.loan_Balance || 0,
     },
     {
       id: "custom",
@@ -134,7 +134,7 @@ const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
             </div>
 
             {/* Footer */}
-            <div className="p-8 border-t border-slate-50 bg-slate-50/30">
+            <div className="p-8 py-5 border-t border-slate-50 bg-slate-50/30">
               <button
                 disabled={!selectedOption}
                 onClick={() => onProceed(selectedOption)}
@@ -142,11 +142,6 @@ const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
               >
                 Continue to Pay <ArrowRight size={18} />
               </button>
-              <div className="flex items-center justify-center gap-2 mt-2">
-                <p className="text-[10px] text-slate-400 font-medium uppercase tracking-[0.2em]">
-                  Anansi Security Verified
-                </p>
-              </div>
             </div>
           </motion.div>
         </div>
