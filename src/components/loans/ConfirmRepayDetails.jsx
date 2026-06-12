@@ -82,7 +82,7 @@ const ConfirmRepayDetails = ({
                       </div>
                       <div>
                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                          Source
+                          Wallet Source
                         </p>
                         <p className="text-[14px] font-semibold text-slate-800 tracking-tight mt-0.5">
                           {phoneNumber}
@@ -103,7 +103,7 @@ const ConfirmRepayDetails = ({
                       </div>
                       <div>
                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                          Reference
+                          Loan Reference
                         </p>
                         <p className="text-[14px] font-semibold text-slate-800 uppercase tracking-wider mt-0.5">
                           LN-{new Date().getFullYear()}-AX
