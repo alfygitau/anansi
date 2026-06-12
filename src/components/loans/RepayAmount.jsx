@@ -3,7 +3,14 @@ import { ArrowRight, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useFormatAmount } from "../../hooks/useFormatAmount";
 
-const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
+const RepayAmount = ({
+  isOpen,
+  onClose,
+  onProceed,
+  loanData,
+  setFormData,
+  onCustomContinue,
+}) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const formatAmount = useFormatAmount();
 
@@ -30,6 +37,24 @@ const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
       amount: null,
     },
   ];
+
+  const handleContinue = (selectedOption) => {
+    if (selectedOption === "custom") {
+      onCustomContinue();
+    } else {
+      onProceed();
+    }
+  };
+
+  const handleSelectOption = (option) => {
+    setSelectedOption(option?.id);
+    if (selectedOption !== "custom") {
+      setFormData((prev) => ({
+        ...prev,
+        amount: option?.amount,
+      }));
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -74,7 +99,7 @@ const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
               {paymentOptions.map((option) => (
                 <div
                   key={option.id}
-                  onClick={() => setSelectedOption(option.id)}
+                  onClick={() => handleSelectOption(option)}
                   className={`relative p-5 rounded-2xl border-2 cursor-pointer transition-all duration-300 group ${
                     selectedOption === option.id
                       ? "border-primary bg-blue-50/30 shadow-md scale-[1.02]"
@@ -137,7 +162,7 @@ const RepayAmount = ({ isOpen, onClose, onProceed, loanData }) => {
             <div className="p-8 py-5 border-t border-slate-50 bg-slate-50/30">
               <button
                 disabled={!selectedOption}
-                onClick={() => onProceed(selectedOption)}
+                onClick={() => handleContinue(selectedOption)}
                 className="w-full h-[60px] bg-primary text-white rounded-2xl font-medium uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#062d7a] transition-all disabled:opacity-20 shadow-xl shadow-blue-900/10 active:scale-95"
               >
                 Continue to Pay <ArrowRight size={18} />

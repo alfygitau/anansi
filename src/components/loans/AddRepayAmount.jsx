@@ -6,6 +6,7 @@ import {
   AlertCircle,
   ArrowRight,
   DollarSign,
+  Coins,
 } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 
@@ -13,13 +14,11 @@ const AddRepayAmount = ({
   isOpen,
   onClose,
   onBack,
-  minimumPayable,
   formData,
   setFormData,
   onContinue,
 }) => {
-  const isValid =
-    formData.amount >= minimumPayable && formData.phone.length >= 9;
+  const isValid = formData.phone.length >= 9;
 
   return (
     <AnimatePresence>
@@ -117,7 +116,7 @@ const AddRepayAmount = ({
                 </label>
                 <div className="relative flex group h-16">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
-                    <DollarSign
+                    <Coins
                       size={18}
                       className="text-slate-300 group-focus-within:text-primary transition-colors"
                     />

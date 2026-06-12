@@ -23,12 +23,14 @@ import { useQuery } from "react-query";
 import { getLoan } from "../../sdks/loans/loans";
 import { useToast } from "../../contexts/ToastProvider";
 import { useFormatAmount } from "../../hooks/useFormatAmount";
+import useAuth from "../../hooks/useAuth";
 
 const LoanDetails = () => {
   const { id } = useParams();
   const [loan, setLoan] = useState({});
   const { showToast } = useToast();
   const formatAmount = useFormatAmount();
+  const { auth } = useAuth();
 
   const { isFetching } = useQuery({
     queryKey: ["get loan", id],
@@ -54,23 +56,9 @@ const LoanDetails = () => {
   const [showAddRepayAmount, setShowAddRepayAmount] = useState(false);
   const [showConfirmRepayDetails, setShowConfirmRepayDetails] = useState(false);
   const [showAwaitLoanPayment, setShowAwaitLoanPayment] = useState(false);
-  // const loanInfo = {
-  //   minimumPayable: 4500.0,
-  //   paymentInFull: 125000.0,
-  //   loanId: "LN-2026-X882",
-  //   currency: "KES",
-  //   dueDate: "2026-06-15",
-  //   interestRate: 12.5,
-  //   breakdown: {
-  //     principal: 110000.0,
-  //     accruedInterest: 14500.0,
-  //     lateFees: 500.0,
-  //   },
-  //   isOverdue: false,
-  //   daysToNextPayment: 32,
-  // };
+
   const [formData, setFormData] = useState({
-    phone: "",
+    phone: auth?.user?.mobileno,
     amount: "",
     accountType: "loan",
   });
@@ -85,7 +73,12 @@ const LoanDetails = () => {
         isOpen={showRepayAmount}
         onClose={() => setShowRepayAmount(false)}
         loanData={loan}
+        setFormData={setFormData}
         onProceed={() => {
+          setShowRepayAmount(false);
+          setShowConfirmRepayDetails(true);
+        }}
+        onCustomContinue={() => {
           setShowRepayAmount(false);
           setShowAddRepayAmount(true);
         }}
@@ -104,8 +97,8 @@ const LoanDetails = () => {
       <ConfirmRepayDetails
         isOpen={showConfirmRepayDetails}
         onClose={() => setShowConfirmRepayDetails(false)}
-        amount={2000}
-        phoneNumber="0769400300"
+        amount={formData?.amount ?? 0}
+        phoneNumber={formData?.phone ?? ""}
         onConfirm={() => {
           setShowConfirmRepayDetails(false);
           setShowAwaitLoanPayment(true);
@@ -282,7 +275,7 @@ const LoanDetails = () => {
                 />
                 <MiniDetail
                   label="Period"
-                  value={`${loan?.loan_period} Days`}
+                  value={`${loan?.loan_period} Month(s)`}
                 />
               </div>
             </div>
@@ -581,7 +574,7 @@ const MPesaTransactionRow = ({ tx, loan }) => {
   const formatAmount = useFormatAmount();
 
   return (
-    <div className="group p-5 bg-white border border-slate-200 rounded-[28px] hover:border-[#3EB344]/30 transition-all flex items-center justify-between">
+    <div className="group cursor-pointer p-5 bg-white border border-slate-200 rounded-[28px] hover:border-[#3EB344]/30 transition-all flex items-center justify-between">
       <div className="flex items-center gap-4">
         {/* M-PESA Branded Icon Container */}
         <div
