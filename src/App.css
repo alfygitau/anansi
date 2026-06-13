@@ -3,6 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html, body {
+    @apply bg-slate-50;
+  }
+}
+
 @layer components {
   .modern-input {
     @apply w-full h-[60px] pl-14 pr-6 bg-slate-50 border-none rounded-[24px] 

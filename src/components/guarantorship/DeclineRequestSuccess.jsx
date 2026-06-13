@@ -11,7 +11,7 @@ const DeclineRequestSuccess = ({ isOpen, onClose }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-slate-500/10"
+            className="absolute inset-0 bg-zinc-950/20 transition-opacity"
           />
 
           <motion.div

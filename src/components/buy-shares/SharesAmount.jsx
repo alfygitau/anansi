@@ -73,7 +73,7 @@ const SharesAmount = ({ isOpen, onClose, onConfirm }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100] flex justify-end bg-slate-500/10"
+          className="fixed inset-0 z-[100] flex justify-end bg-zinc-950/20 transition-opacity"
         >
           {/* Invisible dismissal zone target click area */}
           <div className="absolute inset-0" onClick={onClose} />

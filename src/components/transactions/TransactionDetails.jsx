@@ -34,11 +34,11 @@ const TransactionDetails = ({ isOpen, onClose, transaction }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100] flex justify-end bg-slate-500/10"
+          className="fixed inset-0 z-[100] flex justify-end bg-zinc-950/20 transition-opacity"
         >
           {/* Invisible dismissal zone target click area */}
           <div className="absolute inset-0" onClick={onClose} />
-          
+
           <motion.div
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
@@ -65,7 +65,7 @@ const TransactionDetails = ({ isOpen, onClose, transaction }) => {
               <p className="text-sm font-semibold text-slate-500 capitalize mt-0.5">
                 {transaction?.type}
               </p>
-              
+
               <div
                 className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-bold uppercase tracking-wider mt-3 ${statusColors[transaction.status]}`}
               >
@@ -77,7 +77,7 @@ const TransactionDetails = ({ isOpen, onClose, transaction }) => {
                 {transaction?.status}
               </div>
             </div>
-            
+
             <div className="border-b mx-8 border-slate-100"></div>
 
             {/* Quick Actions Ribbon */}
@@ -189,7 +189,11 @@ const InfoRow = ({ label, value, isRef, copy, className = "" }) => (
       {label}
     </p>
     <div className="flex items-center gap-2 group">
-      <p className={`text-sm font-semibold text-slate-800 tracking-tight ${className}`}>{value}</p>
+      <p
+        className={`text-sm font-semibold text-slate-800 tracking-tight ${className}`}
+      >
+        {value}
+      </p>
       {isRef && (
         <button
           onClick={copy}
@@ -211,7 +215,9 @@ const PartyTile = ({ title, name, sub, icon }) => (
       <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
         {title}
       </p>
-      <p className="text-sm font-bold text-slate-800 tracking-tight mt-0.5">{name}</p>
+      <p className="text-sm font-bold text-slate-800 tracking-tight mt-0.5">
+        {name}
+      </p>
       <p className="text-xs text-slate-500 font-medium mt-0.5">{sub}</p>
     </div>
   </div>

@@ -37,7 +37,7 @@ const FinalConfirmation = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[80] flex justify-end overflow-hidden bg-slate-500/10">
+        <div className="fixed inset-0 z-[80] flex justify-end overflow-hidden bg-zinc-950/20 transition-opacity">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

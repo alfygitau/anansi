@@ -77,6 +77,7 @@ const LoanDetails = () => {
         onClose={() => setShowSchedule(false)}
         scheduleData={selectedSchedule}
         onPaymentTrigger={() => {
+          setShowSchedule(false);
           setShowRepayAmount(true);
         }}
       />

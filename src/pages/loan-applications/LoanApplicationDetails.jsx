@@ -38,7 +38,7 @@ const LoanApplicationDetails = ({ onBack }) => {
     if (isPending) return { color: "#F59E0B", bg: "bg-amber-500/10" }; // Pending Amber
     if (status === "Action Required")
       return { color: "#EF4444", bg: "bg-red-500/10" }; // Alert Red
-    return { color: "#94A3B8", bg: "bg-slate-500/10" }; // Default Grey
+    return { color: "#94A3B8", bg: "bg-zinc-950/20 transition-opacity" }; // Default Grey
   };
 
   const { isFetching } = useQuery({
