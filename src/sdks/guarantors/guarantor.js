@@ -25,3 +25,25 @@ export const applicationGuarantors = async (appId) => {
     throw error?.response?.data || error;
   }
 };
+
+export const deleteGuarantor = async (appId, guarantorId) => {
+  try {
+    const response = await loanClient.delete(
+      `/loan-applications/${appId}/guarantors/${guarantorId}`,
+    );
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
+export const commitGuarantors = async (appId) => {
+  try {
+    const response = await loanClient.patch(
+      `/loan-applications/${appId}/guarantors/commit`,
+    );
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};

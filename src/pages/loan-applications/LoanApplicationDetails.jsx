@@ -437,7 +437,7 @@ const LoanApplicationDetails = ({ onBack }) => {
                 )}
               </div>
 
-              <div className="space-y-3 h-[300px] overflow-y-auto pr-1">
+              <div className="space-y-3 h-[300px] rounded-2xl border overflow-y-auto p-3">
                 {loanApplication?.guarantors &&
                 loanApplication.guarantors.length > 0 ? (
                   loanApplication.guarantors.map((g) => (

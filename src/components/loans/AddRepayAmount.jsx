@@ -1,13 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  X,
-  Phone,
-  Info,
-  AlertCircle,
-  ArrowRight,
-  DollarSign,
-  Coins,
-} from "lucide-react";
+import { X, Phone, Info, AlertCircle, ArrowRight, Coins } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 
 const AddRepayAmount = ({

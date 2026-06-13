@@ -24,6 +24,7 @@ import { getLoan } from "../../sdks/loans/loans";
 import { useToast } from "../../contexts/ToastProvider";
 import { useFormatAmount } from "../../hooks/useFormatAmount";
 import useAuth from "../../hooks/useAuth";
+import Schedule from "../../components/schedule/Schedule";
 
 const LoanDetails = () => {
   const { id } = useParams();
@@ -56,6 +57,8 @@ const LoanDetails = () => {
   const [showAddRepayAmount, setShowAddRepayAmount] = useState(false);
   const [showConfirmRepayDetails, setShowConfirmRepayDetails] = useState(false);
   const [showAwaitLoanPayment, setShowAwaitLoanPayment] = useState(false);
+  const [showSchedule, setShowSchedule] = useState(false);
+  const [selectedSchedule, setSelectedSchedule] = useState({});
 
   const [formData, setFormData] = useState({
     phone: auth?.user?.mobileno,
@@ -69,6 +72,14 @@ const LoanDetails = () => {
 
   return (
     <>
+      <Schedule
+        isOpen={showSchedule}
+        onClose={() => setShowSchedule(false)}
+        scheduleData={selectedSchedule}
+        onPaymentTrigger={() => {
+          setShowRepayAmount(true);
+        }}
+      />
       <RepayAmount
         isOpen={showRepayAmount}
         onClose={() => setShowRepayAmount(false)}
@@ -320,7 +331,7 @@ const LoanDetails = () => {
                 sub="Direct M-PESA"
                 description="Instant loan repayment via STK"
                 onClick={() => setShowRepayAmount(true)}
-                variant="emerald"
+                variant="blue"
               />
               <QuickActionButton
                 icon={<FileStack />}
@@ -336,7 +347,7 @@ const LoanDetails = () => {
                 sub="Check Status"
                 description="Track the real-time milestone"
                 onClick={() => navigate("/all-loan-applications")}
-                variant="purple"
+                variant="blue"
               />
               <QuickActionButton
                 icon={<LayoutGrid />}
@@ -344,7 +355,7 @@ const LoanDetails = () => {
                 sub="Explore More"
                 description="Browse custom loan products."
                 onClick={() => navigate("/loan-products")}
-                variant="slate"
+                variant="blue"
               />
             </div>
           </section>
@@ -374,7 +385,13 @@ const LoanDetails = () => {
                 </div>
               ) : (
                 <div className="w-full h-[600px] border rounded-[32px] p-4 overflow-y-auto">
-                  <LoanScheduleList installments={loan?.schedules ?? []} />
+                  <LoanScheduleList
+                    installments={loan?.schedules ?? []}
+                    onSelectInstallment={(schedule) => {
+                      setSelectedSchedule(schedule);
+                      setShowSchedule(true);
+                    }}
+                  />
                 </div>
               )}
             </div>

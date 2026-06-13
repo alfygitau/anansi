@@ -12,6 +12,7 @@ import {
   UserPlus,
   ShieldCheck,
   Smartphone,
+  Loader2,
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -19,6 +20,8 @@ import { useQuery, useMutation } from "react-query";
 import {
   addApplicationGuarantors,
   applicationGuarantors,
+  commitGuarantors,
+  deleteGuarantor,
 } from "../../sdks/guarantors/guarantor";
 import { useToast } from "../../contexts/ToastProvider";
 import { getLoanProduct } from "../../sdks/loans/loans";
@@ -32,10 +35,8 @@ const AddGuarantors = ({ limit = 4 }) => {
   const { showToast } = useToast();
   const [errors, setErrors] = useState({ memberName: "", mobileNumber: "" });
   const [requireCollateral, setRequireCollateral] = useState(false);
-  const [requireGuarantors, setRequireGuarantors] = useState(false);
   const [requireStatements, setRequireStatements] = useState(false);
   const [numberOfGuarantors, setNumberOfGuarantors] = useState(0);
-  const [loanProduct, setLoanProduct] = useState({});
 
   const handleNameBlur = () => {
     let errorMsg = "";
@@ -86,8 +87,6 @@ const AddGuarantors = ({ limit = 4 }) => {
       return response?.data?.data;
     },
     onSuccess: (data) => {
-      setLoanProduct(data);
-      setRequireGuarantors(data?.requires_guarantor);
       setRequireCollateral(data?.requires_collateral);
       setRequireStatements(data?.require_statement);
       setNumberOfGuarantors(data?.min_guarantors);
@@ -132,6 +131,60 @@ const AddGuarantors = ({ limit = 4 }) => {
       });
     },
   });
+
+  const { mutate: deleteMutate, isLoading: deleteLoading } = useMutation({
+    mutationKey: ["delete guarantor"],
+    mutationFn: async (guarantorId) => {
+      const response = await deleteGuarantor(appId, guarantorId);
+      return response.data.data;
+    },
+    onSuccess: (data) => {
+      refetch();
+      showToast({
+        title: "Guarantor deleted Successfully",
+        type: "success",
+        position: "top-right",
+        description: `Guarantor has been removed from the queue.`,
+      });
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const { mutate: commitMutate, isLoading: commitLoading } = useMutation({
+    mutationKey: ["commit guarantor"],
+    mutationFn: async () => {
+      const response = await commitGuarantors(appId);
+      return response.data.data;
+    },
+    onSuccess: (data) => {
+      showToast({
+        title: "Guarantor committed Successfully",
+        type: "success",
+        position: "top-right",
+        description: `Guarantor has been added to the loan application.`,
+      });
+      navigate(`/loan-terms-conditions/${appId}`);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  const handleCommitGuarantors = async () => {
+    await commitMutate();
+  };
 
   const { refetch, isFetching: fetchingGuarantors } = useQuery({
     queryKey: ["get guarantors"],
@@ -389,6 +442,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                             <div className="transition-opacity duration-200 pl-4">
                               <button
                                 type="button"
+                                onClick={() => deleteMutate(g.id)}
                                 className="p-2 rounded-xl bg-white border border-slate-200/60 text-slate-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50/50 transition-all shadow-sm flex items-center justify-center"
                                 title="Remove this guarantor"
                               >
@@ -475,10 +529,12 @@ const AddGuarantors = ({ limit = 4 }) => {
                 return (
                   <button
                     type="button"
-                    onClick={() => navigate(`/loan-terms-conditions/${appId}`)}
+                    disabled={commitLoading}
+                    onClick={handleCommitGuarantors}
                     className="w-full h-16 bg-[#1A1C1E] text-white rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:bg-black transition-all shadow-xl shadow-slate-900/10 group animate-fade-in"
                   >
-                    Review Terms & Apply
+                    {commitLoading && <Loader2 />}
+                    Send Invites & Continue to Terms
                     <ArrowRight
                       size={18}
                       className="group-hover:translate-x-1 transition-transform"
