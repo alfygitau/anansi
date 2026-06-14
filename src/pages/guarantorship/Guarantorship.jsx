@@ -378,9 +378,11 @@ const Guarantorship = () => {
                             <div className="flex-grow items-center">
                               <div className="flex justify-between items-center mb-1">
                                 <div className="flex flex-col gap-1">
-                                  {/* Borrower Name as a premium subtitle */}
+                                  {/* Borrower Name as a premium subtitle + Product details and App ID */}
                                   <span className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">
-                                    Request from {request?.borrower?.name}
+                                    Request from {request?.borrower?.name} •{" "}
+                                    {request?.product?.product_name ||
+                                      "Facility"}{" "}
                                   </span>
                                   {/* Large Message Body - Guaranteed 2 lines */}
                                   <p className="text-base font-medium text-slate-800 pr-8 leading-snug line-clamp-4">
@@ -393,7 +395,7 @@ const Guarantorship = () => {
                               {/* Metadata & Actions */}
                               <div className="flex sm:mt-3 items-center justify-between">
                                 <div className="flex-col items-start md:flex gap-3">
-                                  <span className="text-xs text-slate-400 sm:mb-2 flex items-center gap-1.5 font-medium">
+                                  <span className="text-xs text-slate-400 sm:mb-2 flex flex-wrap items-center gap-1.5 font-medium">
                                     <Clock
                                       size={14}
                                       className="text-slate-300"
@@ -405,6 +407,15 @@ const Guarantorship = () => {
                                       day: "numeric",
                                       year: "numeric",
                                     })}
+                                    <span className="text-slate-200 mx-0.5">
+                                      •
+                                    </span>
+                                    <span className="text-slate-600 font-semibold">
+                                      Target: KES{" "}
+                                      {new Intl.NumberFormat("en-KE").format(
+                                        request?.application?.applied_amount,
+                                      )}
+                                    </span>
                                   </span>
 
                                   <button
