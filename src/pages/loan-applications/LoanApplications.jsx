@@ -130,7 +130,7 @@ const LoanApplications = () => {
                         title={app?.loan_product?.product_name}
                         date={app?.created_at}
                         amount={app?.applied_amount}
-                        status={app?.status}
+                        status={app?.status_label}
                         reference={app?.application_number}
                         onTap={() =>
                           navigate(`/loan-application-details/${app?.id}`)

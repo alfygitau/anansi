@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ArrowRight, Info, Landmark } from "lucide-react";
+import { X, ArrowRight, Info, Landmark, Coins } from "lucide-react";
 
 const GuaranteeAmount = ({
   isOpen,
@@ -37,7 +37,7 @@ const GuaranteeAmount = ({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="relative w-full max-w-md bg-white shadow-2xl flex flex-col h-full border-l border-slate-100"
+            className="relative w-full max-w-[480px] bg-white shadow-2xl flex flex-col h-full border-l border-slate-100"
           >
             {/* Header */}
             <div className="p-6 border-b border-slate-50 flex items-center justify-between">
@@ -60,7 +60,7 @@ const GuaranteeAmount = ({
             </div>
 
             {/* Content Body */}
-            <div className="flex-1 overflow-y-auto p-8 flex flex-col">
+            <div className="flex-1 overflow-y-auto p-8 py-5 flex flex-col">
               <div className="mb-6">
                 <h4 className="text-xl font-bold text-slate-900 mb-2">
                   How much will you back?
@@ -77,10 +77,13 @@ const GuaranteeAmount = ({
                   <label className="text-[10px] font-medium uppercase tracking-widest text-slate-400 mb-2 block ml-2">
                     Guarantee Amount
                   </label>
-                  <div className="relative flex items-center">
-                    {/* Currency Prefix */}
-                    <div className="absolute left-6 text-sm font-medium text-slate-400">
-                      KES
+                  <div className="relative flex items-center group">
+                    {/* Absolute Prefix Block with Icon & Vertical Divider */}
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
+                      <span className="text-slate-400 group-focus-within:text-blue-600 transition-colors">
+                        <Coins size={18} className="stroke-[2.25]" />
+                      </span>
+                      <div className="w-[1.5px] h-5 bg-slate-200 ml-3 group-focus-within:bg-blue-600/20 transition-colors" />
                     </div>
 
                     <input
@@ -88,7 +91,7 @@ const GuaranteeAmount = ({
                       value={amount}
                       onChange={handleInputChange}
                       placeholder="0.00"
-                      className="w-full pl-16 pr-8 py-3 bg-slate-100 border-2 border-transparent rounded-[12px] text-2xl font-medium text-slate-900 outline-none transition-all focus:bg-white focus:border-blue-600 focus:shadow-2xl focus:shadow-blue-900/5 placeholder:text-slate-300"
+                      className="w-full pl-[72px] pr-8 py-3 bg-white border-2 border-slate-100 rounded-[12px] text-xl font-semibold text-slate-900 outline-none transition-all placeholder:text-slate-300"
                     />
                   </div>
                 </div>
@@ -99,30 +102,27 @@ const GuaranteeAmount = ({
                     <Info size={16} />
                   </div>
                   <p className="text-[11px] leading-relaxed text-amber-900 font-semibold">
-                    Ensure this amount does not exceed your{" "}
-                    <span className="underline decoration-amber-300">
-                      Available Deposits
-                    </span>
-                    . You can only guarantee what is uncommitted from your
+                    Ensure this amount does not exceed your available deposits .
+                    You can only guarantee what is uncommitted from your
                     savings.
                   </p>
                 </div>
-              </div>
 
-              {/* Quick Suggestions (Optional but Premium) */}
-              <div className="mt-auto pt-10">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="h-px flex-1 bg-slate-100"></div>
-                  <span className="text-[9px] font-medium uppercase text-slate-300">
-                    Secure Transaction
-                  </span>
-                  <div className="h-px flex-1 bg-slate-100"></div>
+                <div className="p-5 bg-amber-50 rounded-2xl border border-amber-100/50 flex items-center gap-4">
+                  <div className="size-8 rounded-full bg-white flex items-center justify-center text-amber-600 shrink-0 shadow-sm">
+                    <Info size={16} />
+                  </div>
+                  <p className="text-[11px] leading-relaxed text-amber-900 font-semibold">
+                    Ensure this amount does not exceed the requested loan amount
+                    . You cannot allocate, request, or guarantee a value that
+                    surpasses the absolute size of the active facility.
+                  </p>
                 </div>
               </div>
             </div>
 
             {/* Footer Action */}
-            <div className="p-8 border-t border-slate-50">
+            <div className="p-8 py-5 border-t border-slate-50">
               <button
                 onClick={handleContinue}
                 disabled={!amount || parseFloat(amount) <= 0}

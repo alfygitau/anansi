@@ -24,20 +24,19 @@ export const getGuarantorshipSummary = async (customerId) => {
 };
 
 export const acceptGuarantorRequest = async (
-  guarantor,
-  requestor,
+  requestId,
   amount,
   reason,
-  status,
+  decision,
+  customerId,
 ) => {
   try {
-    const response = await loanClient.post(
-      `/guarantors/${guarantor}/respond/${requestor}`,
+    const response = await loanClient.patch(
+      `/loan-applications/guarantor-requests/${requestId}/respond?customer_id=${customerId}`,
       {
-        isAccepted: true,
-        status: status,
-        amountGuaranteed: amount,
-        responseReason: reason,
+        decision: decision,
+        amount_guaranteed: amount,
+        reason: reason,
       },
     );
     return response;

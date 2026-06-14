@@ -14,13 +14,13 @@ import {
 const FinalConfirmation = ({
   isOpen,
   onClose,
-  borrowerDetails,
+  request,
   guaranteeAmount,
   onFinalize,
   isLoading,
 }) => {
   const [agreed, setAgreed] = useState(false);
-  const loanInfo = borrowerDetails?.loanInfo || {};
+  const loanInfo = request?.application || {};
 
   const formatCurrency = (val) => {
     return Intl.NumberFormat("en-US", {
@@ -51,7 +51,7 @@ const FinalConfirmation = ({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 200 }}
-            className="relative w-full max-w-md bg-[#FDFDFD] shadow-2xl flex flex-col h-full border-l border-white"
+            className="relative w-full max-w-[480px] bg-[#FDFDFD] shadow-2xl flex flex-col h-full border-l border-white"
           >
             {/* Header: Trust Indicators */}
             <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-white/80 backdrop-blur-md sticky top-0 z-10">
@@ -113,7 +113,7 @@ const FinalConfirmation = ({
                       Full Name
                     </p>
                     <p className="text-sm font-medium text-slate-900">
-                      {borrowerDetails?.borrowerName}
+                      {request?.borrower?.name}
                     </p>
                   </div>
                   <div className="text-right">
@@ -121,7 +121,7 @@ const FinalConfirmation = ({
                       Phone
                     </p>
                     <p className="text-sm font-bold text-slate-900">
-                      {borrowerDetails?.borrowerPhone}
+                      {request?.borrower?.mobile}
                     </p>
                   </div>
                 </div>
@@ -141,21 +141,13 @@ const FinalConfirmation = ({
                       Requested Principal
                     </span>
                     <span className="font-medium text-slate-900">
-                      KES {formatCurrency(loanInfo?.loanamount)}
+                      KES {formatCurrency(loanInfo?.applied_amount)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center text-xs">
                     <span className="font-semibold text-slate-500">Tenure</span>
                     <span className="font-medium text-slate-900">
-                      {loanInfo?.loanperiod} Days
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="font-semibold text-slate-500">
-                      Interest Rate
-                    </span>
-                    <span className="font-medium text-emerald-600">
-                      {loanInfo?.loaninterest}% p.m
+                      {loanInfo?.loan_period} Months
                     </span>
                   </div>
                   <div className="pt-4 border-t border-emerald-100 flex justify-between items-center">
@@ -163,7 +155,7 @@ const FinalConfirmation = ({
                       Total Liability
                     </span>
                     <span className="text-sm font-medium text-blue-600">
-                      KES {formatCurrency(loanInfo?.loanrepaymentamount)}
+                      KES {formatCurrency(loanInfo?.applied_amount)}
                     </span>
                   </div>
                 </div>
@@ -204,7 +196,7 @@ const FinalConfirmation = ({
             </div>
 
             {/* Footer Actions */}
-            <div className="p-8 bg-white border-t border-slate-100">
+            <div className="p-8 py-5 bg-white border-t border-slate-100">
               <button
                 onClick={handleFinish}
                 disabled={!agreed || isLoading}

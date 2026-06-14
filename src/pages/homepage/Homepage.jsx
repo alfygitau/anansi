@@ -780,7 +780,7 @@ const Homepage = () => {
                     title={app?.product?.name}
                     date={app?.application_date}
                     amount={app?.applied_amount}
-                    status={app?.status}
+                    status={app?.status_label}
                     reference={app?.application_number}
                     onTap={() =>
                       navigate(`/loan-application-details/${app?.id}`)

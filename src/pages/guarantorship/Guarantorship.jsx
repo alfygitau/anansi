@@ -38,7 +38,7 @@ const Guarantorship = () => {
   const [showDeclineRequestSuccess, setShowDeclineRequestSuccess] =
     useState(false);
   const { showToast } = useToast();
-  const [borrowerDetails, setBorrowerDetails] = useState({});
+  const [requestDetails, setRequestDetails] = useState({});
   const [amount, setAmount] = useState("");
   const [reason, setReason] = useState("");
   const { auth } = useAuth();
@@ -66,7 +66,7 @@ const Guarantorship = () => {
     queryKey: ["guarantor requests"],
     queryFn: async () => {
       const response = await getGuarantorRequests(auth?.user?.id);
-      return response.data.data;
+      return response.data.data?.requests;
     },
     onSuccess: (data) => {
       setRequests(data);
@@ -86,11 +86,11 @@ const Guarantorship = () => {
       mutationKey: ["accept guarantor request"],
       mutationFn: () =>
         acceptGuarantorRequest(
-          borrowerDetails?.guarantorId,
-          borrowerDetails?.id,
+          requestDetails?.id,
           amount,
           "I have a strong faith in the borrower ability to repay a loan",
-          "accepted",
+          "approve",
+          auth?.user?.id,
         ),
       onSuccess: () => {
         setAmount("");
@@ -113,8 +113,8 @@ const Guarantorship = () => {
       mutationKey: ["decline guarantor request"],
       mutationFn: () =>
         acceptGuarantorRequest(
-          borrowerDetails?.guarantorId,
-          borrowerDetails?.id,
+          requestDetails?.guarantorId,
+          requestDetails?.id,
           0,
           reason,
           "rejected",
@@ -167,7 +167,7 @@ const Guarantorship = () => {
       <ReviewRequest
         isOpen={showReviewRequest}
         onClose={() => setShowReviewRequest(false)}
-        borrowerDetails={borrowerDetails}
+        request={requestDetails}
         onContinue={() => {
           setShowReviewRequest(false);
           setShowGuaranteeAmount(true);
@@ -200,7 +200,7 @@ const Guarantorship = () => {
       <FinalConfirmation
         isOpen={showFinalConfirmation}
         onClose={() => setShowFinalConfirmation(false)}
-        borrowerDetails={borrowerDetails}
+        request={requestDetails}
         guaranteeAmount={amount}
         isLoading={confirmingRequest}
         onFinalize={acceptGuarantorMutate}
@@ -209,7 +209,7 @@ const Guarantorship = () => {
       <AcceptRequestSuccess
         isOpen={showAcceptRequestSuccess}
         onClose={() => setShowAcceptRequestSuccess(false)}
-        loanCode={borrowerDetails?.loanInfo?.loancode}
+        loanCode={requestDetails?.loanInfo?.loancode}
       />
 
       <DeclineRequestSuccess
@@ -368,11 +368,11 @@ const Guarantorship = () => {
                         requests?.map((request) => (
                           <div
                             key={request.id}
-                            className="group flex flex-col md:flex-row items-start md:items-center gap-6 p-6 rounded-3xl bg-white border border-slate-100 md:bg-slate-50/50 md:border-transparent hover:border-slate-200 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300"
+                            className="group flex flex-col md:flex-row items-start md:items-center gap-6 p-6 rounded-3xl bg-white border border-slate-100 md:bg-slate-100/50 md:border-transparent hover:border-slate-200 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300"
                           >
                             {/* Avatar Section - Scaled slightly for larger card */}
                             <div className="w-14 h-14 rounded-full bg-blue-100 shrink-0 flex items-center justify-center text-primary font-bold text-base">
-                              {getInitials(request?.borrowerName)}
+                              {getInitials(request?.borrower?.name)}
                             </div>
 
                             <div className="flex-grow items-center">
@@ -380,7 +380,7 @@ const Guarantorship = () => {
                                 <div className="flex flex-col gap-1">
                                   {/* Borrower Name as a premium subtitle */}
                                   <span className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">
-                                    Request from {request?.borrowerName}
+                                    Request from {request?.borrower?.name}
                                   </span>
                                   {/* Large Message Body - Guaranteed 2 lines */}
                                   <p className="text-base font-medium text-slate-800 pr-8 leading-snug line-clamp-4">
@@ -399,7 +399,7 @@ const Guarantorship = () => {
                                       className="text-slate-300"
                                     />{" "}
                                     {new Date(
-                                      request?.createdAt,
+                                      request?.created_at,
                                     ).toLocaleDateString(undefined, {
                                       month: "long",
                                       day: "numeric",
@@ -409,7 +409,7 @@ const Guarantorship = () => {
 
                                   <button
                                     onClick={() => {
-                                      setBorrowerDetails(request);
+                                      setRequestDetails(request);
                                       setShowReviewRequest(true);
                                     }}
                                     className="text-xs font-medium text-secondary uppercase tracking-wider hover:text-primary transition-colors flex items-center gap-1"
@@ -426,7 +426,7 @@ const Guarantorship = () => {
                               <ChevronRight
                                 size={20}
                                 onClick={() => {
-                                  setBorrowerDetails(request);
+                                  setRequestDetails(request);
                                   setShowReviewRequest(true);
                                 }}
                                 className="text-slate-300 cursor-pointer group-hover:text-secondary transition-transform group-hover:translate-x-1"

@@ -6,17 +6,19 @@ import {
   XCircle,
   ArrowRight,
   LayoutGrid,
+  Hash,
+  Tag,
 } from "lucide-react";
 
 const ReviewRequest = ({
   isOpen,
   onClose,
-  borrowerDetails,
+  request,
   onContinue,
   onDecline,
 }) => {
-  const borrowerInfo = borrowerDetails || {};
-  const loanInfo = borrowerDetails?.loanInfo || {};
+  const borrowerInfo = request?.borrower || {};
+  const loanInfo = request?.application || {};
 
   const formatCurrency = (val) => {
     return Intl.NumberFormat("en-US", {
@@ -69,22 +71,26 @@ const ReviewRequest = ({
                   </h3>
                   <span
                     className={`text-[8px] px-2 py-0.5 rounded-md font-medium uppercase tracking-wider border ${
-                      borrowerInfo?.status === "pending"
+                      request?.status?.toLowerCase() === "pending"
                         ? "bg-amber-100 text-amber-700 border-amber-200/40"
-                        : borrowerInfo?.status === "accepted" ||
-                            borrowerInfo?.status === "approved"
+                        : request?.status?.toLowerCase() ===
+                              "accepted" ||
+                            request?.status?.toLowerCase() ===
+                              "approved"
                           ? "bg-emerald-50 text-emerald-700 border-emerald-100"
-                          : borrowerInfo?.status === "rejected" ||
-                              borrowerInfo?.status === "declined"
+                          : request?.status?.toLowerCase() ===
+                                "rejected" ||
+                              request?.status?.toLowerCase() ===
+                                "declined"
                             ? "bg-red-50 text-red-600 border-red-100/60"
                             : "bg-slate-50 text-slate-500 border-slate-200/60"
                     }`}
                   >
-                    {borrowerInfo?.status}
+                    {request?.status}
                   </span>
                 </div>
-                <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">
-                  Guarantorship Protocol
+                <p className="text-[10px] font-bold text-primary uppercase tracking-widest">
+                  Guarantorship
                 </p>
               </div>
             </div>
@@ -112,7 +118,7 @@ const ReviewRequest = ({
                       Full Name
                     </span>
                     <span className="text-sm font-medium text-slate-900">
-                      {borrowerInfo?.borrowerName || "---"}
+                      {borrowerInfo?.name || "---"}
                     </span>
                   </div>
                   <div className="flex justify-between items-end border-b border-slate-100 pb-2">
@@ -120,7 +126,7 @@ const ReviewRequest = ({
                       Phone Number
                     </span>
                     <span className="text-sm font-bold text-slate-900 tracking-tight">
-                      {borrowerInfo?.borrowerPhone || "---"}
+                      {borrowerInfo?.mobile || "---"}
                     </span>
                   </div>
                 </div>
@@ -128,27 +134,46 @@ const ReviewRequest = ({
 
               {/* Loan Parameters */}
               <section>
-                <div className="flex items-center gap-3 mb-2">
+                <div className="flex items-center justify-between mb-2">
                   <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400">
-                    Loan Parameters
+                    Loan Application Parameters
                   </span>
                 </div>
 
                 <div className="bg-slate-50 rounded-[12px] p-4">
+                  {/* Requested Amount Block */}
                   <div className="mb-4">
                     <p className="text-[9px] font-medium text-slate-400 uppercase tracking-widest mb-1">
                       Requested Amount
                     </p>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-xs font-bold text-blue-600">
+                      <span className="text-xs font-bold text-primary">
                         KES
                       </span>
                       <span className="text-3xl font-medium text-slate-900">
-                        {formatCurrency(loanInfo?.loanamount)}
+                        {formatCurrency(loanInfo?.applied_amount)}
                       </span>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-6 pt-6 border-t border-slate-200/60">
+
+                  {/* Intermediate Row: Loan Product Descriptor */}
+                  <div className="pt-3 pb-3 border-t border-slate-200/60 flex items-center gap-2">
+                    <div className="size-5 rounded-md bg-white border border-slate-200/80 flex items-center justify-center text-slate-400 shrink-0">
+                      <Tag size={10} />
+                    </div>
+                    <div>
+                      <p className="text-[9px] font-medium text-slate-400 uppercase tracking-widest">
+                        Loan Product
+                      </p>
+                      <p className="text-sm font-bold text-[#074073] tracking-tight capitalize mt-0.5">
+                        {request?.product?.product_name || "Standard Facility Loan"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Parameters Grid */}
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-4 pt-4 border-t border-slate-200/60">
+                    {/* Parameter 1: Tenure */}
                     <div className="space-y-1">
                       <div className="flex items-center gap-1.5 text-slate-400">
                         <Calendar size={10} />
@@ -157,29 +182,41 @@ const ReviewRequest = ({
                         </p>
                       </div>
                       <p className="text-sm font-bold text-slate-800">
-                        {loanInfo?.loanperiod} Days
+                        {loanInfo?.loan_period} Months
                       </p>
                     </div>
+
+                    {/* Parameter 2: Application Date */}
                     <div className="space-y-1">
                       <div className="flex items-center gap-1.5 text-slate-400">
-                        <LayoutGrid size={10} />
+                        <Calendar size={10} />
                         <p className="text-[9px] font-medium uppercase tracking-widest">
-                          Interest
+                          Application Date
                         </p>
                       </div>
-                      <p className="text-sm font-bold text-emerald-600">
-                        {loanInfo?.loaninterest}% p.m
+                      <p className="text-sm font-bold text-slate-800">
+                        {loanInfo?.application_date
+                          ? new Date(
+                              loanInfo.application_date,
+                            ).toLocaleDateString("en-KE", {
+                              day: "numeric",
+                              month: "short",
+                              year: "numeric",
+                            })
+                          : "—"}
                       </p>
                     </div>
-                  </div>
-                  <div className="mt-4 p-4 bg-white rounded-2xl border border-slate-100">
-                    <div className="flex justify-between items-center">
-                      <span className="text-[10px] font-medium text-slate-400 uppercase">
-                        Repayment
-                      </span>
-                      <span className="text-sm font-medium text-blue-600">
-                        KES {formatCurrency(loanInfo?.loanrepaymentamount)}
-                      </span>
+
+                    {/* Parameter 3: Full Application Number (Spans across both columns if long) */}
+                    <div className="space-y-1 col-span-2 pt-2 border-t border-slate-100">
+                      <div className="flex items-center gap-1.5 text-slate-400">
+                        <p className="text-[9px] font-medium uppercase tracking-widest">
+                          Application Number
+                        </p>
+                      </div>
+                      <p className="text-xs font-mono font-bold text-slate-700 tracking-tight">
+                        {loanInfo?.application_number || "Pending Assignment"}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -187,8 +224,8 @@ const ReviewRequest = ({
             </div>
 
             {/* Footer Actions */}
-            <div className="p-8 bg-white border-t border-slate-100 shadow-[0_-10px_40px_rgba(0,0,0,0.02)]">
-              {borrowerInfo?.status === "pending" ? (
+            <div className="p-8 py-5 bg-white border-t border-slate-100 shadow-[0_-10px_40px_rgba(0,0,0,0.02)]">
+              {request?.status?.toLowerCase() === "pending" ? (
                 <div className="grid grid-cols-2 gap-4">
                   <button
                     onClick={handleDecline}
@@ -207,17 +244,17 @@ const ReviewRequest = ({
               ) : (
                 <div
                   className={`h-14 w-full rounded-2xl flex items-center justify-center gap-3 font-medium text-[11px] uppercase tracking-widest border-2 ${
-                    borrowerInfo?.status === "accepted"
+                    request?.status?.toLowerCase() === "approved"
                       ? "bg-emerald-50 border-emerald-100 text-emerald-600"
                       : "bg-rose-50 border-rose-100 text-rose-600"
                   }`}
                 >
-                  {borrowerInfo?.status === "accepted" ? (
+                  {request?.status?.toLowerCase() === "approved" ? (
                     <CheckCircle size={18} />
                   ) : (
                     <XCircle size={18} />
                   )}
-                  Guarantorship {borrowerInfo?.status}
+                  Guarantorship {request?.status?.toLowerCase()}
                 </div>
               )}
             </div>
