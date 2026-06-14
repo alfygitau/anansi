@@ -15,9 +15,13 @@ import {
   TrendingDown,
   Percent,
   Loader2,
+  Folder,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useToast } from "../../contexts/ToastProvider";
+import { useQuery } from "react-query";
+import { getLoanStatements } from "../../sdks/loans/loans";
+import useAuth from "../../hooks/useAuth";
 
 // 1. PREMIUM STATIC DATA MATRIX
 const STATIC_LOANS = [
@@ -108,6 +112,8 @@ const MyLoanStatements = () => {
   const [year, setYear] = useState("");
   const [loanId, setLoanId] = useState("");
   const [loadingStatement, setLoadingStatement] = useState(false);
+  const { auth } = useAuth();
+  const [loanStatements, setLoanStatements] = useState([]);
 
   const currentYear = 2026;
   const yearsArray = Array.from({ length: 6 }, (_, index) =>
@@ -161,6 +167,25 @@ const MyLoanStatements = () => {
       });
     }, 1800);
   };
+
+  useQuery({
+    queryKey: ["loan statements"],
+    queryFn: async () => {
+      const response = await getLoanStatements(auth?.user?.id);
+      return response.data?.data;
+    },
+    onSuccess: (data) => {
+      setLoanStatements(data);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
 
   return (
     <div className="bg-slate-50 text-primary">
@@ -397,7 +422,7 @@ const StatementListItem = ({ stmt, onDownload }) => (
       {/* Product Title Group */}
       <div className="flex items-center gap-3.5 min-w-0 md:w-1/3">
         <div className="w-11 h-11 shrink-0 rounded-xl bg-slate-50 border border-slate-200/30 flex items-center justify-center text-slate-700 transition-colors group-hover:bg-primary group-hover:text-white group-hover:border-primary">
-          <Receipt size={18} />
+          <Folder size={18} />
         </div>
         <div className="min-w-0">
           <h4 className="font-extrabold text-primary text-sm leading-tight truncate">
@@ -420,7 +445,7 @@ const StatementListItem = ({ stmt, onDownload }) => (
             })}
           </p>
           <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-0.5">
-            Start Balance Date
+            Start Date
           </p>
         </div>
 
@@ -433,7 +458,7 @@ const StatementListItem = ({ stmt, onDownload }) => (
             })}
           </p>
           <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-0.5">
-            Closing Audit Date
+            Closing Date
           </p>
         </div>
       </div>

@@ -23,6 +23,7 @@ import DeclineRequest from "../../components/guarantorship/DeclineRequest";
 import FinalConfirmation from "../../components/guarantorship/FinalConfirmation";
 import AcceptRequestSuccess from "../../components/guarantorship/AcceptRequestSuccess";
 import DeclineRequestSuccess from "../../components/guarantorship/DeclineRequestSuccess";
+import useAuth from "../../hooks/useAuth";
 
 const Guarantorship = () => {
   const [activeTab, setActiveTab] = useState("Requests");
@@ -40,12 +41,13 @@ const Guarantorship = () => {
   const [borrowerDetails, setBorrowerDetails] = useState({});
   const [amount, setAmount] = useState("");
   const [reason, setReason] = useState("");
+  const { auth } = useAuth();
 
   const { isFetching, refetch: refetchSummary } = useQuery({
     queryKey: ["guarantorship summary"],
     queryFn: async () => {
-      const response = await getGuarantorshipSummary();
-      return response.data;
+      const response = await getGuarantorshipSummary(auth?.user?.id);
+      return response.data?.data;
     },
     onSuccess: (data) => {
       setSummary(data);
@@ -63,7 +65,7 @@ const Guarantorship = () => {
   const { refetch: refetchRequests } = useQuery({
     queryKey: ["guarantor requests"],
     queryFn: async () => {
-      const response = await getGuarantorRequests();
+      const response = await getGuarantorRequests(auth?.user?.id);
       return response.data.data;
     },
     onSuccess: (data) => {
@@ -147,10 +149,6 @@ const Guarantorship = () => {
     await refetchSummary();
   };
 
-  /**
-   * Converts a number or string into a formatted KES string.
-   * Example: 3000 -> KES 3,000.00
-   */
   const formatKES = (amount) => {
     // Handle cases where amount might be 0 or null
     const numericAmount = Number(amount) || 0;
@@ -289,11 +287,15 @@ const Guarantorship = () => {
                 </p>
               </div>
               <div
-                className={`flex items-center gap-2 px-4 py-2 rounded-full border-2 ${summary?.ifEligible ? "bg-emerald-50 border-emerald-100 text-emerald-700" : "bg-rose-50 border-rose-100 text-rose-700"}`}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full border-2 ${
+                  Number(summary?.available_to_guarantee) !== 0
+                    ? "bg-emerald-50 border-emerald-100 text-emerald-700"
+                    : "bg-rose-50 border-rose-100 text-rose-700"
+                }`}
               >
                 <ShieldCheck size={18} />
                 <span className="text-sm font-bold">
-                  {summary?.ifEligible
+                  {Number(summary?.available_to_guarantee) !== 0
                     ? "Eligible to Guarantee"
                     : "Not Eligible"}
                 </span>
@@ -305,19 +307,19 @@ const Guarantorship = () => {
               <StatCard
                 icon={<History className="text-blue-500" />}
                 label="Active Guarantees"
-                value={summary?.guaranteedLoans?.length}
+                value={summary?.guaranteed_loans?.length}
                 sub="Current Loans"
               />
               <StatCard
                 icon={<Wallet className="text-emerald-500" />}
                 label="Available Balance"
-                value={formatKES(summary?.availableBalance)}
+                value={formatKES(summary?.available_to_guarantee)}
                 sub="To guarantee"
               />
               <StatCard
                 icon={<Users className="text-amber-500" />}
                 label="Total Guaranteed"
-                value={formatKES(summary?.totalAmountAlreadyGuaranteed)}
+                value={formatKES(summary?.amount_guaranteed)}
                 sub="Cumulative amount"
               />
             </div>
@@ -448,8 +450,8 @@ const Guarantorship = () => {
                       exit={{ opacity: 0, x: 10 }}
                       className="grid grid-cols-1 md:grid-cols-2 gap-4"
                     >
-                      {summary?.guaranteedLoans?.length > 0 ? (
-                        summary?.guaranteedLoans.map((loan, idx) => (
+                      {summary?.guaranteed_loans?.length > 0 ? (
+                        summary?.guaranteed_loans.map((loan, idx) => (
                           <div
                             key={idx}
                             className="p-6 rounded-2xl border border-slate-100 bg-slate-50/30 flex justify-between items-center"

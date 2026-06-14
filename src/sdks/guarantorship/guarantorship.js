@@ -1,17 +1,22 @@
 import { client } from "../client/client";
+import { loanClient } from "../client/loan-client";
 
-export const getGuarantorRequests = async () => {
+export const getGuarantorRequests = async (customerId) => {
   try {
-    const response = await client.get(`/guarantors/guarantor-requests`);
+    const response = await loanClient.get(
+      `/loan-applications/guarantor-requests?customer_id=${customerId}`,
+    );
     return response;
   } catch (error) {
     throw error?.response?.data || error;
   }
 };
 
-export const getGuarantorshipSummary = async () => {
+export const getGuarantorshipSummary = async (customerId) => {
   try {
-    const response = await client.get(`/guarantors/eligibility`);
+    const response = await loanClient.get(
+      `/loan-applications/guarantorship/eligibility?customer_id=${customerId}`,
+    );
     return response;
   } catch (error) {
     throw error?.response?.data || error;
@@ -23,10 +28,10 @@ export const acceptGuarantorRequest = async (
   requestor,
   amount,
   reason,
-  status
+  status,
 ) => {
   try {
-    const response = await client.post(
+    const response = await loanClient.post(
       `/guarantors/${guarantor}/respond/${requestor}`,
       {
         isAccepted: true,

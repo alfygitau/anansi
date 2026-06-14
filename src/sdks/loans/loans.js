@@ -68,3 +68,35 @@ export const getLoan = async (loanId) => {
     throw error?.response?.data || error;
   }
 };
+
+export const getLoanStatements = async (customerId) => {
+  try {
+    const response = await loanClient.get(`/loans/statements?customer_id=${customerId}`);
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
+export const repayLoan = async (
+  loanId,
+  amount,
+  phone_number,
+  account_reference,
+  idempotency_key,
+) => {
+  try {
+    const response = await loanClient.post(`/mpesa/loan-repayments/stk-push`, {
+      loan_id: loanId,
+      amount: 22000,
+      phone_number: phone_number,
+      org_code: "BA208",
+      account_reference: account_reference,
+      description: `Loan repayment ${account_reference}`,
+      idempotency_key: idempotency_key,
+    });
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};

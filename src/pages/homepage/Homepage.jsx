@@ -113,7 +113,7 @@ const Homepage = () => {
     },
     {
       id: "statements",
-      label: "Statements",
+      label: "Account Statements",
       description: "Export certified ledger histories.",
       icon: <Folder size={24} />,
       onClick: () => navigate("/statements"),
