@@ -113,11 +113,11 @@ const Guarantorship = () => {
       mutationKey: ["decline guarantor request"],
       mutationFn: () =>
         acceptGuarantorRequest(
-          requestDetails?.guarantorId,
           requestDetails?.id,
           0,
           reason,
-          "rejected",
+          "decline",
+          auth?.user?.id,
         ),
       onSuccess: () => {
         setReason("");
