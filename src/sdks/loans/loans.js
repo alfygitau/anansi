@@ -78,6 +78,15 @@ export const getLoanStatements = async (customerId) => {
   }
 };
 
+export const pollLoanRepaymentStatus = async (paymentId) => {
+  try {
+    const response = await loanClient.get(`/mpesa/loan-repayments/${paymentId}/status`);
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
 export const repayLoan = async (
   loanId,
   amount,
@@ -88,7 +97,7 @@ export const repayLoan = async (
   try {
     const response = await loanClient.post(`/mpesa/loan-repayments/stk-push`, {
       loan_id: loanId,
-      amount: 22000,
+      amount: amount,
       phone_number: phone_number,
       org_code: "BA208",
       account_reference: account_reference,

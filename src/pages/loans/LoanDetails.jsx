@@ -19,8 +19,12 @@ import AddRepayAmount from "../../components/loans/AddRepayAmount";
 import ConfirmRepayDetails from "../../components/loans/ConfirmRepayDetails";
 import AwaitLoanPayment from "../../components/loans/AwaitLoanPayment";
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "react-query";
-import { getLoan } from "../../sdks/loans/loans";
+import { useQuery, useMutation } from "react-query";
+import {
+  getLoan,
+  pollLoanRepaymentStatus,
+  repayLoan,
+} from "../../sdks/loans/loans";
 import { useToast } from "../../contexts/ToastProvider";
 import { useFormatAmount } from "../../hooks/useFormatAmount";
 import useAuth from "../../hooks/useAuth";
@@ -33,7 +37,7 @@ const LoanDetails = () => {
   const formatAmount = useFormatAmount();
   const { auth } = useAuth();
 
-  const { isFetching } = useQuery({
+  const { refetch, isFetching } = useQuery({
     queryKey: ["get loan", id],
     queryFn: async () => {
       const response = await getLoan(id);
@@ -59,11 +63,68 @@ const LoanDetails = () => {
   const [showAwaitLoanPayment, setShowAwaitLoanPayment] = useState(false);
   const [showSchedule, setShowSchedule] = useState(false);
   const [selectedSchedule, setSelectedSchedule] = useState({});
+  const [paymentId, setPaymentId] = useState("");
 
   const [formData, setFormData] = useState({
     phone: auth?.user?.mobileno,
     amount: "",
     accountType: "loan",
+  });
+
+  const generateUniqueId = () => {
+    return crypto.randomUUID();
+  };
+
+  const { mutate, isLoading } = useMutation({
+    mutationKey: ["repay loan"],
+    mutationFn: async () => {
+      const response = await repayLoan(
+        loan?.id,
+        formData?.amount,
+        formData?.phone,
+        loan?.loan_code,
+        generateUniqueId(),
+      );
+      return response?.data?.data;
+    },
+    onSuccess: (data) => {
+      setPaymentId(data?.id);
+      setShowConfirmRepayDetails(false);
+      setShowAwaitLoanPayment(true);
+    },
+    onError: (error) => {
+      showToast({
+        title: "Application Failure",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
+  });
+
+  useQuery({
+    queryKey: ["poll loan repayment"],
+    queryFn: async () => {
+      const response = await pollLoanRepaymentStatus(paymentId);
+      return response.data.data?.terminal;
+    },
+    enabled: !!showAwaitLoanPayment,
+    onSuccess: async (data) => {
+      if (data) {
+        setShowAwaitLoanPayment(false);
+        refetch();
+      }
+    },
+    refetchInterval: 3000,
+    refetchIntervalInBackground: true,
+    onErrors: (error) => {
+      showToast({
+        title: "Authentication glitch",
+        type: "error",
+        position: "top-right",
+        description: error?.response?.data?.message || error.message,
+      });
+    },
   });
 
   if (isFetching) {
@@ -98,7 +159,6 @@ const LoanDetails = () => {
       <AddRepayAmount
         isOpen={showAddRepayAmount}
         onClose={() => setShowAddRepayAmount(false)}
-        minimumPayable={2000}
         formData={formData}
         setFormData={setFormData}
         onContinue={() => {
@@ -111,18 +171,13 @@ const LoanDetails = () => {
         onClose={() => setShowConfirmRepayDetails(false)}
         amount={formData?.amount ?? 0}
         phoneNumber={formData?.phone ?? ""}
-        onConfirm={() => {
-          setShowConfirmRepayDetails(false);
-          setShowAwaitLoanPayment(true);
-        }}
+        onConfirm={mutate}
+        isProcessing={isLoading}
       />
 
       <AwaitLoanPayment
         isOpen={showAwaitLoanPayment}
         onClose={() => setShowAwaitLoanPayment(false)}
-        onPaymentSuccess={() => {
-          setShowAwaitLoanPayment(false);
-        }}
       />
       <div className="bg-slate-50 text-primary">
         <div className="max-w-6xl sm:px-4 mx-auto">

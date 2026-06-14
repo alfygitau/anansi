@@ -4,52 +4,7 @@ import { confirmSharesPayment } from "../../sdks/accounts/accounts";
 import { useQuery } from "react-query";
 import { useStore } from "../../store/useStore";
 
-const AwaitLoanPayment = ({ isOpen, onClose, onPaymentSuccess }) => {
-  const { showToast } = useToast();
-  const sharesDetails = useStore((state) => state.sharesDetails);
-  const clearShares = useStore((state) => state.clearSharesDetails);
-  const sharesAccountId = useStore(
-    (state) =>
-      state.accounts.find((acc) => acc.product?.name === "Shares")?.id || null,
-  );
-
-  const handlePay = () => {
-    showToast({
-      title: "Shares Purchased Successfully",
-      description: `Your contribution has been added to your Shares Account.`,
-      type: "success",
-      position: "top-right",
-    });
-    clearShares();
-    onPaymentSuccess();
-  };
-
-  useQuery({
-    queryKey: ["poll shares payment"],
-    queryFn: async () => {
-      const response = await confirmSharesPayment(
-        sharesDetails?.reference,
-        sharesAccountId,
-      );
-      return response.data.data?.exists;
-    },
-    enabled: !!isOpen,
-    onSuccess: async (data) => {
-      if (data) {
-        handlePay();
-      }
-    },
-    refetchInterval: 3000,
-    refetchIntervalInBackground: true,
-    onErrors: (error) => {
-      showToast({
-        title: "Authentication glitch",
-        type: "error",
-        position: "top-right",
-        description: error?.response?.data?.message || error.message,
-      });
-    },
-  });
+const AwaitLoanPayment = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 

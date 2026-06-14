@@ -24,6 +24,7 @@ import FinalConfirmation from "../../components/guarantorship/FinalConfirmation"
 import AcceptRequestSuccess from "../../components/guarantorship/AcceptRequestSuccess";
 import DeclineRequestSuccess from "../../components/guarantorship/DeclineRequestSuccess";
 import useAuth from "../../hooks/useAuth";
+import { useFormatAmount } from "../../hooks/useFormatAmount";
 
 const Guarantorship = () => {
   const [activeTab, setActiveTab] = useState("Requests");
@@ -42,6 +43,7 @@ const Guarantorship = () => {
   const [amount, setAmount] = useState("");
   const [reason, setReason] = useState("");
   const { auth } = useAuth();
+  const formatAmount = useFormatAmount();
 
   const { isFetching, refetch: refetchSummary } = useQuery({
     queryKey: ["guarantorship summary"],
@@ -411,8 +413,8 @@ const Guarantorship = () => {
                                       •
                                     </span>
                                     <span className="text-slate-600 font-semibold">
-                                      Target: KES{" "}
-                                      {new Intl.NumberFormat("en-KE").format(
+                                      Target:{" "}
+                                      {formatAmount(
                                         request?.application?.applied_amount,
                                       )}
                                     </span>

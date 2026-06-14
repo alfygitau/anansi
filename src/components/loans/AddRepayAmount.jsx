@@ -91,7 +91,7 @@ const AddRepayAmount = ({
                   </div>
                   <input
                     type="text"
-                    value={formData.phone}
+                    value={formData?.phone || ""}
                     onChange={(e) =>
                       setFormData({ ...formData, phone: e.target.value })
                     }
@@ -119,7 +119,7 @@ const AddRepayAmount = ({
                   </div>
                   <input
                     type="number"
-                    value={formData.amount}
+                    value={formData?.amount || ""}
                     onChange={(e) =>
                       setFormData({ ...formData, amount: e.target.value })
                     }
