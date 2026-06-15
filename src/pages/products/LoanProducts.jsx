@@ -122,13 +122,13 @@ const DetailedProductCard = ({ product, onApply, onTerms, onNavigate }) => {
     >
       {/* Top Section: Icon, Rate, and Content */}
       <div className="p-6">
-        <div className="flex justify-between items-start mb-5">
+        <div className="flex justify-between items-start mb-3">
           {/* Main Icon Box */}
           <div
-            className="w-14 h-14 rounded-2xl flex items-center justify-center transition-colors duration-300"
+            className="w-12 h-12 rounded-2xl flex items-center justify-center transition-colors duration-300"
             style={{ backgroundColor: `#0421591A`, color: "#042159" }}
           >
-            <Briefcase size={28} strokeWidth={1.5} />
+            <Briefcase size={24} strokeWidth={1.5} />
           </div>
 
           {/* Rate Badge */}
@@ -138,8 +138,8 @@ const DetailedProductCard = ({ product, onApply, onTerms, onNavigate }) => {
         </div>
 
         {/* Title and Description */}
-        <div className="mb-6">
-          <h3 className="text-xl font-medium text-slate-900 tracking-tight mb-2 group-hover:text-secondary transition-colors">
+        <div className="mb-4">
+          <h3 className="text-xl font-normal text-slate-900 tracking-tight mb-2 group-hover:text-secondary transition-colors">
             {product_name}
           </h3>
           <p className="text-sm text-slate-500 leading-relaxed max-w-md">
@@ -148,7 +148,7 @@ const DetailedProductCard = ({ product, onApply, onTerms, onNavigate }) => {
         </div>
 
         {/* Info Grid (Mimicking the Flutter _buildInfoColumn) */}
-        <div className="flex items-center justify-between py-4 border-t border-slate-50">
+        <div className="flex items-center justify-between py-2 border-t border-slate-50">
           <InfoColumn label="MAX AMOUNT" value={formatAmount(max_amount)} />
           <div className="h-8 w-px bg-slate-100" /> {/* Vertical Divider */}
           <InfoColumn label="TENURE" value={max_period} />

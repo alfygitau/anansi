@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Mail,
+  Phone,
+  Smartphone,
   Loader2,
   ShieldCheck,
   AlertCircle,
@@ -11,48 +12,49 @@ import {
 import { motion } from "framer-motion";
 import { useMutation } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
-import { forgetPassword } from "../../sdks/auth/auth";
+import { forgetPasswordMobile } from "../../sdks/auth/auth"; // Adjusted SDK hook counterpart
 import { useStore } from "../../store/useStore";
 
-const ForgotPassword = () => {
+const ForgetMobile = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
   const [error, setError] = useState("");
   const [touched, setTouched] = useState(false);
   const { showToast } = useToast();
-  const setForgetEmail = useStore((state) => state.setForgetEmail);
+  const setForgetMobile = useStore((state) => state.setForgetMobile);
 
   const handleBlur = () => {
     setTouched(true);
-    if (!email) {
-      setError("Email is required.");
-    } else if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
+    if (!mobile) {
+      setError("Mobile number is required.");
+    } else if (!validateMobile(mobile)) {
+      setError("Please enter a valid mobile number.");
     } else {
       setError("");
     }
   };
 
-  const validateEmail = (email) => {
-    const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
-    return pattern.test(email);
+  const validateMobile = (phoneNum) => {
+    // Validates standard Kenyan mobile prefix configurations (e.g., 07..., 01...)
+    const pattern = /^(?:254|\+254|0)?([71][0-9]{8})$/;
+    return pattern.test(phoneNum.replace(/\s+/g, ""));
   };
 
   const handleReset = async (e) => {
     e.preventDefault();
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
+    if (!validateMobile(mobile)) {
+      setError("Please enter a valid mobile number.");
       return;
     }
-    await forgetEmailMutate();
+    await forgetMobileMutate();
   };
 
-  const { mutate: forgetEmailMutate, isLoading } = useMutation({
-    mutationKey: ["forgot password"],
-    mutationFn: () => forgetPassword(email),
+  const { mutate: forgetMobileMutate, isLoading } = useMutation({
+    mutationKey: ["forgot password mobile"],
+    mutationFn: () => forgetPasswordMobile(mobile),
     onSuccess: () => {
-      setForgetEmail(email);
-      navigate("/auth/forgot-password-verification");
+      setForgetMobile(mobile);
+      navigate("/auth/forgot-mobile-verification");
     },
     onError: (error) => {
       showToast({
@@ -64,8 +66,8 @@ const ForgotPassword = () => {
     },
   });
 
-  const isInvalid = !validateEmail(email);
-  const isButtonDisabled = isLoading || isInvalid || !email;
+  const isInvalid = !validateMobile(mobile);
+  const isButtonDisabled = isLoading || isInvalid || !mobile;
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 md:p-8 sm:p-2 antialiased">
@@ -100,16 +102,16 @@ const ForgotPassword = () => {
             </div>
 
             {/* System Security Features Ledger */}
-            <div className="space-y-4 pt-2">
+            <div className="space-y-6 pt-2">
               <SecurityFeatureRow
                 icon={<ShieldCheck size={16} />}
                 title="Cryptographic Token Delivery"
                 desc="Outbound account restoration hashes are isolated through high-security transmission filters."
               />
               <SecurityFeatureRow
-                icon={<Mail size={16} />}
-                title="Secure Inbox Routing"
-                desc="Automated validation signatures are routed natively to counter server spoofing actions."
+                icon={<Smartphone size={16} />}
+                title="Secure SMS Gateway Routing"
+                desc="Automated verification tokens are routed natively through direct telco pipelines to bypass delivery delays."
               />
               <SecurityFeatureRow
                 icon={<ShieldAlert size={16} />}
@@ -125,11 +127,11 @@ const ForgotPassword = () => {
           </p>
         </div>
 
-        {/* RIGHT PANEL: Forgot Password Workspace Area */}
+        {/* RIGHT PANEL: Forgot Mobile Workspace Area */}
         <div className="w-full flex flex-col justify-between p-6 sm:p-10 md:p-12">
           <div className="flex-grow">
             {/* ICON & HEADER */}
-            <div className="flex items-center mb-4 gap-3">
+            <div className="flex items-center mb-4 gap-2">
               <div className="w-16 h-16 bg-blue-50 rounded-3xl flex items-center justify-center">
                 <ShieldCheck size={32} className="text-secondary" />
               </div>
@@ -139,9 +141,9 @@ const ForgotPassword = () => {
             </div>
             <div className="flex flex-col mb-8">
               <p className="text-slate-400 text-sm leading-relaxed mx-auto">
-                No worries, it happens to the best of us. Enter the email
-                address associated with your account and we'll send you a secure
-                code with instructions to get you back in.
+                No worries, it happens to the best of us. Enter the mobile phone
+                number associated with your account and we'll send you a secure
+                SMS verification code to get you back in.
               </p>
             </div>
 
@@ -149,22 +151,41 @@ const ForgotPassword = () => {
             <form onSubmit={handleReset} className="space-y-6">
               <div className="space-y-2">
                 <label className="text-[11px] font-medium uppercase tracking-widest text-slate-400 ml-1">
-                  Email Address
+                  Mobile Phone Number
                 </label>
-                <div className="relative">
-                  <Mail
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
-                    size={18}
-                  />
+                <div className="relative flex items-center group">
+                  {/* Absolute Prefix Block with Icon & Vertical Divider */}
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                    <Phone
+                      size={18}
+                      className={`transition-colors ${
+                        error
+                          ? "text-rose-300 group-focus-within:text-rose-400"
+                          : "text-slate-300 group-focus-within:text-secondary"
+                      }`}
+                    />
+                    <div
+                      className={`w-[1px] h-5 ml-3 transition-colors ${
+                        error
+                          ? "bg-rose-200 group-focus-within:bg-rose-400/20"
+                          : "bg-slate-200 group-focus-within:bg-secondary/20"
+                      }`}
+                    />
+                  </div>
+
                   <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    type="tel"
+                    value={mobile}
+                    onChange={(e) => setMobile(e.target.value)}
                     onBlur={handleBlur}
-                    placeholder="name@company.com"
-                    className={`w-full h-14 pl-12 pr-4 bg-slate-50 border rounded-2xl outline-none transition-all text-sm font-medium
-                          ${error ? "border-rose-200 focus:border-rose-400" : "border-slate-100 focus:border-secondary focus:bg-white"}
-                        `}
+                    placeholder="e.g. 0712345678"
+                    className={`w-full h-14 pl-[60px] pr-4 bg-white border border-slate-200 rounded-2xl outline-none transition-all text-sm font-medium
+      ${
+        error
+          ? "border-rose-200 focus:border-rose-400 focus:ring-4 focus:ring-rose-500/5"
+          : "border-slate-100 focus:border-secondary focus:bg-white focus:ring-4 focus:ring-secondary/5"
+      }
+    `}
                   />
                 </div>
                 {error && (
@@ -213,18 +234,17 @@ const ForgotPassword = () => {
                   <p className="text-[12px] text-slate-500 leading-relaxed">
                     For your protection, this verification code will expire in{" "}
                     <span className="font-bold text-primary">10 minutes</span>.
-                    If you didn't request this, please ignore this email or
+                    If you didn't request this, please ignore this text or
                     contact support if you suspect unauthorized activity.
                   </p>
                 </div>
               </div>
 
               <div className="mt-3 pt-3 border-t border-slate-200/60 flex items-center gap-2">
-                <Info size={14} className="text-slate-400" />
                 <p className="text-[10px] text-slate-400 font-medium">
-                  Check your <span className="font-bold">Spam</span> or{" "}
-                  <span className="font-bold">Promotions</span> folder if the
-                  email doesn't arrive.
+                  Verify your cellular{" "}
+                  <span className="font-bold">network signal</span> or carrier
+                  settings if the message doesn't arrive within 60 seconds.
                 </p>
               </div>
             </motion.div>
@@ -252,4 +272,4 @@ const SecurityFeatureRow = ({ icon, title, desc }) => (
   </div>
 );
 
-export default ForgotPassword;
+export default ForgetMobile;

@@ -166,6 +166,18 @@ export const forgetPassword = async (email) => {
   }
 };
 
+export const forgetPasswordMobile = async (mobile) => {
+  try {
+    const response = await publicClient.post(`/customer/forgot-password`, {
+      mobile: mobile,
+      isEmail: true,
+    });
+    return response;
+  } catch (error) {
+    throw error?.response?.data || error;
+  }
+};
+
 export const resetPassword = async (email, password) => {
   try {
     const response = await publicClient.post(`/customer/reset-password-web`, {

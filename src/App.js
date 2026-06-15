@@ -56,6 +56,9 @@ import ProtectedRoute from "./routes/Protect";
 import MyLoanStatements from "./pages/loan-statements/LoanStatements";
 import LoanProductDetails from "./pages/products/LoanProduct";
 import MyAccountDetails from "./pages/accounts/FosaAccount";
+import AccountRecoveryType from "./pages/forget-password/OtpType";
+import ForgetMobile from "./pages/forget-password/ForgetMobile";
+import ForgotMobileOTPVerification from "./pages/forget-password/MobileVerification";
 
 function App() {
   return (
@@ -92,10 +95,16 @@ function App() {
         />
 
         <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+        <Route path="/auth/forgot-mobile" element={<ForgetMobile />} />
+        <Route path="/auth/otp-type" element={<AccountRecoveryType />} />
         <Route path="/auth/set-new-password" element={<CreateNewPassword />} />
         <Route
           path="/auth/forgot-password-verification"
           element={<ForgotOTPVerification />}
+        />
+        <Route
+          path="/auth/mobile-password-verification"
+          element={<ForgotMobileOTPVerification />}
         />
 
         <Route path="/" element={<OnboardingLayer />}>

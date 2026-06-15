@@ -1,58 +1,62 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Mail,
   Loader2,
-  ShieldCheck,
-  AlertCircle,
+  KeyRound,
   ShieldAlert,
   Info,
+  ShieldCheck,
+  Smartphone,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useMutation } from "react-query";
 import { useToast } from "../../contexts/ToastProvider";
-import { forgetPassword } from "../../sdks/auth/auth";
+import { verifyMobile } from "../../sdks/auth/auth";
 import { useStore } from "../../store/useStore";
 
-const ForgotPassword = () => {
+const ForgotMobileOTPVerification = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [touched, setTouched] = useState(false);
+  const [otp, setOtp] = useState(new Array(6).fill(""));
+  const inputRefs = useRef([]);
   const { showToast } = useToast();
-  const setForgetEmail = useStore((state) => state.setForgetEmail);
+  const forgetMobile = useStore((state) => state.forgetMobile);
 
-  const handleBlur = () => {
-    setTouched(true);
-    if (!email) {
-      setError("Email is required.");
-    } else if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-    } else {
-      setError("");
+  const maskMobile = (phone) => {
+    if (!phone) return "—";
+    const cleaned = phone.replace(/\s+/g, "");
+    if (cleaned.length <= 6) return cleaned;
+
+    return cleaned.slice(0, 4) + "•••••" + cleaned.slice(-3);
+  };
+
+  const handleChange = (element, index) => {
+    if (isNaN(element.value)) return false;
+    const newOtp = [...otp];
+    newOtp[index] = element.value;
+    setOtp(newOtp);
+    if (element.value !== "" && index < 5) {
+      inputRefs.current[index + 1].focus();
     }
   };
 
-  const validateEmail = (email) => {
-    const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
-    return pattern.test(email);
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      inputRefs.current[index - 1].focus();
+    }
   };
 
-  const handleReset = async (e) => {
+  const handleVerify = async (e) => {
     e.preventDefault();
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-    await forgetEmailMutate();
+    const fullOtp = otp.join("");
+    if (fullOtp.length < 6) return;
+    verifyMobileMutate();
   };
 
-  const { mutate: forgetEmailMutate, isLoading } = useMutation({
-    mutationKey: ["forgot password"],
-    mutationFn: () => forgetPassword(email),
+  const { mutate: verifyMobileMutate, isLoading } = useMutation({
+    mutationKey: ["verify forgot password mobile"],
+    mutationFn: () => verifyMobile(otp.join(""), forgetMobile),
     onSuccess: () => {
-      setForgetEmail(email);
-      navigate("/auth/forgot-password-verification");
+      navigate("/auth/set-new-password");
     },
     onError: (error) => {
       showToast({
@@ -63,9 +67,6 @@ const ForgotPassword = () => {
       });
     },
   });
-
-  const isInvalid = !validateEmail(email);
-  const isButtonDisabled = isLoading || isInvalid || !email;
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 md:p-8 sm:p-2 antialiased">
@@ -90,12 +91,12 @@ const ForgotPassword = () => {
             {/* Core Security Value Proposition */}
             <div className="space-y-4 pt-4">
               <h1 className="text-3xl font-bold text-primary">
-                Identity Verification
+                Token Validation
               </h1>
               <p className="text-[13px] text-slate-500 font-normal">
-                To preserve account shielding policies, we verify the presence
-                of active communication endpoints before granting access
-                modifications.
+                To ensure your account's perimeter remains completely insulated,
+                we validate active multi-factor access arrays before granting
+                profile clearance.
               </p>
             </div>
 
@@ -107,9 +108,9 @@ const ForgotPassword = () => {
                 desc="Outbound account restoration hashes are isolated through high-security transmission filters."
               />
               <SecurityFeatureRow
-                icon={<Mail size={16} />}
-                title="Secure Inbox Routing"
-                desc="Automated validation signatures are routed natively to counter server spoofing actions."
+                icon={<Smartphone size={16} />}
+                title="Secure SMS Gateway Routing"
+                desc="Automated verification tokens are routed natively through direct telco pipelines to bypass delivery delays."
               />
               <SecurityFeatureRow
                 icon={<ShieldAlert size={16} />}
@@ -131,69 +132,48 @@ const ForgotPassword = () => {
             {/* ICON & HEADER */}
             <div className="flex items-center mb-4 gap-3">
               <div className="w-16 h-16 bg-blue-50 rounded-3xl flex items-center justify-center">
-                <ShieldCheck size={32} className="text-secondary" />
+                <KeyRound size={32} className="text-secondary" />
               </div>
               <h1 className="text-2xl font-medium text-primary mb-2">
-                Forgot Password?
+                Verify OTP from Mobile
               </h1>
             </div>
             <div className="flex flex-col mb-8">
               <p className="text-slate-400 text-sm leading-relaxed mx-auto">
-                No worries, it happens to the best of us. Enter the email
-                address associated with your account and we'll send you a secure
-                code with instructions to get you back in.
+                To ensure your account's security, we've sent a 6-digit
+                verification code via SMS to{" "}
+                <span className="font-bold text-primary tracking-tight">
+                  {maskMobile(forgetMobile)}
+                </span>
               </p>
             </div>
 
             {/* FORM */}
-            <form onSubmit={handleReset} className="space-y-6">
-              <div className="space-y-2">
-                <label className="text-[11px] font-medium uppercase tracking-widest text-slate-400 ml-1">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <Mail
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
-                    size={18}
-                  />
+            <form onSubmit={handleVerify} className="space-y-8">
+              <div className="flex justify-center gap-3 sm:gap-2">
+                {otp.map((data, index) => (
                   <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    onBlur={handleBlur}
-                    placeholder="name@company.com"
-                    className={`w-full h-14 pl-12 pr-4 bg-slate-50 border rounded-2xl outline-none transition-all text-sm font-medium
-                          ${error ? "border-rose-200 focus:border-rose-400" : "border-slate-100 focus:border-secondary focus:bg-white"}
-                        `}
+                    key={index}
+                    type="text"
+                    maxLength={1}
+                    ref={(el) => (inputRefs.current[index] = el)}
+                    value={data}
+                    onChange={(e) => handleChange(e.target, index)}
+                    onKeyDown={(e) => handleKeyDown(e, index)}
+                    className="w-14 h-14 sm:w-11 sm:h-14 text-center text-xl font-bold text-primary bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-secondary focus:bg-white focus:ring-4 focus:ring-blue-100/50 transition-all"
                   />
-                </div>
-                {error && (
-                  <motion.p
-                    initial={{ opacity: 0, x: -5 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="flex items-center gap-1.5 text-rose-500 text-xs font-bold mt-1 ml-1"
-                  >
-                    <AlertCircle size={14} />
-                    {error}
-                  </motion.p>
-                )}
+                ))}
               </div>
 
               <button
                 type="submit"
-                disabled={isButtonDisabled}
-                className={`w-full h-14 text-white rounded-2xl font-medium uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-lg 
-                  ${
-                    isButtonDisabled
-                      ? "opacity-50 cursor-not-allowed shadow-none bg-slate-400"
-                      : "bg-primary hover:bg-[#062d7a] hover:scale-[1.01] active:scale-[0.99] shadow-blue-900/20"
-                  }
-                `}
+                disabled={isLoading || otp.join("").length < 6}
+                className="w-full h-14 bg-primary hover:bg-[#062d7a] text-white rounded-2xl font-medium uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-900/20 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99]"
               >
                 {isLoading ? (
                   <Loader2 className="animate-spin" size={20} />
                 ) : (
-                  "Reset Password"
+                  "Verify & Continue"
                 )}
               </button>
             </form>
@@ -213,18 +193,17 @@ const ForgotPassword = () => {
                   <p className="text-[12px] text-slate-500 leading-relaxed">
                     For your protection, this verification code will expire in{" "}
                     <span className="font-bold text-primary">10 minutes</span>.
-                    If you didn't request this, please ignore this email or
+                    If you didn't request this, please ignore this text or
                     contact support if you suspect unauthorized activity.
                   </p>
                 </div>
               </div>
 
               <div className="mt-3 pt-3 border-t border-slate-200/60 flex items-center gap-2">
-                <Info size={14} className="text-slate-400" />
                 <p className="text-[10px] text-slate-400 font-medium">
-                  Check your <span className="font-bold">Spam</span> or{" "}
-                  <span className="font-bold">Promotions</span> folder if the
-                  email doesn't arrive.
+                  Verify your cellular{" "}
+                  <span className="font-bold">network signal</span> or carrier
+                  settings if the message doesn't arrive within 60 seconds.
                 </p>
               </div>
             </motion.div>
@@ -235,7 +214,6 @@ const ForgotPassword = () => {
   );
 };
 
-// Internal supportive sub-row layout item template
 const SecurityFeatureRow = ({ icon, title, desc }) => (
   <div className="flex items-start gap-3">
     <div className="size-7 rounded-md bg-white border border-slate-200/60 shadow-sm flex items-center justify-center text-primary shrink-0">
@@ -252,4 +230,4 @@ const SecurityFeatureRow = ({ icon, title, desc }) => (
   </div>
 );
 
-export default ForgotPassword;
+export default ForgotMobileOTPVerification;
