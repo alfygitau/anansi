@@ -114,8 +114,8 @@ const Login = () => {
                 ANANSI SACCO
               </span>
             </div>
-            <h2 className="text-slate-900 text-2xl xl:text-3xl font-medium leading-[1.1] mb-8">
-              A faster, reliable way to manage{" "}
+            <h2 className="text-slate-900 text-2xl xl:text-2xl font-medium leading-[1.1] mb-8">
+              A faster, safe, and reliable way to manage{" "}
               <span className="text-primary">your money.</span>
             </h2>
             <div className="space-y-8">
@@ -127,7 +127,7 @@ const Login = () => {
                   />
                 </div>
                 <div>
-                  <h4 className="text-slate-900 font-medium text-lg">
+                  <h4 className="text-slate-900 font-medium text-md">
                     Instant Access
                   </h4>
                   <p className="text-slate-500 text-sm font-medium leading-relaxed mt-1">
@@ -144,7 +144,7 @@ const Login = () => {
                   />
                 </div>
                 <div>
-                  <h4 className="text-slate-900 font-medium text-lg">
+                  <h4 className="text-slate-900 font-medium text-md">
                     Shares Management
                   </h4>
                   <p className="text-slate-500 text-sm font-medium leading-relaxed mt-1">
@@ -161,7 +161,7 @@ const Login = () => {
                   />
                 </div>
                 <div>
-                  <h4 className="text-slate-900 font-medium text-lg">
+                  <h4 className="text-slate-900 font-medium text-md">
                     Bank-Grade Security
                   </h4>
                   <p className="text-slate-500 text-sm font-medium leading-relaxed mt-1">
@@ -224,15 +224,15 @@ const Login = () => {
                   )}
                 </AnimatePresence>
               </div>
-              <p class="text-[12px] font-medium text-slate-500">
-                If you have forgotten your credentials, please use the{" "}
+              <p className="text-[12px] font-medium text-slate-500">
+                Can't log in? Securely reset your access via{" "}
                 <span
-                  onClick={() => navigate("/auth/forgot-password")}
-                  class="text-blue-600 font-medium cursor-pointer hover:text-blue-800 underline underline-offset-2"
+                  onClick={() => navigate("/auth/otp-type")}
+                  className="text-primary font-semibold cursor-pointer hover:text-blue-800 underline underline-offset-2 transition-colors"
                 >
                   Account Recovery
-                </span>{" "}
-                portal to reset your access.
+                </span>
+                .
               </p>
               {/* Password Field */}
               <div className="space-y-2">
@@ -306,7 +306,7 @@ const Login = () => {
                 Not registered yet?{" "}
                 <button
                   onClick={() => navigate("/")}
-                  className="text-blue-600 font-bold hover:underline underline-offset-4"
+                  className="text-primary font-bold hover:underline underline-offset-4"
                 >
                   Create Account
                 </button>

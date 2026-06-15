@@ -8,14 +8,19 @@ import {
   KeyRound,
   Fingerprint,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function AccountRecoveryType() {
   const [selectedMethod, setSelectedMethod] = useState("");
+  const navigate = useNavigate();
 
   const handleContinue = () => {
     if (!selectedMethod) return;
-    console.log("Navigating to recovery with method:", selectedMethod);
-    // Execute programmatic navigation/router events here
+    if (selectedMethod === "email") {
+      navigate("/auth/forgot-password");
+    } else {
+      navigate("/auth/forgot-mobile");
+    }
   };
 
   return (

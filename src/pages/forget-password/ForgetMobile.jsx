@@ -54,7 +54,7 @@ const ForgetMobile = () => {
     mutationFn: () => forgetPasswordMobile(mobile),
     onSuccess: () => {
       setForgetMobile(mobile);
-      navigate("/auth/forgot-mobile-verification");
+      navigate("/auth/mobile-password-verification");
     },
     onError: (error) => {
       showToast({
