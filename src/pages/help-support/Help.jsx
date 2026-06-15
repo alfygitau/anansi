@@ -5,10 +5,6 @@ import {
   MessageSquare,
   Globe,
   ChevronDown,
-  AlertTriangle,
-  ShieldAlert,
-  Clock,
-  ExternalLink,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -62,7 +58,7 @@ const HelpSupport = () => {
     },
     {
       q: "How long does M-PESA withdrawal take?",
-      a: "Withdrawals to M-PESA are usually processed within 10 minutes. If the funds haven't arrived in 1 hour, please check the 'System Issues' section below.",
+      a: "Withdrawals to M-PESA are usually processed within 10 minutes. If the funds haven't arrived in 1 hour, please check your network connection or statement.",
     },
     {
       q: "When are dividends paid out?",
@@ -92,7 +88,7 @@ const HelpSupport = () => {
 
   return (
     <div className="bg-slate-50 text-primary">
-      <div className="max-w-6xl sm:px-4 mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
         <header className="py-3 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
@@ -103,7 +99,7 @@ const HelpSupport = () => {
         </header>
 
         {/* 1. Detailed Contact Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <section className="grid grid-cols-1 md:grid-cols-2 mb-5 lg:grid-cols-4 gap-6">
           {contactMethods.map((method, idx) => (
             <div
               key={idx}
@@ -125,122 +121,46 @@ const HelpSupport = () => {
           ))}
         </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* 2. Simple Sacco FAQs (8 Cols) */}
-          <div className="lg:col-span-8">
-            <div className="flex items-center gap-3 mb-4">
-              <h2 className="text-2xl font-medium tracking-tight">
-                Frequently Asked Questions
-              </h2>
-            </div>
-
-            <div className="space-y-4">
-              {faqs.map((faq, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white border border-slate-100 rounded-[24px] overflow-hidden"
-                >
-                  <button
-                    onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                    className="w-full p-6 text-left flex justify-between items-center hover:bg-slate-50 transition-colors"
-                  >
-                    <span className="font-bold text-sm pr-4">{faq.q}</span>
-                    <ChevronDown
-                      className={`transition-transform text-secondary ${openFaq === idx ? "rotate-180" : ""}`}
-                      size={18}
-                    />
-                  </button>
-                  {openFaq === idx && (
-                    <div className="px-6 pb-6 text-xs text-slate-500 leading-relaxed font-medium">
-                      {faq.a}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+        {/* 2. Full-Width Grid FAQs */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-3">
+            <h2 className="text-2xl font-medium tracking-tight">
+              Frequently Asked Questions
+            </h2>
           </div>
 
-          {/* 3. System Status & Disclaimers (4 Cols) */}
-          <aside className="lg:col-span-4 space-y-6">
-            {/* Logged-in Issues Notification */}
-            <div className="bg-primary text-white rounded-[32px] p-8 shadow-xl shadow-blue-900/20 relative overflow-hidden">
-              <div className="relative z-10">
-                <div className="flex items-center gap-2 mb-6">
-                  <AlertTriangle className="text-amber-400" size={20} />
-                  <h3 className="text-[11px] font-medium uppercase tracking-widest text-blue-200">
-                    System Status
-                  </h3>
-                </div>
-                <div className="space-y-4">
-                  <StatusUpdate
-                    title="M-PESA Integration"
-                    status="Degraded Performance"
-                    time="10 mins ago"
-                    type="warning"
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+            {faqs.map((faq, idx) => (
+              <div
+                key={idx}
+                className="bg-white border border-slate-100 rounded-[24px] overflow-hidden shadow-sm h-fit"
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                  className="w-full p-6 text-left flex justify-between items-center hover:bg-slate-50 transition-colors gap-4"
+                >
+                  <span className="font-bold text-sm text-slate-800 leading-snug">
+                    {faq.q}
+                  </span>
+                  <ChevronDown
+                    className={`transition-transform text-secondary shrink-0 ${
+                      openFaq === idx ? "rotate-180" : ""
+                    }`}
+                    size={18}
                   />
-                  <StatusUpdate
-                    title="Loan Calculator"
-                    status="Operational"
-                    time="Active"
-                    type="success"
-                  />
-                </div>
-                <p className="mt-6 text-[10px] text-blue-300 leading-relaxed italic">
-                  Experienced a balance mismatch? Log out and log back in to
-                  refresh your local session data.
-                </p>
+                </button>
+                {openFaq === idx && (
+                  <div className="px-6 pb-6 text-xs text-slate-500 leading-relaxed font-medium border-t border-slate-50/50 pt-4">
+                    {faq.a}
+                  </div>
+                )}
               </div>
-            </div>
-
-            {/* Legal Disclaimers */}
-            <div className="bg-white rounded-[32px] p-8 border border-slate-100">
-              <div className="flex items-center gap-2 mb-6">
-                <ShieldAlert className="text-secondary" size={18} />
-                <h3 className="text-[11px] font-medium uppercase tracking-widest text-slate-400">
-                  Disclaimers
-                </h3>
-              </div>
-              <ul className="space-y-4">
-                <li className="text-[10px] text-slate-400 leading-relaxed">
-                  <strong>Security:</strong> Our staff will <u>never</u> ask for
-                  your Password or M-PESA PIN over the phone.
-                </li>
-                <li className="text-[10px] text-slate-400 leading-relaxed">
-                  <strong>Information:</strong> Data provided on this portal is
-                  subject to audit. Final balances are those held in the Sacco
-                  Core Banking System.
-                </li>
-              </ul>
-              <button className="mt-6 flex items-center gap-2 text-[10px] font-medium uppercase tracking-widest text-primary hover:underline">
-                View Full Terms <ExternalLink size={12} />
-              </button>
-            </div>
-          </aside>
-        </div>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );
 };
-
-/* --- Sub-Components --- */
-
-const StatusUpdate = ({ title, status, time, type }) => (
-  <div>
-    <div className="flex justify-between items-center mb-1">
-      <span className="text-[11px] font-bold text-white">{title}</span>
-      <span
-        className={`text-[9px] font-medium uppercase tracking-tighter ${type === "warning" ? "text-amber-400" : "text-emerald-400"}`}
-      >
-        {status}
-      </span>
-    </div>
-    <div className="flex items-center gap-1.5 opacity-40">
-      <Clock size={10} />
-      <span className="text-[9px] font-bold uppercase tracking-widest">
-        {time}
-      </span>
-    </div>
-  </div>
-);
 
 export default HelpSupport;

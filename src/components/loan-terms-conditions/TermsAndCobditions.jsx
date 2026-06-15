@@ -44,7 +44,7 @@ const LoanTerms = ({ isOpen, onClose, onAccept }) => {
                     Terms & Conditions
                   </h2>
                   <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-0.5">
-                    Agreement Facility Reference: #BL-2026-098
+                    Agreement Facility Reference
                   </p>
                 </div>
               </div>
