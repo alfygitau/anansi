@@ -246,7 +246,7 @@ const PayBill = ({ isOpen, onClose, account, onSuccess }) => {
                   {mode === "paybill" && (
                     <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-200">
                       <label className="text-[11px] font-medium text-slate-400 uppercase tracking-widest ml-1">
-                        Account Number / Matcher
+                        Account Number
                       </label>
                       <div className="relative group">
                         <div className="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none">

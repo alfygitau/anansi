@@ -25,6 +25,7 @@ import AcceptRequestSuccess from "../../components/guarantorship/AcceptRequestSu
 import DeclineRequestSuccess from "../../components/guarantorship/DeclineRequestSuccess";
 import useAuth from "../../hooks/useAuth";
 import { useFormatAmount } from "../../hooks/useFormatAmount";
+import { useFormattedDate } from "../../hooks/useFormattedDate";
 
 const Guarantorship = () => {
   const [activeTab, setActiveTab] = useState("Requests");
@@ -44,6 +45,7 @@ const Guarantorship = () => {
   const [reason, setReason] = useState("");
   const { auth } = useAuth();
   const formatAmount = useFormatAmount();
+  const formatDate = useFormattedDate();
 
   const { isFetching, refetch: refetchSummary } = useQuery({
     queryKey: ["guarantorship summary"],
@@ -412,7 +414,7 @@ const Guarantorship = () => {
                                     <span className="text-slate-200 mx-0.5">
                                       •
                                     </span>
-                                    <span className="text-slate-600 font-semibold">
+                                    <span className="text-slate-400 font-semibold">
                                       Target:{" "}
                                       {formatAmount(
                                         request?.application?.applied_amount,
@@ -435,7 +437,9 @@ const Guarantorship = () => {
 
                             {/* Chevron - Centered to the header height */}
                             <div className="sm:w-full h-14 flex md:gap-3 justify-between items-center">
-                              <StatusBadge status={request?.status} />
+                              <StatusBadge
+                                status={request?.status?.toLowerCase()}
+                              />
                               <ChevronRight
                                 size={20}
                                 onClick={() => {
@@ -467,18 +471,21 @@ const Guarantorship = () => {
                         summary?.guaranteed_loans.map((loan, idx) => (
                           <div
                             key={idx}
-                            className="p-6 rounded-2xl border border-slate-100 bg-slate-50/30 flex justify-between items-center"
+                            className="p-6 rounded-2xl border border-slate-100 bg-slate-100/50 flex justify-between items-center"
                           >
                             <div className="flex items-center gap-4">
                               <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold text-xs">
-                                {getInitials(loan?.borrowerName)}
+                                {getInitials(loan?.borrower?.name)}
                               </div>
                               <div>
+                                <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">
+                                  {loan?.application.application_number}
+                                </p>
                                 <p className="text-sm font-bold text-primary">
-                                  {loan?.borrowerName}
+                                  {loan?.borrower?.name}
                                 </p>
                                 <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">
-                                  {loan?.loanInfo.loancode}
+                                  {formatDate(loan?.created_at)}
                                 </p>
                               </div>
                             </div>
@@ -487,7 +494,7 @@ const Guarantorship = () => {
                                 Guaranteed
                               </p>
                               <p className="text-sm font-medium text-emerald-600">
-                                {formatKES(loan?.amountGuaranteed)}
+                                {formatKES(loan?.amount_guaranteed)}
                               </p>
                             </div>
                           </div>
@@ -544,7 +551,7 @@ const StatCard = ({ icon, label, value, sub }) => (
 const StatusBadge = ({ status }) => {
   const styles = {
     pending: "bg-amber-50 text-amber-600 border-amber-100",
-    accepted: "bg-emerald-50 text-emerald-600 border-emerald-100",
+    approved: "bg-emerald-50 text-emerald-600 border-emerald-100",
     rejected: "bg-rose-50 text-rose-600 border-rose-100",
   };
   return (

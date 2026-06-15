@@ -164,7 +164,7 @@ const Transfer = ({ isOpen, onClose, account, onSuccess }) => {
                         : "text-slate-400 hover:text-slate-600"
                     }`}
                   >
-                    Internal / BOSA
+                    Internal
                   </button>
                   <button
                     type="button"
