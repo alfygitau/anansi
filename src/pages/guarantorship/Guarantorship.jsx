@@ -323,7 +323,7 @@ const Guarantorship = () => {
               <StatCard
                 icon={<Users className="text-amber-500" />}
                 label="Total Guaranteed"
-                value={formatKES(summary?.amount_guaranteed)}
+                value={formatKES(summary?.currently_guaranteed_amount)}
                 sub="Cumulative amount"
               />
             </div>
