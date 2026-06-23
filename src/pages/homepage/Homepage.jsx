@@ -732,7 +732,7 @@ const Homepage = () => {
                 ))}
               </div>
             ) : loans?.length > 0 ? (
-              <div className="h-[450px] p-2 rounded-[18px] overflow-y-auto border">
+              <div className="h-[460px] p-2 rounded-[18px] overflow-y-auto border">
                 {loans?.map((loan) => (
                   <LoanItem
                     key={loan?.id}
@@ -748,7 +748,7 @@ const Homepage = () => {
                 ))}
               </div>
             ) : (
-              <div className="h-[450px] w-full">
+              <div className="h-[460px] w-full">
                 <EmptyState
                   message="No active loans found"
                   onApply={() => navigate("/loan-products")}
@@ -773,7 +773,7 @@ const Homepage = () => {
                 ))}
               </div>
             ) : loanApplications?.length > 0 ? (
-              <div className="h-[450px] p-2 rounded-[18px] overflow-y-auto border">
+              <div className="h-[460px] p-2 rounded-[18px] overflow-y-auto border">
                 {loanApplications?.map((app, index) => (
                   <ApplicationItem
                     key={app.reference}
@@ -789,7 +789,7 @@ const Homepage = () => {
                 ))}
               </div>
             ) : (
-              <div className="h-[450px] w-full">
+              <div className="h-[460px] w-full">
                 <EmptyState
                   message="No pending applications"
                   onApply={() => navigate("/loan-products")}

@@ -43,7 +43,7 @@ const LoanApplications = () => {
       return response?.data?.data;
     },
     onSuccess: (data) => {
-      setLoanApplications(data);
+      setLoanApplications(data?.applications);
     },
     onError: (error) => {
       showToast({
@@ -127,7 +127,7 @@ const LoanApplications = () => {
                     {loanApplications.map((app) => (
                       <ApplicationItem
                         key={app.reference}
-                        title={app?.loan_product?.product_name}
+                        title={app?.product?.product_name}
                         date={app?.created_at}
                         amount={app?.applied_amount}
                         status={app?.status_label}
