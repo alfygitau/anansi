@@ -407,14 +407,14 @@ const AddGuarantors = ({ limit = 4 }) => {
                             <div className="flex items-center gap-4 flex-1">
                               {/* Minimalist Premium Initial Avatar */}
                               <div className="size-10 bg-white border border-slate-200/60 rounded-xl flex items-center justify-center text-slate-700 font-medium text-sm shadow-sm select-none shrink-0">
-                                {g.guarantor_name.charAt(0).toUpperCase()}
+                                {g?.guarantor?.name.charAt(0).toUpperCase()}
                               </div>
 
                               {/* Metadata Rows */}
                               <div className="space-y-1">
                                 <div className="flex items-center gap-2">
                                   <h4 className="font-bold text-slate-900 text-sm tracking-tight">
-                                    {g.guarantor_name}
+                                    {g.guarantor?.name}
                                   </h4>
                                   <CheckCircle2
                                     size={14}
@@ -431,7 +431,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                                     />
                                     TEL:{" "}
                                     <span className="text-slate-600 font-bold">
-                                      {g?.guarantor_mobile}
+                                      {g?.guarantor?.mobile}
                                     </span>
                                   </span>
                                 </div>
@@ -442,7 +442,7 @@ const AddGuarantors = ({ limit = 4 }) => {
                             <div className="transition-opacity duration-200 pl-4">
                               <button
                                 type="button"
-                                onClick={() => deleteMutate(g.id)}
+                                onClick={() => deleteMutate(g.guarantor?.id)}
                                 className="p-2 rounded-xl bg-white border border-slate-200/60 text-slate-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50/50 transition-all shadow-sm flex items-center justify-center"
                                 title="Remove this guarantor"
                               >
