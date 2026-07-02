@@ -369,88 +369,99 @@ const Guarantorship = () => {
                       className="space-y-4"
                     >
                       {requests?.length > 0 ? (
-                        requests?.map((request) => (
-                          <div
-                            key={request.id}
-                            className="group flex flex-col md:flex-row items-start md:items-center gap-6 p-6 rounded-3xl bg-white border border-slate-100 md:bg-slate-100/50 md:border-transparent hover:border-slate-200 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300"
-                          >
-                            {/* Avatar Section - Scaled slightly for larger card */}
-                            <div className="w-14 h-14 rounded-full bg-blue-100 shrink-0 flex items-center justify-center text-primary font-bold text-base">
-                              {getInitials(request?.borrower?.name)}
-                            </div>
+                        requests?.map((request) => {
+                          // 1. Extract values with safe optional chaining fallbacks
+                          const borrowerName =
+                            request?.borrower?.name ?? "A borrower";
+                          const amount = request?.application?.applied_amount
+                            ? formatAmount(request.application.applied_amount)
+                            : "$0";
+                          const productName =
+                            request?.product?.product_name ?? "Loan";
 
-                            <div className="flex-grow items-center">
-                              <div className="flex justify-between items-center mb-1">
-                                <div className="flex flex-col gap-1">
-                                  {/* Borrower Name as a premium subtitle + Product details and App ID */}
-                                  <span className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">
-                                    Request from {request?.borrower?.name} •{" "}
-                                    {request?.product?.product_name ||
-                                      "Facility"}{" "}
-                                  </span>
-                                  {/* Large Message Body - Guaranteed 2 lines */}
-                                  <p className="text-base font-medium text-slate-800 pr-8 leading-snug line-clamp-4">
-                                    {request?.message ||
-                                      "I am requesting you to be my guarantor for my upcoming development loan."}
-                                  </p>
+                          // 2. Build your dynamic "asking" string template literal
+                          const generatedMessage = `Hi! ${borrowerName} has requested your support as a guarantor for a ${amount} ${productName}. Could you please review and confirm your authorization?`;
+
+                          return (
+                            <div
+                              key={request.id}
+                              className="group flex flex-col md:flex-row items-start md:items-center gap-6 p-6 rounded-3xl bg-white border border-slate-100 md:bg-slate-100/50 md:border-transparent hover:border-slate-200 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300"
+                            >
+                              {/* Avatar Section - Scaled slightly for larger card */}
+                              <div className="w-14 h-14 rounded-full bg-blue-100 shrink-0 flex items-center justify-center text-primary font-bold text-base">
+                                {getInitials(request?.borrower?.name)}
+                              </div>
+
+                              <div className="flex-grow items-center">
+                                <div className="flex justify-between items-center mb-1">
+                                  <div className="flex flex-col gap-1">
+                                    {/* Borrower Name as a premium subtitle + Product details and App ID */}
+                                    <span className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">
+                                      Request from {borrowerName} •{" "}
+                                      {productName}
+                                    </span>
+                                    {/* Large Message Body - Guaranteed 2 lines */}
+                                    <p className="text-base font-medium text-slate-800 pr-8 leading-snug line-clamp-4">
+                                      {request?.message || generatedMessage}
+                                    </p>
+                                  </div>
+                                </div>
+
+                                {/* Metadata & Actions */}
+                                <div className="flex sm:mt-3 items-center justify-between">
+                                  <div className="flex-col items-start md:flex gap-3">
+                                    <span className="text-xs text-slate-400 sm:mb-2 flex flex-wrap items-center gap-1.5 font-medium">
+                                      <Clock
+                                        size={14}
+                                        className="text-slate-300"
+                                      />{" "}
+                                      {new Date(
+                                        request?.created_at,
+                                      ).toLocaleDateString(undefined, {
+                                        month: "long",
+                                        day: "numeric",
+                                        year: "numeric",
+                                      })}
+                                      <span className="text-slate-200 mx-0.5">
+                                        •
+                                      </span>
+                                      <span className="text-slate-400 font-semibold">
+                                        Target: {amount}
+                                      </span>
+                                    </span>
+
+                                    <button
+                                      onClick={() => {
+                                        setRequestDetails(request);
+                                        setShowReviewRequest(true);
+                                      }}
+                                      className="text-xs font-medium text-secondary uppercase tracking-wider hover:text-primary transition-colors flex items-center gap-1"
+                                    >
+                                      View Full Request Details
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
 
-                              {/* Metadata & Actions */}
-                              <div className="flex sm:mt-3 items-center justify-between">
-                                <div className="flex-col items-start md:flex gap-3">
-                                  <span className="text-xs text-slate-400 sm:mb-2 flex flex-wrap items-center gap-1.5 font-medium">
-                                    <Clock
-                                      size={14}
-                                      className="text-slate-300"
-                                    />{" "}
-                                    {new Date(
-                                      request?.created_at,
-                                    ).toLocaleDateString(undefined, {
-                                      month: "long",
-                                      day: "numeric",
-                                      year: "numeric",
-                                    })}
-                                    <span className="text-slate-200 mx-0.5">
-                                      •
-                                    </span>
-                                    <span className="text-slate-400 font-semibold">
-                                      Target:{" "}
-                                      {formatAmount(
-                                        request?.application?.applied_amount,
-                                      )}
-                                    </span>
-                                  </span>
-
-                                  <button
-                                    onClick={() => {
-                                      setRequestDetails(request);
-                                      setShowReviewRequest(true);
-                                    }}
-                                    className="text-xs font-medium text-secondary uppercase tracking-wider hover:text-primary transition-colors flex items-center gap-1"
-                                  >
-                                    View Full Request Details
-                                  </button>
-                                </div>
+                              {/* Chevron & Status badge utility wrapper */}
+                              <div className="sm:w-full h-14 flex md:gap-3 justify-between items-center">
+                                <StatusBadge
+                                  status={(
+                                    request?.status_label || request?.status
+                                  )?.toLowerCase()}
+                                />
+                                <ChevronRight
+                                  size={20}
+                                  onClick={() => {
+                                    setRequestDetails(request);
+                                    setShowReviewRequest(true);
+                                  }}
+                                  className="text-slate-300 cursor-pointer group-hover:text-secondary transition-transform group-hover:translate-x-1"
+                                />
                               </div>
                             </div>
-
-                            {/* Chevron - Centered to the header height */}
-                            <div className="sm:w-full h-14 flex md:gap-3 justify-between items-center">
-                              <StatusBadge
-                                status={request?.status?.toLowerCase()}
-                              />
-                              <ChevronRight
-                                size={20}
-                                onClick={() => {
-                                  setRequestDetails(request);
-                                  setShowReviewRequest(true);
-                                }}
-                                className="text-slate-300 cursor-pointer group-hover:text-secondary transition-transform group-hover:translate-x-1"
-                              />
-                            </div>
-                          </div>
-                        ))
+                          );
+                        })
                       ) : (
                         <EmptyState
                           icon={BellDot}
