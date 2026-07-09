@@ -66,6 +66,35 @@ const MyLoans = ({ onBack }) => {
     );
   }, [loans]);
 
+  const getLoanStatusColor = (status = "") => {
+    switch (status.toLowerCase().trim()) {
+      case "active":
+      case "approved":
+      case "servicing":
+        return "#10B981"; // Emerald Green
+      case "pending":
+      case "processing":
+      case "under_review":
+        return "#F59E0B"; // Amber/Yellow
+      case "defaulted":
+      case "overdue":
+      case "arrears":
+        return "#EF4444"; // Rose/Red
+      case "closed":
+      case "settled":
+      case "fully_paid":
+        return "#64748B"; // Slate Gray
+      default:
+        return "#94A3B8"; // Muted Light Gray (Fallback)
+    }
+  };
+
+  const formatLabel = (str) => {
+    if (!str) return "";
+    const spaced = str.replace(/_/g, " ");
+    return spaced.charAt(0).toUpperCase() + spaced.slice(1);
+  };
+
   return (
     <div className="bg-slate-50 text-primary">
       <div className="max-w-6xl sm:px-4 mx-auto">
@@ -140,23 +169,31 @@ const MyLoans = ({ onBack }) => {
 
           <div className="space-y-4">
             {isFetching ? (
-              <div className="p-3 overflow-y-auto">
+              /* SKELETON LOADING GRID (Matches live layout height for stability) */
+              <div className="border border-slate-200/40 rounded-[24px] h-[620px] p-3 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 content-start custom-scrollbar">
                 {Array.from({ length: 4 }).map((_, index) => (
                   <LoanItemSkeleton key={`loan-skeleton-${index}`} />
                 ))}
               </div>
             ) : loans.length > 0 ? (
-              <div className="border border-slate-200/80 rounded-[24px] h-[620px] p-3 overflow-y-auto space-y-3 custom-scrollbar">
+              /* LIVE LOAN DATA GRID */
+              <div className="border border-slate-200/80 rounded-[24px] h-[620px] p-3 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 content-start custom-scrollbar">
                 {loans.map((loan) => (
                   <LoanItem
-                    key={loan.id}
-                    loan={loan}
-                    formatAmount={formatAmount}
-                    navigate={navigate}
+                    key={loan?.id}
+                    title={formatLabel(loan?.loan_type)}
+                    id={loan?.loan_code}
+                    amount={formatAmount(loan?.loan_amount)}
+                    balance={formatAmount(loan?.outstanding_balance)}
+                    status={loan?.loan_status}
+                    statusColor={getLoanStatusColor(loan?.loan_status)}
+                    maturityDate={loan?.loan_due_date}
+                    onTap={() => navigate(`/loan-details/${loan?.id}`)}
                   />
                 ))}
               </div>
             ) : (
+              /* EMPTY STATE (Kept centered in a single workspace box) */
               <div className="h-[620px] bg-white rounded-[24px] border border-slate-200/60 flex flex-col items-center justify-center p-8 text-center">
                 <div className="relative mb-6 flex items-center justify-center">
                   <div className="absolute w-20 h-20 bg-slate-50 rounded-full animate-pulse" />
@@ -238,111 +275,90 @@ const ApplyLoanAction = ({ onClick }) => {
   );
 };
 
-const LoanItem = ({ loan, formatAmount, navigate }) => {
-  const isActive = loan.loan_status === "Active";
-
+const LoanItem = ({
+  title,
+  id,
+  amount,
+  balance,
+  status,
+  statusColor,
+  maturityDate,
+  onTap,
+}) => {
   return (
-    <motion.div
-      whileTap={{ scale: 0.995 }}
-      className="group bg-white rounded-[24px] p-5 border border-slate-200/60 border-b-2 shadow-sm hover:shadow-md transition-all mb-4 w-full select-none"
+    <div
+      onClick={onTap}
+      className="mb-4 cursor-pointer rounded-[30px] bg-white transition-all active:scale-[0.99] shadow-sm shadow-[0_12px_32px_rgba(10,35,81,0.07)] hover:shadow-[0_12px_32px_rgba(10,35,81,0.07)]"
     >
-      {/* Optimized 12-Column Responsive Matrix Grid Track Layout */}
-      <div className="relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-5 items-start lg:items-center text-xs">
-        {/* COLUMN 1: ACCOUNT REFERENCE & DEBTOR PROFILE (Optimized to Spans 4 Columns) */}
-        <div className="col-span-1 sm:col-span-2 lg:col-span-4 flex flex-col space-y-1.5 min-w-0">
-          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 select-none">
-            Account & Debtor
-          </span>
-          <div className="flex items-center gap-2 select-none">
-            <span className="font-sans font-bold text-[9px] tracking-wider uppercase px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md">
-              {loan.loan_code}
-            </span>
+      <div className="flex flex-col">
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 pt-5 pb-3.5">
+          <div className="flex flex-col">
+            <h3 className="text-[16px] font-medium text-[#0A2351] tracking-tight">
+              {title}
+            </h3>
+            <span className="text-[13px] font-bold text-gray-500">{id}</span>
           </div>
-          <span className="font-semibold text-slate-900 text-sm tracking-tight group-hover:text-primary transition-colors truncate">
-            {loan.loan_name}
-          </span>
-          <span className="text-[11px] text-slate-400 font-normal flex items-center gap-1 font-mono">
-            <Smartphone size={11} className="text-slate-300 shrink-0" />{" "}
-            {loan.loan_mobile}
-          </span>
-        </div>
-
-        {/* COLUMN 2: PRODUCT & YIELD PARAMETERS (Spans 2 Columns) */}
-        <div className="col-span-1 lg:col-span-2 flex flex-col space-y-1.5 min-w-0">
-          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 select-none flex items-center gap-1">
-            Product & Rates
-          </span>
-          <span className="font-semibold text-slate-800 text-sm tracking-tight truncate">
-            {loan?.loan_product?.product_name ?? "Development Loan"}
-          </span>
-          <div className="flex items-center gap-1.5 select-none font-mono">
-            <span className="font-sans font-bold text-[9px] tracking-wider uppercase px-1.5 py-0.5 bg-slate-50 text-slate-400 rounded border border-slate-200/40">
-              {parseFloat(loan?.loan_interest_per)?.toFixed(1)}%
+          <div className="flex flex-col items-end">
+            <span className="text-[9px] font-extrabold text-gray-400">
+              MATURITY
             </span>
-            <span className="text-[11px] text-slate-400 font-medium capitalize truncate">
-              {loan?.loan_product?.interest_method?.replace("_", " ") ??
-                "Reducing Balance"}
+            <span className="text-[12px] font-bold text-[#0A2351]">
+              {maturityDate}
             </span>
           </div>
         </div>
 
-        {/* COLUMN 3: FINANCIAL EXPOSURE MATRIX (Optimized to Spans 3 Columns) */}
-        <div className="col-span-1 lg:col-span-3 flex flex-col space-y-1 min-w-0">
-          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 select-none">
-            Exposure Portfolio
-          </span>
-          <div className="text-[11px] text-slate-500 font-medium font-mono truncate">
-            Issued:{" "}
-            <span className="font-semibold text-slate-900">
-              {formatAmount(loan.loan_amount)}
+        {/* Stats Box */}
+        <div className="mx-4 flex items-center justify-between rounded-[22px] bg-[#F8FAFC] px-5 py-2 border border-gray-100/50">
+          <div>
+            <span className="text-[9px] font-extrabold text-gray-400 tracking-widest">
+              PRINCIPAL
             </span>
+            <div className="text-[15px] font-medium font-outfit text-black">
+              {amount}
+            </div>
           </div>
-          <div className="text-[11px] text-slate-500 font-medium font-mono truncate">
-            Outstanding:{" "}
-            <span className="font-bold text-error">
-              {formatAmount(loan.loan_Balance)}
+          <div className="h-8 w-[1px] bg-gray-200" />
+          <div className="text-right">
+            <span className="text-[9px] font-extrabold text-gray-400 tracking-widest">
+              CURRENT BALANCE
             </span>
+            <div className="text-[15px] font-medium font-outfit text-[#0A2351]">
+              {balance}
+            </div>
           </div>
         </div>
 
-        {/* COLUMN 4: LIFESPAN STAGE STATUS (Spans 2 Columns) */}
-        <div className="col-span-1 lg:col-span-2 flex flex-col space-y-1.5 min-w-0">
-          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 select-none">
-            Lifespan Stage
-          </span>
-          <span
-            className={`inline-flex items-center gap-1.5 text-[9px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-md border w-fit select-none ${
-              isActive
-                ? "bg-primary/5 border-primary/10 text-primary"
-                : "bg-success/5 border-success/10 text-success"
-            }`}
+        {/* Footer */}
+        <div className="flex items-center justify-between px-6 pt-4 pb-5">
+          <div
+            className="flex items-center gap-2 rounded-full px-3 py-1.5"
+            style={{ backgroundColor: `${statusColor}15` }}
           >
-            <span
-              className={`size-1 rounded-full ${isActive ? "bg-primary" : "bg-success"}`}
+            <div
+              className="h-1.5 w-1.5 rounded-full"
+              style={{ backgroundColor: statusColor }}
             />
-            {loan.loan_status}
-          </span>
-          <span className="text-[10px] text-slate-400 font-medium pt-0.5 font-mono">
-            Due:{" "}
-            {new Date(loan.loan_due_date).toLocaleDateString("en-KE", {
-              dateStyle: "medium",
-            })}
-          </span>
-        </div>
+            <span
+              className="text-[10px] font-medium uppercase"
+              style={{ color: statusColor }}
+            >
+              {status}
+            </span>
+          </div>
 
-        {/* COLUMN 5: OPERATIONAL ACTIONS TOOLBAR (Spans 1 Column) */}
-        <div className="col-span-1 sm:col-span-2 lg:col-span-1 flex items-center justify-start lg:justify-end gap-1.5 pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-100 w-full lg:w-auto self-end lg:self-auto">
-          <button
-            type="button"
-            onClick={() => navigate(`/loan-details/${loan?.id}`)}
-            className="size-8 rounded-xl border border-slate-200/60 flex items-center justify-center text-slate-400 hover:text-primary hover:bg-slate-50 hover:border-slate-300 transition-all shadow-3xs bg-white cursor-pointer"
-            title="Open Amortization File"
-          >
-            <Eye size={14} />
-          </button>
+          <div className="flex items-center gap-0.5 text-[#0A2351] group">
+            <span className="text-[11px] font-bold">View Details</span>
+            <ChevronRight
+              size={14}
+              strokeWidth={3}
+              className="transition-transform group-hover:translate-x-0.5"
+            />
+          </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

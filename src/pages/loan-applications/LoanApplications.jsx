@@ -8,6 +8,10 @@ import {
   Smartphone,
   X,
   Eye,
+  CheckCircle2,
+  XCircle,
+  Clock,
+  Calendar,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -108,24 +112,32 @@ const LoanApplications = () => {
 
             <div className="space-y-4">
               {isFetching ? (
-                <div className="p-3 overflow-y-auto">
+                /* SKELETON LOADING GRID (Matches live layout height for layout stability) */
+                <div className="border border-slate-200/40 rounded-[24px] h-[500px] p-3 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 content-start custom-scrollbar">
                   {Array.from({ length: 7 }).map((_, index) => (
                     <ApplicationSkeleton key={`skeleton-${index}`} />
                   ))}
                 </div>
               ) : loanApplications.length > 0 ? (
-                <div className="border border-slate-200/80 rounded-[24px] h-[650px] p-3 overflow-y-auto space-y-3 custom-scrollbar">
+                /* LIVE APPLICATION GRID */
+                <div className="border border-slate-200/80 rounded-[24px] h-[600px] p-3 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 content-start custom-scrollbar">
                   {loanApplications.map((app) => (
                     <ApplicationItem
-                      key={app.id}
-                      app={app}
-                      formatAmount={formatAmount}
-                      navigate={navigate}
+                      key={app.reference}
+                      title={app?.product?.product_name}
+                      date={app?.application_date}
+                      amount={app?.applied_amount}
+                      status={app?.status_label}
+                      reference={app?.application_number}
+                      onTap={() =>
+                        navigate(`/loan-application-details/${app?.id}`)
+                      }
                     />
                   ))}
                 </div>
               ) : (
-                <div className="h-[650px] bg-white rounded-[24px] border border-slate-200/60 flex flex-col items-center justify-center p-8 text-center">
+                /* EMPTY STATE CONTAINER */
+                <div className="h-[600px] bg-white rounded-[24px] border border-slate-200/60 flex flex-col items-center justify-center p-8 text-center">
                   <div className="relative mb-6 flex items-center justify-center">
                     <div className="absolute w-20 h-20 bg-slate-50 rounded-full animate-pulse" />
                     <div className="relative w-16 h-16 bg-slate-100/80 border border-slate-200/30 rounded-2xl flex items-center justify-center text-slate-400">
@@ -208,131 +220,91 @@ const ApplyLoanAction = ({ onClick }) => {
   );
 };
 
-const ApplicationItem = ({ app, formatAmount, navigate }) => {
-  const isApprovedOrDisbursed =
-    app.status_label?.toLowerCase() === "approved" ||
-    app?.status_label?.toLowerCase() === "disbursed";
+const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
+  // Logic to determine color and icon based on status
+  const getStatusConfig = (status) => {
+    switch (status.toLowerCase()) {
+      case "approved":
+        return {
+          color: "#10B981", // Emerald
+          bg: "bg-emerald-500/10",
+          icon: CheckCircle2,
+        };
+      case "disbursed":
+        return {
+          color: "#10B981", // Emerald
+          bg: "bg-emerald-500/10",
+          icon: CheckCircle2,
+        };
+      case "declined":
+        return {
+          color: "#EF4444", // Rose
+          bg: "bg-red-500/10",
+          icon: XCircle,
+        };
+      case "pending":
+      default:
+        return {
+          color: "#F59E0B", // Amber
+          bg: "bg-amber-500/10",
+          icon: Clock,
+        };
+    }
+  };
+
+  const config = getStatusConfig(status);
+  const StatusIcon = config.icon;
+  const formatAmount = useFormatAmount();
 
   return (
     <motion.div
-      whileTap={{ scale: 0.995 }}
-      className="group bg-white rounded-[24px] p-5 border border-slate-200/60 border-b-2 shadow-sm hover:shadow-md transition-all mb-4 w-full"
+      whileTap={{ scale: 0.98 }}
+      onClick={onTap}
+      className="group cursor-pointer select-none mb-4"
     >
-      {/* 12-Column Responsive Matrix Grid Track Layout */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-5 items-start lg:items-center text-xs">
-        {/* COLUMN 1: APPLICANT IDENTITY DETAILS (Spans 3 Columns on Wide Screens) */}
-        <div className="col-span-1 sm:col-span-2 lg:col-span-3 flex flex-col space-y-1.5 min-w-0">
-          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 select-none">
-            Applicant Details
-          </span>
-          <div className="flex items-center gap-2 select-none">
-            <span className="font-sans font-bold text-[9px] tracking-wider uppercase px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md border border-slate-200/40">
-              {app.application_number}
-            </span>
-          </div>
-          <span className="font-semibold text-slate-900 text-sm tracking-tight group-hover:text-primary transition-colors truncate">
-            {app.applicant_name}
-          </span>
-          <span className="text-[11px] text-slate-400 font-normal flex items-center gap-1 font-mono">
-            <Smartphone size={11} className="text-slate-300" />{" "}
-            {app.applicant_mobile}
-          </span>
-        </div>
+      <div className="relative overflow-hidden bg-white rounded-[24px] p-4 border border-[#F1F5F9] border-b-2 shadow-sm hover:shadow-md transition-all">
+        {/* Subtle Anansi Teal Splash Overlay on Hover */}
+        <div className="absolute inset-0 bg-[#17C6C6]/0 group-hover:bg-[#17C6C6]/[0.02] transition-colors pointer-events-none" />
 
-        {/* COLUMN 2: FINANCIAL PRODUCT TYPE (Spans 2 Columns on Wide Screens) */}
-        <div className="col-span-1 lg:col-span-2 flex flex-col space-y-1.5 min-w-0">
-          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 select-none flex items-center gap-1">
-            Credit Product
-          </span>
-          <span className="font-semibold text-slate-800 text-sm tracking-tight truncate">
-            {app.product.product_name}
-          </span>
-          <div className="flex items-center gap-1.5 select-none">
-            <span className="font-sans font-bold text-[9px] tracking-wider uppercase px-1.5 py-0.5 bg-slate-50 text-slate-400 rounded border border-slate-200/40 font-mono">
-              {app.product.product_code}
-            </span>
+        <div className="relative flex items-center gap-4">
+          {/* 1. Status Indicator Icon */}
+          <div
+            className={`shrink-0 w-10 h-10 rounded-full ${config.bg} flex items-center justify-center`}
+            style={{ color: config.color }}
+          >
+            <StatusIcon size={20} strokeWidth={2.5} />
           </div>
-        </div>
 
-        {/* COLUMN 3: FUNDING VALUATION DETAILS (Spans 2 Columns on Wide Screens) */}
-        <div className="col-span-1 lg:col-span-2 flex flex-col space-y-1.5 min-w-0">
-          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 select-none">
-            Applied Capital
-          </span>
-          <span className="font-semibold text-slate-900 text-sm tracking-tight font-mono">
-            {formatAmount(app.applied_amount)}
-          </span>
-          <div className="text-[11px] text-slate-400 font-medium flex items-center gap-2 select-none">
-            <span>
-              Tenor:{" "}
-              <span className="text-slate-700 font-semibold">
-                {app.loan_period} Months
+          {/* 2. Main Details */}
+          <div className="flex-1 min-w-0">
+            <span className="block font-mono text-slate-400 text-[10px] font-bold tracking-wider uppercase leading-none mb-1">
+              {reference}
+            </span>
+            <h3 className="font-medium text-[14px] text-[#0A2351] leading-tight truncate">
+              {title}
+            </h3>
+            <div className="flex items-center gap-1.5 mt-1">
+              <Calendar size={11} className="text-slate-400" />
+              <span className="text-slate-400 text-[11px] font-medium">
+                {date}
               </span>
-            </span>
-            <span className="size-1 bg-slate-200 rounded-full" />
-            <span className="text-primary font-bold text-[9px] bg-primary/5 px-1.5 py-0.5 rounded uppercase tracking-wider font-mono">
-              {app.loan_channel}
-            </span>
+            </div>
           </div>
-        </div>
 
-        {/* COLUMN 4: INTEREST PROFILE CALCULATION (Spans 2 Columns on Wide Screens) */}
-        <div className="col-span-1 lg:col-span-2 flex flex-col space-y-1 min-w-0">
-          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 select-none">
-            Interest Settings
-          </span>
-          <span className="font-semibold text-slate-900 text-sm tracking-tight">
-            {parseFloat(app?.product?.interest_rate)?.toFixed(1)}%{" "}
-            <span className="text-[10px] text-slate-400 font-normal lowercase">
-              p.m.
+          {/* 3. Amount and Status Badge */}
+          <div className="flex flex-col items-end shrink-0">
+            <span className="font-medium text-[14px] text-[#0A2351] tracking-tighter">
+              {formatAmount(amount)}
             </span>
-          </span>
-          <span className="text-[11px] text-slate-400 font-medium capitalize truncate">
-            {app?.product?.interest_method?.replace("_", " ") ??
-              "Reducing Balance"}
-          </span>
-        </div>
-
-        {/* COLUMN 5: PIPELINE PROGRESS STATUS (Spans 2 Columns on Wide Screens) */}
-        <div className="col-span-1 lg:col-span-2 flex flex-col space-y-1.5 min-w-0">
-          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 select-none">
-            Workflow Progress
-          </span>
-          <span className="font-semibold text-slate-800 text-sm tracking-tight truncate">
-            {app.current_stage_label}
-          </span>
-          <span
-            className={`inline-flex items-center gap-1.5 text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-md border w-fit select-none ${
-              isApprovedOrDisbursed
-                ? "bg-success/5 border-success/10 text-success"
-                : "bg-warning/5 border-warning/10 text-warning"
-            }`}
-          >
-            {app.status_label}
-          </span>
-        </div>
-
-        {/* COLUMN 6: CONTEXT CONTROL PANEL BUTTONS (Spans 1 Column on Wide Screens) */}
-        <div className="col-span-1 sm:col-span-2 lg:col-span-1 flex items-center justify-start lg:justify-end gap-1.5 pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-100 w-full lg:w-auto self-end lg:self-auto">
-          <button
-            type="button"
-            onClick={() => navigate(`/loan-application-details/${app?.id}`)}
-            className="size-8 rounded-xl border border-slate-200/60 flex items-center justify-center text-slate-400 hover:text-primary hover:bg-slate-50 hover:border-slate-300 transition-all shadow-2xs bg-white cursor-pointer"
-            title="View Application Audit File"
-          >
-            <Eye size={14} />
-          </button>
-
-          {app.status_label?.toLowerCase() !== "approved" ||
-            (app.status_label?.toLowerCase() !== "disbursed" && (
-              <button
-                type="button"
-                className="size-8 rounded-xl border border-rose-100 flex items-center justify-center text-error hover:bg-rose-50 hover:border-rose-200 transition-all shadow-2xs bg-white cursor-pointer"
-                title="Log Disapproval Veto"
-              >
-                <X size={14} />
-              </button>
-            ))}
+            <div
+              className={`mt-2 px-3 py-2 rounded-lg flex items-center justify-center ${config.bg}`}
+              style={{ color: config.color }}
+            >
+              <span className="text-[9px] font-medium uppercase tracking-widest leading-none">
+                {status}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </motion.div>
