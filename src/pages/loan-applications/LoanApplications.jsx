@@ -5,15 +5,12 @@ import {
   ChevronRight,
   ChevronDown,
   SlidersHorizontal,
-  Smartphone,
-  X,
-  Eye,
   CheckCircle2,
   XCircle,
   Clock,
-  Calendar,
+  Layers,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getLoanApplications } from "../../sdks/applications/applications";
@@ -28,7 +25,6 @@ const LoanApplications = () => {
   const { showToast } = useToast();
   const [loanApplications, setLoanApplications] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
-  const formatAmount = useFormatAmount();
 
   const { isFetching } = useQuery({
     queryKey: ["all loan applications", statusFilter],
@@ -37,7 +33,7 @@ const LoanApplications = () => {
       return response?.data?.data;
     },
     onSuccess: (data) => {
-      setLoanApplications(data?.applications);
+      setLoanApplications(data?.applications || []);
     },
     onError: (error) => {
       showToast({
@@ -49,10 +45,22 @@ const LoanApplications = () => {
     },
   });
 
+  const filteredApplications = loanApplications.filter((app) => {
+    const query = searchQuery.toLowerCase();
+    const productName = app?.product?.product_name?.toLowerCase() || "";
+    const referenceNum = app?.application_number?.toLowerCase() || "";
+    const purpose = app?.loan_purpose?.toLowerCase() || "";
+    return (
+      productName.includes(query) ||
+      referenceNum.includes(query) ||
+      purpose.includes(query)
+    );
+  });
+
   return (
-    <div className="bg-slate-50 h-full text-primary">
-      <div className="max-w-6xl sm:px-4 mx-auto">
-        {/* Header Section */}
+    <div className="bg-slate-50 h-full text-primary py-6">
+      <div className="max-w-6xl sm:px-4 mx-auto space-y-5">
+        {/* HEADER SECTION WITH APPLY BUTTON OPPOSITE */}
         <header className="flex mb-3 flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <h1 className="text-2xl font-medium tracking-tight">
@@ -63,121 +71,78 @@ const LoanApplications = () => {
               pipeline.
             </p>
           </div>
+          <ApplyLoanAction onClick={() => navigate("/loan-products")} />
         </header>
 
-        {/* Layout Grid */}
-        <div className="w-full">
-          <section className="flex flex-col gap-5">
-            <div className="flex items-center w-full justify-between">
-              <div className="flex gap-3">
-                <div className="relative w-[500px]">
-                  <Search
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
-                    size={18}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Search by product or application code..."
-                    className="w-full pl-12 pr-4 h-12 bg-white border rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm font-bold transition-all"
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-                <div className="relative flex items-center group">
-                  {/* Left Filter Context Icon Prefix */}
-                  <div className="absolute left-4 text-slate-400 border-r border-slate-200/60 pr-3 h-4 flex items-center pointer-events-none select-none">
-                    <SlidersHorizontal size={14} strokeWidth={2.5} />
-                  </div>
-                  <select
-                    value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                    className="w-full h-12 pl-12 pr-10 bg-white border border-slate-200 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-slate-500 outline-none transition-all cursor-pointer appearance-none hover:bg-slate-50/50"
-                  >
-                    <option value="">All Records</option>
-                    <option value="pending_guarantor">
-                      Pending Guarantors
-                    </option>
-                    <option value="approved">Approved</option>
-                    <option value="eligibility_failed">
-                      Failed Eligibility
-                    </option>
-                    <option value="cancelled">Cancelled</option>
-                  </select>
-                  <div className="absolute right-4 text-slate-400 pointer-events-none select-none group-focus-within:text-slate-900 transition-colors">
-                    <ChevronDown size={14} strokeWidth={2.5} />
-                  </div>
-                </div>
-              </div>
-              <ApplyLoanAction onClick={() => navigate("/loan-products")} />
+        {/* SEARCH & FILTER CONTROLS BAR (Standalone) */}
+        <div className="flex items-center w-full justify-between gap-4 flex-wrap">
+          <div className="flex gap-3 w-full">
+            <div className="relative flex-1">
+              <Search
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
+                size={18}
+              />
+              <input
+                type="text"
+                placeholder="Search by product, application code or purpose..."
+                className="w-full pl-12 pr-4 h-12 bg-white border rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm font-bold transition-all text-slate-800 placeholder:text-slate-400"
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
 
-            <div className="space-y-4">
-              {isFetching ? (
-                /* SKELETON LOADING GRID (Matches live layout height for layout stability) */
-                <div className="border border-slate-200/40 rounded-[24px] h-[500px] p-3 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 content-start custom-scrollbar">
-                  {Array.from({ length: 7 }).map((_, index) => (
-                    <ApplicationSkeleton key={`skeleton-${index}`} />
-                  ))}
-                </div>
-              ) : loanApplications.length > 0 ? (
-                /* LIVE APPLICATION GRID */
-                <div className="border border-slate-200/80 rounded-[24px] h-[600px] p-3 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 content-start custom-scrollbar">
-                  {loanApplications.map((app) => (
-                    <ApplicationItem
-                      key={app.reference}
-                      title={app?.product?.product_name}
-                      date={app?.application_date}
-                      amount={app?.applied_amount}
-                      status={app?.status_label}
-                      reference={app?.application_number}
-                      onTap={() =>
-                        navigate(`/loan-application-details/${app?.id}`)
-                      }
-                    />
-                  ))}
-                </div>
-              ) : (
-                /* EMPTY STATE CONTAINER */
-                <div className="h-[600px] bg-white rounded-[24px] border border-slate-200/60 flex flex-col items-center justify-center p-8 text-center">
-                  <div className="relative mb-6 flex items-center justify-center">
-                    <div className="absolute w-20 h-20 bg-slate-50 rounded-full animate-pulse" />
-                    <div className="relative w-16 h-16 bg-slate-100/80 border border-slate-200/30 rounded-2xl flex items-center justify-center text-slate-400">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="w-7 h-7"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          pathLength="360"
-                          d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="max-w-sm space-y-2 mb-8">
-                    <h3 className="text-lg font-bold text-primary tracking-tight">
-                      No matching applications found
-                    </h3>
-                    <p className="text-slate-400 text-sm leading-relaxed">
-                      We couldn't find any active or past credit applications
-                      linked to your current search parameters. Try adjusting
-                      your filters.
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => window.location.reload()}
-                    className="px-6 py-3 bg-primary hover:bg-secondary text-white font-semibold rounded-xl text-xs uppercase tracking-wider transition-all active:scale-[0.98] shadow-md shadow-slate-900/5"
-                  >
-                    Clear Active Filters
-                  </button>
-                </div>
-              )}
+            <div className="relative flex items-center group shrink-0">
+              <div className="absolute left-4 text-slate-400 border-r border-slate-200/60 pr-3 h-4 flex items-center pointer-events-none select-none">
+                <SlidersHorizontal size={14} strokeWidth={2.5} />
+              </div>
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="h-12 pl-12 pr-10 bg-white border border-slate-200 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-slate-500 outline-none transition-all cursor-pointer appearance-none hover:bg-slate-50/50"
+              >
+                <option value="">All Records</option>
+                <option value="pending_guarantor">Pending Guarantors</option>
+                <option value="approved">Approved</option>
+                <option value="disbursed">Disbursed</option>
+                <option value="eligibility_failed">Failed Eligibility</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+              <div className="absolute right-4 text-slate-400 pointer-events-none select-none group-focus-within:text-slate-900 transition-colors">
+                <ChevronDown size={14} strokeWidth={2.5} />
+              </div>
             </div>
-          </section>
+          </div>
+        </div>
+
+        {/* DATA-DENSE COMPACT ROW CONTAINER */}
+        <div className="w-full">
+          {isFetching ? (
+            <div className="bg-white border border-slate-200/60 rounded-[24px] p-3 space-y-2 shadow-sm">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <ApplicationSkeleton key={`skeleton-${index}`} />
+              ))}
+            </div>
+          ) : filteredApplications.length > 0 ? (
+            <div className="bg-white border border-slate-200/60 rounded-[24px] p-3 space-y-4 shadow-sm">
+              <AnimatePresence>
+                {filteredApplications.map((app) => (
+                  <DataDenseRow
+                    key={app.id}
+                    app={app}
+                    onTap={() =>
+                      navigate(`/loan-application-details/${app?.id}`)
+                    }
+                  />
+                ))}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <EmptyState
+              onReset={() => {
+                setSearchQuery("");
+                setStatusFilter("");
+              }}
+            />
+          )}
         </div>
       </div>
     </div>
@@ -185,34 +150,30 @@ const LoanApplications = () => {
 };
 
 /* --- Sub-Components --- */
+
 const ApplyLoanAction = ({ onClick }) => {
   return (
-    <div>
+    <div className="w-full md:w-auto">
       <motion.button
         whileTap={{ scale: 0.97 }}
         whileHover={{ y: -2 }}
         onClick={onClick}
-        className="w-full text-left bg-white p-4 rounded-[24px] border border-[#0A2351]/10 flex items-center shadow-sm hover:shadow-md transition-all group"
+        className="w-full md:w-auto text-left bg-white p-3 px-5 rounded-[20px] border border-[#0A2351]/10 flex items-center shadow-sm hover:shadow-md transition-all group shrink-0"
       >
-        {/* 1. Circle Icon (Matching darkBlue color) */}
-        <div className="p-3 bg-[#0A2351] rounded-full text-white shrink-0 group-hover:scale-110 transition-transform duration-300">
-          <Plus size={20} strokeWidth={3} />
+        <div className="p-2.5 bg-[#0A2351] rounded-full text-white shrink-0 group-hover:scale-110 transition-transform duration-300">
+          <Plus size={16} strokeWidth={3} />
         </div>
-
-        {/* 2. Text Content */}
-        <div className="flex-1 ml-4 flex flex-col justify-center">
-          <span className="text-[#0A2351] font-medium text-[15px] leading-tight">
+        <div className="flex-1 ml-3.5 flex flex-col justify-center">
+          <span className="text-[#0A2351] font-semibold text-[13px] leading-tight">
             Apply for a new Loan
           </span>
-          <span className="text-slate-400 text-[11px] font-medium mt-0.5">
-            Instant processing for eligible members
+          <span className="text-slate-400 text-[10px] font-medium mt-0.5">
+            Instant processing
           </span>
         </div>
-
-        {/* 3. Right Chevron */}
         <ChevronRight
           size={16}
-          className="text-slate-300 ml-6 group-hover:translate-x-1 transition-transform"
+          className="text-slate-300 ml-4 group-hover:translate-x-1 transition-transform"
           strokeWidth={2.5}
         />
       </motion.button>
@@ -220,90 +181,98 @@ const ApplyLoanAction = ({ onClick }) => {
   );
 };
 
-const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
-  // Logic to determine color and icon based on status
-  const getStatusConfig = (status) => {
-    switch (status.toLowerCase()) {
+const DataDenseRow = ({ app, onTap }) => {
+  const formatAmount = useFormatAmount();
+
+  const getStatusConfig = (currentStatus) => {
+    switch (currentStatus?.toLowerCase()) {
       case "approved":
-        return {
-          color: "#10B981", // Emerald
-          bg: "bg-emerald-500/10",
-          icon: CheckCircle2,
-        };
       case "disbursed":
+      case "completed":
         return {
-          color: "#10B981", // Emerald
-          bg: "bg-emerald-500/10",
+          color: "text-emerald-700 bg-emerald-50 border-emerald-200/60",
           icon: CheckCircle2,
         };
       case "declined":
+      case "eligibility_failed":
+      case "cancelled":
         return {
-          color: "#EF4444", // Rose
-          bg: "bg-red-500/10",
+          color: "text-rose-700 bg-rose-50 border-rose-200/60",
           icon: XCircle,
         };
       case "pending":
+      case "pending_guarantor":
       default:
         return {
-          color: "#F59E0B", // Amber
-          bg: "bg-amber-500/10",
+          color: "text-amber-700 bg-amber-50 border-amber-200/60",
           icon: Clock,
         };
     }
   };
 
-  const config = getStatusConfig(status);
+  const config = getStatusConfig(app.status_label || app.status);
   const StatusIcon = config.icon;
-  const formatAmount = useFormatAmount();
 
   return (
     <motion.div
-      whileTap={{ scale: 0.98 }}
+      initial={{ opacity: 0, y: 4 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileTap={{ scale: 0.995 }}
       onClick={onTap}
-      className="group cursor-pointer select-none mb-4"
+      className="group cursor-pointer select-none text-left"
     >
-      <div className="relative overflow-hidden bg-white rounded-[24px] p-4 border border-[#F1F5F9] border-b-2 shadow-sm hover:shadow-md transition-all">
-        {/* Subtle Anansi Teal Splash Overlay on Hover */}
-        <div className="absolute inset-0 bg-[#17C6C6]/0 group-hover:bg-[#17C6C6]/[0.02] transition-colors pointer-events-none" />
+      <div className="bg-slate-50/50 hover:bg-slate-50 p-3.5 sm:px-4 rounded-xl border border-slate-200/50 hover:border-blue-300 transition-all grid grid-cols-1 md:grid-cols-12 items-center gap-3 text-xs text-left">
+        {/* Col 1: Reference & Product (Span 3) - Left Aligned */}
+        <div className="md:col-span-3 min-w-0 flex items-center gap-3 text-left">
+          <div className="w-9 h-9 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-500 shadow-2xs shrink-0 group-hover:text-primary transition-colors">
+            <Layers size={16} />
+          </div>
+          <div className="min-w-0 text-left">
+            <div className="flex items-center gap-1.5 font-mono text-[10px] font-bold text-slate-400 text-left">
+              <span>{app.application_number}</span>
+              <span>•</span>
+              <span>{app.application_date}</span>
+            </div>
+            <h4 className="font-bold text-slate-900 truncate group-hover:text-primary transition-colors text-sm text-left">
+              {app.product?.product_name || "Loan Product"}
+            </h4>
+          </div>
+        </div>
 
-        <div className="relative flex items-center gap-4">
-          {/* 1. Status Indicator Icon */}
+        {/* Col 2: Purpose & Terms (Span 3) - Left Aligned */}
+        <div className="md:col-span-3 flex flex-col justify-center min-w-0 text-left">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block text-left">
+            Purpose & Term
+          </span>
+          <p className="font-semibold text-slate-700 truncate block text-left">
+            {app.loan_purpose || "General"}{" "}
+            <span className="text-slate-400 font-normal">
+              ({app.loan_period} {app.loan_interval})
+            </span>
+          </p>
+        </div>
+
+        {/* Col 3: Principal Amount (Span 2) - Left Aligned */}
+        <div className="md:col-span-2 flex flex-col justify-center text-left">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block text-left">
+            Principal
+          </span>
+          <div className="font-bold text-slate-900 text-sm text-left block truncate">
+            {formatAmount(app.applied_amount)}
+          </div>
+        </div>
+
+        {/* Col 4: Status Badge & Arrow Pushed to the End (Span 4) */}
+        <div className="md:col-span-4 flex items-center justify-between md:justify-end gap-3 text-left">
           <div
-            className={`shrink-0 w-10 h-10 rounded-full ${config.bg} flex items-center justify-center`}
-            style={{ color: config.color }}
+            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md border text-[10px] font-bold uppercase tracking-wider ${config.color}`}
           >
-            <StatusIcon size={20} strokeWidth={2.5} />
+            <StatusIcon size={12} />
+            <span>{app.status_label || app.status}</span>
           </div>
 
-          {/* 2. Main Details */}
-          <div className="flex-1 min-w-0">
-            <span className="block font-mono text-slate-400 text-[10px] font-bold tracking-wider uppercase leading-none mb-1">
-              {reference}
-            </span>
-            <h3 className="font-medium text-[14px] text-[#0A2351] leading-tight truncate">
-              {title}
-            </h3>
-            <div className="flex items-center gap-1.5 mt-1">
-              <Calendar size={11} className="text-slate-400" />
-              <span className="text-slate-400 text-[11px] font-medium">
-                {date}
-              </span>
-            </div>
-          </div>
-
-          {/* 3. Amount and Status Badge */}
-          <div className="flex flex-col items-end shrink-0">
-            <span className="font-medium text-[14px] text-[#0A2351] tracking-tighter">
-              {formatAmount(amount)}
-            </span>
-            <div
-              className={`mt-2 px-3 py-2 rounded-lg flex items-center justify-center ${config.bg}`}
-              style={{ color: config.color }}
-            >
-              <span className="text-[9px] font-medium uppercase tracking-widest leading-none">
-                {status}
-              </span>
-            </div>
+          <div className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all shadow-2xs shrink-0">
+            <ChevronRight size={14} strokeWidth={2.5} />
           </div>
         </div>
       </div>
@@ -311,76 +280,47 @@ const ApplicationItem = ({ reference, title, date, amount, status, onTap }) => {
   );
 };
 
-const ApplicationSkeleton = () => {
-  return (
-    <div className="animate-pulse bg-white rounded-[24px] p-5 border border-slate-200/60 border-b-2 shadow-sm mb-4 w-full select-none pointer-events-none">
-      {/* 12-Column Responsive Matrix Grid Framework Track Alignment */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-5 items-start lg:items-center">
-        {/* COLUMN 1: APPLICANT IDENTITY TRACK (3 Columns) */}
-        <div className="col-span-1 sm:col-span-2 lg:col-span-3 flex flex-col space-y-2">
-          {/* Internal Header Label */}
-          <div className="h-2 bg-slate-200 rounded-sm w-20" />
-          {/* Code & Number Badges Row */}
-          <div className="flex items-center gap-2">
-            <div className="h-4 bg-slate-200 rounded-md w-16" />
-            <div className="h-3 bg-slate-200 rounded-md w-20" />
-          </div>
-          {/* Applicant Name Title Line */}
-          <div className="h-4.5 bg-slate-200 rounded-md w-3/4" />
-          {/* Mobile Phone Node Line */}
-          <div className="h-3 bg-slate-200 rounded-md w-1/2" />
-        </div>
+const EmptyState = ({ onReset }) => (
+  <div className="h-[340px] bg-white border border-slate-200/60 rounded-[24px] flex flex-col items-center justify-center p-6 text-center shadow-sm">
+    <div className="w-12 h-12 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center text-slate-400 mb-3">
+      <Clock size={22} strokeWidth={1.5} />
+    </div>
+    <div className="max-w-xs space-y-1 mb-4">
+      <h3 className="text-sm font-bold text-slate-900 tracking-tight">
+        No matching applications found
+      </h3>
+      <p className="text-slate-400 text-xs font-medium">
+        We couldn't find any records matching your filters.
+      </p>
+    </div>
+    <button
+      onClick={onReset}
+      className="px-4 py-2 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-[11px] uppercase tracking-wider transition-all shadow-xs"
+    >
+      Clear Filters
+    </button>
+  </div>
+);
 
-        {/* COLUMN 2: CREDIT PRODUCT TYPE TRACK (2 Columns) */}
-        <div className="col-span-1 lg:col-span-2 flex flex-col space-y-2">
-          {/* Internal Header Label */}
-          <div className="h-2 bg-slate-200 rounded-sm w-16" />
-          {/* Product Name Title Line */}
-          <div className="h-4 bg-slate-200 rounded-md w-28" />
-          {/* Product Code Frame */}
-          <div className="h-3.5 bg-slate-200 rounded w-14" />
-        </div>
-
-        {/* COLUMN 3: FUNDING VALUATION DETAILS TRACK (2 Columns) */}
-        <div className="col-span-1 lg:col-span-2 flex flex-col space-y-2">
-          {/* Internal Header Label */}
-          <div className="h-2 bg-slate-200 rounded-sm w-16" />
-          {/* Principal Capital Amount Line */}
-          <div className="h-4 bg-slate-200 rounded-md w-24" />
-          {/* Tenor Info Metadata String Line */}
-          <div className="h-3 bg-slate-200 rounded-md w-28" />
-        </div>
-
-        {/* COLUMN 4: INTEREST PROFILE CALCULATION TRACK (2 Columns) */}
-        <div className="col-span-1 lg:col-span-2 flex flex-col space-y-2">
-          {/* Internal Header Label */}
-          <div className="h-2 bg-slate-200 rounded-sm w-20" />
-          {/* Interest Rate Value Line */}
-          <div className="h-4 bg-slate-200 rounded-md w-16" />
-          {/* Interest Amortization Method Line */}
-          <div className="h-3 bg-slate-200 rounded-md w-24" />
-        </div>
-
-        {/* COLUMN 5: PIPELINE PROGRESS STATUS TRACK (2 Columns) */}
-        <div className="col-span-1 lg:col-span-2 flex flex-col space-y-2">
-          {/* Internal Header Label */}
-          <div className="h-2 bg-slate-200 rounded-sm w-24" />
-          {/* Stage Progress Title Line */}
-          <div className="h-4 bg-slate-200 rounded-md w-20" />
-          {/* Operational Colored Status Badge Wrapper Box */}
-          <div className="h-5 bg-slate-200 rounded-md w-16" />
-        </div>
-
-        {/* COLUMN 6: CONTEXT CONTROL PANEL BUTTONS TRACK (1 Column) */}
-        <div className="col-span-1 sm:col-span-2 lg:col-span-1 flex items-center justify-start lg:justify-end gap-1.5 pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-100 w-full lg:w-auto self-end lg:self-auto">
-          {/* First Control Circle Block placeholder */}
-          <div className="size-8 rounded-xl bg-slate-200 shrink-0" />
-          {/* Second Control Circle Block placeholder */}
-          <div className="size-8 rounded-xl bg-slate-200 shrink-0" />
-        </div>
+const ApplicationSkeleton = () => (
+  <div className="animate-pulse bg-slate-50/40 rounded-xl p-3.5 border border-slate-200/40 w-full flex items-center justify-between gap-4">
+    <div className="flex items-center gap-3">
+      <div className="w-9 h-9 rounded-lg bg-slate-200 shrink-0" />
+      <div className="space-y-1.5">
+        <div className="h-2 bg-slate-200 rounded w-24" />
+        <div className="h-3.5 bg-slate-200 rounded w-36" />
       </div>
     </div>
-  );
-};
+    <div className="space-y-1.5 hidden md:block">
+      <div className="h-2 bg-slate-200 rounded w-16" />
+      <div className="h-3 bg-slate-200 rounded w-28" />
+    </div>
+    <div className="space-y-1.5">
+      <div className="h-2 bg-slate-200 rounded w-12" />
+      <div className="h-3.5 bg-slate-200 rounded w-20" />
+    </div>
+    <div className="h-6 bg-slate-200 rounded w-20" />
+  </div>
+);
 
 export default LoanApplications;

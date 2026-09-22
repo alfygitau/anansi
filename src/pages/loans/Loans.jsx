@@ -8,11 +8,12 @@ import {
   Plus,
   SlidersHorizontal,
   ChevronDown,
-  Eye,
-  Smartphone,
+  Layers,
+  XCircle,
+  Percent,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "react-query";
 import useAuth from "../../hooks/useAuth";
 import { useToast } from "../../contexts/ToastProvider";
@@ -35,7 +36,7 @@ const MyLoans = ({ onBack }) => {
       return response?.data?.data;
     },
     onSuccess: (data) => {
-      setLoans(data?.loan_data);
+      setLoans(data?.loan_data || []);
     },
     onError: (error) => {
       showToast({
@@ -66,49 +67,36 @@ const MyLoans = ({ onBack }) => {
     );
   }, [loans]);
 
-  const getLoanStatusColor = (status = "") => {
-    switch (status.toLowerCase().trim()) {
-      case "active":
-      case "approved":
-      case "servicing":
-        return "#10B981"; // Emerald Green
-      case "pending":
-      case "processing":
-      case "under_review":
-        return "#F59E0B"; // Amber/Yellow
-      case "defaulted":
-      case "overdue":
-      case "arrears":
-        return "#EF4444"; // Rose/Red
-      case "closed":
-      case "settled":
-      case "fully_paid":
-        return "#64748B"; // Slate Gray
-      default:
-        return "#94A3B8"; // Muted Light Gray (Fallback)
-    }
-  };
-
   const formatLabel = (str) => {
     if (!str) return "";
     const spaced = str.replace(/_/g, " ");
     return spaced.charAt(0).toUpperCase() + spaced.slice(1);
   };
 
+  const filteredLoans = loans.filter((loan) => {
+    const query = searchQuery.toLowerCase();
+    const title = formatLabel(loan?.loan_type).toLowerCase();
+    const code = loan?.loan_code?.toLowerCase() || "";
+    return title.includes(query) || code.includes(query);
+  });
+
   return (
-    <div className="bg-slate-50 text-primary">
-      <div className="max-w-6xl sm:px-4 mx-auto">
-        {/* Header */}
-        <header className="py-2">
-          <h1 className="text-2xl font-medium tracking-tight">My Loans</h1>
-          <p className="text-slate-400 text-sm font-medium">
-            Manage your active credit lines and track your path to financial
-            freedom.
-          </p>
+    <div className="bg-slate-50 min-h-full text-primary py-6">
+      <div className="max-w-6xl sm:px-4 mx-auto space-y-5">
+        {/* HEADER SECTION WITH APPLY BUTTON OPPOSITE */}
+        <header className="flex mb-3 flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <h1 className="text-2xl font-medium tracking-tight">My Loans</h1>
+            <p className="text-slate-400 text-sm font-medium">
+              Manage your active credit lines and track your path to financial
+              freedom.
+            </p>
+          </div>
+          <ApplyLoanAction onClick={() => navigate("/loan-products")} />
         </header>
 
-        {/* 1. Quick Stats Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+        {/* QUICK STATS ROW */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           <StatMiniCard
             label="Active"
             count={loanStats.active}
@@ -125,149 +113,113 @@ const MyLoans = ({ onBack }) => {
             icon={<CheckCircle2 className="text-emerald-500" />}
           />
         </div>
-        <h1 className="text-xl mt-6 mb-1 font-medium tracking-tight">
-          All Loans
-        </h1>
 
-        <section>
-          <div className="w-full flex items-center mb-5 justify-between">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="relative w-full w-[500px]">
-                <Search
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
-                  size={18}
-                />
-                <input
-                  type="text"
-                  placeholder="Search loan code or type..."
-                  className="w-full pl-12 pr-4 py-3 bg-white border rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm transition-all font-bold"
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
+        {/* SEARCH & FILTER CONTROLS BAR */}
+        <div className="flex items-center w-full justify-between gap-4 flex-wrap pt-2">
+          <div className="flex gap-3 w-full">
+            <div className="relative flex-1">
+              <Search
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
+                size={18}
+              />
+              <input
+                type="text"
+                placeholder="Search loan code or type..."
+                className="w-full pl-12 pr-4 h-12 bg-white border rounded-2xl focus:ring-2 focus:ring-secondary/20 outline-none text-sm font-bold transition-all text-slate-800 placeholder:text-slate-400"
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+
+            <div className="relative flex items-center group shrink-0">
+              <div className="absolute left-4 text-slate-400 border-r border-slate-200/60 pr-3 h-4 flex items-center pointer-events-none select-none">
+                <SlidersHorizontal size={14} strokeWidth={2.5} />
               </div>
-              <div className="relative flex items-center group">
-                {/* Left Filter Context Icon Prefix */}
-                <div className="absolute left-4 text-slate-400 border-r border-slate-200/60 pr-3 h-4 flex items-center pointer-events-none select-none">
-                  <SlidersHorizontal size={14} strokeWidth={2.5} />
-                </div>
-                <select
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  className="w-full h-12 pl-12 pr-10 bg-white border border-slate-200 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-slate-500 outline-none transition-all cursor-pointer appearance-none hover:bg-slate-50/50"
-                >
-                  <option value="">All Records</option>
-                  <option value="active">Active</option>
-                  <option value="cleared">Cleared / Paid</option>
-                  <option value="defaulted">Defaulted</option>
-                </select>
-                <div className="absolute right-4 text-slate-400 pointer-events-none select-none group-focus-within:text-slate-900 transition-colors">
-                  <ChevronDown size={14} strokeWidth={2.5} />
-                </div>
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="h-12 pl-12 pr-10 bg-white border border-slate-200 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-slate-500 outline-none transition-all cursor-pointer appearance-none hover:bg-slate-50/50"
+              >
+                <option value="">All Records</option>
+                <option value="active">Active</option>
+                <option value="cleared">Cleared / Paid</option>
+                <option value="defaulted">Defaulted</option>
+              </select>
+              <div className="absolute right-4 text-slate-400 pointer-events-none select-none group-focus-within:text-slate-900 transition-colors">
+                <ChevronDown size={14} strokeWidth={2.5} />
               </div>
             </div>
-            <ApplyLoanAction onClick={() => navigate("/loan-products")} />
           </div>
+        </div>
 
-          <div className="space-y-4">
-            {isFetching ? (
-              /* SKELETON LOADING GRID (Matches live layout height for stability) */
-              <div className="border border-slate-200/40 rounded-[24px] h-[620px] p-3 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 content-start custom-scrollbar">
-                {Array.from({ length: 4 }).map((_, index) => (
-                  <LoanItemSkeleton key={`loan-skeleton-${index}`} />
-                ))}
-              </div>
-            ) : loans.length > 0 ? (
-              /* LIVE LOAN DATA GRID */
-              <div className="border border-slate-200/80 rounded-[24px] h-[620px] p-3 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 content-start custom-scrollbar">
-                {loans.map((loan) => (
-                  <LoanItem
+        {/* DATA-DENSE COMPACT ROW CONTAINER */}
+        <div className="w-full">
+          {isFetching ? (
+            <div className="bg-white border border-slate-200/60 rounded-[24px] p-3 space-y-2 shadow-sm">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <LoanItemSkeleton key={`loan-skeleton-${index}`} />
+              ))}
+            </div>
+          ) : filteredLoans.length > 0 ? (
+            <div className="bg-white border border-slate-200/60 rounded-[24px] p-3 space-y-4 shadow-sm">
+              <AnimatePresence>
+                {filteredLoans.map((loan) => (
+                  <DataDenseLoanRow
                     key={loan?.id}
                     title={formatLabel(loan?.loan_type)}
                     id={loan?.loan_code}
                     amount={formatAmount(loan?.loan_amount)}
-                    balance={formatAmount(loan?.outstanding_balance)}
+                    balance={formatAmount(
+                      loan?.loan_Balance || loan?.loan_principal_balance,
+                    )}
+                    installmentAmount={formatAmount(
+                      loan?.loan_installment_amount,
+                    )}
+                    interestRate={loan?.loan_interest_per}
                     status={loan?.loan_status}
-                    statusColor={getLoanStatusColor(loan?.loan_status)}
-                    maturityDate={loan?.loan_due_date}
                     onTap={() => navigate(`/loan-details/${loan?.id}`)}
                   />
                 ))}
-              </div>
-            ) : (
-              /* EMPTY STATE (Kept centered in a single workspace box) */
-              <div className="h-[620px] bg-white rounded-[24px] border border-slate-200/60 flex flex-col items-center justify-center p-8 text-center">
-                <div className="relative mb-6 flex items-center justify-center">
-                  <div className="absolute w-20 h-20 bg-slate-50 rounded-full animate-pulse" />
-                  <div className="relative w-16 h-16 bg-slate-100/80 border border-slate-200/30 rounded-2xl flex items-center justify-center text-slate-400">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="w-7 h-7"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        pathLength="360"
-                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div className="max-w-sm space-y-2 mb-8">
-                  <h3 className="text-lg font-bold text-primary tracking-tight">
-                    No matching loan
-                  </h3>
-                  <p className="text-primary text-sm leading-relaxed">
-                    We couldn't find any active or past loan linked to your
-                    current search parameters. Try adjusting your filters.
-                  </p>
-                </div>
-                <button
-                  onClick={() => window.location.reload()}
-                  className="px-6 py-3 bg-primary hover:bg-secondary text-white font-semibold rounded-xl text-xs uppercase tracking-wider transition-all active:scale-[0.98] shadow-md shadow-slate-900/5"
-                >
-                  Clear Active Filters
-                </button>
-              </div>
-            )}
-          </div>
-        </section>
+              </AnimatePresence>
+            </div>
+          ) : (
+            <EmptyState
+              onReset={() => {
+                setSearchQuery("");
+                setStatusFilter("");
+              }}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
 /* --- Sub-Components --- */
+
 const ApplyLoanAction = ({ onClick }) => {
   return (
-    <div>
+    <div className="w-full md:w-auto">
       <motion.button
         whileTap={{ scale: 0.97 }}
         whileHover={{ y: -2 }}
         onClick={onClick}
-        className="w-full text-left bg-white p-4 rounded-[24px] border border-[#0A2351]/10 flex items-center shadow-sm hover:shadow-md transition-all group"
+        className="w-full md:w-auto text-left bg-white p-3 px-5 rounded-[20px] border border-[#0A2351]/10 flex items-center shadow-sm hover:shadow-md transition-all group shrink-0"
       >
-        {/* 1. Circle Icon (Matching darkBlue color) */}
-        <div className="p-3 bg-[#0A2351] rounded-full text-white shrink-0 group-hover:scale-110 transition-transform duration-300">
-          <Plus size={20} strokeWidth={3} />
+        <div className="p-2.5 bg-[#0A2351] rounded-full text-white shrink-0 group-hover:scale-110 transition-transform duration-300">
+          <Plus size={16} strokeWidth={3} />
         </div>
-
-        {/* 2. Text Content */}
-        <div className="flex-1 ml-4 flex flex-col justify-center">
-          <span className="text-[#0A2351] font-medium text-[15px] leading-tight">
+        <div className="flex-1 ml-3.5 flex flex-col justify-center text-left">
+          <span className="text-[#0A2351] font-semibold text-[13px] leading-tight">
             Apply for a new Loan
           </span>
-          <span className="text-slate-400 text-[11px] font-medium mt-0.5">
-            Instant processing for eligible members
+          <span className="text-slate-400 text-[10px] font-medium mt-0.5">
+            Instant processing
           </span>
         </div>
-
-        {/* 3. Right Chevron */}
         <ChevronRight
           size={16}
-          className="text-slate-300 ml-6 group-hover:translate-x-1 transition-transform"
+          className="text-slate-300 ml-4 group-hover:translate-x-1 transition-transform"
           strokeWidth={2.5}
         />
       </motion.button>
@@ -275,166 +227,175 @@ const ApplyLoanAction = ({ onClick }) => {
   );
 };
 
-const LoanItem = ({
+const DataDenseLoanRow = ({
   title,
   id,
   amount,
   balance,
-  status,
-  statusColor,
-  maturityDate,
+  installmentAmount,
+  interestRate,
+  status = "",
   onTap,
 }) => {
+  const getStatusConfig = (currentStatus) => {
+    switch (currentStatus?.toLowerCase().trim()) {
+      case "active":
+      case "approved":
+      case "servicing":
+        return {
+          color: "text-emerald-700 bg-emerald-50 border-emerald-200/60",
+          icon: CheckCircle2,
+        };
+      case "defaulted":
+      case "overdue":
+      case "arrears":
+        return {
+          color: "text-rose-700 bg-rose-50 border-rose-200/60",
+          icon: XCircle,
+        };
+      case "closed":
+      case "settled":
+      case "fully_paid":
+      case "completed":
+        return {
+          color: "text-slate-700 bg-slate-100 border-slate-200",
+          icon: CheckCircle2,
+        };
+      case "pending":
+      case "processing":
+      default:
+        return {
+          color: "text-amber-700 bg-amber-50 border-amber-200/60",
+          icon: Clock,
+        };
+    }
+  };
+
+  const config = getStatusConfig(status);
+  const StatusIcon = config.icon;
+
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 4 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileTap={{ scale: 0.995 }}
       onClick={onTap}
-      className="mb-4 cursor-pointer rounded-[30px] bg-white transition-all active:scale-[0.99] shadow-sm shadow-[0_12px_32px_rgba(10,35,81,0.07)] hover:shadow-[0_12px_32px_rgba(10,35,81,0.07)]"
+      className="group cursor-pointer select-none text-left"
     >
-      <div className="flex flex-col">
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 pt-5 pb-3.5">
-          <div className="flex flex-col">
-            <h3 className="text-[16px] font-medium text-[#0A2351] tracking-tight">
-              {title}
-            </h3>
-            <span className="text-[13px] font-bold text-gray-500">{id}</span>
+      <div className="bg-slate-50/40 hover:bg-slate-50 px-4 py-3 rounded-xl border border-slate-200/40 hover:border-blue-300 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 text-left">
+        {/* Left: Icon, Title, ID, and Interest Rate */}
+        <div className="flex items-center gap-3.5 w-full md:w-[240px] shrink-0 text-left">
+          <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 shadow-2xs shrink-0 group-hover:text-primary transition-colors">
+            <Layers size={18} />
           </div>
-          <div className="flex flex-col items-end">
-            <span className="text-[9px] font-extrabold text-gray-400">
-              MATURITY
-            </span>
-            <span className="text-[12px] font-bold text-[#0A2351]">
-              {maturityDate}
-            </span>
-          </div>
-        </div>
-
-        {/* Stats Box */}
-        <div className="mx-4 flex items-center justify-between rounded-[22px] bg-[#F8FAFC] px-5 py-2 border border-gray-100/50">
-          <div>
-            <span className="text-[9px] font-extrabold text-gray-400 tracking-widest">
-              PRINCIPAL
-            </span>
-            <div className="text-[15px] font-medium font-outfit text-black">
-              {amount}
-            </div>
-          </div>
-          <div className="h-8 w-[1px] bg-gray-200" />
-          <div className="text-right">
-            <span className="text-[9px] font-extrabold text-gray-400 tracking-widest">
-              CURRENT BALANCE
-            </span>
-            <div className="text-[15px] font-medium font-outfit text-[#0A2351]">
-              {balance}
+          <div className="space-y-0.5 text-left min-w-0">
+            <h4 className="font-bold text-slate-900 group-hover:text-primary transition-colors text-sm leading-tight text-left truncate">
+              {title || "Unnamed Loan"}
+            </h4>
+            <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 text-left">
+              <span>{id || "N/A"}</span>
             </div>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="flex items-center justify-between px-6 pt-4 pb-5">
+        {/* Middle: Strictly Locked Left-Aligned Columns */}
+        <div className="grid grid-cols-3 gap-3 md:gap-6 w-full md:w-[420px] shrink-0 text-left text-xs border-y md:border-y-0 py-2.5 md:py-0 border-slate-200/60">
+          <div className="text-left">
+            <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5 text-left">
+              Principal
+            </span>
+            <span className="font-semibold text-slate-800 text-left block truncate">
+              {amount || "0.00"}
+            </span>
+          </div>
+          <div className="text-left">
+            <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5 text-left">
+              Installment
+            </span>
+            <span className="font-semibold text-slate-800 text-left block truncate">
+              {installmentAmount || "0.00"}
+            </span>
+          </div>
+          <div className="text-left">
+            <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5 text-left">
+              Balance
+            </span>
+            <span className="font-bold text-rose-600 text-left block truncate">
+              {balance || "0.00"}
+            </span>
+          </div>
+        </div>
+
+        {/* Right: Status Badge & Chevron Action */}
+        <div className="flex items-center justify-between md:justify-end gap-3 shrink-0 text-left">
           <div
-            className="flex items-center gap-2 rounded-full px-3 py-1.5"
-            style={{ backgroundColor: `${statusColor}15` }}
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md border text-[10px] font-bold uppercase tracking-wider ${config.color}`}
           >
-            <div
-              className="h-1.5 w-1.5 rounded-full"
-              style={{ backgroundColor: statusColor }}
-            />
-            <span
-              className="text-[10px] font-medium uppercase"
-              style={{ color: statusColor }}
-            >
-              {status}
-            </span>
+            <StatusIcon size={12} />
+            <span>{status || "Unknown"}</span>
           </div>
 
-          <div className="flex items-center gap-0.5 text-[#0A2351] group">
-            <span className="text-[11px] font-bold">View Details</span>
-            <ChevronRight
-              size={14}
-              strokeWidth={3}
-              className="transition-transform group-hover:translate-x-0.5"
-            />
+          <div className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all shadow-2xs">
+            <ChevronRight size={14} strokeWidth={2.5} />
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
-const LoanItemSkeleton = () => {
-  return (
-    <div className="animate-pulse bg-white rounded-[24px] p-5 border border-slate-200/60 border-b-2 shadow-sm mb-4 w-full select-none pointer-events-none">
-      {/* 12-Column Grid Matrix Tracking - Matches the LoanItem Geometry Exactly */}
-      <div className="relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-5 items-start lg:items-center">
-        {/* COLUMN 1: ACCOUNT REFERENCE & DEBTOR PROFILE TRACK (4 Columns) */}
-        <div className="col-span-1 sm:col-span-2 lg:col-span-4 flex flex-col space-y-2">
-          {/* Internal Title Label Placeholder */}
-          <div className="h-2 bg-slate-200 rounded-sm w-24" />
-          {/* Reference Badges Row */}
-          <div className="flex items-center gap-2">
-            <div className="h-4 bg-slate-200 rounded-md w-14" />
-            <div className="h-3.5 bg-slate-100 rounded-md w-24" />
-          </div>
-          {/* Debtor Name Headline */}
-          <div className="h-4.5 bg-slate-100 rounded-md w-3/4" />
-          {/* Smartphone Mobile Number Subtext */}
-          <div className="h-3 bg-slate-100 rounded-md w-1/2" />
-        </div>
+const EmptyState = ({ onReset }) => (
+  <div className="h-[340px] bg-white border border-slate-200/60 rounded-[24px] flex flex-col items-center justify-center p-6 text-center shadow-sm">
+    <div className="w-12 h-12 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center text-slate-400 mb-3">
+      <Clock size={22} strokeWidth={1.5} />
+    </div>
+    <div className="max-w-xs space-y-1 mb-4">
+      <h3 className="text-sm font-bold text-slate-900 tracking-tight">
+        No matching loans found
+      </h3>
+      <p className="text-slate-400 text-xs font-medium">
+        We couldn't find any loans matching your current search parameters.
+      </p>
+    </div>
+    <button
+      onClick={onReset}
+      className="px-4 py-2 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-[11px] uppercase tracking-wider transition-all shadow-xs"
+    >
+      Clear Filters
+    </button>
+  </div>
+);
 
-        {/* COLUMN 2: PRODUCT & YIELD PARAMETERS TRACK (2 Columns) */}
-        <div className="col-span-1 lg:col-span-2 flex flex-col space-y-2">
-          {/* Internal Title Label Placeholder */}
-          <div className="h-2 bg-slate-200 rounded-sm w-20" />
-          {/* Product Name String */}
-          <div className="h-4 bg-slate-100 rounded-md w-28" />
-          {/* Rate and Interest Method Metadata Block */}
-          <div className="flex items-center gap-1.5">
-            <div className="h-4 bg-slate-100 rounded w-10" />
-            <div className="h-3 bg-slate-100 rounded w-24" />
-          </div>
-        </div>
-
-        {/* COLUMN 3: FINANCIAL EXPOSURE PORTFOLIO MATRIX (3 Columns) */}
-        <div className="col-span-1 lg:col-span-3 flex flex-col space-y-2">
-          {/* Internal Title Label Placeholder */}
-          <div className="h-2 bg-slate-200 rounded-sm w-24" />
-          {/* Issued Loan Principal Data Line */}
-          <div className="h-3.5 bg-slate-100 rounded w-32" />
-          {/* Outstanding Remaining Debt Balance Data Line */}
-          <div className="h-3.5 bg-slate-100 rounded w-28" />
-        </div>
-
-        {/* COLUMN 4: LIFESPAN STAGE STATUS TRACK (2 Columns) */}
-        <div className="col-span-1 lg:col-span-2 flex flex-col space-y-2">
-          {/* Internal Title Label Placeholder */}
-          <div className="h-2 bg-slate-200 rounded-sm w-20" />
-          {/* Status Pillar Capsule Token Shape */}
-          <div className="h-4.5 bg-slate-100 rounded-md w-16" />
-          {/* Maturity Due Date String */}
-          <div className="h-3 bg-slate-100 rounded w-24" />
-        </div>
-
-        {/* COLUMN 5: OPERATIONAL ACTION TOOLBAR OVERLAY (1 Column) */}
-        <div className="col-span-1 sm:col-span-2 lg:col-span-1 flex items-center justify-start lg:justify-end pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-100 w-full lg:w-auto self-end lg:self-auto">
-          {/* View Amortization Audit Target Action Button box */}
-          <div className="size-8 rounded-xl bg-slate-200 shrink-0" />
-        </div>
+const LoanItemSkeleton = () => (
+  <div className="animate-pulse bg-slate-50/40 rounded-xl p-3 border border-slate-200/40 w-full flex items-center justify-between text-left">
+    <div className="flex items-center gap-3.5 text-left w-[240px]">
+      <div className="w-10 h-10 rounded-xl bg-slate-200 shrink-0" />
+      <div className="space-y-1.5 text-left">
+        <div className="h-3.5 bg-slate-200 rounded w-28" />
+        <div className="h-2 bg-slate-200 rounded w-20" />
       </div>
     </div>
-  );
-};
+    <div className="hidden md:grid grid-cols-3 gap-6 w-[420px] text-left">
+      <div className="h-4 bg-slate-200 rounded w-16" />
+      <div className="h-4 bg-slate-200 rounded w-16" />
+      <div className="h-4 bg-slate-200 rounded w-16" />
+    </div>
+    <div className="h-6 bg-slate-200 rounded w-20" />
+  </div>
+);
 
 const StatMiniCard = ({ label, count, icon }) => (
-  <div className="bg-white p-6 rounded-[32px] border border-slate-100 flex items-center justify-between">
-    <div>
-      <p className="text-[10px] font-medium uppercase tracking-widest text-slate-400">
+  <div className="bg-white p-5 rounded-[24px] border border-slate-100 flex items-center justify-between shadow-sm text-left">
+    <div className="text-left">
+      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-left">
         {label}
       </p>
-      <p className="text-3xl font-medium mt-1 text-primary">{count}</p>
+      <p className="text-2xl font-bold mt-0.5 text-primary text-left">
+        {count}
+      </p>
     </div>
-    <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center">
-      {React.cloneElement(icon, { size: 28 })}
+    <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-100">
+      {React.cloneElement(icon, { size: 24 })}
     </div>
   </div>
 );

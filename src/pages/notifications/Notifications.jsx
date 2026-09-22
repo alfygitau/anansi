@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   BellOff,
   ChevronRight,
@@ -6,12 +6,13 @@ import {
   ShieldCheck,
   CreditCard,
   Zap,
-  ArrowUpRight,
   AlertCircle,
   ShieldAlert,
   Briefcase,
   Plus,
-  Settings2,
+  CheckCircle2,
+  Clock,
+  ExternalLink,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -21,15 +22,13 @@ import {
 import { useToast } from "../../contexts/ToastProvider";
 import { useQuery, useMutation } from "react-query";
 import NotificationsLoader from "../../skeletons/NotificationsLoader";
-import Notification from "../../components/notifications/Notification";
 import { useNavigate } from "react-router-dom";
 
 const Notifications = () => {
   const [filter, setFilter] = useState("all");
   const { showToast } = useToast();
   const [notifications, setNotifications] = useState([]);
-  const [notification, setNotification] = useState({});
-  const [showNotification, setShowNotification] = useState(false);
+  const [selectedNotification, setSelectedNotification] = useState(null);
   const navigate = useNavigate();
 
   const filteredNotifications = notifications.filter((n) => {
@@ -42,13 +41,13 @@ const Notifications = () => {
   const getNotificationIcon = (module) => {
     switch (module) {
       case "request_guarantor":
-        return <ShieldCheck className="text-amber-500" size={20} />;
+        return <ShieldCheck className="text-amber-500" size={18} />;
       case "payment":
-        return <CreditCard className="text-emerald-500" size={20} />;
+        return <CreditCard className="text-emerald-500" size={18} />;
       case "security":
-        return <ShieldAlert className="text-rose-500" size={20} />;
+        return <ShieldAlert className="text-rose-500" size={18} />;
       default:
-        return <Info className="text-secondary" size={20} />;
+        return <Info className="text-secondary" size={18} />;
     }
   };
 
@@ -76,6 +75,9 @@ const Notifications = () => {
     },
     onSuccess: (data) => {
       setNotifications(data);
+      if (data.length > 0 && !selectedNotification) {
+        setSelectedNotification(data[0]);
+      }
     },
     onError: (error) => {
       showToast({
@@ -90,11 +92,8 @@ const Notifications = () => {
   const getTimeDifference = (createdAt, updatedAt) => {
     const start = new Date(createdAt);
     const end = new Date(updatedAt);
-
-    // Difference in milliseconds
     const diffInMs = Math.abs(end - start);
 
-    // Conversions
     const mins = Math.floor(diffInMs / (1000 * 60));
     const hours = Math.floor(diffInMs / (1000 * 60 * 60));
     const days = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
@@ -105,318 +104,258 @@ const Notifications = () => {
     return `${days}d ago`;
   };
 
+  const handleSelectNotification = (item) => {
+    setSelectedNotification(item);
+    if (!item.is_read) {
+      readMyNotification(item?.id);
+    }
+  };
+
   return (
     <>
-      <Notification
-        isOpen={showNotification}
-        onClose={() => setShowNotification(false)}
-        notification={notification}
-      />
       {isFetching ? (
         <NotificationsLoader />
       ) : (
         <div className="max-w-6xl sm:px-4 mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* LEFT COLUMN: NOTIFICATION FEED (8/12) */}
-            <div className="lg:col-span-8 space-y-5">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                  <h1 className="text-2xl font-medium text-primary flex items-center gap-3">
-                    Notifications
-                    {unreadCount > 0 && (
-                      <span className="bg-rose-500 text-white text-[10px] px-4 rounded-full">
-                        {unreadCount} NEW
-                      </span>
-                    )}
-                  </h1>
-                  <p className="text-slate-400 text-sm font-medium">
-                    Keep track of your Anansi account activity.
-                  </p>
-                </div>
-                <div className="flex bg-slate-100 p-1 rounded-2xl w-fit">
-                  <TabButton
-                    active={filter === "all"}
-                    onClick={() => setFilter("all")}
-                    label="All"
-                  />
-                  <TabButton
-                    active={filter === "unread"}
-                    onClick={() => setFilter("unread")}
-                    label="Unread"
-                  />
-                </div>
-              </div>
-
-              {filteredNotifications.length === 0 ? (
-                <EmptyState />
-              ) : (
-                <div className="h-[700px] overflow-y-auto shadow-sm shadow-blue-900/5 px-1">
-                  <div className="flex flex-col gap-3 p-1">
-                    <AnimatePresence>
-                      {filteredNotifications.map((notification, index) => {
-                        const timeLabel = getTimeDifference(
-                          notification?.createdAt,
-                          notification?.updatedAt,
-                        );
-                        return (
-                          <motion.div
-                            key={notification.id}
-                            initial={{ opacity: 0, y: 15 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            onClick={() => {
-                              setNotification(notification);
-                              if (!notification.is_read) {
-                                readMyNotification(notification?.id);
-                              }
-                              setShowNotification(true);
-                            }}
-                            /* Added rounded-2xl and a subtle border to create the "card" feel with gaps */
-                            className={`group flex items-center gap-5 p-5 cursor-pointer transition-all duration-300 rounded-2xl border ${
-                              !notification.is_read
-                                ? "bg-slate-50 border-blue-100 hover:bg-slate-100/70 shadow-sm"
-                                : "bg-white border-slate-100 hover:bg-slate-50/50"
-                            }`}
-                          >
-                            <div className="relative shrink-0">
-                              <div
-                                className={`flex items-center justify-center size-14 rounded-full transition-colors duration-300 ${
-                                  !notification.is_read
-                                    ? "bg-blue-100/60 text-primary shadow-inner"
-                                    : "bg-slate-100/70 text-slate-500"
-                                }`}
-                              >
-                                {getNotificationIcon(notification.module)}
-                              </div>
-                              {!notification.is_read && (
-                                <span className="absolute top-0 right-0 block size-3.5 rounded-full bg-blue-600 ring-2 ring-white" />
-                              )}
-                            </div>
-                            <div className="flex-grow min-w-0 pr-4">
-                              <div className="flex flex-col gap-1.5">
-                                <p
-                                  className={`text-[15px] leading-relaxed transition-colors duration-300 ${
-                                    !notification.is_read
-                                      ? "font-bold text-slate-900"
-                                      : "font-medium text-slate-700"
-                                  } line-clamp-3`}
-                                >
-                                  {notification.message}
-                                </p>
-
-                                <span className="text-[11px] font-medium text-slate-400 uppercase tracking-widest">
-                                  {timeLabel}
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="shrink-0">
-                              <ChevronRight
-                                size={20}
-                                className="text-slate-300 transition-all duration-300 transform group-hover:text-primary group-hover:translate-x-1.5"
-                              />
-                            </div>
-                          </motion.div>
-                        );
-                      })}
-                    </AnimatePresence>
-                  </div>
-                </div>
-              )}
+          {/* HEADER CONTROLS */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-[28px] border border-slate-100 shadow-sm mb-6">
+            <div>
+              <h1 className="text-2xl font-semibold text-primary flex items-center gap-3">
+                Notifications Center
+                {unreadCount > 0 && (
+                  <span className="bg-rose-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    {unreadCount} New
+                  </span>
+                )}
+              </h1>
+              <p className="text-slate-400 text-sm font-medium mt-1">
+                Manage and review your account alerts with live context inspector.
+              </p>
             </div>
-            <aside className="lg:col-span-4 space-y-5">
-              <ApplyLoanAction onClick={() => navigate("/loan-products")} />
-              {/* QUICK ACTIONS CARD */}
-              <div className="bg-white rounded-[32px] p-5 border border-slate-200/60 shadow-sm">
-                {/* ====== CARD HEADER SECTION ====== */}
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100">
-                    <Zap size={16} className="text-slate-600" />
-                  </div>
-                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-500">
-                    Quick Actions
-                  </h3>
-                </div>
-                {/* ====== BUTTONS GRID PANEL ====== */}
-                <div className="grid grid-cols-1 gap-3">
-                  <ActionButton
-                    label="View my loans"
-                    icon={
-                      <Briefcase
-                        size={16}
-                        className="text-slate-400 group-hover:text-slate-700 transition-colors"
-                      />
-                    }
-                    onNavigate={() => navigate("/all-loans")}
-                    className="bg-white hover:bg-slate-50 text-slate-700 font-medium border border-slate-200/60 hover:border-slate-300 rounded-2xl h-14 px-4 flex items-center justify-between transition-all duration-200 group w-full text-sm"
-                  />
-
-                  <ActionButton
-                    label="Check guarantorship status"
-                    icon={
-                      <ShieldCheck
-                        size={16}
-                        className="text-slate-400 group-hover:text-slate-700 transition-colors"
-                      />
-                    }
-                    onNavigate={() => navigate("/guarantorship")}
-                    className="bg-white hover:bg-slate-50 text-slate-700 font-medium border border-slate-200/60 hover:border-slate-300 rounded-2xl h-14 px-4 flex items-center justify-between transition-all duration-200 group w-full text-sm"
-                  />
-                </div>
-              </div>
-
-              {/* STATUS SUMMARY */}
-              <div className="bg-white rounded-[32px] p-5 border border-slate-100 shadow-sm">
-                <h3 className="text-[11px] font-medium uppercase tracking-widest text-slate-400 mb-4">
-                  Account Health
-                </h3>
-                <div className="space-y-4">
-                  <HealthItem
-                    label="Verified Identity"
-                    status="Completed"
-                    color="text-emerald-500"
-                  />
-                  <HealthItem
-                    label="Loan Eligibility"
-                    status="High"
-                    color="text-secondary"
-                  />
-                  <HealthItem
-                    label="Active Obligations"
-                    status="2 Loans"
-                    color="text-amber-500"
-                  />
-                </div>
-              </div>
-
-              {/* DISCLAIMER / POLICY CARD */}
-              <div className="bg-slate-50 rounded-[32px] p-5 border border-slate-200/50">
-                <div className="flex items-center gap-2 mb-3 text-primary">
-                  <AlertCircle size={18} />
-                  <span className="text-xs font-bold uppercase tracking-wider">
-                    Privacy Notice
-                  </span>
-                </div>
-                <p className="text-[12px] text-slate-500 leading-relaxed">
-                  Notifications are kept for 90 days. Anansi uses end-to-end
-                  encryption for all financial alerts.
-                  <span className="block mt-2 font-bold text-primary underline cursor-pointer">
-                    View Data Policy
-                  </span>
-                </p>
-              </div>
-            </aside>
+            <div className="flex bg-slate-100/80 p-1.5 rounded-2xl w-fit">
+              <TabButton
+                active={filter === "all"}
+                onClick={() => setFilter("all")}
+                label="All Activity"
+              />
+              <TabButton
+                active={filter === "unread"}
+                onClick={() => setFilter("unread")}
+                label="Unread"
+              />
+            </div>
           </div>
+
+          {/* ASYMMETRIC SPLIT SCREEN VIEW (40/60 Split -> lg:col-span-4 and lg:col-span-8) */}
+          {filteredNotifications.length === 0 ? (
+            <EmptyState />
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+              
+              {/* LEFT COLUMN: MASTER LIST (Narrower ~40% Width -> Col Span 4) */}
+              <div className="lg:col-span-4 bg-white rounded-[32px] p-6 border border-slate-200/60 shadow-sm flex flex-col h-[600px]">
+                <div className="pb-4 mb-3 flex items-center justify-between border-b border-slate-100 shrink-0">
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                    Inbox Stream ({filteredNotifications.length})
+                  </span>
+                </div>
+
+                <div className="flex-1 overflow-y-auto pr-1 space-y-3 custom-scrollbar">
+                  <AnimatePresence>
+                    {filteredNotifications.map((notification) => {
+                      const isSelected = selectedNotification?.id === notification.id;
+                      const timeLabel = getTimeDifference(
+                        notification?.createdAt,
+                        notification?.updatedAt
+                      );
+
+                      return (
+                        <motion.div
+                          key={notification.id}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          onClick={() => handleSelectNotification(notification)}
+                          className={`group flex items-start gap-3.5 p-3.5 cursor-pointer transition-all duration-200 rounded-2xl border ${
+                            isSelected
+                              ? "bg-blue-50/70 border-blue-200 shadow-sm"
+                              : !notification.is_read
+                              ? "bg-slate-50 border-slate-200 hover:bg-slate-100/60"
+                              : "bg-white border-slate-100 hover:bg-slate-50/50"
+                          }`}
+                        >
+                          <div className="relative shrink-0 mt-0.5">
+                            <div
+                              className={`flex items-center justify-center size-10 rounded-full transition-colors ${
+                                !notification.is_read
+                                  ? "bg-blue-100/80 text-primary"
+                                  : "bg-slate-100 text-slate-500"
+                              }`}
+                            >
+                              {getNotificationIcon(notification.module)}
+                            </div>
+                            {!notification.is_read && (
+                              <span className="absolute -top-0.5 -right-0.5 block size-2.5 rounded-full bg-blue-600 ring-2 ring-white" />
+                            )}
+                          </div>
+
+                          <div className="flex-grow min-w-0">
+                            <p
+                              className={`text-xs leading-snug line-clamp-2 ${
+                                !notification.is_read
+                                  ? "font-bold text-slate-900"
+                                  : "font-medium text-slate-700"
+                              }`}
+                            >
+                              {notification.message}
+                            </p>
+                            <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mt-1 block">
+                              {timeLabel}
+                            </span>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </AnimatePresence>
+                </div>
+              </div>
+
+              {/* RIGHT COLUMN: DETAIL INSPECTOR (Wider ~60% Width -> Col Span 8) */}
+              <div className="lg:col-span-8 h-[600px]">
+                {selectedNotification ? (
+                  <div className="bg-white rounded-[32px] p-6 border border-slate-200/60 shadow-sm flex flex-col h-full justify-between">
+                    
+                    {/* Top Content Group */}
+                    <div className="space-y-6">
+                      {/* Detail Top Metadata Bar */}
+                      <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="size-11 rounded-2xl bg-blue-50 flex items-center justify-center text-primary border border-blue-100">
+                            {getNotificationIcon(selectedNotification.module)}
+                          </div>
+                          <div>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                              Module Context
+                            </span>
+                            <h4 className="text-sm font-bold text-slate-900 capitalize">
+                              {selectedNotification.module?.replace("_", " ")} Alert
+                            </h4>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-1.5 text-slate-400 text-xs font-semibold bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100">
+                          <Clock size={13} />
+                          <span>{new Date(selectedNotification?.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                        </div>
+                      </div>
+
+                      {/* Core Message Detail Panel */}
+                      <div className="space-y-2">
+                        <h3 className="text-xs font-black uppercase tracking-wider text-slate-400">
+                          Full Message Details
+                        </h3>
+                        <div className="max-h-[160px] overflow-y-auto custom-scrollbar pr-2">
+                          <p className="text-slate-800 text-sm leading-relaxed bg-slate-50/70 p-4 rounded-2xl border border-slate-100 font-medium">
+                            {selectedNotification.message}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Contextual Action Center Based on Module */}
+                      <div className="space-y-2.5 pt-1">
+                        <h3 className="text-xs font-black uppercase tracking-wider text-slate-400">
+                          Required Actions & Shortcuts
+                        </h3>
+                        
+                        <div className="grid grid-cols-2 sm:grid-cols-2 gap-2.5">
+                          {selectedNotification.module === "request_guarantor" && (
+                            <button
+                              onClick={() => navigate("/guarantorship")}
+                              className="bg-primary hover:bg-primary/90 text-white font-medium text-xs py-3 px-4 rounded-xl flex items-center justify-between transition-all shadow-sm"
+                            >
+                              <span>Review Request</span>
+                              <ExternalLink size={15} />
+                            </button>
+                          )}
+
+                          {selectedNotification.module === "payment" && (
+                            <button
+                              onClick={() => navigate("/all-loans")}
+                              className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs py-3 px-4 rounded-xl flex items-center justify-between transition-all shadow-sm"
+                            >
+                              <span>View Ledger</span>
+                              <ExternalLink size={15} />
+                            </button>
+                          )}
+
+                          <button
+                            onClick={() => navigate("/loan-products")}
+                            className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs py-3 px-4 rounded-xl flex items-center justify-between transition-all"
+                          >
+                            <span>Apply for Loan</span>
+                            <Plus size={15} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* System Metadata Verification Footer */}
+                    <div className="bg-slate-50/80 rounded-2xl p-3.5 border border-slate-100 flex items-center justify-between text-[11px] text-slate-500 mt-4 shrink-0">
+                      <div className="flex items-center gap-1.5">
+                        <CheckCircle2 size={14} className="text-emerald-500" />
+                        <span>Log ID: #{selectedNotification.id}</span>
+                      </div>
+                      <span className="font-semibold text-slate-400 uppercase text-[9px]">
+                        Secure Ledger
+                      </span>
+                    </div>
+
+                  </div>
+                ) : (
+                  <div className="h-full bg-white rounded-[32px] border border-slate-200/60 flex items-center justify-center text-center p-8">
+                    <p className="text-slate-400 text-sm font-medium">
+                      Select a notification from the left list to inspect its contents.
+                    </p>
+                  </div>
+                )}
+              </div>
+
+            </div>
+          )}
         </div>
       )}
     </>
   );
 };
 
-/* --- MINI SUB-COMPONENTS --- */
-const ApplyLoanAction = ({ onClick }) => {
-  return (
-    <div>
-      <motion.button
-        whileTap={{ scale: 0.97 }}
-        whileHover={{ y: -2 }}
-        onClick={onClick}
-        className="w-full text-left bg-white p-4 rounded-[24px] border border-[#0A2351]/10 flex items-center shadow-sm hover:shadow-md transition-all group"
-      >
-        {/* 1. Circle Icon (Matching darkBlue color) */}
-        <div className="p-3 bg-[#0A2351] rounded-full text-white shrink-0 group-hover:scale-110 transition-transform duration-300">
-          <Plus size={20} strokeWidth={3} />
-        </div>
-
-        {/* 2. Text Content */}
-        <div className="flex-1 ml-4 flex flex-col justify-center">
-          <span className="text-[#0A2351] font-medium text-[15px] leading-tight">
-            Apply for a new Loan
-          </span>
-          <span className="text-slate-400 text-[11px] font-medium mt-0.5">
-            Instant processing for eligible members
-          </span>
-        </div>
-
-        {/* 3. Right Chevron */}
-        <ChevronRight
-          size={16}
-          className="text-slate-300 ml-6 group-hover:translate-x-1 transition-transform"
-          strokeWidth={2.5}
-        />
-      </motion.button>
-    </div>
-  );
-};
-
+/* --- SUB-COMPONENTS --- */
 const TabButton = ({ active, onClick, label }) => (
   <button
     onClick={onClick}
-    className={`px-5 py-2 rounded-xl text-[10px] font-medium uppercase tracking-widest transition-all ${active ? "bg-white text-primary shadow-sm" : "text-slate-400 hover:text-slate-600"}`}
+    className={`px-5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${
+      active
+        ? "bg-white text-primary shadow-sm"
+        : "text-slate-400 hover:text-slate-600"
+    }`}
   >
     {label}
   </button>
 );
 
-const ActionButton = ({ label, icon, primary, onNavigate, className }) => (
-  <button
-    type="button"
-    onClick={onNavigate}
-    className={
-      className ||
-      `w-full py-3.5 px-5 rounded-2xl text-xs font-bold flex items-center justify-between transition-all ${
-        primary
-          ? "bg-secondary text-white hover:bg-[#3ba8d3]"
-          : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-      }`
-    }
-  >
-    <span>{label}</span>
-    {icon && icon}
-  </button>
-);
-
-const HealthItem = ({ label, status, color }) => (
-  <div className="flex justify-between items-center">
-    <span className="text-xs font-medium text-slate-600">{label}</span>
-    <span className={`text-xs font-medium uppercase tracking-tighter ${color}`}>
-      {status}
-    </span>
-  </div>
-);
-
 const EmptyState = () => (
-  <div className="h-[580px] bg-white border border-slate-200/60 rounded-[32px] flex flex-col justify-center items-center text-center">
-    {/* ====== RADIAL ICON ANCHOR HUB ====== */}
+  <div className="h-[520px] bg-white border border-slate-200/60 rounded-[32px] flex flex-col justify-center items-center text-center p-8">
     <div className="relative mb-6 flex items-center justify-center">
-      {/* Ambient Outer Pulse Ring */}
       <div className="absolute w-24 h-24 bg-slate-50 rounded-full animate-ping opacity-60 duration-1000" />
-
-      {/* Solid Inner Icon Canvas Card */}
       <div className="relative w-20 h-20 bg-slate-50 border border-slate-100 rounded-3xl flex items-center justify-center">
         <BellOff size={32} className="text-slate-300" strokeWidth={1.5} />
       </div>
     </div>
-
-    {/* ====== TYPOGRAPHY TEXT BLOCK ====== */}
     <div className="space-y-2 max-w-sm">
-      <h3 className="text-lg font-black text-slate-900 tracking-tight">
+      <h3 className="text-lg font-bold text-slate-900 tracking-tight">
         Your inbox is clear
       </h3>
       <p className="text-slate-400 font-medium text-sm leading-relaxed">
-        We couldn't find any recent alert logs. When transactions execute, or
-        changes hit your profile ledger, they'll appear here.
+        No records found matching this category filter.
       </p>
-    </div>
-
-    {/* ====== CONTEXTUAL FOOTER CONTROLLER HUB ====== */}
-    <div className="mt-8 pt-6 border-t border-slate-100 w-full max-w-xs flex flex-col gap-3">
-      <button
-        type="button"
-        className="inline-flex items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold border border-slate-200 rounded-xl h-12 px-5 transition-all text-xs tracking-wide uppercase"
-      >
-        <Settings2 size={14} className="text-slate-500" />
-        Configure Alert Preferences
-      </button>
     </div>
   </div>
 );
